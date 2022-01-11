@@ -545,6 +545,7 @@ class GUIbutton: public GUIbase
 		func = NULL;
 		arg = NULL;
 		text = "";
+		image = 0;
 	}
 	void onClick(int mb)
 	{
@@ -1473,6 +1474,22 @@ class GUIscrollslidey:public GUIbase
 			}	
 		}
 	}
+	void moveupdown(int dist)
+	{
+		vec2i newPos = {pos.x+dist, pos.y+dist};
+		if(vertical){newPos.x = pos.x;}else{newPos.y=pos.y;}
+		
+		if(parent)
+		{
+			newPos.x = clamp(newPos.x, parent->pos.x, parent->pos.x+parent->size.x-size.x);
+			newPos.y = clamp(newPos.y, parent->pos.y, parent->pos.y+parent->size.y-size.y);
+		}
+		if(newPos!=pos)
+		{
+			invalidate(newPos, size);
+			callback(arg);
+		}	
+	}
 	void render(void *arg)
 	{
 		resizeCheck();
@@ -1520,6 +1537,14 @@ class GUIscrollBar:public GUIbase
 	float Amin; //slider position
 	float Amax;
 	int Aoffset;
+	static void btnupFunc(void *arg){
+		GUIscrollBar* S = (GUIscrollBar*)arg;
+		S->slidey->moveupdown(-S->slidey->size.y/2);
+	}
+	static void btndnFunc(void *arg){
+		GUIscrollBar* S = (GUIscrollBar*)arg;
+		S->slidey->moveupdown(S->slidey->size.y/2);
+	}
 	static void updateBar(void *arg)
 	{
 		GUIscrollBar* S = (GUIscrollBar*)arg;
@@ -1579,16 +1604,26 @@ class GUIscrollBar:public GUIbase
 		btnup->setSize(16,16);
 		btnup->text = "^";
 		btnup->scissor = false;
+		btnup->func = btnupFunc;
+		btnup->arg = (void*)this;
 		
 		btndn = new GUIbutton;
 		btndn->setSize(16,16);
 		btndn->text = "v";
+		btndn->func = btndnFunc;
+		btndn->arg = (void*)this;
 		btndn->scissor = false; //for the future - use intrinsic children who use parent's scissor rect.
 								//or, make "false scissor" do that...
 		track = new GUIbutton;
 		track->scissor = false;
 		color3i darken = {-64,-64,-64};
-		track->color_panel = color_panel + darken;
+		track->color_panel.r *= 3;// + darken;
+		track->color_panel.g *= 3;// + darken;
+		track->color_panel.b *= 3;// + darken;
+		track->color_panel.r /= 4;// + darken;
+		track->color_panel.g /= 4;// + darken;
+		track->color_panel.b /= 4;// + darken;
+		
 		
 		slidey = new GUIscrollslidey;
 		slidey->setSize(16,32);
@@ -1632,10 +1667,10 @@ class GUIscrollBar:public GUIbase
 		
 		if(vertical)
 		{
-			btnup->setPos(pos.x+size.x+2,pos.y); //upper right
-			btndn->setPos(pos.x+size.x+2,pos.y+size.y-15); //bottom right
+			btnup->setPos(pos.x+size.x-16,pos.y); //upper right
+			btndn->setPos(pos.x+size.x-16,pos.y+size.y-15); //bottom right
 			track->setSize(16,size.y-33);		
-			track->setPos(pos.x+size.x+2,pos.y+17);
+			track->setPos(pos.x+size.x-16,pos.y+17);
 			//printf("tracksize = %d, size = %d, insideSize = %d, result = %d", track->size.y, size.y, insideSize.y,track->size.y*(size.y/insideSize.y));
 			slidey->setSize(16,track->size.y*((float)(size.y-4)/(float)(insideSize.y)));//4 for border
 		}

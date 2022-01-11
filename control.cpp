@@ -24,6 +24,7 @@ PSchannel GUI_PS;
 #include "models.h"
 #include "quaternions.h"
 #include "newconsole.h"
+#include "valscreen.h"
 #include "keybinds.h"
 #include "camera.h"
 #include "renderable.h"
@@ -287,6 +288,7 @@ class BinderKind;
 vector<renderable*> scene;
 vec old = {0,0,0};
 void testfunc(void* arg){
+	/*
 	scene.push_back(new floatingtext(camera.pos, "Hello World!", 300));
 	line *l = new line(camera.pos, camera.pos+camera.angle.forward(), 300);
 	l->color1 = {255,0,0};
@@ -296,7 +298,16 @@ void testfunc(void* arg){
 	l = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+testQ.rotateVector(camera.angle.forward()), 300);
 	l->color1 = {255,0,0};
 	l->color2 = {0,0,255};
-	scene.push_back(l);
+	scene.push_back(l);*/
+	frustum frust = camera.getFrustum();
+	scene.push_back(new floatingtext(frust.A, "A", 300));
+	scene.push_back(new floatingtext(frust.B, "B", 300));
+	scene.push_back(new floatingtext(frust.C, "C", 300));
+	scene.push_back(new floatingtext(frust.D, "D", 300));
+	scene.push_back(new floatingtext(frust.E, "E", 300));
+	scene.push_back(new floatingtext(frust.F, "F", 300));
+	scene.push_back(new floatingtext(frust.G, "G", 300));
+	scene.push_back(new floatingtext(frust.H, "H", 300));
 	/*
 	frustum frust = camera.getFrustum();
 	printf("point A: [%f, %f, %f], H: [%f, %f, %f]\n", frust.A.x, frust.A.y, frust.A.z, frust.H.x, frust.H.y, frust.H.z);
@@ -452,6 +463,7 @@ void OnProgramStart()
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 	OpenNewConsole(GUI);
+	OpenValScreen(GUI);
 	
 	KeyBinds["b"] = "echo butts";
 	KeyBinds["w"] = "+camforward";
@@ -485,7 +497,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "94";
+	string vnumber = "95";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -1103,8 +1115,11 @@ void RenderTick(HDC hDC)
     Sleep(1);
 }
 
+int ticks = 0;
 void ThinkTick()
 {
+	ticks++;
+	printvals("ticks", "there have been "+itoa(ticks)+" ticks since the start.");
 	camera.tick();
 /*
 	for(int i = 0; i<AllPhysBodies.size(); i++)
