@@ -30,3 +30,19 @@ struct vec
 };
 
 vec operator * (double b, vec a){return a*b;}
+
+// returns true: result is set to point of intersection of ray and triangle
+// returns false: result is not modified. No intersection exists.
+bool ray_triangle_intersection(vec start, vec dir, vec A, vec B, vec C, vec &result){
+	vec N = (B-A).cross(C-A);
+	double d = -(N.x*A.x+N.y*A.y+N.z*A.z);
+	double dist1 = -(start.dot(N)+d)/(dir.dot(N));
+	vec hit1 = start+dir*dist1;
+	//inside-outside triangle test
+	if(  !((((B-A).cross(hit1-A)).dot(N)>=0)
+		&&(((C-B).cross(hit1-B)).dot(N)>=0)
+		&&(((A-C).cross(hit1-C)).dot(N)>=0)))
+		{return false;}
+		result = hit1;
+		return true;
+}

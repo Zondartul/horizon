@@ -289,31 +289,64 @@ vec old = {0,0,0};
 void testfunc(void* arg){
 	frustum frust = camera.getFrustum();
 	printf("point A: [%f, %f, %f], H: [%f, %f, %f]\n", frust.A.x, frust.A.y, frust.A.z, frust.H.x, frust.H.y, frust.H.z);
-	scene.push_back(new point(frust.A));
-	scene.push_back(new point(frust.B));
-	scene.push_back(new point(frust.C));
-	scene.push_back(new point(frust.D));
-	scene.push_back(new point(frust.E));
-	scene.push_back(new point(frust.F));
-	scene.push_back(new point(frust.G));
-	scene.push_back(new point(frust.H));
+	scene.push_back(new point(frust.A, 0.5*2500));
+	scene.push_back(new point(frust.B, 0.5*2500));
+	scene.push_back(new point(frust.C, 0.5*2500));
+	scene.push_back(new point(frust.D, 0.5*2500));
+	scene.push_back(new point(frust.E, 0.5*2500));
+	scene.push_back(new point(frust.F, 0.5*2500));
+	scene.push_back(new point(frust.G, 0.5*2500));
+	scene.push_back(new point(frust.H, 0.5*2500));
 	
-	scene.push_back(new line(frust.A, frust.B));
-	scene.push_back(new line(frust.B, frust.C));
-	scene.push_back(new line(frust.C, frust.D));
-	scene.push_back(new line(frust.D, frust.A));
-	scene.push_back(new line(frust.E, frust.F));
-	scene.push_back(new line(frust.F, frust.G));
-	scene.push_back(new line(frust.G, frust.H));
-	scene.push_back(new line(frust.H, frust.E));
-	scene.push_back(new line(frust.A, frust.E));
-	scene.push_back(new line(frust.B, frust.F));
-	scene.push_back(new line(frust.C, frust.G));
-	scene.push_back(new line(frust.D, frust.H));
-	scene.push_back(new line(frust.E, frust.G));
-	scene.push_back(new line(frust.F, frust.H));
+	scene.push_back(new line(frust.A, frust.B, 0.5*2300));
+	scene.push_back(new line(frust.B, frust.C, 0.5*2200));
+	scene.push_back(new line(frust.C, frust.D, 0.5*2100));
+	scene.push_back(new line(frust.D, frust.A, 0.5*2000));
+	scene.push_back(new line(frust.E, frust.F, 0.5*1900));
+	scene.push_back(new line(frust.F, frust.G, 0.5*1800));
+	scene.push_back(new line(frust.G, frust.H, 0.5*1700));
+	scene.push_back(new line(frust.H, frust.E, 0.5*1600));
+	scene.push_back(new line(frust.A, frust.E, 0.5*1500));
+	scene.push_back(new line(frust.B, frust.F, 0.5*1400));
+	scene.push_back(new line(frust.C, frust.G, 0.5*1300));
+	scene.push_back(new line(frust.D, frust.H, 0.5*1200));
+	scene.push_back(new line(frust.E, frust.G, 0.5*1100));
+	scene.push_back(new line(frust.F, frust.H, 0.5*1000));
+	
+	/*
+	scene.push_back(new rtriangle(frust.A, frust.C, frust.B, 1600));
+	scene.push_back(new rtriangle(frust.C, frust.A, frust.D, 1600));
+	scene.push_back(new rtriangle(frust.A, frust.E, frust.D, 1600));
+	scene.push_back(new rtriangle(frust.D, frust.E, frust.H, 1600));
+	scene.push_back(new rtriangle(frust.E, frust.F, frust.H, 1600));
+	scene.push_back(new rtriangle(frust.H, frust.F, frust.G, 1600));
+	scene.push_back(new rtriangle(frust.F, frust.B, frust.G, 1600));
+	scene.push_back(new rtriangle(frust.G, frust.B, frust.C, 1600));
+	scene.push_back(new rtriangle(frust.A, frust.B, frust.F, 1600));
+	scene.push_back(new rtriangle(frust.F, frust.E, frust.A, 1600));
+	scene.push_back(new rtriangle(frust.H, frust.G, frust.D, 1600));
+	scene.push_back(new rtriangle(frust.D, frust.G, frust.C, 1600));
+	*/
+	/*
+	for(int I = 0; I<12;I++){
+		cout << I<<",1: "<< frust.getTri(0,0).toString() << "\n";
+		scene.push_back(new rtriangle(frust.getTri(I,0),frust.getTri(I,1),frust.getTri(I,2)));
+	}
+	*/
 	printf("point E distance: %f\n", (frust.H-camera.pos).length());
 	
+}
+
+void testfunc2(void* arg){
+	line *myline = new line(camera.pos, camera.pos+camera.angle.forward()*100);
+	myline->thickness = 1;
+	myline->infinite = true;
+	myline->lifetime = 3000;
+	scene.push_back(myline);
+	vec intersex;
+	if(ray_triangle_intersection(camera.pos, camera.angle.forward(), vec(0,1,0),vec(0.87, -0.5,0), vec(-0.87, -0.5,0), intersex))
+		scene.push_back(new point(intersex, 300));
+	//scene.push_back(myline);
 }
 
 void OnProgramStart()
@@ -403,8 +436,9 @@ void OnProgramStart()
 	confuncs["backwardonce"] = camBack;
 	KeyBinds["esc"] = "camera_mouse_capture 0";
 	KeyBinds["t"] = "test";
+	KeyBinds["y"] = "test2";
 	confuncs["test"] = testfunc;
-	
+	confuncs["test2"] = testfunc2;
 	scene.push_back(new point({0,0,0}));
 }
 
@@ -418,7 +452,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "93";
+	string vnumber = "94";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
