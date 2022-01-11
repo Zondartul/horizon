@@ -135,7 +135,7 @@ or just BBcode for everything...
 int printw_fancy(int x, int y, pos4i canvas, string format, ...)
 */
 
-int printw (int x, int y, string format, ...)
+int printw (int x, int y, int xlim, int ylim, string format, ...)
 {
     if(CurFont == NULL){return -1;}
 
@@ -161,14 +161,28 @@ int printw (int x, int y, string format, ...)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // the default anyway
 
     glEnable(GL_BLEND);
-    for (i = 0; text[i] != '\0'; i++)
+    int y0 = y+16;
+	for (i = 0; text[i] != '\0'; i++)
     {
+		if(text[i]=='\n'){y0 += 16;x0=x;}
+		else
+		{
         Cur = CurFont[text[i]];
-        y1 = y+16-Cur.bearingY;
+        y1 = y0-Cur.bearingY;
         y2 = y1+Cur.sizeY;
         x1 = x0+Cur.bearingX;
         x2 = x1+Cur.sizeX;
-        glBindTexture(GL_TEXTURE_2D, Cur.texture);
+        bool draw = true;
+		if((xlim==0)||(ylim==0)){draw = false;}
+		if(xlim>-1){if(x2>(x+xlim)){x0 = x; y0 += 16;}}
+		y1 = y0-Cur.bearingY;
+        y2 = y1+Cur.sizeY;
+        x1 = x0+Cur.bearingX;
+        x2 = x1+Cur.sizeX;
+		if(ylim>-1){if(y2>(y+ylim)){draw = false;}}
+		if(draw)
+		{
+		glBindTexture(GL_TEXTURE_2D, Cur.texture);
         glBegin(GL_QUADS);
         glTexCoord2i(0, 0); glVertex2i(x1, y1);
         glTexCoord2i(1, 0); glVertex2i(x2, y1);
@@ -176,7 +190,9 @@ int printw (int x, int y, string format, ...)
         glTexCoord2i(0, 1); glVertex2i(x1, y2);
         glEnd();
         x0 = x0+Cur.advance;
-    }
+		}
+		}
+	}
     glDisable(GL_TEXTURE_2D);
     //glutBitmapCharacter(font_style, text[i]);
 

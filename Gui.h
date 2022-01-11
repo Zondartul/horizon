@@ -5,6 +5,11 @@ render tree
 root node:                                 root
 children render queue:          ch1       ch2   ch3   ch4
 grandchildren render queue: ch1.1 ch1.2
+
+printw - newline, limit width/height
+
+
+
 */
 void paintRect(int X1, int Y1, int X2, int Y2)
 {
@@ -124,9 +129,9 @@ class GUIobj
                 paintRectOutline(renderX1, renderY1, renderX2, renderY2);
                 //if(Calibri20n2 == 0){Calibri20n2 = GenerateFont("C:/Stride/calibri.ttf", 20);}
                 setFont(Calibri20);
-                printw(renderX1, renderY1+size.y/2, "Button");
+                printw(renderX1, renderY1+size.y/2, size.x, size.y, "Button");
             }
-        printw(renderX2+8, renderY1+size.y/2, "Clicks: %d",counter);
+        printw(renderX2+8, renderY1+size.y/2, size.x, size.y, "Clicks: %d",counter);
     }
 	virtual void onClick(int mb)
 	{
@@ -394,7 +399,7 @@ class GUIbutton: public GUIobj
 				paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 			}
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
-			printw(pos.x+4,pos.y+4,text);
+			printw(pos.x+4,pos.y+4, size.x, size.y,text);
 		}
 		else
 		{
@@ -402,7 +407,7 @@ class GUIbutton: public GUIobj
 			glColor3f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f);
 			paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
-			printw(pos.x+4,pos.y+4,text);
+			printw(pos.x+4,pos.y+4, size.x, size.y,text);
 		}
 	}
 };
@@ -487,7 +492,7 @@ class GUIframe: public GUIobj
 		paintRect(rX1+2, rY1+2, rX2-2, rY1+26);
 		glColor4f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f,1.0f);
 		setFont(Tahoma22);
-		printw(rX1+4, rY1+5, "Title");//todo: centering func
+		printw(rX1+4, rY1+5,  size.x, size.y,"Title");//todo: centering func
 		
 		//printw(rX2+8, rY1+size.y/2, "Clicks: %d",counter);
 	}
@@ -518,7 +523,7 @@ class GUItextEntry: public GUIobj
 		
 		setColor3(textColor);
 		setFont(font);
-		printw(pos.x+4,pos.y+4, text);
+		printw(pos.x+4,pos.y+4, size.x, size.y, text);
 	}
 	void onClick(int mb)
 	{

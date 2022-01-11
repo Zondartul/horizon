@@ -9,51 +9,89 @@
 #include "fonts.h"
 //#include "Gui.h"
 #include "Gui2.h"
-
+#include "vectors.h"
+#include "models.h"
 //global vars go here
 
 //GUIManager GUIM;
 GUIbase* GUI;
+
+GUIframe* myFrame;
 /*
 void myButton(void *holder)
 {
 	GUIM.axe(NULL);
 }
 */
-GUIframe* myFrame;
-void OnProgramStart()
+model* myModel;
+
+void OpenMenuModel()
 {
-    theta = 1.0f;
-    //if(MessageBox(0,"V: 44. Continue?", "Version", MB_OKCANCEL|MB_ICONQUESTION )==2){PostQuitMessage(0); return;}
-    Tahoma8 = (void*)GenerateFont("C:/Stride/tahoma.ttf",8,true);//no aa
-	Tahoma12= (void*)GenerateFont("C:/Stride/tahoma.ttf",12,false);//no aa
-	Tahoma18= (void*)GenerateFont("C:/Stride/tahoma.ttf",18,true);
-	Tahoma20= (void*)GenerateFont("C:/Stride/tahoma.ttf",20,true);
-	Tahoma22= (void*)GenerateFont("C:/Stride/tahoma.ttf",22,true);
-	Calibri8= (void*)GenerateFont("C:/Stride/calibri.ttf",8,true);
-	Calibri12= (void*)GenerateFont("C:/Stride/calibri.ttf",12,true);
-	Calibri18= (void*)GenerateFont("C:/Stride/calibri.ttf",18,true);
-	Calibri20= (void*)GenerateFont("C:/Stride/calibri.ttf",20,true);
-	Calibri22= (void*)GenerateFont("C:/Stride/calibri.ttf",22,true);
-	CourierNew8= (void*)GenerateFont("C:/Stride/cour.ttf",8,true);
-	CourierNew12= (void*)GenerateFont("C:/Stride/cour.ttf",12,true);
-	CourierNew18= (void*)GenerateFont("C:/Stride/cour.ttf",18,true);
-	CourierNew20= (void*)GenerateFont("C:/Stride/cour.ttf",20,true);
-	CourierNew22= (void*)GenerateFont("C:/Stride/cour.ttf",22,true);
+	GUIframe* ModelMenu = new GUIframe;
+	ModelMenu->setPos(128,128);
+	ModelMenu->setSize(196,128);
+	ModelMenu->title = "Model info";
+	ModelMenu->setParent(GUI);
 	
-	setFont(Calibri18);
+	GUIlabel* Mtext = new GUIlabel;
+	Mtext->setPos(4,32);
+	char text[128];
+	sprintf(text, "Model: %p\nVerticles: %d\nTriangles: %d\nTextures: %d", myModel, myModel->numtris*3,
+																		myModel->numtris, myModel->numtextures);
+	Mtext->text = text;
+	Mtext->setParent((GUIbase*) ModelMenu);
+}
+void genCube(void *arg)
+{
+	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
+	vector V = {l,w,h};
+	myModel = new model;
+	((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
 	
-	bground.r = 142;
-	bground.g = 187;
-	bground.b = 255;
-	bground.a = 255;
 	
-	GUI = new GUIbase;
-	GUI->setPos(0,0);
-	GUI->setSize(1024,1024);
-	GUI->recalculateClientRect();
-	GUI->visible=false;
+	OpenMenuModel();
+}
+void OpenMenuGen()
+{
+	GUIframe* GenMenu = new GUIframe;
+	GenMenu->setPos(128,128);
+	GenMenu->setSize(256,128);
+	GenMenu->title = "Generator";
+	GenMenu->setParent(GUI);
 	
+	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	spinx->setPos(4,32);					spinxtext->setPos(96,32);
+	spinx->vals = {-10,0,10,0.5,2};			spinxtext->text = "length";
+	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+
+	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	spiny->setPos(4,48);					spinytext->setPos(96,48);
+	spiny->vals = {-10,0,10,0.5,2};			spinytext->text = "width";
+	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	
+	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	spinz->setPos(4,64);					spinztext->setPos(96,64);
+	spinz->vals = {-10,0,10,0.5,2};			spinztext->text = "height";
+	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	
+	void **arg = new void*[3];
+	arg[0] = (void*)spinx;
+	arg[1] = (void*)spiny;
+	arg[2] = (void*)spinz;
+	GUIbutton* btnGen = new GUIbutton;
+	btnGen->setPos(4,96);
+	btnGen->setSize(96,16);
+	btnGen->text = "Generate";
+	btnGen->func = &genCube;
+	btnGen->arg = (void*)arg;
+	btnGen->setParent((GUIbase*) GenMenu);
+}
+
+void OpenMenu1()
+{	
+	myModel = NULL;
 	myFrame = new GUIframe;
 	myFrame->setPos(0,0);
 	myFrame->setSize(256,512);
@@ -126,9 +164,48 @@ void OnProgramStart()
 	GUIcolorbox* cbox = new GUIcolorbox;
 	cbox->setPos(4,430);
 	cbox->setParent((GUIbase*)myFrame);
-   //myFrame.parent
+}
+
+void OnProgramStart()
+{
+    theta = 1.0f;
+    //if(MessageBox(0,"V: 44. Continue?", "Version", MB_OKCANCEL|MB_ICONQUESTION )==2){PostQuitMessage(0); return;}
+    Tahoma8 = (void*)GenerateFont("C:/Stride/tahoma.ttf",8,true);//no aa
+	Tahoma12= (void*)GenerateFont("C:/Stride/tahoma.ttf",12,false);//no aa
+	Tahoma18= (void*)GenerateFont("C:/Stride/tahoma.ttf",18,true);
+	Tahoma20= (void*)GenerateFont("C:/Stride/tahoma.ttf",20,true);
+	Tahoma22= (void*)GenerateFont("C:/Stride/tahoma.ttf",22,true);
+	Calibri8= (void*)GenerateFont("C:/Stride/calibri.ttf",8,true);
+	Calibri12= (void*)GenerateFont("C:/Stride/calibri.ttf",12,true);
+	Calibri18= (void*)GenerateFont("C:/Stride/calibri.ttf",18,true);
+	Calibri20= (void*)GenerateFont("C:/Stride/calibri.ttf",20,true);
+	Calibri22= (void*)GenerateFont("C:/Stride/calibri.ttf",22,true);
+	CourierNew8= (void*)GenerateFont("C:/Stride/cour.ttf",8,true);
+	CourierNew12= (void*)GenerateFont("C:/Stride/cour.ttf",12,true);
+	CourierNew18= (void*)GenerateFont("C:/Stride/cour.ttf",18,true);
+	CourierNew20= (void*)GenerateFont("C:/Stride/cour.ttf",20,true);
+	CourierNew22= (void*)GenerateFont("C:/Stride/cour.ttf",22,true);
+	
+	setFont(Calibri18);
+	
+	bground.r = 142;
+	bground.g = 187;
+	bground.b = 255;
+	bground.a = 255;
+
+	GUI = new GUIbase;
+	GUI->setPos(0,0);
+	GUI->setSize(1024,1024);
+	GUI->recalculateClientRect();
+	GUI->visible=false;
+	
+	OpenMenu1();
+	OpenMenuGen();
+
+	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
+
 
 
 void RenderGUI()
@@ -140,7 +217,7 @@ void RenderGUI()
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
 	string vnumber = "53";
-	twidth = printw(32,32,version+vnumber);
+	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
     vec4i windowrect = {0,0,(int)width,(int)height};
@@ -149,7 +226,7 @@ void RenderGUI()
 	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
 	
 	
-	printw(256,256,"crect.x = %d, y = %d, btn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
+	printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
 	
 	//GUIM.render(NULL);
 	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);

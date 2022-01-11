@@ -46,7 +46,7 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
     glVertex2f(x2, y2);
 
     glVertex2f(x2, y2);
-    glVertex2f(x1, y2);
+    glVertex2f(x1-1, y2);
 
 
     glVertex2f(x1, y2);
@@ -245,7 +245,7 @@ class GUIbase
 		setAlpha(255);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		printw(pos.x, pos.y+size.y/2, "clicks: %d", counter);
+		printw(pos.x, pos.y+size.y/2, size.x, size.y, "clicks: %d", counter);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -481,7 +481,7 @@ class GUIbutton: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		printw(pos.x+2,pos.y-4,text);
+		printw(pos.x+2,pos.y-4, size.x, -1,text);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -536,7 +536,7 @@ class GUIframe: public GUIbase
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+32);
 		setColor(color_text);
-		printw(pos.x,pos.y+4,title);
+		printw(pos.x,pos.y+4, size.x, size.y,title);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -559,7 +559,7 @@ class GUIlabel: public GUIbase
 		dragCheck();
 		scissorCheck(arg);
 		
-		size.x = printw(pos.x,pos.y,text);
+		size.x = printw(pos.x,pos.y, -1, -1,text);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -593,7 +593,7 @@ class GUItextEntry: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		size.x = printw(pos.x+2,pos.y,text)+4;
+		size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -605,7 +605,7 @@ class GUItextEntry: public GUIbase
 		}
 		if(kb==8)
 		{
-			if(text.length()){text.erase(text.end()-1);}
+			if(text.length()){text.erase(text.length()-1);}
 		}
 	}
 };
@@ -639,7 +639,7 @@ class GUIcheckbox: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		if(checked){printw(pos.x+size.x/2-4,pos.y-4,"v");}
+		if(checked){printw(pos.x+size.x/2-4,pos.y-4, size.x, size.y,"v");}
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
@@ -689,7 +689,7 @@ class GUIradiobutton: public GUIbase
 		setColor(color_border);
 		paintCircleOutline(pos.x+size.x/2,pos.y+size.y/2,size.x/2);
 		setColor(color_text);
-		if(checked){printw(pos.x+size.x/2-5,pos.y-4,"o");}
+		if(checked){printw(pos.x+size.x/2-5,pos.y-4, size.x, size.y,"o");}
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
@@ -716,7 +716,7 @@ void GUIradiogroup::checkButton(void *btn)
 class GUIspinner: public GUIbase
 {
 	public:
-	double vals[4];// min - cur - max - speed
+	double vals[5];// min - cur - max - speed - precision
 	GUIbutton* btnUp;
 	GUIbutton* btnDown;
 	string text;
@@ -738,9 +738,9 @@ class GUIspinner: public GUIbase
 		counter = 0;
 		size = {64,18};
 		pos = {0,0};
-		vals = {-10,0,10,3};
+		vals = {-10,0,10,3,2};
 		movable = false;
-		resizible = true;
+		resizible = false;
 		btnUp = new GUIbutton;
 		btnUp->func = &fUp;
 		btnUp->arg = (void*)this;
@@ -776,7 +776,7 @@ class GUIspinner: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		printw(pos.x+2,pos.y,"%d", (int)vals[1]);
+		printw(pos.x+2,pos.y,-1,-1,"%.*f", (int)vals[4], (double)vals[1]);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -930,7 +930,7 @@ class GUIdropdownlist: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		printw(pos.x-2,pos.y-2,text);
+		printw(pos.x-2,pos.y-2, size.x, size.y,text);
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -978,7 +978,7 @@ class GUIslider: public GUIbase
 		setColor(color_border);
 		paintCircleOutline(pos.x+xdot,pos.y+size.y/2,size.y/2);
 		setColor(color_text);
-		printw(pos.x+size.x,pos.y,"%f",vals[1]);
+		printw(pos.x+size.x,pos.y, size.x, size.y,"%f",vals[1]);
 		glDisable(GL_SCISSOR_TEST);
 	}
 	void onClick(int mb)
@@ -1165,6 +1165,10 @@ class GUIcolorbox: public GUIbase
 
 /*
 GUI element check list!
+--GENERAL--
+FIX STRATA! 
+SizeToContents()
+vec2i = printw
 --INPUT--
 Button		*
 Checkbox	*
@@ -1184,6 +1188,7 @@ Tab
 --OUTPUT--
 Label		*
 Image
-
+--WINDOWS--
+Messagebox
 
 */
