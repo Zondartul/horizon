@@ -137,6 +137,7 @@ void OpenMenu1()
 	myFrame->title = "Frame 1";
 	myFrame->setParent(GUI);
 	
+	
 	GUI2frame* myFrame2 = new GUI2frame;
 	myFrame2->setPos(0,0);
 	myFrame2->setSize(96,96);
