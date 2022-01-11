@@ -550,6 +550,72 @@ void ProcessKeyboard(int kb)
 	{
 		letter = MapVirtualKey((unsigned int)kb,2);
 		if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
+		else
+		{
+		switch(letter)
+		{
+			case ',':
+				letter = '<';
+				break;
+			case '.':
+				letter = '>';
+				break;
+			case '/':
+				letter = '?';
+				break;
+			case ';':
+				letter = ':';
+				break;
+			case '\'':
+				letter = '"';
+				break;
+			case '1':
+				letter = '!';
+				break;
+			case '2':
+				letter = '@';
+				break;
+			case '3':
+				letter = '#';
+				break;
+			case '4':
+				letter = '$';
+				break;
+			case '5':
+				letter = '%';
+				break;
+			case '6':
+				letter = '^';
+				break;
+			case '7':
+				letter = '&';
+				break;
+			case '8':
+				letter = '*';
+				break;
+			case '9':
+				letter = '(';
+				break;
+			case '0':
+				letter = ')';
+				break;
+			case '-':
+				letter = '_';
+				break;
+			case '=':
+				letter = '+';
+				break;
+			case '[':
+				letter = '{';
+				break;
+			case ']':
+				letter = '}';
+				break;
+			case '|':
+				letter = '\\';
+				break;
+		}
+		}
 	}
 	bool b = GUIbase::propagateKeyboard(letter*kb/abs(kb));
 	if(!b&&!ParseKey(kb))

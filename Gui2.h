@@ -701,6 +701,18 @@ class GUItextEntry: public GUIbase
 		{
 			if(text.length()){text.erase(text.length()-1);}
 		}
+		if(kb=='v')//ctrl+v = copy-paste
+		{
+			if(GetKeyState(VK_LCONTROL) & 0x8000)
+			{
+				text.erase(text.length()-1);
+				OpenClipboard(NULL);
+				HANDLE pasta = GetClipboardData(CF_TEXT);
+				text += (char *)GlobalLock(pasta);
+				GlobalUnlock(pasta);
+				CloseClipboard();
+			}
+		}
 		printf("TE[1],");
 		if(callback){callback(arg);}
 		
