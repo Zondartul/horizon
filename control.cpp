@@ -3,6 +3,10 @@
 #include <cstdio>
 #include <math.h>
 #include <ctype.h>
+//#include <iostream>
+//#include <string>
+//#include <sstream> 
+//using namespace std;
 //#include <vector>
 
 #include "globals.h"
@@ -30,10 +34,6 @@ vec2i deltaMouse;
 vec2i windowCorner;
 vec2i windowSize;
 vec2i windowCenter;
-double CamA;
-double CamX;
-double CamY;
-double CamZ;
 quat CamAngle;
 bool mouseCapture;
 int pie = 3.14;
@@ -70,29 +70,36 @@ void ConsoleParse(string text)
 {
 	if(Console!=NULL)
 	{
-		GUIlabel *L = (GUIlabel*)(Console->children->next->thing);
+		GUIlabel *L = (GUIlabel*)(Console->findByTag("Text"));
+		if(L==NULL){printf("can't findByTag(Text)\n");}
+		printf("adding text <%s> to <%s>\n",text.c_str(), L->text.c_str());	
 		L->text += '\n';
 		L->text += text;
-		if(L->text.length()>256){L->text.erase();}
 	}
+	else{printf("Console missing\n");}
 }
 
 void Test1(void* arg)
 {
 	ConsoleParse("I LIKE TURTLES");
-	SomeVec1 = {0,0,0};
-	CamAngle = quat::fromAngle(0,0,0);
 }
 
 void MenuConsoleConEntryCallback(void *arg)
 {
+	printf("CB[1],");
 	GUItextEntry *E = (GUItextEntry*)arg;
+	printf("CB[2],");
 	if(E->text[E->text.length()-1]=='\n')
 	{
+		printf("CB[3],");
 		E->text.erase(E->text.length()-1);
+		printf("CB[4],");
 		ConsoleParse(E->text);
+		printf("CB[5],");
 		E->text.erase();
+		printf("CB[6],");
 	}
+	printf("CB[7],");
 }
 void OpenMenuConsole()
 {
@@ -106,6 +113,7 @@ void OpenMenuConsole()
 		ConText->setSize(120,400);
 		ConText->setPos(4,32);
 		ConText->setParent(Console);
+		ConText->tag = "Text";
 		
 		GUItextEntry *ConEntry = new GUItextEntry;
 		ConEntry->setSize(128,32);
@@ -224,6 +232,21 @@ void OpenMenuGen()
 	btnGen->setParent((GUIbase*) GenMenu);
 }
 
+void designerMenu()
+{
+	GUIframe* designerFrame = new GUIframe;
+	designerFrame->setPos(64,64);
+	designerFrame->setSize(128,512);
+	designerFrame->title = "GUI designer";
+	designerFrame->setParent(GUI);
+	
+	GUIImage* image1 = new GUIImage;
+	image1->setPos(32,32);
+	image1->setSize(32,32);
+	image1->setImage("C:/Stride/grass3.raw");
+	image1->setParent((GUIbase*)designerFrame);
+}
+
 void OpenMenu1()
 {	
 	myModel = NULL;
@@ -301,52 +324,48 @@ void OpenMenu1()
 	cbox->setParent((GUIbase*)myFrame);
 }
 
-double camSpeed = 0.01;
-vector t;
 void OpenVals()
 {
 	GUIframe* valframe = new GUIframe;
 	valframe->setSize(256,256);
 	valframe->setPos(768,32);
 	valframe->setParent(GUI);
+	
 	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
 	valx->setPos(0,32);								val2x->setPos(128,32);
-	valx->val = (void*)(&CamA);				val2x->val = (void*)(&t.x);
+	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&SomeVec2.x);
 	valx->mode = 'f';								val2x->mode = 'f';
 	valx->setParent(valframe);						val2x->setParent(valframe);
 	
 	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
 	valy->setPos(0,64);								val2y->setPos(128,64);
-	valy->val = (void*)(&CamX);				val2y->val = (void*)(&t.y);
+	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&SomeVec2.y);
 	valy->mode = 'f';								val2y->mode = 'f';
 	valy->setParent(valframe);						val2y->setParent(valframe);
 	
 	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
 	valz->setPos(0,96);								val2z->setPos(128,96);
-	valz->val = (void*)(&CamY);				val2z->val = (void*)(&t.z);
+	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&SomeVec2.z);
 	valz->mode = 'f';								val2z->mode = 'f';
 	valz->setParent(valframe);						val2z->setParent(valframe);
 	
 	GUIvaluedisplay* valmx = new GUIvaluedisplay;	GUIvaluedisplay* val2my = new GUIvaluedisplay;
 	valmx->setPos(0,128);							val2my->setPos(128,128);
-	valmx->val = (void*)(&CamZ);				val2my->val = (void*)(&mousePos.y);
+	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&mousePos.y);
 	valmx->mode = 'f';								val2my->mode = 'd';
 	valmx->setParent(valframe);						val2my->setParent(valframe);
 	
-	quat A = {2,{1,0,0}};
-	double *mul = new double;
-	*mul = (A*A.inv()).w;
 	GUIvaluedisplay* valdmx = new GUIvaluedisplay;	GUIvaluedisplay* val2dmy = new GUIvaluedisplay;
 	valdmx->setPos(0,128+32);							val2dmy->setPos(128,128+32);
-	valdmx->val = (void*)(mul);				val2dmy->val = (void*)(&deltaMouse.y);
-	valdmx->mode = 'f';								val2dmy->mode = 'd';
+	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&deltaMouse.y);
+	valdmx->mode = 'd';								val2dmy->mode = 'd';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 
-void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.up()*camSpeed;}
-void camBack(void* arg){SomeVec1 = SomeVec1-CamAngle.up()*camSpeed;}
-void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.forward()*camSpeed;}
-void camRight(void* arg){SomeVec1 = SomeVec1-CamAngle.forward()*camSpeed;}
+void camForward(void* arg){SomeVec1 = SomeVec1+(vector){0,.1,0};}
+void camBack(void* arg){SomeVec1 = SomeVec1+(vector){0,-.1,0};}
+void camLeft(void* arg){SomeVec1 = SomeVec1+(vector){-.1,0,0};}
+void camRight(void* arg){SomeVec1 = SomeVec1+(vector){.1,0,0};}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
 
 void OnProgramStart()
@@ -379,7 +398,7 @@ void OnProgramStart()
 	bindKey('D',&camLeft,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
 	mouseCapture = false;
-	CamAngle = (quat){0,0,1,0};
+	CamAngle = {0,{0,0,1}};
 	
 	bground.r = 142;
 	bground.g = 187;
@@ -396,6 +415,7 @@ void OnProgramStart()
 	OpenMenuGen();
 	OpenMenuConsole();
 	OpenVals();
+	designerMenu();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -513,13 +533,11 @@ void InputTick()
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
 		SomeVec2 = SomeVec2 + (vector){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
-		double CamAngSpeed = 0.1;
-		CamAngle = CamAngle.addRotation(deltaMouse.x*CamAngSpeed,{0,-1,0}).addRotation(deltaMouse.y*CamAngSpeed,CamAngle.forward()).norm();//cam angular speed here
-		//if(CamAngle.w>6.26){CamAngle.w=0;}
-		//if(CamAngle.w<0){CamAngle.w=6.26;}
+		CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
+		if(CamAngle.w>360){CamAngle.w=0;}
+		if(CamAngle.w<0){CamAngle.w=360;}
 		SetCursorPos(windowCenter.x,windowCenter.y);
 	}
-	t = CamAngle.rotateVector((vector){0,1,0});
 }
 
 void ProcessKeyboard(int kb)
@@ -534,8 +552,13 @@ void ProcessKeyboard(int kb)
 	if(kb>0){b = GUIbase::propagateKeyboard(letter);}
 	if(!b&&!ParseKey(kb))
 	{
+		//string mystring = "";
 		char str[64];
-		sprintf(str,"Unbound key: %d = [%c]/[%c]",kb,(char)kb,letter);
+		 //std::ostringstream stringStream;
+		//stringStream << "Unbound key: " << kb << " = [" <<(char)kb <<"]/[" <<(char)letter << "]";
+		
+		sprintf(str,"Unbound key: %d = [%c]/[%c]",kb,(char)kb,(char)letter);
+		printf("sending string to parse: \"%s\"\n",str);
 		ConsoleParse((string)str);
 	}
 	//GUIM.keyboard(kb);
@@ -562,14 +585,8 @@ void Render2D()
 void Render3D()
 {
     glPushMatrix();
-	double ang = CamAngle.getRotationAngle();
-	vector axis = CamAngle.getRotationAxis();
-	CamA = ang;
-	CamX = axis.x;CamY = axis.y;CamZ = axis.z;
-	glRotatef(-ang, axis.x, axis.y, axis.z);
-
-	//glRotatef(180, 0,0,1);
-	glTranslated(SomeVec1.x,SomeVec1.y,SomeVec1.z);
+	glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
+	glTranslated(SomeVec1.x,SomeVec1.z,SomeVec1.y);
     //glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);

@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdio>
 #include <math.h>
+#include "textureloader.h"
 using std::string;
 
 void paintRect(int X1, int Y1, int X2, int Y2)
@@ -12,6 +13,23 @@ void paintRect(int X1, int Y1, int X2, int Y2)
     glVertex2i(X2, Y2);
     glVertex2i(X2, Y1);
     glEnd();
+}
+void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
+{
+	glColor3f(1.0f,1.0f,1.0f);
+	glEnable( GL_TEXTURE_2D );
+	glBindTexture( GL_TEXTURE_2D, tex );
+    glBegin(GL_QUADS);
+	glTexCoord2f(0,0);
+    glVertex2i(X1, Y1);
+	glTexCoord2f(0,1);
+    glVertex2i(X1, Y2);
+	glTexCoord2f(1,1);
+    glVertex2i(X2, Y2);
+	glTexCoord2f(1,0);
+    glVertex2i(X2, Y1);
+    glEnd();	
+	glDisable( GL_TEXTURE_2D );
 }
 void paintCircle(int X1, int Y1, int Radius)
 {
@@ -94,6 +112,7 @@ class GUIbase
 	bool scissor;
 	vec2i startTouch; //place of mouse click
 	int counter; //mostly useless
+	string tag;
 	
 	GUIbase()
 	{
@@ -124,6 +143,7 @@ class GUIbase
 		
 		startTouch = {0,0};
 		counter = 0;
+		tag = "";
 	}
 	virtual void setPos(int x, int y)
 	{
@@ -266,12 +286,43 @@ class GUIbase
 		return stop;
 	}
 	
+	static bool foreachbackwards_check(listNode* Cur, int (*func)(GUIbase*, void*, int), void* arg, int rec)
+	{
+		bool stop = 0;
+		if(Cur->next){stop = foreachbackwards_check(Cur->next, func, arg, rec+1);}
+		if(Cur->thing){return func((GUIbase*)Cur->thing, arg, rec+1)||stop;}
+		else return stop;
+	}
+	static bool foreachbackwards(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec) 
+	{
+		//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
+		// i couldn't think of saner way. sorry.
+		// rec is recursion counter for debugging.
+		listNode* Cur = obj->children;
+		bool stop = 0;
+		if(Cur->next){stop = foreachbackwards_check(Cur->next, func, arg, rec+1);}
+		if(Cur->thing){return func((GUIbase*)Cur->thing, arg, rec+1)||stop;}
+		else return stop;
+	}
 	void setParent(GUIbase* obj)
 	{
 		parent = obj;
 		parent->recalculateClientRect();
 		invalidate(pos+(vec2i){parent->crect.x1,parent->crect.y1}, size);
 		GUIbase::addChild(parent, this);
+	}
+	GUIbase* findByTag(string tag)
+	{
+		listNode* Cur = children;
+		while(Cur!=NULL)
+		{
+			if(Cur->thing)
+			{
+				if(((GUIbase*)(Cur->thing))->tag==tag){return ((GUIbase*)(Cur->thing));}
+			}
+			Cur = Cur->next;
+		}
+		return NULL;
 	}
 	static void addChild(GUIbase* parent, GUIbase* obj)
 	{
@@ -354,7 +405,7 @@ class GUIbase
 					else if(n||s){SetCursor(LoadCursor(NULL,IDC_SIZENS));}
 					else if(e||w){SetCursor(LoadCursor(NULL,IDC_SIZEWE));}
 				}
-				return 2;//found but continue
+				return 1;//found do not continue//but continue
 			}
 			else
 			{
@@ -375,7 +426,32 @@ class GUIbase
 		int mb = *((int*)arg);
 		if(mb>0)
 		{
-			if(obj->mouseOver&&(rec!=0)){obj->onClick(mb); lastClicked = obj; focus = obj; return true;}
+			if(obj->mouseOver&&(rec!=0))
+			{
+				obj->onClick(mb); 
+				lastClicked = obj; 
+				focus = obj; 
+				//fix strata by re-arranging children list
+				listNode* prevFirst = obj->parent->children;
+				listNode* prevThis = NULL;
+				listNode* Cur = obj->parent->children;
+				if(Cur->thing != (void *)obj)
+				{
+				while(Cur)
+				{
+					if((Cur->next)&&(Cur->next->thing==(void *)obj))
+					{
+						prevThis = Cur->next;
+						Cur->next = prevThis->next;
+						obj->parent->children = prevThis;
+						prevThis->next = prevFirst;
+						Cur = NULL;
+					}else{Cur = Cur->next;}
+				}
+				}
+				//
+				return true;
+			}
 			else
 			{
 				if(foreach(obj,&propagateClick,arg,rec+1)==false)
@@ -402,7 +478,7 @@ class GUIbase
 			scissor.y1 = max(scissor.y1,crect.y1);
 			scissor.x2 = min(scissor.x2,crect.x2);
 			scissor.y2 = min(scissor.y2,crect.y2);
-			foreach(obj,&propagateRender, (void*)(&scissor), rec+1);
+			foreachbackwards(obj,&propagateRender, (void*)(&scissor), rec+1);
 		}
 		return false;
 	}
@@ -603,10 +679,13 @@ class GUItextEntry: public GUIbase
 	}
 	void onKeyboard(int kb)
 	{
+		
+		if(kb<0){return;}
 		if(isprint(kb))
 		{
-			text += kb;
+			text += kb;printf("TE[0],");
 		}
+		
 		if(kb==13)
 		{
 			if(multiline){text += '\n';}
@@ -615,7 +694,11 @@ class GUItextEntry: public GUIbase
 		{
 			if(text.length()){text.erase(text.length()-1);}
 		}
+		printf("TE[1],");
 		if(callback){callback(arg);}
+		
+		printf("TE[2],");
+		
 	}
 };
 
@@ -1227,6 +1310,42 @@ class GUIvaluedisplay:public GUIbase
 	}
 };
 
+class GUIImage:public GUIbase
+{
+	public:
+	GLuint ImageTex;
+	GUIImage():GUIbase()
+	{
+		movable = false;
+		resizible = false;
+		size = {256,256};
+		ImageTex = 0;
+	}
+	void setImage(char *path)
+	{
+		ImageTex = LoadTextureRAW(path, 1);
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x+1,pos.y+size.y+1);
+		
+		//draw
+
+		paintTexturedRect(pos.x,pos.y+1,pos.x+size.x,pos.y+size.y+1, ImageTex);
+		//int X = pos.x;
+		//float E = size.x;
+		//int Yi = pos.y;
+		//int Yf = pos.y+size.y;
+		//vec3i col = {0,0,0};
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
 /*
 GUI element check list!
 --GENERAL--
@@ -1256,7 +1375,8 @@ Image
 Messagebox
 valueDisplay*
 Console
-
+--debug--
+linked list browser
 ideas:
 move scissor checks into base class
 bool clickable
