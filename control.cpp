@@ -6,7 +6,8 @@
 
 #include "globals.h"
 #include "fonts.h"
-#include "Gui.h"
+//#include "Gui.h"
+#include "Gui2.h"
 
 //global vars go here
 
@@ -26,13 +27,14 @@ GUI:
 
 
 
-GUIManager GUIM;
-
+//GUIManager GUIM;
+GUIbase* GUI;
+/*
 void myButton(void *holder)
 {
 	GUIM.axe(NULL);
 }
-
+*/
 void OnProgramStart()
 {
     theta = 1.0f;
@@ -59,6 +61,12 @@ void OnProgramStart()
 	bground.g = 187;
 	bground.b = 255;
 	bground.a = 255;
+	
+	GUI = new GUIbase;
+	GUI->pos = {32,32};
+	GUI->size={128,128};
+	GUI->visible=true;
+	/*
     GUIobj* myFrame = new GUIobj;
     myFrame->pos.x = 350;
     myFrame->pos.y = 32;
@@ -99,6 +107,7 @@ void OnProgramStart()
 	Btn2->func = &myButton;
 	Btn2->funcHolder = (void*)Btn2;
 	GUIM.activate((GUIobj*)Btn2);
+	*/
 	
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
@@ -114,18 +123,20 @@ void RenderGUI()
 	string version("Version ");
 	string vnumber = "53";
 	twidth = printw(32,32,version+vnumber);
-    GUIM.render(NULL);
-	GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
+    GUIbase::propagateMouseOver(GUI,(void*)(&mousePos), 0);
+	GUIbase::propagateRender(GUI,NULL,0);
+	//GUIM.render(NULL);
+	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
 
 void ProcessMouseclick(int mb)
 {
-    GUIM.click(NULL, mb);
+   // GUIM.click(NULL, mb);
 }
 
 void ProcessKeyboard(int kb)
 {
-	GUIM.keyboard(kb);
+	//GUIM.keyboard(kb);
 }
 
 void Render2D()

@@ -40,10 +40,6 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
     glEnd();
 }
 
-void setColor3(color3i color)
-{
-	glColor3f(color.r/255.0f, color.g/255.0f, color.b/255.0f);
-}
 
 enum GUIMessage
 {
