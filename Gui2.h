@@ -786,13 +786,40 @@ class GUIlistbox: public GUIbase
 {
 	public:
 	GUIbutton* sel[32];
+	int selected;
+	string selText;
+	void (*callback)(void*);
+	void* callarg;
 	GUIlistbox():GUIbase()
 	{
 		size = {96,64};
+		selected = 0;
+		callback = NULL;
+		callarg = NULL;
+		selText = "";
 		//color_panel = {196,196,196};
 		for(int I = 0;I<32;I++)
 		{
 			sel[I] = NULL;
+		}
+	}
+	static void wrapFunc(void* arg)
+	{
+		//arg:
+		// 0 - I
+		// 1 - self
+		// 2 - prev arg
+		// 3 - prev func
+		void** newArg = (void**)arg;
+		GUIlistbox* L = (GUIlistbox*)(newArg[1]);
+		int I = *((int*)newArg[0]);
+		L->selected = I+1;
+		L->selText = L->sel[I]->text;
+		if(L->callback){L->callback(L->callarg);}
+		if(newArg[3]!=NULL)
+		{
+			void (*func)(void*) = (void (*)(void*))newArg[3];
+			func(newArg[2]);
 		}
 	}
 	void addOption(string text, void (*func)(void*), void* arg)
@@ -802,8 +829,16 @@ class GUIlistbox: public GUIbase
 			if(sel[I]==NULL)
 			{
 				sel[I] = new GUIbutton;
-				sel[I]->func = func;
-				sel[I]->arg = arg;
+				void** newArg = new void*[4];
+				int* aye;
+				aye = new int;
+				aye[0] = I;
+				newArg[0] = (void*)aye;
+				newArg[1] = (void*)this;
+				newArg[2] = arg;
+				newArg[3] = (void*)func;
+				sel[I]->func = &wrapFunc;
+				sel[I]->arg = (void*)newArg;
 				sel[I]->text = text;
 				sel[I]->size = {size.x, 14};
 				sel[I]->setParent((GUIbase*)this);
@@ -841,6 +876,72 @@ class GUIlistbox: public GUIbase
 	}
 };
 
+class GUIdropdownlist: public GUIbase
+{
+	public:
+	GUIlistbox* list;
+	GUIbutton* btn;
+	string text;
+	bool open;
+	static void showList(void* arg)
+	{
+		GUIdropdownlist *L = ((GUIdropdownlist*)arg);
+		if(!L->open){L->setSize(L->size.x,96);}else{L->setSize(L->size.x,14);}
+		L->open = !L->open;
+	}
+	static void setCurOption(void* arg)
+	{
+		GUIdropdownlist* dd = (GUIdropdownlist*)arg;
+		dd->text = dd->list->selText;
+	}
+	GUIdropdownlist():GUIbase()
+	{
+		open = false;
+		movable = false;
+		resizible = false;
+		text = "";
+		size = {64,14};
+		list = new GUIlistbox;
+		list->callback = &setCurOption;
+		list->callarg = (void*)this;
+		list->setParent((GUIbase*)this);
+		btn = new GUIbutton;
+		btn->func = &showList;
+		btn->arg = (void*)this;
+		btn->setSize(14,14);
+		btn->text = "<";
+		btn->setParent((GUIbase*)this);
+	}
+	void addOption(string text, void (*func)(void*), void* arg)
+	{
+		list->addOption(text, func, arg);
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		//setAlpha(128);
+		//setColor(color_panel);
+		//paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		//setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		printw(pos.x-2,pos.y-2,text);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+	
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		GUIbase::invalidate(newPos, newSize);
+		btn->setPos(pos.x+size.x-14,pos.y);
+		list->setPos(pos.x,pos.y+14);
+		recalculateClientRect();
+	}
+};
 /*
 GUI element check list!
 --INPUT--

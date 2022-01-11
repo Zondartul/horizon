@@ -111,6 +111,13 @@ void OnProgramStart()
 	list->addOption("shipping",NULL,NULL);
 	list->setPos(4,290);
 	list->setParent((GUIbase*)myFrame);
+	
+	GUIdropdownlist* ddlist = new GUIdropdownlist;
+	ddlist->addOption("Pinkie", NULL,NULL);
+	ddlist->addOption("Rainbow", NULL,NULL);
+	ddlist->addOption("Applejack", NULL,NULL);
+	ddlist->setPos(96,290);
+	ddlist->setParent((GUIbase*)myFrame);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
