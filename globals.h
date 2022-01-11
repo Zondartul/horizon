@@ -122,7 +122,7 @@ int ms = 0;
 int freq = 66;
 float theta;
 int counter = 0;
-float width = 640.0f;
+float width = 1024.0f;
 float height = 640.0f;
 color4i bground;
 vec2i mousePos;

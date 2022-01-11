@@ -50,7 +50,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
                           WS_OVERLAPPEDWINDOW,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
-                          640,
+                          1024,
                           640,
                           NULL,
                           NULL,
@@ -112,6 +112,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
 			ProcessKeyboard((int)wParam);
         }
+		break;
+		case WM_KEYUP:
+		{
+			ProcessKeyboard(-(int)wParam);
+		}
         break;
 
         case WM_LBUTTONDOWN:

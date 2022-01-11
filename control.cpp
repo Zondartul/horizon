@@ -11,6 +11,7 @@
 #include "Gui2.h"
 #include "vectors.h"
 #include "models.h"
+#include "quaternions.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -22,10 +23,15 @@ GUIbase *GUI;
 GUIframe *Console;
 
 GUIframe *myFrame;
-funcptr Binds[256];
 model *myModel;
 vector SomeVec1;
 vector SomeVec2;
+vec2i deltaMouse;
+vec2i windowCorner;
+vec2i windowSize;
+vec2i windowCenter;
+quat CamAngle;
+bool mouseCapture;
 int pie = 3.14;
 /*
 void myButton(void *holder)
@@ -33,6 +39,28 @@ void myButton(void *holder)
 	GUIM.axe(NULL);
 }
 */
+struct KeyBind
+{
+	funcptr onPress;
+	funcptr onRelease;
+	int mode; //1 - press/release, 2-rising edge, 3-falling edge, 4-every frame, 5-windowsy.
+	bool keyDown;
+	KeyBind()
+	{
+		onPress = NULL;
+		onRelease = NULL;
+		keyDown = false;
+		mode = 1;
+	}
+};
+
+KeyBind Binds[256];
+void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
+{
+	Binds[key].onPress = onPress;
+	Binds[key].onRelease = onRelease;
+	Binds[key].mode = mode;
+}
 
 void ConsoleParse(string text)
 {
@@ -275,27 +303,40 @@ void OpenVals()
 	
 	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
 	valx->setPos(0,32);								val2x->setPos(128,32);
-	valx->val = (void*)(&SomeVec1.x);				val2x->val = (void*)(&SomeVec2.x);
+	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&SomeVec2.x);
 	valx->mode = 'f';								val2x->mode = 'f';
 	valx->setParent(valframe);						val2x->setParent(valframe);
 	
 	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
 	valy->setPos(0,64);								val2y->setPos(128,64);
-	valy->val = (void*)(&SomeVec1.y);				val2y->val = (void*)(&SomeVec2.y);
+	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&SomeVec2.y);
 	valy->mode = 'f';								val2y->mode = 'f';
 	valy->setParent(valframe);						val2y->setParent(valframe);
 	
 	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
 	valz->setPos(0,96);								val2z->setPos(128,96);
-	valz->val = (void*)(&SomeVec1.z);				val2z->val = (void*)(&SomeVec2.z);
+	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&SomeVec2.z);
 	valz->mode = 'f';								val2z->mode = 'f';
 	valz->setParent(valframe);						val2z->setParent(valframe);
+	
+	GUIvaluedisplay* valmx = new GUIvaluedisplay;	GUIvaluedisplay* val2my = new GUIvaluedisplay;
+	valmx->setPos(0,128);							val2my->setPos(128,128);
+	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&mousePos.y);
+	valmx->mode = 'f';								val2my->mode = 'd';
+	valmx->setParent(valframe);						val2my->setParent(valframe);
+	
+	GUIvaluedisplay* valdmx = new GUIvaluedisplay;	GUIvaluedisplay* val2dmy = new GUIvaluedisplay;
+	valdmx->setPos(0,128+32);							val2dmy->setPos(128,128+32);
+	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&deltaMouse.y);
+	valdmx->mode = 'd';								val2dmy->mode = 'd';
+	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 
 void camForward(void* arg){SomeVec1 = SomeVec1+(vector){0,.1,0};}
 void camBack(void* arg){SomeVec1 = SomeVec1+(vector){0,-.1,0};}
 void camLeft(void* arg){SomeVec1 = SomeVec1+(vector){-.1,0,0};}
 void camRight(void* arg){SomeVec1 = SomeVec1+(vector){.1,0,0};}
+void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
 
 void OnProgramStart()
 {
@@ -320,12 +361,14 @@ void OnProgramStart()
 	setFont(Calibri18);
 	SomeVec1 = {0,0,0};
 	SomeVec2 = {2,5,5};
-	for(int I=0;I<256;I++){Binds[I]=NULL;}
-	Binds['T'] = &Test1;
-	Binds['W'] = &camForward;
-	Binds['A'] = &camRight;
-	Binds['S'] = &camBack;
-	Binds['D'] = &camLeft;
+	bindKey('T',&Test1,NULL,1);
+	bindKey('W',&camForward,NULL,4);
+	bindKey('A',&camRight,NULL,4);
+	bindKey('S',&camBack,NULL,4);
+	bindKey('D',&camLeft,NULL,4);
+	bindKey(27,&ToggleMouseCapture,NULL,1);
+	mouseCapture = false;
+	CamAngle = {0,{0,0,1}};
 	
 	bground.r = 142;
 	bground.g = 187;
@@ -378,22 +421,105 @@ void ProcessMouseclick(int mb)
    // GUIM.click(NULL, mb);
 }
 
-bool ParseKey(unsigned char kb)
+bool ParseKey(int kb)
 {
-	if(Binds[kb]!=NULL)
+	if(kb>0)
 	{
-		Binds[kb](NULL);
-		return true;
+		switch(Binds[kb].mode)
+		{
+			case 1://press/release
+				if(!Binds[kb].keyDown&&Binds[kb].onPress){Binds[kb].onPress(NULL);}
+				break;
+			case 2://rising edge
+				if(!Binds[kb].keyDown)
+				{
+					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				}
+				break;
+			case 3://falling edge
+			    //do nothing
+				break;
+			case 4://every tick
+				//do nothing, handled elsewere.
+				break;
+			case 5://whenever windows tells us
+				if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+				break;
+		}
+		Binds[kb].keyDown = true;
 	}
-	return false;
+	else
+	{
+		kb = -kb;
+		switch(Binds[kb].mode)
+		{
+			case 1://press/release
+				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+			case 2://rising edge
+				//do nothing
+				break;
+			case 3://falling edge
+			    if(Binds[kb].keyDown)
+				{
+					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				}
+				break;
+			case 4://every tick
+				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+			case 5://whenever windows tells us
+				if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+		}
+		Binds[kb].keyDown = false;
+	}
+	if(Binds[kb].onPress||Binds[kb].onRelease){return true;}else{return false;}
+}
+
+void InputTick()
+{
+	for(int I = 0;I<256;I++)
+	{
+		if(Binds[I].keyDown&&(Binds[I].mode==4)&&Binds[I].onPress)
+		{
+			Binds[I].onPress(NULL);
+		}
+	}
+	//also lower 16-ish keys are non-mapped, lets use em for mouse
+	//1 - mouse1
+	//2 - mouse2
+	//3 - mouse3
+	//4 - mouse wheel up
+	//5 - mouse wheel down
+	//6 - mouseY updated
+	//7 - mouseX updated
+	//now do mouse!
+	if(mouseCapture)
+	{
+		//get delta from center and then re-center!
+		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
+		SomeVec2 = SomeVec2 + (vector){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
+		CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
+		if(CamAngle.w>360){CamAngle.w=0;}
+		if(CamAngle.w<0){CamAngle.w=360;}
+		SetCursorPos(windowCenter.x,windowCenter.y);
+	}
 }
 
 void ProcessKeyboard(int kb)
 {
-	int letter = MapVirtualKey((unsigned int)kb,2);
-	if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
-	
-	if(!GUIbase::propagateKeyboard(letter)&&!ParseKey(kb))
+	int letter = 0;
+	if(kb>0)
+	{
+		letter = MapVirtualKey((unsigned int)kb,2);
+		if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
+	}
+	bool b = false;
+	if(kb>0){b = GUIbase::propagateKeyboard(letter);}
+	if(!b&&!ParseKey(kb))
 	{
 		char str[64];
 		sprintf(str,"Unbound key: %d = [%c]/[%c]",kb,(char)kb,letter);
@@ -423,8 +549,9 @@ void Render2D()
 void Render3D()
 {
     glPushMatrix();
+	glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
 	glTranslated(SomeVec1.x,SomeVec1.z,SomeVec1.y);
-    glRotatef(theta, 0.0f, 0.0f, 1.0f);
+    //glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
 
@@ -549,12 +676,21 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	POINT cursorPos;
 	GetWindowRect(hwnd, &rect);
     GetCursorPos(&cursorPos);
-    mousePos.x = cursorPos.x-rect.left-7;
+    windowCorner.x = rect.left+7;
+	windowCorner.y = rect.top+29;
+	
+	mousePos.x = cursorPos.x-rect.left-7;
     mousePos.y = cursorPos.y-rect.top-29;
 
+	
     GetClientRect(hwnd, &rect);
 	width = rect.right;
 	height = rect.bottom;
+	windowSize.x = width;
+	windowSize.y = height;
+	windowCenter.x = windowCorner.x+width/2;
+	windowCenter.y = windowCorner.y+height/2;
+	InputTick();
     RenderTick(hDC);
 }
 
