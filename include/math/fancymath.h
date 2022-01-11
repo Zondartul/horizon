@@ -17,16 +17,16 @@ using std::pair;
 //	results - new positions for all rectangles given.
 //	packed - list of indices of only those rectangles that could actually fit here.
 //	heightNeeded - given the bin's width, this is the height necessary and sufficient to fit all items.
-void pack2D(vector<vec2i> sizes, 
-			vec2i binsize, 
+void pack2D(vector<vec2> sizes, 
+			vec2 binsize, 
 			bool sort, 
-			vector<vec2i> *results, 
+			vector<vec2> *results, 
 			vector<int> *packed, 
 			int *heightNeeded);
 
 //returns the smallest power-of-two square that can
 //fit all the rectangles.
-vec2i pack2DfindClosestPOT(vector<vec2i> sizes, bool sort);
+vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
 
 
 //'nearest' interpolation between multiple values. values must be sorted.

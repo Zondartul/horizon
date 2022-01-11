@@ -17,12 +17,15 @@
 
 rcmd1_c_impl(coloring,bool);
 rcmd1_c_impl(transparency,bool);
+rcmd1_c_impl(depthmask,bool);
 rcmd1_c_impl(texturing,bool);
 rcmd1_c_impl(debug,bool);
 rcmd1_c_impl(scissoring,bool);
 rcmd1_c_impl(depth_test,bool);
+rcmd1_c_impl(lighting,bool);
 
-rcmd1_c_impl(color,vec3f);
+rcmd1_c_impl(layer,renderLayer*);
+rcmd1_c_impl(color,vec3);
 rcmd1_c_impl(alpha,float);
 rcmd1_c_impl(texture_select,texture*);
 rcmd1_c_impl(font_select,font*);
@@ -31,11 +34,15 @@ rcmd1_c_impl(text_pos,vec2);
 rcmd1_c_impl(scissor,rect);
 rcmd1_c_impl(pointsize,float);
 rcmd1_c_impl(linewidth,float);
+rcmd1_c_impl(sun_pos,vec3);
+rcmd1_c_impl(sun_light_color,vec3);
+rcmd1_c_impl(ambient_light_color,vec3);
 rcmd1_c_impl(texture_upload,texture*);
 rcmd1_c_impl(rmodel_upload,rmodel*);
 rcmd1_c_impl(rmodel_delete,rmodel*);
-rcmd1_c_impl(projection,mat4);
+rcmd1_c_impl(projection,camprojection);
 rcmd1_c_impl(position,vec3);
+rcmd1_c_impl(rotation,vec3);
 rcmd1_c_impl(scale,vec3);
 rcmd0_c_impl(clear_screen);
 rcmd1_c_impl(rmodel_render,rmodel*);
@@ -48,6 +55,9 @@ void renderLayer::clear(){
 		delete *I;
 	}
 	queue.clear();
+}
+void renderLayer::reset(){
+	queue.push_back(new rcmd_layer(resetLayer));
 }
 void renderLayer::print(){
 	int J = 0;

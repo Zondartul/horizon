@@ -1,7 +1,7 @@
 #include "fancymath.h"
 #include <algorithm>
 
-void pack2D(vector<vec2i> sizes, vec2i binsize, bool sort, vector<vec2i> *results, vector<int> *packed, int *heightNeeded){
+void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, vector<int> *packed, int *heightNeeded){
 	vector<int> sorted;
 	results->clear();
 	packed->clear();
@@ -63,7 +63,7 @@ void pack2D(vector<vec2i> sizes, vec2i binsize, bool sort, vector<vec2i> *result
 		return;
 }
 
-vec2i pack2DfindClosestPOT(vector<vec2i> sizes, bool sort){
+vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort){
 	//obviously, the POT can't have a smaller area
 	//than all the rectangles put together.
 	int area = 0;
@@ -73,7 +73,7 @@ vec2i pack2DfindClosestPOT(vector<vec2i> sizes, bool sort){
 	int side = ceil(sqrt(area));
 	int n = log2ceil(side);
 	
-	vector<vec2i> results;
+	vector<vec2> results;
 	vector<int> packed;
 	int heightNeeded;
 	do{

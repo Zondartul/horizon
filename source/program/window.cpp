@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include "inputController.h"
 #include "GUI.h"
+#include "input.h"
 extern GUIbase *GUI;
 
 int height;
@@ -82,8 +83,6 @@ void sysMessageBlankTick(){
 	}
 }
 
-
-extern eventChannel inputChannel;
 
 void sysMessageTick(){
 	SDL_Event sdl_event;
@@ -171,13 +170,13 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		inputChannel.publishMaskableEvent(event);
+		inputChannel->publishEventSequentialMaskable(event);
 		//inputController.onEvent(event);
 		//if(GUI){GUI->onEvent(event);}
 	}
 }
 
-vec2i getScreenSize(){
+vec2 getScreenSize(){
 	//int h;
 	//int w;
 	SDL_GetWindowSize(mainWindow, &width, &height);

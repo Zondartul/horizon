@@ -13,6 +13,9 @@ using std::string;
 //extern bool physics;
 #include "stdlib.h"
 #include "simplemath.h"
+#include "stringUtils.h"
+#include "entity.h"
+#include "input.h"
 /*
 //mousecapture:
 
@@ -35,9 +38,6 @@ using std::string;
 		
 */
 
-
-extern eventChannel inputChannel;
-extern eventChannel globalChannel;
 inputControllerKind::inputControllerKind(){
 	mousecapture=forward=backward=left=right=up=down=false;
 	//character = 0;
@@ -53,14 +53,14 @@ inputControllerKind::inputControllerKind(){
 	targetspeed = speeds.fly_normal;
 	accelerating = false;
 	warp = 1;
-	inputChannel.addListener(this);
-	globalChannel.addListener(this);
+	inputChannel->addListener(this);
+	globalChannel->addListener(this);
 }
 inputControllerKind::~inputControllerKind(){}
 /*
 void resetBox(){
 	if(physbodies.size()){
-		physbodies[0]->setPos(camera.pos+((vec3f){2,0,0}).rotate(camera.rot));
+		physbodies[0]->setPos(camera.pos+((vec3){2,0,0}).rotate(camera.rot));
 		physbodies[0]->setRot(camera.rot);
 		physbodies[0]->setVel({0,0,0});
 		physbodies[0]->setAngVel({0,0,0});
@@ -71,32 +71,43 @@ void resetBox(){
 void inputControllerKind::think(){
 /*
 	if(character){
-		vec3f dpos = speed*((vec3f){forward-backward,left-right,up-down}).rotate(camera.rot);
+		vec3 dpos = speed*((vec3){forward-backward,left-right,up-down}).rotate(camera.rot);
 		character->setWalkDir(dpos);
 		if(up){character->jump(0.5);}
 		camera.setPos(character->getEyePos());
 	}else{
-		vec3f dpos = flyspeed*((vec3f){forward-backward,left-right,up-down}).rotate(camera.rot);
+		vec3 dpos = flyspeed*((vec3){forward-backward,left-right,up-down}).rotate(camera.rot);
 		setPos(camera.pos+dpos);
 	}
 	*/
-	vec3f targetvel = warp*targetspeed*((vec3f){forward-backward,left-right,up-down}).rotate(camera.rot);
-	if(targetvel.length() && accelerating){warp = warp *(1+(0.25f)/60.f);}
+	//vec3 targetvel = warp*targetspeed*vec3(forward-backward,left-right,up-down);
+	
+	vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*camera.rot));
+	if(length(targetvel) && accelerating){warp = 10.f;}//{warp = warp *(1+(0.25f)/60.f);}
 	else{warp = 1.f;}
-	vec3f dv = targetvel - velocity;
+	vec3 dv = targetvel - velocity;
 	//weird-ass acceleration formula
 	//tl;dr:
 	//if dv is less than max acceleration, just use dv.
 	//if dv is more than max acceleration, 
 	//		then limit dv to max acceleration, scaled so things that are already fast accelerate quicker.
-	if(dv.length() > speeds.fly_acceleration){dv = dv.norm()*speeds.fly_acceleration*(max(velocity.length()/speeds.fly_normal,1));}
+	if(length(dv) > speeds.fly_acceleration){
+		//dv = normalize(dv)*speeds.fly_acceleration*(max(velocity.length()/speeds.fly_normal,1));
+		vec3 dir = normalize(dv);
+		float acc = speeds.fly_acceleration;
+		float vel_len = length(velocity);
+		float fly_ratio = vel_len / speeds.fly_normal;
+		float acc_coeff = max(fly_ratio,1);
+		dv = dir*acc*acc_coeff;
+	}
 	velocity = velocity+dv;
-	vec3f dpos = velocity;
+	//velocity = targetvel;
+	vec3 dpos = velocity;
 	setPos(camera.pos+dpos);
 	//resetBox();
 	//printf("(%f,%f,%f),<(%f,%f,%f)\n",camera.pos.x,camera.pos.y,camera.pos.z,camera.rot.x,camera.rot.y,camera.rot.z);
 }
-void inputControllerKind::setPos(vec3f pos){
+void inputControllerKind::setPos(vec3 pos){
 	/* if(character){
 		character->setPos(pos);
 		camera.setPos(character->getEyePos());
@@ -105,38 +116,38 @@ void inputControllerKind::setPos(vec3f pos){
 	} */
 	camera.setPos(pos);
 }
-void inputControllerKind::aimRelative(vec3f aim){
+void inputControllerKind::aimRelative(vec3 aim){
 	float aimspeed = 0.2;
 	camera.setRot(camera.rot + aim*aimspeed);
 }
-void inputControllerKind::aim(vec3f aim){
+void inputControllerKind::aim(vec3 aim){
 	camera.setRot(aim);
 }
 void inputControllerKind::toggleMouseCapture(){
 	mousecapture = !mousecapture;
-	if(mousecapture){inputChannel.moveListenerToFront(this);} //temporary hack
-	else{inputChannel.moveListenerToBack(this);}
+	if(mousecapture){inputChannel->moveListenerToFront(this);} //temporary hack
+	else{inputChannel->moveListenerToBack(this);}
 	printf("mousecapture = %d\n",mousecapture);
 	setMouseRelativeMode(mousecapture);
 }
 
 /*
 void spawnBox(){
-	vec3f pos = camera.pos+camera.forward()*camera.eyetrace(2.0)+(vec3f){0,0,0.75};
+	vec3 pos = camera.pos+camera.forward()*camera.eyetrace(2.0)+(vec3){0,0,0.75};
 	new physbody(
-	pos,//camera.pos+((vec3f){1,0,0}).rotate(camera.rot),
-	(vec3f){0,0,0},
-	(vec3f){1,1,1}*0.75,
+	pos,//camera.pos+((vec3){1,0,0}).rotate(camera.rot),
+	(vec3){0,0,0},
+	(vec3){1,1,1}*0.75,
 	getModel("box"));
 }
 */
 
 /*
 void experiment1(){
-	vec3f O = camera.pos+camera.forward()*1;
-	vec3f A = O+(vec3f){1,0,0};
-	vec3f B = O+(vec3f){0,1,0};
-	vec3f C = O+(vec3f){0,0,1};
+	vec3 O = camera.pos+camera.forward()*1;
+	vec3 A = O+(vec3){1,0,0};
+	vec3 B = O+(vec3){0,1,0};
+	vec3 C = O+(vec3){0,0,1};
 	renderContext{
 		setColor({255,0,0});
 		drawLine3D(O,A);
@@ -159,7 +170,7 @@ void inputControllerKind::onEvent(eventKind event){
 		//printf("[%s]",K.c_str());
 		if(K == "Escape"){event.maskEvent();exit(0);}
 		if(K == "E"){event.maskEvent();toggleMouseCapture();return;}
-		if(K == "R"){event.maskEvent();setPos({0,0,0});aim({0,0,0});return;}
+		//if(K == "R"){event.maskEvent();setPos({0,0,0});aim({0,0,0});entities.clear();return;}
 		if(K == "W"){event.maskEvent();forward = true;return;}
 		if(K == "S"){event.maskEvent();backward = true;return;}
 		if(K == "A"){event.maskEvent();left = true;return;}
@@ -174,7 +185,7 @@ void inputControllerKind::onEvent(eventKind event){
 		//if(K == "C"){if(character){character = 0;}else{character = new physCharacter();setPos(camera.pos);}return;}
 		if(K == "T"){
 			event.maskEvent();
-			setPos(camera.pos+camera.forward()*camera.eyetrace(100)+(vec3f){0,0,0.5});
+			setPos(camera.pos+camera.forward()*camera.eyetrace(100)+(vec3){0,0,0.5});
 			//if(character){character->toggleFly();character->toggleFly();}
 			return;
 		}
@@ -240,7 +251,7 @@ void inputControllerKind::sdl_event(SDL_Event event){
 	}
 } */
 
-inputControllerKind inputController;
+inputControllerKind *inputController;
 
 
 void captureKeyboard(eventListener *L){keyboardCaptured = true;}

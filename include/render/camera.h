@@ -44,20 +44,25 @@ enum z_meaning {Z_IS_DISTANCE, Z_IS_PLANE, Z_IS_ORTHODOX};
 //when z is orthodox, screen (100,100,1) is on a zFar plane.
 //when world point is outside view frustum (znear..zfar and fov) results may be invalid.
 
+struct camprojection{
+	mat4 MVP;
+	vec3 pos;
+};
+
 class cameraKind{ //sets up the view and projection matrix, nothing else
 public:
 	glm::mat4 mView;			//world to camera
-	glm::mat4 mProjection;	//camera to screen
-	vec3f pos;
-	vec3f rot;
+	glm::mat4 mProjection;		//camera to screen
+	vec3 pos;
+	vec3 rot;
 	float fov;
 	float scale;
 	bool mode3D;
 	bool perspective;
 	cameraKind();
-	vec3f forward();
-	vec3f up();
-	vec3f right();
+	vec3 forward();
+	vec3 up();
+	vec3 right();
 	//float distToZ(float dist);
 	vec3 worldToDevice(vec3 worldpos);
 	vec3 deviceToWorld(vec3 devpos);
@@ -69,8 +74,8 @@ public:
 	vec3 getMouseDir();
 	float eyetrace(float maxdist);
 	void reposition();
-	void setPos(vec3f newpos);
-	void setRot(vec3f newrot);
+	void setPos(vec3 newpos);
+	void setRot(vec3 newrot);
 	void setFov(float newfov);
 	void setScale(float newscale);
 	void go2D();
@@ -78,6 +83,7 @@ public:
 	void goPerspective();
 	void goOrtho();
 	void screenshot();
+	camprojection getProjection();
 };
 extern cameraKind camera;
 

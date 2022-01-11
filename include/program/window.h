@@ -5,7 +5,7 @@
 //assuming single window for now (unless headless)
 extern int width;
 extern int height;
-vec2i getScreenSize();
+vec2 getScreenSize();
 
 void OpenGL_printVersion();
 void OpenGL_getVersion(const unsigned char **version, const char **profile);

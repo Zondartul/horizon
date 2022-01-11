@@ -28,12 +28,13 @@ string locateResource(const char *type, const char *name){
 	string abspath = basepath;
 	string resourcepath = "../resource/";
 	string T = type;
-	if(T == "font"){abspath += string()+resourcepath+"fonts/" + name + ".ttf";}
-	if(T == "texture"){abspath += string()+resourcepath+"textures/" + name + ".jpg";}
-	if(T == "model"){abspath += string()+resourcepath+"models/" + name + "/" + name + ".obj";}
+	if(T == "font"){abspath = basepath + string()+resourcepath+"fonts/" + name + ".ttf";}
+	if(T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".jpg";}
+	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" + name + "/" + name + ".obj";}
 	
 	//printf("locateResource: attempting [%s]\n",abspath.c_str());
 	FILE *f = fopen(abspath.c_str(),"rb");
+	if(!f && T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".png"; f = fopen(abspath.c_str(),"rb");}
 	if(f){
 		printf("%s \"%s\" found\n",type,name);
 	}else{

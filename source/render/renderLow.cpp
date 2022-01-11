@@ -39,8 +39,14 @@ struct renderStateKind{
 	font *f = 0;
 	vec2 textPos = vec2(0,0);
 	vec3 pos = vec3(0,0,0);
+	vec3 rot = vec3(0,0,0);
 	vec3 scale = vec3(1,1,1);
 	mat4 VP;
+	vec3 camPos = vec3(0,0,0);
+	//bool lighting = false;
+	//vec3 sun_pos = vec3(1,1,1);
+	//vec3 sun_light_color = 0.9f*vec3(1,1,1);
+	//vec3 ambient_light_color = 0.1f*vec3(1,1,1);
 	/*
 	renderStateKind(){
 		renderMode = 1;
@@ -149,7 +155,9 @@ void renderLowInit(){
 	glEnableVertexAttribArray(2);
 	glEnableVertexAttribArray(3);
 
-	locations["MVP"] = 0;
+	locations["VP"] = 0;
+	locations["M"] = 0;
+	locations["Mrot"] = 0;
 	locations["Tex"] = 0;
 	locations["texturingOn"] = 0;
 	locations["coloringOn"] = 0;
@@ -161,6 +169,11 @@ void renderLowInit(){
 	locations["globalAlpha"] = 0;
 	locations["scissoringOn"] = 0;
 	locations["scissor"] = 0;
+	locations["lightingOn"] = 0;
+	locations["sunPos"] = 0;
+	locations["sunColor"] = 0;
+	locations["ambientColor"] = 0;
+	locations["WorldCamPos"] = 0;
 	for(auto I = locations.begin(); I != locations.end(); I++){
 		I->second = glGetUniformLocation(programHandle,I->first.c_str());
 		printf("uniform '%s' at '%d'\n",I->first.c_str(),I->second);
@@ -172,7 +185,7 @@ void renderLowInit(){
 
 void projectionToCamera(){
 	//renderCmd(RCMD::PROJECTION, m = camera.mProjection*camera.mView);
-	rqueue->push_back(new rcmd_projection(camera.mProjection*camera.mView));
+	rqueue->push_back(new rcmd_projection(camera.getProjection()));
 }
 
 // void unloadModel(rmodel *rm){
@@ -230,13 +243,20 @@ void renderParseQueue(renderQueue *rqueue){
 	//rqueue->clear();
 }
 
+void rcmd_layer::execute(){
+	if(val){
+		renderLayer *L = (renderLayer*)val;
+		L->render();
+	}
+}
+
 void rcmd_coloring::execute(){
-	if(debug){printf("coloring %d\n",val);}
+	//if(debug){printf("coloring %d\n",val);}
 	glUniform1i(locations["coloringOn"],val);
 }
 
 void rcmd_transparency::execute(){
-	if(debug){printf("transparency %d\n",val);}
+	//if(debug){printf("transparency %d\n",val);}
 	if(val){
 		glEnable(GL_BLEND); 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -246,39 +266,70 @@ void rcmd_transparency::execute(){
 	glUniform1i(locations["transparencyOn"],val);
 }
 
+void rcmd_depthmask::execute(){
+	if(val){
+		glDepthMask(GL_TRUE);
+	}else{
+		glDepthMask(GL_FALSE);
+	}
+}
+
 void rcmd_texturing::execute(){
-	if(debug){printf("texturing %d\n",val);}
+	//if(debug){printf("texturing %d\n",val);}
 	glUniform1i(locations["texturingOn"],val);
 }
 
 void rcmd_debug::execute(){
-	if(debug){printf("debugging %d\n",val);}
+	//if(debug){printf("debugging %d\n",val);}
 	glUniform1i(locations["debuggingOn"],val);
 }
 
 void reproject(){
-	mat4 MVP = renderState.VP;
-	MVP = glm::translate(MVP, renderState.pos);
-	MVP = glm::scale(MVP,renderState.scale);
-	glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&MVP);
+	vec3 mpos = renderState.pos;
+	float mrot_ang = length(renderState.rot);
+	vec3 mrot_axis = normalizeSafe(renderState.rot);
+	vec3 mscale = renderState.scale;
+	mat4 VP = mat4();
+	mat4 M = mat4();
+	mat4 Mrot = mat4();
+	
+	VP = renderState.VP;
+	M = glm::translate(mat4(), mpos);
+	if(mrot_ang){M = glm::rotate(M,mrot_ang,mrot_axis);}
+	M = glm::scale(M,mscale);
+	
+	if(mrot_ang){Mrot = glm::rotate(mat4(),mrot_ang,mrot_axis);}
+	
+	vec3 campos = renderState.camPos;
+	
+	glUniformMatrix4fv(locations["VP"],1,GL_FALSE,(const GLfloat*)&VP);
+	glUniformMatrix4fv(locations["M"],1,GL_FALSE,(const GLfloat*)&M);
+	glUniformMatrix4fv(locations["Mrot"],1,GL_FALSE,(const GLfloat*)&Mrot);
+	glUniform3fv(locations["WorldCamPos"],1,(const GLfloat*)&campos);
 }
 
 void rcmd_projection::execute(){
-	if(debug){printf("projection\n");}
-	renderState.VP = val;
+	//if(debug){printf("projection\n");}
+	renderState.VP = val.MVP;
+	renderState.camPos = val.pos;
 	reproject();
 	//glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&val);
 }
 
 void rcmd_position::execute(){
-	if(debug){printf("position\n");}
+	//if(debug){printf("position\n");}
 	renderState.pos = val;
 	reproject();
 	
 }
 
+void rcmd_rotation::execute(){
+	renderState.rot = val;
+	reproject();
+}
+
 void rcmd_scale::execute(){
-	if(debug){printf("scale\n");}
+	//if(debug){printf("scale\n");}
 	renderState.scale = val;
 	reproject();
 }
@@ -303,13 +354,17 @@ GLenum pixelFormatToGL(pixelFormat F){
 	}
 	return (int)F;
 }
-
+int num_textures = 0;
+long bytes_textures = 0;
 void rcmd_texture_upload::execute(){
 	texture *t = val;
 	if(!val){error("attempt to upload null texture\n");}
 	if(texture_GPU_handles.count(t)){return;}//texture already uploaded.
 	if(bitmap_GPU_handles.count(t->bmp)){return;}//texture already uploaded.
 	if(t->bmp){
+		while(glGetError() != GL_NO_ERROR){}
+		num_textures++;
+		bytes_textures += t->bmp->width*t->bmp->height*4;
 		GLuint textureID;
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D,textureID);
@@ -318,6 +373,13 @@ void rcmd_texture_upload::execute(){
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		bitmap_GPU_handles[t->bmp] = textureID;
 		printf("texture '%s' uploaded: %d (%dx%d)\n",t->name.c_str(),textureID,t->bmp->height,t->bmp->width);
+		
+		int err = glGetError();
+		if(err){
+			if(err == GL_OUT_OF_MEMORY){error("Error: GL_OUT_OF_MEMORY");}
+			string errstr = string()+"GL Error: "+err;
+			error(errstr.c_str());
+		}
 	}else{
 		error("no texture data to upload (%s)\n",t->name.c_str());
 	}
@@ -348,10 +410,13 @@ void rcmd_texture_select::execute(){
 	glUniform2fv(locations["TexSize"],1,(GLfloat*)&size);
 }
 
+int num_rmodels = 0;
+long bytes_rmodels = 0;
+
 void rcmd_rmodel_upload::execute(){
 	rmodel *rm = val;
 	if(!val){error("attempt to upload null rmodel\n");}
-	if(debug){printf("uploading rmodel %p\n",rm);}
+	//if(debug){printf("uploading rmodel %p\n",rm);}
 	if(
 		(!rm->vertices)||(!rm->normals)||(!rm->colors)||(!rm->uvs)||
 		(rm->normals->size() != rm->vertices->size())||
@@ -360,8 +425,12 @@ void rcmd_rmodel_upload::execute(){
 	){
 		error("trying to upload incomplete rmodel");
 	}
+	num_rmodels++;
+	bytes_rmodels += rm->vertices->size()*4*11;
+	while(glGetError() != GL_NO_ERROR){}
 	GLuint handles[4];
 	glGenBuffers(4,handles); //fills handle[0,1,2,3].
+	
 	
 	//verts
 	glBindBuffer(GL_ARRAY_BUFFER, handles[0]);
@@ -384,12 +453,19 @@ void rcmd_rmodel_upload::execute(){
 	glBufferData(GL_ARRAY_BUFFER, rm->vertices->size()*sizeof(vec2), rm->uvs->data(), GL_STATIC_DRAW);
 
 	for(int i = 0; i<4; i++){rmodel_GPU_handles[rm][i] = handles[i];}
+	
+	int err = glGetError();
+	if(err){
+		if(err == GL_OUT_OF_MEMORY){error("Error: GL_OUT_OF_MEMORY");}
+		string errstr = string()+"GL Error: "+err;
+		error(errstr.c_str());
+	}
 }
 
 void rcmd_rmodel_render::execute(){
 	rmodel *rm = val;
 	if(!val){error("attempt to render null rmodel\n");}
-	if(debug){printf("rendering rmodel %p\n",rm);}
+	//if(debug){printf("rendering rmodel %p\n",rm);}
 	GLuint handles[4];
 	for(int i = 0; i<4; i++){handles[i] = rmodel_GPU_handles[rm][i];}
 	//verts
@@ -424,7 +500,9 @@ void rcmd_rmodel_render::execute(){
 void rcmd_rmodel_delete::execute(){
 	rmodel *rm = val;
 	if(!val){error("attempt to delete null rmodel\n");}
-	if(debug){printf("deleting rmodel %p\n",rm);}
+	//if(debug){printf("deleting rmodel %p\n",rm);}
+	num_rmodels--;
+	bytes_rmodels -= rm->vertices->size()*4*11;
 	GLuint handles[4];
 	for(int i = 0; i<4; i++){handles[i] = rmodel_GPU_handles[rm][i];}
 	glDeleteBuffers(4,handles);
@@ -432,19 +510,19 @@ void rcmd_rmodel_delete::execute(){
 }
 
 void rcmd_clear_screen::execute(){
-	if(debug){printf("clearing screen\n");}
+	//if(debug){printf("clearing screen\n");}
 	glClearColor(125/255.0f,206/255.0f,250/255.0f,1.0f);
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
 void rcmd_scissoring::execute(){
-	if(debug){printf("scissoring: %d\n",val);}
+	//if(debug){printf("scissoring: %d\n",val);}
 	glUniform1i(locations["scissoringOn"],val);
 }
 
 void rcmd_color::execute(){
-	if(debug){printf("set color to %d %d %d\n",val.x,val.y,val.z);}
-	vec3f val2 = val;
+	//if(debug){printf("set color to %d %d %d\n",val.x,val.y,val.z);}
+	vec3 val2 = val;
 	val2.x /= 255.0f;
 	val2.y /= 255.0f;
 	val2.z /= 255.0f;
@@ -452,29 +530,29 @@ void rcmd_color::execute(){
 }
 
 void rcmd_alpha::execute(){
-	if(debug){printf("set alpha to %f\n",val);}
+	//if(debug){printf("set alpha to %f\n",val);}
 	float val2 = val/255.0f;
 	glUniform1fv(locations["globalAlpha"],1,(const GLfloat*)&val2);
 }
 
 void rcmd_font_select::execute(){
 	if(!val){error("attempt to select null font\n");}
-	if(debug){printf("selecting font %s (%p)\n",val->name.c_str(),val);}
+	//if(debug){printf("selecting font %s (%p)\n",val->name.c_str(),val);}
 	renderState.f = val;
 }
 
 void rcmd_mode_select::execute(){
-	if(debug){printf("selecting render mode %d\n",val);}
+	//if(debug){printf("selecting render mode %d\n",val);}
 	renderState.renderMode = val;
 }
 
 void rcmd_text_pos::execute(){
-	if(debug){printf("set text pos to %f,%f\n",val.x,val.y);}
+	//if(debug){printf("set text pos to %f,%f\n",val.x,val.y);}
 	renderState.textPos = val;
 }
 
 void rcmd_scissor::execute(){
-	if(debug){printf("set scissor to %dx%d\n",val.size.x,val.size.y);}
+	//if(debug){printf("set scissor to %dx%d\n",val.size.x,val.size.y);}
 	float R[4];
 	//R[0] = val.start.x;
 	//R[1] = val.start.y;
@@ -492,17 +570,17 @@ void rcmd_scissor::execute(){
 	glUniform4fv(locations["scissor"],1,(const GLfloat*)&R);
 }
 void rcmd_pointsize::execute(){
-	if(debug){printf("set point size to %f\n",val);}
+	//if(debug){printf("set point size to %f\n",val);}
 	glPointSize(val);
 }
 
 void rcmd_linewidth::execute(){
-	if(debug){printf("set line width to %f\n",val);}
+	//if(debug){printf("set line width to %f\n",val);}
 	glLineWidth(val);
 }
 
 void rcmd_print_text::execute(){
-	if(debug){printf("printing text '%s'\n",val.c_str());}
+	//if(debug){printf("printing text '%s'\n",val.c_str());}
 	if(!renderState.f){error("no font selected\n");}
 	//for convenience, ignores 
 	auto m = renderState.renderMode;
@@ -517,10 +595,22 @@ void rcmd_comment::execute(){
 }
 
 void rcmd_depth_test::execute(){
-	if(debug){printf("set depth test %d\n",val);}
+	//if(debug){printf("set depth test %d\n",val);}
 	if(val){glEnable(GL_DEPTH_TEST);}
 	else{glDisable(GL_DEPTH_TEST);}
 }
+
+void rcmd_lighting::execute()			{glUniform1i( locations["lightingOn"],val);}//{renderState.lighting = val;}
+void rcmd_sun_pos::execute(){
+	//vec4 vp = vec4(val,0)*renderState.VP;
+	//vp /= vp.w;
+	//val = vp;
+	val = normalize(val);
+	
+	glUniform3fv(locations["sunPos"],1,(const GLfloat*)&val);
+}//{renderState.sun_pos = val;}
+void rcmd_sun_light_color::execute()	{glUniform3fv(locations["sunColor"],    1,(const GLfloat*)&val);}//{renderState.sun_brightness = val;}
+void rcmd_ambient_light_color::execute(){glUniform3fv(locations["ambientColor"],1,(const GLfloat*)&val);}//{renderState.ambient_brightness = val;}
 // void uploadModel(rmodel *rm){
 	
 	////the number of primitives in a model is determined

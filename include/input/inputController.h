@@ -9,7 +9,7 @@
 class inputControllerKind:public eventListener{ //if there is a user (not headless), this does his thing.
 	public:
 	bool forward,backward,left,right,up,down;
-	vec3f velocity;
+	vec3 velocity;
 	float targetspeed,warp;
 	bool accelerating;
 	struct{
@@ -26,9 +26,9 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 	inputControllerKind();
 	~inputControllerKind();
 	void think();
-	void setPos(vec3f pos);
-	void aimRelative(vec3f aim);
-	void aim(vec3f aim);
+	void setPos(vec3 pos);
+	void aimRelative(vec3 aim);
+	void aim(vec3 aim);
 	void toggleMouseCapture();
 	void onEvent(eventKind event);
 	//physCharacter *character;
@@ -37,6 +37,6 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 void captureKeyboard(eventListener *L);
 void releaseKeyboard();
 
-extern inputControllerKind inputController;
+extern inputControllerKind *inputController;
 
 #endif

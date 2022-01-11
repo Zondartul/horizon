@@ -142,6 +142,7 @@ font *loadFont(const char *fontpath, int size){
 	for(int I = 0; I < 255; I++){
 		if(isprint(I)){
 			bitmap BMP = generateGlyphBitmap(I);
+			//printf("char %c size: %dx%d\n", I,BMP.height,BMP.width);
 			BMPs.push_back(BMP);
 		}
 	}
@@ -156,8 +157,8 @@ font *loadFont(const char *fontpath, int size){
 	font *F = new font();
 	int maxy=0;
 	int J = 0;
-	vec2i start = {0,0};
-	vec2i end = {0,0};
+	vec2 start = {0,0};
+	vec2 end = {0,0};
 	bool first = 0;
 	for(int I = 0; I < 255; I++){
 		if(isprint(I)){
@@ -168,8 +169,9 @@ font *loadFont(const char *fontpath, int size){
 			int hscale = BMP->height;
 			int wscale = BMP->width;
 			rect AUV = A.UVs[J++];
-			t->UV = rectf({1.0f*AUV.start.x/wscale,1.0f*AUV.start.y/hscale},{1.0f*AUV.end.x/wscale,1.0f*AUV.end.y/hscale});
-			
+			t->UV = rect(vec2(1.0f*AUV.start.x/wscale,1.0f*AUV.start.y/hscale),vec2(1.0f*AUV.end.x/wscale,1.0f*AUV.end.y/hscale));
+			//t->UV = t->UV.setSize(-t->UV.size);
+			//printf("t->UV: %s\n",toString(t->UV).c_str());
 			//rqueue->push_back(new rcmd_texture_upload(t));
 			uploadTexture(t);
 			glyph G;

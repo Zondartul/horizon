@@ -1,34 +1,72 @@
 #ifndef ENTITY_GUARD
 #define ENTITY_GUARD
 #include "vec.h"
+#include "event.h"
+#include "collision.h"
+#include "render.h"
 #include <map>
 #include <list>
 #include <vector>
+#include <string>
 using std::map;
 using std::list;
 using std::vector;
-struct rmodel;
-struct texture;
+using std::string;
+//struct rmodel;
+//struct texture;
+struct octree_visitor;
 
-class component;
+//class component;
+/*
 enum componentType{
-	ecs_position,
-	ecs_rmodel,
-	ecs_texture
+	//ecs_position,
+	//ecs_rmodel,
+	//ecs_texture,
+	//ecs_velocity,
+	//ecs_physics,
+	//ecs_gravity,
+	ecs_collider,
+	//ecs_mass,
+	//ecs_physproperties,
+	//ecs_color,
+	//ecs_octree_visitor,
+	ecs_renderable,
 };
-
-class entity{
-	public:
-	map<componentType, component*> components;
-	entity();
-};
+*/
+struct entity;
 
 extern list<entity*> entities;
 
-class component{
+class entity{
 	public:
-	entity *ent;
+	string name;
+	//map<componentType, component*> components;
+	collisionbody *body = 0;
+	renderable *r = 0;
+	entity();
+	~entity();
+	vec3 getPosition();		void setPosition(vec3 pos);
+	vec3 getVelocity();		void setVelocity(vec3 vel);
+	float getMass();		void setMass(float mass);
+	float getBouncyness();	void setBouncyness(float B);
+	float getFriction();	void setFriction(float friction);
+	vec3 getGravity();		void setGravity(vec3 gravity);
+	vec3 getColor();		void setColor(vec3 color);
 };
+
+void removeEntity(entity *E);
+//class component{
+//	public:
+//	entity *ent;
+//};
+
+//struct physProperties{
+//	float mass;
+//	float bouncyness;
+//	float friction;
+//	physProperties() = default;
+//	physProperties(float mass, float bouncyness, float friction);
+//};
 
 #define decl_component(T,name)						\
 	class component_##name:public component{		\
@@ -60,9 +98,18 @@ class component{
 #define addComponent(E,x,y) {auto val = (y); (E)->components[ecs_##x] = new component_##x(val,(E));}
 
 
-decl_component(vec3, position);
-decl_component(rmodel*, rmodel);
-decl_component(texture*, texture);
+//decl_component(vec3, position);
+//decl_component(rmodel*, rmodel);
+//decl_component(texture*, texture);
+//decl_component(vec3, velocity);
+//decl_component(bool, physics);
+//decl_component(vec3, gravity);
+//decl_component(collisionbody*, collider);
+//decl_component(float, mass);
+//decl_component(physProperties, physproperties);
+//decl_component(vec3, color);
+//decl_component(octree_visitor*, octree_visitor);
+//decl_component(renderable*, renderable);
 /*
 class component_position{
 	public:
@@ -80,9 +127,10 @@ class component_texture{
 	component_position(texture *t, entity *ent);
 };
 */
-class ecs_render_system_kind{
-	public:
-	void render();
-};
-extern ecs_render_system_kind ecs_render_system;
+
+
+
+collisioninfo *raytrace(vec3 from, vec3 dir);
+//extern ecs_physics_system_kind ecs_physics_system;
+
 #endif

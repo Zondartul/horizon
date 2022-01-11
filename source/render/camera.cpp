@@ -25,21 +25,21 @@ cameraKind::cameraKind(){
 	perspective = true;
 	mode3D = true;
 }
-vec3f cameraKind::forward(){
-	return (vec3f){1,0,0}.rotate(camera.rot);
+vec3 cameraKind::forward(){
+	return rotate((vec3){1,0,0},d2r*camera.rot);
 }
-vec3f cameraKind::up(){
-	return (vec3f){0,0,1}.rotate(camera.rot);
+vec3 cameraKind::up(){
+	return rotate((vec3){0,0,1},d2r*camera.rot);
 }
-vec3f cameraKind::right(){
-	return (vec3f){0,1,0}.rotate(camera.rot);
+vec3 cameraKind::right(){
+	return rotate((vec3){0,1,0},d2r*camera.rot);
 }
 float cameraKind::eyetrace(float maxdist){
 	return maxdist;
 	/*
 	float dist;
-	vec3f start,end;
-	vec3f dir = camera.forward();
+	vec3 start,end;
+	vec3 dir = camera.forward();
 	start = camera.pos;
 	end = camera.pos+dir*maxdist;
 	if(!raytrace(start,end,0,&dist)){dist = maxdist;}
@@ -76,21 +76,22 @@ void cameraKind::reposition(){
 		mView = glm::rotate(mView,rot.y*(float)d2r,vec3(0,1,0));
 		mView = glm::rotate(mView,rot.z*(float)d2r,vec3(0,0,1));
 		//move the world away from camera
-		mView = glm::translate(mView,-toVec3(pos));
+		mView = glm::translate(mView,-pos);
+		//printf("pos = %s, rot = %s\n",toString(pos).c_str(),toString(rot).c_str());
 	}else{
 		mView = mat4(1.0f);
 		//mView = glm::translate(mView,vec3(width/2,height/2,0));
 		//glLoadIdentity();
 	}
 }
-void cameraKind::setPos(vec3f newpos){pos = newpos; }//printf("campos: %.3f %.3f %.3f\n",newpos.x,newpos.y,newpos.z);
-void cameraKind::setRot(vec3f newrot){rot = newrot; }//printf("camrot: %.3f %.3f %.3f\n",rot.x,rot.y,rot.z);}
+void cameraKind::setPos(vec3 newpos){pos = newpos; }//printf("campos: %.3f %.3f %.3f\n",newpos.x,newpos.y,newpos.z);
+void cameraKind::setRot(vec3 newrot){rot = newrot; }//printf("camrot: %.3f %.3f %.3f\n",rot.x,rot.y,rot.z);}
 void cameraKind::setFov(float newfov){fov = newfov;}
 void cameraKind::setScale(float newscale){scale = newscale;}
 void cameraKind::go2D(){
 	//glDisable(GL_LIGHTING);
 	mode3D = false;
-	//vec2i scr = getScreenSize();
+	//vec2 scr = getScreenSize();
 	//int height = scr.x;
 	//int width = scr.y;
 	//glMatrixMode(GL_PROJECTION);
@@ -112,7 +113,7 @@ void cameraKind::go2D(){
 void cameraKind::go3D(){
 	//glEnable(GL_LIGHTING);
 	mode3D = true;
-	vec2i scr = getScreenSize();
+	vec2 scr = getScreenSize();
 	//int height = scr.x;
 	//int width = scr.y;
 	/*
@@ -142,18 +143,16 @@ void cameraKind::go3D(){
 	*/
 	//glViewport(0,0,scr.x,scr.y);
 	glViewport(0,0,width,height);
+	float znear = 0.1;
+	float zfar = 10000;	
 	if(perspective){
 		float aspect = ((float)width)/((float)height);
-		float znear = 0.1;
-		float zfar = 100;
 		float left = -znear*tan(fov*d2r/2.0);
 		float right = -left;
 		float bottom = -znear*tan(fov*d2r/2.0)/aspect;
 		float top = -bottom;
 		mProjection = glm::frustum(left,right,bottom,top,znear,zfar);
 	}else{
-		float znear = 0.1;
-		float zfar = 100;
 		float left = -width*scale/2;
 		float right = -left;
 		float bottom = -height*scale/2;
@@ -173,7 +172,7 @@ void cameraKind::goOrtho(){
 }
 void cameraKind::screenshot(){
 	printf("ss init\n");
-	vec2i scr = getScreenSize();
+	vec2 scr = getScreenSize();
 	int width = scr.x;
 	int height = scr.y;
 	unsigned char *buff = (unsigned char*)malloc(sizeof(unsigned char)*width*height*3);
@@ -224,7 +223,7 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 	float x = scrpos.x;
 	float y = scrpos.y;
 	float z = scrpos.z;
-	vec2 scr = toVec2((vec2f)getScreenSize());
+	vec2 scr = (vec2)getScreenSize();
 	float zfar = 100.f;
 	float zfar_true,zratio;
 	vec3 osdw,wtd;
@@ -242,15 +241,15 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 		break;
 		case(Z_IS_DISTANCE):
 			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
-			wtd = worldToDevice(toVec3(camera.pos)+normalize(osdw-toVec3(camera.pos))*scrpos.z);
+			wtd = worldToDevice(camera.pos+normalize(osdw-camera.pos)*scrpos.z);
 			return wtd;
 		break;
 		case(Z_IS_PLANE):
 			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
 			
-			zfar_true = length(osdw-toVec3(camera.pos));
+			zfar_true = length(osdw-camera.pos);
 			zratio = zfar_true/zfar;
-			wtd = worldToDevice(toVec3(camera.pos)+normalize(osdw-toVec3(camera.pos))*scrpos.z*zratio);
+			wtd = worldToDevice(camera.pos+normalize(osdw-camera.pos)*scrpos.z*zratio);
 			return wtd;
 		break;
 	}
@@ -259,7 +258,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	float x = devpos.x;
 	float y = devpos.y;
 	float z = devpos.z;
-	vec2 scr = toVec2((vec2f)getScreenSize());
+	vec2 scr = getScreenSize();
 	float zfar = 100.f;
 	float zfar_true,zratio;
 	vec3 dtw,dts;
@@ -278,21 +277,21 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 		case(Z_IS_DISTANCE):
 			dtw = deviceToWorld(devpos);
 			dts = deviceToScreen({devpos.x,devpos.y,1},Z_IS_ORTHODOX);
-			dts.z = length(toVec3(camera.pos)-dtw);
+			dts.z = length(camera.pos-dtw);
 			return dts;
 		break;
 		case(Z_IS_PLANE):
 			dtw = deviceToWorld({0,0,devpos.z});
 			dts = deviceToScreen(devpos,Z_IS_ORTHODOX);
-			dts.z = length(toVec3(camera.pos)-dtw);
+			dts.z = length(camera.pos-dtw);
 			return dts;
 		break;
 	}
 }
 vec3 cameraKind::getMouseDir(){
-	vec2 mouse = toVec2((vec2f)getMousePos());
+	vec2 mouse = getMousePos();
 	vec3 wp = screenToWorld({mouse.x,mouse.y,1},Z_IS_ORTHODOX);
-	return normalize(wp-toVec3(camera.pos));
+	return normalize(wp-camera.pos);
 }
 #define printval(x) printf(#x ": %f\n", x)
 #define zToWorld(z) (znear/(1.f+znear/zfar-z))
@@ -307,6 +306,12 @@ vec3 cameraKind::worldToScreen(vec3 worldpos, z_meaning zm){
 	return deviceToScreen(worldToDevice(worldpos),zm);
 }
 
+camprojection cameraKind::getProjection(){
+	camprojection cpj;
+	cpj.MVP = mProjection*mView;
+	cpj.pos = pos;
+	return cpj;
+}
 
 cameraKind camera;
 
@@ -317,7 +322,7 @@ cameraKind camera;
 	float znear = 0.1f;
 	//scrpos.z = (scrpos.z-znear)/zfar;			// z.world -> z.device
 	vec2 scrpos1 = vec2(scrpos.x,scrpos.y);
-	vec2 scr = toVec2((vec2f)getScreenSize());
+	vec2 scr = toVec2((vec2)getScreenSize());
 	vec4 viewport= {0,0,scr.x,scr.y};
 	//float znear = 0.1;
 	mat4 mP = mProjection;

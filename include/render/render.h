@@ -1,6 +1,6 @@
 #ifndef RENDER_GUARD
 #define RENDER_GUARD
-
+#include "vec.h"
 /*
 	How render works:
 	call flow:
@@ -30,5 +30,15 @@
 	renderScene			//storage of objects that should keep being drawn
 	
 */
+
+struct rmodel;
+struct texture;
+
+struct renderable{
+	vec3 color;
+	rmodel *rm;
+	texture *t;
+	void upload();
+};
 
 #endif

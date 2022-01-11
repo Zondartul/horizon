@@ -1,5 +1,6 @@
 #include "simplemath.h"
 #include "globals.h"
+#include "stdlib.h"
 
 int exp2(int n){
 	int r = 1;
@@ -25,3 +26,8 @@ float clamp(float A, float B, float C){
 float min(float A, float B){return A < B? A : B;}
 float max(float A, float B){return A > B? A : B;}
 float round2(float A, float n){if(n>0){return round2(10*A,n-1)/10;}else{return (int)A;}}
+
+
+float random(float A, float B){
+	return A+(B-A)*rand()/RAND_MAX;
+}

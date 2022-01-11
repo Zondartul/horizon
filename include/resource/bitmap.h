@@ -37,10 +37,10 @@ struct bitmap{
 	//functions
 	int numPixels();		///<counts pixels
 	int numBytes();		///<counts bytes
-	int coordToIndex(vec2i pos);		///<x/y to I
-	vec2i indexToCoord(int I);			///<I to x/y
-	pixel read_pixel(vec2i pos);		///<gets pixel at x/y
-	void write_pixel(vec2i pos, pixel P); ///<sets pixel at x/y
+	int coordToIndex(vec2 pos);		///<x/y to I
+	vec2 indexToCoord(int I);			///<I to x/y
+	pixel read_pixel(vec2 pos);		///<gets pixel at x/y
+	void write_pixel(vec2 pos, pixel P); ///<sets pixel at x/y
 	pixel read_pixel(int I);			///<gets pixel at I
 	void write_pixel(int I, pixel P);	///<sets pixel at I
 
@@ -61,7 +61,7 @@ struct bitmap{
 	///flips along the x axis
 	bitmap flipHorizontal();
 	///paints the other bitmap over this one
-	void insert(bitmap BMP, vec2i pos);	
+	void insert(bitmap BMP, vec2 pos);	
 	///calls a function for each pixel
 	void forEachPixel(void (*f)(pixel *P));
 	///saves image to disk

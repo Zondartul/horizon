@@ -14,11 +14,14 @@ struct e_vertex;
 struct e_edge;
 struct e_triangle;
 struct e_model;
+struct e_face;
+
 //holds weak pointers (but not literally) to other elements
 struct e_selection{
 	vector<e_vertex*>	verts;
 	vector<e_edge*>		edges;
 	vector<e_triangle*>	tris;
+	vector<e_face*>		faces;
 	e_model *EM=0;	
 	rmodel *rm[3] = {0,0,0};
 	vec3 colorVerts = {1.f,0,0};
@@ -60,7 +63,8 @@ struct e_selection{
 	void scale(vec3 center, float scale);				//scales <selection> uniformly by <scale> away from <center>
 	void scale(vec3 center, vec3 scale);				//scales <selection> by <scale> per-axis away from <center>
 	
-	void uv_project_box();								//applies projects texture using box-project.
+	void uv_project_box(vec3 origin,float scale);		//applies projects texture using box-project.
+	void uv_scale(float scale);							//multiplies every UV coord by number
 	
 	void rebuildRmodel();
 	void render();
@@ -96,6 +100,14 @@ struct e_triangle{
 	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
 };
 
+struct e_face{
+	e_selection neighbors_essential;
+	e_selection neighbors_direct;
+	e_face() = default;
+	e_face(vector<e_triangle*> tris, e_model *EM);
+	void recalcEdges();
+};
+
 //it bork
 //template<typename T> T& list<T>::operator[](int N){if(N >= size()){error("index out of bounds");} auto I = begin(); while(N--){ I++;} return *I;}
 template<typename T> T& listGet(list<T> &L,int N){if(N >= L.size()){error("index out of bounds");} auto I = L.begin(); while(N--){ I++;} return *I;}
@@ -104,6 +116,7 @@ struct e_model{
 	list<e_vertex*> verts;
 	list<e_edge*> edges;
 	list<e_triangle*> tris;
+	list<e_face*> faces;
 	e_selection selectAll();
 	//e_selection selectBox(vec3 start, vec3 end);
 	const char *checkDuplicates(bool repair);			//checks if there are duplicate (by reference) elements
@@ -113,6 +126,11 @@ struct e_model{
 	void recalculateNeighbors();				//reconstruct additional connectivity info
 	void repair();								//all of the above
 	void sanityCheck();
+	rmodel *getRmodel(int mode = 2);						//build and return a rmodel;
 };
+#include <string>
+using std::string;
+
+string toString(e_model *EM);
 
 #endif

@@ -35,6 +35,7 @@ texture *getTexture(string name){
 	string filepath = locateResource("texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
 	if(!t){error("can't load texture %s\n",name.c_str());}
+	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
 	textures.push_back(t);
 	return t;

@@ -1,4 +1,6 @@
 #include "timer.h"
+#include "event.h"
+#include "hook.h"
 #include <list>
 using std::list; //pointers stay valid
 
@@ -39,4 +41,20 @@ void timersTick(){
 	for(auto I = timers.begin(); I != timers.end(); I++){
 		(*I)->tick();
 	}
+}
+
+int t = 0;		//game time in ticks
+float t2 = 0;	//game time in seconds
+
+int getGameTicks(){return t;}
+float getGameTime(){return t2;}
+
+void initTimers(){
+	timer *T1 = new timer([&](){t++;},1,1);
+	timer *T2 = new timer([&](){t2+=1/60.f;},1,1);
+	hookAdd(globalChannel,EVENT_FRAME,"timers",
+		[](eventKind e){
+			timersTick();
+		}
+	);
 }

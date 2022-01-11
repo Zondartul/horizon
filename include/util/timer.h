@@ -19,5 +19,8 @@ class timer{
 void simple_timer(function<void()> F, int ticks_max);
 
 void timersTick();
+int getGameTicks();
+float getGameTime();
+void initTimers();
 
 #endif

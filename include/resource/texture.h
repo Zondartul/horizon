@@ -10,9 +10,9 @@ struct texture{
 	texture();
 	int w();
 	int h();
-	vec2i size();
+	vec2 size();
+	rect UV;				//A texture need not be the entire image, but it can be some sub-image.
 	rect rect();
-	rectf UV;				//A texture need not be the entire image, but it can be some sub-image.
 	bitmap *bmp;
 };
 

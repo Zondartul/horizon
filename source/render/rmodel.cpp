@@ -17,9 +17,9 @@ rmodel::rmodel(model *m){
 	uvs = new vector<vec2>;
 	
 	for(auto I = m->tris.begin(); I != m->tris.end(); I++){
-		vertices->push_back(toVec3(I->v[0].pos));
-		vertices->push_back(toVec3(I->v[1].pos));
-		vertices->push_back(toVec3(I->v[2].pos));
+		vertices->push_back(I->v[0].pos);
+		vertices->push_back(I->v[1].pos);
+		vertices->push_back(I->v[2].pos);
 		
 		colors->push_back(vec3(1,0,0));
 		colors->push_back(vec3(0,1,0));
@@ -29,9 +29,9 @@ rmodel::rmodel(model *m){
 		//colors->push_back(vec3(1,1,1));
 		//colors->push_back(vec3(1,1,1));
 		
-		normals->push_back(toVec3(I->v[0].normal));
-		normals->push_back(toVec3(I->v[1].normal));
-		normals->push_back(toVec3(I->v[2].normal));
+		normals->push_back(I->v[0].normal);
+		normals->push_back(I->v[1].normal);
+		normals->push_back(I->v[2].normal);
 		
 		uvs->push_back(vec2(I->v[0].uv.x,-I->v[0].uv.y));
 		uvs->push_back(vec2(I->v[1].uv.x,-I->v[1].uv.y));
@@ -66,19 +66,19 @@ model *modelFromPoints(vector<vec3> *vertices,
 	triangle t;
 	for(int i = 0; i+2 < vertices->size();i+=3){
 		vertex A;
-		A.pos = toVec3f((*vertices)[i]);
-		A.normal = toVec3f((*normals)[i]);
-		A.uv = toVec2f((*uvs)[i]);
+		A.pos = (*vertices)[i];
+		A.normal = (*normals)[i];
+		A.uv = (*uvs)[i];
 		
 		vertex B;
-		B.pos = toVec3f((*vertices)[i+1]);
-		B.normal = toVec3f((*normals)[i+1]);
-		B.uv = toVec2f((*uvs)[i+1]);
+		B.pos = (*vertices)[i+1];
+		B.normal = (*normals)[i+1];
+		B.uv = (*uvs)[i+1];
 		
 		vertex C;
-		C.pos = toVec3f((*vertices)[i+2]);
-		C.normal = toVec3f((*normals)[i+2]);
-		C.uv = toVec2f((*uvs)[i+2]);
+		C.pos = (*vertices)[i+2];
+		C.normal = (*normals)[i+2];
+		C.uv = (*uvs)[i+2];
 		
 		t.v[0] = A;
 		t.v[1] = B;
@@ -86,6 +86,10 @@ model *modelFromPoints(vector<vec3> *vertices,
 		m->tris.push_back(t);
 	}
 	return m;
+}
+
+model *rmodel::toModel(){
+	return modelFromPoints(vertices,normals,uvs);
 }
 
 

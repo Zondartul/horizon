@@ -13,16 +13,16 @@ int bitmap::numPixels(){
 int bitmap::numBytes(){
 	return numPixels()*bytesPerPixel(format);
 }
-int bitmap::coordToIndex(vec2i pos){
+int bitmap::coordToIndex(vec2 pos){
 	return width*pos.y+pos.x;
 }
-vec2i bitmap::indexToCoord(int I){
+vec2 bitmap::indexToCoord(int I){
 	return {I/width,I%width};
 }
-pixel bitmap::read_pixel(vec2i pos){
+pixel bitmap::read_pixel(vec2 pos){
 	return read_pixel(coordToIndex(pos));
 }
-void bitmap::write_pixel(vec2i pos, pixel P){
+void bitmap::write_pixel(vec2 pos, pixel P){
 	write_pixel(coordToIndex(pos), P);
 }
 
@@ -144,7 +144,7 @@ bitmap bitmap::flipHorizontal(){
 	}
 	return BMP;
 }
-void bitmap::insert(bitmap BMP, vec2i pos){
+void bitmap::insert(bitmap BMP, vec2 pos){
 	//printf("BMP [%d x %d]: insert BMP [%d x %d] at (%d,%d)\n",
 	//		width,height,BMP.width,BMP.height,pos.x,pos.y);
 	int minx = clamp(pos.x,0,width);

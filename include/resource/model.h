@@ -9,9 +9,9 @@ struct texture;
 class rmodel;
 
 struct vertex{
-	vec3f pos;
-	vec3f normal;
-	vec2f uv;
+	vec3 pos;
+	vec3 normal;
+	vec2 uv;
 };
 
 struct triangle{

@@ -10,17 +10,15 @@
 #include "geometry.h"
 #include "frameprinter.h"
 #include "editmodel.h"
+#include "simplemath.h"
+#include "input.h"
+
 /*
 	editor scratchpad-style rendering:
 	1) make a persistent render-layer with stuff in it
 	2) draw to it
 	3) only clear when closing editor
 */
-
-extern eventChannel inputChannel;
-extern eventChannel globalChannel;
-extern renderLayer *layer3D;
-extern renderLayer *layer2D;
 
 class editor2Kind:public eventListener{
 	public:
@@ -50,9 +48,9 @@ class editor2Kind:public eventListener{
 	
 	bool boxSelectOn = false;
 	bool hasBox = false;
-	vec2i boxStart;
-	vec2i boxEnd;
-	void boxSelect(vec2i boxStart, vec2i boxEnd);
+	vec2 boxStart;
+	vec2 boxEnd;
+	void boxSelect(vec2 boxStart, vec2 boxEnd);
 };
 editor2Kind *editor2;
 
@@ -173,9 +171,9 @@ void openEditor2(){
 }
 
 editor2Kind::editor2Kind():sel(&EM){
-	inputChannel.addListener(this);
-	inputChannel.moveListenerToFront(this);
-	globalChannel.addListener(this);
+	inputChannel->addListener(this);
+	inputChannel->moveListenerToFront(this);
+	globalChannel->addListener(this);
 	setupLayers();
 	constructTestModel();
 	redraw();
@@ -183,7 +181,7 @@ editor2Kind::editor2Kind():sel(&EM){
 
 //extern vector<renderLayer*> layers; why tf is this here?
 
-void editor2Kind::boxSelect(vec2i boxStart, vec2i boxEnd){
+void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 	sel.clear();
 	camera.go3D();
 	string S1 = string("boxStart: ")+toString(boxStart)+"boxEnd: "+toString(boxEnd);
@@ -191,7 +189,7 @@ void editor2Kind::boxSelect(vec2i boxStart, vec2i boxEnd){
 	for(auto I = EM.verts.begin(); I != EM.verts.end(); I++){
 		vec3 vw = (*I)->pos;
 		vec3 vs = camera.worldToScreen(vw);
-		vec2i vsi = {vs.x,vs.y};
+		vec2 vsi = {vs.x,vs.y};
 		bool contains = false;
 		if(rect(boxStart,boxEnd).repair().contains(vsi)){
 			sel.verts.push_back(*I);
@@ -234,10 +232,10 @@ void editor2Kind::think(){
 		//point at plane the user is pointing at
 		vec3 p1;
 		vec3 dir = camera.getMouseDir();
-		bool has_hit = ray_plane_intersection(toVec3(camera.pos),dir,plane[0],plane[1],plane[2],&p1);
+		bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1);
 		float dist1 = length(p1-lastPoint);																	//point to last point distance
-		float dist2 = point_line_distance(toVec3(camera.pos),toVec3(camera.pos)+dir,lastPoint);				//screen ray to last point distance
-		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],toVec3(camera.pos));				//plane to last point distance
+		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				//screen ray to last point distance
+		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				//plane to last point distance
 		frameprint(has_hit? string("dist: ")+toString(dist1)+", dist2: "+toString(dist2) : "no hit");
 		frameprint(string("cam.z: ")+toString(camera.pos.z)+", dist3: "+toString(dist3));
 		bool lastPointSelected = (dist2 < 0.05f);															//selected if screen ray within distance (sphere test)
@@ -250,7 +248,7 @@ void editor2Kind::think(){
 	//resetEditorLayerImmediate3D();
 	if(hasLastPoint){
 		setLayer(layers.l3Dimmediate);
-		vec3f lastPointColor;
+		vec3 lastPointColor;
 		if(has_hit){
 			if(showLine){drawLine(p1,lastPoint,{0,255,0});}
 			if(lastPointSelected){
@@ -271,8 +269,8 @@ void editor2Kind::think(){
 }
 
 void editor2Kind::onEvent(eventKind event){
-	vec2i screenpos;
-	vec3f forward;
+	vec2 screenpos;
+	vec3 forward;
 	switch(event.type){
 		case(EVENT_FRAME):
 			think();
@@ -287,10 +285,10 @@ void editor2Kind::onEvent(eventKind event){
 					setLayer(layers.l3D);
 					vec3 dir = camera.getMouseDir();
 					vec3 p1;
-					if(ray_plane_intersection(toVec3(camera.pos),dir,plane[0],plane[1],plane[2],&p1)){
+					if(ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1)){
 						hasLastPoint = true;
 						lastPoint = p1;
-						drawLine(toVec3(camera.pos),p1,{0,255,0});
+						drawLine(camera.pos,p1,{0,255,0});
 						drawPoint(p1,{0,255,0});
 					}else{
 						printf("no hit\n");
@@ -382,7 +380,7 @@ void editor2Kind::onEvent(eventKind event){
 				//sel.EM = &EM;
 				//sel.verts.push_back(sel2.verts[3]);
 				//sel.verts.push_back(sel2.verts[4]);
-				sel.rotate({0,0,0},{1,0,0},30);
+				sel.rotate({0,0,0},{1,0,0},d2r*30);
 				
 				//resetEditorLayer();
 				redraw();
@@ -438,25 +436,25 @@ void editor2Kind::onEvent(eventKind event){
 
 /*
 
-void drawWorldRay(vec3f start, vec3f end, vec3f color){
+void drawWorldRay(vec3 start, vec3 end, vec3 color){
 	drawLine(toVec3(start),toVec3(end),color);
 }
-void drawWorldRay2(vec3 start, vec3 end, vec3f color={0,0,0}){
-	drawWorldRay(toVec3f(start),toVec3f(end),color);
+void drawWorldRay2(vec3 start, vec3 end, vec3 color={0,0,0}){
+	drawWorldRay(tovec3(start),tovec3(end),color);
 }
-void drawCamRay(vec3f dir,vec3f color){
+void drawCamRay(vec3 dir,vec3 color){
 	drawLine(toVec3(camera.pos),toVec3(camera.pos+dir),color);
 }
 
-void drawScreenRay(vec2 screenpos,vec3f color,float len=1.0f,z_meaning zm=Z_IS_DISTANCE){
+void drawScreenRay(vec2 screenpos,vec3 color,float len=1.0f,z_meaning zm=Z_IS_DISTANCE){
 	vec3 worldpos;
 	worldpos = camera.screenToWorld(vec3(screenpos.x,screenpos.y,len),zm);
-	drawWorldRay(camera.pos,toVec3f(worldpos),color);
+	drawWorldRay(camera.pos,tovec3(worldpos),color);
 }
 
 void drawSomeRays(){
 	setLayer(editorLayer);
-	vec2 scr = toVec2((vec2f)getScreenSize());
+	vec2 scr = toVec2((vec2)getScreenSize());
 	printf("\ndrawing len = 1.f\n");
 	drawScreenRay(scr/2.f,{255,0,0},1.0f);
 	printf("\ndrawing len = 0.f\n");
@@ -502,12 +500,12 @@ void drawFrustumbrella(z_meaning zm){
 	vec3 p3 = camera.screenToWorld(vec3(width,height,len),zm);
 	vec3 p4 = camera.screenToWorld(vec3(0,height,len),zm);
 	setLayer(editorLayer);
-	drawWorldRay(toVec3f(p1),toVec3f(p2),{255,0,0});
-	drawWorldRay(toVec3f(p2),toVec3f(p3),{255,255,0});
-	drawWorldRay(toVec3f(p3),toVec3f(p4),{0,255,0});
-	drawWorldRay(toVec3f(p4),toVec3f(p1),{0,0,255});
-	drawWorldRay(toVec3f(p1),toVec3f(p3),{0,0,0});
-	drawWorldRay(toVec3f(p2),toVec3f(p4),{0,0,0});
+	drawWorldRay(tovec3(p1),tovec3(p2),{255,0,0});
+	drawWorldRay(tovec3(p2),tovec3(p3),{255,255,0});
+	drawWorldRay(tovec3(p3),tovec3(p4),{0,255,0});
+	drawWorldRay(tovec3(p4),tovec3(p1),{0,0,255});
+	drawWorldRay(tovec3(p1),tovec3(p3),{0,0,0});
+	drawWorldRay(tovec3(p2),tovec3(p4),{0,0,0});
 	drawWorldRay(camera.pos,camera.pos+camera.forward(),{255,0,255});
 }
 
@@ -548,19 +546,19 @@ void drawFrustum(){
 }
 
 void drawFlatPoint(){
-	vec2i screenpos = getMousePos();
+	vec2 screenpos = getMousePos();
 	vec3 p1 = camera.screenToWorld(vec3(screenpos.x,screenpos.y,1.f),Z_IS_PLANE);
 	vec3 p2 = camera.screenToWorld(camera.worldToScreen(p1,Z_IS_PLANE),Z_IS_PLANE);
-	drawWorldRay(toVec3f(p1),toVec3f(p2),{0,0,0});
+	drawWorldRay(tovec3(p1),tovec3(p2),{0,0,0});
 	drawPoint(p1,{0,255,0});
 	drawPoint(p2,{255,0,0});
 }
 
 void drawCurvyPoint(){
-	vec2i screenpos = getMousePos();
+	vec2 screenpos = getMousePos();
 	vec3 p1 = camera.screenToWorld(vec3(screenpos.x,screenpos.y,1.f),Z_IS_DISTANCE);
 	vec3 p2 = camera.screenToWorld(camera.worldToScreen(p1,Z_IS_DISTANCE),Z_IS_DISTANCE);
-	drawWorldRay(toVec3f(p1),toVec3f(p2),{0,0,0});
+	drawWorldRay(tovec3(p1),tovec3(p2),{0,0,0});
 	drawPoint(p1,{0,255,0});
 	drawPoint(p2,{255,0,0});
 }

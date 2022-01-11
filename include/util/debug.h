@@ -2,6 +2,10 @@
 #define DEBUG_GUARD
 #include "stdio.h"
 
+
+#define checkNaN(x) if(x != x){printf(#x " is nan at %d\n",__LINE__);}
+#define print1(x) printf(#x " = %s\n", toString(x))
+
 #define profile(x,y) {\
 	uint64_t t1 = SDL_GetPerformanceCounter();\
 	uint64_t freq = SDL_GetPerformanceFrequency();\

@@ -3,7 +3,7 @@
 #include "vec.h"
 //#include "fonts.h"
 //#include "renderLow.h"
-//extern vec2f textPos;
+//extern vec2 textPos;
 //struct font;
 //void setFont(font *f);
 struct font;

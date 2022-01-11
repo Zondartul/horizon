@@ -4,10 +4,10 @@
 #include "stdio.h"
 #include "fonts.h"
 #include "renderLayer.h"
-//vec2f textPos;
+//vec2 textPos;
 //font *curFont;
 #include "rmodel.h"
-bool printFromTop = true;
+bool printFromTop = false;//true;
 void drawRectImmediate(rect R){
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
@@ -22,23 +22,23 @@ void drawRectImmediate(rect R){
 	rm->vertices->push_back(B);
 	rm->vertices->push_back(C);
 	rm->vertices->push_back(B);
-	rm->vertices->push_back(C);
 	rm->vertices->push_back(D);
+	rm->vertices->push_back(C);
 	
 	rm->uvs->push_back(UVA);
 	rm->uvs->push_back(UVB);
 	rm->uvs->push_back(UVC);
 	rm->uvs->push_back(UVB);
-	rm->uvs->push_back(UVC);
 	rm->uvs->push_back(UVD);
+	rm->uvs->push_back(UVC);
 	
 	
 	rm->colors->push_back(vec3(1,0,0));
 	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,1,1));
-	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,0,0));
+	rm->colors->push_back(vec3(1,1,1));
 	
 	rm->finalize();
 	rcmd_rmodel_upload(rm).execute();
@@ -46,7 +46,7 @@ void drawRectImmediate(rect R){
 	rcmd_rmodel_delete(rm).execute();
 }
 //void setFont(font *fnt){curFont = fnt;}
-//void setTextPos(vec2f pos){textPos = pos;}
+//void setTextPos(vec2 pos){textPos = pos;}
 //todo: switch texture only once / actually, texture refers to a rectangle on a bitmap, so switch texture != switch bitmap
 //todo: make a model and stuff
 void printText2D(const char *text, font *F, vec2 &textPos){
@@ -70,6 +70,10 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 			
 			x+=G.advance*scale;
 		}else{
+			if(C == '\n'){
+				y+=F->maxrect.size.y;
+				x = textPos.x;
+			}
 		}
 		 I++;
 		 C = text[I];
@@ -107,6 +111,11 @@ rect preprintText2D(const char *text, font *F){
 				miny = min(miny,R.start.y);
 			}
 			x+=G.advance*scale;
+		}else{
+			if(C == '\n'){
+				y+=F->maxrect.size.y;
+				x = 0;
+			}
 		}
 		I++;
 		C = text[I];

@@ -3,6 +3,6 @@
 #include "vec.h"
 
 void setMouseRelativeMode(bool mode);
-vec2i getMousePos();
+vec2 getMousePos();
 
 #endif

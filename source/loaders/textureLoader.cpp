@@ -18,7 +18,7 @@ texture *loadTexture(const char *filename){
 	if(!bmp){return 0;}
 	texture *t = new texture();
 	t->bmp = bmp;
-	t->UV = rectf({0,0},{1,1});
+	t->UV = rect({0,0},{1,1});
 	return t;
 }
 
@@ -54,7 +54,7 @@ texture *loadTexture(const char *filename){
 	// texture t;
 	// t.name = name;
 	// t.handle = h;
-	// t.UV = rectf(1,1);//rect({0,0},{h.BMP.width,h.BMP.height});
+	// t.UV = rect(1,1);//rect({0,0},{h.BMP.width,h.BMP.height});
 	// textureCache[name] = t;
 	// return t;
 // }

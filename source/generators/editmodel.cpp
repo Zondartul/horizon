@@ -3,7 +3,7 @@
 #include "paint.h"
 #include "simplemath.h"
 #include <algorithm>
-
+#include "stringUtils.h"
 //MACROS
 
 //x - e_vertex/edge/triangle *element
@@ -47,6 +47,7 @@
 	for_all_nd(_x,_I,c);				\
 }
 
+//todo: add equality operator for edges and triangles
 e_vertex::e_vertex(vec3 pos, e_model *EM):neighbors_essential(EM),neighbors_direct(EM){
 	this->pos = pos;
 	EM->verts.push_back(this);
@@ -64,17 +65,80 @@ e_triangle::e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM):neigh
 	neighbors_essential.verts.push_back(C);
 	EM->tris.push_back(this);
 }
+
+bool tri_contains_edge(e_triangle *T, e_edge *E){
+	bool hasE1 = contains(T->neighbors_essential.verts,E->neighbors_essential.verts[0]);
+	bool hasE2 = contains(T->neighbors_essential.verts,E->neighbors_essential.verts[1]);
+	return hasE1 && hasE2;
+}
+
+void tri_add_edges(e_triangle *T, e_model *EM){
+	//printf("adding edges from tri %p to %p\n",T,EM);
+	e_vertex *A = T->neighbors_essential.verts[0];
+	e_vertex *B = T->neighbors_essential.verts[1];
+	e_vertex *C = T->neighbors_essential.verts[2];
+	
+	new e_edge(A,B,EM);
+	new e_edge(B,C,EM);
+	new e_edge(C,A,EM);
+}
+
+void e_face::recalcEdges(){
+	e_model *EM = neighbors_essential.EM;
+	int n=0;
+	for_all(neighbors_essential.tris,T,{
+		n++;
+		tri_add_edges(*T,EM); //hack, due to neighbor population not being implemented yet
+	});
+	//printf("added %d tris\n",n);
+	int i=0,j=0,k=0;
+	neighbors_essential.edges.clear();
+	for_all(EM->edges,E,{	//for all edges in the model
+		i++;
+		//is it one of the triangle edges?
+		for_all(neighbors_essential.tris,T,{
+			j++;
+			if(tri_contains_edge(*T,*E)){
+				k++;
+				//have we added this edge before?
+				if(contains(neighbors_essential.edges,*E)){
+					//printf("edge removed\n");
+					//that means we've seen it in one of the triangles.
+					//it's an internal edge so we remove it
+					//(assumes sheet topology for the face)
+					remove_if_contains(neighbors_essential.edges,*E);
+				}else{
+					//printf("edge added\n");
+					//else we add it. If we don't see it again then it's external.
+					neighbors_essential.edges.push_back(*E);
+				}
+			}
+		});
+	});
+	//printf("recalcEdges: i:%d, j:%d, k:%d, final edges: %d\n",i,j,k,neighbors_essential.edges.size());
+}
+
+e_face::e_face(vector<e_triangle*> tris, e_model *EM):neighbors_essential(EM),neighbors_direct(EM){
+	for_all(tris,T,{
+		neighbors_essential.tris.push_back(*T);
+	});
+	recalcEdges();
+	EM->faces.push_back(this);
+}
+
 //lololol macros
-#define rrm_helper0(rm, v, color, UV)  {	\
+#define rrm_helper0(rm, v, color, UV, normal)  {	\
 		vec3 pos = (v)->pos;				\
 		(rm)->vertices->push_back(pos);	\
 		(rm)->colors->push_back(color);	\
 		(rm)->uvs->push_back(UV);		\
+		(rm)->normals->push_back(normal);\
 	}									
-#define rrm_helper(rm, vn, color,UV)	{										\
-		rrm_helper0((rm), (*I)->neighbors_essential.verts[(vn)],(color),(UV));	\
+#define rrm_helper(rm, vn, color,UV,normal)	{										\
+		rrm_helper0((rm), (*I)->neighbors_essential.verts[(vn)],(color),(UV),(normal));	\
 	}
 
+	
 void e_selection::rebuildRmodel(){
 	if(!rm[0]){
 		rm[0] = new rmodel();
@@ -84,16 +148,31 @@ void e_selection::rebuildRmodel(){
 	rm[0]->clear();
 	rm[1]->clear();
 	rm[2]->clear();
+	//construct RM 0 as points
 	for_all(verts,I,
-		rrm_helper0(rm[0],*I,colorVerts,vec2(0,0));
+		rrm_helper0(rm[0],*I,colorVerts,vec2(0,0),vec3(0,0,1));
 	);
-	for_all(edges,I,
-		if((*I)->neighbors_essential.verts.size() != 2){error("what a weird edge (%d vertices)\n",(*I)->neighbors_essential.verts.size());}
-		rrm_helper(rm[1],0,colorEdges,vec2(0,0));
-		rrm_helper(rm[1],1,colorEdges,vec2(1,0));
+	//construct RM 1 as edges
+	int i = 0, j = 0, k = 0;
+	for_all(faces,F,{
+		i++;
+		for_all((*F)->neighbors_essential.edges,I,
+			j++;
+			if((*I)->neighbors_essential.verts.size() != 2){error("what a weird edge (%d vertices)\n",(*I)->neighbors_essential.verts.size());}
+			rrm_helper(rm[1],0,colorEdges,vec2(0,0),vec3(0,0,1));
+			rrm_helper(rm[1],1,colorEdges,vec2(1,0),vec3(0,0,1));
+		);}
 	);
+	//printf("added %d faces, %d edges\n",i,j);
+	//construct RM 2 as triangles
 	for_all(tris,I,
 		if((*I)->neighbors_essential.verts.size() != 3){error("what a weird triangle (%d vertices)\n",(*I)->neighbors_essential.verts.size());}
+		vec3 VA = ne(*I).verts[0]->pos;
+		vec3 VB = ne(*I).verts[1]->pos;
+		vec3 VC = ne(*I).verts[2]->pos;
+		
+		vec3 vn = cross(VB-VA,VC-VA);
+		
 		vec3 colA = colorTris;
 		vec3 colB = colorTris;
 		vec3 colC = colorTris;
@@ -111,13 +190,14 @@ void e_selection::rebuildRmodel(){
 			UV2 = (*I)->uvs[1];
 			UV3 = (*I)->uvs[2];
 		}
-		rrm_helper(rm[2],0,colA,UV1);
-		rrm_helper(rm[2],1,colB,UV2);
-		rrm_helper(rm[2],2,colC,UV3);
+		rrm_helper(rm[2],0,colA,UV1,vn);
+		rrm_helper(rm[2],1,colB,UV2,vn);
+		rrm_helper(rm[2],2,colC,UV3,vn);
 	);
 	rm[0]->finalize();
 	rm[1]->finalize();
 	rm[2]->finalize();
+	setLayer(loadLayer);
 	uploadRmodel(rm[0]);
 	uploadRmodel(rm[1]);
 	uploadRmodel(rm[2]);
@@ -387,24 +467,70 @@ void e_selection::scale(vec3 center, vec3 scale){
 	}
 }
 
-void e_selection::uv_project_box(){
+#define map_left	{	UV.x =-V.x, UV.y = -V.z;}
+#define map_right	{ 	UV.x = V.x, UV.y = -V.z;}
+#define map_front	{ 	UV.x = V.y, UV.y = -V.z;}
+#define map_back	{ 	UV.x =-V.y, UV.y = -V.z;}
+#define map_top		{	UV.x =-V.x; UV.y =  V.y;}
+#define map_bottom	{	UV.x =-V.x; UV.y = -V.y;}
+
+void e_selection::uv_project_box(vec3 origin,float scale){
 	vec3 center = this->center();
-	int cnt1 = 0; int cnt2 = 0;
+	//int cnt1 = 0; int cnt2 = 0;
 	for(auto I = tris.begin(); I != tris.end(); I++){
-		printf("tri %d\n",cnt1++);
+		//printf("tri %d\n",cnt1++);
 		(*I)->uvs.clear();
 		vec3 V1 = ne(*I).verts[0]->pos;
 		vec3 V2 = ne(*I).verts[1]->pos;
 		vec3 V3 = ne(*I).verts[2]->pos;
-		vec3 dV = cross(V2-V1,V3-V2); //triangle flat normal
+		//vec3 dV = normalize(cross(V2-V1,V3-V1));
+		//printf("dv = %s\n",toString(dV).c_str());
+		vec3 dV = normalizeSafe(cross(normalizeSafe(V2-V1),normalizeSafe(V3-V1))); //triangle flat normal
+		float dotx = fabs(dot(dV,vec3(1,0,0)));
+		float doty = fabs(dot(dV,vec3(0,1,0)));
+		float dotz = fabs(dot(dV,vec3(0,0,1)));
+		bool xmin = ((dotx < doty) && (dotx < dotz));
+		bool ymin = ((doty < dotx) && (doty < dotz));
+		bool zmin = ((dotz < dotx) && (dotz < doty));
+		bool xmax = ((dotx > doty) && (dotx > dotz));
+		bool ymax = ((doty > dotx) && (doty > dotz));
+		bool zmax = ((dotz > doty) && (dotz > dotx));
+		//printf("min xyz: %d %d %d, max xyz: %d %d %d\n",xmin,ymin,zmin,xmax,ymax,zmax);
+		if(!xmax and !ymax and !zmax){printf("no max: dotx = %f, doty = %f, dotz = %f, dV = %s\n",dotx,doty,dotz,toString(dV).c_str());}
 		for(auto J = ne(*I).verts.begin(); J != ne(*I).verts.end(); J++){
-			printf("vert %d\n",cnt2++);
+			//printf("vert %d\n",cnt2++);
 			vec2 UV = vec2(0,0);
-			vec3 V = (*J)->pos;
-			if((abs(dV.y) > abs(dV.x))&&(abs(dV.y) > abs(dV.z))){UV.x = V.x, UV.y = V.z;}
-			else if((abs(dV.x) > abs(dV.y))&&(abs(dV.x) > abs(dV.z))){UV.x = V.z, UV.y = V.y;}
-			else {UV.x = V.x; UV.y = V.y;}
+			vec3 V = (*J)->pos-origin;
+			V = V*scale;
+			
+			if(zmax){map_top;}
+			if(xmax){map_front;}
+			if(ymax){map_left;}
+			// if((abs(dV.y) > abs(dV.x))&&(abs(dV.y) > abs(dV.z))){
+				// if(dV.y > 0){  UV.x	=-V.x, UV.y = -V.z;}//left
+				// else		{ UV.x = V.x, UV.y = -V.z;}//right
+			// }	
+			// else if((abs(dV.x) > abs(dV.y))&&(abs(dV.x) > abs(dV.z))){
+				// if(dV.x > 0){ UV.x = V.y, UV.y = -V.z;}//front
+				// else		{  UV.x =-V.y, UV.y = -V.z;}//back
+			// }
+			// else {
+				// if(dV.z > 0){   UV.x =-V.x; UV.y =  V.y;}//top
+				// else		{UV.x =-V.x; UV.y = -V.y;}//bottom
+			// }
+			
 			(*I)->uvs.push_back(UV);
+		}
+	}
+}
+
+void e_selection::uv_scale(float scale){
+	for(auto I = tris.begin(); I != tris.end(); I++){
+		for(auto J = (*I)->uvs.begin(); J != (*I)->uvs.end(); J++){
+			vec2 UV = *J;
+			UV.x = UV.x*scale;
+			UV.y = UV.y*scale;
+			*J = UV;
 		}
 	}
 }
@@ -612,6 +738,7 @@ e_selection e_model::selectAll(){
 	for_all(verts,I,sel.verts.push_back(*I));
 	for_all(edges,I,sel.edges.push_back(*I));
 	for_all(tris,I,sel.tris.push_back(*I));
+	for_all(faces,I,sel.faces.push_back(*I));
 	return sel;
 }
 
@@ -919,8 +1046,20 @@ void e_model::sanityCheck(){
 	if(status){error("e_model error (%s)\n",status);}
 }
 
+rmodel *e_model::getRmodel(int mode){
+	printf("%p.getRmodel(%d)\n",this,mode);
+	e_selection selAll = selectAll();
+	selAll.rebuildRmodel();
+	return selAll.rm[mode];
+}
 
-
+string toString(e_model *EM){
+	if(EM){
+		return fstring("(v:%d, e:%d, t:%d, f:%d)",EM->verts.size(), EM->edges.size(), EM->tris.size(), EM->faces.size());
+	}else{
+		return "(null)";
+	}
+}
 
 
 

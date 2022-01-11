@@ -19,4 +19,6 @@ float max(float A, float B);
 float round2(float A, float n);
 #define mix2(a,b,n) (a*(1.0f-n)+b*n)
 
+float random(float A, float B);
+
 #endif

@@ -1,0 +1,12 @@
+#ifndef HOOK_GUARD
+#define HOOK_GUARD
+#include "event.h"
+#include <string>
+#include <functional>
+using std::string;
+using std::function;
+
+void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventKind event)> handler);
+void hookRemove(eventChannel *ch, string name);
+
+#endif

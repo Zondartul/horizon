@@ -1,17 +1,19 @@
 #include "atlas.h"
 #include "fancymath.h"
 #include "globals.h"
-
+#include "stringUtils.h"
 
 atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
-	vector<vec2i> sizes;
-	vec2i binsize;
-	vector<vec2i> results;
+	vector<vec2> sizes;
+	vec2 binsize;
+	vector<vec2> results;
 	vector<int> packed;
 	int heightNeeded;
 	vector<rect> rects;
 	for(int I = 0; I < BMPs.size(); I++){
-		sizes.push_back({BMPs[I].width,BMPs[I].height});
+		vec2 size = vec2(BMPs[I].width,BMPs[I].height);
+		sizes.push_back(size);
+		//if(isprint(I)){printf("size %c: %s\n",I,toString(size).c_str());}
 	}
 	binsize = {background.width,background.height};
 	pack2D(sizes,binsize,sort,&results,&packed,&heightNeeded);
@@ -23,21 +25,26 @@ atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
 }
 
 atlas makeAtlasPOT(vector<bitmap> BMPs, bool sort){
-	vector<vec2i> sizes;
-	vec2i binsize;
-	vector<vec2i> results;
+	vector<vec2> sizes;
+	vec2 binsize;
+	vector<vec2> results;
 	vector<int> packed;
 	int heightNeeded;
 	vector<rect> rects;
 	for(int I = 0; I < BMPs.size(); I++){
-		sizes.push_back({BMPs[I].width,BMPs[I].height});
+		//sizes.push_back({BMPs[I].width,BMPs[I].height});	
+		vec2 size = vec2(BMPs[I].width,BMPs[I].height);
+		sizes.push_back(size);
+		//if(isprint(I)){printf("size %c: %s\n",I,toString(size).c_str());}
 	}
 	binsize = pack2DfindClosestPOT(sizes, sort);	
 	bitmap background = blankBitmap(binsize.y,binsize.x,TL_RGBA);
 	pack2D(sizes,binsize,sort,&results,&packed,&heightNeeded);
 	for(int I = 0; I < results.size(); I++){
 		background.insert(BMPs[I],results[I]);
-		rects.push_back(rect(sizes[I]).moveTo(results[I]));
+		rect R = rect(sizes[I]).moveTo(results[I]);
+		rects.push_back(R);
+		//if(isprint(I)){printf("rect %c: %s\n",I,toString(R).c_str());}
 	}
 	return {rects, background};
 }

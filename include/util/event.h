@@ -22,8 +22,8 @@ struct event_mouse_button{
 };
 
 struct event_mouse_move{
-	vec2i diff;
-	vec2i pos;
+	vec2 diff;
+	vec2 pos;
 };
 
 struct event_mouse_wheel{
@@ -40,7 +40,9 @@ enum eventType{	EVENT_KEY_UP,
 struct eventKind{
 	eventType type;
 	int *mask;
-	void maskEvent();
+	void maskEvent(int newmask = 1);
+	int isMasked();
+	eventKind();
 	union{
 		event_keyboard keyboard;
 		event_mouse_button mousebutton;
@@ -53,7 +55,8 @@ struct eventListener;
 struct eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
-	int publishMaskableEvent(eventKind event);	//returns non-zero if the event was handled/masked
+	int publishEventSequentialMaskable(eventKind event);	//returns non-zero if the event was handled/masked
+	int publishEventParallelMaskable(eventKind event);
 	void addListener(eventListener *listener);
 	void addListenerFront(eventListener *listener);
 	void moveListenerToFront(eventListener *listener);
@@ -67,6 +70,7 @@ class eventListener{
 	virtual void onEvent(eventKind event);
 };
 
-
+extern eventChannel *globalChannel;
+void initEvents();
 
 #endif

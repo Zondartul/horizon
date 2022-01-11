@@ -18,7 +18,7 @@ struct texture{
 	rectf UV;				//An texture need not be the entire image, but it can be some sub-image.
 	int w();
 	int h();
-	vec2i size();
+	vec2 size();
 	rect rect();
 };
 */

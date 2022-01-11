@@ -14,6 +14,7 @@ class rmodel{
 	rmodel();
 	rmodel(model *m);
 	~rmodel();
+	model *toModel();
 	void finalize();
 	void clear();
 };
