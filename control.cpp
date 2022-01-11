@@ -122,6 +122,10 @@ void OnProgramStart()
 	GUIslider* slide = new GUIslider;
 	slide->setPos(4,400);
 	slide->setParent((GUIbase*)myFrame);
+	
+	GUIcolorbox* cbox = new GUIcolorbox;
+	cbox->setPos(4,430);
+	cbox->setParent((GUIbase*)myFrame);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }

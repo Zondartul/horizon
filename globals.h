@@ -40,12 +40,36 @@ vec2i operator * (vec2i A, int B)
 	return {A.x*B,A.y*B};
 }
 
+struct color3i
+{
+	int r;
+	int g;
+	int b;
+};
+color3i operator + (color3i A, color3i B)
+{
+	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255)};
+}
+
 struct vec3i
 {
+	operator color3i();
     int x;
     int y;
     int z;
 };
+vec3i operator + (vec3i A, vec3i B)
+{
+	return {A.x+B.x, A.y+B.y, A.z+B.z};
+}
+vec3i operator * (vec3i A, int B)
+{
+	return {A.x*B,A.y*B,A.z*B};
+}
+vec3i operator / (vec3i A, int B)
+{
+	return {A.x/B,A.y/B,A.z/B};
+}
 struct vec4i
 {
 	int x1;
@@ -57,15 +81,10 @@ bool operator == (vec4i A, vec4i B)
 {
 	return ((A.x1==B.x1)&&(A.y1==B.y1)&&(A.x2==B.x2)&&(A.y2==B.y2));
 }
-struct color3i
+
+vec3i::operator color3i()
 {
-	int r;
-	int g;
-	int b;
-};
-color3i operator + (color3i A, color3i B)
-{
-	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255)};
+	return {clamp(x,0,255),clamp(y,0,255),clamp(z,0,255)};
 }
 
 struct listNode

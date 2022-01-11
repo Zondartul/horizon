@@ -994,6 +994,174 @@ class GUIslider: public GUIbase
 		}
 	}
 };
+// r,g,b values are from 0 to 1
+// h = [0,360], s = [0,1], v = [0,1]
+//		if s == 0, then h = -1 (undefined)
+vec3i RGBtoHSV(vec3i RGB)
+{
+	float r = RGB.x;
+	float g = RGB.y;
+	float b = RGB.z;
+	float h = 0;
+	float s = 0;
+	float v = 0;
+	float min, max, delta;
+	min = fmin( r, fmin(g, b) );
+	max = fmax( r, fmax(g, b) );
+	v = max;				// v
+	delta = max - min;
+	if( max != 0 )
+		s = delta / max;		// s
+	else {
+		// r = g = b = 0		// s = 0, v is undefined
+		s = 0;
+		h = -1;
+		return {(int)h, (int)(s*255), (int)(v*255)};
+	}
+	if( r == max )
+		h = ( g - b ) / delta;		// between yellow & magenta
+	else if( g == max )
+		h = 2 + ( b - r ) / delta;	// between cyan & yellow
+	else
+		h = 4 + ( r - g ) / delta;	// between magenta & cyan
+	h *= 60;				// degrees
+	if( h < 0 )
+		h += 360;
+	
+	return {(int)h, (int)(s*255), (int)(v*255)};
+}
+vec3i HSVtoRGB(vec3i HSV)
+{
+	float r = 0;
+	float g = 0;
+	float b = 0;
+	int i;
+	float f, p, q, t;
+	float h = HSV.x;
+	float s = HSV.y;
+	float v = HSV.z;
+	h /= 60;			// sector 0 to 5
+	s /= 255;
+	v /= 255;
+	if( s == 0 ) {
+		// achromatic (grey)
+		r = g = b = v;
+		return {(int)(r*255),(int)(g*255),(int)(b*255)};
+	}
+	
+	i = floor( h );
+	f = h - i;			// factorial part of h
+	p = v * ( 1 - s );
+	q = v * ( 1 - s * f );
+	t = v * ( 1 - s * ( 1 - f ) );
+	switch( i ) {
+		case 0:
+			r = v;
+			g = t;
+			b = p;
+			break;
+		case 1:
+			r = q;
+			g = v;
+			b = p;
+			break;
+		case 2:
+			r = p;
+			g = v;
+			b = t;
+			break;
+		case 3:
+			r = p;
+			g = q;
+			b = v;
+			break;
+		case 4:
+			r = t;
+			g = p;
+			b = v;
+			break;
+		default:		// case 5:
+			r = v;
+			g = p;
+			b = q;
+			break;
+	}
+	
+	return {(int)(r*255),(int)(g*255),(int)(b*255)};
+}
+
+class GUIcolorbox: public GUIbase
+{
+	public:
+	vec3i colorHSV;
+	vec3i colorRGB;
+	vec3i colLU;
+	vec3i colRU;
+	vec3i colLD;
+	vec3i colRD;
+	vec2i cursor;
+	GUIcolorbox():GUIbase()
+	{
+		movable = false;
+		resizible = false;
+		size = {256,256};
+		colLU = {0,255,255};//hue,saturation,value
+		colRU = {360,255,255};
+		colLD = {0,0,255};
+		colRD = {360,0,255};
+		colorHSV = {0,0,0};
+		colorRGB = {0,0,0};
+		cursor = {-1,-1};
+	}
+	void onClick(int mb)
+	{
+		if(mb>0)
+		{
+			cursor = mouseP-pos;
+			colorHSV = (colLU*(size.x-cursor.x)/size.x+colRU*(cursor.x)/size.x)*(size.y-cursor.y)/size.y +
+						(colLD*(size.x-cursor.x)/size.x+colRD*(cursor.x)/size.x)*(cursor.y)/size.y;
+			colorRGB = HSVtoRGB(colorHSV);
+		}
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		setColor(color_border);
+		paintRectOutline(pos.x-1,pos.y-1,pos.x+size.x+1,pos.y+size.y+1);
+		
+		glBegin(GL_LINES);
+		int X = pos.x;
+		float E = size.x;
+		int Yi = pos.y;
+		int Yf = pos.y+size.y;
+		vec3i col = {0,0,0};
+		for(float I = 0; I<E;I++)
+		{
+			col = HSVtoRGB((colLU*(E-I))/E+(colRU*I)/E);
+			glColor3f(col.x/255.0f,col.y/255.0f,col.z/255.0f);
+			glVertex2i(X, Yi);
+			col = HSVtoRGB((colLD*(E-I))/E+(colRD*I)/E);
+			//col = HSVtoRGB({(int)(360*I/E),255,255});
+			glColor3f(col.x/255.0f,col.y/255.0f,col.z/255.0f);
+			glVertex2i(X, Yf);
+			X++;
+		}
+		glEnd();
+		
+		if(cursor.x>=0)
+		{
+			//setColor(colorRGB);
+			//paintRectOutline(pos.x+cursor.x-1,pos.y+cursor.y-1,pos.x+cursor.x+1,pos.y+cursor.y+1);
+			
+			setColor(color_border);
+			paintRectOutline(pos.x+cursor.x-2,pos.y+cursor.y-2,pos.x+cursor.x+2,pos.y+cursor.y+2);
+		}
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
 
 /*
 GUI element check list!
@@ -1008,7 +1176,7 @@ ListBox		*
 Slider		*
 RoundSlider
 ColorWheel
-ColorBox
+ColorBox	*
 --NAVIGATION--
 Frame		*
 ScrollBar
