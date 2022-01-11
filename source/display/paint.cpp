@@ -1,5 +1,6 @@
 #include "display/paint.h"
-#include "main/control.h"
+////-#include "main/control.h"
+#include "util/globals.h"
 
 void paintInit(){
 	setColor({0,0,0});
@@ -109,6 +110,9 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
 void paintRectOutline(rect A){
 	paintRectOutline(A.getx(),A.gety(),A.getx2(),A.gety2());
 }
+void paintRectOutline(){
+	paintRectOutline(paintP1.x, paintP1.y, paintP2.x, paintP2.y);
+}
 
 void paintTriangle(int X1, int Y1, int X2, int Y2, int X3, int Y3){
 	glBegin(GL_TRIANGLES);
@@ -139,6 +143,10 @@ void setAlpha(byte alpha)
 {
 	paintAlpha = alpha;
 	glColor4f(paintColor.r/255.0f,paintColor.g/255.0f,paintColor.b/255.0f,paintAlpha/255.0f);
+}
+void setColorAlpha(color4i coloralpha){
+	setColor((color3i){coloralpha.r, coloralpha.g, coloralpha.b});
+	setAlpha(coloralpha.a);
 }
 void setScissor(rect scissor){ //zero scissor is treated as entire screen uncropped.
 	rect screen = getScreenRect();

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include "assert.h"
 #include "display/paint.h"
-#include "main/control.h"
+//-#include "main/control.h"
 
 //functions
 GUI4base::GUI4base(){//constructor

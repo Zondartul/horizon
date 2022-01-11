@@ -1,12 +1,14 @@
 #include "gui/Gui2/GUI2slider.h"
 #include "display/paint.h"
 #include "resource/fonts.h"
-#include "main/control.h"
+////-#include "main/control.h"
+#include "util/globals.h"
+#include "input/input.h"
 GUI2slider::GUI2slider():GUI2base()
 {
 	movable = false;
 	resizible = false;
-	color_panel = {128,128,256};
+	color_panel = {128,128,255};
 	size = {128,14};
 	vals = {-100,0,100};
 	//vals[0]=-100;vals[1]=0;vals[2]=100;
@@ -43,6 +45,7 @@ void GUI2slider::updateSlider()
 {
 	if(sliding)
 	{
+		vec2i mouseP = input.getMousePos();
 		vals[1] = (mouseP.x-pos.x)*(vals[2]-vals[0])/size.x+vals[0];
 		vals[1] = (vals[1] < vals[0]) ? vals[0] : ((vals[1] > vals[2]) ? vals[2] : vals[1]);
 	}

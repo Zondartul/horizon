@@ -1,7 +1,9 @@
 #include "gui/Gui2/GUI2base.h"
 #include "main/control.h"
+#include "util/globals.h"
 #include "display/paint.h"
 #include "resource/fonts.h"
+#include "input/input.h"
 #include "input/inputMessage.h"
 GUI2base::GUI2base(){
 		pos = size = {0,0};
@@ -82,6 +84,7 @@ void GUI2base::onClick(int mb)
 {
 	if(mb>0)
 	{
+		vec2i mouseP = input.getMousePos();
 		startTouch = mouseP-pos; //has one?
 		pressed = true;
 		if(resizible)
@@ -154,6 +157,7 @@ void GUI2base::recalculateClientRect()
 void GUI2base::resizeCheck()
 {
 	if(!pressed){return;}
+	vec2i mouseP = input.getMousePos();
 	vec2i newSize = size;
 	vec2i newPos = pos;
 	if(resizingW==2)
@@ -186,7 +190,7 @@ void GUI2base::dragCheck()
 {
 	if(dragging)
 	{
-		invalidate(mouseP-startTouch, size);
+		invalidate(input.getMousePos()-startTouch, size);
 	}
 }
 void GUI2base::scissorCheck(void* arg)
@@ -194,7 +198,7 @@ void GUI2base::scissorCheck(void* arg)
 	if(scissor)
 	{
 		vec4i scissor = *((vec4i*)arg);
-		//if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
+		if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
 		rect screen = getScreenRect();
 		int height = screen.geth();
 		int width = screen.getw();
@@ -216,7 +220,7 @@ void GUI2base::render(void* arg)
 	setColor(color_text);
 	printw(pos.x, pos.y+size.y/2, size.x, size.y, "clicks: %d", counter);
 	
-	//glDisable(GL_SCISSOR_TEST);
+	glDisable(GL_SCISSOR_TEST);
 }
 
 bool GUI2base::foreach(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec) 

@@ -6,6 +6,8 @@
 extern SDL_Window *window;
 extern SDL_GLContext glcontext;
 void OnProgramStart();
+void OnResize();
+void OnFocusLost();
 void paintRect(int x1, int y1, int x2, int y2);
 void Render2D();
 void Render3D();
@@ -21,7 +23,6 @@ void ProgramTick();
 void ProcessMouseclick(int mb);
 void ProcessKeyboard(int kb);
 void CallDestructor();
-rect getScreenRect();
 #include "../util/globals.h"
 void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode);
 #include "../gui/Gui2.h" //this should prob. go away.
@@ -30,6 +31,8 @@ extern inputKind input;
 #include "../math/quaternions.h"
 extern GUI2base *GUI;
 extern GUI2frame *myFrame;
+#include "../gui/Gui5.h"
+extern GUI5base *GUI5;
 //model *myModel;
 //extern vec SomeVec1; //cam pos.
 //extern vec SomeVec2;

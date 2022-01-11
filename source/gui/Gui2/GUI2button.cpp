@@ -40,5 +40,5 @@ void GUI2button::render(void *arg)
 	setColor(color_text);
 	printw(pos.x+2,pos.y-4, size.x, -1,text);
 	
-	//glDisable(GL_SCISSOR_TEST);
+	glDisable(GL_SCISSOR_TEST);
 }

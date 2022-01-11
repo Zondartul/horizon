@@ -3,7 +3,7 @@
 #include "math/vectors.h"
 #include "resource/models.h"
 #include "display/renderable.h"
-#include "main/control.h"
+#include "main/control.h" //for "scene"
 #include "util/hook.h"
 #include "game/camera.h"
 int t4phase = 0;

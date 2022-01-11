@@ -79,7 +79,7 @@ GUI2scrollBar::GUI2scrollBar():GUI2base()
 							//or, make "false scissor" do that...
 	track = new GUI2button;
 	track->scissor = false;
-	color3i darken = {-64,-64,-64};
+	color3i darken = {(uint8_t)-64,(uint8_t)-64,(uint8_t)-64};
 	track->color_panel.r *= 3;// + darken;
 	track->color_panel.g *= 3;// + darken;
 	track->color_panel.b *= 3;// + darken;

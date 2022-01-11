@@ -25,14 +25,16 @@ void GUI5tabgroup::render(){
 	//draw tabs
 	for(int I = 0; I < children.size(); I++){
 		tab &t = tabs[I];
-		setColor({0,0,0});
-		setAlpha(255);
+		//setColor({0,0,0});
+		//setAlpha(255);
+		setColorAlpha(colors["border"]);
 		paintLine(t.p1,t.p2);
 		paintLine(t.p2,t.p3);
 		paintLine(t.p3,t.p4);
 		printw(t.p5.x,t.p5.y,-1,-1,tabs[I].title.c_str());
-		setColor({128,128,128});
-		setAlpha(64);
+		//setColor({128,128,128});
+		//setAlpha(64);
+		setColorAlpha(colors["body"]);
 		paintTriangle(t.p1,t.p2,t.p3);
 		paintTriangle(t.p1,t.p3,t.p4);
 	}
@@ -40,21 +42,23 @@ void GUI5tabgroup::render(){
 	rect world = area.toWorld();
 	vec2i pstart = world.getStart()+(vec2i){0,20};
 	vec2i pend = world.getStart()+(vec2i){world.getw(),20};
-	setColor({0,0,0});
-	setAlpha(255);
+	//setColor({0,0,0});
+	//setAlpha(255);
+	setColorAlpha(colors["border"]);
 	paintLine(pstart, tabs[currentTab].p1);
 	paintLine(tabs[currentTab].p4, pend);
 	//paint an outline just because
 	paintLine(tabs[children.size()-1].p4, world.getBottomRight());
 	paintLine(world.getBottomRight(), world.getBottomLeft());
 	paintLine(world.getBottomLeft(), tabs[0].p1);
-	setColor({128,128,128});
-	setAlpha(64);
+	//setColor({128,128,128});
+	//setAlpha(64);
+	setColorAlpha(colors["body"]);
 	paintRect(tabs[0].p1,world.getEnd());
 }
 
 void GUI5tabgroup::receiveMessageExtra(message *msg){
-	if(msg->type == "lmb_down" && mouseover){
+	if(msg->type == "lmb_down" && hasAnyMouseover(((message_mouse*)msg)->newPos)){
 		vec2i pos = ((message_mouse*)msg)->newPos;
 		for(int I = 0; I < children.size(); I++){
 			rect tabrect;

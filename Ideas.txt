@@ -386,6 +386,38 @@ frame
 	end
 end
 ------------------------------------------------------------
+Behavior message queue: ideally separate tracks or "chained" behaviors
+for clear separation of who blocks who's messages... maybe
+
+otherwise:
+               (resize)       (msg to chld)       (custom action)         (move)        (msg to parent)
+mouse_down--->scale-click?--->children-click?--->button/slider-click?--->move-click?--->click-through?--->unhandled
+					|yes			   |yes                |yes            |yes                |no
+					+------------------+-------------------+---------------+-------------------+------>Exit (handled)
+					
+hey we can make trees with this :o
+Each behavior can have a number of "condition slots" where other behaviors will be called on condition
+"handled" and "unhandled" would also be conditions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -28,7 +28,7 @@ using std::string;
 
 extern color3i paintColor; //???
 extern byte paintAlpha;
-extern vec2i mouseP; // mid-man variable for extra GUI's
+//extern vec2i mouseP; // mid-man variable for extra GUI's
 //void setColor(color3i color);
 //void setAlpha(byte alpha);
 

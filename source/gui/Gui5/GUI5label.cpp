@@ -10,12 +10,13 @@ GUI5label &GUI5label::setText(string text){
 
 void GUI5label::render(){
 	//printw(int x, int y, int xlim, int ylim, string format, ...);
-	setColor({0,0,0});
-	setAlpha(255);
+	//setColor({0,0,0});
+	//setAlpha(255);
+	setColorAlpha(colors["text"]);
 	rect world = area.toWorld();
 	printw(world.getx(), world.gety(),-1,-1,"%s",text.c_str());
 	
-	GUI5base::render();
+	//GUI5base::render();
 }
 
 void GUI5label::layout(){
@@ -24,5 +25,5 @@ void GUI5label::layout(){
 	preprintw(&newsize, &chars, -1,-1,"%s",text.c_str());
 	area.setSize(newsize.getSize());
 	
-	GUI5base::layout();
+	//GUI5base::layout();
 }

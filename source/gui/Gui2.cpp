@@ -8,7 +8,7 @@
 #include "display/paint.h"
 #include "resource/fonts.h"
 #include "resource/textureloader.h"
-#include "main/control.h" //bad
+//-#include "main/control.h" //bad
 
 using std::string;
 
@@ -16,7 +16,7 @@ using std::string;
 
 //color3i paintColor;
 //byte paintAlpha;
-vec2i mouseP; // mid-man variable for extra GUI's
+//vec2i mouseP; // mid-man variable for extra GUI's
 /*
 void setColor(color3i color)
 {
@@ -53,7 +53,7 @@ color3i RGBtoHSV(color3i RGB)
 		// r = g = b = 0		// s = 0, v is undefined
 		s = 0;
 		h = -1;
-		return {(int)h, (int)(s*255), (int)(v*255)};
+		return {(uint8_t)h, (uint8_t)(s*255), (uint8_t)(v*255)};
 	}
 	if( r == max )
 		h = ( g - b ) / delta;		// between yellow & magenta
@@ -61,11 +61,11 @@ color3i RGBtoHSV(color3i RGB)
 		h = 2 + ( b - r ) / delta;	// between cyan & yellow
 	else
 		h = 4 + ( r - g ) / delta;	// between magenta & cyan
-	h *= 60;				// degrees
+	h *= 255/6;				// degrees
 	if( h < 0 )
 		h += 360;
 	
-	return {(int)h, (int)(s*255), (int)(v*255)};
+	return {(uint8_t)h, (uint8_t)(s*255), (uint8_t)(v*255)};
 }
 color3i HSVtoRGB(color3i HSV)
 {
@@ -83,7 +83,7 @@ color3i HSVtoRGB(color3i HSV)
 	if( s == 0 ) {
 		// achromatic (grey)
 		r = g = b = v;
-		return {(int)(r*255),(int)(g*255),(int)(b*255)};
+		return {(uint8_t)(r*255),(uint8_t)(g*255),(uint8_t)(b*255)};
 	}
 	
 	i = floor( h );
@@ -124,7 +124,7 @@ color3i HSVtoRGB(color3i HSV)
 			break;
 	}
 	
-	return {(int)(r*255),(int)(g*255),(int)(b*255)};
+	return {(uint8_t)(r*255),(uint8_t)(g*255),(uint8_t)(b*255)};
 }
 
 

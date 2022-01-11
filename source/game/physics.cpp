@@ -1,5 +1,5 @@
 #include "game/physics.h"
-#include "main/control.h" //bad
+//-#include "main/control.h" //bad
 #include "util/globals.h"
 int physMaxId = 1; //not really important for anything
 #define PHYSBODY_MAX_CHILDREN 11

@@ -1,4 +1,4 @@
-#include "main/control.h"
+//-#include "main/control.h"
 #include <gl/gl.h>
 #include <cstdio>
 #include <math.h>
@@ -311,17 +311,27 @@ void OpenGUI4(){
 }
 
 void openGUI5(){
-	GUI5 = &((new GUI5window())->setTitle("GUI5"));
-	GUI5->setPos({200,200}).setSize({500,500}).setDebug(false);
-	GUI5->subscribeToMessageChannel(&input.channel,"");
+	GUI5 = new GUI5base();
+	GUI5->setFill(true);
+	GUI5base *window = &((new GUI5window())->setTitle("GUI5"));
+	window->setPos({200,200}).setSize({500,500}).setDebug(false);
 	GUI5tabgroup *tab = new GUI5tabgroup();
-	tab->setTitle(0,"text").addElement((*(new GUI5label)).setText("hello").setPos({50,50}).setDebug(true));
-	tab->setTitle(1,"btn").addElement((*(new GUI5button)).setText("[PRESS ME]").setPos({50,100}).setDebug(true));
-	tab->addElement((*(new GUI5image)).setImage("../resource/textures/other/error.png").setPos({50,200}).setDebug(true)); //todo: make a resource path resolver
+	tab->setTitle(0,"text").addElement((*(new GUI5label)).setText("hello").setPos({50,50}).setDebug(false));
+	tab->setTitle(1,"btn").addElement((*(new GUI5button)).setText("[PRESS ME]").setPos({50,100}).setDebug(false));
+		GUI5scrollbar *scroll = new GUI5scrollbar();
+			GUI5frame *frame = new GUI5frame();
+			frame->setSize({100,100}).setPos({50,50}).addElement((*(new GUI5image)).setImage("../resource/textures/other/error.png").setPos({50,200}).setDebug(false));
+		scroll->addElement(*frame);
+		scroll->setVerticalLimits(0,1000).setHorizontalLimits(0,1000);
+		scroll->setVertical(true).setHorizontal(false);
+	tab->addElement(*scroll);
 	tab->addElement((*(new GUI5window)).setTitle("Window!").setPos({200,25}).setSize({200,200}).setDebug(false));
 	tab->setDebug(true);
-	GUI5->addElement(*tab);
+	window->addElement(*tab);
+	GUI5->addElement(*window);
+	GUI5->subscribeToMessageChannel(&input.channel,"");
 }
+
 bool ParseKey(int kb)
 {
 	if(kb>0)
@@ -390,34 +400,7 @@ class BinderKind: public messageReceiver{
 		}
 	}
 } Binder;
-/* 
-void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
-void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
-void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{1,0,0});}
-void camRotXCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{1,0,0});}
-void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,0,1});}
-void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,0,1});} */
-/*
-void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
-void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
-void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
-void camRotXCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
-void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
-void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
-*/
 
-// x = right
-// y = forward
-// z = up
-
-/* void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*convars["camSpeed"]);}
-void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,-.1,0})*convars["camSpeed"]);}
-void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){-.1,0,0})*convars["camSpeed"]);}
-void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){.1,0,0})*convars["camSpeed"]);}
-void camSlow(void* arg){camSpeed = 0.2;}
-void camFast(void* arg){camSpeed = 1;}
-void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
-void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;} */
 void ToggleMouseCapture(void* arg){convars["camera_mouse_capture"] = !convars["camera_mouse_capture"];}//{mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 class BinderKind;
@@ -482,6 +465,11 @@ void OnProgramStart()
 	bground.a = 255;
 
 	
+	// vec2i v; //POD
+	// rect S;  //non-POD
+	// v = {0,0};
+	// S = {NULL, v,v,v}; //error: no match for 'operator='
+	// S = (rect){NULL, v,v,v}; //error: no matching function for call to 'rect::rect((brace-enclosed initializer list))'
 	openGUI5();
 	
 	
@@ -548,8 +536,12 @@ void OnProgramStart()
 	debugcurrent.pop();
 }
 
-
-
+void OnResize(){
+	if(GUI5){GUI5->invalidate();}
+}
+void OnFocusLost(){
+	convars["camera_mouse_capture"] = 0;
+}
 void RenderGUI()
 {
 	//mouseP = mousePos;
@@ -685,13 +677,7 @@ void ThinkTick()
 	}*/
 }
 
-rect getScreenRect(){
-	rect R;
-	int w, h;
-	SDL_GetWindowSize(window, &w, &h);
-	R.setStart({0,0}).setSize({w,h});
-	return R;
-}
+
 //
 void ProgramTick(){
 	InputTick();

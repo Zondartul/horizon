@@ -1,7 +1,7 @@
 #include "experimental/testfuncs.h"
 #include "math/convexhull.h"
 #include "game/camera.h"
-#include "main/control.h"
+#include "main/control.h" //for "scene"
 #include "gui/newconsole.h"
 #include "input/keybinds.h"
 #include "experimental/terrain.h"

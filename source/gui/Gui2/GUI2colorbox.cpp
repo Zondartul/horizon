@@ -1,15 +1,18 @@
+#include "gui/Gui2.h"
 #include "gui/Gui2/GUI2colorbox.h"
-#include "main/control.h"
+////-#include "main/control.h"
+#include "util/globals.h"
 #include "display/paint.h"
+#include "input/input.h"
 GUI2colorbox::GUI2colorbox():GUI2base()
 {
 	movable = false;
 	resizible = false;
 	size = {256,256};
 	colLU = {0,255,255};//hue,saturation,value
-	colRU = {360,255,255};
+	colRU = {255,255,255};
 	colLD = {0,0,255};
-	colRD = {360,0,255};
+	colRD = {255,0,255};
 	colorHSV = {0,0,0};
 	colorRGB = {0,0,0};
 	cursor = {-1,-1};
@@ -18,6 +21,7 @@ void GUI2colorbox::onClick(int mb)
 {
 	if(mb>0)
 	{
+		vec2i mouseP = input.getMousePos();
 		cursor = mouseP-pos;
 		colorHSV = (colLU*(size.x-cursor.x)/size.x+colRU*(cursor.x)/size.x)*(size.y-cursor.y)/size.y +
 					(colLD*(size.x-cursor.x)/size.x+colRD*(cursor.x)/size.x)*(cursor.y)/size.y;

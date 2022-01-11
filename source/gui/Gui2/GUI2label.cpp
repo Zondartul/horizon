@@ -13,8 +13,11 @@ void GUI2label::render(void* arg)
 	resizeCheck();
 	dragCheck();
 	scissorCheck(arg);
-	
-	printwrich(pos.x,pos.y, size.x, size.y, &color_text.r, text);
+	int defcolor[3];
+	defcolor[0] = color_text.r;
+	defcolor[1] = color_text.g;
+	defcolor[2] = color_text.b;
+	printwrich(pos.x,pos.y, size.x, size.y, defcolor, text);
 	//printw(pos.x,pos.y,size.x,size.y,"print error");
 	//size.x = printw;
 	//glDisable(GL_SCISSOR_TEST);

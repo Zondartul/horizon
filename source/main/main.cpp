@@ -47,12 +47,16 @@ int main( int argc, char* args[] )
 					switch(event.window.event){
 						case SDL_WINDOWEVENT_RESIZED:
 							printf("SDL Window resized: %d x %d\n",event.window.data1, event.window.data2);
-							//do nothing?
-							//screen = getScreenRect();
-							glViewport(0, 0, event.window.data1, event.window.data2);
+							OnResize();
 						break;
+						case SDL_WINDOWEVENT_FOCUS_LOST:
+							printf("Lost the focus\n");
+							OnFocusLost();
+						break;
+						case SDL_WINDOWEVENT_FOCUS_GAINED:
+							printf("Got the focus\n");
 						default:
-							printf("SDL Window Event: %u\n", event.window.event);
+							//printf("SDL Window Event: %s\n", translateEnum(event.window.event, "SDL_WINDOWEVENT").c_str());
 						break;
 					}
 				break;
@@ -65,7 +69,7 @@ int main( int argc, char* args[] )
 					keyThing(event);
 				break;
 				default:
-					printf("SDL Event: %u\n", event.type);
+					//printf("SDL Event: %u\n", event.type);
 				break;
 			}
 		}

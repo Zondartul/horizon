@@ -12,7 +12,8 @@
 #include "util/globals.h"
 #include "util/messenger.h"
 #include "display/paint.h"
-#include "main/control.h" //"bad"?
+//-#include "main/control.h" //"bad"?
+#include "input/input.h"
 #include "input/inputMessage.h"
 
 GUI3base2::GUI3base2()

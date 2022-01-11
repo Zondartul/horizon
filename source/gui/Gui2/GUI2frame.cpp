@@ -49,5 +49,5 @@ void GUI2frame::render(void* arg)
 	setColor(color_text);
 	printw(pos.x,pos.y+4, size.x, size.y,title);
 	
-	//glDisable(GL_SCISSOR_TEST);
+	glDisable(GL_SCISSOR_TEST);
 }

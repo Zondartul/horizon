@@ -1,27 +1,33 @@
 #ifndef GUI5BASE_GUARD
 #define GUI5BASE_GUARD
 #include "util/messenger.h"
+#include "gui/Gui5/behaviors/GUI5behavior.h"
 //abstract class: Every element in GUI5 inherits from GUI5base
 //but GUI5base can not have instances itself
 
 class GUI5base: public messageReceiver{
+	friend class GUI5behavior;
+	friend class GUI5behaviorMovable;
+	friend class GUI5behaviorScalable;
+	friend class GUI5behaviorChildren;
+	friend class GUI5behaviorDebug;
+	friend class GUI5behaviorHighlight;
 	protected:
 	bool debugmode;			//will display debug information instead of normal render function
-	bool mouseover;			//is the mouse cursor currently hovering over the element?
 	bool hidden;			//hidden elements are not drawn and do not receive messages
-	bool isClient;			//client elements are follow client logic
 	bool deletePending;		//delete this object when once it's safe to do so
-	bool movable;			//element can be moved by dragging it
-	bool moving;			//element is being moved right now
-	vec2i moveOffset;		//used for moving
+	bool fill;				//element will grow to the maximum allowed size
 	public:
+	map<string, color4i> colors; //colors of the border, body, text, etc.
 	rect area; 				//position and size of this element.
 							//relative to: parent (or world if none)
 	rect client_area;		//determines allowed positions for clients.
 							//relative to: this->area.
 							//can be smaller or larger than this->area.
 	GUI5base *parent;
+	bool isClient;			//client elements are follow client logic
 	vector<GUI5base*> children;
+	vector<GUI5behavior*> behaviors; //behaviors allow elements to interact with users in unusual ways
 	messageChannel channel;
 	//children are divided into two groups: clients, and non-clients (staff)
 	//non-clients:
@@ -33,18 +39,24 @@ class GUI5base: public messageReceiver{
 	
 	
 	GUI5base();							//constructor
+	~GUI5base();						//destructor
 	//mutators
 	GUI5base &setPos(vec2i pos);					//change position (with side-effects)
 	GUI5base &setSize(vec2i size);					//change size	(with side-effects)
+	GUI5base &setPercentageSize(float mulx, float muly, int addx, int addy);	//change size based on percent(parent)+add
+	GUI5base &setPercentageSize(float mulx, float muly);						//change size based on percent(parent)
 	GUI5base &addElement(GUI5base &A);				//add a child element
 	GUI5base &removeElement(GUI5base &A);			//remove a child element 
 	GUI5base &removeAndDeleteElement(GUI5base &A);
 	GUI5base &setDebug(bool debug);
 	GUI5base &setClient(bool client);
 	GUI5base &setHidden(bool hidden);
-	GUI5base &setMovable(bool movable);
+	GUI5base &setFill(bool fill);
 	//getters
 	rect getVisibleArea();							//calculate the part of the element that is drawn on screen
+	bool hasAnyMouseover(vec2i mousepos);			//the specified position is within the visible area
+	bool hasExclusiveMouseover(vec2i mousepos);		//the specified position is within the visible area 
+													//  but not within that of any child elements
 	//signals
 	virtual void think();							//perform any logic not related to rendering
 	virtual void renderlogic();						//perform render/don't render logic and children render logic

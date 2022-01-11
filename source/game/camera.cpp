@@ -4,7 +4,8 @@
 #include "gui/newconsole.h"
 #include "gui/valscreen.h"
 #include "input/input.h"
-#include "main/control.h"
+#include "main/control.h" //for window handle
+#include "util/globals.h"
 void camInit();
 
 vec frustum::getTri(int tri, int vert){ // this is really dumb. why can't we have a normal convex hull generator?
@@ -219,6 +220,7 @@ void cameraKind::go2D()
 	rect screen = getScreenRect();
 	double height = (double)screen.geth();
 	double width = (double)screen.getw();
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_DEPTH_TEST);
 	glLoadIdentity();
@@ -230,6 +232,10 @@ void cameraKind::go2D()
 void cameraKind::go3D()
 {
 	//printf("camera go3D: %dx%d\n", (int)width, (int)height);
+	rect screen = getScreenRect();
+	double height = (double)screen.geth();
+	double width = (double)screen.getw();
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//glViewport(0,0, width, height);

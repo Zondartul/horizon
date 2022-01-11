@@ -28,6 +28,7 @@ void paintTriangle(vec2i P1, vec2i P2, vec2i P3);
 void paintTriangle();
 void setColor(color3i color);
 void setAlpha(byte alpha);
+void setColorAlpha(color4i coloralpha);
 void setScissor(rect scissor);
 extern color3i paintColor;
 extern byte paintAlpha;

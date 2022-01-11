@@ -43,24 +43,31 @@ void messageChannel::publish(message *msg){
 	{
 		if((msg->type == I->type) || (I->type == ""))
 		{
+			//printf("msg to from %p to %p\n",this,I->subscriber);
 			I->subscriber->receiveMessage(msg);
 			if(msg->handled && stopWhenHandled){return;}
 		}
 	}
 }
 void messageChannel::addSubscriber(messageReceiver *newSub, string type){
-	removeSubscriber(newSub, type);
+	//removeSubscriber(newSub, type);
 	subscribers.push_back({newSub, type});
-	cout << toString(this) + " subscribed <" + toString(newSub) + "> for type [" + type + "]\n";
+	printf("MessageChannel %p now publishes to %p\n", this, newSub);
+	//cout << toString(this) + " subscribed <" + toString(newSub) + "> for type [" + type + "]\n";
 }
 void messageChannel::removeSubscriber(messageReceiver *oldSub, string type){
+	//cout << toString(this) + " unsubscribed <" + toString(oldSub) + "> for type [" + type + "]\n";
+	printf("MessageChannel %p no longer publishes to %p\n", this, oldSub);
+	bool found = false;
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
 		if(((I->type == type) || (type == "")) && (I->subscriber == oldSub))
 		{
 			I = subscribers.erase(I);
+			found = true;
 		}
 	}
+	if(!found){printf("Warning: %p already doesn't publish to %p\n", this, oldSub);}
 }
 
 // debug func:

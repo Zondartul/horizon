@@ -140,7 +140,7 @@ void cmd_color(void *arg)
 		int g = atoi((*args)[2].c_str());
 		int b = atoi((*args)[3].c_str());
 		ConsoleParse("Color set to "+itoa(r)+","+itoa(g)+","+itoa(b));
-		Console->color_panel = {r,g,b};
+		Console->color_panel = {(uint8_t)r,(uint8_t)g,(uint8_t)b};
 	}
 }
 void cmd_textureLoad(void *arg)

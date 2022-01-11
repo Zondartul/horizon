@@ -1,6 +1,8 @@
 #include "gui/Gui2/GUI2scrollslidey.h"
-#include "main/control.h"
+////-#include "main/control.h"
+#include "util/globals.h"
 #include "display/paint.h"
+#include "input/input.h"
 GUI2scrollslidey::GUI2scrollslidey():GUI2base()
 {
 	callback = NULL;
@@ -12,6 +14,7 @@ void GUI2scrollslidey::onClick(int mb)
 {
 	if(mb==1)
 	{
+		vec2i mouseP = input.getMousePos();
 		startTouch = mouseP-pos;
 		if(callback)(callback(arg));
 		printf("clicky.");
@@ -24,6 +27,7 @@ void GUI2scrollslidey::dragCheck()
 	
 	if(dragging)
 	{
+		vec2i mouseP = input.getMousePos();
 		vec2i newPos = mouseP-startTouch;
 		if(vertical){newPos.x = pos.x;}else{newPos.y=pos.y;}
 		

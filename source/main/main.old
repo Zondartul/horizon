@@ -24,7 +24,7 @@ touching windows.h.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include "main/control.h"
+//-#include "main/control.h"
 #include "gui/newconsole.h"
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
