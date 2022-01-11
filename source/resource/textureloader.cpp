@@ -295,7 +295,7 @@ texture LoadTexturePNG( const char *filename ){
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
 		gluBuild2DMipmaps(GL_TEXTURE_2D,4,x,y,GL_RGBA,GL_UNSIGNED_BYTE,data);
 		stbi_image_free(data);
-		printf("texture loaded: %s",filename);
+		printf("texture loaded: %s\n",filename);
 		AllTextures[filename] = T;
 		return T;
 	}else{

@@ -109,6 +109,7 @@ void calculateInertiaTesnor()
 */
 void physBody::generateBoundingSphere()
 {
+	/* temporarily dummied out due to recent changes to model format
 	if(mdl==NULL){printf("Physbody.gBSS: no model\n"); return;}
 	BScenter = {0,0,0};
 	int n = mdl->numtris;
@@ -143,6 +144,7 @@ void physBody::generateBoundingSphere()
 	//AABBmax = restAABBoffset+restAABBsize/2;
 	updateAABB();
 	printf("BScenter: {%f,%f,%f}, BSradius: %f\n", BScenter.x,BScenter.y,BScenter.z,BSradius);
+	*/
 }
 void physBody::updateAABB()
 {
@@ -205,6 +207,7 @@ trace::trace()
 }
 void trace::scan()
 {
+/* temporarily dummied out due to recent changes in model format
 	//int triNum = -1;//temp - debug triangle index
 	vec initStart = start;
 	vec initDir = dir;
@@ -257,23 +260,24 @@ void trace::scan()
 				//triNum = t;
 			}
 		}
-		/*
-		double thc = sqrt(pow(r,2)-d2);
-		double dist1 = tca-thc;
-			//dist2 = tca+thc;
-		vec hit1 = start+dir*dist;
-			//vec hit2 = start+dir*dist2;
-			//printf("hit");
-		if((dist<0)|(dist1<dist))
-		{
-			dist = dist1;
-			hitpos = hit1;
-			hitObj = AllPhysBodies[i];
-		}
-		*/
-		//start = start+Bod->pos; // re-setting ray position for next object
-	}
+		
+//		double thc = sqrt(pow(r,2)-d2);
+//		double dist1 = tca-thc;
+//			//dist2 = tca+thc;
+//		vec hit1 = start+dir*dist;
+//			//vec hit2 = start+dir*dist2;
+//			//printf("hit");
+//		if((dist<0)|(dist1<dist))
+//		{
+//			dist = dist1;
+//			hitpos = hit1;
+//			hitObj = AllPhysBodies[i];
+//		}
+//		
+//		//start = start+Bod->pos; // re-setting ray position for next object
+//	}
 	//printf("|%d",triNum);
+*/
 }
 
 model *GJKcollision(physBody *A, physBody *B);
@@ -439,6 +443,7 @@ void PhysicsTick()
 
 vec GJKsupport(physBody *A, physBody *B, vec d)
 {
+	/* dummied out due to recent changes in model format
 	//get furthest point in direction for mesh A
 	vec p1 = A->mdl->mesh[0].v[1];
 	for(int i = 0; i<A->mdl->numtris;i++)
@@ -460,10 +465,13 @@ vec GJKsupport(physBody *A, physBody *B, vec d)
 		}
 	}
 	return (p1+A->pos)-(p2+B->pos);
+	*/
+	return vec();
 }
 
 model *GJKcollision(physBody *A, physBody *B)
 {
+/* dummied out due to recent changes in model format
 	// tetrahedron simplex;
 	vec d1 = { 1,  1,  1};  //   d3--d1
 	vec d2 = {-1, -1,  1};  //    |./|
@@ -531,10 +539,13 @@ model *GJKcollision(physBody *A, physBody *B)
 		return simplex;
 	}
 	}
+	*/
+	return new model();
 }
 #define EPA_TOLERANCE 0.001
 vec EPAcollision(physBody *A, physBody *B, model *simplex)
 {
+	/* dummied out due to recent changes in model format
 	while(true)
 	{
 		//obtain feature of simplex (part of minkowski difference) closest to origin.
@@ -560,10 +571,13 @@ vec EPAcollision(physBody *A, physBody *B, model *simplex)
 			simplex->expandTriangle(p, closestTri);
 		}
 	}
+	*/
+	return vec();
 }
 
 vec CPcollision(physBody *A, physBody *B, vec plane)
 {
+	/* dummied out due to recent changes to model format
 	double depth = plane.length();
 	plane = plane/depth;
 	int e1 = CPbestEdge(A,plane);
@@ -589,19 +603,21 @@ vec CPcollision(physBody *A, physBody *B, vec plane)
 	//double o3 = ref.getNormal().dot(ref.v[2]);
 	// wtf
 	// this shit makes no sense.
-	/* Return collision MANIFOLD, not POINT.
-	// point 1
-	cp[0].point = (12, 5)
-	cp[0].depth = 1.69
-	// point 2
-	cp[1].point = (9.28, 5)
-	cp[1].depth = 1.04
+//	 Return collision MANIFOLD, not POINT.
+//	// point 1
+//	cp[0].point = (12, 5)
+//	cp[0].depth = 1.69
+//	// point 2
+//	cp[1].point = (9.28, 5)
+//	cp[1].depth = 1.04
+	
 	*/
 	return vec();
 }	
 
 int CPbestEdge(physBody *A, vec plane)
 {
+	/* temporarily dummied out due to recent changes to model format
 	//1) farthest vertex in polygon along separation normal
 	vtriangle* mA = A->mdl->mesh; int mAc = A->mdl->numtris;
 	
@@ -640,6 +656,8 @@ int CPbestEdge(physBody *A, vec plane)
 	//triangle adjTris[i] in shape A is most
 	//perpendicular to separation plane.
 	return idtri;
+	*/
+	return 0;
 }
 
 

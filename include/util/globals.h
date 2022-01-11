@@ -48,6 +48,24 @@ struct color3i{
 	int b;
 };
 color3i operator + (color3i A, color3i B);
+color3i operator * (color3i A, int B);
+color3i operator / (color3i A, int B);
+color3i operator * (color3i A, double B);
+color3i operator / (color3i A, double B);
+struct color4i{
+	int r;
+	int g;
+	int b;
+	int a;
+	void setColor(color3i newColor);
+};
+color4i operator + (color4i A, color4i B);
+color4i operator * (color4i A, int B);
+color4i operator / (color4i A, int B);
+color4i operator * (color4i A, double B);
+color4i operator / (color4i A, double B);
+
+
 struct vec3i{
 	operator color3i();
     int x;
@@ -105,12 +123,6 @@ bool operator == (rect A, rect B);
 struct listNode{
     listNode* next;
     void* thing;
-};
-struct color4i{
-	int r;
-	int g;
-	int b;
-	int a;
 };
 
 extern int ms;

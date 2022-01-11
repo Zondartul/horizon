@@ -27,15 +27,15 @@ void t4render(void *arg){ //internal for test4
 		vec B = endshape.second[tri[1]];
 		vec C = endshape.second[tri[2]];
 		vec avg = (A+B+C)/3;
-		vec N = getNormal(tri,endshape.second);
+		vec N = tri.getNormal(&endshape.second);
 		rtriangle *rtri = new rtriangle(A,B,C,1);
-		rtri->type = 2;
-		rtri->colB = {0,0,0};
-		rtri->colA = {0,255,0};
+		//rtri->type = 2;
+		rtri->B.color = {0,0,0};
+		rtri->A.color = {0,255,0};
 		scene.push_back(rtri);
 		line *l = new line(avg, avg+N,1);
-		l->color1 = {255,0,0};
-		l->color2 = {0,255,0};
+		l->end1.color = {255,0,0};
+		l->end2.color = {0,255,0};
 		scene.push_back(l);
 	}
 }
@@ -57,13 +57,13 @@ int getFurthestInDir(set<int> curset, vec dir){
 	return maxI;
 }
 
-bool triangleCanSeePoint(idtriangle tri, vector<vec> p, int pt){
-	vec n = getNormal(tri, p);
-	return p[pt].dot(n) > p[tri[0]].dot(n);
+bool triangleCanSeePoint(idtriangle tri, vector<vec> *p, int pt){
+	vec n = tri.getNormal(p);
+	return (*p)[pt].dot(n) > (*p)[tri[0]].dot(n);
 }
 // for each point in set1, if it's below the plane defined by direction N and point p1, copy to set2.//cut-and-paste to set2.
 
-void splitByNormal(set<int> set0, set<int> &set1, set<int> &set2, idtriangle tri, vector<vec> p){//vec n, vec p1){
+void splitByNormal(set<int> set0, set<int> &set1, set<int> &set2, idtriangle tri, vector<vec> *p){//vec n, vec p1){
 	//double mindot = p1.dot(n);
 	for(set<int>::iterator I = set0.begin(); I != set0.end(); I++){
 		if(triangleCanSeePoint(tri,p,*I))
@@ -100,7 +100,7 @@ void eraseVectorElements(vector<pair<idtriangle,set<int>>> &vec, set<int> indice
 	}
 }
 
-pair<vector<idtriangle>, vector<vec>> defragmentShape(vector<pair<idtriangle,set<int>>> shape, vector<vec> p){
+pair<vector<idtriangle>, vector<vec>> defragmentShape(vector<pair<idtriangle,set<int>>> shape, vector<vec> *p){
 	
 
 	vector<idtriangle> tris;
@@ -111,7 +111,7 @@ pair<vector<idtriangle>, vector<vec>> defragmentShape(vector<pair<idtriangle,set
 		
 		idtriangle tri;
 		for(int J = 0; J < 3; J++){
-			vec sourcepoint = p[shape[I].first[J]];
+			vec sourcepoint = (*p)[shape[I].first[J]];
 			int found = -1;
 			for(int T = 0; T < points.size(); T++){
 				if(points[T] == sourcepoint){found = T; break;}
@@ -169,7 +169,7 @@ if(t4phase == -1){
 		activeset->erase(C);
 		shape.push_back({{A,B,C},set<int>()});
 		shape.push_back({{A,C,B},set<int>()});
-		splitByNormal(*activeset,shape[0].second, shape[1].second, shape[0].first, p);
+		splitByNormal(*activeset,shape[0].second, shape[1].second, shape[0].first, &p);
 	}if(t4phase == 2){ // visual cue
 t4phase2:
 		//cout << "2, ss = "<<shape[curtri].second.size() << "\n";
@@ -185,7 +185,7 @@ t4phase2:
 	}if(t4phase == 3){ // select furthest visible point, and select all tris that can see it.
 		//cout << "3, ss = "<<shape[curtri].second.size() << "\n";
 		t4phase++;
-		selectedpoint = getFurthestInDir(*activeset, getNormal(shape[curtri].first,p));
+		selectedpoint = getFurthestInDir(*activeset, shape[curtri].first.getNormal(&p));
 		//cout << "s.p. = " << selectedpoint << "\n";
 		if(selectedpoint == -1){ // nothing else to add here
 			selectededges.clear();
@@ -193,7 +193,7 @@ t4phase2:
 			t4phase = 6;
 		}else{
 			for(int I = 0; I < shape.size(); I++){
-				if(triangleCanSeePoint(shape[I].first,p,selectedpoint))
+				if(triangleCanSeePoint(shape[I].first,&p,selectedpoint))
 					selectedtris.insert(I);
 				/*
 				vec n = getNormal(shape[I].first,p);
@@ -204,7 +204,7 @@ t4phase2:
 		}
 	}if(t4phase == 4){ // delete the selected triangles, record edges.
 		//cout << "4, ss = "<<shape[curtri].second.size() << ", seltris "<< selectedtris.size() << "\n";
-		if(!triangleCanSeePoint(shape[curtri].first,p,selectedpoint))
+		if(!triangleCanSeePoint(shape[curtri].first,&p,selectedpoint))
 		{
 			cout << "ERROR! Triangle can't see point!\n";
 			selectedtris.clear();
@@ -252,7 +252,7 @@ t4phase5:
 		tri[2] = selectededges.begin()->second;
 		shape.push_back({tri,set<int>()});
 		selectededges.erase(selectededges.begin());
-		splitByNormal(*activeset, shape.back().second, unsorted, tri,p);
+		splitByNormal(*activeset, shape.back().second, unsorted, tri,&p);
 		activeset = &shape.back().second;
 		t4phase++;
 	}if(t4phase == 6){ // more visual cues
@@ -276,12 +276,12 @@ t4phase5:
 		t4phase = -1;
 		// final check
 		for(vector<pair<idtriangle,set<int>>>::iterator J = shape.begin(); J != shape.end(); J++){
-			splitByNormal(*activeset, errpoints, unsorted, J->first,p);
+			splitByNormal(*activeset, errpoints, unsorted, J->first,&p);
 		}
 		cout << "Victory! ";
 		endshape.first.clear();
 		endshape.second.clear();
-		endshape = defragmentShape(shape, p);
+		endshape = defragmentShape(shape, &p);
 		cout << endshape.first.size() << " triangles, " << endshape.second.size() << " points.\n";
 	}
 }

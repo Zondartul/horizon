@@ -13,35 +13,29 @@ idtriangle::idtriangle(int A, int B, int C){
 	v[1] = B;
 	v[2] = C;
 }
-idtriangle::idtriangle(vec A, vec B, vec C, vector<vec> &points){
+idtriangle::idtriangle(vec A, vec B, vec C, vector<vec> *points){
 	bool Afound = false;
 	bool Bfound = false;
 	bool Cfound = false;
-	for(int I = 0; I<points.size(); I++){
-		if(points[I] == A){Afound = true; v[0] = I;}
-		if(points[I] == B){Bfound = true; v[1] = I;}
-		if(points[I] == C){Cfound = true; v[2] = I;}
+	for(int I = 0; I<points->size(); I++){
+		if((*points)[I] == A){Afound = true; v[0] = I;}
+		if((*points)[I] == B){Bfound = true; v[1] = I;}
+		if((*points)[I] == C){Cfound = true; v[2] = I;}
 	}
-	if(!Afound){points.push_back(A); v[0] = points.size()-1;}
-	if(!Bfound){points.push_back(B); v[1] = points.size()-1;}
-	if(!Cfound){points.push_back(C); v[2] = points.size()-1;}
+	if(!Afound){points->push_back(A); v[0] = points->size()-1;}
+	if(!Bfound){points->push_back(B); v[1] = points->size()-1;}
+	if(!Cfound){points->push_back(C); v[2] = points->size()-1;}
 	printf("making a triangle with v[0] = %d, v[1] = %d, v[2] = %d\n", v[0], v[1], v[2]);
 }
 
-vec getNormal(idtriangle t, vector<vec> &points){
-	return (points[t[2]]-points[t[0]]).cross(points[t[1]]-points[t[0]]).norm();
+vec idtriangle::getNormal(vector<vec> *points){
+	return ((*points)[v[2]]-(*points)[v[0]]).cross((*points)[v[1]]-(*points)[v[0]]).norm();
 }
-// now that's all good and all but lets face it, that's just dumb.
-/*
-struct triangle
-{
-	vec v[3];
-	vec getNormal()
-	{
-		return (v[2]-v[0]).cross(v[1]-v[0]).norm();
-	}
-};
-*/
+
+vec idtriangle::getPlane(vector<vec> *points){
+	return getNormal(points)*((*points)[v[0]].dot(getNormal(points)));
+}
+
 vec& vtriangle::operator [](int N){return v[N];}
 vtriangle::vtriangle(){
 	v[0] = v[1] = v[2] = {0,0,0};
@@ -54,17 +48,32 @@ vtriangle::vtriangle(vec A, vec B, vec C){
 vec vtriangle::getNormal(){
 	return (v[2]-v[0]).cross(v[1]-v[0]).norm();
 }
+
+vec vtriangle::getPlane(){
+	return getNormal()*(v[0].dot(getNormal()));
+}
+
+/*struct model{
+	vector<vec> vertices;
+	vector<idtriangle> mesh;
+	vector<textriangle> uvmap;
+	vector<texture> textures;
+	model();
+}*/
+model::model(){
+}
+void model::add(model *M){
+	float offset = vertices.size();
+	vertices.insert(vertices.end(), M->vertices.begin(), M->vertices.end());
+	for(int I = 0; I < M->mesh.size(); I++){
+		idtriangle tri = M->mesh[I];
+		tri[0] += offset;
+		tri[1] += offset;
+		tri[2] += offset;
+		mesh.push_back(tri);
+	}
+}
 /*
-struct texture
-{
-	int texturetype; //normal, animated, dynamic, etc.
-	char* texname;
-	void *glTexbind; //or something
-};
-*/
-
-
-
 model::model()
 {
 	numtris = 0; numtextures = 0;
@@ -112,3 +121,4 @@ vector<int> model::getAdjacentTris(int tri, int vert)
 	}
 	return Adj;
 }
+*/

@@ -6,10 +6,10 @@
 #include "resource/textureloader.h"
 #include "resource/models.h"
 #include "game/physics.h"
-void genBox(void* arg);
-void genCyl(void* arg);
-void genCon(void* arg);
-void genSph(void* arg);
+void oldgenBox(void* arg);
+void oldgenCyl(void* arg);
+void oldgenCon(void* arg);
+void oldgenSph(void* arg);
 void windowOpts(void* arg);
 void windowPhysbody(void* arg);
 
@@ -26,7 +26,7 @@ void OpenMenuToolbox()
 	btnBox->setPos(4,4);										btnCyl->setPos(4+32,4);
 	btnBox->setSize(32,32);										btnCyl->setSize(32,32);
 	btnBox->setImage("C:/Stride/textures/cube.bmp");			btnCyl->setImage("C:/Stride/textures/cylinder.bmp");
-	btnBox->func = &genBox;										btnCyl->func = &genCyl;
+	btnBox->func = &oldgenBox;										btnCyl->func = &oldgenCyl;
 	btnBox->arg = NULL;											btnCyl->arg = NULL;
 	btnBox->setParent((GUI2base*) toolFrame);					btnCyl->setParent((GUI2base*) toolFrame);
 	
@@ -34,7 +34,7 @@ void OpenMenuToolbox()
 	btnSphere->setPos(4,4+32);									btnCone->setPos(4+32,4+32);
 	btnSphere->setSize(32,32);									btnCone->setSize(32,32);
 	btnSphere->setImage("C:/Stride/textures/sphere.bmp");		btnCone->setImage("C:/Stride/textures/cone.bmp");
-	btnSphere->func = &genSph;									btnCone->func = &genCon;
+	btnSphere->func = &oldgenSph;									btnCone->func = &oldgenCon;
 	btnSphere->arg = NULL;										btnCone->arg = NULL;
 	btnSphere->setParent((GUI2base*) toolFrame);				btnCone->setParent((GUI2base*) toolFrame);
 	
@@ -63,12 +63,10 @@ void OpenMenuToolbox()
 	texture_load_pixelated = false;
 }
 
-model *genCube(double l, double w, double h)
+model *oldgenCube(double l, double w, double h)
 {
-	//printf("<1>");
 	/*
-	
-	*/
+	//printf("<1>");
 	vec V = {l,w,h};
 	model* M = new model;
 	//printf("<2>");
@@ -84,29 +82,29 @@ model *genCube(double l, double w, double h)
 	M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
 	//printf("<5>");
 	
-	/*
-	  E-----H
-	 /|    /|
-	F-+---G |
-	| |   | |
-	| A---+-D
-	|/    |/
-	B-----C
+//	
+//	  E-----H
+//	 /|    /|
+//	F-+---G |
+//	| |   | |
+//	| A---+-D
+//	|/    |/
+//	B-----C
+//	
+//	AB = +y
+//	AD = +x
+//	AE = +z
 	
-	AB = +y
-	AD = +x
-	AE = +z
-	*/ 
 	
 	
-	vec A = {-l/2,-w/2,-h/2}; //A = A*10;
-	vec B = {-l/2,w/2,-h/2}; //B = B*10;
-	vec C = {l/2,w/2,-h/2}; //C = C*10;
-	vec D = {l/2,-w/2,-h/2}; //D = D*10;
-	vec E = {-l/2,-w/2,h/2}; //E = E*10;
-	vec F = {-l/2,w/2,h/2}; //F = F*10;
-	vec G = {l/2,w/2,h/2};// G = G*10;
-	vec H = {l/2,-w/2,h/2}; //H = H*10;
+	vec A = {-l/2,-w/2,-h/2}; //A = A*10;	1
+	vec B = {-l/2,w/2,-h/2}; //B = B*10;	2
+	vec C = {l/2,w/2,-h/2}; //C = C*10;		3
+	vec D = {l/2,-w/2,-h/2}; //D = D*10;	4
+	vec E = {-l/2,-w/2,h/2}; //E = E*10;	5
+	vec F = {-l/2,w/2,h/2}; //F = F*10;		6
+	vec G = {l/2,w/2,h/2};// G = G*10;		7
+	vec H = {l/2,-w/2,h/2}; //H = H*10;		8
 	//texture:
 	//A - B
 	//|   |
@@ -146,9 +144,12 @@ model *genCube(double l, double w, double h)
 	//AllPhysBodies.push_back(physBody(M));
 	//printf("<7>");
 	//OpenMenuModel();
+	*/
+	return new model();
 }
-model *genPlane(double l, double w)
+model *oldgenPlane(double l, double w)
 {
+	/*
 	model* M = new model;
 	M->mesh = new vtriangle[2];
 	M->texmap = new textriangle[2];
@@ -167,15 +168,18 @@ model *genPlane(double l, double w)
 	M->mesh[1] = (vtriangle){C,D,A}; M->texmap[1] = (textriangle){{tC,tD,tA},0,R_TEXTURE};
 	M->numtris = 2;
 	return M;
-}
-model *genCylinder(double height, double radius, int numsides)
-{
-	printf("<1>");
-	/*
-	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
 	*/
+	return new model();
+}
+model *oldgenCylinder(double height, double radius, int numsides)
+{
+	/*
+	printf("<1>");
+	
+	//double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	//double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	//int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -191,19 +195,19 @@ model *genCylinder(double height, double radius, int numsides)
 	M->textures[1] = textureGet("C:/Stride/textures/barrel-side.bmp");
 	printf("<5>");
 	
-	/* cylinder wedge
-	  T
-	 /|\   
-	B-+-D next B = prev D
-	| | | 
-	| O |
-	|/ \|
-	A---C
-	
-	AB = +y
-	AD = +x
-	AE = +z
-	*/ 
+//	 cylinder wedge
+//	  T
+//	 /|\   
+//	B-+-D next B = prev D
+//	| | | 
+//	| O |
+//	|/ \|
+//	A---C
+//	
+//	AB = +y
+//	AD = +x
+//	AE = +z
+//	 
 	//texture:
 	//A - B
 	//| O |
@@ -262,11 +266,11 @@ model *genCylinder(double height, double radius, int numsides)
 	
 	//CW culling.
 	//
-	/*
-	//front
-	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
-	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
-	*/
+	
+//	//front
+//	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+//	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	
 	M->numtris = 4*numsides;//12;
 	
 	printf("<6>");
@@ -275,16 +279,19 @@ model *genCylinder(double height, double radius, int numsides)
 	//AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
+	*/
+	return new model();
 }
 
-model *genCone(double height, double radius, int numsides)
+model *oldgenCone(double height, double radius, int numsides)
 {
+/*
 	printf("<1>");
-	/*
-	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
-	*/
+	
+//	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+//	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+//	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -300,19 +307,19 @@ model *genCone(double height, double radius, int numsides)
 	//M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
 	printf("<5>");
 	
-	/* cylinder wedge
-	  T
-	 /|\   
-	B-+-D next B = prev D
-	| | | 
-	| O |
-	|/ \|
-	A---C
-	
-	AB = +y
-	AD = +x
-	AE = +z
-	*/ 
+//	 cylinder wedge
+//	  T
+//	 /|\   
+//	B-+-D next B = prev D
+//	| | | 
+//	| O |
+//	|/ \|
+//	A---C
+//	
+//	AB = +y
+//	AD = +x
+//	AE = +z
+//	 
 	//texture:
 	//A - B
 	//| O |
@@ -360,11 +367,11 @@ model *genCone(double height, double radius, int numsides)
 	
 	//CW culling.
 	//
-	/*
-	//front
-	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
-	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
-	*/
+	
+//	//front
+//	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+//	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	
 	M->numtris = 2*numsides;//12;
 	
 	printf("<6>");
@@ -373,16 +380,19 @@ model *genCone(double height, double radius, int numsides)
 	//AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
+*/
+	return new model();
 }
 
-model *genSphere(double radius, int numverti, int numhori)
+model *oldgenSphere(double radius, int numverti, int numhori)
 {
-	printf("<1>");
 	/*
-	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
-	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
-	*/
+	printf("<1>");
+	
+//	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+//	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
+//	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -398,19 +408,18 @@ model *genSphere(double radius, int numverti, int numhori)
 	//M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
 	printf("<5>");
 	
-	/* cylinder wedge
-	  T
-	 /|\   
-	B-+-D next B = prev D
-	| | | 
-	| O |
-	|/ \|
-	A---C
-	
-	AB = +y
-	AD = +x
-	AE = +z
-	*/ 
+//	cylinder wedge
+//	  T
+//	 /|\   
+//	B-+-D next B = prev D
+//	| | | 
+//	| O |
+//	|/ \|
+//	A---C
+//	
+//	AB = +y
+//	AD = +x
+//	AE = +z 
 	//texture:
 	//A - B
 	//| O |
@@ -435,12 +444,12 @@ model *genSphere(double radius, int numverti, int numhori)
 			A = hori.corotateVector(verti2.rotateVector(T));
 			D = hori2.corotateVector(verti.rotateVector(T));
 			C = hori2.corotateVector(verti2.rotateVector(T));
-			/*
-			tU1.x = ((double)i)/numhori;tU1.y = 1-((double)t)/numverti;
-			tU2.x = ((double)i+1)/numhori;tU2.y = 1-((double)t)/numverti;
-			tL1.x = ((double)i)/numhori;tL1.y = 1-((double)t+1)/numverti;
-			tL2.x = ((double)i+1)/numhori;tL2.y = 1-((double)t+1)/numverti;
-			*/
+			
+//			tU1.x = ((double)i)/numhori;tU1.y = 1-((double)t)/numverti;
+//			tU2.x = ((double)i+1)/numhori;tU2.y = 1-((double)t)/numverti;
+//			tL1.x = ((double)i)/numhori;tL1.y = 1-((double)t+1)/numverti;
+//			tL2.x = ((double)i+1)/numhori;tL2.y = 1-((double)t+1)/numverti;
+			
 			tU1.y = 1-((double)t)/numverti; tU1.x = 0.5f+(((double)i)/numhori-0.5f)*cos(M_PI*(tU1.y-0.5f));
 			tU2.y = 1-((double)t)/numverti; tU2.x = 0.5f+(((double)i+1)/numhori-0.5f)*cos(M_PI*(tU2.y-0.5f));
 			tL1.y = 1-((double)t+1)/numverti; tL1.x = 0.5f+(((double)i)/numhori-0.5f)*cos(M_PI*(tL1.y-0.5f));
@@ -457,11 +466,11 @@ model *genSphere(double radius, int numverti, int numhori)
 	
 	//CW culling.
 	//
-	/*
+	
 	//front
-	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
-	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
-	*/
+//	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+//	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	
 	M->numtris = 2*numverti*numhori;//12;
 	
 	printf("<6>");
@@ -472,190 +481,192 @@ model *genSphere(double radius, int numverti, int numhori)
 	//AllPhysBodies.push_back(Bod);
 	printf("<7>");
 	//OpenMenuModel();
+	*/
+	return new model();
 }
 
-void btnGenCube(void* arg)
+void btnoldgenCube(void* arg)
 {
 	double l = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
 	double w = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
 	double h = 	((GUI2spinner*)(((void**)arg)[2]))->vals[1];
-	physBody* bod = new physBody(genCube(l,w,h));
+	physBody* bod = new physBody(oldgenCube(l,w,h));
 	//bod->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
 	//bod->mdl->blendmode = rand()%2+1;
 	AllPhysBodies.push_back(bod);
 }
-void btnGenCyl(void* arg)
+void btnoldgenCyl(void* arg)
 {
 	double height = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
 	double radius = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
 	int numsides = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
-	AllPhysBodies.push_back(new physBody(genCylinder(height,radius,numsides)));
+	AllPhysBodies.push_back(new physBody(oldgenCylinder(height,radius,numsides)));
 }
-void btnGenCone(void* arg)
+void btnoldgenCone(void* arg)
 {
 	double height = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
 	double radius = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
 	int numsides = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
-	AllPhysBodies.push_back(new physBody(genCone(height,radius,numsides)));
+	AllPhysBodies.push_back(new physBody(oldgenCone(height,radius,numsides)));
 }
-void btnGenSphere(void* arg)
+void btnoldgenSphere(void* arg)
 {
 	double radius = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
 	int numverti = 	(int)(((GUI2spinner*)(((void**)arg)[1]))->vals[1]);
 	int numhori = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
-	AllPhysBodies.push_back(new physBody(genSphere(radius,numverti,numhori)));
+	AllPhysBodies.push_back(new physBody(oldgenSphere(radius,numverti,numhori)));
 }
-void genBox(void* arg)
+void oldgenBox(void* arg)
 {
-	GUI2frame* GenMenu = new GUI2frame;
-	GenMenu->setPos(128,128);
-	GenMenu->setSize(256,128);
-	GenMenu->title = "Box Generator";
-	GenMenu->setParent(GUI);
-	GUI2base::fixstrata((GUI2base*)GenMenu);
+	GUI2frame* oldgenMenu = new GUI2frame;
+	oldgenMenu->setPos(128,128);
+	oldgenMenu->setSize(256,128);
+	oldgenMenu->title = "Box oldgenerator";
+	oldgenMenu->setParent(GUI);
+	GUI2base::fixstrata((GUI2base*)oldgenMenu);
 	
 	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "length";
-	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
+	spinx->setParent((GUI2base*) oldgenMenu);	spinxtext->setParent((GUI2base*) oldgenMenu);
 
 	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,1,10,0.5,2);			spinytext->text = "width";
-	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
+	spiny->setParent((GUI2base*) oldgenMenu);	spinytext->setParent((GUI2base*) oldgenMenu);
 	
 	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);				spinztext->setPos(96,4+32);
 	spinz->setVals(-10,1,10,0.5,2);			spinztext->text = "height";
-	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
+	spinz->setParent((GUI2base*) oldgenMenu);	spinztext->setParent((GUI2base*) oldgenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUI2button* btnGen = new GUI2button;
-	btnGen->setPos(4,4+64);
-	btnGen->setSize(96,16);
-	btnGen->text = "Generate";
-	btnGen->func = &btnGenCube;
-	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUI2base*) GenMenu);
+	GUI2button* btnoldgen = new GUI2button;
+	btnoldgen->setPos(4,4+64);
+	btnoldgen->setSize(96,16);
+	btnoldgen->text = "oldgenerate";
+	btnoldgen->func = &btnoldgenCube;
+	btnoldgen->arg = (void*)newarg;
+	btnoldgen->setParent((GUI2base*) oldgenMenu);
 	
 }
 
 
 
-void genCyl(void* arg)
+void oldgenCyl(void* arg)
 {
-	GUI2frame* GenMenu = new GUI2frame;
-	GenMenu->setPos(128,128);
-	GenMenu->setSize(256,128);
-	GenMenu->title = "Cylinder Generator";
-	GenMenu->setParent(GUI);
-	GUI2base::fixstrata((GUI2base*)GenMenu);
+	GUI2frame* oldgenMenu = new GUI2frame;
+	oldgenMenu->setPos(128,128);
+	oldgenMenu->setSize(256,128);
+	oldgenMenu->title = "Cylinder oldgenerator";
+	oldgenMenu->setParent(GUI);
+	GUI2base::fixstrata((GUI2base*)oldgenMenu);
 	
 	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
-	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
+	spinx->setParent((GUI2base*) oldgenMenu);	spinxtext->setParent((GUI2base*) oldgenMenu);
 
 	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,0.5,10,0.25,2);			spinytext->text = "radius";
-	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
+	spiny->setParent((GUI2base*) oldgenMenu);	spinytext->setParent((GUI2base*) oldgenMenu);
 	
 	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
-	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
+	spinz->setParent((GUI2base*) oldgenMenu);	spinztext->setParent((GUI2base*) oldgenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUI2button* btnGen = new GUI2button;
-	btnGen->setPos(4,4+64);
-	btnGen->setSize(96,16);
-	btnGen->text = "Generate";
-	btnGen->func = &btnGenCyl;
-	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUI2base*) GenMenu);
+	GUI2button* btnoldgen = new GUI2button;
+	btnoldgen->setPos(4,4+64);
+	btnoldgen->setSize(96,16);
+	btnoldgen->text = "oldgenerate";
+	btnoldgen->func = &btnoldgenCyl;
+	btnoldgen->arg = (void*)newarg;
+	btnoldgen->setParent((GUI2base*) oldgenMenu);
 	
 }
 
-void genCon(void* arg)
+void oldgenCon(void* arg)
 {
-	GUI2frame* GenMenu = new GUI2frame;
-	GenMenu->setPos(128,128);
-	GenMenu->setSize(256,128);
-	GenMenu->title = "Cone Generator";
-	GenMenu->setParent(GUI);
-	GUI2base::fixstrata((GUI2base*)GenMenu);
+	GUI2frame* oldgenMenu = new GUI2frame;
+	oldgenMenu->setPos(128,128);
+	oldgenMenu->setSize(256,128);
+	oldgenMenu->title = "Cone oldgenerator";
+	oldgenMenu->setParent(GUI);
+	GUI2base::fixstrata((GUI2base*)oldgenMenu);
 	
 	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
-	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
+	spinx->setParent((GUI2base*) oldgenMenu);	spinxtext->setParent((GUI2base*) oldgenMenu);
 
 	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,0.5,10,0.25,2);		spinytext->text = "radius";
-	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
+	spiny->setParent((GUI2base*) oldgenMenu);	spinytext->setParent((GUI2base*) oldgenMenu);
 	
 	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
-	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
+	spinz->setParent((GUI2base*) oldgenMenu);	spinztext->setParent((GUI2base*) oldgenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUI2button* btnGen = new GUI2button;
-	btnGen->setPos(4,4+64);
-	btnGen->setSize(96,16);
-	btnGen->text = "Generate";
-	btnGen->func = &btnGenCone;
-	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUI2base*) GenMenu);
+	GUI2button* btnoldgen = new GUI2button;
+	btnoldgen->setPos(4,4+64);
+	btnoldgen->setSize(96,16);
+	btnoldgen->text = "oldgenerate";
+	btnoldgen->func = &btnoldgenCone;
+	btnoldgen->arg = (void*)newarg;
+	btnoldgen->setParent((GUI2base*) oldgenMenu);
 	
 }
 
-void genSph(void* arg)
+void oldgenSph(void* arg)
 {
-	GUI2frame* GenMenu = new GUI2frame;
-	GenMenu->setPos(128,128);
-	GenMenu->setSize(256,128);
-	GenMenu->title = "Sphere Generator";
-	GenMenu->setParent(GUI);
-	GUI2base::fixstrata((GUI2base*)GenMenu);
+	GUI2frame* oldgenMenu = new GUI2frame;
+	oldgenMenu->setPos(128,128);
+	oldgenMenu->setSize(256,128);
+	oldgenMenu->title = "Sphere oldgenerator";
+	oldgenMenu->setParent(GUI);
+	GUI2base::fixstrata((GUI2base*)oldgenMenu);
 	
 	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,0.5,10,0.25,2);			spinxtext->text = "height";
-	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
+	spinx->setParent((GUI2base*) oldgenMenu);	spinxtext->setParent((GUI2base*) oldgenMenu);
 
 	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(0,8,10,0.5,2);			spinytext->text = "vertical sides";
-	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
+	spiny->setParent((GUI2base*) oldgenMenu);	spinytext->setParent((GUI2base*) oldgenMenu);
 	
 	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(0,8,64,1,2);			spinztext->text = "horizontal sides";
-	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
+	spinz->setParent((GUI2base*) oldgenMenu);	spinztext->setParent((GUI2base*) oldgenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUI2button* btnGen = new GUI2button;
-	btnGen->setPos(4,4+64);
-	btnGen->setSize(96,16);
-	btnGen->text = "Generate";
-	btnGen->func = &btnGenSphere;
-	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUI2base*) GenMenu);
+	GUI2button* btnoldgen = new GUI2button;
+	btnoldgen->setPos(4,4+64);
+	btnoldgen->setSize(96,16);
+	btnoldgen->text = "oldgenerate";
+	btnoldgen->func = &btnoldgenSphere;
+	btnoldgen->arg = (void*)newarg;
+	btnoldgen->setParent((GUI2base*) oldgenMenu);
 	
 }
 
@@ -685,7 +696,7 @@ void entSelect(void *arg)
 	ray.scan();
 	if(ray.hit)
 	{
-		physBody *tempPoint = new physBody(genSphere(0.01,8,16));
+		physBody *tempPoint = new physBody(oldgenSphere(0.01,8,16));
 		tempPoint->tracegroup = 0;
 		tempPoint->pos = ray.hitpos; 
 		AllPhysBodies.push_back(tempPoint);
@@ -710,7 +721,7 @@ void toggle3Dcursor(void* arg)
 	static physBody *cursor = 0;
 	if(!cursor)
 	{
-		cursor = new physBody(genPlane(1,1));
+		cursor = new physBody(oldgenPlane(1,1));
 		cursor->mdl->textures[0] = textureGet("C:/Stride/textures/windrose.bmp");
 		//cursor->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
 		//cursor->mdl->blendmode = 1;
@@ -736,10 +747,10 @@ void AABBupdate(void* arg)
 	S->setOrient(quat::fromAngleAxis(0,0,0,1));
 	S->setScale(1);
 	delete S->mdl;
-	S->mdl = genCube(x,y,z);
-	S->mdl->applyRenderFlags(R_DARKEN|R_LIGHTEN);
-	S->mdl->blendmode = 2;
-	S->mdl->numtextures = 0;
+	S->mdl = oldgenCube(x,y,z);
+//	S->mdl->applyRenderFlags(R_DARKEN|R_LIGHTEN);
+//	S->mdl->blendmode = 2;
+//	S->mdl->numtextures = 0;
 }
 
 void toggleAABB(void* arg)

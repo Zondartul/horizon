@@ -67,9 +67,11 @@ int countlines(string str){
 	return N;
 }
 void cprint(string str){
+	if(!newconsole){return;}
 	while(countlines(text->text) > 12)
 		cunprintfromtop();
 	text->text = text->text+str+'\n';
+	printf("cprint: %s\n",str.c_str());
 }
 void cunprint(){
 	int p = text->text.find_last_of('\n');

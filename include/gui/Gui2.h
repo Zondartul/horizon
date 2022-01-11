@@ -34,6 +34,6 @@ extern vec2i mouseP; // mid-man variable for extra GUI's
 // r,g,b values are from 0 to 1
 // h = [0,360], s = [0,1], v = [0,1]
 //		if s == 0, then h = -1 (undefined)
-vec3i RGBtoHSV(vec3i RGB);
-vec3i HSVtoRGB(vec3i HSV);
+color3i RGBtoHSV(color3i RGB);
+color3i HSVtoRGB(color3i HSV);
 #endif

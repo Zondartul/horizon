@@ -87,26 +87,26 @@ void testfunc1(void* arg){ //draws the view frustum
 void testfunc2(void* arg){ // orientation helper
 	int time = 600;
 	line *myline = new line(camera.pos, camera.pos+camera.angle.localX());
-	myline->color2 = {255,0,0};
+	myline->end2.color = {255,0,0};
 	myline->lifetime = time;
 	scene.push_back(myline);
 	scene.push_back(new floatingtext(camera.pos+camera.angle.localX(),"x",time));
 	myline = new line(camera.pos, camera.pos+camera.angle.forward());
-	myline->color2 = {0,255,0};
+	myline->end2.color = {0,255,0};
 	myline->lifetime = time;
 	scene.push_back(myline);
 	scene.push_back(new floatingtext(camera.pos+camera.angle.localY(),"y",time));
 	myline = new line(camera.pos, camera.pos+camera.angle.up());
-	myline->color2 = {0,0,255};
+	myline->end2.color = {0,0,255};
 	myline->lifetime = time;
 	scene.push_back(myline);
 	scene.push_back(new floatingtext(camera.pos+camera.angle.localZ(),"z",time));
 	myline = new line(camera.pos, camera.pos+quat::fromAngleAxis(30,camera.angle.localZ()).rotateVector(camera.angle.localY()));
-	myline->color2 = {255,255,255};
+	myline->end2.color = {255,255,255};
 	myline->lifetime = time;
 	scene.push_back(myline);
 	myline = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+camera.angle.localX().cross(camera.angle.localY()));
-	myline->color2 = {0,255,255};
+	myline->end2.color = {0,255,255};
 	myline->lifetime = time;
 	scene.push_back(myline);
 	vec intersex;
@@ -119,13 +119,13 @@ void testfunc3(void *arg){ // quaternion direction test + floating text
 	int time = 600;
 	scene.push_back(new floatingtext(camera.pos, "Hello World!", time));
 	line *l = new line(camera.pos, camera.pos+camera.angle.forward(), time);
-	l->color1 = {255,0,0};
-	l->color2 = {0,255,0};
+	l->end1.color = {255,0,0};
+	l->end2.color = {0,255,0};
 	scene.push_back(l);
 	quat testQ = quat::fromAngleAxis(1,{0,0,1});//((quat){0,{0,0,1}});
 	l = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+testQ.rotateVector(camera.angle.forward()), time);
-	l->color1 = {255,0,0};
-	l->color2 = {0,0,255};
+	l->end1.color = {255,0,0};
+	l->end2.color = {0,0,255};
 	scene.push_back(l);
 }
 

@@ -2,5 +2,6 @@
 #define WINDOW_MODELLER_GUARD
 
 void OpenWindowModeller();
+void startModellerSession();
 
 #endif

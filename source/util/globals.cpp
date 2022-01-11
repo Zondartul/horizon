@@ -54,8 +54,34 @@ color3i operator + (color3i A, color3i B)
 {
 	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255)};
 }
+color3i operator * (color3i A, int B){
+	return {clamp(A.r*B,0,255),clamp(A.g*B,0,255),clamp(A.b*B,0,255)};
+}
+color3i operator / (color3i A, int B){
+	return {clamp(A.r/B,0,255),clamp(A.g/B,0,255),clamp(A.b/B,0,255)};
+}
+color3i operator * (color3i A, double B){
+	return {clamp(A.r*B,0,255),clamp(A.g*B,0,255),clamp(A.b*B,0,255)};
+}
+color3i operator / (color3i A, double B){
+	return {clamp(A.r/B,0,255),clamp(A.g/B,0,255),clamp(A.b/B,0,255)};
+}
 
-
+color4i operator + (color4i A, color4i B){
+	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255),clamp(A.a+B.a,0,255)};
+}
+color4i operator * (color4i A, int B){
+	return {clamp(A.r*B,0,255),clamp(A.g*B,0,255),clamp(A.b*B,0,255),A.a}; //multiplicative ops only affect color component
+}
+color4i operator / (color4i A, int B){
+	return {clamp(A.r/B,0,255),clamp(A.g/B,0,255),clamp(A.b/B,0,255),A.a};
+}
+color4i operator * (color4i A, double B){
+	return {clamp(A.r*B,0,255),clamp(A.g*B,0,255),clamp(A.b*B,0,255),A.a};
+}
+color4i operator / (color4i A, double B){
+	return {clamp(A.r/B,0,255),clamp(A.g/B,0,255),clamp(A.b/B,0,255),A.a};
+}
 vec3i operator + (vec3i A, vec3i B)
 {
 	return {A.x+B.x, A.y+B.y, A.z+B.z};

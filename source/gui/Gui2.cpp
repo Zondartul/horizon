@@ -31,31 +31,14 @@ void setAlpha(byte alpha)
 GUI2base* GUI2base::lastClicked = NULL; //I hope you won't need to click two things at once.
 GUI2base* GUI2base::focus = NULL; //wtfffff
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // r,g,b values are from 0 to 1
 // h = [0,360], s = [0,1], v = [0,1]
 //		if s == 0, then h = -1 (undefined)
-vec3i RGBtoHSV(vec3i RGB)
+color3i RGBtoHSV(color3i RGB)
 {
-	float r = RGB.x;
-	float g = RGB.y;
-	float b = RGB.z;
+	float r = RGB.r;
+	float g = RGB.r;
+	float b = RGB.r;
 	float h = 0;
 	float s = 0;
 	float v = 0;
@@ -84,16 +67,16 @@ vec3i RGBtoHSV(vec3i RGB)
 	
 	return {(int)h, (int)(s*255), (int)(v*255)};
 }
-vec3i HSVtoRGB(vec3i HSV)
+color3i HSVtoRGB(color3i HSV)
 {
 	float r = 0;
 	float g = 0;
 	float b = 0;
 	int i;
 	float f, p, q, t;
-	float h = HSV.x;
-	float s = HSV.y;
-	float v = HSV.z;
+	float h = HSV.r;
+	float s = HSV.g;
+	float v = HSV.b;
 	h /= 60;			// sector 0 to 5
 	s /= 255;
 	v /= 255;

@@ -18,13 +18,13 @@ void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, tex );
     glBegin(GL_QUADS);
-	glTexCoord2f(0,1);
-    glVertex2i(X1, Y1);
 	glTexCoord2f(0,0);
+    glVertex2i(X1, Y1);
+	glTexCoord2f(0,1);
     glVertex2i(X1, Y2);
-	glTexCoord2f(1,0);
-    glVertex2i(X2, Y2);
 	glTexCoord2f(1,1);
+    glVertex2i(X2, Y2);
+	glTexCoord2f(1,0);
     glVertex2i(X2, Y1);
     glEnd();	
 	glDisable( GL_TEXTURE_2D );

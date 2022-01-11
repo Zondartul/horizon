@@ -38,15 +38,15 @@ void GUI2colorbox::render(void *arg)
 	float E = size.x;
 	int Yi = pos.y;
 	int Yf = pos.y+size.y;
-	vec3i col = {0,0,0};
+	color3i col = {0,0,0};
 	for(float I = 0; I<E;I++)
 	{
 		col = HSVtoRGB((colLU*(E-I))/E+(colRU*I)/E);
-		glColor3f(col.x/255.0f,col.y/255.0f,col.z/255.0f);
+		glColor3f(col.r/255.0f,col.g/255.0f,col.b/255.0f);
 		glVertex2i(X, Yi);
 		col = HSVtoRGB((colLD*(E-I))/E+(colRD*I)/E);
 		//col = HSVtoRGB({(int)(360*I/E),255,255});
-		glColor3f(col.x/255.0f,col.y/255.0f,col.z/255.0f);
+		glColor3f(col.r/255.0f,col.g/255.0f,col.b/255.0f);
 		glVertex2i(X, Yf);
 		X++;
 	}

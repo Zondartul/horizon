@@ -28,6 +28,7 @@ PSchannel GUI_PS;
 #include "math/quaternions.h"
 #include "util/hook.h"
 #include "gui/newconsole.h"
+//#include "gui/console.h"
 #include "gui/valscreen.h"
 #include "input/keybinds.h"
 #include "game/camera.h"
@@ -425,17 +426,17 @@ void OnProgramStart()
 	input.channel.subscribe("", GUI);
 	//GUI3start();
 	
-	OpenMenu1();
+		//OpenMenu1();
 	//initConCommands();
 	//OpenMenuConsole();
 	//OpenVals();
 	//OpenMenuToolbox();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
-	OpenNewConsole(GUI);
-	OpenValScreen(GUI);
+		//OpenNewConsole(GUI);
+		//OpenValScreen(GUI);
 	//OpenGUI4();
-	OpenWindowModeller();
+	startModellerSession();
 	
 	KeyBinds["b"] = "echo butts";
 	KeyBinds["w"] = "+camforward";
@@ -468,8 +469,8 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "100";
-	string vdate = " of 8th August 2015"; //" of 30th June 2015";
+	string vnumber = "101";
+	string vdate = " of 15th September 2015";	//" of 8th August 2015"; 
 	twidth = printw(32,32,-1,-1,version+vnumber+vdate);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -566,7 +567,7 @@ void ProcessMouseclick(int mb)
 		if(mb==1){
 			printf("click void\n");
 			ParseKey(1);
-			//convars["camera_mouse_capture"] = 1;
+			convars["camera_mouse_capture"] = 1;
 			input.channel.unsubscribe("", GUI);
 			input.channel.subscribe("", &Binder);
 			input.channel.subscribe("", &Binder2);

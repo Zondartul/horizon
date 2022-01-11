@@ -113,6 +113,7 @@ void cmd_help(void *arg)
 	{
 		ConsoleParse("[color=orange]"+cmdlist[i].cmd+"[/color]");
 		ConsoleParse("[color=yellow] -"+cmdlist[i].desc+"[/color]");
+		printf("cmd: %s [%s]\n",cmdlist[i].cmd.c_str(), cmdlist[i].desc.c_str());
 	}
 }
 

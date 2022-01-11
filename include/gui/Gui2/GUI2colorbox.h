@@ -4,12 +4,12 @@
 class GUI2colorbox: public GUI2base
 {
 	public:
-	vec3i colorHSV;
-	vec3i colorRGB;
-	vec3i colLU;
-	vec3i colRU;
-	vec3i colLD;
-	vec3i colRD;
+	color3i colorHSV;
+	color3i colorRGB;
+	color3i colLU;
+	color3i colRU;
+	color3i colLD;
+	color3i colRD;
 	vec2i cursor;
 	GUI2colorbox();
 	void onClick(int mb);
