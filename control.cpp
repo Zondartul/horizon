@@ -118,6 +118,10 @@ void OnProgramStart()
 	ddlist->addOption("Applejack", NULL,NULL);
 	ddlist->setPos(96,290);
 	ddlist->setParent((GUIbase*)myFrame);
+	
+	GUIslider* slide = new GUIslider;
+	slide->setPos(4,400);
+	slide->setParent((GUIbase*)myFrame);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
