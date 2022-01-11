@@ -19,24 +19,7 @@ GUI:
 
 //unsigned char image[640*480];
 
-struct color4i
-{
-	int r;
-	int g;
-	int b;
-	int a;
-};
 
-
-int ms = 0;
-int freq = 66;
-float theta;
-int counter = 0;
-float width = 640.0f;
-float height = 640.0f;
-color4i bground;
-
-vec2i mousePos;
 
 
 
@@ -152,7 +135,7 @@ void Render_go2D()
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0, width-16, height-32, 0, -1, 1);
+    glOrtho(0, width, height, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -189,9 +172,11 @@ void ProgramTick(HWND hwnd, HDC hDC)
     mousePos.y = cursorPos.y-29;
 
     RECT rect;
-    GetWindowRect(hwnd, &rect);
+    GetClientRect(hwnd, &rect);
     mousePos.x -= rect.left;
     mousePos.y -= rect.top;
+	width = rect.right;
+	height = rect.bottom;
     RenderTick(hDC);
 }
 

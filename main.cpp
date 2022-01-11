@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <gl/gl.h>
+#include <gl/glu.h>
 #include <cstdio>
 //#include <ft2build.h>
 //#include FT_FREETYPE_H
@@ -9,7 +10,7 @@
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 void EnableOpenGL(HWND hwnd, HDC*, HGLRC*);
 void DisableOpenGL(HWND, HDC, HGLRC);
-
+void ReSizeGLScene(GLsizei with, GLsizei height);
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -124,7 +125,15 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_LBUTTONDOWN:
             ProcessMouseclick(1);
         break;
-
+		case WM_SIZE:                           // Resize The OpenGL Window
+		{
+			
+			RECT rect;
+			GetClientRect(hwnd, &rect);
+			
+			ReSizeGLScene(rect.right,rect.bottom);//LOWORD(lParam),HIWORD(lParam));       // LoWord=Width, HiWord=Height
+			return 0;                       // Jump Back
+		}
         default:
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
@@ -170,3 +179,19 @@ void DisableOpenGL (HWND hwnd, HDC hDC, HGLRC hRC)
     ReleaseDC(hwnd, hDC);
 }
 
+GLvoid ReSizeGLScene(GLsizei width, GLsizei height)             // Resize And Initialize The GL Window
+{
+    if (height==0)                              // Prevent A Divide By Zero By
+    {
+        height=1;                           // Making Height Equal One
+    }
+    glViewport(0, 0, width, height);                    // Reset The Current Viewport
+	glMatrixMode(GL_PROJECTION);                        // Select The Projection Matrix
+    glLoadIdentity();                           // Reset The Projection Matrix
+ 
+    // Calculate The Aspect Ratio Of The Window
+    gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
+ 
+    glMatrixMode(GL_MODELVIEW);                     // Select The Modelview Matrix
+    glLoadIdentity();                           // Reset The Modelview Matrix
+}
