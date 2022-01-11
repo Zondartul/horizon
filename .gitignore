@@ -1,0 +1,4 @@
+# ignore the build directory
+build/
+
+# there is another .gitignore in VS for all VS temporary files
