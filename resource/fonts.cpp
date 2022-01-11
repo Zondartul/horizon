@@ -1,3 +1,4 @@
+#include "fonts.h"
 #include <windows.h>
 #include <gl/gl.h>
 #include <ft2build.h>
@@ -16,15 +17,6 @@ FT_UInt       glyph_index;
 int FF_version_major = FREETYPE_MAJOR;
 int FF_version_minor = FREETYPE_MINOR;
 int FF_version_patch = FREETYPE_PATCH;
-struct glyphkind
-{
-    int bearingX;
-    int bearingY;
-    int sizeX;
-    int sizeY;
-    int advance;
-    GLuint texture;
-};
 
 glyphkind* CurFont = NULL;
 

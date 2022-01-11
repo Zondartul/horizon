@@ -1,3 +1,11 @@
+#ifndef DEBUG_GUARD
+#define DEBUG_GUARD
+#include <map>
+#include <string>
+#include <stack>
+using std::map;
+using std::string;
+using std::stack;
 extern map<string,bool> debugdisabled; //list of debug places for which messages are disabled.
 extern stack<string> debugcurrent;		//current debug place
 extern int print_file;
@@ -13,3 +21,4 @@ if(print_current){printf("%s", debugcurrent.top().c_str());} \
 if(print_file or print_line or print_current){printf("] ");} \
 printf( __VA_ARGS__ );}
 
+#endif

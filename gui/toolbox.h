@@ -1,5 +1,7 @@
 #ifndef TOOLBOX_GUARD
 #define TOOLBOX_GUARD
+#include "../resource/models.h"
+#include "../game/physics.h"
 //The little window with random tools!
 
 void genBox(void* arg);
@@ -25,7 +27,7 @@ void genSph(void* arg);
 void toggleWireframe(void* arg);
 extern physBody *prevSelected;
 extern physBody *EntSelected;
-bool wPBfuncSet;
+extern bool wPBfuncSet;
 void entSelect(void *arg);
 void entPush(void *arg);
 void update3Dcursor(void* arg);

@@ -1,3 +1,4 @@
+#include "newconsole.h"
 #include "../gui/Gui2.h"
 void consolecallback(void *arg);
 void parse(string str);

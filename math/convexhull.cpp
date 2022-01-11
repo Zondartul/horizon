@@ -1,3 +1,4 @@
+#include "convexhull.h"
 #include "../util/globals.h"
 #include "../math/vectors.h"
 #include "../resource/models.h"

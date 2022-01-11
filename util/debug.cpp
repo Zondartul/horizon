@@ -1,3 +1,4 @@
+#include "debug.h"
 #include "../util/globals.h"
 
 map<string,bool> debugdisabled; //list of debug places for which messages are disabled.

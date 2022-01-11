@@ -1,4 +1,4 @@
-#include "../util/globals.h"
+#include "paint.h"
 
 void paintRect(int X1, int Y1, int X2, int Y2)
 {

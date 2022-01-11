@@ -1,5 +1,6 @@
 #ifndef CONTROL_GUARD
 #define CONTROL_GUARD
+#include <windows.h>
 void OnProgramStart();
 void paintRect(int x1, int y1, int x2, int y2);
 void Render2D();

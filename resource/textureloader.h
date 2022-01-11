@@ -16,7 +16,7 @@ texture notexture();
 extern vector<texture> AllTextures;
 texture textureGet(string name);
 GLuint LoadTextureRAW(const char *filename, int wrap);
-static bool texture_load_pixelated;
+extern bool texture_load_pixelated;
 texture GenTextureBMP(string filename);
 GLuint LoadtextureBMP(const char *filename);
 void FreeTexture(GLuint tex);

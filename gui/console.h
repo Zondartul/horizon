@@ -1,3 +1,6 @@
+#ifndef CONSOLE_GUARD
+#define CONSOLE_GUARD
+#include "../gui/Gui2.h"
 extern GUI2frame *Console;
 
 extern int ConsoleNumLines;
@@ -29,3 +32,5 @@ void cmd_texture(void *arg);
 void cmd_quat(void *arg);
 void cmd_test(void *arg);
 void initConCommands();
+
+#endif

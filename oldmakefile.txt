@@ -1,0 +1,28 @@
+# alias for all parts of the project 
+EVERYTHING = $(DISPLAY) $(EXPERIMENTAL) $(GAME) $(GUI) $(INPUT) $(MAIN) $(MATH) $(RESOURCE) $(UTIL)
+
+DISPLAY = display/paint.cpp display/renderable.cpp
+#DISPLAY = display/paint.o display/renderable.o
+#display/paint.o: display/paint.cpp display/paint.h util/globals.h
+# $(CC) $(CFLAGS) display/paint.cpp display/paint.h util/globals.h $(LIBRARIES)
+#display/renderable.o: display/renderable.cpp  display/renderable.h 
+
+EXPERIMENTAL = experimental/testfuncs.cpp
+GAME = game/camera.cpp game/physics.cpp
+GUI = gui/Gui.cpp gui/Gui2.cpp gui/Gui3.cpp gui/console.cpp gui/newconsole.cpp gui/valscreen.cpp gui/toolbox.cpp
+INPUT = input/input.cpp input/codetostring.cpp input/keybinds.cpp
+MAIN = main/main.cpp main/control.cpp
+MATH = math/vectors.cpp math/quaternions.cpp math/convexhull.cpp
+RESOURCE = resource/fonts.cpp resource/textureloader.cpp resource/models.cpp
+UTIL = util/globals.cpp util/messenger.cpp util/debug.cpp util/hook.cpp
+
+LIBRARIES = -luser32 -lopengl32 -lglu32 -lgdi32 -lfreetype
+
+# compiler command
+CC = ..\..\..\bin\g++
+
+# compiler flags
+CFLAGS = -std=c++0x -g -fmax-errors=1
+
+all: $(EVERYTHING)
+	$(CC) $(CFLAGS) $(EVERYTHING) $(LIBRARIES)	

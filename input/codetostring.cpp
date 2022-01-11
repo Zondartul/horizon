@@ -1,10 +1,12 @@
+#include "codetostring.h"
 #include "../util/globals.h"
 
+/*
 struct VK
 {
 	unsigned char code;
 	string name;
-};
+};*/
 VK VKshift[] = {
 {0x30,")"},
 {0x31,"!"},
@@ -54,6 +56,7 @@ VK VKshift[] = {
 {VK_OEM_7,"\""},
 {0xE2,"|"}//key102
 };
+
 VK VKtable[] = {
 {VK_LBUTTON,"mouse1"},
 {VK_RBUTTON,"mouse2"},
@@ -338,10 +341,7 @@ string VKtoString(unsigned char code)
 //This code is copyrighted and has// limited warranties.Please see http://www.Planet-Source-Code.com/vb/scripts/ShowCode.asp?txtCodeId=1468&lngWId=3//for details.//**************************************
 
 // The messages...
-struct WMArray {
- UINT Code;
- char Message[100];
-} waWMArray[] = {
+WMArray waWMArray[] = {
 {0x0000, "WM_NULL"},{0x0001, "WM_CREATE"},{0x0002, "WM_DESTROY"},{0x0003, "WM_MOVE"},
 {0x0005, "WM_SIZE"},{0x0006, "WM_ACTIVATE"},{0x0007, "WM_SETFOCUS"},{0x0008, "WM_KILLFOCUS"},
 {0x000A, "WM_ENABLE"},{0x000B, "WM_SETREDRAW"},{0x000C, "WM_SETTEXT"},{0x000D, "WM_GETTEXT"},
@@ -408,6 +408,7 @@ void TranslateWMessage(UINT uMsg, LPSTR cMsg)
  lstrcpy(cMsg, buff);
 }
 
+/*
 union KeyInfo
 {
   // LPARAM
@@ -424,3 +425,4 @@ union KeyInfo
     BYTE nTransition : 1;
   } Bits;
 };
+*/

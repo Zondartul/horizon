@@ -1,4 +1,5 @@
 // Texture ///////////////////////////////////////////////////////////
+#include "textureloader.h"
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
@@ -10,34 +11,23 @@
 //#include <string.h>
 #include "../util/globals.h"
 
-class texture
-{
-	public:
-	GLuint t;
-	int width;
-	int height;
-	string name;
-	texture()
-	{
-		t = 0;
-		name = "no_texture";
-		width = 0;
-		height = 0;
-	}
-	void free()
-	{
-		glDeleteTextures(1,&t);
-		t = 0;
-		width = 0;
-		height = 0;
-		name = "no_texture";
-	}
-	~texture()
-	{
-		//free();
-		//No. we're making lots of temporary copies.
-	}
-};
+texture::texture(){
+	t = 0;
+	name = "no_texture";
+	width = 0;
+	height = 0;
+}
+void texture::free(){
+	glDeleteTextures(1,&t);
+	t = 0;
+	width = 0;
+	height = 0;
+	name = "no_texture";
+}
+	texture::~texture(){
+	//free();
+	//No. we're making lots of temporary copies.
+}
 texture notexture(){texture notexture;return notexture;}
 
 vector<texture> AllTextures;
@@ -107,7 +97,7 @@ GLuint LoadTextureRAW( const char * filename, int wrap )
   printf("texture loaded: %s",filename);
   return tex;
 }
-static bool texture_load_pixelated = 0;
+bool texture_load_pixelated = 0;
 
 texture GenTextureBMP( string filename)
 {

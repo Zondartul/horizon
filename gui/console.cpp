@@ -1,3 +1,4 @@
+#include "console.h"
 #include "../gui/Gui2.h"
 #include "../main/control.h" //bad
 #include "../resource/textureloader.h"
@@ -5,12 +6,6 @@
 GUI2frame *Console;
 
 int ConsoleNumLines = 0;
-struct concommand
-{
-	string cmd;
-	string desc;
-	funcptr func;
-};
 
 vector<concommand> cmdlist;
 

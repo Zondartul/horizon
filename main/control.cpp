@@ -1,3 +1,4 @@
+#include "control.h"
 #include <windows.h>
 #include <gl/gl.h>
 #include <cstdio>
@@ -380,7 +381,7 @@ void OnProgramStart()
 	input.channel.subscribe("", GUI);
 	//GUI3start();
 	
-	//OpenMenu1();
+	OpenMenu1();
 	//initConCommands();
 	//OpenMenuConsole();
 	//OpenVals();

@@ -1,4 +1,5 @@
 //The little window with random tools!
+#include "toolbox.h"
 #include "../gui/Gui2.h"
 #include "../main/control.h"
 #include "../gui/console.h"

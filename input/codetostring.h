@@ -7,16 +7,17 @@ struct VK
 	unsigned char code;
 	string name;
 };
-extern VK *VKshift;
-extern VK *VKtable;
+extern VK VKshift[];
+extern VK VKtable[];
 
 string VKtoString(unsigned char code);
 
-
-extern struct WMArray {
+struct WMArray {
  UINT Code;
  char Message[100];
-} *waWMArray;
+};
+
+extern WMArray waWMArray[];
 
 void TranslateWMessage(UINT uMsg, LPSTR cMsg);
 

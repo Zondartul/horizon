@@ -1,3 +1,4 @@
+#include "testfuncs.h"
 #include "../math/convexhull.h"
 #include "../game/camera.h"
 #include "../main/control.h"
