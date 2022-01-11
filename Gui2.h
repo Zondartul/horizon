@@ -66,6 +66,12 @@ class GUIbase
 	bool resizible;
 	bool movable;
 	bool visible;
+	int resizingW;
+	int resizingH;
+	bool dragging;
+	vec2i *mousePtr;
+	vec2i startTouch; //place of mouse click
+	int counter; //mostly useless
 	
 	GUIbase()
 	{
@@ -82,23 +88,91 @@ class GUIbase
 		resizible = false;
 		movable = false;
 		visible = false;
+		mousePtr = NULL;
+		resizingW = 0;
+		resizingH = 0;
+		dragging = false;
+		startTouch = {0,0};
+		counter = 0;
 	}
-	
-	void onClick();
+	void onClick(int mb)
+	{
+		if(mb>0)
+		{
+			startTouch = *mousePtr-pos; //has one?
+			if(mousePtr->x == pos.x){resizingW = 1;}
+			if(mousePtr->x == pos.x+size.x){resizingW = 2;}
+			if(mousePtr->y == pos.y){resizingH = 1;}
+			if(mousePtr->y == pos.y+size.y){resizingH = 2;}
+			if(!resizingW&&!resizingH){dragging = 1;}
+		}
+		else //what if there was no first click?
+		{
+			resizingW = 0; resizingH = 0; dragging = 0;
+		}
+		counter++;
+	}
 	void onKeyboard();
-	void invalidate();
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		//this one should also reposition children and stuff
+		pos = newPos;
+		size = newSize;
+	}
+	void resizeCheck()
+	{
+		if(resizingW==2)
+		{
+			size.x = (*mousePtr).x-pos.x;
+			if(size.x<0){size.x=1;}
+		}
+		if(resizingW==1)
+		{
+			int diff = (*mousePtr).x-pos.x;
+			if(diff>size.x){diff=size.x-1;}
+			pos.x+=diff;
+			size.x-=diff;
+		}
+		if(resizingH==2)
+		{
+			size.y = (*mousePtr).y-pos.y;
+			if(size.y<0){size.y=1;}
+		}
+		if(resizingH==1)
+		{
+			int diff = (*mousePtr).y-pos.y;
+			if(diff>size.y){diff=size.y-1;}
+			pos.y+=diff;
+			size.y-=diff;
+		}
+	}
+	void dragCheck()
+	{
+		if(dragging)
+		{
+			invalidate(*mousePtr-startTouch, size);
+		}
+	}
 	void render()
 	{
+		resizeCheck();
+		dragCheck();
+	
 		setColor(color_panel);
 		if(!mouseOver){setAlpha(128);}
 		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_border);
 		setAlpha(255);
-		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);		
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		printw(pos.x, pos.y+size.y/2, "clicks: %d", counter);
 	}
 	
-	static void foreach(GUIbase* obj, bool (*func)(GUIbase*, void*, int), void* arg, int rec) // i couldn't think of saner way. sorry.
-	{//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
+	static void foreach(GUIbase* obj, bool (*func)(GUIbase*, void*, int), void* arg, int rec) 
+	{
+		//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
+		// i couldn't think of saner way. sorry.
+		// rec is recursion counter for debugging.
 		bool stop;
 		listNode* Cur = obj->children;
 		while(Cur!=NULL)
@@ -115,8 +189,8 @@ class GUIbase
 		x1 = obj->pos.x;
 		y1 = obj->pos.y;
 		x2 = x1+obj->size.x;
-		y2 = x1+obj->size.y;
-		if((x1<=mouse.x)&&(x2>=mouse.x)&&(y1<=mouse.y)&&(y2>=mouse.y))
+		y2 = y1+obj->size.y;
+		if((obj->visible)&&(x1<=mouse.x)&&(x2>=mouse.x)&&(y1<=mouse.y)&&(y2>=mouse.y))
 		{
 			obj->mouseOver = true;
 			foreach(obj, &propagateMouseOver, arg, rec+1);
@@ -130,9 +204,21 @@ class GUIbase
 		}
 	
 	}
-	//static bool propagateClick(GUIbase* obj, void* arg)
-	//{
-	//}
+	static bool propagateClick(GUIbase* obj, void* arg, int rec)
+	{
+		static GUIbase* lastClicked; //I hope you won't need to click two things at once.
+		int mb = *((int*)arg);
+		if(mb>0)
+		{
+			if(obj->mouseOver){obj->onClick(mb); lastClicked = obj; return true;}
+			else{foreach(obj,&propagateClick,arg,rec+1); return false;}
+		}
+		else //releases are delivered to who you clicked, not current mouseover.
+		{
+			if(lastClicked){lastClicked->onClick(mb);}
+		}
+		//its ok to have no return? What?
+	}
 	static bool propagateRender(GUIbase* obj, void* arg, int rec)
 	{
 		if(obj->visible)

@@ -115,6 +115,26 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
   return charmap;
 }
 
+/* one day...
+enum printFlags
+{
+	ALIGN_LEFT 		= 0b0000000000;
+	ALIGN_RIGHT 	= 0b0000000001;
+	ALIGN_CENTER 	= 0b0000000010;
+	BOLD 			= 0b0000000100;
+	ITALIC			= 0b0000001000;
+	STRIKEOUT		= 0b0000010000;
+	UNDERLINE		= 0b0000100000;
+	UPPERSCRIPT 	= 0b0001000000;
+	LOWERSCRIPT		= 0b0010000000;
+	CANVAS_CUT		= 0b0100000000;
+	BBCODE			= 0b1000000000;
+}
+or just BBcode for everything...
+
+int printw_fancy(int x, int y, pos4i canvas, string format, ...)
+*/
+
 int printw (int x, int y, string format, ...)
 {
     if(CurFont == NULL){return -1;}

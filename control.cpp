@@ -65,6 +65,7 @@ void OnProgramStart()
 	GUI = new GUIbase;
 	GUI->pos = {32,32};
 	GUI->size={128,128};
+	GUI->mousePtr = &mousePos;
 	GUI->visible=true;
 	/*
     GUIobj* myFrame = new GUIobj;
@@ -131,6 +132,7 @@ void RenderGUI()
 
 void ProcessMouseclick(int mb)
 {
+   GUIbase::propagateClick(GUI,(void*)(&mb),0);
    // GUIM.click(NULL, mb);
 }
 
