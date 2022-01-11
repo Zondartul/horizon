@@ -32,7 +32,7 @@ double rad2deg = 57.295779513082320876798;
 struct quat
 {
 	double w;
-	vector v;
+	vec v;
 	
 	quat operator -(){return {-w,-v};}
 	quat operator +(quat B){return {w+B.w, v+B.v};}
@@ -77,7 +77,7 @@ struct quat
 	{
 		if(w<0){return {-w,-v};}else{return {w,v};}
 	}
-	vector getRotationAxis()
+	vec getRotationAxis()
 	{
 		double m = v.x*v.x+v.y*v.y+v.z*v.z;
 		if(m==0){return {0,0,1};}
@@ -93,20 +93,20 @@ struct quat
 		if(ang>180){ang = ang-360;}
 		return ang;
 	}
-	quat addRotation(double ang, vector vec)
+	quat addRotation(double ang, vec vect)
 	{
-		vector vec2 = vec.norm();
+		vec vec2 = vect.norm();
 		double ang2 = ang*deg2rad*0.5;
-		quat C = {cos(ang2), vec*sin(ang2)};
+		quat C = {cos(ang2), vect*sin(ang2)};
 		quat D = C*(*this);
 		//D.v = D.v;
 		return D.norm();
 	}
-	vector rotateVector(vector vec)
+	vec rotateVector(vec vect)
 	{
-		return ((*this)*((quat){0,vec})*(*this).inv()).v;
+		return ((*this)*((quat){0,vect})*(*this).inv()).v;
 	}
-	vector forward()
+	vec forward()
 	{
 		double this1 = w;
 		double this2 = v.x;
@@ -121,7 +121,7 @@ struct quat
 			t4*this2-t3*this1
 		};
 	}
-	vector right()
+	vec right()
 	{
 		double this1 = w;
 		double this2 = v.x;
@@ -136,7 +136,7 @@ struct quat
 			-t2*this1-t3*this4
 		};
 	}
-	vector up()
+	vec up()
 	{
 		double this1 = w;
 		double this2 = v.x;

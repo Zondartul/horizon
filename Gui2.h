@@ -899,7 +899,8 @@ class GUIspinner: public GUIbase
 		counter = 0;
 		size = {64,18};
 		pos = {0,0};
-		vals = {-10,0,10,3,2};
+		//vals = {-10,0,10,3,2};
+		vals[0]=-10;vals[1]=0;vals[2]=10;vals[3]=3;vals[4]=2;
 		movable = false;
 		resizible = false;
 		btnUp = new GUIbutton;
@@ -918,6 +919,10 @@ class GUIspinner: public GUIbase
 		btnDown->text = "v";
 		btnDown->setParent((GUIbase*)this);
 	
+	}
+	void setVals(double a,double b,double c,double d,double e)
+	{
+		vals[0]=a;vals[1]=b;vals[2]=c;vals[3]=d;vals[4]=e;
 	}
 	void invalidate(vec2i newPos, vec2i newSize)
 	{
@@ -1108,7 +1113,8 @@ class GUIdropdownlist: public GUIbase
 class GUIslider: public GUIbase
 {
 	public:
-	double vals[3];
+	//double vals[3];
+	vector<double> vals;
 	bool sliding;
 	GUIslider():GUIbase()
 	{
@@ -1117,6 +1123,7 @@ class GUIslider: public GUIbase
 		color_panel = {128,128,256};
 		size = {128,14};
 		vals = {-100,0,100};
+		//vals[0]=-100;vals[1]=0;vals[2]=100;
 		sliding = false;
 	}
 	void render(void *arg)
@@ -1695,6 +1702,7 @@ bool clickable
 callbacks for everything
 dock left/right/up/down both moves and resizes element
 size-to-contents and min-size.
+vals = {1,2,3} should be in declaration but unimplemented by gcc.
 */
 
 

@@ -20,15 +20,13 @@
 //LETS DO QUATERNIONS LIKE A BOSS
 
 //GUIManager GUIM;
-typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-returning funtion that takes
-									                      // a pointer-to-void" type.
 
 GUIbase *GUI;
 #include "console.h"
 GUIframe *myFrame;
 model *myModel;
-vector SomeVec1;
-vector SomeVec2;
+vec SomeVec1;
+vec SomeVec2;
 vec2i deltaMouse;
 vec2i windowCorner;
 vec2i windowSize;
@@ -94,7 +92,7 @@ void genCube(void *arg)
 	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
-	vector V = {l,w,h};
+	vec V = {l,w,h};
 	model* M = new model;
 	((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
 	
@@ -112,14 +110,14 @@ void genCube(void *arg)
 	AD = +x
 	AE = +z
 	*/ 
-	vector A = {0,0,0};
-	vector B = {0,1,0};
-	vector C = {1,1,0};
-	vector D = {1,0,0};
-	vector E = {0,0,1};
-	vector F = {0,1,1};
-	vector G = {1,1,1};
-	vector H = {1,0,1};
+	vec A = {0,0,0};
+	vec B = {0,1,0};
+	vec C = {1,1,0};
+	vec D = {1,0,0};
+	vec E = {0,0,1};
+	vec F = {0,1,1};
+	vec G = {1,1,1};
+	vec H = {1,0,1};
 	
 	//CW culling.
 	//front
@@ -155,17 +153,17 @@ void OpenMenuGen()
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,32);					spinxtext->setPos(96,32);
-	spinx->vals = {-10,0,10,0.5,2};			spinxtext->text = "length";
+	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "length";
 	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
 	spiny->setPos(4,48);					spinytext->setPos(96,48);
-	spiny->vals = {-10,0,10,0.5,2};			spinytext->text = "width";
+	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "width";
 	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
 	
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
 	spinz->setPos(4,64);					spinztext->setPos(96,64);
-	spinz->vals = {-10,0,10,0.5,2};			spinztext->text = "height";
+	spinz->setVals(-10,0,10,0.5,2);			spinztext->text = "height";
 	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
 	
 	void **arg = new void*[3];
@@ -179,6 +177,7 @@ void OpenMenuGen()
 	btnGen->func = &genCube;
 	btnGen->arg = (void*)arg;
 	btnGen->setParent((GUIbase*) GenMenu);
+	
 }
 
 void designerMenu()
@@ -235,7 +234,8 @@ void OpenMenu1()
 	
 	GUIspinner* spin = new GUIspinner;
 	spin->pos = {4, 154};
-	spin->vals = {-10,0,10,3};
+	//spin->vals = {-10,0,10,3};
+	spin->vals[0]=-10;spin->vals[1]=0;spin->vals[2]=10;spin->vals[3]=3;
 	spin->setParent((GUIbase*)myFrame);
 	
 	GUIradiobutton* radio1 = new GUIradiobutton;
@@ -311,10 +311,10 @@ void OpenVals()
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 
-void camForward(void* arg){SomeVec1 = SomeVec1+(vector){0,.1,0};}
-void camBack(void* arg){SomeVec1 = SomeVec1+(vector){0,-.1,0};}
-void camLeft(void* arg){SomeVec1 = SomeVec1+(vector){-.1,0,0};}
-void camRight(void* arg){SomeVec1 = SomeVec1+(vector){.1,0,0};}
+void camForward(void* arg){SomeVec1 = SomeVec1+(vec){0,.1,0};}
+void camBack(void* arg){SomeVec1 = SomeVec1+(vec){0,-.1,0};}
+void camLeft(void* arg){SomeVec1 = SomeVec1+(vec){-.1,0,0};}
+void camRight(void* arg){SomeVec1 = SomeVec1+(vec){.1,0,0};}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
 
 void OnProgramStart()
@@ -360,8 +360,9 @@ void OnProgramStart()
 	GUI->recalculateClientRect();
 	GUI->visible=false;
 	
-	//OpenMenu1();
+	OpenMenu1();
 	OpenMenuGen();
+	initConCommands();
 	OpenMenuConsole();
 	OpenVals();
 	designerMenu();
@@ -481,7 +482,7 @@ void InputTick()
 	{
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
-		SomeVec2 = SomeVec2 + (vector){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
+		SomeVec2 = SomeVec2 + (vec){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
 		CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
 		if(CamAngle.w>360){CamAngle.w=0;}
 		if(CamAngle.w<0){CamAngle.w=360;}

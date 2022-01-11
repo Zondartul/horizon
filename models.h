@@ -2,7 +2,7 @@
 
 struct triangle
 {
-	vector v[3];
+	vec v[3];
 };
 
 enum renderflags
@@ -41,7 +41,7 @@ struct model
 	triangle *normals;
 	textriangle *texmap;	
 	texture *textures;		int numtextures;
-	vector min,max;
+	vec min,max;
 	model()
 	{
 		numtris = numtextures = 0;

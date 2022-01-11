@@ -1,5 +1,7 @@
 #include <string>
 #include <sstream>
+#include <cstdarg>
+#include <vector>
 using namespace std;
 
 int clamp(int A, int B, int C)
@@ -132,3 +134,7 @@ float width = 1024.0f;
 float height = 640.0f;
 color4i bground;
 vec2i mousePos;
+
+typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-returning funtion that takes
+									                      // a pointer-to-void" type.
+

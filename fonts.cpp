@@ -284,6 +284,7 @@ int printwrich (int x, int y, int xlim, int ylim, int* defcolor, string format, 
 			}
 		}
 		if(text[i]=='\n'){y0 += 16;x0=x;}
+		else if(text[i]=='\0'){free(text); return x0-x;}
 		else
 		{
         Cur = CurFont[text[i]];
