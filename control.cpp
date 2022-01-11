@@ -10,6 +10,7 @@
 //#include <vector>
 
 #include "globals.h"
+#include "textureloader.h"
 #include "fonts.h"
 //#include "Gui.h"
 #include "Gui2.h"
@@ -86,7 +87,7 @@ void OpenMenuModel()
 	Mtext->setPos(4,32);
 	char text[128];
 	sprintf(text, "Model: %p\nVerticles: %d\nTriangles: %d\nTextures: %d", myModel, myModel->numtris*3,
-																		myModel->numtris, myModel->numtextures);
+																		myModel->numtris, 0);//myModel->numtextures);
 	Mtext->text = text;
 	Mtext->setParent((GUIbase*) ModelMenu);
 }
@@ -194,7 +195,7 @@ void designerMenu()
 	GUIImage* image1 = new GUIImage;
 	image1->setPos(32,32);
 	image1->setSize(32,32);
-	image1->setImage("C:/Stride/grass3.raw");
+	image1->setImage("C:/Stride/textures/grass3.bmp");//"C:/Stride/grass3.raw");
 	image1->setParent((GUIbase*)designerFrame);
 }
 
@@ -335,7 +336,7 @@ void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({.1,0,0});}
 void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({-.1,0,0});}
 void camUp(void* arg){SomeVec1 = SomeVec1+(vec){0,0.1,0};}
 void camDown(void* arg){SomeVec1 = SomeVec1+(vec){0,-0.1,0};}
-void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
+void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 
 void OnProgramStart()
@@ -367,7 +368,7 @@ void OnProgramStart()
 	bindKey('S',&camBack,NULL,4);
 	bindKey('D',&camLeft,NULL,4);
 	bindKey(32,&camUp,NULL,4);
-	bindKey(17,&camDown,NULL,4);
+	bindKey('C',&camDown,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
 	
 	//numpad
