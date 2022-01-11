@@ -83,6 +83,22 @@ void OnProgramStart()
 	GUItextEntry* Text = new GUItextEntry;
 	Text->pos = {4, 128};
 	Text->setParent((GUIbase*)myFrame);
+	
+	GUIcheckbox* check = new GUIcheckbox;
+	check->pos = {4,196};
+	check->setParent((GUIbase*)myFrame);
+	
+	GUIradiobutton* radio1 = new GUIradiobutton;
+	radio1->pos = {4,256};
+	radio1->setParent((GUIbase*)myFrame);
+	
+	GUIradiobutton* radio2 = new GUIradiobutton;
+	radio2->pos = {32,256};
+	radio2->setParent((GUIbase*)myFrame);
+	
+	GUIradiogroup* group = new GUIradiogroup;
+	group->addButton((void*)radio1);
+	group->addButton((void*)radio2);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }

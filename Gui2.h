@@ -571,13 +571,116 @@ class GUItextEntry: public GUIbase
 		}
 	}
 };
+
+class GUIcheckbox: public GUIbase
+{
+	public:
+	bool checked;
+	GUIcheckbox():GUIbase()
+	{
+		checked = false;
+		resizible = false;
+		movable = false;
+		size = {14,14};
+	}
+	void onClick(int mb)
+	{
+		if((mb==0)&&mouseOver){checked = !checked;}
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		if(focus==this){setAlpha(255);}else{setAlpha(196);}
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		if(checked){printw(pos.x+size.x/2-4,pos.y-4,"v");}
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
+
+class GUIradiogroup
+{
+	public:
+	void *buttons[32];
+	int selection;
+	GUIradiogroup()
+	{
+		for(int I = 0;I<32;I++){buttons[I] = NULL;}
+		selection = 0;
+	}
+	void checkButton(void *btn);
+	void addButton(void *btn);
+};
+
+class GUIradiobutton: public GUIbase
+{
+	public:
+	bool checked;
+	GUIradiogroup* group;
+	GUIradiobutton():GUIbase()
+	{
+		checked = false;
+		resizible = false;
+		movable = false;
+		size = {14,14};
+	}
+	void onClick(int mb)
+	{
+		if((mb==0)&&mouseOver&&(group!=NULL)){group->checkButton((void*)this);}
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		if(focus==this){setAlpha(255);}else{setAlpha(196);}
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		if(checked){printw(pos.x+size.x/2-4,pos.y-4,"o");}
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
+void GUIradiogroup::addButton(void *btn)
+{
+	((GUIradiobutton*)btn)->group = this;
+	for(int I = 0;I<32;I++)
+	{
+		if(buttons[I]==NULL){buttons[I] = btn; return;}
+	}
+};
+void GUIradiogroup::checkButton(void *btn)
+{
+	((GUIradiobutton*)btn)->checked = true;
+	for(int I = 0;I<32;I++)
+	{
+		if(buttons[I]!=NULL)
+		{
+			if(buttons[I] != btn){((GUIradiobutton*)(buttons[I]))->checked = false;}
+			else{selection = I+1;}
+		}
+	}
+};
 /*
 GUI element check list!
 --INPUT--
 Button		*
-Checkbox
-Radiobutton
-TextEntry	
+Checkbox	*
+Radiobutton *
+TextEntry	* (sorta)
 Spinner
 DropDownList
 ListBox
