@@ -613,6 +613,7 @@ class GUIbutton: public GUIbase
 		{
 			GUIbase::onClick(mb);
 			if(func)(func(arg));
+			printf("[%s]\n",toString(this).c_str());
 		}
 	}
 	void setImage(string path)

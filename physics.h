@@ -111,6 +111,24 @@ class physBody
 		parent = prnt;
 		printf("f");
 	}
+	/*
+	void calculateInertiaTesnor()
+	{
+		if(mdl==NULL){printf("Physbody.gIT: no model\n");return;}
+		float Ixx,Iyy,Izz,Ixy,Ixz,Iyz;
+		Ixx=Iyy=Izz=Ixy=Ixz=Iyz = 0;
+		
+		int n = mdl->numtris;
+		for(int i =0;i<n;i++)
+		{
+			for(int t=0;t<3;t++)
+			{
+				vec v = mdl->mesh[i].v[t];
+				Ixx += 
+			}
+		}
+	}
+	*/
 	void generateBoundingSphere()
 	{
 		if(mdl==NULL){printf("Physbody.gBSS: no model\n"); return;}
@@ -294,6 +312,8 @@ class trace
 };
 
 bool GJKcollision(physBody *A, physBody *B);
+vec EPAcollision(physBody *A, physBody *B, model* simplex);
+vec CPcollision(physBody *A, physBody *B, vec axis);
 
 void PhysicsTick()
 {
@@ -374,18 +394,58 @@ void PhysicsTick()
 				
 				A->collisionCount++;
 				B->collisionCount++;
-				if(GJKcollision(A,B))
+				model* simplex = NULL;
+				if(simplex=GJKcollision(A,B))
 				{
 					A->collisionCount+=10;
 					B->collisionCount+=10;
+					
+					vec separationaxis = EPAcollision(A,B,simplex);
+					vec contact = CPcollision(A,B,seperationaxis);
+					
 					vec push;
-					if((A->pos-B->pos).length()==0){push = vec(random(-1,1),random(-1,1),random(-1,1));}
+					if((A->pos-B->pos).length()<0.0001){push = vec(random(-1,1),random(-1,1),random(-1,1));}
 					else{push = A->pos-B->pos;}
-					push = push.norm();
+					
+					// vr = (B->vel-A->vel)
+					// r1 = contact-A->pos
+					// r2 = contact-B->pos
+					// I1 = inverse of A's inertia tensor (matrix)
+					// I2 = inverse of B's inertia tensor (matrix)
+					//                           -(1+restitution)*vr.dot(n)
+					//J = -----------------------------------------------------------------------------------
+					//       1         1                 
+					//    ------- + ------- + ( I1*(r1.cross(n)).cross(r1)+I2*(r2.cross(n)).cross(r2)).dot(n)
+					//    A->mass   B->mass
+					//
+					// A->vel (final) = A->vel - (J/A->mass)*n
+					// B->vel (final) = B->vel + (J/B->mass)*n
+					//
+					// A->angVel (vec, final) = A->angVel - J*I1*(r1.cross(n))
+					// B->angVel (vec, final) = B->angVel + J*I2*(r2.cross(n))
+					// OR
+					// A->angVel (quat) = A->angVel - quat::fromAngleAxis((J*I1*r1.cross(n)).length(),r1.cross(n))
+					// B->angVel (quat) = B->angVel + quat::fromAngleAxis((J*I2*r1.cross(n)).length(),r2.cross(n))
+					//
+					vec n = push.norm();
 					double restitution = 0.95;
-					double pushmag = (1+restitution)*(B->vel-A->vel).dot(push)/(1/A->mass+1/B->mass);
-					A->applyForce(push*pushmag);
-					B->applyForce(-push*pushmag);
+					vec vr = B->vel-A->vel;
+					vec r1 = contact-A->pos();
+					vec r2 = contact-B->pos();
+					double I1 = 1;
+					double I2 = 1;
+					
+					r1c = r1.cross(n);
+					r2c = r2.cross(n);
+					double J = (-(1+restitution)*vr).dot(n)/( 1/A->mass+1/B->mass + ( I1*(r1c.cross(r1))+I2*(r2c.cross(r2)) ).dot(n) );
+					
+					A->vel = A->vel - (J/A->mass)*n;
+					B->vel = B->vel - (J/B->mass)*n;
+					
+					A->angVel = A->angVel - quat::fromAngleAxis((J*I1*r1c).length(),r1c);
+					B->angVel = B->angVel + quat::fromAngleAxis((J*I2*r2c).length(),r2c);
+					//A->applyForce(push*pushmag);
+					//B->applyForce(-push*pushmag);
 				}
 			}
 			/*
@@ -437,7 +497,7 @@ vec GJKsupport(physBody *A, physBody *B, vec d)
 	return (p1+A->pos)-(p2+B->pos);
 }
 
-bool GJKcollision(physBody *A, physBody *B)
+model *GJKcollision(physBody *A, physBody *B)
 {
 	// tetrahedron simplex;
 	vec d1 = { 1,  1,  1};  //   d3--d1
@@ -445,10 +505,10 @@ bool GJKcollision(physBody *A, physBody *B)
 	vec d3 = {-1,  1, -1};  //    |/.|   
 	vec d4 = { 1, -1, -1};  //   d2--d4
 
-	vec p1 = GJKsupport(A,B,d1);if(p1.dot(d1)<=0){return false;} //if even one point does not "pass the origin",
-	vec p2 = GJKsupport(A,B,d2);if(p2.dot(d2)<=0){return false;} //then the minkowski sum cannot contain the origin,
-	vec p3 = GJKsupport(A,B,d3);if(p3.dot(d3)<=0){return false;} //meaning shapes do not intersect.
-	vec p4 = GJKsupport(A,B,d4);if(p4.dot(d4)<=0){return false;}
+	vec p1 = GJKsupport(A,B,d1);if(p1.dot(d1)<=0){return NULL;} //if even one point does not "pass the origin",
+	vec p2 = GJKsupport(A,B,d2);if(p2.dot(d2)<=0){return NULL;} //then the minkowski sum cannot contain the origin,
+	vec p3 = GJKsupport(A,B,d3);if(p3.dot(d3)<=0){return NULL;} //meaning shapes do not intersect.
+	vec p4 = GJKsupport(A,B,d4);if(p4.dot(d4)<=0){return NULL;}
 	
 	int rec = 0;
 	bool insideOut = false;
@@ -466,7 +526,7 @@ bool GJKcollision(physBody *A, physBody *B)
 		//printf("1");
 		insideOut = !insideOut;
 		p4 = GJKsupport(A,B,dir1);
-		if(p4.dot(dir1)<0){return false;}
+		if(p4.dot(dir1)<0){return NULL;}
 		continue;
 	}
 	else if(p1.dot(dir2)<0) //is origin outside second plane?
@@ -474,7 +534,7 @@ bool GJKcollision(physBody *A, physBody *B)
 		//printf("2");
 		insideOut = !insideOut;
 		p3 = GJKsupport(A,B,dir2);
-		if(p3.dot(dir2)<0){return false;}
+		if(p3.dot(dir2)<0){return NULL;}
 		continue;
 	}
 	else if(p1.dot(dir3)<0) 
@@ -482,7 +542,7 @@ bool GJKcollision(physBody *A, physBody *B)
 		//printf("3");
 		insideOut = !insideOut;
 		p2 = GJKsupport(A,B,dir3);
-		if(p2.dot(dir3)<0){return false;}
+		if(p2.dot(dir3)<0){return NULL;}
 		continue;
 	}
 	else if(p2.dot(dir4)<0)
@@ -490,13 +550,136 @@ bool GJKcollision(physBody *A, physBody *B)
 		//printf("4");
 		insideOut = !insideOut;
 		p1 = GJKsupport(A,B,dir4);
-		if(p1.dot(dir4)<0){return false;}
+		if(p1.dot(dir4)<0){return NULL;}
 		continue;
 	}
 	else //origin inside all planes.
 	{
 		//printf("5");
-		return true;
+		model *simplex = new model();
+		simplex->numtris = 4;
+		simplex->mesh = new triangle[4];
+		simplex->mesh[0] = (triangle){p1,p3,p2};
+		simplex->mesh[1] = (triangle){p1,p2,p4};
+		simplex->mesh[2] = (triangle){p4,p2,p3};
+		simplex->mesh[3] = (triangle){p3,p1,p4};
+		return simplex;
 	}
 	}
 }
+#define EPA_TOLERANCE 0.001
+vec EPAcollision(physBody *A, physBody *B, model *simplex)
+{
+	while(true)
+	{
+		//obtain feature of simplex (part of minkowski difference) closest to origin.
+		int closestTri = 0;
+		vec closestNormal = {0,0,0};
+		double dist = 999999999;
+		for(int i =0; i<simplex->numtris; i++)
+		{
+			vec norm = simplex->getNormalFlat(i);
+			double d = norm.dot(simplex->mesh[i].v[0]);
+			if(d<dist){dist = d; closestTri = i; closestNormal = norm;}
+		}
+		printf("closest tri = %i, dist = %d, norm len = %d\n", closestTri,dist, norm.length());
+		
+		vec p = GJKsupport(A,B,closestNormal);
+		double d = p.dot(closestNormal);
+		if(d < EPA_TOLERANCE)
+		{
+			return d*p; //normalized direction vector (plane) times it's distance from origin.
+		}
+		else
+		{
+			simplex->expandTriangle(p, closestTri);
+		}
+	}
+}
+
+vec CPcollision(physBody *A, physBody *B, vec plane)
+{
+	double depth = plane.length();
+	plane = plane/depth;
+	int e1 = CPbestEdge(A,plane);
+	int e2 = CPbestEdge(B,-plane);
+	triangle ref, inc;
+	bool flip = false;
+	if(A->model.getNormalFlat(e1).dot(plane) <= B->model.getNormalFlat(e2).dot(plane))
+	{
+		ref = A->model->mesh[e1];
+		inc = B->model->mesh[e2];
+	}
+	else
+	{
+		ref = B->model->mesh[e2];
+		inc = A->model->mesh[e1];
+		flip = true;
+	}
+	
+	double o1 = ref.getNormal().dot(ref.v[0]);
+	triangle *cp = clip(inc, ref.getNormal(), o1);
+	double o2 = ref.getNormal().dot(ref.v[1]);
+	cp = clip(cp,-ref.getNormal(),-o2);
+	double o3 = ref.getNormal().dot(ref.v[2]);
+	// wtf
+	// this shit makes no sense.
+	/* Return collision MANIFOLD, not POINT.
+	// point 1
+	cp[0].point = (12, 5)
+	cp[0].depth = 1.69
+	// point 2
+	cp[1].point = (9.28, 5)
+	cp[1].depth = 1.04
+	*/
+
+}	
+
+int CPbestEdge(physBody *A, vec plane)
+{
+	//1) farthest vertex in polygon along separation normal
+	triangle* mA = A->model->mesh; int mAc = A->model.numtris;
+	
+	int idtri = 0;
+	int idv = 0;
+	double max;
+	for(int i = 0;i<mAc;i++)
+	{
+		for(int j = 0;j<3;j++)
+		{
+			double projection = plane.dot(mA[i].v[j]);
+			if(projection > max)
+			{
+				max = projection;
+				idtri = i;
+				idv = j;
+			}
+		}
+	}
+	
+	vector<int> adjTris = A->model.GetAdjacentTris(idtri,idv);
+	//no adjacent?
+	double min = A->model.getNormalFlat(adjTris[0]);
+	idtri = 0;
+	for(int i=0;i<adjTris.numtris;i++)
+	{
+		double n = A->model.getNormalFlat(adjTris[i]);
+		if(n<min)
+		{
+			min = n;
+			idtri = adjTris[i];
+		}
+	}
+	//triangle adjTris[i] in shape A is most
+	//perpendicular to separation plane.
+	return idtri;
+}
+
+
+
+
+
+
+
+
+

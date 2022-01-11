@@ -3,6 +3,10 @@
 struct triangle
 {
 	vec v[3];
+	vec getNormal()
+	{
+		return (v[2]-v[0]).cross(v[1]-v[0]).norm();
+	}
 };
 
 enum renderflags
@@ -62,5 +66,34 @@ struct model
 		{
 			texmap[i].flags = (renderflags)R;
 		}
+	}
+	void expandTriangle(vec point, int tri) //no texture support yet
+	{
+		numtris += 2;
+		mesh = (triangle*)realloc((void*)mesh, numtris*sizeof(triangle*));
+		triangle t = mesh[tri];
+		
+		mesh[tri] 		= (triangle){t.v[0],t.v[1],point};
+		mesh[numtris-2] = (triangle){point,t.v[1],t.v[2]};
+		mesh[numtris-1] = (triangle){t.v[2],t.v[0],point};
+	}
+	vec getNormalFlat(int tri)
+	{
+		return (mesh[tri].v[1]-mesh[tri].v[0]).cross(mesh[tri].v[2]-mesh[tri].v[0]).norm();
+	}
+	vector<int> getAdjacentTris(int tri, int vert)
+	{
+		vector<int> Adj;
+		vec v = mesh[tri].v[vert];
+		for(int i = 0;i<numtris;i++)
+		{
+			if((mesh[i].v[0]==v)||
+				(mesh[i].v[1]==v)||
+				(mesh[i].v[2]==v))
+			{
+				Adj.push_back(i);
+			}
+		}
+		return Adj;
 	}
 };

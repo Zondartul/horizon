@@ -42,8 +42,8 @@ bool mouseCapture;
 bool camRotOn;
 
 
-#include "physics.h"
-#include "console.h"
+//#include "physics.h"
+//#include "console.h"
 //int pie = 3.14;
 /*
 void myButton(void *holder)
@@ -74,17 +74,18 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
 	Binds[key].mode = mode;
 }
 
-#include "toolbox.h"
+//#include "toolbox.h"
 
 
 void Test1(void* arg)
 {
-	ConsoleParse("I LIKE TURTLES");
+	//ConsoleParse("I LIKE TURTLES");
 }
 
 
 void OpenMenuModel()
 {
+	/*
 	GUIframe* ModelMenu = new GUIframe;
 	ModelMenu->setPos(128,128);
 	ModelMenu->setSize(196,128);
@@ -98,6 +99,7 @@ void OpenMenuModel()
 																		myModel->numtris, 0);//myModel->numtextures);
 	Mtext->text = text;
 	Mtext->setParent((GUIbase*) ModelMenu);
+	*/
 }
 
 
@@ -106,7 +108,7 @@ void OpenMenuModel()
 
 void OpenMenu1()
 {	
-	myModel = NULL;
+	//myModel = NULL;
 	myFrame = new GUIframe;
 	myFrame->setPos(0,0);
 	myFrame->setSize(256,512);
@@ -299,7 +301,7 @@ void OnProgramStart()
 	camSpeed = 1;
 	CamAngle = quat::fromAngleAxis(0,{0,0,1});//{0,{0,0,1}};
 	CamAngTest = {1,{0,0,1}};
-	EntLookAt = 0;
+	//EntLookAt = 0;
 	renderWireframe = false;
 	bground.r = 142;
 	bground.g = 187;
@@ -313,10 +315,10 @@ void OnProgramStart()
 	GUI->visible=false;
 	
 	OpenMenu1();
-	initConCommands();
-	OpenMenuConsole();
-	OpenVals();
-	OpenMenuToolbox();
+	//initConCommands();
+	//OpenMenuConsole();
+	//OpenVals();
+	//OpenMenuToolbox();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -546,7 +548,7 @@ void ProcessKeyboard(int kb)
 		
 		sprintf(str,"Unbound key: %d ",kb);//= [%c]/[%c]",kb,(char)kb,(char)letter);
 		printf("sending string to parse: \"%s\"\n",str);
-		ConsoleParse((string)str);
+		//ConsoleParse((string)str);
 	}
 	//GUIM.keyboard(kb);
 }
@@ -569,8 +571,8 @@ void Render2D()
     */
 	RenderGUI();
 }
-vector<physBody*> TranslucentBodies;
-bool BodyDistanceComparator(physBody* i, physBody* j){return (i->pos-SomeVec1).length()>(j->pos-SomeVec1).length();}
+//vector<physBody*> TranslucentBodies;
+//bool BodyDistanceComparator(physBody* i, physBody* j){return (i->pos-SomeVec1).length()>(j->pos-SomeVec1).length();}
 void Render3D()
 {
 	int Errc = 0;
@@ -608,7 +610,7 @@ void Render3D()
     glEnd();
 	
 	//Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
-	
+	/*
 	for(int i = 0;i<AllPhysBodies.size();i++)
 	{
 	glPushMatrix();
@@ -706,7 +708,7 @@ void Render3D()
 			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			*/
+			*//*
 			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
@@ -719,10 +721,11 @@ void Render3D()
 		}
 	}
 	glPopMatrix();
-	}
-	sort(TranslucentBodies.begin(), TranslucentBodies.end(), BodyDistanceComparator);
+	}*/
+	//sort(TranslucentBodies.begin(), TranslucentBodies.end(), BodyDistanceComparator);
 	//GL_DISABLE(GL_DEPTH_BUFFER_WRITE);
 	//glDepthFunc(GL_ALWAYS);
+	/*
 	for(int i = 0;i<TranslucentBodies.size();i++)
 	{
 		glPushMatrix();
@@ -747,7 +750,7 @@ void Render3D()
 		{
 			printf("Asking for shader\n");
 			glPopMatrix(); continue; // don't have a shader yet
-		}*/
+		}*//*
 		vec3i col = Body->color;
 		glColor3ub(col.x,col.y,col.z);
 		
@@ -829,7 +832,7 @@ void Render3D()
 			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			*/
+			*//*
 			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
@@ -840,8 +843,8 @@ void Render3D()
 		glDisable(GL_ALPHA_TEST);
 		}
 	glPopMatrix();
-	}
-	TranslucentBodies.clear();
+	}*/
+	//TranslucentBodies.clear();
 	//glEnable(GL_DEPTH_BUFFER_WRITE);
 	//glDepthFunc(GL_LESS);
 		//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
@@ -942,11 +945,12 @@ void RenderTick(HDC hDC)
 
 void ThinkTick()
 {
+/*
 	for(int i = 0; i<AllPhysBodies.size(); i++)
 	{
 		physBody *B = AllPhysBodies[i];
 		if(B->onThink){B->onThink((void*)B);}
-	}
+	}*/
 }
 
 void ProgramTick(HWND hwnd, HDC hDC)
@@ -972,7 +976,7 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	InputTick();
 	ThinkTick();
     RenderTick(hDC);
-	PhysicsTick();
+	//PhysicsTick();
 }
 
 void CallDestructor()

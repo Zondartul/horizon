@@ -7,6 +7,7 @@ struct vec
 	double z;
 	vec(double x1,double y1,double z1){x=x1;y=y1;z=z1;}
 	vec(){}
+	bool operator == (vec B){return (x==B.x)&&(y==B.y)&&(z==B.z);}
 	vec operator + (vec B){return {x+B.x, y+B.y, z+B.z};}
 	vec operator - (vec B){return {x-B.x, y-B.y, z-B.z};}
 	vec operator - (){return {-x,-y,-z};}

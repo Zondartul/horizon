@@ -219,3 +219,10 @@ double random(double min, double max)
 {
 	return min+((double)rand()/RAND_MAX)*(max-min);
 }
+
+template <typename T> string toString(T *val)
+{
+	char C[127];
+	sprintf(C, "%s@%p", typeid(T).name(), val);
+	return string(C);
+}
