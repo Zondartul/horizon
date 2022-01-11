@@ -192,6 +192,72 @@ int printw (int x, int y, int xlim, int ylim, string format, ...)
     return x0-x; //returns the width of printed text in pixels;
 }
 
+void preprintw(rect *size, int *chars_printed, int xlim, int ylim, string format, ...){
+	if(CurFont == NULL){return;}
+
+	const char *format2 = format.c_str();
+    va_list args;   //  Variable argument list
+    int len;        // String length
+    int i;          //  Iterator
+    char * text;    // Text
+    va_start(args, format);
+    len = _vscprintf(format2, args) + 1;
+    text = (char*)malloc(len * sizeof(char));
+    vsprintf(text, format2, args);
+    va_end(args);
+	
+	int min_x = 0;
+	int min_y = 0;
+	int max_x = 0;
+	int max_y = 0;
+	int max_char = 0;
+	int x = 0;
+	int y = 0;
+    //  Draw the characters one by one
+    int x1 = x;
+    int y1 = y;
+    int y2 = y;
+    int x2 = x;
+    int x0 = x;
+    glyphkind Cur;
+    int y0 = y+16;
+	for (i = 0; text[i] != '\0'; i++)
+    {
+		if(text[i]=='\n'){y0 += 16;x0=x;}
+		else
+		{
+			Cur = CurFont[text[i]];
+			y1 = y0-Cur.bearingY;
+			y2 = y1+Cur.sizeY;
+			x1 = x0+Cur.bearingX;
+			x2 = x1+Cur.sizeX;
+			bool draw = true;
+			if((xlim==0)||(ylim==0)){draw = false;}
+			if(xlim>-1){if(x2>(x+xlim)){x0 = x; y0 += 16;}}
+			y1 = y0-Cur.bearingY;
+			y2 = y1+Cur.sizeY;
+			x1 = x0+Cur.bearingX;
+			x2 = x1+Cur.sizeX;
+			if(ylim>-1){if(y2>(y+ylim)){draw = false;}}
+			if(draw){
+				x0 = x0+Cur.advance;
+				max_x = max(max_x, x2);
+				max_y = max(max_y, y2);
+				min_x = min(min_x, x1);
+				min_y = min(min_y, y1);
+				max_char++;
+			}
+		}
+	}
+    //glDisable(GL_TEXTURE_2D);
+    //glutBitmapCharacter(font_style, text[i]);
+
+    //  Free the allocated memory for the string
+    free(text);
+	if(size){size->setStart({min_x,min_y}).setEnd({max_x,max_y});}
+	if(chars_printed){*chars_printed = max_char;}
+}
+
 void fontFree(glyphkind *Font)
 {
     if(Font == NULL){return;}

@@ -15,17 +15,22 @@ class GUI4base{
 	vector<GUI4base*> children;
 	GUI4orderType client_order;
 	bool size_to_contents;
-	GUI4direction anchor_point1;
-	GUI4direction anchor_point2;
+	int anchor_type_bottom;
+	int anchor_type_right;
+	int anchor_diff_bottom;
+	int anchor_diff_right;
 	bool is_visible;
 	bool is_clickable;
 	bool is_resizible;
 	bool is_movable;
 	bool invalidate_suppressed;
 	bool is_client;
+	bool is_client_area_constrained;
 	vec2i click_pos;
-	vec2i prev_win_pos;
+	rect prev_area;
+	vec2i client_diff;
 	int click_state;
+	int resize_edge;
 	//functions
 	GUI4base(); //constructor
 	~GUI4base(); //destructor
@@ -49,7 +54,7 @@ class GUI4base{
 	GUI4base &setSizeToContents(bool value);		//resize object to fit contents now and every time it is invalidated
 	GUI4base &sizeToContents(bool value);			//*** i'm not sure what this does?
 	GUI4base &sortContents(bool (*compare)(GUI4base *A, GUI4base *B)); //sort the contents, this time only
-	GUI4base &setAnchor(GUI4direction point1, GUI4direction point2); //make the edge of the object follow the edge of the parent's client area
+	GUI4base &setAnchor(int anchor_bottom, int anchor_right); //make the edge of the object follow the edge of the parent's client area
 	GUI4base &snapToSide(GUI4direction direction);			//move the object to the edge of the parent's client area
 	GUI4base &setVisible(bool value);				//make object visible or not
 	GUI4base &setClickable(bool value);				//the object will receive mouse click events
@@ -57,14 +62,18 @@ class GUI4base{
 	GUI4base &setResizible(bool value);				//the object can be resized by dragging it's borders
 	GUI4base &setMovable(bool value);				//the object can be moved by clicking on it and dragging
 	GUI4base &setClient(bool value);				//the object is a client and not part of a composite element.
+	GUI4base &setClientAreaConstrained(bool value); //clients are forbidden from exceeding the client area.
 	GUI4base &addElement(GUI4base *A);				//add a child element
 	//signals
-	void close(); 			//delete the object
-	void invalidate(); 		//recalculate all positioning data
-	void invalidateSelf(); 	//recalculate personal positioning data only
-	void bringToFront(); 	//make this the topmost control within it's neighborhood
-	virtual void render(); 			//draw the element
-	virtual void think();
+	void close(); 				//delete the object
+	void invalidate(); 			//recalculate all positioning data
+	void invalidateSelf(); 		//recalculate personal positioning data only
+	void bringToFront(); 		//make this the topmost control within it's neighborhood
+	virtual void checkSizeToContents();	//recalculate size based on contents
+	void recalculateAnchor();	//recalculate anchor data
+	void checkAnchor();			//apply the anchor
+	virtual void render(); 		//draw the element
+	virtual void think();		
 	//events
 	functor *onMouseOver;	//called when mouse moves over the object
 	functor *onMouseClick;	//called when mouse clicks the object (if focused)

@@ -4,12 +4,18 @@
 void GUI4frame::render(){
 	color3i color1 = {255*8/10,255*8/10,255};
 	color3i color2 = {0,0,0};
+	setAlpha(128);
 	setColor(color1);
-	paintRect(area.toWorld());
+	paintRect(getVisibleWorldArea());//paintRect(area.toWorld());
 	setColor(color2);
-	paintRectOutline(area.toWorld());
+	paintRectOutline(getVisibleWorldArea());//paintRectOutline(area.toWorld());
 	
-	color3i color3 = {255,0,0};
+	GUI4base::render();
+	
+}
+
+
+	/* color3i color3 = {255,0,0};
 	color3i color4 = {0,255,0};
 	color3i color5 = {0,0,255};
 	rect vis = getVisibleWorldArea();
@@ -18,8 +24,4 @@ void GUI4frame::render(){
 	setColor(color3);
 	paintRectOutline(getVisibleWorldArea());
 	setColor(color5);
-	paintRectOutline(client_area.toWorld());
-	GUI4base::render();
-	
-}
-
+	paintRectOutline(client_area.toWorld()); */

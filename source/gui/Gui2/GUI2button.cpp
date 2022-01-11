@@ -21,7 +21,7 @@ void GUI2button::onClick(int mb)
 void GUI2button::setImage(string path)
 {
 	//ImageTex = LoadTextureRAW(path, 1);
-	image = GenTextureBMP(path).t;
+	image = LoadTexture(path.c_str()).t;//GenTextureBMP(path).t;
 }
 void GUI2button::render(void *arg)
 {

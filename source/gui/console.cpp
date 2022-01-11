@@ -147,20 +147,23 @@ void cmd_textureLoad(void *arg)
 	vector<string>* args = (vector<string>*)arg;
 	if(args->size()>1)
 	{
+		LoadTexture((*args)[1].c_str());
+		/*
 		texture n = GenTextureBMP((*args)[1].c_str());//temp copy
 		if(n.t!=0)
 		{
 			AllTextures.push_back(n); //permanent copy
 		}
+		*/
 	}
 }
 void cmd_textureStore(void *arg)
 {
-	for(int i = 0;i<AllTextures.size();i++)
+	for(map<string,texture>::iterator I = AllTextures.begin();I != AllTextures.end(); I++)
 	{
-		texture t = AllTextures[i];
-		ConsoleParse(itoa(i)+" ["+AllTextures[i].name+"] "+itoa(t.width));
-		ConsoleParse("[img]"+AllTextures[i].name+"[/img]");
+		texture t = I->second;
+		ConsoleParse(" ["+t.name+"] "+itoa(t.width));
+		ConsoleParse("[img]"+t.name+"[/img]");
 		ConsoleParse(" ");
 		ConsoleParse(" ");
 		ConsoleParse(" ");

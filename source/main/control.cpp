@@ -32,6 +32,7 @@ PSchannel GUI_PS;
 #include "input/keybinds.h"
 #include "game/camera.h"
 #include "display/renderable.h"
+#include "gui/window_modeller.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -260,11 +261,43 @@ void OpenVals()
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 GUI4base *GUI4;
+
+void displaySizes(void *arg){
+	printf("displaySizes called\n");
+	vector<GUI4base*> bases = *((vector<GUI4base*>*)arg);
+	string text;
+	for(int I = 1; I < bases.size(); I++){
+		char str[80];
+		snprintf(str,80,"[%p]:size %d x %d (%d,%d - %d,%d)\n",
+			bases[I],
+			bases[I]->area.size.x,
+			bases[I]->area.size.y,
+			bases[I]->area.start.x,
+			bases[I]->area.start.y,
+			bases[I]->area.end.x,
+			bases[I]->area.end.y);
+		text += str;
+	}
+	((GUI4label*)(bases[0]))->setText(text);
+}
+
 void OpenGUI4(){
-	GUI4 = &((new GUI4frame())->setPos(200,100).setSize(100,100).setClientSize(100,100).setClientPos(0,0));
-	GUI4->addElement(&((new GUI4frame())->setPos(10,10).setSize(50,50).setClient(false).setMovable(true)));
-	GUI4->addElement(&((new GUI4frame())->setPos(70,10).setSize(50,50).setClient(true).setMovable(true)));
-	GUI4->setSizeToContents(true).setClickable(true).setMovable(false);
+	GUI4 = &((new GUI4frame())->setPos(200,100).setSize(600,400).setClientSize(600,400).setClientPos(0,0));
+	GUI4base *element1 = &((new GUI4frame())->setPos(10,10).setSize(100,100).setClient(true).setMovable(false).setResizible(true));
+	GUI4base *element2 = &((new GUI4label())->setText("Quick Brown Fox\nJumps Over\nThe Lazy Dog").setPos(70,10).setSize(50,50).setClient(true).setSizeToContents(true));
+	GUI4base *element3 = &((new GUI4frame())->setPos(10,100).setSize(25,25).setClient(true).setMovable(false).setResizible(true).setAnchor(1,1));
+	
+	GUI4->addElement(element1);
+	GUI4->addElement(element2);
+	GUI4->addElement(element3);
+	vector<GUI4base*>* bases = new vector<GUI4base*>;
+	bases->push_back(element2);
+	bases->push_back(GUI4);
+	bases->push_back(element1);
+	bases->push_back(element2);
+	bases->push_back(element3);
+	hook.add("onRender","GUI4 data update",new functor_from_funcptr(displaySizes,(void*)bases));
+	GUI4->setSizeToContents(false).setClickable(true).setMovable(false).setResizible(true);//.setClientOrder(ORDER_VERTICAL);
 	//GUI4->setMovable(true);
 	//GUI4->setClickable(true);
 }
@@ -329,21 +362,21 @@ void OnProgramStart()
 	debug("freetype version = %d.%d.%d",FF_version_major, FF_version_minor, FF_version_patch);
     theta = 1.0f;
     //if(MessageBox(0,"V: 44. Continue?", "Version", MB_OKCANCEL|MB_ICONQUESTION )==2){PostQuitMessage(0); return;}
-    Tahoma8 = GenerateFont("C:/Stride/tahoma.ttf",8,true);//no aa
-	Tahoma12= GenerateFont("C:/Stride/tahoma.ttf",12,false);//no aa
-	Tahoma18= GenerateFont("C:/Stride/tahoma.ttf",18,true);
-	Tahoma20= GenerateFont("C:/Stride/tahoma.ttf",20,true);
-	Tahoma22= GenerateFont("C:/Stride/tahoma.ttf",22,true);
-	Calibri8= GenerateFont("C:/Stride/calibri.ttf",8,true);
-	Calibri12= GenerateFont("C:/Stride/calibri.ttf",12,true);
-	Calibri18= GenerateFont("C:/Stride/calibri.ttf",18,true);
-	Calibri20= GenerateFont("C:/Stride/calibri.ttf",20,true);
-	Calibri22= GenerateFont("C:/Stride/calibri.ttf",22,true);
-	CourierNew8= GenerateFont("C:/Stride/cour.ttf",8,true);
-	CourierNew12= GenerateFont("C:/Stride/cour.ttf",12,true);
-	CourierNew18= GenerateFont("C:/Stride/cour.ttf",18,true);
-	CourierNew20= GenerateFont("C:/Stride/cour.ttf",20,true);
-	CourierNew22= GenerateFont("C:/Stride/cour.ttf",22,true);
+    Tahoma8 = GenerateFont("C:/Windows/Fonts/tahoma.ttf",8,true);//no aa
+	Tahoma12= GenerateFont("C:/Windows/Fonts/tahoma.ttf",12,false);//no aa
+	Tahoma18= GenerateFont("C:/Windows/Fonts/tahoma.ttf",18,true);
+	Tahoma20= GenerateFont("C:/Windows/Fonts/tahoma.ttf",20,true);
+	Tahoma22= GenerateFont("C:/Windows/Fonts/tahoma.ttf",22,true);
+	Calibri8= GenerateFont("C:/Windows/Fonts/calibri.ttf",8,true);
+	Calibri12= GenerateFont("C:/Windows/Fonts/calibri.ttf",12,true);
+	Calibri18= GenerateFont("C:/Windows/Fonts/calibri.ttf",18,true);
+	Calibri20= GenerateFont("C:/Windows/Fonts/calibri.ttf",20,true);
+	Calibri22= GenerateFont("C:/Windows/Fonts/calibri.ttf",22,true);
+	CourierNew8= GenerateFont("C:/Windows/Fonts/cour.ttf",8,true);
+	CourierNew12= GenerateFont("C:/Windows/Fonts/cour.ttf",12,true);
+	CourierNew18= GenerateFont("C:/Windows/Fonts/cour.ttf",18,true);
+	CourierNew20= GenerateFont("C:/Windows/Fonts/cour.ttf",20,true);
+	CourierNew22= GenerateFont("C:/Windows/Fonts/cour.ttf",22,true);
 	
 	setFont(Calibri18);
 	debug("fonts done\n");
@@ -401,7 +434,8 @@ void OnProgramStart()
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 	OpenNewConsole(GUI);
 	OpenValScreen(GUI);
-	OpenGUI4();
+	//OpenGUI4();
+	OpenWindowModeller();
 	
 	KeyBinds["b"] = "echo butts";
 	KeyBinds["w"] = "+camforward";
@@ -434,8 +468,8 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "99";
-	string vdate = " of 30th June 2015"; //" of 21st February 2015";
+	string vnumber = "100";
+	string vdate = " of 8th August 2015"; //" of 30th June 2015";
 	twidth = printw(32,32,-1,-1,version+vnumber+vdate);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -532,7 +566,7 @@ void ProcessMouseclick(int mb)
 		if(mb==1){
 			printf("click void\n");
 			ParseKey(1);
-			convars["camera_mouse_capture"] = 1;
+			//convars["camera_mouse_capture"] = 1;
 			input.channel.unsubscribe("", GUI);
 			input.channel.subscribe("", &Binder);
 			input.channel.subscribe("", &Binder2);
@@ -1091,6 +1125,8 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	height = rect.bottom;
 	windowSize.x = width;
 	windowSize.y = height;
+	screen.setStart({0,0});
+	screen.setSize({(int)width,(int)height});
 	windowCenter.x = windowCorner.x+width/2;
 	windowCenter.y = windowCorner.y+height/2;
 	InputTick();

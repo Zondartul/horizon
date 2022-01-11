@@ -1,6 +1,7 @@
 #include "gui/GUI4/GUI4base.h"
 #include <algorithm>
 #include "assert.h"
+#include "display/paint.h"
 
 //functions
 GUI4base::GUI4base(){//constructor
@@ -17,6 +18,7 @@ GUI4base::GUI4base(){//constructor
 	is_movable = false;
 	invalidate_suppressed = false;
 	is_client = true;
+	is_client_area_constrained = false;
 	click_state = 0;
 }
 GUI4base::~GUI4base(){} //destructor
@@ -80,11 +82,16 @@ GUI4base &GUI4base::setPos(int x, int y){
 	//area.setx(x).sety(y);
 	vec2i S = area.size;
 	area.setStart({x,y}).setSize(S);
+	recalculateAnchor();
 	invalidate();
 	return *this;
 }
 GUI4base &GUI4base::setSize(int w, int h){
+	//if(w < 0){w=0;}
+	//if(h < 0){h=0;}
+	//printf("setSize(%d,%d)\n",w,h);
 	area.setSize({w,h});
+	recalculateAnchor();
 	invalidate();
 	return *this;
 }
@@ -119,9 +126,92 @@ GUI4base &GUI4base::sortContents(bool (*compare)(GUI4base *A, GUI4base *B)){
 	return *this;
 }
 
-GUI4base &GUI4base::setAnchor(GUI4direction point1, GUI4direction point2){
-	anchor_point1 = point1;
-	anchor_point2 = point2;
+void GUI4base::recalculateAnchor(){
+	switch(anchor_type_bottom){
+		case(1)://move
+			anchor_diff_bottom = area.parent->toWorld().end.y - area.toWorld().start.y;
+		break;
+		case(2)://scale
+			anchor_diff_bottom = area.parent->toWorld().end.y - area.toWorld().end.y;
+		break;
+	}
+	switch(anchor_type_right){
+		case(1)://move
+			anchor_diff_right = area.parent->toWorld().end.x - area.toWorld().start.x;
+		break;
+		case(2)://scale
+			anchor_diff_right = area.parent->toWorld().end.x - area.toWorld().end.x;
+		break;
+	}
+}
+
+void GUI4base::checkAnchor(){
+	if(parent){
+		vec2i newPos = area.start;
+		vec2i newSize = area.size;
+		//check bottom anchor
+		if(anchor_type_bottom != 0){
+			int diffCurrent;
+			int diffNeeded;
+			switch(anchor_type_bottom){
+			case(1)://move
+				diffCurrent = area.parent->toWorld().end.y - area.toWorld().start.y;
+				diffNeeded = anchor_diff_bottom;
+				if(diffCurrent != diffNeeded){
+					//printf("[%p]:anchor-bottom-move\n",this);
+					newPos.y = newPos.y + diffCurrent - diffNeeded;
+				}
+			break;
+			case(2)://scale
+				diffCurrent = area.parent->toWorld().end.y - area.toWorld().end.y;
+				diffNeeded = anchor_diff_bottom;
+				if(diffCurrent != diffNeeded){
+					//printf("[%p]:anchor-bottom-scale\n",this);
+					newSize.y = newSize.y + diffCurrent - diffNeeded;
+				}
+			break;
+			}
+		}
+		//check right anchor
+		if(anchor_type_right != 0){
+			int diffCurrent;
+			int diffNeeded;
+			switch(anchor_type_right){
+			case(1)://move
+				diffCurrent = area.parent->toWorld().end.x - area.toWorld().start.x;
+				diffNeeded = anchor_diff_right;
+				if(diffCurrent != diffNeeded){
+					//printf("[%p]:anchor-right-move\n",this);
+					newPos.x = newPos.x + diffCurrent - diffNeeded;
+				}
+			break;
+			case(2)://scale
+				diffCurrent = area.parent->toWorld().end.x - area.toWorld().end.x;
+				diffNeeded = anchor_diff_right;
+				if(diffCurrent != diffNeeded){
+					//printf("[%p]:anchor-right-scale\n",this);
+					newSize.x = newSize.x + diffCurrent - diffNeeded;
+				}
+			break;
+			}
+		}
+		setPos(newPos.x,newPos.y);
+		setSize(newSize.x,newSize.y);
+	}
+}
+
+GUI4base &GUI4base::setAnchor(int bottom_anchor, int right_anchor){
+	//options:
+	//0: ignore-bottom
+	//1: move-with-bottom
+	//2: scale-with-bottom
+	//---------
+	//0: ignore-right
+	//1: move-with-right
+	//2: scale-with-right
+	anchor_type_bottom = bottom_anchor;
+	anchor_type_right = right_anchor;
+	if(parent){recalculateAnchor();}
 	return *this;
 }
 GUI4base &GUI4base::setVisible(bool value){
@@ -143,6 +233,10 @@ GUI4base &GUI4base::setMovable(bool value){
 GUI4base &GUI4base::setClient(bool value){
 	if(parent){assert(!"GUI4: do not change element's client status after it's been added");}
 	is_client = value;
+	return *this;
+}
+GUI4base &GUI4base::setClientAreaConstrained(bool value){
+	is_client_area_constrained = value;
 	return *this;
 }
 //signals
@@ -167,9 +261,17 @@ void GUI4base::invalidateSelf(){
 	//this is how we differentiate between changes called by user and those called
 	//by other gui elements.
 	if(!invalidate_suppressed){
-		printf("invalidating");
 		invalidate_suppressed = true;
 		//start with fixing the client area
+		/* if(is_client_area_constrained){
+			for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
+				if((*I)->is_client){
+					rect newPos = client_area.insert((*I)->area);
+					(*I)->setPos(newPos.start.x,newPos.start.y);
+				}
+			}
+		} */
+		checkAnchor();
 		//	first, see if we have an order to keep
 		int x = 0;
 		int y = 0;
@@ -190,29 +292,14 @@ void GUI4base::invalidateSelf(){
 				break;
 		}
 		//	next, see if we need to resize based on client size.
-		if(size_to_contents){
-			int maxx = 0;
-			int maxy = 0;
-			int x;
-			int y;
-			for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
-				if((*I)->is_client){
-					x = (*I)->area.end.x;
-					y = (*I)->area.end.y;
-					if(x > maxx){maxx = x;}
-					if(y > maxy){maxy = y;}
-				}
-			}
-			if((maxx != client_area.end.x)||(maxy != client_area.end.y)){
-				//setSize(maxx+area.end.x-client_area.end.x,maxy+area.end.y-client_area.end.y);
-				vec2i diff = area.end-client_area.end;
-				vec2i end = {maxx,maxy};
-				client_area.setEnd(end);
-				area.setEnd(end+diff);
-			}
-		}
+		if(size_to_contents){checkSizeToContents();}
+		
 		//	next, see if we're attached to anything.
 		// if...
+		//finally, invalidate all the children.
+		for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
+			(*I)->invalidate();
+		}
 		invalidate_suppressed = false;
 	}
 }
@@ -224,6 +311,30 @@ GUI4base &GUI4base::addElement(GUI4base *A){
 		A->area.parent = &client_area;
 	}else{
 		A->area.parent = &area;
+	}
+	A->recalculateAnchor();
+}
+
+void GUI4base::checkSizeToContents(){
+	//printf("[%p]:G4base::cSTC\n",this);
+	int maxx = 0;
+	int maxy = 0;
+	int x;
+	int y;
+	for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
+		if((*I)->is_client){
+			x = (*I)->area.end.x;
+			y = (*I)->area.end.y;
+			if(x > maxx){maxx = x;}
+			if(y > maxy){maxy = y;}
+		}
+	}
+	if((maxx != client_area.end.x)||(maxy != client_area.end.y)){
+		//setSize(maxx+area.end.x-client_area.end.x,maxy+area.end.y-client_area.end.y);
+		vec2i diff = area.end-client_area.end;
+		vec2i end = {maxx,maxy};
+		client_area.setEnd(end);
+		area.setEnd(end+diff);
 	}
 }
 //draw the element
@@ -238,38 +349,125 @@ void GUI4base::think(){
 			//if mouse 1 was clicked
 			if(input.mouse1down){
 				//was the click inside window?
-				if(getVisibleWorldArea().contains(input.getMousePos())){
-				click_state = 1;
+				rect vis = area.toWorld();//getVisibleWorldArea();
+				vec2i mouse = input.getMousePos();
 				//record initial mouse and window positions
-				click_pos = input.getMousePos();						
-				prev_win_pos = area.toWorld().start;
+				click_pos = mouse;						
+				prev_area = area.toWorld();
+				client_diff = area.size-client_area.size;
+				if(vis.contains(mouse)){
+					//was the click on one of the edges?
+					resize_edge = 0;
+					if(!vis.contains(mouse+(vec2i){2,0})){click_state = 3;resize_edge += 1;}
+					if(!vis.contains(mouse+(vec2i){0,2})){click_state = 3;resize_edge += 2;}
+					if(!vis.contains(mouse+(vec2i){-2,0})){click_state = 3;resize_edge += 4;}
+					if(!vis.contains(mouse+(vec2i){0,-2})){click_state = 3;resize_edge += 8;}
+					if(resize_edge == 0){
+						//not on the edge.
+						click_state = 1;
+					}
 				}else{
 					//else ignore it until it un-clicks
 					click_state = 2;
 				}
 			}
 		break;
+		//if we are dragged, resized, or clicked:
 		case 1:
+		case 3:
 			//if mouse is still being held
 			if(input.mouse1down){
-				//are we allowed to be dragged by mouse?
-				if(is_movable){
-					//get current mouse position
-					vec2i V = input.getMousePos();
+				//get current mouse position
+				vec2i mouse = input.getMousePos();
+				/*
+				if(parent){ //confine the mouse
+					if(is_client){mouse = parent->client_area.toWorld().clamp(mouse);}
+					else{	      mouse = parent->area.toWorld().clamp(mouse);       }
+				}
+				*/
+				
+				//if the mouse moved at all
+				if(mouse != click_pos){
+					//figure out how the mouse should be constrained
+					//to prevent weird positions
+					vec2i c_start = screen.start;
+					vec2i c_end = screen.end;
 					if(parent){
-						//do not allow the mouse to drag us outside our bounds
-						if(is_client){V = parent->client_area.toWorld().clamp(V);}
-						else{	      V = parent->area.toWorld().clamp(V);       }
+						c_start = area.parent->toWorld().start;
+						c_end = area.parent->toWorld().start;
+						/* if(is_client){
+							c_start = parent->client_area.toWorld().start;
+							c_end = parent->client_area.toWorld().end;
+						}else{
+							c_start = parent->area.toWorld().start;
+							c_end = parent->area.toWorld().end;
+						} */
+						//start is pretty much always {0,0}
+						//relative to whatever the parent is
+						//BUT we are working in world coords
 					}
-					//if the mouse moved at all
-					if(V != click_pos){
+					if(is_movable && click_state == 1){
+						//drag condition
+						c_start = c_start+(click_pos-prev_area.start);
+						c_end = c_end+(click_pos-prev_area.end);
+						/* if(parent){
+							if(is_client){c_end = parent->client_area.toWorld().end+(mouse-area.toWorld().end);}
+							else{c_end = parent->area.toWorld().end+(mouse-area.toWorld().end);}
+						} */
+						
+					}else if(is_resizible && click_state == 3){
+						if(resize_edge & 1){ //right edge
+							//start is left edge
+							//end is parent area end
+							c_start.x = prev_area.start.x;
+						}else if(resize_edge & 4){ //left edge
+							//start is parent area start
+							//end is right edge
+							c_end.x = prev_area.end.x;
+						}
+						if(resize_edge & 2){ //bottom edge
+							//start is top edge
+							//end is parent area end
+							c_start.y = prev_area.start.y;
+						}else if(resize_edge & 8){ //top edge
+							//start is parent area start
+							//end is bottom edge
+							c_end.y = prev_area.end.y;
+						}
+						
+					}
+					mouse = clamp(mouse,c_start,c_end);
+					paintCircle(mouse.x,mouse.y,2);
+					//should we get dragged?
+					if(is_movable && click_state == 1){
+						
 						//calculate the change in mouse position
 						//and fromt that the new window position
-						vec2i newV = (prev_win_pos+V-click_pos);
+						vec2i newV = (prev_area.start+mouse-click_pos);
 						//convert to propper coordinate system
 						if(parent){newV = parent->area.fromWorld(newV);}
 						//move window
 						setPos(newV.x, newV.y);
+					}
+					//should we get resized?
+					if(is_resizible && click_state == 3){
+						//calculate the change in mouse position
+						vec2i diff = mouse-click_pos;
+						//calculate the change in size
+						vec2i newSize = prev_area.size;
+						//for left and top edge, we combine move and resize.
+						vec2i newPos = prev_area.start;
+						if(resize_edge & 1){newSize.x = prev_area.size.x+diff.x;}
+						else if(resize_edge & 4){newSize.x = prev_area.size.x-diff.x; newPos.x = prev_area.start.x+diff.x;}
+						if(resize_edge & 2){newSize.y = prev_area.size.y+diff.y;}
+						else if(resize_edge & 8){newSize.y = prev_area.size.y-diff.y; newPos.y = prev_area.start.y+diff.y;}
+						//convert to propper coordinate system
+						if(parent){newPos = parent->area.fromWorld(newPos);}
+						//move window
+						//setPos(newPos.x, newPos.y);
+						//resize window
+						setSize(newSize.x, newSize.y);
+						//setClientSize(newSize.x-client_diff.x, newSize.y-client_diff.y);
 					}
 				}
 			//if mouse is released

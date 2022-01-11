@@ -10,6 +10,9 @@
 //#include <gl/glut.h>  //  Include GLUT, OpenGL, and GLU libraries
 //#include <string.h>
 #include "util/globals.h"
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_PNG
+#include "resource/stb_image.h"
 
 texture::texture(){
 	t = 0;
@@ -30,9 +33,23 @@ void texture::free(){
 }
 texture notexture(){texture notexture;return notexture;}
 
-vector<texture> AllTextures;
+map<string,texture> AllTextures;
 
+texture LoadTexture(const char *filename){
+	//1: check extension
+	string ext = tolower(string(filename).substr(string(filename).find_last_of('.'),-1));
+	//2: call the appropriate loader
+	if(ext == ".raw"){return LoadTextureRAW(filename);}
+	if(ext == ".bmp"){return LoadTextureBMP(filename);}
+	if(ext == ".png"){return LoadTexturePNG(filename);}
+	printf("error: unknown texture format: %s\n", ext.c_str());
+	return notexture();
+}
 
+texture textureGet(string name){
+	return AllTextures[name];
+}
+/*
 texture textureGet(string name)
 {
 	for(int i = 0; i<AllTextures.size();i++)
@@ -44,9 +61,9 @@ texture textureGet(string name)
 	}
 	return notexture();
 }
-
+*/
 // load a 256x256 RGB .RAW file as a texture
-GLuint LoadTextureRAW( const char * filename, int wrap )
+texture LoadTextureRAW( const char * filename)
 {
   GLuint tex;
   int width, height;
@@ -55,7 +72,7 @@ GLuint LoadTextureRAW( const char * filename, int wrap )
 
   // open texture data
   file = fopen( filename, "rb" );
-  if ( file == NULL ) {printf("texture file not found: %s",filename);return 0;}
+  if ( file == NULL ) {printf("texture file not found: %s\n",filename);return notexture();}
 
   // allocate buffer
   width = 256;
@@ -84,9 +101,9 @@ GLuint LoadTextureRAW( const char * filename, int wrap )
   // if wrap is true, the texture wraps over at the edges (repeat)
   //       ... false, the texture ends at the edges (clamp)
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                   wrap ? GL_REPEAT : GL_CLAMP );
+                   texture_load_wrap ? GL_REPEAT : GL_CLAMP );
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                   wrap ? GL_REPEAT : GL_CLAMP );
+                   texture_load_wrap ? GL_REPEAT : GL_CLAMP );
 
   // build our texture MIP maps
   gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width,
@@ -94,12 +111,19 @@ GLuint LoadTextureRAW( const char * filename, int wrap )
 
   // free buffer
   free( data );
+  // make a texture holder
+  texture newTex;
+  newTex.t = tex;
+  newTex.name = filename;
+  newTex.width = width;
+  newTex.height = height;
   printf("texture loaded: %s",filename);
-  return tex;
+  return newTex;
 }
 bool texture_load_pixelated = 0;
+bool texture_load_wrap = 1;
 
-texture GenTextureBMP( string filename)
+texture LoadTextureBMP(const char *filename)
 {
   GLuint tex;
   int width, height;
@@ -109,8 +133,8 @@ texture GenTextureBMP( string filename)
   FILE * file;
 
   // open texture data
-  file = fopen( filename.c_str(), "rb" );
-  if ( file == NULL ) {printf("texture file not found: %s",filename.c_str());return notexture();}
+  file = fopen( filename, "rb" );
+  if ( file == NULL ) {printf("texture file not found: %s",filename);return notexture();}
 
   // allocate buffer
   fseek(file,0x12,SEEK_SET);//0x12H
@@ -189,10 +213,12 @@ texture GenTextureBMP( string filename)
   newTex.name = filename;
   newTex.width = width;
   newTex.height = height;
-  printf("texture loaded: %s",filename.c_str());
+  AllTextures[filename] = newTex;
+  printf("texture loaded: %s",filename);
   return newTex;
 }
 
+/*
 GLuint LoadTextureBMP( const char * filename)
 {
   GLuint tex;
@@ -247,9 +273,36 @@ GLuint LoadTextureBMP( const char * filename)
 
   // free buffer
   free( data );
-  printf("texture loaded: %s",filename);
+  printf("texture loaded: %s\n",filename);
   return tex;
 
+}
+*/
+texture LoadTexturePNG( const char *filename ){
+	int x,y,n;
+	unsigned char *data = stbi_load(filename, &x, &y, &n, 4);
+	if(data){
+		texture T;
+		T.width = x;
+		T.height = y;
+		T.name = filename;
+		glGenTextures(1,&T.t);
+		glBindTexture(GL_TEXTURE_2D,T.t);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+		gluBuild2DMipmaps(GL_TEXTURE_2D,4,x,y,GL_RGBA,GL_UNSIGNED_BYTE,data);
+		stbi_image_free(data);
+		printf("texture loaded: %s",filename);
+		AllTextures[filename] = T;
+		return T;
+	}else{
+		printf("error: failed to load texture %s\n", filename);
+		printf("STBI: [%s]\n", stbi_failure_reason());
+		return notexture();
+	}
 }
 
 void FreeTexture( GLuint tex )

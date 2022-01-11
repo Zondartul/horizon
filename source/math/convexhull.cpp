@@ -157,7 +157,7 @@ if(t4phase == -1){
 		}
 		activeset = new set<int>();
 		*activeset = omniset;
-		hook.add("onRender","test4",functor_from_funcptr(t4render,NULL));
+		hook.add("onRender","test4",new functor_from_funcptr(t4render,NULL));
 		fastforward = 2;
 	}if(t4phase == 1){ // make the initial two triangles
 		t4phase++;

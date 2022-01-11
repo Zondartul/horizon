@@ -18,7 +18,9 @@ int clamp(int A, int B, int C)
 	}
 }
 
-
+vec2i clamp(vec2i A, vec2i B, vec2i C){
+	return {clamp(A.x,B.x,C.x),clamp(A.y,B.y,C.y)};
+}
 vec2i operator + (vec2i A, vec2i B)
 {
 	return {A.x+B.x, A.y+B.y};
@@ -26,6 +28,9 @@ vec2i operator + (vec2i A, vec2i B)
 vec2i operator - (vec2i A, vec2i B)
 {
 	return {A.x-B.x, A.y-B.y};
+}
+vec2i operator - (vec2i A){
+	return {-A.x,-A.y};
 }
 bool operator == (vec2i A, vec2i B)
 {
@@ -77,6 +82,7 @@ bool operator == (vec4i A, vec4i B)
 rect &rect::setStart(vec2i A){setx(A.x);sety(A.y);}
 rect &rect::setEnd(vec2i A){setx2(A.x);sety2(A.y);}
 rect &rect::setSize(vec2i A){setw(A.x);seth(A.y);}
+rect &rect::move(vec2i A){setStart(start+A); setEnd(end+A);}
 rect &rect::setx(int x){start.x = x; size.x = end.x-start.x;}// return *this;}
 rect &rect::sety(int y){start.y = y; size.y = end.y-start.y;}
 rect &rect::setw(int w){size.x = w; end.x = start.x+size.x;}
@@ -89,6 +95,14 @@ bool rect::contains(rect A){return contains(A.start) && contains(A.end);}
 vec2i rect::clamp(vec2i A){return {::clamp(A.x, start.x, end.x),::clamp(A.y,start.y,end.y)};} //nothing::something means "find something in global scope"
 rect rect::clamp(rect A){
 	return A.setStart(clamp(A.start)).setEnd(clamp(A.end));
+}
+rect rect::insert(rect A){
+	vec2i diff = {0,0};
+	if(A.start.x < start.x){diff.x = start.x - A.start.x;}
+	else if(end.x < A.end.x){diff.x = end.x - A.end.x;}
+	if(A.start.y < start.y){diff.y = start.y - A.start.y;}
+	else if(end.y < A.end.y){diff.y = end.y - A.end.y;}
+	return A.move(diff);
 }
 rect rect::toParent(rect A){	//A is in local, need it in parent's coords.
 	return A.setStart(toParent(A.start)).setEnd(toParent(A.end));
@@ -168,7 +182,7 @@ float width = 1024.0f;
 float height = 640.0f;
 color4i bground;
 vec2i mousePos;
-
+rect screen;
 double d2r(double x){return x*M_PI/180.0;}
 double r2d(double x){return x*180.0/M_PI;}
 
@@ -229,6 +243,20 @@ std::string operator+(std::string const &a, double b){
   return oss.str();
 }
 
+string tolower(string A){
+	string B = A;
+	for(int I = 0; I<A.length();I++){
+		B[I] = tolower(A[I]);
+	}
+	return B;
+}
+string toupper(string A){
+	string B = A;
+	for(int I = 0; I<A.length();I++){
+		B[I] = toupper(A[I]);
+	}
+	return B;
+}
 
 except::except(const char *a, int b, const char *str){
 	mystr = (string(str)+" ["+string(a)+", line "+b+"]").c_str();

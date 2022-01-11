@@ -11,7 +11,7 @@ GUI2image::GUI2image():GUI2base()
 void GUI2image::setImage(char *path)
 {
 	//ImageTex = LoadTextureRAW(path, 1);
-	ImageTex = GenTextureBMP(path).t;
+	ImageTex = LoadTexture(path).t;//GenTextureBMP(path).t;
 }
 void GUI2image::render(void *arg)
 {

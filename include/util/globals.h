@@ -29,6 +29,7 @@ struct vec2i{
     int x;
     int y;
 };
+vec2i clamp(vec2i A, vec2i B, vec2i C);
 struct vec2f
 {
     double x;
@@ -36,6 +37,7 @@ struct vec2f
 };
 vec2i operator + (vec2i A, vec2i B);
 vec2i operator - (vec2i A, vec2i B);
+vec2i operator - (vec2i A);
 bool operator == (vec2i A, vec2i B);
 bool operator != (vec2i A, vec2i B);
 vec2i operator / (vec2i A, int B);
@@ -73,18 +75,20 @@ struct rect{
 	rect &setStart(vec2i A);
 	rect &setEnd(vec2i A);
 	rect &setSize(vec2i A);
+	rect &move(vec2i A);
 	rect &setx(int x);
 	rect &sety(int y);
 	rect &setw(int w);
 	rect &seth(int h);
 	rect &setx2(int x2);
 	rect &sety2(int y2);
-	bool contains(vec2i A);
+	bool contains(vec2i A); // is A inside of this?
 	bool contains(vec4i A);
 	bool contains(rect A);
-	vec2i clamp(vec2i A);
+	vec2i clamp(vec2i A);	// constrain A to be inside of this
 	rect clamp(rect A);
-	rect toParent(rect A);
+	rect insert(rect A);	// move A inside of this
+	rect toParent(rect A);	// convert to diffirent coordinate system
 	rect toParent();
 	rect toWorld(rect A);
 	rect toWorld();
@@ -117,6 +121,7 @@ extern float width;
 extern float height;
 extern color4i bground;
 extern vec2i mousePos;
+extern rect screen;
 double d2r(double x);
 double r2d(double x);
 typedef void (*funcptr)(void *arg);
@@ -136,6 +141,8 @@ class except:public exception{
 };
 std::string operator+(std::string const &a, int b);
 std::string operator+(std::string const &a, double b);
+string tolower(string A);
+string toupper(string A);
 #ifndef EXCEPT_SUPPRESS
 #define except(a) except(__FILE__,__LINE__,a)
 #endif
