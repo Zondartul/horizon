@@ -1,6 +1,12 @@
 //The little window with random tools!
 
 void genBox(void* arg);
+void genCyl(void* arg);
+void genCon(void* arg);
+void genSph(void* arg);
+void windowOpts(void* arg);
+void windowPhysbody(void* arg);
+
 
 void OpenMenuToolbox()
 {
@@ -14,7 +20,7 @@ void OpenMenuToolbox()
 	btnBox->setPos(4,4);										btnCyl->setPos(4+32,4);
 	btnBox->setSize(32,32);										btnCyl->setSize(32,32);
 	btnBox->setImage("C:/Stride/textures/cube.bmp");			btnCyl->setImage("C:/Stride/textures/cylinder.bmp");
-	btnBox->func = &genBox;										btnCyl->func = &genBox;
+	btnBox->func = &genBox;										btnCyl->func = &genCyl;
 	btnBox->arg = NULL;											btnCyl->arg = NULL;
 	btnBox->setParent((GUIbase*) toolFrame);					btnCyl->setParent((GUIbase*) toolFrame);
 	
@@ -22,9 +28,17 @@ void OpenMenuToolbox()
 	btnSphere->setPos(4,4+32);									btnCone->setPos(4+32,4+32);
 	btnSphere->setSize(32,32);									btnCone->setSize(32,32);
 	btnSphere->setImage("C:/Stride/textures/sphere.bmp");		btnCone->setImage("C:/Stride/textures/cone.bmp");
-	btnSphere->func = &genBox;									btnCone->func = &genBox;
+	btnSphere->func = &genSph;									btnCone->func = &genCon;
 	btnSphere->arg = NULL;										btnCone->arg = NULL;
 	btnSphere->setParent((GUIbase*) toolFrame);					btnCone->setParent((GUIbase*) toolFrame);
+	
+	GUIbutton* btnGoggles = new GUIbutton;						GUIbutton* btnArrows = new GUIbutton;
+	btnGoggles->setPos(4,4+96);									btnArrows->setPos(4+32,4+96);
+	btnGoggles->setSize(32,32);									btnArrows->setSize(32,32);
+	btnGoggles->setImage("C:/Stride/textures/goggles.bmp");		btnArrows->setImage("C:/Stride/textures/fourarrows.bmp");
+	btnGoggles->func = &windowOpts;								btnArrows->func = &windowPhysbody;
+	btnGoggles->arg = NULL;										btnArrows->arg = NULL;
+	btnGoggles->setParent((GUIbase*) toolFrame);				btnArrows->setParent((GUIbase*) toolFrame);
 	/*
 	GUIImage* image1 = new GUIImage;
 	image1->setPos(32,32);
@@ -33,7 +47,11 @@ void OpenMenuToolbox()
 	image1->setParent((GUIbase*)designerFrame);
 	*/
 	ParseCommand("textureload C:/Stride/textures/crate32.bmp");
+	ParseCommand("textureload C:/Stride/textures/crate3test.bmp");
 	ParseCommand("textureload C:/Stride/textures/grass3.bmp");
+	ParseCommand("textureload C:/Stride/textures/barrel-top.bmp");
+	ParseCommand("textureload C:/Stride/textures/barrel-side.bmp");
+	ParseCommand("textureload C:/Stride/textures/sinus-wide.bmp");
 }
 
 void genCube(void *arg)
@@ -114,7 +132,302 @@ void genCube(void *arg)
 	M->numtris = 12;//12;
 	
 	printf("<6>");
-	myModel = M;
+	//myModel = M;
+	AllPhysBodies.push_back(physBody(M));
+	printf("<7>");
+	//OpenMenuModel();
+}
+void genCylinder(void *arg)
+{
+	printf("<1>");
+	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	//vec V = {h,r,n};
+	model* M = new model;
+	printf("<2>");
+	//((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
+	
+	M->mesh = new triangle[4*numsides];
+	printf("<3>");
+	M->texmap = new textriangle[4*numsides];
+	M->numtextures = 2;
+	printf("<4>");
+	M->textures = new texture[2];
+	M->textures[0] = textureGet("C:/Stride/textures/barrel-top.bmp");
+	M->textures[1] = textureGet("C:/Stride/textures/barrel-side.bmp");
+	printf("<5>");
+	
+	/* cylinder wedge
+	  T
+	 /|\   
+	B-+-D next B = prev D
+	| | | 
+	| O |
+	|/ \|
+	A---C
+	
+	AB = +y
+	AD = +x
+	AE = +z
+	*/ 
+	//texture:
+	//A - B
+	//| O |
+	//C-L-D
+	
+	vec2f tA = {0,1};
+	vec2f tB = {1,1};
+	vec2f tC = {0,0};
+	vec2f tD = {1,0};
+	vec2f tO = {0.5f,0.5f};
+	vec2f tL = {0.5f,0};
+	vec2f tLt1 = tL; //top-circling vector
+	vec2f tLt2 = tL;
+	vec2f tLs1 = tC; //side-circling vector (bottom, first) |    1      1
+	vec2f tLs2 = tC; // (bottom, second)                    | -1   1 ->
+	vec2f tUs1 = tA; // (upper, first)                      |   -1      0   1
+	vec2f tUs2 = tA;
+	
+	vec O = {0,0,0};
+	vec T = {0,0,height};
+	
+	vec A = {0,-radius,0};
+	vec B = {0,-radius,height};
+	
+	quat r = quat::fromAngleAxis(360.0f/numsides,0,0,1);
+	vec C = r.rotateVector({0,-radius,0});
+	vec D = r.rotateVector({0,-radius,height});
+	
+	tLt2.x = (C.x/radius+1)/2; tLt2.y = (C.y/radius+1)/2;
+	tLs2.x = tUs2.x= 1.0f/numsides;
+	M->mesh[0] = (triangle){T,D,B}; M->texmap[0] = (textriangle){{tO,tLt2,tLt1},0,R_TEXTURE};
+	M->mesh[1] = (triangle){D,A,B}; M->texmap[1] = (textriangle){{tUs2,tLs1,tUs1},1,R_TEXTURE};
+	M->mesh[2] = (triangle){A,D,C}; M->texmap[2] = (textriangle){{tLs1,tUs2,tLs2},1,R_TEXTURE};
+	M->mesh[3] = (triangle){O,A,C}; M->texmap[3] = (textriangle){{tO,tLt1,tLt2},0,R_TEXTURE};
+	
+	for(int i = 2;i<=numsides;i++)
+	{
+		r = quat::fromAngleAxis(i*360.0f/numsides,0,0,1);
+		A = C;
+		B = D;
+		C = r.rotateVector({0,-radius,0});
+		D = r.rotateVector({0,-radius,height});
+	
+		tLt1 = tLt2;tLs1 = tLs2;tUs1 = tUs2;
+		tLt2.x = (C.x/radius+1)/2;tLt2.y = (C.y/radius+1)/2; 
+		tLs2.x = tUs2.x= ((double)i)/numsides;
+		
+		M->mesh[4*i-4] = (triangle){T,D,B}; M->texmap[4*i-4] = (textriangle){{tO,tLt2,tLt1},0,R_TEXTURE};
+		M->mesh[4*i-3] = (triangle){D,A,B}; M->texmap[4*i-3] = (textriangle){{tUs2,tLs1,tUs1},1,R_TEXTURE};
+		M->mesh[4*i-2] = (triangle){A,D,C}; M->texmap[4*i-2] = (textriangle){{tLs1,tUs2,tLs2},1,R_TEXTURE};
+		M->mesh[4*i-1] = (triangle){O,A,C}; M->texmap[4*i-1] = (textriangle){{tO,tLt1,tLt2},0,R_TEXTURE};
+	}
+	
+	
+	
+	
+	//CW culling.
+	//
+	/*
+	//front
+	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	*/
+	M->numtris = 4*numsides;//12;
+	
+	printf("<6>");
+	//myModel = M;
+	AllPhysBodies.push_back(physBody(M));
+	printf("<7>");
+	//OpenMenuModel();
+}
+
+void genCone(void *arg)
+{
+	printf("<1>");
+	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	//vec V = {h,r,n};
+	model* M = new model;
+	printf("<2>");
+	//((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
+	
+	M->mesh = new triangle[2*numsides];
+	printf("<3>");
+	M->texmap = new textriangle[2*numsides];
+	M->numtextures = 1;
+	printf("<4>");
+	M->textures = new texture;
+	M->textures[0] = textureGet("C:/Stride/textures/barrel-top.bmp");
+	//M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
+	printf("<5>");
+	
+	/* cylinder wedge
+	  T
+	 /|\   
+	B-+-D next B = prev D
+	| | | 
+	| O |
+	|/ \|
+	A---C
+	
+	AB = +y
+	AD = +x
+	AE = +z
+	*/ 
+	//texture:
+	//A - B
+	//| O |
+	//C-L-D
+	
+	vec2f tA = {0,1};
+	vec2f tB = {1,1};
+	vec2f tC = {0,0};
+	vec2f tD = {1,0};
+	vec2f tO = {0.5f,0.5f};
+	vec2f tL = {0.5f,0};
+	vec2f tLt1 = tL; //top-circling vector
+	vec2f tLt2 = tL;
+	vec2f tLs1 = tC; //side-circling vector (bottom, first) |    1      1
+	vec2f tLs2 = tC; // (bottom, second)                    | -1   1 ->
+	vec2f tUs1 = tA; // (upper, first)                      |   -1      0   1
+	vec2f tUs2 = tA;
+	
+	vec O = {0,0,0};
+	vec T = {0,0,height};
+	
+	vec A = {0,-radius,0};
+	quat r = quat::fromAngleAxis(360.0f/numsides,0,0,1);
+	vec C = r.rotateVector({0,-radius,0});
+	
+	tLt2.x = (C.x/radius+1)/2; tLt2.y = (C.y/radius+1)/2;
+	M->mesh[0] = (triangle){T,C,A}; M->texmap[0] = (textriangle){{tO,tLt2,tLt1},0,R_TEXTURE};
+	M->mesh[1] = (triangle){O,A,C}; M->texmap[1] = (textriangle){{tO,tLt1,tLt2},0,R_TEXTURE};
+	
+	for(int i = 2;i<=numsides;i++)
+	{
+		r = quat::fromAngleAxis(i*360.0f/numsides,0,0,1);
+		A = C;
+		C = r.rotateVector({0,-radius,0});
+		
+		tLt1 = tLt2;
+		tLt2.x = (C.x/radius+1)/2;tLt2.y = (C.y/radius+1)/2; 
+		
+		M->mesh[2*i-2] = (triangle){T,C,A}; M->texmap[2*i-2] = (textriangle){{tO,tLt2,tLt1},0,R_TEXTURE};
+		M->mesh[2*i-1] = (triangle){O,A,C}; M->texmap[2*i-1] = (textriangle){{tO,tLt1,tLt2},0,R_TEXTURE};
+	}
+	
+	
+	
+	
+	//CW culling.
+	//
+	/*
+	//front
+	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	*/
+	M->numtris = 2*numsides;//12;
+	
+	printf("<6>");
+	//myModel = M;
+	AllPhysBodies.push_back(physBody(M));
+	printf("<7>");
+	//OpenMenuModel();
+}
+
+void genSphere(void *arg)
+{
+	printf("<1>");
+	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
+	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	//vec V = {h,r,n};
+	model* M = new model;
+	printf("<2>");
+	//((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
+	
+	M->mesh = new triangle[2*numverti*numhori];
+	printf("<3>");
+	M->texmap = new textriangle[2*numverti*numhori];
+	M->numtextures = 1;
+	printf("<4>");
+	M->textures = new texture;
+	M->textures[0] = textureGet("C:/Stride/textures/sinus-wide.bmp");
+	//M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
+	printf("<5>");
+	
+	/* cylinder wedge
+	  T
+	 /|\   
+	B-+-D next B = prev D
+	| | | 
+	| O |
+	|/ \|
+	A---C
+	
+	AB = +y
+	AD = +x
+	AE = +z
+	*/ 
+	//texture:
+	//A - B
+	//| O |
+	//C-L-D
+	
+	// Cylindrical projection <<--
+	// sinusoidal projection
+	vec O = {0,0,-radius};
+	vec T = {0,0,radius};
+	vec B,D,A,C;
+	vec2f tU1,tU2,tL1,tL2;
+	
+	for(int i = 0;i<numhori;i++)
+	{
+		quat hori = quat::fromAngleAxis(i*360.0f/numhori,0,0,-1);
+		quat hori2 = quat::fromAngleAxis((i+1)*360.0f/numhori,0,0,-1);
+		for(int t = 0;t<numverti;t++)
+		{
+			quat verti = quat::fromAngleAxis(t*180.0f/numverti,-1,0,0);
+			quat verti2 = quat::fromAngleAxis((t+1)*180.0f/numverti,-1,0,0);
+			B = hori.corotateVector(verti.rotateVector(T));
+			A = hori.corotateVector(verti2.rotateVector(T));
+			D = hori2.corotateVector(verti.rotateVector(T));
+			C = hori2.corotateVector(verti2.rotateVector(T));
+			/*
+			tU1.x = ((double)i)/numhori;tU1.y = 1-((double)t)/numverti;
+			tU2.x = ((double)i+1)/numhori;tU2.y = 1-((double)t)/numverti;
+			tL1.x = ((double)i)/numhori;tL1.y = 1-((double)t+1)/numverti;
+			tL2.x = ((double)i+1)/numhori;tL2.y = 1-((double)t+1)/numverti;
+			*/
+			tU1.y = 1-((double)t)/numverti; tU1.x = 0.5f+(((double)i)/numhori-0.5f)*cos(M_PI*(tU1.y-0.5f));
+			tU2.y = 1-((double)t)/numverti; tU2.x = 0.5f+(((double)i+1)/numhori-0.5f)*cos(M_PI*(tU2.y-0.5f));
+			tL1.y = 1-((double)t+1)/numverti; tL1.x = 0.5f+(((double)i)/numhori-0.5f)*cos(M_PI*(tL1.y-0.5f));
+			tL2.y = 1-((double)t+1)/numverti; tL2.x = 0.5f+(((double)i+1)/numhori-0.5f)*cos(M_PI*(tL2.y-0.5f));
+			
+			M->mesh[(i*numverti+t)*2] = (triangle){A,B,D}; M->texmap[(i*numverti+t)*2] = (textriangle){{tL1,tU1,tU2},0,R_TEXTURE};
+			M->mesh[(i*numverti+t)*2+1]=(triangle){D,C,A}; M->texmap[(i*numverti+t)*2+1] = (textriangle){{tU2,tL2,tL1},0,R_TEXTURE};
+		}
+	}
+	
+	
+	
+	
+	
+	//CW culling.
+	//
+	/*
+	//front
+	M->mesh[0] = (triangle){A,E,H}; M->texmap[0] = (textriangle){{tC,tA,tB},0,R_TEXTURE};
+	M->mesh[1] = (triangle){H,D,A}; M->texmap[1] = (textriangle){{tB,tD,tC},0,R_TEXTURE};
+	*/
+	M->numtris = 2*numverti*numhori;//12;
+	
+	printf("<6>");
+	//myModel = M;
+	AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
 }
@@ -124,7 +437,7 @@ void genBox(void* arg)
 	GUIframe* GenMenu = new GUIframe;
 	GenMenu->setPos(128,128);
 	GenMenu->setSize(256,128);
-	GenMenu->title = "Generator";
+	GenMenu->title = "Box Generator";
 	GenMenu->setParent(GUI);
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
@@ -154,4 +467,191 @@ void genBox(void* arg)
 	btnGen->arg = (void*)newarg;
 	btnGen->setParent((GUIbase*) GenMenu);
 	
+}
+
+
+
+void genCyl(void* arg)
+{
+	GUIframe* GenMenu = new GUIframe;
+	GenMenu->setPos(128,128);
+	GenMenu->setSize(256,128);
+	GenMenu->title = "Cylinder Generator";
+	GenMenu->setParent(GUI);
+	
+	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	spinx->setPos(4,4);						spinxtext->setPos(96,4);
+	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+
+	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
+	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "radius";
+	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	
+	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
+	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
+	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	
+	void **newarg = new void*[3];
+	newarg[0] = (void*)spinx;
+	newarg[1] = (void*)spiny;
+	newarg[2] = (void*)spinz;
+	GUIbutton* btnGen = new GUIbutton;
+	btnGen->setPos(4,4+64);
+	btnGen->setSize(96,16);
+	btnGen->text = "Generate";
+	btnGen->func = &genCylinder;
+	btnGen->arg = (void*)newarg;
+	btnGen->setParent((GUIbase*) GenMenu);
+	
+}
+
+void genCon(void* arg)
+{
+	GUIframe* GenMenu = new GUIframe;
+	GenMenu->setPos(128,128);
+	GenMenu->setSize(256,128);
+	GenMenu->title = "Cone Generator";
+	GenMenu->setParent(GUI);
+	
+	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	spinx->setPos(4,4);						spinxtext->setPos(96,4);
+	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+
+	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
+	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "radius";
+	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	
+	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
+	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
+	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	
+	void **newarg = new void*[3];
+	newarg[0] = (void*)spinx;
+	newarg[1] = (void*)spiny;
+	newarg[2] = (void*)spinz;
+	GUIbutton* btnGen = new GUIbutton;
+	btnGen->setPos(4,4+64);
+	btnGen->setSize(96,16);
+	btnGen->text = "Generate";
+	btnGen->func = &genCone;
+	btnGen->arg = (void*)newarg;
+	btnGen->setParent((GUIbase*) GenMenu);
+	
+}
+
+void genSph(void* arg)
+{
+	GUIframe* GenMenu = new GUIframe;
+	GenMenu->setPos(128,128);
+	GenMenu->setSize(256,128);
+	GenMenu->title = "Sphere Generator";
+	GenMenu->setParent(GUI);
+	
+	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	spinx->setPos(4,4);						spinxtext->setPos(96,4);
+	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+
+	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
+	spiny->setVals(0,8,10,0.5,2);			spinytext->text = "vertical sides";
+	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	
+	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
+	spinz->setVals(0,8,64,1,2);			spinztext->text = "horizontal sides";
+	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	
+	void **newarg = new void*[3];
+	newarg[0] = (void*)spinx;
+	newarg[1] = (void*)spiny;
+	newarg[2] = (void*)spinz;
+	GUIbutton* btnGen = new GUIbutton;
+	btnGen->setPos(4,4+64);
+	btnGen->setSize(96,16);
+	btnGen->text = "Generate";
+	btnGen->func = &genSphere;
+	btnGen->arg = (void*)newarg;
+	btnGen->setParent((GUIbase*) GenMenu);
+	
+}
+
+void toggleWireframe(void* arg)
+{
+	if(*(bool*)arg){ConsoleParse("yup wireframe");}
+	else{ConsoleParse("Nope wireframe");}
+	renderWireframe = *(bool*)arg;
+}
+
+void windowOpts(void* arg)
+{
+	GUIframe* Menu = new GUIframe;
+	Menu->setPos(128,128);
+	Menu->setSize(128,128);
+	Menu->title = "Display options";
+	Menu->setParent(GUI);
+
+	GUIcheckbox* check = new GUIcheckbox;	GUIlabel* label1 = new GUIlabel;
+	check->pos = {4,4};						label1->pos = {4+16,4};
+	check->setParent((GUIbase*)Menu);		label1->text = "wireframe";
+	check->func = &toggleWireframe;			label1->setParent((GUIbase*)Menu);
+}
+
+void windowPhysbodyOptions(void *arg)
+{
+	double x = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double y = 	(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
+	double z = 	(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	double rz =	(((GUIspinner*)(((void**)arg)[3]))->vals[1]);
+
+	printf("New pos: <%f,%f,%f>, new angles: <%f>\n",x,y,z,rz);
+}
+
+void windowPhysbody(void* arg)
+{
+	GUIframe* Menu = new GUIframe;
+	Menu->setPos(128,128);
+	Menu->setSize(192,192);
+	Menu->title = "Body manipulator";
+	Menu->setParent(GUI);
+
+	GUIlabel* bodytext = new GUIlabel;
+	bodytext->setPos(4,4);
+	bodytext->text = "no body selected";
+	bodytext->setParent((GUIbase*) Menu);
+	
+	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	spinx->setPos(4,32);					spinxtext->setPos(96,32);
+	spinx->setVals(-10,0,10,0.5,1);			spinxtext->text = "pos x";
+	spinx->setParent((GUIbase*) Menu);		spinxtext->setParent((GUIbase*) Menu);
+	
+	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	spiny->setPos(4,32+18);					spinytext->setPos(96,32+18);
+	spiny->setVals(-10,0,10,0.5,1);			spinytext->text = "pos y";
+	spiny->setParent((GUIbase*) Menu);		spinytext->setParent((GUIbase*) Menu);
+	
+	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	spinz->setPos(4,32+32+4);				spinztext->setPos(96,32+32+4);
+	spinz->setVals(-10,0,10,0.5,1);			spinztext->text = "pos z";
+	spinz->setParent((GUIbase*) Menu);		spinztext->setParent((GUIbase*) Menu);
+	
+	
+	GUIspinner* spinrz = new GUIspinner;	GUIlabel* spinrztext = new GUIlabel;
+	spinrz->setPos(4,32+18*4);				spinrztext->setPos(96,32+18*4);
+	spinrz->setVals(-180,0,180,15,0);		spinrztext->text = "rot z";
+	spinrz->setParent((GUIbase*) Menu);		spinrztext->setParent((GUIbase*) Menu);
+	
+	void **newarg = new void*[4];
+	newarg[0] = (void*)spinx;
+	newarg[1] = (void*)spiny;
+	newarg[2] = (void*)spinz;
+	newarg[3] = (void*)spinrz;
+	spinx->func = spiny->func = spinz->func = spinrz->func = &windowPhysbodyOptions;
+	spinx->arg = spiny->arg = spinz->arg = spinrz->arg = newarg;
 }

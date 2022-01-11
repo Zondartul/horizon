@@ -61,6 +61,11 @@ void MenuConsoleConEntryCallback(void *arg)
 	}
 }
 
+void makeInvisible(void *arg)
+{
+	Console->visible = false;
+	printf("ninja\n");
+}
 
 void OpenMenuConsole()
 {
@@ -71,6 +76,7 @@ void OpenMenuConsole()
 		Console->setParent(GUI);
 		Console->setPos(64,64);
 		Console->color_panel = {32,32,64};
+		((GUIbutton*)Console->findByTag("btnClose"))->func = &makeInvisible;
 		
 		GUIscrollBar *Scroll = new GUIscrollBar;
 		Scroll->setSize(Console->size.x-22,Console->size.y-64-3);

@@ -112,6 +112,7 @@ texture GenTextureBMP( string filename)
   int width, height;
   char depth;
   BYTE * data;
+  BYTE * newdata;
   FILE * file;
 
   // open texture data
@@ -128,12 +129,27 @@ texture GenTextureBMP( string filename)
   //width = 256;
   //height = 256;
   data = (BYTE*)malloc( width * height * depth/8 );
-
+  
+  
+  
   // read texture data
   fseek(file,0x36,SEEK_SET);
   fread( data, width * height * depth/8, 1, file );
   fclose( file );
-
+  
+  //image manipulation magics happen here
+  newdata = (BYTE*)malloc( width * height * (depth/8+1) );
+  for(int i = 0;i<(width*height);i++)
+  {
+	BYTE r,g,b;
+	newdata[i*4] = b = data[i*3];
+	newdata[i*4+1] = g = data[i*3+1];
+	newdata[i*4+2] = r = data[i*3+2];
+	if((r==255)&&(b==255)&&(g==0))//pink = transparent
+	{newdata[i*4+3] = 0;}
+	else
+	{newdata[i*4+3] = 255;}
+  }
   // allocate a texture name
   glGenTextures( 1, &tex );
 
@@ -156,8 +172,9 @@ texture GenTextureBMP( string filename)
 
   // build our texture MIP maps
   //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, //HUH
-    height, GL_BGR, GL_UNSIGNED_BYTE, data );
+  
+  gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, //HUH
+    height, GL_BGRA, GL_UNSIGNED_BYTE, newdata );
 
   // free buffer
   free( data );

@@ -427,6 +427,7 @@ class GUIbase
 			newarg[1] = (vec2i){x1c,y1c};
 			newarg[2] = (vec2i){x2c,y2c};
 			
+			if((rec!=0)&&(obj->visible==false)){obj->mouseOver=false; return false;}
 			if(foreach(obj, &propagateMouseOver, (void*)newarg, rec+1)){obj->mouseOver = false; return true;}
 			if((x1<=mouse.x)&&(x2>=mouse.x)&&(y1<=mouse.y)&&(y2>=mouse.y))
 			{
@@ -486,7 +487,7 @@ class GUIbase
 			}
 			else
 			{
-				if(foreach(obj,&propagateClick,arg,rec+1)==false)
+				if(((rec!=0)&&(obj->visible==false))||(foreach(obj,&propagateClick,arg,rec+1)==false))
 				{
 					if(rec==0){lastClicked=NULL; focus = NULL;}//rec==0 is when invisible master-parent thingy is cliked.
 					return false;
@@ -524,6 +525,8 @@ class GUIbase
 		if(true) // temp: if(obj->visible)
 		{
 			if(obj->visible){obj->render(arg);}
+			if(obj->visible||rec==0)
+			{
 			vec4i scissor = *((vec4i*)arg);
 			vec4i crect = obj->crect;
 			scissor.x1 = max(scissor.x1,crect.x1);
@@ -531,6 +534,7 @@ class GUIbase
 			scissor.x2 = min(scissor.x2,crect.x2);
 			scissor.y2 = min(scissor.y2,crect.y2);
 			foreachbackwards(obj,&propagateRender, (void*)(&scissor), rec+1);
+			}
 		}
 		return false;
 	}
@@ -642,6 +646,7 @@ class GUIframe: public GUIbase
 		CloseButton->setSize(24,24);
 		CloseButton->arg = (void*)this;
 		CloseButton->setParent((GUIbase*)this);
+		CloseButton->tag = "btnClose";
 	}
 	void invalidate(vec2i newPos, vec2i newSize)
 	{
@@ -688,6 +693,7 @@ class GUIlabel: public GUIbase
 		resizible = false;
 		movable = false;
 		size.y = 22;
+		size.x = 256;
 	}
 	void render(void* arg)
 	{
@@ -696,6 +702,7 @@ class GUIlabel: public GUIbase
 		scissorCheck(arg);
 		
 		printwrich(pos.x,pos.y, size.x, size.y, &color_text.r, text);
+		//printw(pos.x,pos.y,size.x,size.y,"print error");
 		//size.x = printw;
 		glDisable(GL_SCISSOR_TEST);
 	}
@@ -781,16 +788,25 @@ class GUIcheckbox: public GUIbase
 {
 	public:
 	bool checked;
+	void (*func)(void*);
+	//void* arg;
 	GUIcheckbox():GUIbase()
 	{
 		checked = false;
 		resizible = false;
 		movable = false;
 		size = {14,14};
+		func = NULL;
 	}
+	
 	void onClick(int mb)
 	{
-		if((mb==0)&&mouseOver){checked = !checked;}
+		//GUIbase::onClick(mb);
+		if((mb==0)&&mouseOver)
+		{
+			checked = !checked;
+			if(func){func((void*)&checked);}
+		}
 	}
 	void render(void* arg)
 	{
@@ -806,7 +822,7 @@ class GUIcheckbox: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		if(checked){printw(pos.x+size.x/2-4,pos.y-4, size.x, size.y,"v");}
+		if(checked){printw(pos.x+size.x/2-4,pos.y-4, -1, -1,"v");}
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
@@ -886,6 +902,8 @@ class GUIspinner: public GUIbase
 	double vals[5];// min - cur - max - speed - precision
 	GUIbutton* btnUp;
 	GUIbutton* btnDown;
+	void (*func)(void*);
+	void* arg;
 	string text;
 	
 	static void fUp(void* arg)
@@ -893,12 +911,14 @@ class GUIspinner: public GUIbase
 		double *vals = ((GUIspinner*)arg)->vals;
 		vals[1]+=vals[3];
 		if(vals[1]>vals[2]){vals[1]=vals[2];}
+		if(((GUIspinner*)arg)->func){((GUIspinner*)arg)->func(((GUIspinner*)arg)->arg);}
 	}
 	static void fDown(void* arg)
 	{
 		double *vals = ((GUIspinner*)arg)->vals;
 		vals[1]-=vals[3];
 		if(vals[1]<vals[0]){vals[1]=vals[0];}
+		if(((GUIspinner*)arg)->func){((GUIspinner*)arg)->func(((GUIspinner*)arg)->arg);}
 	}
 	GUIspinner():GUIbase()
 	{
@@ -909,6 +929,7 @@ class GUIspinner: public GUIbase
 		vals[0]=-10;vals[1]=0;vals[2]=10;vals[3]=3;vals[4]=2;
 		movable = false;
 		resizible = false;
+		func = NULL;
 		btnUp = new GUIbutton;
 		btnUp->func = &fUp;
 		btnUp->arg = (void*)this;

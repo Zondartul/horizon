@@ -25,7 +25,7 @@
 GUIbase *GUI;
 GUIframe *myFrame;
 model *myModel;
-vec SomeVec1;
+vec SomeVec1; //cam pos.
 vec SomeVec2;
 vec2i deltaMouse;
 vec2i windowCorner;
@@ -34,6 +34,9 @@ vec2i windowCenter;
 quat CamAngle;
 quat CamAngTest;
 double Camnorm;
+double camSpeed;
+bool renderWireframe;
+#include "physics.h"
 #include "console.h"
 #include "toolbox.h"
 bool mouseCapture;
@@ -232,12 +235,14 @@ void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});
 // y = forward
 // z = up
 
-void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,.1,0});}
-void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,-.1,0});}
-void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({-.1,0,0});}
-void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({.1,0,0});}
-void camUp(void* arg){SomeVec1 = SomeVec1+(vec){0,0,.1};}
-void camDown(void* arg){SomeVec1 = SomeVec1+(vec){0,0,-.1};}
+void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*camSpeed);}
+void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,-.1,0})*camSpeed);}
+void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){-.1,0,0})*camSpeed);}
+void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){.1,0,0})*camSpeed);}
+void camSlow(void* arg){camSpeed = 0.2;}
+void camFast(void* arg){camSpeed = 1;}
+void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
+void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 
@@ -272,6 +277,7 @@ void OnProgramStart()
 	bindKey(32,&camUp,NULL,4);
 	bindKey('C',&camDown,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
+	bindKey(16,&camSlow,&camFast,1);
 	
 	//numpad
 	// 103 104 105
@@ -286,8 +292,10 @@ void OnProgramStart()
 	bindKey(97, &ToggleCamRot,NULL,1);
 	mouseCapture = false;
 	camRotOn = true;
+	camSpeed = 1;
 	CamAngle = quat::fromAngleAxis(0,{0,0,1});//{0,{0,0,1}};
 	CamAngTest = {1,{0,0,1}};
+	renderWireframe = false;
 	bground.r = 142;
 	bground.g = 187;
 	bground.b = 255;
@@ -299,7 +307,7 @@ void OnProgramStart()
 	GUI->recalculateClientRect();
 	GUI->visible=false;
 	
-	//OpenMenu1();
+	OpenMenu1();
 	initConCommands();
 	OpenMenuConsole();
 	OpenVals();
@@ -569,7 +577,7 @@ void Render3D()
 		b = a+qc.rotateVector({0,0,0.5});
 		glColor3f(0.0f,0.0f,1.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);	
 	glEnd();
-	Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
+	//Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
 	if(camRotOn){glRotatef(-w,v.x,v.y,v.z);}
 	glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
     //glRotatef(theta, 0.0f, 0.0f, 1.0f);
@@ -582,17 +590,41 @@ void Render3D()
 
     glEnd();
 	
-	Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
+	//Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
 	
+	for(int i = 0;i<AllPhysBodies.size();i++)
+	{
+	myModel = AllPhysBodies[i].mdl;
 	if(myModel!=NULL)
 	{
+		vec3i col = AllPhysBodies[i].color;
+		glColor3ub(col.x,col.y,col.z);
+			
 		//apply orientation here
+		if(renderWireframe)
+		{
+			glBegin(GL_LINES);
+			
+			for(int I=0;I<myModel->numtris;I++)
+			{
+				triangle T = myModel->mesh[I];
+				
+				glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+				glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+				glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			}
+			glEnd();
+		}
+		else
+		{
 		if(myModel->numtextures)
 		{
 		int prevTex = 0;
 						//Errc = glGetError();if(Errc){printf("<4=%s>\n",gluErrorString(Errc));}
 		glEnable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
 						//Errc = glGetError();if(Errc){printf("<5=%s>\n",gluErrorString(Errc));}
 		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
 						//Errc = glGetError();if(Errc){printf("<6=%s>\n",gluErrorString(Errc));}
@@ -615,7 +647,6 @@ void Render3D()
 				prevTex = tT.texid;
 										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
 			}
-			glColor3f(1.0f,1.0f,1.0f);
 			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
@@ -625,10 +656,13 @@ void Render3D()
 		glEnd();
 						//Errc = glGetError();if(Errc){printf("<10=%s>\n",gluErrorString(Errc));}
 		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_CULL_FACE);
 						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
 		}
 		else
 		{
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
 		glBegin(GL_TRIANGLES);
 		
 		for(int I=0;I<myModel->numtris;I++)
@@ -640,7 +674,10 @@ void Render3D()
 			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
 		}
 		glEnd();
+		glDisable(GL_CULL_FACE);
 		}
+		}
+	}
 	}
 					//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
     glPopMatrix();
@@ -761,6 +798,7 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	windowCenter.y = windowCorner.y+height/2;
 	InputTick();
     RenderTick(hDC);
+	PhysicsTick();
 }
 
 void CallDestructor()

@@ -110,12 +110,12 @@ struct quat
 		//D.v = D.v;
 		return D.norm();
 	}
-	vec corotateVector(vec vect)
+	vec corotateVector(vec vect) //CW
 	{	
 		vec res = ((*this).inv()*((quat){0,vect})*(*this)).v; //C++ evaluates right-hand first I think
 		return res;
 	}
-	vec rotateVector(vec vect)
+	vec rotateVector(vec vect) //CCW
 	{
 		vec res = ((*this)*((quat){0,vect})*((*this).inv())).v; //C++ evaluates right-hand first I think
 		return res;
