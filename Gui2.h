@@ -250,18 +250,18 @@ class GUIbase
 		glDisable(GL_SCISSOR_TEST);
 	}
 	
-	static bool foreach(GUIbase* obj, bool (*func)(GUIbase*, void*, int), void* arg, int rec) 
+	static bool foreach(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec) 
 	{
 		//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
 		// i couldn't think of saner way. sorry.
 		// rec is recursion counter for debugging.
-		bool stop = false;
+		int stop = false;
 		listNode* Cur = obj->children;
 		while(Cur!=NULL)
 		{
-			if(Cur->thing){stop = func((GUIbase*)Cur->thing, arg, rec+1);}
+			if(Cur->thing){stop = stop+func((GUIbase*)Cur->thing, arg, rec+1);}
 			Cur = Cur->next;
-			if(stop){Cur=NULL;}
+			if(stop==1){Cur=NULL;}
 		}
 		return stop;
 	}
@@ -289,11 +289,11 @@ class GUIbase
 			Cur = Cur->next;
 		}
 	}
-	static bool wrapInvalidate(GUIbase* obj, void* arg, int rec)
+	static int wrapInvalidate(GUIbase* obj, void* arg, int rec)
 	{
 		obj->invalidate(*((vec2i*)arg)+obj->pos,obj->size);
 	}
-	static bool propagateMouseOver(GUIbase* obj, void* arg, int rec)
+	static int propagateMouseOver(GUIbase* obj, void* arg, int rec)
 	{
 		vec2i mouse = ((vec2i*)arg)[0];
 		int x1,x2,y1,y2;
@@ -303,7 +303,7 @@ class GUIbase
 		x2 = x1+obj->size.x;
 		y2 = y1+obj->size.y;
 		*/
-		if(obj->visible)
+		if(true)//temp: if(obj->visible)
 		{
 			//scary scissor support
 			/*
@@ -354,23 +354,23 @@ class GUIbase
 					else if(n||s){SetCursor(LoadCursor(NULL,IDC_SIZENS));}
 					else if(e||w){SetCursor(LoadCursor(NULL,IDC_SIZEWE));}
 				}
-				return true;//stop
+				return 2;//found but continue
 			}
 			else
 			{
 				obj->mouseOver = false;
-				return false;//don't stop
+				return 0;//don't stop
 			}
 		}
 		return false;
 	}
 	static GUIbase* lastClicked; //I hope you won't need to click two things at once.
 	static GUIbase* focus;
-	static bool propagateKeyboard(int kb)
+	static int propagateKeyboard(int kb)
 	{
 		if(focus){focus->onKeyboard(kb);}
 	}
-	static bool propagateClick(GUIbase* obj, void* arg, int rec)
+	static int propagateClick(GUIbase* obj, void* arg, int rec)
 	{
 		int mb = *((int*)arg);
 		if(mb>0)
@@ -391,11 +391,11 @@ class GUIbase
 		}
 		//its ok to have no return? What?
 	}
-	static bool propagateRender(GUIbase* obj, void* arg, int rec)
+	static int propagateRender(GUIbase* obj, void* arg, int rec)
 	{
-		if(obj->visible)
+		if(true) // temp: if(obj->visible)
 		{
-			obj->render(arg);
+			if(obj->visible){obj->render(arg);}
 			vec4i scissor = *((vec4i*)arg);
 			vec4i crect = obj->crect;
 			scissor.x1 = max(scissor.x1,crect.x1);
@@ -782,6 +782,65 @@ class GUIspinner: public GUIbase
 	}
 };
 
+class GUIlistbox: public GUIbase
+{
+	public:
+	GUIbutton* sel[32];
+	GUIlistbox():GUIbase()
+	{
+		size = {96,64};
+		//color_panel = {196,196,196};
+		for(int I = 0;I<32;I++)
+		{
+			sel[I] = NULL;
+		}
+	}
+	void addOption(string text, void (*func)(void*), void* arg)
+	{
+		for(int I = 0;I<32;I++)
+		{
+			if(sel[I]==NULL)
+			{
+				sel[I] = new GUIbutton;
+				sel[I]->func = func;
+				sel[I]->arg = arg;
+				sel[I]->text = text;
+				sel[I]->size = {size.x, 14};
+				sel[I]->setParent((GUIbase*)this);
+				return;
+			}
+		}
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		//setAlpha(128);
+		//setColor(color_panel);
+		//paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		//setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+	
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		GUIbase::invalidate(newPos, newSize);
+		for(int I = 0; I<32;I++)
+		{
+			if(sel[I]!=NULL)
+			{
+				sel[I]->setPos(pos.x,pos.y+14*I);
+				sel[I]->setSize(size.x,14);
+			}
+		}
+	}
+};
+
 /*
 GUI element check list!
 --INPUT--
@@ -789,9 +848,9 @@ Button		*
 Checkbox	*
 Radiobutton *
 TextEntry	* (sorta)
-Spinner
+Spinner		*
 DropDownList
-ListBox
+ListBox		*
 Slider
 RoundSlider
 ColorWheel

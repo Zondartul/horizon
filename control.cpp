@@ -50,13 +50,13 @@ void OnProgramStart()
 	
 	GUI = new GUIbase;
 	GUI->setPos(0,0);
-	GUI->setSize(128,128);
+	GUI->setSize(1024,1024);
 	GUI->recalculateClientRect();
-	GUI->visible=true;
+	GUI->visible=false;
 	
 	myFrame = new GUIframe;
 	myFrame->setPos(0,0);
-	myFrame->setSize(96,96);
+	myFrame->setSize(256,512);
 	myFrame->title = "Frame 1";
 	myFrame->setParent(GUI);
 	
@@ -104,6 +104,13 @@ void OnProgramStart()
 	GUIradiogroup* group = new GUIradiogroup;
 	group->addButton((void*)radio1);
 	group->addButton((void*)radio2);
+	
+	GUIlistbox* list = new GUIlistbox;
+	list->addOption("pony",NULL,NULL);
+	list->addOption("cupcake",NULL,NULL);
+	list->addOption("shipping",NULL,NULL);
+	list->setPos(4,290);
+	list->setParent((GUIbase*)myFrame);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
