@@ -5,6 +5,11 @@
 using std::string;
 string itoa(int N);
 string ftoa(double N);
+string ftoa(double N, int prec);
+
+string operator+(const string S, const int N);
+string operator+(const string S, const double N);
+
 #ifdef VEC_GUARD
 string toString(vec3f);
 string toString(vec3ub);

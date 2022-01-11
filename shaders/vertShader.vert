@@ -3,7 +3,9 @@ in vec3 VertexPosition;
 in vec3 VertexColor;
 in vec3 VertexNormal;
 in vec2 VertexUV;
-
+uniform vec2 TexOffset;
+uniform vec2 TexSize;
+uniform vec3 globalColor;
 
 out vec3 Position;
 out vec3 Normal;
@@ -16,6 +18,6 @@ void main(){
 	gl_Position = MVP*vec4(VertexPosition,1.0);
 	Position = (MVP*vec4(VertexPosition,1.0)).xyz;
 	Normal = normalize(MVP*vec4(VertexNormal,1.0)).xyz;
-	UV = VertexUV;
+	UV = VertexUV*TexSize+TexOffset;
 	Color = VertexColor;
 }

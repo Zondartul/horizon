@@ -4,9 +4,16 @@
 using std::vector;
 #include "vec.h"
 
+#define MOD_NONE 0
+#define MOD_SHIFT 1
+#define MOD_CTRL 2
+#define MOD_ALT 4
+
 struct event_keyboard{
 	int keycode;
 	const char *key;
+	char printchar;
+	int mod;
 };
 
 struct event_mouse_button{
@@ -30,6 +37,8 @@ enum eventType{	EVENT_KEY_UP,
 			EVENT_MOUSE_WHEEL};
 struct eventKind{
 	eventType type;
+	int *mask;
+	void maskEvent();
 	union{
 		event_keyboard keyboard;
 		event_mouse_button mousebutton;
@@ -42,9 +51,14 @@ struct eventListener;
 struct eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
+	int publishMaskableEvent(eventKind event);	//returns non-zero if the event was handled/masked
 	void addListener(eventListener *listener);
+	void addListenerFront(eventListener *listener);
+	void moveListenerToFront(eventListener *listener);
+	void moveListenerToBack(eventListener *listener);
 	void removeListener(eventListener *listener);
 };
+typedef eventListenerList eventChannel;
 
 class eventListener{
 	public:

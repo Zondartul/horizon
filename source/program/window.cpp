@@ -5,6 +5,8 @@
 #include "GL/gl.h"
 #include "stdlib.h"
 #include "inputController.h"
+#include "GUI.h"
+extern GUIbase *GUI;
 
 int height;
 int width;
@@ -81,6 +83,8 @@ void sysMessageBlankTick(){
 }
 
 
+extern eventChannel inputChannel;
+
 void sysMessageTick(){
 	SDL_Event sdl_event;
 	while(SDL_PollEvent(&sdl_event)){
@@ -93,6 +97,19 @@ void sysMessageTick(){
 			event.type = EVENT_KEY_DOWN;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
+			event.keyboard.mod = MOD_NONE;
+			if(sdl_event.key.keysym.mod & KMOD_SHIFT){event.keyboard.mod = event.keyboard.mod | MOD_SHIFT;}
+			if(sdl_event.key.keysym.mod & KMOD_CTRL){event.keyboard.mod = event.keyboard.mod | MOD_CTRL;}
+			if(sdl_event.key.keysym.mod & KMOD_ALT){event.keyboard.mod = event.keyboard.mod | MOD_ALT;}
+			if(isprint((char)event.keyboard.keycode)){
+				if(event.keyboard.mod & MOD_SHIFT){
+					event.keyboard.printchar = toupper((char)event.keyboard.keycode);
+				}else{
+					event.keyboard.printchar = (char)event.keyboard.keycode;
+				}
+			}else{
+				event.keyboard.printchar = 0;
+			}
 			goto dispatchEvent;
 			break;
 		case(SDL_KEYUP):
@@ -123,6 +140,17 @@ void sysMessageTick(){
 			event.mousewheel.y = sdl_event.wheel.y;
 			goto dispatchEvent;
 			break;
+		case(SDL_WINDOWEVENT):
+			switch(sdl_event.window.event){
+				case(SDL_WINDOWEVENT_RESIZED):
+					width =  sdl_event.window.data1;
+					height = sdl_event.window.data2;
+					printf("window resized: %d x %d\n",width,height);
+					break;
+				default:
+					break;
+			}
+			break;
 		default:
 			//unknown event:
 			//ignore.
@@ -130,14 +158,16 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		inputController.onEvent(event);
+		inputChannel.publishMaskableEvent(event);
+		//inputController.onEvent(event);
+		//if(GUI){GUI->onEvent(event);}
 	}
 }
 
 vec2i getScreenSize(){
-	int h;
-	int w;
-	SDL_GetWindowSize(mainWindow, &w, &h);
-	return {w,h};
+	//int h;
+	//int w;
+	SDL_GetWindowSize(mainWindow, &width, &height);
+	return {width,height};
 }
 

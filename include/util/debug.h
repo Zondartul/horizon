@@ -1,6 +1,16 @@
 #ifndef DEBUG_GUARD
 #define DEBUG_GUARD
 #include "stdio.h"
+
+#define profile(x,y) {\
+	uint64_t t1 = SDL_GetPerformanceCounter();\
+	uint64_t freq = SDL_GetPerformanceFrequency();\
+	{x;};\
+	uint64_t t2 = SDL_GetPerformanceCounter();\
+	y = t2-t1;\
+	y = y / freq;\
+	}
+
 #define DEBUG_PRINT
 //#define DEBUG_MALLOC
 //#define DEBUG_NEW	-- just... dont.

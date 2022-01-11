@@ -13,11 +13,36 @@ using std::string;
 //extern bool physics;
 #include "stdlib.h"
 
+/*
+//mousecapture:
+
+  mouse keyboard
+	|      |
+	v      v
+	controller
+	|		|
+	v		v
+
+//no mousecapture:
+
+  mouse keyboard
+    |		|
+	v		v
+	---GUI---
+	|		|	
+	v		v
+	controller
+		
+*/
+
+
+extern eventChannel inputChannel;
 inputControllerKind::inputControllerKind(){
 	mousecapture=forward=backward=left=right=up=down=false;
 	//character = 0;
 	speed = 0.07;
 	flyspeed = 0.05;//0.25;
+	inputChannel.addListener(this);
 }
 inputControllerKind::~inputControllerKind(){}
 /*
@@ -66,6 +91,8 @@ void inputControllerKind::aim(vec3f aim){
 }
 void inputControllerKind::toggleMouseCapture(){
 	mousecapture = !mousecapture;
+	if(mousecapture){inputChannel.moveListenerToFront(this);} //temporary hack
+	else{inputChannel.moveListenerToBack(this);}
 	printf("mousecapture = %d\n",mousecapture);
 	setMouseRelativeMode(mousecapture);
 }
@@ -104,47 +131,48 @@ void inputControllerKind::onEvent(eventKind event){
 	if (event.type == EVENT_KEY_DOWN){
 		string K = event.keyboard.key;
 		//printf("[%s]",K.c_str());
-		if(K == "Escape"){exit(0);}
-		if(K == "E"){toggleMouseCapture();return;}
-		if(K == "R"){setPos({0,0,0});aim({0,0,0});return;}
-		if(K == "W"){forward = true;return;}
-		if(K == "S"){backward = true;return;}
-		if(K == "A"){left = true;return;}
-		if(K == "D"){right = true;return;}
-		if(K == "Space"){up = true;return;}
-		if(K == "Left Ctrl"){down = true;return;}
-		if(K == "F7"){camera.screenshot();return;}
+		if(K == "Escape"){event.maskEvent();exit(0);}
+		if(K == "E"){event.maskEvent();toggleMouseCapture();return;}
+		if(K == "R"){event.maskEvent();setPos({0,0,0});aim({0,0,0});return;}
+		if(K == "W"){event.maskEvent();forward = true;return;}
+		if(K == "S"){event.maskEvent();backward = true;return;}
+		if(K == "A"){event.maskEvent();left = true;return;}
+		if(K == "D"){event.maskEvent();right = true;return;}
+		if(K == "Space"){event.maskEvent();up = true;return;}
+		if(K == "Left Ctrl"){event.maskEvent();down = true;return;}
+		if(K == "F7"){event.maskEvent();camera.screenshot();return;}
 		//if(K == "B"){spawnBox();return;}
 		//if(K == "V"){resetBox();return;}
 		//if(K == "F1"){debugDrawEnabled = !debugDrawEnabled;return;}
 		//if(K == "F"){if(character){character->toggleFly();}return;}
 		//if(K == "C"){if(character){character = 0;}else{character = new physCharacter();setPos(camera.pos);}return;}
 		if(K == "T"){
+			event.maskEvent();
 			setPos(camera.pos+camera.forward()*camera.eyetrace(100)+(vec3f){0,0,0.5});
 			//if(character){character->toggleFly();character->toggleFly();}
 			return;
 		}
-		if(K == "Left Shift"){speed = 0.14;flyspeed = 0.5;return;}
+		if(K == "Left Shift"){event.maskEvent();speed = 0.14;flyspeed = 0.5;return;}
 		//if(K == "P"){physics = !physics;return;}
 		//if(K == "G"){toggleGravity();return;}
 		//if(K == "Keypad 7"){experiment1();}
 			
 		printf("[%s]",K.c_str());
-	
 	}
-		if (event.type == EVENT_KEY_UP){
+	if (event.type == EVENT_KEY_UP){
 		string K = event.keyboard.key;
 		//printf("[/%s]",K.c_str());
-		if(K == "W"){forward = false;return;}
-		if(K == "S"){backward = false;return;}
-		if(K == "A"){left = false;return;}
-		if(K == "D"){right = false;return;}
-		if(K == "Space"){up = false;return;}
-		if(K == "Left Ctrl"){down = false;return;}
-		if(K == "Left Shift"){speed = 0.07;flyspeed = 0.25;return;}
+		if(K == "W"){event.maskEvent();forward = false;return;}
+		if(K == "S"){event.maskEvent();backward = false;return;}
+		if(K == "A"){event.maskEvent();left = false;return;}
+		if(K == "D"){event.maskEvent();right = false;return;}
+		if(K == "Space"){event.maskEvent();up = false;return;}
+		if(K == "Left Ctrl"){event.maskEvent();down = false;return;}
+		if(K == "Left Shift"){event.maskEvent();speed = 0.07;flyspeed = 0.25;return;}
 	}
 	if (event.type == EVENT_MOUSE_MOVE){
 		if(mousecapture){
+			event.maskEvent();
 			int xrel = event.mousemove.diff.x;
 			int yrel = event.mousemove.diff.y;
 			aimRelative({0,-yrel,xrel});

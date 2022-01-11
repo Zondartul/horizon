@@ -86,6 +86,11 @@ struct rect{
 	vec2i clamp(vec2i V);
 	rect clamp(rect R);
 	bool contains(vec2i V);
+	vec2i topLeftCorner();
+	vec2i topRightCorner();
+	vec2i bottomLeftCorner();
+	vec2i bottomRightCorner();
+	vec2i center();
 	//const char *toString();
 };
 rect operator*(rect A, float N);

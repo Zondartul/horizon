@@ -178,6 +178,11 @@ rect rect::clamp(rect R){
 	return R;
 }
 bool rect::contains(vec2i V){return V == clamp(V);}
+vec2i rect::topLeftCorner(){return {start.x,start.y};}
+vec2i rect::topRightCorner(){return {end.x,start.y};}
+vec2i rect::bottomLeftCorner(){return {start.x,end.y};}
+vec2i rect::bottomRightCorner(){return {end.x,end.y};}
+vec2i rect::center(){return (topLeftCorner()+bottomRightCorner())/2;}
 /* 
 const char *rect::toString(){
 	char *buff;

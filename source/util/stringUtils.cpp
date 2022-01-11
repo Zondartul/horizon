@@ -12,6 +12,14 @@ string ftoa(double N){
 	snprintf(buff,19,"%f",N);
 	return string(buff);
 }
+string ftoa(double N, int prec){
+	char format[20];
+	snprintf(format,19,"%%.%df",prec);
+	char buff[20];
+	snprintf(buff,19,format,N);
+	return string(buff);
+}
+
 #include "vec.h"
 string toString(vec3f V){
 	char buff[80];
@@ -49,7 +57,7 @@ string toString(rectf R){
 	return string(buff);
 }
 
-
-
+string operator+(const string S, const int N){return S+itoa(N);}
+string operator+(const string S, const double N){return S+ftoa(N);}
 
 

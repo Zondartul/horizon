@@ -14,6 +14,7 @@ struct glyph{
 
 struct font{
 	string name;
+	int ysize;
 	map<char,glyph> charmap;
 };
 #endif

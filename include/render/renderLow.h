@@ -1,6 +1,6 @@
 #ifndef RENDERLOW_GUARD
 #define RENDERLOW_GUARD
-#include "renderQueue.h"
+#include "renderLayer.h"
 #include "modelLoader.h"
 #include "rmodel.h"
 //renderLow, opengl 3.x version
@@ -43,16 +43,16 @@ void renderLowInit();
 //void renderTest1Tick();
 void renderTick();
 //void renderTest();
-void renderParseCommandBuffer(renderCommandBuffer *cmdbuff);
-void renderParseQueue(renderQueue *rqueue);
+//void renderParseCommandBuffer(renderCommandBuffer *cmdbuff);
+void renderParseQueue(vector<renderCommand2*> *rqueue);
 void uploadModel(model *m);
 void uploadModel(rmodel *rm);
 void renderModel(model *m);
-void renderModel(RCMD command, rmodel *rm);
+//void renderModel(RCMD command, rmodel *rm);
 void unloadModel(rmodel *rm);
-extern renderCommandBuffer cmdbuff;
+//extern renderCommandBuffer cmdbuff;
 //#define renderCmd(t,d) { renderCommand cmd; cmd.type = t; cmd.d; cmdbuff.push_back(cmd); }
-extern renderQueue *rqueue;
+//extern renderQueue *rqueue;
 
 /*
 void renderLowInit();

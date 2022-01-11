@@ -26,6 +26,7 @@ FT_Face		face;
 	// }
 	// return fontCache[name];
 // }
+#include "paint.h"
 
 void initFreeType(){
 	if(FT_Init_FreeType(&freetype) != 0)
@@ -152,6 +153,7 @@ font *loadFont(const char *fontpath, int size){
 	//makeTexture("font",h);
 	//dbgAtlasTextureName = "font";
 	font *F = new font();
+	int maxy=0;
 	int J = 0;
 	for(int I = 0; I < 255; I++){
 		if(isprint(I)){
@@ -164,7 +166,8 @@ font *loadFont(const char *fontpath, int size){
 			rect AUV = A.UVs[J++];
 			t->UV = rectf({1.0f*AUV.start.x/wscale,1.0f*AUV.start.y/hscale},{1.0f*AUV.end.x/wscale,1.0f*AUV.end.y/hscale});
 			
-			rqueue->push_back(new rcmd_texture_upload(t));
+			//rqueue->push_back(new rcmd_texture_upload(t));
+			uploadTexture(t);
 			glyph G;
 			G.t = t;
 			
@@ -178,10 +181,12 @@ font *loadFont(const char *fontpath, int size){
 			G.bearingX = face->glyph->metrics.horiBearingX/64;
 			G.bearingY = face->glyph->metrics.horiBearingY/64;
 			G.advance = face->glyph->metrics.horiAdvance/64;
+			if(G.bearingY > maxy){maxy = G.bearingY;}
 			//printf("genfont: char %c, bx=%d, by=%d, ad=%d\n",I,G.bearingX,G.bearingY,G.advance);
 			F->charmap[I] = G;
 		}
 	}
+	F->ysize = maxy;
 	return F;
 }
 

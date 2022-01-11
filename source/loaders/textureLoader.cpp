@@ -18,6 +18,7 @@ texture *loadTexture(const char *filename){
 	if(!bmp){return 0;}
 	texture *t = new texture();
 	t->bmp = bmp;
+	t->UV = rectf({0,0},{1,1});
 	return t;
 }
 

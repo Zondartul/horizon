@@ -79,6 +79,7 @@ void cameraKind::reposition(){
 		mView = glm::translate(mView,-toVec3(pos));
 	}else{
 		mView = mat4(1.0f);
+		//mView = glm::translate(mView,vec3(width/2,height/2,0));
 		//glLoadIdentity();
 	}
 }
@@ -89,14 +90,14 @@ void cameraKind::setScale(float newscale){scale = newscale;}
 void cameraKind::go2D(){
 	//glDisable(GL_LIGHTING);
 	mode3D = false;
-	vec2i scr = getScreenSize();
-	int height = scr.x;
-	int width = scr.y;
+	//vec2i scr = getScreenSize();
+	//int height = scr.x;
+	//int width = scr.y;
 	//glMatrixMode(GL_PROJECTION);
 	//glLoadIdentity();
-	glViewport(0,0,scr.x,scr.y); //put this into renderqueue as well?
-	
-	scale = 0.01f;
+	//glViewport(0,0,scr.x,scr.y); //put this into renderqueue as well?
+	glViewport(0,0,width,height);
+	scale = 1.0f;//0.01f;
 	float znear = -1;
 	float zfar = 1;
 	float left = 0;//-width*scale/2;
@@ -112,8 +113,8 @@ void cameraKind::go3D(){
 	//glEnable(GL_LIGHTING);
 	mode3D = true;
 	vec2i scr = getScreenSize();
-	int height = scr.x;
-	int width = scr.y;
+	//int height = scr.x;
+	//int width = scr.y;
 	/*
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -139,14 +140,15 @@ void cameraKind::go3D(){
 	}
 	glMatrixMode(GL_MODELVIEW);
 	*/
-	glViewport(0,0,scr.x,scr.y);
+	//glViewport(0,0,scr.x,scr.y);
+	glViewport(0,0,width,height);
 	if(perspective){
 		float aspect = ((float)width)/((float)height);
 		float znear = 0.1;
 		float zfar = 100;
 		float left = -znear*tan(fov*d2r/2.0);
 		float right = -left;
-		float bottom = -znear*tan(fov*d2r/2.0)*aspect;
+		float bottom = -znear*tan(fov*d2r/2.0)/aspect;
 		float top = -bottom;
 		mProjection = glm::frustum(left,right,bottom,top,znear,zfar);
 	}else{

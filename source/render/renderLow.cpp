@@ -16,9 +16,10 @@ using glm::vec2;
 #include "model.h"
 extern model *mBox;
 #include "bitmap.h"
-
+#include <map>
+using std::map;
 GLuint vaoHandle;
-renderCommandBuffer cmdbuff;
+//renderCommandBuffer cmdbuff;
 renderQueue *rqueue;
 GLuint positionBufferHandle;
 GLuint colorBufferHandle;
@@ -26,11 +27,23 @@ GLuint normalBufferHandle;
 GLuint uvBufferHandle;
 int numVerts = 0;
 map<string,int> locations;
-#define renderCmd(t,d) { renderCommand cmd; cmd.type = t; cmd.d; cmdbuff.push_back(cmd); }
-
+//#define renderCmd(t,d) { renderCommand cmd; cmd.type = t; cmd.d; cmdbuff.push_back(cmd); }
 map<bitmap*,GLuint> bitmap_GPU_handles;
 map<texture*,GLuint> texture_GPU_handles;
 map<rmodel*,GLuint[4]> rmodel_GPU_handles;
+#include "fonts.h"
+
+struct renderStateKind{
+	public:
+	int renderMode; //1 - points, 2 - edges, 3 - triangles
+	font *f;
+	vec2 textPos;
+	renderStateKind(){
+		renderMode = 1;
+		f = 0;
+		textPos = vec2(0,0);
+	}
+} renderState;
 
 GLuint uploadShader(GLuint shaderType, const char *filepath){
 	GLuint shader = glCreateShader(shaderType);
@@ -138,6 +151,11 @@ void renderLowInit(){
 	locations["coloringOn"] = 0;
 	locations["debuggingOn"] = 0;
 	locations["transparencyOn"] = 0;
+	locations["TexOffset"] = 0;
+	locations["TexSize"] = 0;
+	locations["globalColor"] = 0;
+	locations["scissoringOn"] = 0;
+	locations["scissor"] = 0;
 	
 	for(auto I = locations.begin(); I != locations.end(); I++){
 		I->second = glGetUniformLocation(programHandle,I->first.c_str());
@@ -164,50 +182,8 @@ void projectionToCamera(){
 	// rm->handle[3] = 0;
 // }
 
-void renderTriangle(){
-	rmodel *rm = new rmodel();
 
-	rm->vertices->push_back(vec3(0,0,0));
-	rm->vertices->push_back(vec3(0.5,0,0));
-	rm->vertices->push_back(vec3(0.5,0.5,0));
-	rm->vertices->push_back(vec3(0.5,0,0));
-	rm->vertices->push_back(vec3(0.5,0.5,0));
-	rm->vertices->push_back(vec3(1,0.5,0));
-	
-	rm->colors->push_back(vec3(1,0,0));
-	rm->colors->push_back(vec3(0,1,0));
-	rm->colors->push_back(vec3(0,0,1));
-	rm->colors->push_back(vec3(1,0,0));
-	rm->colors->push_back(vec3(0,1,0));
-	rm->colors->push_back(vec3(0,0,1));
-	
-	// rm.normals->push_back(vec3(0,0,1));
-	// rm.normals->push_back(vec3(0,0,1));
-	// rm.normals->push_back(vec3(0,0,1));
-	// rm.normals->push_back(vec3(0,0,1));
-	// rm.normals->push_back(vec3(0,0,1));
-	// rm.normals->push_back(vec3(0,0,1));
-	
-	// rm.uvs->push_back(vec2(0,0));
-	// rm.uvs->push_back(vec2(0,0));
-	// rm.uvs->push_back(vec2(0,0));
-	// rm.uvs->push_back(vec2(0,0));
-	// rm.uvs->push_back(vec2(0,0));
-	// rm.uvs->push_back(vec2(0,0));
-	rm->finalize();
-	//renderCmd(RCMD::COLORING,b=true);
-	//renderCmd(RCMD::TEXTURING,b=false);
-	//uploadModel(&rm);
-	//renderModel(RCMD::DRAW_TRIANGLES,rm);
-	rqueue->push_back(new rcmd_coloring(true));
-	rqueue->push_back(new rcmd_texturing(false));
-	rqueue->push_back(new rcmd_rmodel_upload(rm));
-	rqueue->push_back(new rcmd_rmodel_render(rm,3));
-	rqueue->push_back(new rcmd_rmodel_delete(rm));
-	//unloadModel(&rm); //destructor does it
-}
-
-
+/*
 void uploadModel(model *m){
 	m->rm = new rmodel(m);
 	m->rm->finalize();
@@ -215,8 +191,8 @@ void uploadModel(model *m){
 	rqueue->push_back(new rcmd_rmodel_upload(m->rm));
 	//uploadModel(m->rm);
 }
-
-
+*/
+/*
 void renderModel(model *m){
 	//renderCmd(RCMD::COLORING, b=false);
 	//renderCmd(RCMD::TEXTURING, b=true);
@@ -227,76 +203,57 @@ void renderModel(model *m){
 	rqueue->push_back(new rcmd_texture_select(m->t));
 	rqueue->push_back(new rcmd_rmodel_render(m->rm,3));
 }
-
-void renderTick(){
-	//glClearColor(0.3,0.7,0.9,1.0);
-	glClearColor(0.1,0.23,0.3,1.0);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-	
-	glEnable(GL_DEPTH_TEST);
-	
-	//glEnable(GL_CULL_FACE);
-	//glFrontFace(GL_CCW);
-	
-	camera.go3D();
-	//camera.go2D();
-	projectionToCamera();
-	
-	//renderCmd(RCMD::TEXTURING,b=true);
-	//renderCmd(RCMD::COLORING,b=true);
-	renderTriangle();
-	renderModel(mBox);
-	//camera.go2D();
-	//printw("Hello World!");
-	textPos = {0.0f,25.0f};//{100.0f,100.0f};
-	//renderCmd(RCMD::DEBUG,b=true);
-	printText2D("Merry Christmas");
-	
-	//renderParseCommandBuffer(&cmdbuff);
-	renderParseQueue(rqueue);
-	
-	OpenGL_swap();	
-}
+*/
 bool debug = false;
 
 
 void renderParseQueue(renderQueue *rqueue){
-	for(auto I = rqueue->begin(); I != rqueue->end(); I++){
-		(*I)->execute();
-		delete *I;
+	if(debug){
+		printf("----render queue:\n");
+		int i=1;
+		for(auto I = rqueue->begin(); I != rqueue->end(); I++){
+			printf("%d: %s\n",i,(*I)->type);
+			i++;
+		}	
 	}
-	rqueue->clear();
+	for(auto I = rqueue->begin(); I != rqueue->end(); I++){
+		if(debug){printf("executing %s\n",(*I)->type);}
+		(*I)->execute();
+		//delete *I;
+	}
+	if(debug){printf("----queue rendered\n");}
+	//rqueue->clear();
 }
 
 void rcmd_coloring::execute(){
-	if(debug){printf("coloring %d\n",b);}
-	glUniform1i(locations["coloringOn"],b);
+	if(debug){printf("coloring %d\n",val);}
+	glUniform1i(locations["coloringOn"],val);
 }
 
 void rcmd_transparency::execute(){
-	if(debug){printf("transparency %d\n",b);}
-	if(b){
+	if(debug){printf("transparency %d\n",val);}
+	if(val){
 		glEnable(GL_BLEND); 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}else{
 		glDisable(GL_BLEND); 
 	}
-	glUniform1i(locations["transparencyOn"],b);
+	glUniform1i(locations["transparencyOn"],val);
 }
 
 void rcmd_texturing::execute(){
-	if(debug){printf("texturing %d\n",b);}
-	glUniform1i(locations["texturingOn"],b);
+	if(debug){printf("texturing %d\n",val);}
+	glUniform1i(locations["texturingOn"],val);
 }
 
-void rcmd_debug_shader::execute(){
-	if(debug){printf("debugging %d\n",b);}
-	glUniform1i(locations["debuggingOn"],b);
+void rcmd_debug::execute(){
+	if(debug){printf("debugging %d\n",val);}
+	glUniform1i(locations["debuggingOn"],val);
 }
 
 void rcmd_projection::execute(){
 	if(debug){printf("projection\n");}
-	glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&m);
+	glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&val);
 }
 
 GLenum pixelFormatToGL(pixelFormat F){
@@ -321,6 +278,8 @@ GLenum pixelFormatToGL(pixelFormat F){
 }
 
 void rcmd_texture_upload::execute(){
+	texture *t = val;
+	if(!val){error("attempt to upload null texture\n");}
 	if(texture_GPU_handles.count(t)){return;}//texture already uploaded.
 	if(bitmap_GPU_handles.count(t->bmp)){return;}//texture already uploaded.
 	if(t->bmp){
@@ -338,6 +297,8 @@ void rcmd_texture_upload::execute(){
 }
 
 void rcmd_texture_select::execute(){
+	texture *t = val;
+	if(!val){error("attempt to select null texture\n");}
 	GLuint handle = 0;
 	//render_sys_data_texture rdata;
 	if(t->bmp){
@@ -351,9 +312,18 @@ void rcmd_texture_select::execute(){
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, handle);
 	glUniform1i(locations["Tex"],0);//wat
+	vec2 offset = vec2(t->UV.start.x,t->UV.start.y);
+	vec2 size = vec2(t->UV.size.x,t->UV.size.y);
+	//offset = vec2(0,0);
+	//size = vec2(1,1);
+	//printf("tex offset: (%f x %f), size: (%f x %f)\n",offset.x,offset.y,size.x,size.y);
+	glUniform2fv(locations["TexOffset"],1,(GLfloat*)&offset);
+	glUniform2fv(locations["TexSize"],1,(GLfloat*)&size);
 }
 
 void rcmd_rmodel_upload::execute(){
+	rmodel *rm = val;
+	if(!val){error("attempt to upload null rmodel\n");}
 	if(debug){printf("uploading rmodel %p\n",rm);}
 	if(
 		(!rm->vertices)||(!rm->normals)||(!rm->colors)||(!rm->uvs)||
@@ -390,6 +360,8 @@ void rcmd_rmodel_upload::execute(){
 }
 
 void rcmd_rmodel_render::execute(){
+	rmodel *rm = val;
+	if(!val){error("attempt to render null rmodel\n");}
 	if(debug){printf("rendering rmodel %p\n",rm);}
 	GLuint handles[4];
 	for(int i = 0; i<4; i++){handles[i] = rmodel_GPU_handles[rm][i];}
@@ -406,7 +378,7 @@ void rcmd_rmodel_render::execute(){
 	glBindBuffer(GL_ARRAY_BUFFER, handles[3]);
 	glVertexAttribPointer(3,2,GL_FLOAT,GL_FALSE,0,(GLubyte*)NULL);
 	
-	switch(mode){
+	switch(renderState.renderMode){
 		case(1):
 			glDrawArrays(GL_POINTS,0,rm->vertices->size());
 			break;
@@ -417,12 +389,14 @@ void rcmd_rmodel_render::execute(){
 			glDrawArrays(GL_TRIANGLES,0,rm->vertices->size());
 			break;
 		default:
-			error("unknown render mode '%d'\n",mode);
+			error("unknown render mode '%d'\n",renderState.renderMode);
 			break;
 	}
 }
 
 void rcmd_rmodel_delete::execute(){
+	rmodel *rm = val;
+	if(!val){error("attempt to delete null rmodel\n");}
 	if(debug){printf("deleting rmodel %p\n",rm);}
 	GLuint handles[4];
 	for(int i = 0; i<4; i++){handles[i] = rmodel_GPU_handles[rm][i];}
@@ -430,7 +404,85 @@ void rcmd_rmodel_delete::execute(){
 	rmodel_GPU_handles.erase(rm);
 }
 
+void rcmd_clear_screen::execute(){
+	if(debug){printf("clearing screen\n");}
+	glClearColor(125/255.0f,206/255.0f,250/255.0f,1.0f);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+}
 
+void rcmd_scissoring::execute(){
+	if(debug){printf("scissoring: %d\n",val);}
+	glUniform1i(locations["scissoringOn"],val);
+}
+
+void rcmd_color::execute(){
+	if(debug){printf("set color to %d %d %d\n",val.x,val.y,val.z);}
+	val.x /= 255.0f;
+	val.y /= 255.0f;
+	val.z /= 255.0f;
+	glUniform3fv(locations["globalColor"],1,(const GLfloat*)&val);
+}
+
+void rcmd_alpha::execute(){
+	if(debug){printf("set alpha to %d\n",255*val);}
+	glUniform1fv(locations["alpha"],1,(const GLfloat*)&val);
+}
+
+void rcmd_font_select::execute(){
+	if(!val){error("attempt to select null font\n");}
+	if(debug){printf("selecting font %s (%p)\n",val->name.c_str(),val);}
+	renderState.f = val;
+}
+
+void rcmd_mode_select::execute(){
+	if(debug){printf("selecting render mode %d\n",val);}
+	renderState.renderMode = val;
+}
+
+void rcmd_text_pos::execute(){
+	if(debug){printf("set text pos to %f,%f\n",val.x,val.y);}
+	renderState.textPos = val;
+}
+
+void rcmd_scissor::execute(){
+	if(debug){printf("set scissor to %dx%d\n",val.size.x,val.size.y);}
+	float R[4];
+	//R[0] = val.start.x;
+	//R[1] = val.start.y;
+	//R[2] = val.end.x;
+	//R[3] = val.end.y;
+	float x1 = ((float)val.start.x)/width;
+	float y1 = ((float)(val.start.y))/height;
+	float x2 = ((float)val.end.x)/width;
+	float y2 = ((float)(val.end.y))/height; 
+	R[0] = 2*(x1-0.5);//(2*(x2)-1);
+	R[1] = 2*(0.5-y2);//(2*(1-y2)-1);
+	R[2] = 2*(x2-0.5);
+	R[3] = 2*(0.5-y1);
+	
+	glUniform4fv(locations["scissor"],1,(const GLfloat*)&R);
+}
+
+void rcmd_print_text::execute(){
+	if(debug){printf("printing text '%s'\n",val.c_str());}
+	if(!renderState.f){error("no font selected\n");}
+	//for convenience, ignores 
+	auto m = renderState.renderMode;
+	renderState.renderMode = 3;
+	printText2D(val.c_str(),renderState.f,renderState.textPos);
+	renderState.renderMode = m;
+	if(debug){printf("done printing\n");}
+}
+
+void rcmd_comment::execute(){
+	if(debug){printf("%s", val.c_str());}
+}
+
+void rcmd_depth_test::execute(){
+	if(debug){printf("set depth test %d\n",val);}
+	if(val){glEnable(GL_DEPTH_TEST);}
+	else{glDisable(GL_DEPTH_TEST);}
+}
 // void uploadModel(rmodel *rm){
 	
 	////the number of primitives in a model is determined

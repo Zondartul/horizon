@@ -15,5 +15,9 @@ float clamp(float A, float B, float C);
 float min(float A, float B);
 //returns the greater of the two numbers.
 float max(float A, float B);
+//rounds to n decimal places.
+float round2(float A, float n);
+#define mix2(a,b,n) (a*(1.0f-n)+b*n)
+
 
 #endif

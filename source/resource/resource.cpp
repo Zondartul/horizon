@@ -51,14 +51,18 @@ model *getModel(string name){
 	return m;
 }
 font *getFont(string name){
+	//printf("get font [%s]\n",name.c_str());
 	for(int I = 0; I < fonts.size(); I++){
+		//printf("trying [%s]\n",fonts[I]->name.c_str());
 		if(fonts[I]->name == name){return fonts[I];}
 	}
+	//printf("not found, loading\n");
 	char fontname[80];
 	int size = 0;
 	sscanf(name.c_str(),"%s %d",fontname,&size);
 	string filepath = locateResource("font", fontname);
 	font *f = loadFont(filepath.c_str(),size);
+	f->name = name;
 	if(!f){error("can't load font %s, size %d\n",fontname, size);}
 	fonts.push_back(f);
 	return f;
