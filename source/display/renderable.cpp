@@ -20,6 +20,9 @@ void renderable::render2(uint32_t flags){
 	render();
 	renderflags = oldflags;
 }
+void renderable::setrenderflags(uint32_t flags, bool recursive){
+	renderflags = flags;
+}
 point::point():renderable(){
 	pos = {0,0,0};
 	color = {0,0,0,255};
@@ -27,17 +30,18 @@ point::point():renderable(){
 }
 point::point(vec newpos):renderable(){
 	pos = newpos;
-	color = {0,0,0};
+	color = {0,0,0,255};
 	thickness = 3;
 }
 point::point(vec newpos, int time):renderable(){
 	pos = newpos;
-	color = {0,0,0};
+	color = {0,0,0,255};
 	thickness = 3;
 	lifetime = time;
 }
 void point::render(){
 	if(renderflags & RENDER_NONE){return;}
+	//printf("rendering %s\n",toString(this).c_str());
 	glPointSize(thickness);
 	glBegin(GL_POINTS);
 		glColor4ub(color.r, color.g, color.b, color.a);
@@ -45,7 +49,6 @@ void point::render(){
 	glEnd();
 	glPointSize(1);
 }
-
 
 line::line():renderable(){
 	end1.pos = {0,0,0};
@@ -164,7 +167,13 @@ void line::render(){
 		}
 	}
 }
-
+void line::setrenderflags(uint32_t flags, bool recursive){
+	renderflags = flags;
+	if(recursive){
+		end1.setrenderflags(flags,recursive);
+		end2.setrenderflags(flags,recursive);
+	}
+}
 
 rtriangle::rtriangle():renderable(){
 	A.pos = vec(0,1,0);
@@ -229,7 +238,7 @@ void rtriangle::render(){
 	//render the triangle face
 	if(renderflags & (RENDER_DEFAULT | RENDER_FACES | RENDER_BACKFACES)){
 		//do we need to cull at all?
-		if(!(renderflags & (RENDER_FACES | RENDER_BACKFACES))){
+		if(!((renderflags & RENDER_FACES) && (renderflags & RENDER_BACKFACES))){
 			glEnable(GL_CULL_FACE);
 			//do we cull clockwise?
 			if(renderflags & (RENDER_DEFAULT | RENDER_FACES)){
@@ -279,7 +288,14 @@ void rtriangle::render(){
 	B.color.a = Bolda;
 	C.color.a = Colda;
 }
-
+void rtriangle::setrenderflags(uint32_t flags, bool recursive){
+	renderflags = flags;
+	if(recursive){
+		A.setrenderflags(flags, recursive);
+		B.setrenderflags(flags, recursive);
+		C.setrenderflags(flags, recursive);
+	}
+}
 
 floatingtext::floatingtext():renderable(){
 	text = "";
@@ -299,12 +315,14 @@ floatingtext::floatingtext(vec newpos, string newtext, int time):renderable(){
 }
 void floatingtext::render(){
 	if(renderflags & RENDER_NONE){return;}
+	//printf("rendering %s\n",toString(this).c_str());
 	vec c = camera.worldtoscreen(pos);
 	c.x += screen_offset.x;
 	c.y += screen_offset.y;
 	//cout << "text: " << c.toString() << "\n";
 	printvals(toString(this), c.toString());
 	if(camera.screencoordsvisible(c)){
+		glColor4ub(color.r,color.g,color.b,color.a);
 		camera.go2D();
 		printw((int)(c.x),(int)(c.y),-1,-1,"%s",text.c_str());
 		camera.go3D();
@@ -312,16 +330,15 @@ void floatingtext::render(){
 }
 rmodel::rmodel(model *m){
 	M = m;
-	color = {255,255,255};
+	color = {255,255,255,255};
 }
 
 void rmodel::render(){
 	if(renderflags & RENDER_NONE){return;}
 	//printf("rmodel %p / %p / %d\n",this, M, M->vertices.size());
 	//render triangles
-	for(int I = 0; I < M->mesh.size(); I++){
-		idtriangle T = M->mesh[I];
-		rtriangle RT(T, &M->vertices, -1);
+	for(int I = 0; I < triangles.size(); I++){
+		rtriangle &RT = triangles[I];
 		int oldA = RT.color.a;
 		if(!(renderflags & (TRANSPARENCY_DEFAULT | TRANSPARENCY_NONE))){
 			if(renderflags & TRANSPARENCY_UNIFORM){
@@ -334,5 +351,39 @@ void rmodel::render(){
 			RT.render();
 		}
 		RT.color.a = oldA;
+	}
+	// for(int I = 0; I < M->mesh.size(); I++){
+		// idtriangle T = M->mesh[I];
+		// rtriangle RT(T, &M->vertices, -1);
+		// int oldA = RT.color.a;
+		// if(!(renderflags & (TRANSPARENCY_DEFAULT | TRANSPARENCY_NONE))){
+			// if(renderflags & TRANSPARENCY_UNIFORM){
+				// RT.color.a = RT.color.a * color.a / 255;
+			// }
+		// }
+		// if(renderflags & RENDER_OVERRIDE){
+			// RT.render2(renderflags);
+		// }else{
+			// RT.render();
+		// }
+		// RT.color.a = oldA;
+	// }
+}
+
+void rmodel::regenerate(){
+	triangles.clear();
+	for(int I = 0; I < M->mesh.size(); I++){
+		idtriangle T = M->mesh[I];
+		rtriangle RT(T, &M->vertices, -1);
+		triangles.push_back(RT);
+	}
+}
+
+void rmodel::setrenderflags(uint32_t flags, bool recursive){
+	renderflags = flags;
+	if(recursive){
+		for(int I = 0; I < triangles.size(); I++){
+			triangles[I].setrenderflags(flags,recursive);
+		}
 	}
 }

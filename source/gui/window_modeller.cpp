@@ -2,12 +2,27 @@
 #include "gui/Gui2.h"
 #include "main/control.h"
 #include "game/camera.h"
+#include <algorithm>
 
 GUI2frame *frame;
 vector<GUI2button*> buttons;
 model *M;
 rmodel *RM;
 vec vector_cursor_pos;
+uint32_t cur_renderflags = RENDER_DEFAULT | COLOR_DEFAULT | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT;
+int cur_alpha = 255;
+vector<int> selected;
+void updateRender(){
+	RM->regenerate();
+	RM->setrenderflags(cur_renderflags, 1);
+	RM->color.a = cur_alpha;
+	for(int I = 0; I < selected.size(); I++){
+		rtriangle &rtri = RM->triangles[selected[I]];
+		rtri.setrenderflags(RENDER_FACES | RENDER_BACKFACES | COLOR_UNIFORM | LIGHT_NONE | TRANSPARENCY_NONE,1);
+		rtri.color = {255,255,0,255};
+	}
+}
+
 void clickButtonNew(void *arg){
 	printf("modeller: button new\n");
 	vector_cursor_pos = camera.pos;//camerapos
@@ -18,7 +33,9 @@ void clickButtonNew(void *arg){
 		scene.push_back(RM);
 	}
 	RM->M = M;
-	RM->renderflags = RENDER_DEFAULT | COLOR_DEFAULT | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT;
+	//RM->renderflags = RENDER_DEFAULT | COLOR_DEFAULT | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT;
+	//RM->setrenderflags(RENDER_DEFAULT | COLOR_DEFAULT | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
+	updateRender();
 }
 void createButtonNew(){
 	buttons[0]->setImage("../resource/textures/gui/iconnew.png");
@@ -27,6 +44,11 @@ void createButtonNew(){
 }
 
 void clickButtonMove(void *arg){
+	for(int I = 0; I < M->vertices.size(); I++){
+		vec &v = M->vertices[I];
+		v.z = v.z+0.25;
+	}
+	updateRender();
 	printf("modeller: button move\n");
 }
 void createButtonMove(){
@@ -55,8 +77,14 @@ void createButtonCopy(){
 void createButtonOptions(){
 	buttons[8]->setImage("../resource/textures/gui/iconoptions.png");
 }
+void clickButtonDelete(void *arg){
+	scene.clear();
+	scene.push_back(RM);
+}
 void createButtonDelete(){
 	buttons[9]->setImage("../resource/textures/gui/icondelete.png");
+	buttons[9]->func = &clickButtonDelete;
+	buttons[9]->arg = NULL;
 }
 void createButtonUndo(){
 	buttons[10]->setImage("../resource/textures/gui/iconundo.png");
@@ -85,8 +113,10 @@ void createButtonSweep(){
 	buttons[15]->setImage("../resource/textures/gui/iconsweep.png");
 }
 void clickButtonTransparent(void *arg){
-	RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | RENDER_BACKFACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_UNIFORM;
-	RM->color.a = 128;
+	//RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | RENDER_BACKFACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_UNIFORM;
+	cur_renderflags = RENDER_FACES | RENDER_BACKFACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_UNIFORM;
+	cur_alpha = 128;
+	updateRender();
 	printf("rendering as transparent\n");
 }
 void createButtonTransparent(){
@@ -95,7 +125,10 @@ void createButtonTransparent(){
 	buttons[16]->arg = NULL;
 }
 void clickButtonMatte(void *arg){
-	RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	//RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	cur_renderflags = RENDER_FACES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	cur_alpha = 255;
+	updateRender();
 	printf("rendering as matte\n");
 }
 void createButtonMatte(){
@@ -104,7 +137,10 @@ void createButtonMatte(){
 	buttons[17]->arg = NULL;
 }
 void clickButtonWireframe(void *arg){
-	RM->renderflags = RENDER_OVERRIDE | RENDER_EDGES | RENDER_VERTICES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	//RM->renderflags = RENDER_OVERRIDE | RENDER_EDGES | RENDER_VERTICES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	cur_renderflags = RENDER_EDGES | RENDER_VERTICES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_NONE;
+	cur_alpha = 255;
+	updateRender();
 	printf("rendering as wireframe\n");
 }
 void createButtonWireframe(){
@@ -113,7 +149,10 @@ void createButtonWireframe(){
 	buttons[18]->arg = NULL;
 }
 void clickButtonTextured(void *arg){
-	RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | RENDER_TEXTURES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_TEXTURE;
+	//RM->renderflags = RENDER_OVERRIDE | RENDER_FACES | RENDER_TEXTURES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_TEXTURE;
+	cur_renderflags = RENDER_FACES | RENDER_TEXTURES | COLOR_DEFAULT | LIGHT_NONE | TRANSPARENCY_TEXTURE;
+	cur_alpha = 255;
+	updateRender();
 	printf("rendering as textured\n");
 }
 void createButtonTextured(){
@@ -178,6 +217,7 @@ model *genCube(double l, double w, double h){
 void clickButtonBox(void *arg){
 	model *cube = genCube(1,1,1);
 	M->add(cube);
+	updateRender();
 	printf("new cube at 0,0,0\n");
 }
 void createButtonBox(){
@@ -242,6 +282,7 @@ model *genCyllinder(double height, double diameter, int numsides){
 void clickButtonCyllinder(void *arg){
 	model *cyllinder = genCyllinder(1,1,12);
 	M->add(cyllinder);
+	updateRender();
 	printf("new cyllinder at 0,0,0\n");
 }
 void createButtonCyllinder(){
@@ -370,6 +411,7 @@ model *genSphere(double diameter, int numverti, int numhori){
 void clickButtonSphere(void *arg){
 	model *sphere = genSphere(1,12,24);
 	M->add(sphere);
+	updateRender();
 	printf("new sphere at 0,0,0\n");
 }
 void createButtonSphere(){
@@ -423,6 +465,7 @@ model *genCone(double height, double diameter, double numsides){
 void clickButtonCone(void *arg){
 	model *cone = genCone(1,1,12);
 	M->add(cone);
+	updateRender();
 	printf("new cone at 0,0,0\n");
 }
 void createButtonCone(){
@@ -519,8 +562,65 @@ void OpenWindowModeller(){
 	createButtonCollapse();
 }
 
+bool intersection_closest(pair<int, float> A, pair<int, float> B){
+	return (A.second > B.second);
+}
+
+void ModellerInput::PSreceive(message msg){
+	if(msg.type == "lmb_up"){
+		printf("modeller:click!\n");
+		vec P = camera.pos;
+		printf("camera pos: %f, %f, %f\n", P.x, P.y, P.z);
+		vec Pf = camera.angle.forward();
+		printf("camera fwd: %f, %f, %f\n", Pf.x, Pf.y, Pf.z);
+		vec2i M = input.getMousePos();
+		printf("mouse pos: %d, %d\n", M.x, M.y);
+		vec Mw = camera.screentoworld_simple(M);
+		printf("m to world: %f, %f, %f\n", Mw.x, Mw.y, Mw.z);
+		
+		int found = 0;
+		vector<pair<int, float>> intersections;
+		for(int I = 0; I < RM->triangles.size(); I++){
+			rtriangle &rtri = RM->triangles[I];
+			vec result;
+			if(ray_triangle_intersection(camera.pos, camera.cursorDir(), rtri.A.pos, rtri.B.pos, rtri.C.pos, result)){
+				float dist = (result-camera.pos).length();
+				intersections.push_back({I,dist});
+				found = 1;
+			}
+		}
+		if(found){
+			std::sort(intersections.begin(), intersections.end(), &intersection_closest);
+			selected.push_back(intersections.back().first);
+		}else{selected.clear();}
+		//green - camera to result
+		// line *L = new line(camera.pos, result, -1);
+		// L->color = {0,255,0,255};
+		// L->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
+		// scene.push_back(L);
+		//red - camera to direction
+		line *L2 = new line(camera.pos, camera.pos+camera.cursorDir()*3, -1);
+		L2->color = {255,0,0,255};
+		L2->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
+		scene.push_back(L2);
+		//blue - origin to result
+		//line *L3 = new line({0,0,0}, result, -1);
+		//L3->color = {0,0,255,255};
+		//L3->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
+		//scene.push_back(L3);
+		//blue - camera forward
+		line *L4 = new line(camera.pos, camera.pos+camera.angle.forward()*3, -1);
+		L4->color = {0,0,255,255};
+		L4->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
+		scene.push_back(L4);
+		updateRender();
+		printf("%d triangles selected\n", selected.size());
+	}
+}
+ModellerInput MI;
 void startModellerSession(){
 	OpenWindowModeller();
+	input.channel.subscribe("", &MI);
 	clickButtonNew(NULL);
 }
 

@@ -3,6 +3,7 @@
 #include "math/quaternions.h"
 #include "gui/newconsole.h"
 #include "gui/valscreen.h"
+#include "input/input.h"
 void camInit();
 
 vec frustum::getTri(int tri, int vert){ // this is really dumb. why can't we have a normal convex hull generator?
@@ -103,14 +104,16 @@ void cameraKind::tick(){
 	}
 	getNewFrustum();
 }
-double cameraKind::getFrustumRight(){return tan(d2r(fov)/2.0)*znear;}
-double cameraKind::getFrustumTop(){return tan(d2r(fov*aspect)/2.0)*znear;}
+double cameraKind::getFrustumRight(){return tan(d2r(fov)/2.0f)*znear;}
+double cameraKind::getFrustumTop(){return tan(d2r(fov)/2.0f)*znear*aspect;}//tan(d2r(fov*aspect)/2.0f)*znear;}
 void cameraKind::setFrustum(){
 	double top;
 	double bottom;
 	double left;
 	double right;
 	aspect = height/width;
+	//aspect = 1.0f;
+	//aspect = width/height;
 	//aspect = (float)width/(float)height;
 	
 	right = getFrustumRight();
@@ -138,19 +141,33 @@ vec cameraKind::screentoworld(vec screenpos){
 	double y = screenpos.y;
 	double depth = screenpos.z;
 	aspect = height/width;
-	x = (x/width)-0.5; // x as percentage of screen away from center
-	y = 0.5-(y/height);
+	x = (x/width)-0.5f; // x becomes percentage of screen away from center
+	y = 0.5f-(y/height);
 	vec lspos;		//local screen pos
 	double right = getFrustumRight(); // length from center to right edge of the nearer frustum side.
 	double top = getFrustumTop(); // same for top edge
 	lspos.x = x*2*right; //assuming symmetrical screen (center is actually center)
 	lspos.z = y*2*top;
 	lspos.y = znear;
-	
-	vec lwpos = lspos.norm()*depth; //local world pos (triangles are similar)
+	//printf("lspos length: %f\n",lspos.length());
+	vec lwpos = lspos.norm();//lspos.norm()*depth; //local world pos (triangles are similar)
+	//printf("lwpos length: %f\n",lwpos.length());
 	vec wwpos = pos+angle.rotateVector(lwpos); //world world pos
-	
+	//printf("wwpos length: %f\n",wwpos.length());
 	return wwpos;
+}
+vec cameraKind::screentoworld_simple(vec2i screenpos){
+	return screentoworld({(double)screenpos.x, (double)screenpos.y, 1});
+}
+vec2i cameraKind::worldtoscreen_simple(vec worldpos){
+	vec V = worldtoscreen(worldpos);
+	vec2i v2 = {(int)V.x,(int)V.y};
+	return v2;
+}
+vec cameraKind::cursorDir(){
+	vec V = screentoworld_simple(input.getMousePos())-pos;
+	//printf("V length: %f\n",V.length());
+	return V.norm();
 }
 frustum cameraKind::getFrustum(){
 	return curFrustum;
@@ -176,6 +193,7 @@ void cameraKind::getNewFrustum(){
 }
 void cameraKind::go2D()
 {
+	//printf("camera go2D: %dx%d\n", (int)width, (int)height);
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_DEPTH_TEST);
 	glLoadIdentity();
@@ -186,8 +204,10 @@ void cameraKind::go2D()
 }
 void cameraKind::go3D()
 {
+	//printf("camera go3D: %dx%d\n", (int)width, (int)height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	//glViewport(0,0, width, height);
 	setFrustum();
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_MODELVIEW);
@@ -213,6 +233,8 @@ void camGoRight(void* arg){camera.goingRight = true;}
 void camStopRight(void* arg){camera.goingRight = false;}
 void camGoLeft(void* arg){camera.goingLeft = true;}
 void camStopLeft(void* arg){camera.goingLeft = false;}
+void camGoSlow(void *arg){convars["camSpeed"] *= 0.1; printf("camspeed = %f\n",convars["camSpeed"]);}
+void camGoFast(void *arg){convars["camSpeed"] *= 10; printf("camspeed = %f\n",convars["camSpeed"]);}
 void camReset(void* arg){
 	cout << "camera pos = "+camera.pos.toString()+", angle = "+camera.angle.toString()+"\n";
 	camera.pos = {0,0,0};
@@ -235,5 +257,7 @@ void camInit(){
 	confuncs["+camleft"] = camGoLeft;
 	confuncs["-camleft"] = camStopLeft;
 	confuncs["camreset"] = camReset;
+	confuncs["+camslow"] = camGoSlow;
+	confuncs["-camslow"] = camGoFast;
 	printf("camInit end\n");
 }

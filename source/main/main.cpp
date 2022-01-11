@@ -6,6 +6,7 @@
 //#include FT_FREETYPE_H
 
 #include "main/control.h"
+#include "gui/newconsole.h"
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 void EnableOpenGL(HWND hwnd, HDC*, HGLRC*);
@@ -143,6 +144,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			ReSizeGLScene(rect.right,rect.bottom);//LOWORD(lParam),HIWORD(lParam));       // LoWord=Width, HiWord=Height
 			return 0;                       // Jump Back
 		}
+		break;
+		case WM_SETFOCUS:
+			printf("Got the focus\n");
+		break;
+		case WM_KILLFOCUS:
+			printf("Lost the focus\n");
+			convars["camera_mouse_capture"] = 0;
+		break;
         default:
             return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
@@ -191,17 +200,17 @@ void DisableOpenGL (HWND hwnd, HDC hDC, HGLRC hRC)
 
 GLvoid ReSizeGLScene(GLsizei width, GLsizei height)             // Resize And Initialize The GL Window
 {
-    if (height==0)                              // Prevent A Divide By Zero By
-    {
-        height=1;                           // Making Height Equal One
-    }
-    glViewport(0, 0, width, height);                    // Reset The Current Viewport
-	glMatrixMode(GL_PROJECTION);                        // Select The Projection Matrix
-    glLoadIdentity();                           // Reset The Projection Matrix
+    // if (height==0)                              // Prevent A Divide By Zero By
+    // {
+        // height=1;                           // Making Height Equal One
+    // }
+     glViewport(0, 0, width, height);                    // Reset The Current Viewport
+	// glMatrixMode(GL_PROJECTION);                        // Select The Projection Matrix
+    // glLoadIdentity();                           // Reset The Projection Matrix
  
-    // Calculate The Aspect Ratio Of The Window
-    gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
+    ////Calculate The Aspect Ratio Of The Window
+    // gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
  
-    glMatrixMode(GL_MODELVIEW);                     // Select The Modelview Matrix
-    glLoadIdentity();                           // Reset The Modelview Matrix
+    // glMatrixMode(GL_MODELVIEW);                     // Select The Modelview Matrix
+    // glLoadIdentity();                           // Reset The Modelview Matrix
 }

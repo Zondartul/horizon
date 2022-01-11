@@ -330,7 +330,7 @@ void camSlow(void* arg){camSpeed = 0.2;}
 void camFast(void* arg){camSpeed = 1;}
 void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
 void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;}
-void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
+void ToggleMouseCapture(void* arg){convars["camera_mouse_capture"] = !convars["camera_mouse_capture"];}//{mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 class BinderKind;
 
@@ -446,12 +446,29 @@ void OnProgramStart()
 	KeyBinds["r"] = "camreset";
 	KeyBinds["space"] = "+camup";
 	KeyBinds["ctrl"] = "+camdown";
+	KeyBinds["shift"] = "+camslow";
 	confuncs["forwardonce"] = camForward;
 	confuncs["backwardonce"] = camBack;
-	KeyBinds["esc"] = "camera_mouse_capture 0";
+	//KeyBinds["esc"] = "camera_mouse_capture 0";
+	KeyBinds["esc"] = "toggle_mouse";
+	confuncs["toggle_mouse"] = ToggleMouseCapture;
 	bindtests();
 	camInit();
 	scene.push_back(new point({0,0,0}));
+	
+		// glColor3f(1.0f, 0.0f, 0.0f);   glVertex2f(0.0f,   1.0f);
+        // glColor3f(0.0f, 1.0f, 0.0f);   glVertex2f(0.87f,  -0.5f);
+        // glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
+	{
+		vec A(0.0f, 1.0f, 0.0f);
+		vec B(0.87f, -0.5f, 0.0f);
+		vec C(-0.87f, -0.5f, 0.0f);
+		rtriangle *T = new rtriangle(A,B,C);
+		T->A.color = {255,0,0,255};
+		T->B.color = {0,255,0,255};
+		T->C.color = {0,0,255,255};
+		scene.push_back(T);
+	}
 	
 	scene.push_back(new floatingtext({0,1,0},"R"));
 	scene.push_back(new floatingtext({0.87,-0.5,0},"G"));
@@ -567,7 +584,7 @@ void ProcessMouseclick(int mb)
 		if(mb==1){
 			printf("click void\n");
 			ParseKey(1);
-			convars["camera_mouse_capture"] = 1;
+			//convars["camera_mouse_capture"] = 1;
 			input.channel.unsubscribe("", GUI);
 			input.channel.subscribe("", &Binder);
 			input.channel.subscribe("", &Binder2);
@@ -740,20 +757,16 @@ void Render2D()
 //bool BodyDistanceComparator(physBody* i, physBody* j){return (i->pos-SomeVec1).length()>(j->pos-SomeVec1).length();}
 void Render3D()
 {
+	//NO ONE FUCKING TOUCHES THOSE MATRICES
 	int Errc = 0;
 					//Errc = glGetError();if(Errc){printf("<1=%s>\n",gluErrorString(Errc));}
-    glPushMatrix();
+    //glPushMatrix();
 	
-	//glRotatef(180,0,0,1);
 	glRotatef(-90,1,0,0);
-	//glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
-	//double w = CamAngle.getRotationAngle();
 	double w = camera.angle.getRotationAngle();
-	//vec v = CamAngle.getRotationAxis();
 	vec v = camera.angle.getRotationAxis();
 	glBegin(GL_LINES); //cordinate helper
 		vec a = {0,2,-1};//SomeVec1+CamAngle.rotateVector({0,0,-2});
-		//quat qc = CamAngle; qc.w = -qc.w;
 		quat qc = camera.angle; qc.w = -qc.w;
 		vec b = a+qc.rotateVector({0.5,0,0});
 		glColor3f(1.0f,0.0f,0.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);
@@ -764,24 +777,19 @@ void Render3D()
 		b = a+qc.rotateVector({0,0,0.5});
 		glColor3f(0.0f,0.0f,1.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);	
 	glEnd();
-	//Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
 	int sw = -1;
 	int sv = 1;
 	int sc = -1;
 	if(camRotOn){glRotatef(sw*w,sv*v.x,sv*v.y,sv*v.z);}
-	//glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
     glTranslated(sc*camera.pos.x, sc*camera.pos.y, sc*camera.pos.z);
-	//glRotatef(theta, 0.0f, 0.0f, 1.0f);
-	//glScalef(0.1f,0.1f,0.1f);
-    glBegin(GL_TRIANGLES);
+    // glBegin(GL_TRIANGLES);
 
-        glColor3f(1.0f, 0.0f, 0.0f);   glVertex2f(0.0f,   1.0f);
-        glColor3f(0.0f, 1.0f, 0.0f);   glVertex2f(0.87f,  -0.5f);
-        glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
+        // glColor3f(1.0f, 0.0f, 0.0f);   glVertex2f(0.0f,   1.0f);
+        // glColor3f(0.0f, 1.0f, 0.0f);   glVertex2f(0.87f,  -0.5f);
+        // glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
 
-    glEnd();
+    // glEnd();
 	for(std::vector<renderable*>::iterator I = scene.begin(); I != scene.end(); I++){
-	//for(int I = 0; I < scene.size(); I++){
 		if((*I)->lifetime == 0){
 			scene.erase(I);
 			I--;
@@ -790,246 +798,8 @@ void Render3D()
 			(*I)->lifetime--;
 		}
 	}
-	//Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
-	/*
-	for(int i = 0;i<AllPhysBodies.size();i++)
-	{
-	glPushMatrix();
-	physBody *Body = AllPhysBodies[i];
-	//while(!Body){i++; Body = AllPhysBodies[i];}
-	glTranslatef(Body->pos.x,Body->pos.y,Body->pos.z);
-	glRotatef(Body->orient.getAngle(),Body->orient.getX(),Body->orient.getY(),Body->orient.getZ());
-	glScalef(Body->scale,Body->scale,Body->scale);
-	myModel = Body->mdl;
-	if(myModel!=NULL)
-	{
-		vec3i col = Body->color;
-		glColor3ub(col.x,col.y,col.z);
-			
-		//apply orientation here
-		if(renderWireframe)
-		{
-			glBegin(GL_LINES);
-			
-			for(int I=0;I<myModel->numtris;I++)
-			{
-				triangle T = myModel->mesh[I];
-				
-				glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-				glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-				glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			}
-			glEnd();
-		}
-		else
-		{
-		if(myModel->numtextures)
-		{
-		int prevTex = 0;
-		if(myModel->blendmode>1){TranslucentBodies.push_back(Body); glPopMatrix(); continue;}
-		
-		glEnable(GL_TEXTURE_2D);
-		
-		if(myModel->blendmode==1)
-		{
-			glAlphaFunc(GL_GREATER, 0.5);
-			glEnable(GL_ALPHA_TEST);
-		}
-		else
-		{
-			glDisable(GL_ALPHA_TEST);
-		}
-		glFrontFace(GL_CW);
-		glEnable(GL_CULL_FACE);
-		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
-		for(int I=0;I<myModel->numtris;I++)
-		{
-			triangle T = myModel->mesh[I];
-			textriangle tT = myModel->texmap[I];
-			// render translucent stuff last, and in order.
-			
-			if(tT.texid!=prevTex)
-			{
-										//Errc = glGetError();if(Errc){printf("<7=%s>\n",gluErrorString(Errc));}
-				//glEnd();//invalid operation here?
-										//Errc = glGetError();if(Errc){printf("<7.5=%s>\n",gluErrorString(Errc));}
-				glBindTexture( GL_TEXTURE_2D, myModel->textures[tT.texid].t );
-										//Errc = glGetError();if(Errc){printf("<8=%s>\n",gluErrorString(Errc));}
-				//glBegin(GL_TRIANGLES);
-				//printf("|ts");
-				prevTex = tT.texid;
-										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
-				
-			}
-			glBegin(GL_TRIANGLES);
-			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			glEnd();
-		}
-		
-						//Errc = glGetError();if(Errc){printf("<9.5=%s>\n",gluErrorString(Errc));}
-		glEnd();
-						//Errc = glGetError();if(Errc){printf("<10=%s>\n",gluErrorString(Errc));}
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_CULL_FACE);
-						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
-		glDisable(GL_ALPHA_TEST);
-		}
-		else
-		{
-		glFrontFace(GL_CW);
-		glEnable(GL_CULL_FACE);
-		glBegin(GL_TRIANGLES);
-		glColor3ub(Body->color.x,Body->color.y,Body->color.z);
-		for(int I=0;I<myModel->numtris;I++)
-		{
-			triangle T = myModel->mesh[I];
-			/*
-			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			*//*
-			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			
-		}
-		glEnd();
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_ALPHA_TEST);
-		}
-		}
-	}
-	glPopMatrix();
-	}*/
-	//sort(TranslucentBodies.begin(), TranslucentBodies.end(), BodyDistanceComparator);
-	//GL_DISABLE(GL_DEPTH_BUFFER_WRITE);
-	//glDepthFunc(GL_ALWAYS);
-	/*
-	for(int i = 0;i<TranslucentBodies.size();i++)
-	{
-		glPushMatrix();
-		physBody *Body = TranslucentBodies[i];
-		//while(!Body){i++; Body = AllPhysBodies[i];}
-		glTranslatef(Body->pos.x,Body->pos.y,Body->pos.z);
-		glRotatef(Body->orient.getAngle(),Body->orient.getX(),Body->orient.getY(),Body->orient.getZ());
-		glScalef(Body->scale,Body->scale,Body->scale);
-		myModel = Body->mdl;
 	
-		if(myModel->numtextures)
-		{
-		int prevTex = 0;
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		/*
-		if(myModel->blendmode==2)
-		{
-			glEnable(GL_BLEND);
-		}
-		else
-		{
-			printf("Asking for shader\n");
-			glPopMatrix(); continue; // don't have a shader yet
-		}*//*
-		vec3i col = Body->color;
-		glColor3ub(col.x,col.y,col.z);
-		
-		glFrontFace(GL_CW);
-		glEnable(GL_CULL_FACE);
-		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
-		for(int I=0;I<myModel->numtris;I++)
-		{
-			triangle T = myModel->mesh[I];
-			textriangle tT = myModel->texmap[I];
-			// render translucent stuff last, and in order.
-			
-			if((tT.flags&R_DARKEN)&(tT.flags&R_LIGHTEN))
-			{
-				glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-			}
-			else
-			{
-				if(tT.flags&R_DARKEN)
-				{
-					glBlendFunc(GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA);
-				}
-				if(tT.flags&R_LIGHTEN)
-				{
-					glBlendFunc(GL_DST_COLOR,GL_ONE);
-				}
-				if(!((tT.flags&R_DARKEN)|(tT.flags&R_LIGHTEN)))
-				{
-					printf("no light nor darkness for triangle %d!\n", I);
-					glDisable(GL_BLEND);
-				}
-			}
-			
-			//glBlendFunc(GL_DST_COLOR,GL_ONE);
-			if(tT.texid!=prevTex)
-			{
-										//Errc = glGetError();if(Errc){printf("<7=%s>\n",gluErrorString(Errc));}
-				//glEnd();//invalid operation here?
-										//Errc = glGetError();if(Errc){printf("<7.5=%s>\n",gluErrorString(Errc));}
-				glBindTexture( GL_TEXTURE_2D, myModel->textures[tT.texid].t );
-										//Errc = glGetError();if(Errc){printf("<8=%s>\n",gluErrorString(Errc));}
-				//glBegin(GL_TRIANGLES);
-				//printf("|ts");
-				prevTex = tT.texid;
-										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
-				
-			}
-			glBegin(GL_TRIANGLES);
-			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			glEnd();
-		}
-		
-						//Errc = glGetError();if(Errc){printf("<9.5=%s>\n",gluErrorString(Errc));}
-		glEnd();
-						//Errc = glGetError();if(Errc){printf("<10=%s>\n",gluErrorString(Errc));}
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
-		}
-		else
-		{
-		glFrontFace(GL_CW);
-		glEnable(GL_CULL_FACE);
-		glBegin(GL_TRIANGLES);
-		glColor3ub(Body->color.x,Body->color.y,Body->color.z);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE_MINUS_CONSTANT_ALPHA,GL_CONSTANT_ALPHA);
-		//glBlendColor(0,0,0,Body->alpha);
-		//bluh, fuck alpha, I need to load extensions or something
-		//glSet(GL_BLEND_COLOR)
-		//glBlendColor(0,0,0,Body->alpha);
-		for(int I=0;I<myModel->numtris;I++)
-		{
-			triangle T = myModel->mesh[I];
-			/*
-			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			*//*
-			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
-			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
-			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
-			
-		}
-		glEnd();
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_ALPHA_TEST);
-		}
-	glPopMatrix();
-	}*/
-	//TranslucentBodies.clear();
-	//glEnable(GL_DEPTH_BUFFER_WRITE);
-	//glDepthFunc(GL_LESS);
-		//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
-    glPopMatrix();
+    //glPopMatrix();
 }
 
 /*
@@ -1077,7 +847,8 @@ void RenderTick(HDC hDC)
 {
     glClearColor(bground.r/255.0f,bground.g/255.0f,bground.b/255.0f,bground.a/255.0f);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+    
+	glLoadIdentity();
 	hook.run("onRender");
     Render3D();
 

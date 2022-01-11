@@ -32,8 +32,14 @@ class cameraKind{
 	double getFrustumRight();
 	double getFrustumTop();
 	void setFrustum();
+	//converts  between continous screen space (right, down, into-screen) and world (x, y, z) coordinates
 	vec worldtoscreen(vec worldpos);
 	vec screentoworld(vec screenpos);
+	//converts between discrete pixel coordinates (x, y) and a normalized world-space (x, y, z) direction
+	vec screentoworld_simple(vec2i screenpos);
+	vec2i worldtoscreen_simple(vec worldpos);
+	//returns world direction vector corresponding to cursor
+	vec cursorDir();
 	frustum getFrustum();
 	void getNewFrustum();
 	void go2D();

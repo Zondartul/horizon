@@ -66,6 +66,7 @@ void PSchannel::publish(message newMsg)
 }
 void PSchannel::subscribe(string type, PSsubscriber *newSub)
 {
+	unsubscribe(type, newSub);
 	subscribers.push_back({type, newSub});
 	//printf("%s subscribed %s for type [%s]\n",toString(this),toString(newSub),type);
 	cout << toString(this) + " subscribed <" + toString(newSub) + "> for type [" + type + "]\n";
@@ -74,7 +75,7 @@ void PSchannel::unsubscribe(string type, PSsubscriber *oldSub)
 {
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
-		if(((I->type == type) || (type == "")) && (I->subscriber = oldSub))
+		if(((I->type == type) || (type == "")) && (I->subscriber == oldSub))
 		{
 			I = subscribers.erase(I);
 			//printf("%s unsubscribed %s from type [%s]\n",toString(this),toString(oldSub),type);

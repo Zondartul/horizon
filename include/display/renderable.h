@@ -57,6 +57,8 @@ class renderable{
 	virtual void render();
 	//same as above, but assumes a temporary value for renderflags.
 	void render2(uint32_t flags);
+	//sets the renderflags for this object, optionally also applying them to all children
+	virtual void setrenderflags(uint32_t flags, bool recursive);
 };
 
 //a renderable 0D point embedded in 3D space. Drawn with a specific thickness in pixels.
@@ -92,6 +94,7 @@ class line: public renderable{
 	//returns 0 on failure (the line does not intersect the edges of the screen)
 	bool find_frustum_intersections(vec &endA, vec &endB);
 	void render();
+	void setrenderflags(uint32_t flags, bool recursive);
 };
 
 //a renderable 2D triangle embedded in 3D space.
@@ -108,6 +111,7 @@ class rtriangle:public renderable{
 	//defines the triangle from an index-triangle and the point-vector to which it refers.
 	rtriangle(idtriangle tri, vector<vec> *points, int time);
 	void render();
+	void setrenderflags(uint32_t flags, bool recursive);
 };
 
 //a renderable 2D sprite text embedded in 3D space.
@@ -130,9 +134,14 @@ class floatingtext: public renderable{
 //default: RENDER_FACES | COLOR_BLEND | LIGHT_NONE | TRANSPARENCY_NONE
 class rmodel:public renderable{
 	public:
+	//a cache of rendertriangles
+	vector<rtriangle> triangles;
 	//pointer to model data
 	model *M;
 	rmodel(model *m);
 	void render();
+	//re-create the rendertriangles from the model
+	void regenerate();
+	void setrenderflags(uint32_t flags, bool recursive);
 };
 #endif
