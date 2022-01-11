@@ -1,0 +1,19 @@
+# this file lists compilation dependencies for object file
+# ../build/util/debug.o:
+../build/util/debug.o: \
+../source/util/debug.cpp \
+../include/util/debug.h \
+../include/util/globals.h \
+../include/util/templates/ptrSniper.h \
+../include/util/templates/sgn.h \
+../include/util/templates/toString.h \
+../include/util/templates/bits.h \
+
+../source/util/debug.cpp:
+../include/util/debug.h:
+../include/util/globals.h:
+../include/util/templates/ptrSniper.h:
+../include/util/templates/sgn.h:
+../include/util/templates/toString.h:
+../include/util/templates/bits.h:
+
