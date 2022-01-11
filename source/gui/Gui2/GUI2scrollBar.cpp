@@ -164,5 +164,5 @@ void GUI2scrollBar::render(void *arg)
 	//int Yf = pos.y+size.y;
 	//vec3i col = {0,0,0};
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

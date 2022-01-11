@@ -33,7 +33,7 @@ void GUI2slider::render(void *arg)
 	paintCircleOutline(pos.x+xdot,pos.y+size.y/2,size.y/2);
 	setColor(color_text);
 	printw(pos.x+size.x,pos.y, size.x, size.y,"%f",vals[1]);
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 void GUI2slider::onClick(int mb)
 {

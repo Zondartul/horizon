@@ -64,6 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     EnableOpenGL(hwnd, &hDC, &hRC);
 
     //SetWindowText(hwnd, "hi");
+	::hwnd = hwnd; //save the window handle for the rest of the program
     OnProgramStart();
     /* program main loop */
     while (!bQuit)

@@ -50,7 +50,7 @@ void GUI2dropdownlist::render(void* arg)
 	setColor(color_text);
 	printw(pos.x-2,pos.y-2, size.x, size.y,text);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 
 void GUI2dropdownlist::invalidate(vec2i newPos, vec2i newSize)

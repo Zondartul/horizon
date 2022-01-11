@@ -12,7 +12,8 @@
 #include "util/globals.h"
 #include "util/messenger.h"
 #include "display/paint.h"
-#include "main/control.h" //bad
+#include "main/control.h" //"bad"?
+#include "input/inputMessage.h"
 
 GUI3base2::GUI3base2()
 {
@@ -281,7 +282,7 @@ void G3StockEventHandler::operator()(GUI3base2* me, message *msg)
 	|| msg->type == "lmb_up"
 	|| msg->type == "rmb_down"
 	|| msg->type == "rmb_up"){if(owner->mousebuttons) FUNCALL(owner, mousebuttons, input.getMousePos(), msg);}
-	if(msg->type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, msg->get<vec2i>(0));}
+	if(msg->type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, ((message_mouse_move*)msg)->newPos);}
 	if(msg->type == "key_down"
 	|| msg->type == "key_up"){if(owner->keyboardevent) FUNCALL(owner, keyboardevent, msg);}
 }
@@ -290,14 +291,14 @@ void G3StockEventHandler::receiveMessage(message *msg)
 	(*this)(owner, msg);
 	//printf("G3SEH received...\n");
 }
-void G3StockEventHandler::subscribe(GUI3base2* owner, MessageChannel *chan, string type)
+void G3StockEventHandler::subscribe(GUI3base2* owner, messageChannel *chan, string type)
 {
 	this->owner = owner;
 	subscribeToMessageChannel(chan, type);
 	//chan->subscribe(type, this);
 	//printf("G3SEH subscribed...\n");
 }
-void G3StockEventHandler::unsubscribe(MessageChannel *chan, string type)
+void G3StockEventHandler::unsubscribe(messageChannel *chan, string type)
 {
 	//chan->unsubscribe(type, this);
 	unsubscribeFromMessageChannel(chan, type);

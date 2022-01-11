@@ -5,23 +5,24 @@
 //but GUI5base can not have instances itself
 
 class GUI5base: public messageReceiver{
+	protected:
+	bool debugmode;			//will display debug information instead of normal render function
+	bool mouseover;			//is the mouse cursor currently hovering over the element?
+	bool hidden;			//hidden elements are not drawn and do not receive messages
+	bool isClient;			//client elements are follow client logic
+	bool deletePending;		//delete this object when once it's safe to do so
+	bool movable;			//element can be moved by dragging it
+	bool moving;			//element is being moved right now
+	vec2i moveOffset;		//used for moving
 	public:
 	rect area; 				//position and size of this element.
 							//relative to: parent (or world if none)
 	rect client_area;		//determines allowed positions for clients.
 							//relative to: this->area.
 							//can be smaller or larger than this->area.
-	rect client_draw_area;	//clients will only be drawn in the section of the
-							//screen designated by this rectangle.
-							//relative to: this->area.
-	
-	bool debugmode;			//will display debug information instead of normal render function
-	bool mouseover;			//is the mouse cursor currently hovering over the element?
-	
 	GUI5base *parent;
 	vector<GUI5base*> children;
-	MessageChannel channel;
-	bool isClient;
+	messageChannel channel;
 	//children are divided into two groups: clients, and non-clients (staff)
 	//non-clients:
 	//	positioned relative to	this->area
@@ -33,21 +34,28 @@ class GUI5base: public messageReceiver{
 	
 	GUI5base();							//constructor
 	//mutators
-	GUI5base &setPos(vec2i pos);		//change position (with side-effects)
-	GUI5base &setSize(vec2i size);		//change size	(with side-effects)
-	GUI5base &addElement(GUI5base &A);	//add a child element
+	GUI5base &setPos(vec2i pos);					//change position (with side-effects)
+	GUI5base &setSize(vec2i size);					//change size	(with side-effects)
+	GUI5base &addElement(GUI5base &A);				//add a child element
+	GUI5base &removeElement(GUI5base &A);			//remove a child element 
+	GUI5base &removeAndDeleteElement(GUI5base &A);
 	GUI5base &setDebug(bool debug);
 	GUI5base &setClient(bool client);
+	GUI5base &setHidden(bool hidden);
+	GUI5base &setMovable(bool movable);
+	//getters
+	rect getVisibleArea();							//calculate the part of the element that is drawn on screen
 	//signals
-	virtual void think();						//perform any logic not related to rendering
-	virtual void renderlogic();					//perform render/don't render logic and children render logic
-	virtual void render();						//draw this element
-	virtual void debugrender();					//this will be used instead in debugmode
-	virtual void receiveMessage(message *msg);	//react to message, e.g. mouse click
-	virtual void invalidate();					//start invalidation process (figure out who to start with)
-	virtual void layoutlogic();					//do this/children layout logic
-	virtual void layout();						//perform layout of this element only
-	virtual void close();						//delete element
+	virtual void think();							//perform any logic not related to rendering
+	virtual void renderlogic();						//perform render/don't render logic and children render logic
+	virtual void render();							//draw this element
+	virtual void debugrender();						//this will be used instead in debugmode
+	virtual void receiveMessage(message *msg);		//react to message, e.g. mouse click
+	virtual void receiveMessageExtra(message *msg);	//additional behavior when receiving message
+	virtual void invalidate();						//start invalidation process (figure out who to start with)
+	virtual void layoutlogic();						//do this/children layout logic
+	virtual void layout();							//perform layout of this element only
+	virtual void close();							//delete element
 };
 
 // various old herp derps:

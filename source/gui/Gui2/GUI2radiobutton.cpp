@@ -28,5 +28,5 @@ void GUI2radiobutton::render(void* arg)
 	paintCircleOutline(pos.x+size.x/2,pos.y+size.y/2,size.x/2);
 	setColor(color_text);
 	if(checked){printw(pos.x+size.x/2-5,pos.y-4, size.x, size.y,"o");}
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

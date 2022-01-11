@@ -9,7 +9,6 @@ void windowBtnCloseFunc(void *arg){
 
 GUI5window::GUI5window(){
 	addElement((*(new GUI5button())).setText(" X").setFunc((funcptr)&GUI5base::close).setArg((void*)this).setSize({20,20}).setClient(false));
-	client_area.sety(20);
 }
 
 GUI5window &GUI5window::setTitle(string t){
@@ -18,10 +17,10 @@ GUI5window &GUI5window::setTitle(string t){
 }
 
 void GUI5window::layout(){
+	client_area.setStart({0,20});
+	client_area.setEnd(area.getSize());
 	GUI5base *btn = children[0];
 	btn->area.moveEnd({area.getw(),20});
-	
-	GUI5base::layout();
 }
 
 void GUI5window::render(){

@@ -8,13 +8,37 @@
 // 3) the sender creates a message
 // 4) the sender calls channel.publish(message *)
 // 5) if the message is of the type for which receiver subscribed, receiver's receiveMessage(message *) is called
-// 6) the sender erases the message
+// 6) the receiver may cast the message to a derived message type to get more information
+// 7) if the receiver sets the message's "handled" flag, the message will not be delivered to other subscribers.
+// 8) messages are cleaned up automatically (RAII)
 
 //message filtering:
 //subscribing to type "" (empty string) will let you receive all messages.
 //unsubscribing from type "" (empty string) will unsubscribe you from all types of messages.
 
-struct message
+//messages may be sub-typed to send additional information.
+class message{
+	public:
+	string type;				//receivers filter messages by type
+	bool handled;				//"handled" usually means the message will stop going around.
+	message();
+	message(string type);
+	virtual message *copy();	//constructs a copy of message in the heap, preserving derived data
+};
+
+//inherit from this to use the copy function.
+// https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+template<class Derived>
+class message_CRTP:public message{
+	public:
+	virtual message *copy(){
+		return new Derived(static_cast<Derived const&>(*this));
+	}
+};
+// Nice macro which ensures correct CRTP usage (according to wiki)
+#define Derive_message_CRTP(Type) class Type: public message_CRTP<Type>
+
+/* struct message
 {
 	//type of message. The channel filters messages by type.
 	string type;
@@ -39,8 +63,8 @@ struct message
 	template <typename T> void erase(int I); 
 	//template <typename T> void push(T val);
 	//template <typename T> T pop();
-};
-
+}; */
+/* 
 template <typename T> void message::set(int I, T val){
 	//if I is outside of bounds, error
 	if((I < 0) || (I > data.size())){assert(!"message index out of bounds");}
@@ -70,14 +94,14 @@ template <typename T> void message::erase(int I){
 	//erase the element
 	delete ((T*)data[I]);
 	data[I] = NULL;
-}
-struct MessageChannel;
+} */
+struct messageChannel;
 class messageReceiver //interface for accepting messages
 {
 	public:
 	virtual void receiveMessage(message *msg);
-	void subscribeToMessageChannel(MessageChannel *channel, string type);
-	void unsubscribeFromMessageChannel(MessageChannel *channel, string type);
+	void subscribeToMessageChannel(messageChannel *channel, string type);
+	void unsubscribeFromMessageChannel(messageChannel *channel, string type);
 };
 
 struct messageReceiverPair 
@@ -86,10 +110,13 @@ struct messageReceiverPair
 	string type;
 };
 
-struct MessageChannel // no message caching yet.
+class messageChannel // no message caching yet.
 {
+	public:
 	list<messageReceiverPair> subscribers;
 	list<messageReceiverPair>::iterator I,E;
+	bool stopWhenHandled;		//if a message has been handled, should we keep sending it?
+	messageChannel();
 	void publish(message *msg);
 	void addSubscriber(messageReceiver *newSub, string type);
 	void removeSubscriber(messageReceiver *oldSub, string type);

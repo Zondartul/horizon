@@ -60,5 +60,5 @@ void GUI2colorbox::render(void *arg)
 		setColor(color_border);
 		paintRectOutline(pos.x+cursor.x-2,pos.y+cursor.y-2,pos.x+cursor.x+2,pos.y+cursor.y+2);
 	}
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

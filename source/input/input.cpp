@@ -2,7 +2,7 @@
 #include "util/messenger.h"
 #include "input/codetostring.h"
 #include "windowsx.h" //this one aint mine. wtf?
-
+#include "input/inputMessage.h"
 
 inputKind::inputKind(){
 	prevMousePos = getMousePos();
@@ -37,7 +37,10 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 	//char newmessage[100];
 	//TranslateWMessage(umsg, newmessage);
 	//cout << message << " ["<<wParam<<"]["<<lParam<<"]["<<umsg<<"]\n";
-	message msg;
+	message_key msg_key;
+	message_mouse msg_mouse;
+	message_mouse_move msg_mouse_move;
+	message_mouse_wheel msg_mouse_wheel;
 	switch(umsg)
 	{
 		case(WM_KEYDOWN):
@@ -45,88 +48,69 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 		case(WM_KEYUP):
 		case(WM_SYSKEYUP):
 		{
-			//cout << VKtoString(wParam)<<" ";
 			KeyInfo k;
 			k.lParam = lParam;
-			/*
-			cout << "\n";
-			cout << "nRepeatCount " << (int)k.Bits.nRepeatCount <<"\n";
-			cout << "nScanCode " << (int)k.Bits.nScanCode << "\n";
-			cout << "nExtended " << (int)k.Bits.nExtended << "\n";
-			cout << "nReserved " << (int)k.Bits.nReserved << "\n";
-			cout << "nPrevious " << (int)k.Bits.nPrevious << "\n";
-			cout << "nTransition " << (int)k.Bits.nTransition << "\n";
-			*/
 			string translatedKey = VKtoString(wParam);
 			if(k.Bits.nTransition)
 			{
-				msg.type = "key_up";
+				msg_key.type = "key_up";
 				keybuffer[translatedKey] = false;
 			}
 			else
 			if(k.Bits.nPrevious)
 			{
-				msg.type = "key_still_down";
+				msg_key.type = "key_still_down";
 			}
 			else
 			{
-				msg.type = "key_down";
+				msg_key.type = "key_down";
 				keybuffer[translatedKey] = true;
 			}
 			
-			msg.name = translatedKey;
-			channel.publish(&msg);
+			msg_key.key = translatedKey;
+			channel.publish(&msg_key);
 			//printf("[publish: %s]\n", VKtoString(wParam).c_str());
 		}
 		break;
 		
 		case(WM_LBUTTONDOWN):{
-			msg.type = "lmb_down"; 
+			msg_mouse.type = "lmb_down"; 
 			mouse1down = true;
-			msg.set(0, (vec2i)getMousePos());
-			channel.publish(&msg);
-			msg.erase<vec2i>(0);
+			msg_mouse.newPos = getMousePos();
+			channel.publish(&msg_mouse);
 			
 		} break;
 		case(WM_LBUTTONUP):{
-			msg.type = "lmb_up"; 
+			msg_mouse.type = "lmb_up"; 
 			mouse1down = false;
-			msg.set(0, (vec2i)getMousePos());
-			channel.publish(&msg);
-			msg.erase<vec2i>(0);
+			msg_mouse.newPos = getMousePos();
+			channel.publish(&msg_mouse);
 		} break;
 		case(WM_RBUTTONDOWN):{
-			msg.type = "rmb_down"; 
+			msg_mouse.type = "rmb_down"; 
 			mouse2down = true;
-			msg.set(0, (vec2i)getMousePos());
-			channel.publish(&msg);
-			msg.erase<vec2i>(0);
+			msg_mouse.newPos = getMousePos();
+			channel.publish(&msg_mouse);
 		} break;
 		case(WM_RBUTTONUP):{
-			msg.type = "rmb_up"; 
+			msg_mouse.type = "rmb_up"; 
 			mouse2down = false;
-			msg.set(0, (vec2i)getMousePos());
-			channel.publish(&msg);
-			msg.erase<vec2i>(0);
+			msg_mouse.newPos = getMousePos();
+			channel.publish(&msg_mouse);
 		} break;
 		case(WM_MOUSEMOVE):
 		{
-			msg.type = "mouse_move";
-			msg.set(0, (vec2i)getMousePos());
-			msg.set(1, (vec2i)(getMousePos()-prevMousePos));
-			//msg.data.v2i = (getMousePos()-prevMousePos);
+			msg_mouse_move.type = "mouse_move";
+			msg_mouse_move.newPos = getMousePos();
+			msg_mouse_move.deltaPos = getMousePos()-prevMousePos;
 			prevMousePos = getMousePos();
-			channel.publish(&msg);
-			msg.erase<vec2i>(0);
-			msg.erase<vec2i>(1);
+			channel.publish(&msg_mouse_move);
 		} break;
 		case(WM_MOUSEWHEEL):
 		{
-			msg.type = "mouse_wheel"; 
-			//msg.data.i = (GET_WHEEL_DELTA_WPARAM(wParam));
-			msg.set(0, (int)(GET_WHEEL_DELTA_WPARAM(wParam)));
-			channel.publish(&msg);
-			msg.erase<int>(0);
+			msg_mouse_wheel.type = "mouse_wheel";
+			msg_mouse_wheel.deltaWheel = (int)(GET_WHEEL_DELTA_WPARAM(wParam));
+			channel.publish(&msg_mouse_wheel);
 		} break;
 	}
 	//if(msg.type != ""){channel.publish(&msg);}
@@ -138,4 +122,4 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 }
 
 inputKind input;
-//VIRTUAL KEY TABLE
+//VIRTUAL KEY TABLE... exists somewhere.

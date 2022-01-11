@@ -6,5 +6,6 @@
 #include "gui/Gui5/GUI5image.h"
 #include "gui/Gui5/GUI5window.h"
 #include "gui/Gui5/GUI5tabgroup.h"
+#include "gui/Gui5/GUI5scrollbar.h"
 
 #endif

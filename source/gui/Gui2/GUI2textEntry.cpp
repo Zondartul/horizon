@@ -31,7 +31,7 @@ void GUI2textEntry::render(void* arg)
 	if(sizeToContents){size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;}
 	else{printw(pos.x+2,pos.y, size.x-BRDB, size.y-BRDB,"%s", text.c_str())+4;}
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 void GUI2textEntry::onKeyboard(string kb)
 {

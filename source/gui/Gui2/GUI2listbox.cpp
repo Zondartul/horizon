@@ -69,7 +69,7 @@ void GUI2listbox::render(void* arg)
 	setColor(color_border);
 	paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 
 void GUI2listbox::invalidate(vec2i newPos, vec2i newSize)

@@ -45,5 +45,5 @@ void GUI2valuedisplay::render(void *arg)
 	}else{sprintf(str,"val:[%p]",val);}
 	printw(pos.x,pos.y,pos.x+size.x,pos.y+size.y,str);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

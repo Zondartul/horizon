@@ -23,7 +23,7 @@ class inputKind
 {
 	public:
 	HWND hwnd;						//handle of the current window (for getting mouse pos and such)
-	MessageChannel channel;			//channel where all events will be posted
+	messageChannel channel;			//channel where all events will be posted
 	vec2i prevMousePos;
 	map<string, bool> keybuffer;	//a keyboard buffer - shows which keys are still down
 	inputKind();					//constructor

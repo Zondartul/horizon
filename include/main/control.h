@@ -1,6 +1,7 @@
 #ifndef CONTROL_GUARD
 #define CONTROL_GUARD
 #include <windows.h>
+#include "util/globals.h"
 void OnProgramStart();
 void paintRect(int x1, int y1, int x2, int y2);
 void Render2D();
@@ -14,6 +15,7 @@ void ProgramTick(HWND hwnd, HDC hDC);
 void ProcessMouseclick(int mb);
 void ProcessKeyboard(int kb);
 void CallDestructor();
+rect getScreenRect();
 #include "../util/globals.h"
 void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode);
 #include "../gui/Gui2.h" //this should prob. go away.
@@ -39,4 +41,5 @@ extern bool mouseCapture;
 extern bool camRotOn;
 #include "../display/renderable.h"
 extern vector<renderable*> scene;
+extern HWND hwnd;
 #endif

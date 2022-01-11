@@ -17,5 +17,5 @@ void GUI2label::render(void* arg)
 	printwrich(pos.x,pos.y, size.x, size.y, &color_text.r, text);
 	//printw(pos.x,pos.y,size.x,size.y,"print error");
 	//size.x = printw;
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

@@ -69,5 +69,5 @@ void GUI2scrollslidey::render(void *arg)
 	setColor(color_border);
 	paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

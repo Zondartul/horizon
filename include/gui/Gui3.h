@@ -73,8 +73,8 @@ class G3StockEventHandler: public functor_msg_mR
 	GUI3base2* owner;
 	void operator()(GUI3base2* me, message *msg);
 	void receiveMessage(message *msg);
-	void subscribe(GUI3base2* owner, MessageChannel *chan, string type);
-	void unsubscribe(MessageChannel *chan, string type);
+	void subscribe(GUI3base2* owner, messageChannel *chan, string type);
+	void unsubscribe(messageChannel *chan, string type);
 };
 
 class G3StockMouseMove_drag: public functor_v2i

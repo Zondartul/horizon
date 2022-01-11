@@ -12,7 +12,7 @@ void GUI2horizontalList::render(void *arg){
 	resizeCheck();
 	dragCheck();
 	scissorCheck(arg);
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 
 void GUI2horizontalList::invalidate(vec2i newPos, vec2i newSize){

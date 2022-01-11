@@ -16,6 +16,7 @@
 #include "resource/fonts.h"
 #include "util/debug.h"
 #include "input/input.h"
+#include "input/inputMessage.h"
 //inputKind input;
 //PSchannel GUI_PS;
 //MessageChannel GUI_MC;
@@ -60,7 +61,7 @@ bool renderWireframe;
 //int EntLookAt;
 bool mouseCapture;
 bool camRotOn;
-
+HWND hwnd;
 
 //#include "physics.h"
 //#include "console.h"
@@ -310,8 +311,8 @@ void OpenGUI4(){
 }
 
 void openGUI5(){
-	GUI5 = new GUI5base();
-	GUI5->setPos({200,200}).setSize({500,500}).setDebug(true);
+	GUI5 = &((new GUI5window())->setTitle("GUI5"));
+	GUI5->setPos({200,200}).setSize({500,500}).setDebug(false);
 	GUI5->subscribeToMessageChannel(&input.channel,"");
 	GUI5tabgroup *tab = new GUI5tabgroup();
 	tab->setTitle(0,"text").addElement((*(new GUI5label)).setText("hello").setPos({50,50}).setDebug(true));
@@ -382,10 +383,10 @@ bool ParseKey(int kb)
 class BinderKind: public messageReceiver{
 	void receiveMessage(message *msg){
 		if(msg->type == "key_down"){
-			ParseKey(msg->name[0]);
+			ParseKey(((message_key*)msg)->key[0]);
 		}
 		if(msg->type == "key_up"){
-			ParseKey(-msg->name[0]);
+			ParseKey(-((message_key*)msg)->key[0]);
 		}
 	}
 } Binder;
@@ -468,6 +469,7 @@ void OnProgramStart()
 	
 	setFont(Calibri18);
 	debug("fonts done\n");
+	paintInit();
 	SomeVec1 = {0,0,0};
 	SomeVec2 = {2,5,5};
 	//bindKey('t',&Test1,NULL,1);
@@ -916,6 +918,14 @@ void ThinkTick()
 	}*/
 }
 
+rect getScreenRect(){
+	RECT r;
+	GetClientRect(hwnd, &r);
+	rect R;
+	R.setStart({0,0});
+	R.setEnd({r.right-r.left, r.bottom-r.top});
+	return R;
+}
 void ProgramTick(HWND hwnd, HDC hDC)
 {
 	input.hwnd = hwnd;

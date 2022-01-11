@@ -69,5 +69,5 @@ void GUI2spinner::render(void* arg)
 	setColor(color_text);
 	printw(pos.x+2,pos.y,-1,-1,"%.*f", (int)vals[4], (double)vals[1]);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

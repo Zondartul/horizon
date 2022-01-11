@@ -2,6 +2,7 @@
 #include "main/control.h"
 #include "display/paint.h"
 #include "resource/fonts.h"
+#include "input/inputMessage.h"
 GUI2base::GUI2base(){
 		pos = size = {0,0};
 		crect = {0,0,0,0};
@@ -111,21 +112,21 @@ void GUI2base::onKeyboard(string kb)
 }
 void GUI2base::receiveMessage(message *msg){
 	if(msg->type == "key_down" || msg->type == "key_still_down"){
-		if(focus != NULL){msg->suspended = true;}
-		propagateKeyboard(msg->name);
+		if(focus != NULL){msg->handled = true;}
+		propagateKeyboard(((message_key*)msg)->key);
 		return;
 	}
 	int mb = 0;
 	if(msg->type == "lmb_down"){
 		mb = 1;
 		if(propagateClick(GUI,(void*)(&mb),0)){
-			msg->suspended = true;
+			msg->handled = true;
 		}
 	}
 	if(msg->type == "lmb_up"){
 		mb = 0;
 		if(propagateClick(GUI,(void*)(&mb),0)){
-			msg->suspended = true;
+			msg->handled = true;
 		}
 	}
 }
@@ -193,7 +194,7 @@ void GUI2base::scissorCheck(void* arg)
 	if(scissor)
 	{
 		vec4i scissor = *((vec4i*)arg);
-		if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
+		//if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
 		glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
 	}
 }
@@ -212,7 +213,7 @@ void GUI2base::render(void* arg)
 	setColor(color_text);
 	printw(pos.x, pos.y+size.y/2, size.x, size.y, "clicks: %d", counter);
 	
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }
 
 bool GUI2base::foreach(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec) 

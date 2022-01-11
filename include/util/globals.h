@@ -110,6 +110,10 @@ class rect{
 	vec2i getStart();
 	vec2i getEnd();
 	vec2i getSize();
+	vec2i getTopLeft();
+	vec2i getTopRight();
+	vec2i getBottomLeft();
+	vec2i getBottomRight();
 	int getx();
 	int gety();
 	int getw();
@@ -135,6 +139,7 @@ class rect{
 	vec2i toWorld(vec2i A);
 	vec2i fromParent(vec2i A);
 	vec2i fromWorld(vec2i A);
+	string toString();
 };
 bool operator == (rect A, rect B);
 

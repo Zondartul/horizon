@@ -212,6 +212,10 @@ bool operator == (rect A, rect B){
 vec2i rect::getStart(){return start;}
 vec2i rect::getEnd(){return end;}
 vec2i rect::getSize(){return size;}
+vec2i rect::getTopLeft(){return (vec2i){start.x, start.y};}
+vec2i rect::getTopRight(){return (vec2i){end.x, start.y};}
+vec2i rect::getBottomLeft(){return (vec2i){start.x, end.y};}
+vec2i rect::getBottomRight(){return (vec2i){end.x, end.y};}
 int rect::getx(){return start.x;}
 int rect::gety(){return start.y;}
 int rect::getw(){return size.x;}
@@ -219,6 +223,7 @@ int rect::geth(){return size.y;}
 int rect::getx2(){return end.x;}
 int rect::gety2(){return end.y;}
 rect *rect::getParent(){return parent;}
+string rect::toString(){return string()+size.x+"x"+size.y+"/("+start.x+", "+start.y+")-("+end.x+", "+end.y+")";}
 
 vec3i::operator color3i()
 {

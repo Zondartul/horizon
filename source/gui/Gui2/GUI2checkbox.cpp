@@ -34,5 +34,5 @@ void GUI2checkbox::render(void* arg)
 	paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 	setColor(color_text);
 	if(checked){printw(pos.x+size.x/2-4,pos.y-4, -1, -1,"v");}
-	glDisable(GL_SCISSOR_TEST);
+	//glDisable(GL_SCISSOR_TEST);
 }

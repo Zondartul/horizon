@@ -10,44 +10,50 @@
 
 message::message()
 {
+	type = "";
 	handled = false;
 }
-message::message(string type, string name)
+message::message(string type)
 {
 	this->type = type;
-	this->name = name;
+	handled = false;
 }
-message::~message(){
+/* message::~message(){
 	for(int I = 0; I < data.size(); I++){
 		if(data[I]){assert(!"message content has not beeen erase()ed");}
 	}
+} */
+message *message::copy(){
+	return new message(*this);
 }
-
 void messageReceiver::receiveMessage(message *msg){}
-void messageReceiver::subscribeToMessageChannel(MessageChannel *channel, string type){
+void messageReceiver::subscribeToMessageChannel(messageChannel *channel, string type){
 	channel->addSubscriber(this, type);
 }
-void messageReceiver::unsubscribeFromMessageChannel(MessageChannel *channel, string type){
+void messageReceiver::unsubscribeFromMessageChannel(messageChannel *channel, string type){
 	channel->removeSubscriber(this, type);
 }
 
+messageChannel::messageChannel(){
+	stopWhenHandled = true;
+}
 
-void MessageChannel::publish(message *msg){
+void messageChannel::publish(message *msg){
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
 		if((msg->type == I->type) || (I->type == ""))
 		{
 			I->subscriber->receiveMessage(msg);
-			if(msg->handled){return;}
+			if(msg->handled && stopWhenHandled){return;}
 		}
 	}
 }
-void MessageChannel::addSubscriber(messageReceiver *newSub, string type){
+void messageChannel::addSubscriber(messageReceiver *newSub, string type){
 	removeSubscriber(newSub, type);
 	subscribers.push_back({newSub, type});
 	cout << toString(this) + " subscribed <" + toString(newSub) + "> for type [" + type + "]\n";
 }
-void MessageChannel::removeSubscriber(messageReceiver *oldSub, string type){
+void messageChannel::removeSubscriber(messageReceiver *oldSub, string type){
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
 		if(((I->type == type) || (type == "")) && (I->subscriber == oldSub))
@@ -59,5 +65,5 @@ void MessageChannel::removeSubscriber(messageReceiver *oldSub, string type){
 
 // debug func:
 void msgintercept(message msg){
-	cout << "msg.type = ["<<msg.type<<"], name = ["<<msg.name<<"]\n";
+	cout << "msg.type = ["<<msg.type<<"]\n";//", name = ["<<msg.name<<"]\n";
 }

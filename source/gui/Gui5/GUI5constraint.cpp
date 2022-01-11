@@ -24,6 +24,7 @@ void GUI5constraintSizeToContents::invalidate(){
 		maxy = max(maxy, child.area.gety2());
 	}
 	//2) set own size to the size of that bounding box
+	
 	self->area.setx2(maxx).sety2(maxy);
 }
 
