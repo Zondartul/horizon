@@ -37,6 +37,7 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
 
 color3i paintColor;
 byte paintAlpha;
+vec2i mouseP; // mid-man variable for extra GUI's
 void setColor(color3i color)
 {
 	paintColor = color;
@@ -67,8 +68,10 @@ class GUIbase
 	bool visible;
 	int resizingW;
 	int resizingH;
+	int border;
 	bool dragging;
-	vec2i *mousePtr;
+	bool pressed;
+	bool scissor;
 	vec2i startTouch; //place of mouse click
 	int counter; //mostly useless
 	
@@ -78,36 +81,63 @@ class GUIbase
 		crect = {0,0,0,0};
 		color_border = color_text = {0,0,0};
 		color_panel = {255,255,255};
+		border = 2;
 		strata = 0;
+		
 		children = new listNode;
 		children->thing = NULL;
 		children->next = NULL;
 		parent = NULL;
-		mouseOver = false;
-		kbFocus = false;
-		resizible = false;
-		movable = false;
-		visible = false;
-		mousePtr = NULL;
+		
+		resizible = true;
+		movable = true;
+		visible = true;
+		scissor = true;
+		
 		resizingW = 0;
 		resizingH = 0;
+		pressed = false;
 		dragging = false;
+		
+		mouseOver = false;
+		kbFocus = false;
+		
 		startTouch = {0,0};
 		counter = 0;
 	}
-	void onClick(int mb)
+	void setPos(int x, int y)
+	{
+		invalidate((vec2i){x,y},size);
+	}
+	void setSize(int x, int y)
+	{
+		invalidate(pos, (vec2i){x,y});
+	}
+	virtual void onClick(int mb)
 	{
 		if(mb>0)
 		{
-			startTouch = *mousePtr-pos; //has one?
-			if(mousePtr->x == pos.x){resizingW = 1;}
-			if(mousePtr->x == pos.x+size.x){resizingW = 2;}
-			if(mousePtr->y == pos.y){resizingH = 1;}
-			if(mousePtr->y == pos.y+size.y){resizingH = 2;}
-			if(!resizingW&&!resizingH){dragging = 1;}
+			startTouch = mouseP-pos; //has one?
+			pressed = true;
+			if(resizible)
+			{
+				int mx = mouseP.x;
+				int my = mouseP.y;
+				int px = pos.x;
+				int py = pos.y;
+				int psx = px + size.x;
+				int psy = py + size.y;
+				int b = border-1;
+				if(mx-px <= b){resizingW = 1;}
+				if(psx - mx <= b){resizingW = 2;}
+				if(my - py <= b){resizingH = 1;}
+				if(psy - my <= b){resizingH = 2;}
+			}
+			if(!resizingW&&!resizingH&&movable){dragging = 1;}
 		}
 		else //what if there was no first click?
 		{
+			pressed = false;
 			resizingW = 0; resizingH = 0; dragging = 0;
 		}
 		counter++;
@@ -116,47 +146,48 @@ class GUIbase
 	void invalidate(vec2i newPos, vec2i newSize)
 	{
 		//this one should also reposition children and stuff
-		vec2i sendPos = newPos-pos+newSize-size;
-		recalculateClientRect();
+		vec2i sendPos = newPos-pos;//+newSize-size; and guess what happens when x is parented to y of size {0,0}?
+		
 		
 		pos = newPos;
+		recalculateClientRect();
 		
 		size = newSize; //don't transmit size to chilren (use pack[2] if needed)
 		foreach(this, &wrapInvalidate, (void*)(&sendPos), 0);
 	}
 	virtual void recalculateClientRect()
 	{
-		crect.x1 = pos.x;
-		crect.y1 = pos.y;
-		crect.x2 = pos.x+size.x;
-		crect.y2 = pos.y+size.y;
+		crect.x1 = pos.x+border;
+		crect.y1 = pos.y+border;
+		crect.x2 = pos.x+size.x-border;
+		crect.y2 = pos.y+size.y-border;
 	}
 	void resizeCheck()
 	{
-		if(!mousePtr){return;}
+		if(!pressed){return;}
 		vec2i newSize = size;
 		vec2i newPos = pos;
 		if(resizingW==2)
 		{
-			newSize.x = (*mousePtr).x-pos.x;
-			if(newSize.x<0){newSize.x=1;}
+			newSize.x = mouseP.x-pos.x;
+			newSize.x = max(newSize.x, (border*2));
 		}
 		if(resizingW==1)
 		{
-			int diff = (*mousePtr).x-pos.x;
-			if(diff>size.x){diff=size.x-1;}
+			int diff = (mouseP).x-pos.x;
+			diff = min(diff, size.x-(border*2));
 			newPos.x+=diff;
 			newSize.x-=diff;
 		}
 		if(resizingH==2)
 		{
-			newSize.y = (*mousePtr).y-pos.y;
-			if(newSize.y<0){newSize.y=1;}
+			newSize.y = (mouseP).y-pos.y;
+			newSize.y = max(newSize.y, (border*2));
 		}
 		if(resizingH==1)
 		{
-			int diff = (*mousePtr).y-pos.y;
-			if(diff>size.y){diff=size.y-1;}
+			int diff = (mouseP).y-pos.y;
+			diff = min(diff, size.y-(border*2));
 			newPos.y+=diff;
 			newSize.y-=diff;
 		}
@@ -164,19 +195,25 @@ class GUIbase
 	}
 	void dragCheck()
 	{
-		if(dragging&&mousePtr)
+		if(dragging)
 		{
-			invalidate(*mousePtr-startTouch, size);
+			invalidate(mouseP-startTouch, size);
+		}
+	}
+	void scissorCheck(void* arg)
+	{
+		if(scissor)
+		{
+			vec4i scissor = *((vec4i*)arg);
+			if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
+			glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
 		}
 	}
 	virtual void render(void* arg)
 	{
 		resizeCheck();
 		dragCheck();
-		
-		vec4i scissor = *((vec4i*)arg);
-		if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
-		glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
+		scissorCheck(arg);
 		
 		setColor(color_panel);
 		if(!mouseOver){setAlpha(128);}
@@ -186,6 +223,7 @@ class GUIbase
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
 		printw(pos.x, pos.y+size.y/2, "clicks: %d", counter);
+		
 		glDisable(GL_SCISSOR_TEST);
 	}
 	
@@ -194,7 +232,7 @@ class GUIbase
 		//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
 		// i couldn't think of saner way. sorry.
 		// rec is recursion counter for debugging.
-		bool stop;
+		bool stop = false;
 		listNode* Cur = obj->children;
 		while(Cur!=NULL)
 		{
@@ -208,8 +246,8 @@ class GUIbase
 	void setParent(GUIbase* obj)
 	{
 		parent = obj;
-		pos = pos+(vec2i){parent->crect.x1,parent->crect.y1};
-		mousePtr = parent->mousePtr;
+		parent->recalculateClientRect();
+		invalidate(pos+(vec2i){parent->crect.x1,parent->crect.y1}, size);
 		GUIbase::addChild(parent, this);
 	}
 	static void addChild(GUIbase* parent, GUIbase* obj)
@@ -245,20 +283,54 @@ class GUIbase
 		if(obj->visible)
 		{
 			//scary scissor support
+			/*
+			x1 = max(((vec2i*)arg)[1].x,obj->pos.x);
+			y1 = max(((vec2i*)arg)[1].y,obj->pos.y);
+			x2 = min(((vec2i*)arg)[2].x,obj->pos.x+obj->size.x);
+			y2 = min(((vec2i*)arg)[2].y,obj->pos.y+obj->size.y);
+			*/
 			x1 = max(((vec2i*)arg)[1].x,obj->pos.x);
 			y1 = max(((vec2i*)arg)[1].y,obj->pos.y);
 			x2 = min(((vec2i*)arg)[2].x,obj->pos.x+obj->size.x);
 			y2 = min(((vec2i*)arg)[2].y,obj->pos.y+obj->size.y);
 			
+			int x1c,x2c,y1c,y2c;
+			x1c = max(((vec2i*)arg)[1].x,obj->crect.x1);
+			y1c = max(((vec2i*)arg)[1].y,obj->crect.y1);
+			x2c = min(((vec2i*)arg)[2].x,obj->crect.x2);
+			y2c = min(((vec2i*)arg)[2].y,obj->crect.y2);
+			
 			vec2i newarg[3];
 			newarg[0] = ((vec2i*)arg)[0];
-			newarg[1] = (vec2i){x1,y1};
-			newarg[2] = (vec2i){x2,y2};
+			newarg[1] = (vec2i){x1c,y1c};
+			newarg[2] = (vec2i){x2c,y2c};
 			
 			if(foreach(obj, &propagateMouseOver, (void*)newarg, rec+1)){obj->mouseOver = false; return true;}
 			if((x1<=mouse.x)&&(x2>=mouse.x)&&(y1<=mouse.y)&&(y2>=mouse.y))
 			{
 				obj->mouseOver = true;
+				
+				//overly fancy crap of little use
+				if(obj->resizible)
+				{// normally you'd need abs() for these checks
+					int mx = mouse.x;
+					int my = mouse.y;
+					int px = obj->pos.x;
+					int py = obj->pos.y;
+					int psx = px + obj->size.x;
+					int psy = py + obj->size.y;
+					int b = obj->border-1;
+					bool n,s,e,w;
+					n=s=e=w=false;
+					if(mx-px <= b){w=true;}
+					if(psx - mx <= b){e=true;}
+					if(my - py <= b){n=true;}
+					if(psy - my <= b){s=true;}
+					if((n&&e)||(s&&w)){SetCursor(LoadCursor(NULL,IDC_SIZENESW));}
+					else if((n&&w)||(s&&e)){SetCursor(LoadCursor(NULL,IDC_SIZENWSE));}
+					else if(n||s){SetCursor(LoadCursor(NULL,IDC_SIZENS));}
+					else if(e||w){SetCursor(LoadCursor(NULL,IDC_SIZEWE));}
+				}
 				return true;//stop
 			}
 			else
@@ -301,26 +373,46 @@ class GUIbase
 	}
 };
 
+class GUIbutton: public GUIbase
+{
+	public:
+	void (*func)(void*);
+	void* arg;
+	GUIbutton():GUIbase()
+	{
+		func = NULL;
+		arg = NULL;
+	}
+	void onClick(int mb)
+	{
+		GUIbase::onClick(mb);
+		//if(func)(func(arg));
+	}
+};
+
 class GUIframe: public GUIbase
 {
 	public:
 	string title;
+	GUIbutton* CloseButton;
+	static void btnClose(void* arg)
+	{
+		delete ((GUIframe*)arg);
+	}
 	GUIframe():GUIbase()
 	{
 		title = "Title";
-	}
-	void invalidate(vec2i newPos, vec2i newSize)
-	{
-		
+		CloseButton = new GUIbutton();
+		CloseButton->func = &btnClose;
+		CloseButton->setSize(24,24);
+		CloseButton->arg = (void*)this;
+		CloseButton->setParent((GUIbase*)this);
 	}
 	void render(void* arg)
 	{
 		resizeCheck();
 		dragCheck();
-	
-		vec4i scissor = *((vec4i*)arg);
-		if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
-		glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
+		scissorCheck(arg);
 		
 		setColor(color_panel);
 		if(!mouseOver){setAlpha(128);}

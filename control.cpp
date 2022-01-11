@@ -35,6 +35,7 @@ void myButton(void *holder)
 	GUIM.axe(NULL);
 }
 */
+GUIframe* myFrame;
 void OnProgramStart()
 {
     theta = 1.0f;
@@ -63,17 +64,24 @@ void OnProgramStart()
 	bground.a = 255;
 	
 	GUI = new GUIbase;
-	GUI->pos = {32,32};
-	GUI->size={128,128};
-	GUI->mousePtr = &mousePos;
+	GUI->setPos(0,0);
+	GUI->setSize(128,128);
 	GUI->recalculateClientRect();
 	GUI->visible=true;
 	
-	GUIframe* myFrame = new GUIframe;
-	myFrame->pos = {64,64};
-	myFrame->size= {96,96};
+	myFrame = new GUIframe;
+	myFrame->setPos(0,0);
+	myFrame->setSize(96,96);
+	myFrame->title = "Frame 1";
 	myFrame->setParent(GUI);
-	myFrame->visible = true;
+	
+	GUIframe* myFrame2 = new GUIframe;
+	myFrame2->setPos(0,0);
+	myFrame2->setSize(96,96);
+	myFrame2->title = "Frame 2";
+	myFrame2->setParent((GUIbase*)myFrame);
+	
+	
 	/*
     GUIobj* myFrame = new GUIobj;
     myFrame->pos.x = 350;
@@ -124,6 +132,7 @@ void OnProgramStart()
 
 void RenderGUI()
 {
+	mouseP = mousePos;
 	static int twidth = 0;
 	glColor3f(0.2f,0.7f,0.7f);
 	paintRect(32,30,32+twidth,52);
@@ -131,9 +140,16 @@ void RenderGUI()
 	string version("Version ");
 	string vnumber = "53";
 	twidth = printw(32,32,version+vnumber);
+	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
-    GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
-	GUIbase::propagateRender(GUI,(void*)(&(GUI->crect)),0);
+    vec4i windowrect = {0,0,(int)width,(int)height};
+	
+	GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
+	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
+	
+	
+	printw(256,256,"crect.x = %d, y = %d, btn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
+	
 	//GUIM.render(NULL);
 	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
