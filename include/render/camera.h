@@ -49,6 +49,8 @@ struct camprojection{
 	vec3 pos;
 };
 
+struct collisioninfo;
+
 class cameraKind{ //sets up the view and projection matrix, nothing else
 public:
 	glm::mat4 mView;			//world to camera
@@ -56,7 +58,9 @@ public:
 	vec3 pos;
 	vec3 rot;
 	float fov;
-	float scale;
+	float scalePersp;
+	float scaleOrtho;
+	float scale2D;
 	bool mode3D;
 	bool perspective;
 	cameraKind();
@@ -72,12 +76,12 @@ public:
 	vec3 worldToScreen(vec3 worldpos, z_meaning zm = Z_IS_DISTANCE);
 	
 	vec3 getMouseDir();
-	float eyetrace(float maxdist);
+	collisioninfo *eyetrace(bool useCursor = true);
 	void reposition();
 	void setPos(vec3 newpos);
 	void setRot(vec3 newrot);
 	void setFov(float newfov);
-	void setScale(float newscale);
+	//void setScale(float newscale);
 	void go2D();
 	void go3D();
 	void goPerspective();
@@ -86,5 +90,11 @@ public:
 	camprojection getProjection();
 };
 extern cameraKind camera;
+
+struct rmodel;
+rmodel *ray_shotgun(int x_steps, int y_steps);
+
+void go3D();
+void go2D();
 
 #endif

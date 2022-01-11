@@ -46,26 +46,45 @@ triangle readTriangle(auto S, int I){
 }
 
 
-vector<tinyobj::shape_t> shapes; 
+vector<tinyobj::shape_t> shapes;
 vector<tinyobj::material_t> materials;
+
+void assert_equals(int A, int B, string msg){
+    if(A != B){error("%s: got %d, expected %d\n",msg.c_str(),A,B);}
+}
+
+void assert_greater_equals(int A, int B, string msg){
+    if(A < B){error("%s: got %d < expected %d\n",msg.c_str(),A,B);}
+}
 
 model *loadModel(const char *filepath){
 	//string inputfile = filepath;
 
 	string err;
-	
+
 	bool ret = tinyobj::LoadObj(shapes, materials, err, filepath); //value-copy? wat
 	if(!err.empty()){warning("loadModel: error: %s\n",err.c_str());}
 	if(!ret){error("loadModel: LoadObj failed\n");}
 	if(!shapes.size()){error("loadModel: empty obj file\n");}
 	//printCurrentModel();
-	
+
 	model *M = new model();
-	auto &S = shapes[0].mesh;
+	tinyobj::mesh_t &S = shapes[0].mesh;
+
+    int numIndices = S.indices.size();
+    int numPositions = S.positions.size();
+    int numNormals = S.normals.size();
+    int numTexcoords = S.texcoords.size();
+
 	int numVerts = S.positions.size()/3;
 	int numTris = S.num_vertices.size();
+
+	assert_greater_equals(numPositions, numTris*3, "broken model.obj, wrong number of vertex positions");
+	assert_greater_equals(numNormals, numTris*3,   "broken model.obj, wrong number of vertex normals");
+	assert_greater_equals(numTexcoords, numTris*2, "broken model.obj, wrong number of vertex UV coords");
+
 	for(int I = 0; I < numTris; I++){
-		M->tris.push_back(readTriangle(S,I));		
+		M->tris.push_back(readTriangle(S,I));
 	}
 	printf("model loaded: %d triangles, %d vertices (%d%% reuse)\n",numTris, numVerts, 100-(33*numVerts/numTris));
 	//printf("loadModel: loaded %d verts, %d faces\n",
@@ -73,6 +92,8 @@ model *loadModel(const char *filepath){
 			//					shapes[0].mesh.ids.size());
 	return M;
 }
+
+
 
 void printLastModel(){
 	for (size_t i = 0; i < shapes.size(); i++) {

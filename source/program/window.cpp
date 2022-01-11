@@ -7,6 +7,7 @@
 #include "inputController.h"
 #include "GUI.h"
 #include "input.h"
+#include "renderLow.h"
 extern GUIbase *GUI;
 
 int height;
@@ -24,7 +25,7 @@ void OpenGL_printVersion(){
 
 void OpenGL_getVersion(const unsigned char **version, const char **profile){
 	*version = glGetString(GL_VERSION);
-	
+
 	*profile = 0;
 	int profileID;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &profileID);
@@ -42,14 +43,14 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 }
 
 void OpenGL_init(){
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); 
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2); 
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	//one wonders if this actually does what it claims
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	mainContext = SDL_GL_CreateContext(mainWindow);
-		
+
 	SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
-	
+
 	glClearColor(0.0,1.0,1.0,1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
@@ -61,17 +62,20 @@ void OpenGL_swap(){
 void window_init(int h, int w){
 	height = h;
 	width = w;
-	
-	SDL_Init(SDL_INIT_VIDEO);
+
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	atexit(SDL_Quit);
-	
+
 	mainWindow = SDL_CreateWindow("Hai",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		h,w,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-		
+
 	OpenGL_init();
+
+	OpenGL_printVersion();
+	printf("-------- window init done ---------\n");
 }
 
 void sysMessageBlankTick(){
@@ -158,6 +162,7 @@ void sysMessageTick(){
 					width =  sdl_event.window.data1;
 					height = sdl_event.window.data2;
 					printf("window resized: %d x %d\n",width,height);
+                    if(renderLow){renderLow->setViewportSize(width, height);}
 					break;
 				default:
 					break;

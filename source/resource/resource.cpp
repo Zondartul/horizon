@@ -8,6 +8,7 @@
 #include "model.h"
 #include "fonts.h"
 #include "globals.h"
+#include "paint.h"
 //maybe maps are faster, or maybe it's cold code.
 //keep vectors until next profiling.
 vector<bitmap*> bitmaps;
@@ -37,6 +38,22 @@ texture *getTexture(string name){
 	if(!t){error("can't load texture %s\n",name.c_str());}
 	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
+	setLayer(loadLayer);
+	uploadTexture(t);
+	textures.push_back(t);
+	return t;
+}
+texture *getModelTexture(string name){
+	for(int I = 0; I < textures.size(); I++){
+		if(textures[I]->name == name){return textures[I];}
+	}
+	string filepath = locateResource("model_texture", name.c_str());
+	texture *t = loadTexture(filepath.c_str());
+	if(!t){error("can't load texture %s\n",name.c_str());}
+	else{printf("texture %s loaded\n",name.c_str());}
+	t->name = name;
+	setLayer(loadLayer);
+	uploadTexture(t);
 	textures.push_back(t);
 	return t;
 }
@@ -47,7 +64,7 @@ model *getModel(string name){
 	string filepath = locateResource("model", name.c_str());
 	model *m = loadModel(filepath.c_str());
 	if(!m){error("can't load model %s\n",name.c_str());}
-	m->t = getTexture(string()+"models/"+name+"/model_"+name);
+	m->t = getModelTexture(name);//getTexture(string()+"models/"+name+"/model_"+name);
 	models.push_back(m);
 	return m;
 }
@@ -73,3 +90,24 @@ vector<bitmap*> listBitmaps(){return bitmaps;}
 vector<texture*> listTextures(){return textures;}
 vector<model*> listModels(){return models;}
 vector<font*> listFonts(){return fonts;}
+
+#include "paint.h"
+#include "main.h"
+#include "rmodel.h"
+#include "editmodel.h"
+
+void loadAssets(){
+	getFont("cour 14");
+	setFont(getFont("calibri 18"));
+
+	m = getModel("box");
+	e_model *em_box = m->toEmodel();
+	e_selection e_sel = em_box->selectAll();
+	e_sel.removeDuplicates();
+	e_sel.recalculateNormalsSmooth();
+	//uploadModel(mBox);
+	m->rm = em_box->getRmodel();//new rmodel(m);
+	m->rm->finalize();
+	uploadTexture(m->t);
+	uploadRmodel(m->rm);
+}

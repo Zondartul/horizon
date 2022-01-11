@@ -16,12 +16,15 @@ using glm::mat4;
 using glm::vec3;
 //#include "physics.h"
 #include "mouse.h"
+#include "collision.h"
 
 cameraKind::cameraKind(){
 	pos = {0,0,0};
 	rot = {0,0,0};
 	fov = 90;
-	scale = 1;
+	scale2D = 1;
+	scalePersp = 1;
+	scaleOrtho = 1;
 	perspective = true;
 	mode3D = true;
 }
@@ -34,8 +37,8 @@ vec3 cameraKind::up(){
 vec3 cameraKind::right(){
 	return rotate((vec3){0,1,0},d2r*camera.rot);
 }
-float cameraKind::eyetrace(float maxdist){
-	return maxdist;
+collisioninfo *cameraKind::eyetrace(bool useCursor){
+	//return maxdist;
 	/*
 	float dist;
 	vec3 start,end;
@@ -45,14 +48,54 @@ float cameraKind::eyetrace(float maxdist){
 	if(!raytrace(start,end,0,&dist)){dist = maxdist;}
 	return dist;
 	*/
+	vec3 dv;
+	if(useCursor){
+		vec2 mousepos = getMousePos();
+		vec3 mousedv = screenToWorld(vec3(mousepos.x,mousepos.y,1));
+		dv = normalizeSafe(mousedv - camera.pos);
+	}else{
+		dv = forward();
+	}
+	return  raytrace(pos,dv);
 }
+
+#include "paint.h"
+
+rmodel *ray_shotgun(int x_steps, int y_steps){
+	//vector<vec3> *res = new vector<vec3>();
+	//e_model *EM = new e_model();
+	rmodel *rm = new rmodel();
+	float x = 0;
+	float y = 0;
+	float dx = width/(float)x_steps;
+	float dy = height/(float)y_steps;
+	for(int Ix = 0; Ix < x_steps; Ix++){
+		for(int Iy = 0; Iy < y_steps; Iy++){
+			vec3 screenCoords(dx*Ix,dy*Iy,1.0f);
+			vec3 worldCoords = camera.screenToWorld(screenCoords);
+			vec3 dv = normalizeSafe(worldCoords - camera.pos);
+
+			collisioninfo *col = raytrace(camera.pos,dv);
+			if(col){
+				//res->push_back(col->c_to_c.pos);
+				vec3 p = col->c_to_c.pos;
+				//new e_vertex(p,EM);
+				rm->vertices->push_back(p);
+			}
+		}
+	}
+	rm->finalize();
+	uploadRmodel(rm);
+	return rm;
+}
+
 void cameraKind::reposition(){
 	if(mode3D){
 		/*
 		glLoadIdentity();
 		 //openGL matrix multiplications are applied to scene in the reverse order
 		//to how you call them... this has confusing effects.
-		
+
 		//change from OpenGL coordinate system to mine
 		//OpenGL: x - right, y - up, z - out of screen
 		//Mine: x - into screen, y - left, z - up
@@ -87,7 +130,7 @@ void cameraKind::reposition(){
 void cameraKind::setPos(vec3 newpos){pos = newpos; }//printf("campos: %.3f %.3f %.3f\n",newpos.x,newpos.y,newpos.z);
 void cameraKind::setRot(vec3 newrot){rot = newrot; }//printf("camrot: %.3f %.3f %.3f\n",rot.x,rot.y,rot.z);}
 void cameraKind::setFov(float newfov){fov = newfov;}
-void cameraKind::setScale(float newscale){scale = newscale;}
+//void cameraKind::setScale(float newscale){scale = newscale;}
 void cameraKind::go2D(){
 	//glDisable(GL_LIGHTING);
 	mode3D = false;
@@ -98,12 +141,12 @@ void cameraKind::go2D(){
 	//glLoadIdentity();
 	//glViewport(0,0,scr.x,scr.y); //put this into renderqueue as well?
 	glViewport(0,0,width,height);
-	scale = 1.0f;//0.01f;
+	//scale = 1.0f;//0.01f;
 	float znear = -1;
 	float zfar = 1;
 	float left = 0;//-width*scale/2;
-	float right = width*scale;//-left;
-	float bottom = height*scale;//-height*scale/2;
+	float right = width*scale2D;//-left;
+	float bottom = height*scale2D;//-height*scale/2;
 	float top = 0;//-bottom;
 	mProjection = glm::ortho(left,right,bottom,top,znear,zfar);
 	//glOrtho(0,scr.x,scr.y,0,0,1);
@@ -120,7 +163,7 @@ void cameraKind::go3D(){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glViewport(0,0,scr.x,scr.y);
-	
+
 	if(perspective){
 		double aspect = ((double)width)/((double)height);
 		double znear = 0.1;
@@ -144,22 +187,22 @@ void cameraKind::go3D(){
 	//glViewport(0,0,scr.x,scr.y);
 	glViewport(0,0,width,height);
 	float znear = 0.1;
-	float zfar = 10000;	
+	float zfar = 10000;
 	if(perspective){
 		float aspect = ((float)width)/((float)height);
-		float left = -znear*tan(fov*d2r/2.0);
+		float left = -znear*tan(fov*d2r/2.0)*scalePersp;
 		float right = -left;
-		float bottom = -znear*tan(fov*d2r/2.0)/aspect;
+		float bottom = -znear*tan(fov*d2r/2.0)*scalePersp/aspect;
 		float top = -bottom;
 		mProjection = glm::frustum(left,right,bottom,top,znear,zfar);
 	}else{
-		float left = -width*scale/2;
+		float left = -width*scaleOrtho/2;
 		float right = -left;
-		float bottom = -height*scale/2;
+		float bottom = -height*scaleOrtho/2;
 		float top = -bottom;
 		mProjection = glm::ortho(left,right,bottom,top,znear,zfar);
 	}
-	
+
 	reposition();
 }
 void cameraKind::goPerspective(){
@@ -171,7 +214,7 @@ void cameraKind::goOrtho(){
 	go3D();
 }
 void cameraKind::screenshot(){
-	printf("ss init\n");
+	//printf("ss init\n");
 	vec2 scr = getScreenSize();
 	int width = scr.x;
 	int height = scr.y;
@@ -194,11 +237,11 @@ void cameraKind::screenshot(){
 		if(!f){end = 1;}else{I++;}
 		fclose(f);
 	}
-	printf("save started\n");
-	BMP.flipVertical().saveAs(filename.c_str());	
+	//printf("save started\n");
+	BMP.flipVertical().saveAs(filename.c_str());
 	FILE *f = fopen(filename.c_str(),"rb");
 	if(!f){printf("\nERROR: couldn't write file [%s]\n",filename.c_str());}
-	else{printf("\nScreenshot saved to [%s]\n",filename.c_str());}
+	else{printf("Screenshot saved to [%s]\n",filename.c_str());}
 	fclose(f);
 }
 
@@ -231,11 +274,11 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 		case(Z_IS_ORTHODOX):
 			x = x/scr.x;		//x normed
 			x = 2.f*x-1.f;		//x shifted
-			
+
 			y = scr.y-y-1.f; 	//y flipped
 			y = y/scr.y;		//y normed
 			y = 2.f*y-1.f;		//y shifted
-			
+
 			z = 2.f*z-1.f;		//z shifted
 			return vec3(x,y,z);
 		break;
@@ -246,13 +289,15 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 		break;
 		case(Z_IS_PLANE):
 			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
-			
+
 			zfar_true = length(osdw-camera.pos);
 			zratio = zfar_true/zfar;
 			wtd = worldToDevice(camera.pos+normalize(osdw-camera.pos)*scrpos.z*zratio);
 			return wtd;
 		break;
 	}
+	error("unreachable code");
+	return vec3(0,0,0);
 }
 vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	float x = devpos.x;
@@ -270,7 +315,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 			y = (y+1.f)/2.f;	//y unshifted
 			y = y*scr.y;		//y unnormed
 			y = scr.y-y-1.f;	//y unflipped
-			
+
 			z = (z+1.f)/2.f;	//z unshifted
 			return vec3(x,y,z);
 		break;
@@ -287,6 +332,8 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 			return dts;
 		break;
 	}
+	error("unreachable code");
+	return vec3(0,0,0);
 }
 vec3 cameraKind::getMouseDir(){
 	vec2 mouse = getMousePos();
@@ -297,13 +344,34 @@ vec3 cameraKind::getMouseDir(){
 #define zToWorld(z) (znear/(1.f+znear/zfar-z))
 #define zToDevice(z) (znear*(1/zfar - 1/z)+1)
 
-vec3 cameraKind::screenToWorld(vec3 scrpos, z_meaning zm){	
-	perspective = true;
-	go3D();
-	return deviceToWorld(screenToDevice(scrpos,zm));
+vec3 cameraKind::screenToWorld(vec3 scrpos, z_meaning zm){
+	vec3 res;
+	auto oldperspective = perspective;
+	auto oldmode3D = mode3D;
+	{
+		perspective = true;
+		go3D();
+		res = deviceToWorld(screenToDevice(scrpos,zm));
+	}
+	if(!oldmode3D){go2D();}
+	perspective = oldperspective;
+	return res;
 }
 vec3 cameraKind::worldToScreen(vec3 worldpos, z_meaning zm){
-	return deviceToScreen(worldToDevice(worldpos),zm);
+	//we probably should have a camera always be able to project
+	//maybe we need two cameras?
+	vec3 res;
+	auto oldperspective = perspective;
+	auto oldmode3D = mode3D;
+	{
+		perspective = true;
+		go3D();
+		res = deviceToScreen(worldToDevice(worldpos),zm);
+	}
+	if(!oldmode3D){go2D();}
+	perspective = oldperspective;
+	return res;
+	//return deviceToScreen(worldToDevice(worldpos),zm);
 }
 
 camprojection cameraKind::getProjection(){
@@ -315,6 +383,16 @@ camprojection cameraKind::getProjection(){
 
 cameraKind camera;
 
+#include "paint.h"
+void go3D(){
+	camera.go3D();
+	setProjection(camera.getProjection());
+}
+
+void go2D(){
+	camera.go2D();
+	setProjection(camera.getProjection());
+}
 
 
 	/*
@@ -330,7 +408,7 @@ cameraKind camera;
 	bool flipy = true;
 	bool fixz = true;
 	float z = scrpos.z;//zToDevice(scrpos.z);
-	
+
 	//#if GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE
 	//printf("Z from 0 to 1\n")
 	//#else
@@ -338,29 +416,29 @@ cameraKind camera;
 	//#endif
 	//printf("zToDevice: %f\n",z);
 	//printf("zToWorld: %f\n",zToWorld(z));
-	
+
 	//vec3 WTD = worldToDevice(scrpos);
 	//printf("WTD: %s, len: %f\n",toString(WTD).c_str(),length(WTD));
-	
+
 	//vec3 STD = screenToDevice(scrpos);
 	//printf("STD: %s, len: %f\n",toString(STD).c_str(),length(STD));
-	
+
 	//vec3 DTW = deviceToWorld(STD);
 	//printf("DTW: %s, len: %f\n",toString(DTW).c_str(),length(DTW));
-	
+
 	//z = (z-znear)/(zfar-znear);			// z.world -> z.device
 	if(flipy){scrpos1.y = scr.y-scrpos1.y-1;}	// z.screen -> z.screen(o-dox)
-	
-	
-	
+
+
+
     //mat4 invVP = glm::inverse(mP * mV);
-	
+
 	vec3 p0 = toVec3(pos);
 	vec3 pr = glm::unProject(vec3(scrpos1.x,scrpos1.y,z),mV,mP,viewport);
 	vec3 dir = pr-p0;
 	//it appears that z becomes znear/(1-z)
-	//reverse should be 
-	
+	//reverse should be
+
 	if(fixz){
 		//vec3 p1 = glm::unProject(vec3(scrpos1.x,scrpos1.y,0),mV,mP,viewport);
 		//vec3 p2 = glm::unProject(vec3(scrpos1.x,scrpos1.y,1),mV,mP,viewport);
@@ -380,7 +458,7 @@ cameraKind camera;
 		//float len = length(dir);
 		//dir = dd*(len/znear_true);
 		//printf("dir2: %s, len: %f\n",toString(dir).c_str(),length(dir));
-		
+
 		float newlen = length(dir);
 		//float newlen = z*zfar_true+znear_true;
 		printf("scrpos.z: %f, newlen: %f\n",scrpos.z,newlen);

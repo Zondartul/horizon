@@ -6,6 +6,8 @@ in vec2 VertexUV;
 uniform vec2 TexOffset;
 uniform vec2 TexSize;
 uniform vec3 globalColor;
+uniform vec2 TexPos;
+uniform vec2 TexScale;
 
 out vec3 Position;
 out vec3 WorldPosition;
@@ -25,6 +27,6 @@ void main(){
 	Position = (MVP*vec4(VertexPosition,1.0)).xyz;
 	Normal = normalize(MVP*vec4(VertexNormal,1.0)).xyz;
 	WorldNormal = normalize((Mrot*vec4(VertexNormal,1.0)).xyz);
-	UV = VertexUV*TexSize+TexOffset;
+	UV = (VertexUV*TexSize + TexPos)*TexScale+TexOffset;
 	Color = VertexColor;
 }

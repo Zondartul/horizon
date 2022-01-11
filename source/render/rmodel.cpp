@@ -4,6 +4,12 @@
 #include <vector>
 using std::vector;
 
+rmpack::rmpack(){
+	for(int i = 0; i < 4; i++){
+		rm[i] = 0;
+	}
+}
+
 rmodel::rmodel(){
 	vertices = new vector<vec3>;
 	colors = new vector<vec3>;

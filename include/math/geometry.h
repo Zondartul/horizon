@@ -6,6 +6,9 @@
 //output <result> - intersection point
 bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *result);
 
+//same, but plane is defined by a normal vector and an offset from origin.
+bool ray_plane_intersection(vec3 start, vec3 dir, vec3 pnormal, float poffset, vec3 *result);
+
 //returns barycentric coordinates (x=dist to A,y=dist to B,z=dist to C) of <point>.
 //pick two for UV coords.
 //<point> has to be in plane with the triangle.
@@ -18,6 +21,9 @@ vec4 baricentric_coords(vec3 A, vec3 B, vec3 C, vec3 D, vec3 point);
 //output <result> - intersection point
 //output <barycentric> - berycentric coords of the point.
 bool ray_triangle_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *result, vec2 *barycentric);
+
+//returns the flat surface normal of a triangle
+vec3 triangle_normal(vec3 A, vec3 B, vec3 C);
 
 //returns the distance from point A to the line.
 float point_line_distance(vec3 start, vec3 end, vec3 A);
@@ -32,6 +38,5 @@ vec3 project(vec3 A, vec3 B);
 //returns the point on line that is closest to the point A.
 //if <clip> is set, the closest point is limited to the line segment.
 vec3 point_line_closest(vec3 start, vec3 end, vec3 A, bool clip = false);
-
 
 #endif

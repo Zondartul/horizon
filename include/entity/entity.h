@@ -8,6 +8,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include "elastic_ptr.h"
 using std::map;
 using std::list;
 using std::vector;
@@ -37,9 +38,10 @@ struct entity;
 
 extern list<entity*> entities;
 
-class entity{
+class entity:public elastic_ptr_anchor{
 	public:
 	string name;
+	string group; //for multi-entity commands
 	//map<componentType, component*> components;
 	collisionbody *body = 0;
 	renderable *r = 0;
@@ -53,8 +55,9 @@ class entity{
 	vec3 getGravity();		void setGravity(vec3 gravity);
 	vec3 getColor();		void setColor(vec3 color);
 };
-
+void addEntity(entity *E);
 void removeEntity(entity *E);
+entity *lastEntity(); //returns the last created entity
 //class component{
 //	public:
 //	entity *ent;
@@ -130,7 +133,7 @@ class component_texture{
 
 
 
-collisioninfo *raytrace(vec3 from, vec3 dir);
+//collisioninfo *raytrace(vec3 from, vec3 dir);
 //extern ecs_physics_system_kind ecs_physics_system;
 
 #endif

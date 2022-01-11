@@ -11,7 +11,7 @@ using std::vector;
 // HDD -> loaders -> resource manager -> game -----+-> render -> GPU
 //  ^                        |           	       |
 //  +---- savers  <----------+                     +-> sound  -> SPU
-//                                     
+//
 
 struct bitmap;
 struct texture;
@@ -20,6 +20,7 @@ struct font;
 
 bitmap *getBmage(string name);
 texture *getTexture(string name);
+texture *getModelTexture(string name);
 model *getModel(string name);
 font *getFont(string name);
 
@@ -52,6 +53,6 @@ vector<font*> listFonts();
 //
 //
 //
-
+void loadAssets();
 
 #endif

@@ -8,13 +8,15 @@
 //which ones are open.
 frameprinter *P;
 
-void frameprint(string S){if(P){P->print(S);}else{error("no frameprinter");}}
+void frameprint(string S){if(P){P->print(S);}/*else{error("no frameprinter");}*/}
 void setFramePrinter(frameprinter *printer){P = printer;}
 
 renderLayer *layerFP;
 frameprinter::frameprinter(){
-	layerFP = new renderLayer();
+	layerFP = new renderLayer("frameprinter");
 	layerFP->resetLayer = duplicateLayer(layer2D->resetLayer);
+	layerFP->resetLayer->name = "frameprinter.reset";
+	layerFP->resetLayer->special = true;
 	addLayer(layer2D,layerFP);
 	globalChannel->addListener(this);
 }

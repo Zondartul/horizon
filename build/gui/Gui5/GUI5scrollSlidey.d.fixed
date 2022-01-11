@@ -1,7 +1,0 @@
-# this file lists compilation dependencies for object file
-# ../build/gui/Gui5/GUI5scrollSlidey.o:
-../build/gui/Gui5/GUI5scrollSlidey.o: \
-../source/gui/Gui5/GUI5scrollSlidey.cpp \
-
-../source/gui/Gui5/GUI5scrollSlidey.cpp:
-

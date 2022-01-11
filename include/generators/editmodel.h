@@ -22,63 +22,82 @@ struct e_selection{
 	vector<e_edge*>		edges;
 	vector<e_triangle*>	tris;
 	vector<e_face*>		faces;
-	e_model *EM=0;	
-	rmodel *rm[3] = {0,0,0};
+	e_model *EM=0;
+	//rmodel *rm[3] = {0,0,0};
+	rmpack rms;
 	vec3 colorVerts = {1.f,0,0};
+	float alphaVerts = 255.f;
 	vec3 colorEdges = {1.f,1.f,0};
+	float alphaEdges = 255.f;
 	vec3 colorTris = {1.f,1.f,1.f};
+	float alphaTris = 255.f;
 	bool rainbowTris = true;
 	e_selection() = delete; //never make a selection without a EM for it to refer to
 	e_selection(e_model *EM);
-	
+
 	//selection editing
 	void addElements(e_selection sel2);		//adds to sel all elements in sel2
 	void removeElements(e_selection sel2);	//removes from sel all elements in sel2
 	void clear();							//removes all elements from selection
-	
+
 	//selection generation
 	e_selection getVerts();			//returns the portion of this selection with only the vertices
 	e_selection getEdges();			//returns the portion of this selection with only the edges
 	e_selection getTris();			//returns the portion of this selection with only the triangle
-	
+
+
+
 	e_selection getImplicitVerts();	//returns all the implied vertices (<verts> + those in edges + those in <triangles>)
-	
+
 	e_selection getImplicitEdges();	//returns all the implied edges (those that share <verts> + <edges> + those in <triangles>)
 									//runs faster if no verts explicitly selected.
 	e_selection getImplicitTris();	//returns all the impleid triangles (those that share <verts> + those that share <edges> + <triangles>)
 									//runs faster if no verts or edges explicitly selected.
-	e_selection getNeighborsEssential();
-	e_selection getNeighborsDirect();
-	
+	//e_selection getNeighborsEssential();
+	//e_selection getNeighborsDirect();
+
 	//returns [0]: minimal set: selected tris, selected edges not in tris, and selected verts not in tris or edges
 	//returns [1]: maximal set: selected tris, selected edges + those in tris, and selected verts + those in tris + those in edges
-	vector<e_selection> getNormalized(); 
+	vector<e_selection> getNormalized();
 	//selection measurement
 	vec3 center();					//geometric mean of all vertices, centers of all edges, and centers of all triangles.
-	
+	AABB getAABB();
+
 	//model editing
 	void deleteAll();									//erases elements from the model
 	void move(vec3 offset); 							//moves <selection> by <offset>
 	void rotate(vec3 center, vec3 axis, float angle); 	//rotates <selection> around <axis> that passes through <center> by <angle> degrees.
 	void scale(vec3 center, float scale);				//scales <selection> uniformly by <scale> away from <center>
 	void scale(vec3 center, vec3 scale);				//scales <selection> by <scale> per-axis away from <center>
-	
+
 	void uv_project_box(vec3 origin,float scale);		//applies projects texture using box-project.
 	void uv_scale(float scale);							//multiplies every UV coord by number
-	
+
+	e_selection addTo(e_model *EM);						//adds all elements to a different e_model
+
+	void recalculateNormalsSmooth();					//sets shading to "smooth"
+	void recalculateNormalsFlat();						//sets shading to "flat"
+	void removeDuplicates();							//merges vertices with the same position
+
 	void rebuildRmodel();
+	void rebuildRmodel_vertHelper(rmodel *rm);
+	void rebuildRmodel_edgeHelper(rmodel *rm);
+	void rebuildRmodel_triHelper(rmodel *rm);
+	void rebuildRmodel_wireHelper(rmodel *rm);
 	void render();
 	//extrudes <selected>
 	//returns [0]: newly created elements
 	//returns [1]: elements connecting the existing elements to new elements.
 	vector<e_selection> extrude();
-	
+
 	//collapses all selected elements into a single points
 	//e_selection merge(vec3 pos);
 };
 
+/*
 struct e_vertex{
 	vec3 pos = {0,0,0};
+	float selection_weight = 1.0f;
 	e_selection neighbors_essential;
 	e_selection neighbors_direct;
 	e_vertex() = default;
@@ -96,6 +115,8 @@ struct e_triangle{
 	e_selection neighbors_essential;
 	e_selection neighbors_direct;
 	vector<vec2> uvs;	//uv's are not selectable right now
+	vec3 face_normal;
+	vector<vec3> vert_normals;
 	e_triangle() = default;
 	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
 };
@@ -107,6 +128,47 @@ struct e_face{
 	e_face(vector<e_triangle*> tris, e_model *EM);
 	void recalcEdges();
 };
+*/
+
+class e_element{
+	public:
+	e_selection definition;
+	e_selection parts;
+	e_selection touching;
+	float selection_weight = 1.0f;
+	e_element() = delete;
+	e_element(e_model *EM);
+};
+
+class e_vertex:public e_element{
+	public:
+	vec3 pos = {0,0,0};
+	e_vertex() = default;
+	e_vertex(vec3 pos, e_model *EM);
+};
+
+class e_edge:public e_element{
+	public:
+	e_edge() = default;
+	e_edge(e_vertex *A, e_vertex *B, e_model *EM);
+};
+
+class e_triangle:public e_element{
+	public:
+	vec2 uvs[3];
+	vec3 face_normal;
+	vec3 vert_normals[3];
+	e_triangle() = default;
+	//e_triangle(e_edge *AB, e_edge *BC, e_edge *CA, e_model *EM);
+	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
+};
+
+class e_face:public e_element{
+	public:
+	e_face() = default;
+	e_face(vector<e_triangle*> tris, e_model *EM);
+	void recalcEdges(); //this should be done by e_model::recalculateNeighbors()
+};
 
 //it bork
 //template<typename T> T& list<T>::operator[](int N){if(N >= size()){error("index out of bounds");} auto I = begin(); while(N--){ I++;} return *I;}
@@ -117,16 +179,20 @@ struct e_model{
 	list<e_edge*> edges;
 	list<e_triangle*> tris;
 	list<e_face*> faces;
+	bool isElaborate = false;
 	e_selection selectAll();
 	//e_selection selectBox(vec3 start, vec3 end);
 	const char *checkDuplicates(bool repair);			//checks if there are duplicate (by reference) elements
 	const char *checkDegenerate(bool repair);			//remove or repair weird edges and triangles (model  must be stripped)
 	const char *checkDanglingPointers(bool repair);	//remove references to deleted elements
-	void stripNeighbors();						//remove non-essential connectivity info
+	//void stripNeighbors();
+	void removePartsInfo();					//remove non-essential connectivity info
+	void removeTouchingInfo();
 	void recalculateNeighbors();				//reconstruct additional connectivity info
 	void repair();								//all of the above
 	void sanityCheck();
 	rmodel *getRmodel(int mode = 2);						//build and return a rmodel;
+	rmpack getRmpack();
 };
 #include <string>
 using std::string;

@@ -8,7 +8,7 @@ using std::pair;
 #include "vec.h"
 #include "globals.h"
 #include "math.h"
-//packs 2D rectangles inside another 2D rectangle. 
+//packs 2D rectangles inside another 2D rectangle.
 //inputs:
 //	sizes - an unsorted list of rectangle sizes.
 //  binsize - the dimensions of the big rectangle into which to fit the smaller ones.
@@ -17,11 +17,11 @@ using std::pair;
 //	results - new positions for all rectangles given.
 //	packed - list of indices of only those rectangles that could actually fit here.
 //	heightNeeded - given the bin's width, this is the height necessary and sufficient to fit all items.
-void pack2D(vector<vec2> sizes, 
-			vec2 binsize, 
-			bool sort, 
-			vector<vec2> *results, 
-			vector<int> *packed, 
+void pack2D(vector<vec2> sizes,
+			vec2 binsize,
+			bool sort,
+			vector<vec2> *results,
+			vector<int> *packed,
 			int *heightNeeded);
 
 //returns the smallest power-of-two square that can
@@ -61,6 +61,7 @@ template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, floa
 	return scatter.front().first;
 }
 //'cubic hermite spline' interpolation between multiple values. values must be sorted.
+//idk what this code does
 template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
@@ -70,7 +71,6 @@ template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float
 		if(pos > (I+1)->second){continue;}
 		VT  p0,p1,m0,m1,m01;
 		float x0,x1,t;
-		t = (pos-x0)/(x1-x0);
 		p0 = I->first;
 		x0 = I->second;
 		p1 = (I+1)->first;
@@ -79,6 +79,7 @@ template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float
 		m0 = m1 = m01;
 		if(!(I == scatter.begin())){m0 = (p0-(I-1)->first)/(x0-(I-1)->second);}
 		if(!((I+1) == scatter.end()-1)){m1 = ((I+2)->first-p1)/((I+2)->second-x1);}
+		t = (pos-x0)/(x1-x0);
 		float h00 = 2*t*t*t-3*t*t+1;
 		float h10 = t*t*t-2*t*t+t;
 		float h01 = -2*t*t*t+3*t*t;

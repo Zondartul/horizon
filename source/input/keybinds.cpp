@@ -1,44 +1,58 @@
 #include "keybinds.h"
 #include "input.h"
-
+#include "console.h"
 keybindList::keybindList(){
 	inputChannel->addListenerFront(this);
 }
 
-#define checkMB(x,y,z)							\
-if(event.mousebutton.button == x){				\
-	if(binds.count(y) && binds[y].z != 0){		\
-		event.maskEvent();						\
-		binds[y].z(event);						\
-	}											\
-}
+//#define checkMB(x,y,z)							\
+//if(event.mousebutton.button == x){				\
+//	if(binds.count(y) && binds[y].z != 0){		\
+//		event.maskEvent();						\
+//		binds[y].z(event);						\
+//	}											\
+//}
 
-#define checkKB(K,x)							\
-	if(binds.count(K) && binds[K].x != 0){		\
+//#define checkKB(K,x)							\
+//	if(binds.count(K) && binds[K].x != 0){		\
+//		event.maskEvent();						\
+//		binds[K].x(event);						\
+//	}						
+	
+#define checkMB(x,y)							\
+	if(event.mousebutton.button == x){			\
+		if(binds.count(y)){						\
+			event.maskEvent();					\
+			console->run(binds[y].cmd);			\
+		}										\
+	}
+	
+#define checkKB(K)								\
+	if(binds.count(K)){							\
 		event.maskEvent();						\
-		binds[K].x(event);						\
-	}						
+		console->run(binds[K].cmd);				\
+	}
 	
 void keybindList::onEvent(eventKind event){
 	switch(event.type){
 		case(EVENT_MOUSE_BUTTON_DOWN):
-			checkMB(MOUSE_LEFT,		"LMB",keyDown);
-			checkMB(MOUSE_RIGHT,	"RMB",keyDown);
-			checkMB(MOUSE_MIDDLE,	"MMB",keyDown);
+			checkMB(MOUSE_LEFT,		"+LMB");
+			checkMB(MOUSE_RIGHT,	"+RMB");
+			checkMB(MOUSE_MIDDLE,	"+MMB");
 		break;
 		case(EVENT_MOUSE_BUTTON_UP):
-			checkMB(MOUSE_LEFT,		"LMB",keyUp);
-			checkMB(MOUSE_RIGHT,	"RMB",keyUp);
-			checkMB(MOUSE_MIDDLE,	"MMB",keyUp);
+			checkMB(MOUSE_LEFT,		"-LMB");
+			checkMB(MOUSE_RIGHT,	"-RMB");
+			checkMB(MOUSE_MIDDLE,	"-MMB");
 		break;
 		case(EVENT_KEY_DOWN):
-			checkKB(event.keyboard.key, keyDown);
+			checkKB(string("+")+event.keyboard.key);
 		break;
 		case(EVENT_KEY_UP):
-			checkKB(event.keyboard.key, keyUp);
+			checkKB(string("-")+event.keyboard.key);
 		break;
 		case(EVENT_MOUSE_MOVE):
-			checkKB("MouseMove", keyDown);
+			checkKB("MouseMove");
 		break;
 	}
 }
@@ -47,3 +61,4 @@ keybindList *keybinds;
 void initKeybinds(){
 	keybinds = new keybindList();
 }
+

@@ -1,69 +1,159 @@
 #include "renderLayer.h"
 #include "renderLow.h"
 #include "stdio.h"
+#include <sstream>
+using std::stringstream;
+#include <string>
+using std::string;
+#include "renderCommand.h"
 
-// rcmd_coloring::rcmd_coloring(bool on){b = on;}
-// rcmd_transparency::rcmd_transparency(bool on){b = on;}
-// rcmd_texturing::rcmd_texturing(bool on){b = on;}
-// rcmd_debug_shader::rcmd_debug_shader(bool on){b = on;}
+vector<renderLayer*> all_layers;
+vector<renderLayer*> layers;
 
-// rcmd_projection::rcmd_projection(mat4 m){this->m = m;}
-// rcmd_texture_upload::rcmd_texture_upload(texture *t){this->t = t;}
-// rcmd_texture_select::rcmd_texture_select(texture *t){this->t = t;}
 
-// rcmd_rmodel_upload::rcmd_rmodel_upload(rmodel *rm){this->rm = rm;}
-// rcmd_rmodel_render::rcmd_rmodel_render(rmodel *rm){this->rm = rm;}
-// rcmd_rmodel_delete::rcmd_rmodel_delete(rmodel *rm){this->rm = rm;}
+renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
+	all_layers.push_back(this);
+}
 
-rcmd1_c_impl(coloring,bool);
-rcmd1_c_impl(transparency,bool);
-rcmd1_c_impl(depthmask,bool);
-rcmd1_c_impl(texturing,bool);
-rcmd1_c_impl(debug,bool);
-rcmd1_c_impl(scissoring,bool);
-rcmd1_c_impl(depth_test,bool);
-rcmd1_c_impl(lighting,bool);
+void renderLayer::render(){
+    renderLow->renderParseQueue(&queue);
+    renderLow->renderParseQueue(&queue3, this);
+}
 
-rcmd1_c_impl(layer,renderLayer*);
-rcmd1_c_impl(color,vec3);
-rcmd1_c_impl(alpha,float);
-rcmd1_c_impl(texture_select,texture*);
-rcmd1_c_impl(font_select,font*);
-rcmd1_c_impl(mode_select,int);
-rcmd1_c_impl(text_pos,vec2);
-rcmd1_c_impl(scissor,rect);
-rcmd1_c_impl(pointsize,float);
-rcmd1_c_impl(linewidth,float);
-rcmd1_c_impl(sun_pos,vec3);
-rcmd1_c_impl(sun_light_color,vec3);
-rcmd1_c_impl(ambient_light_color,vec3);
-rcmd1_c_impl(texture_upload,texture*);
-rcmd1_c_impl(rmodel_upload,rmodel*);
-rcmd1_c_impl(rmodel_delete,rmodel*);
-rcmd1_c_impl(projection,camprojection);
-rcmd1_c_impl(position,vec3);
-rcmd1_c_impl(rotation,vec3);
-rcmd1_c_impl(scale,vec3);
-rcmd0_c_impl(clear_screen);
-rcmd1_c_impl(rmodel_render,rmodel*);
-rcmd1_c_impl(print_text,string);
-rcmd1_c_impl(comment,string);
-
-void renderLayer::render(){renderParseQueue(&queue);}
 void renderLayer::clear(){
+	//printf("rlayer clear------\n");
+	int i = 0;
 	for(auto I = queue.begin(); I != queue.end(); I++){
-		delete *I;
+		//printf("%d:delr %p\n",i++,*I);
+		renderCommand2 *cmd = *I;
+		delete cmd;
 	}
+	//printf("rlayer clear end--\n");
 	queue.clear();
+
+    for(auto I = queue3.begin(); I != queue3.end(); I++){
+        renderCommand3 *cmd = *I;
+        delete cmd;
+    }
+    queue3.clear();
 }
 void renderLayer::reset(){
 	queue.push_back(new rcmd_layer(resetLayer));
+    queue3.push_back(new renderCommand3(RC3T::LAYER, resetLayer));
 }
 void renderLayer::print(){
 	int J = 0;
 	for(auto I = queue.begin(); I != queue.end(); I++,J++){
 		printf("%d: %s\n",J,(*I)->toString().c_str());
 	}
+    J = 0;
+    for(auto I = queue3.begin(); I != queue3.end(); I++,J++){
+        printf("%d: %s\n",J,toCString(*I));
+    }
+}
+
+void renderLayer::push(renderCommand2 *cmd){
+	//printf("%d:add %p\n",queue.size(),cmd);
+	queue.push_back(cmd);
+}
+
+void renderLayer::push(renderCommand3 *cmd){
+    queue3.push_back(cmd);
+}
+
+renderLayer *renderLayer::duplicate(){//https://www.youtube.com/watch?v=kJ6flOet6qc
+	renderLayer *L2 = new renderLayer();
+	for(auto I = queue.begin(); I != queue.end(); I++){
+		L2->queue.push_back((*I)->clone());
+	}
+    for(auto I = queue3.begin(); I != queue3.end(); I++){
+        renderCommand3 *cmd = (*I)->clone();
+        if(cmd){    //priviliged commands can not be copied
+            L2->queue3.push_back(cmd);
+        }
+    }
+	return L2;
+}
+
+string toString(renderCommand2 *rcmd){
+	return rcmd->toString();
+}
+
+string toString(renderLayer *l){
+	if(!l){return "<null>";}
+	return l->name;
+}
+
+void addWithIndent(stringstream &ss1, stringstream &ss2, int num){
+	char buff[200];
+	while(ss2.getline(buff,199)){
+		for(int I = 0; I < num; I++){
+			ss1 << " ";
+		}
+		ss1 << buff;
+		if(!ss2.eof()){ss1 << "\n";}
+	}
+}
+
+string renderLayer::report(){
+	stringstream ss;
+	ss << "layer \"" << name << "\"";
+	if(persistent){ss << "+persistent ";}
+	if(special){ss << "+special ";}
+	ss << "\n";
+
+	int J = 0;
+	for(auto I = queue.begin(); I != queue.end(); I++,J++){
+		ss << " " << J << ": " << escapeString(toString(*I)) << "\n";
+
+		rcmd_layer *rl = dynamic_cast<rcmd_layer *>(*I);
+		if(rl){
+			stringstream ss2;
+			if(rl->val){
+				renderLayer *L = (renderLayer*)(rl->val);
+				ss2 << L->report();
+			}else{
+				ss2 << "<null>\n";
+			}
+			addWithIndent(ss, ss2, 4);
+		}
+
+	}
+	return ss.str();
+}
+
+string renderLayer::report3(){
+	stringstream ss;
+	ss << "layer \"" << name << "\"";
+	if(persistent){ss << "+persistent ";}
+	if(special){ss << "+special ";}
+	ss << "\n";
+
+	int J = 0;
+	for(auto I = queue3.begin(); I != queue3.end(); I++,J++){
+		ss << " " << J << ": " << escapeString(toString(*I)) << "\n";
+        renderCommand3 &rcmd = **I;
+		//rcmd_layer *rl = dynamic_cast<rcmd_layer *>(*I);
+		if(rcmd.type == RC3T::LAYER){
+			stringstream ss2;
+			if(rcmd.layer){
+				ss2 << rcmd.layer->report3();
+			}else{
+				ss2 << "<null>\n";
+			}
+			addWithIndent(ss, ss2, 4);
+		}
+
+	}
+	return ss.str();
+}
+
+const renderCommand3 *renderLayer::get(int num){
+    if(queue3.size() > num){
+        return queue3[num];
+    }else{
+        return 0;
+    }
 }
 
 // rcmd_scissoring::rcmd_scissoring(bool on){b = on;}
@@ -72,3 +162,100 @@ void renderLayer::print(){
 // rcmd_font_select::rcmd
 
 //execute is implemented in renderLow.cpp
+
+#include "paint.h"
+#include "gl/gl.h" //for GL_CULL_FACE / GL_CCW
+#include "window.h"
+
+void setupLayer3D(){
+	setLayer(layer3D->resetLayer);
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
+
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setDepthTest(true);
+	setDepthMask(true);
+	setLighting(true);
+	setSunPos(vec3(0.5,0.75,1));
+	setSunColor(0.9f*vec3(1,1,1));
+	setAmbientColor(0.3f*vec3(1,1,1));
+
+	setColoring(true);
+	setTexturing(false);
+	setScissoring(false);
+	setTransparency(false);
+	setAlpha(255);
+	setColor({255,255,255});
+}
+
+void setupLayer2D(){
+	setLayer(layer2D->resetLayer);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setRotation(vec3(0,0,0));
+	setColoring(false);
+	setTransparency(false);
+	setTexturing(false);
+	setScissoring(false);
+	vec2 scr = getScreenSize();
+	setScissor(rect(vec2(0,0),scr));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+}
+
+//layer for untextured lines/points
+void setupLayerDebug(){
+	setLayer(layerDebug->resetLayer);
+	glDisable(GL_CULL_FACE);
+
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+
+	setColoring(true);
+	setTexturing(false);
+	setScissoring(false);
+	setTransparency(false);
+	setAlpha(255);
+	setColor({255,255,255});
+	setPointSize(3.f);
+}
+
+void setupLayerDebug2D(){
+	setLayer(layerDebug2D->resetLayer);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setColoring(false);
+	setTransparency(false);
+	setTexturing(false);
+	setScissoring(false);
+	vec2 scr = getScreenSize();
+	setScissor(rect(vec2(0,0),scr));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+}
+
+void setupLayers(){
+	setupLayer3D();
+	setupLayer2D();
+	setupLayerDebug();
+	setupLayerDebug2D();
+}
+
+renderExKind::renderExKind(logmessage lmsg_, renderLayer* L, int cmdNum):exKind(lmsg_){
+    const renderCommand3 *rcmd = 0;
+    //if(L && L->queue3.size() > cmdNum){rcmd = L->queue3[cmdNum];}
+    if(L){rcmd = L->get(cmdNum);}
+    msg.msg += string()+"\nwhere layer = ["+(L? toString(L) : "<null>")+"], rcmd #"+cmdNum+" = ["+(rcmd? toString(rcmd) : "<null>")+"]";
+}
+
+
+
+
+
+

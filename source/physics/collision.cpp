@@ -9,8 +9,17 @@
 #include "globals.h"
 #include "entity.h"
 #include "octree.h"
+#include "broadphase.h"
+#include "narrowphase.h"
+#include "resolution.h"
+#include "modelprimitives.h"	//for debug drawing
+#include "editmodel.h"
+#include "geometry.h"
 
 extern octree_node *octree_root;
+
+extern void debugDrawPoint(vec3 point, vec3 col);
+
 
 string toString(collisionbodytype type){
 	switch(type){
@@ -18,6 +27,7 @@ string toString(collisionbodytype type){
 		case BODY_DYNAMIC: return "BODY_DYNAMIC"; break;
 		case BODY_TRIGGER: return "BODY_TRIGGER"; break;
 		case BODY_NOCOLLIDE: return "BODY_NOCOLLIDE"; break;
+		default: return "ERROR"; break;
 	}
 }
 
@@ -31,534 +41,711 @@ collisionbody::collisionbody(){
 collisionbody::~collisionbody(){
 	delete ov;
 }
-collisionbodyAABB::collisionbodyAABB(AABB aabb){this->aabb = aabb;}
+void collisionbody::render(renderOptions *options){
+	vec3 offset = (aabb.end+aabb.start)/2.f;
+	setPosition(pos+offset);
+	setScale(vec3(1,1,1));
+	setRotation(vec3(0,0,0));
+	drawRmodel(rm);
+}
+string collisionbody::name(){
+	string S = "";
+	if(E){
+		if(E->name == ""){
+			S = "<anon>.";
+		}else{
+			S = E->name+".";
+		}
+	}
+	if(bodyname == ""){
+		S = S + "body";
+	}else{
+		S = S + bodyname;
+	}
+	return S;
+}
+void collisionbody::setAABB(AABB aabb){
+    this->aabb = aabb;
+    if(rm){setLayer(deleteLayer); deleteRmodel(rm); rm = 0;}
+    if(aabb.size != vec3(0,0,0)){rm = generateBox(aabb.size)->getRmodel(1);}
+}
+
+AABB collisionbody::getAABB(){return aabb;}
+
+collisionbodyAABB::collisionbodyAABB(AABB aabb){setAABB(aabb);}//{this->aabb = aabb; rm = generateBox(aabb.size)->getRmodel(1);}
 collisionbodyRay::collisionbodyRay(vec3 from, vec3 dir){this->from = from; this->dir = dir;}
 
+float row_acessor::operator[](int Iy){return (*grid)[column+Iy*row_size];}
+row_acessor gridKind::operator[](int Ix){return {&height_grid,Ix,x_point_count};}//height_grid[Ix+Iy*x_count];}
+vec3 gridKind::point(int Ix, int Iy){return vec3(Ix*x_step,Iy*y_step,(*this)[Ix][Iy]);}
 
 
+vec3 tile::vA(){return vec3(Ix_A*grid->x_step,Iy_A*grid->y_step, yA());}
+vec3 tile::vB(){return vec3(Ix_B*grid->x_step,Iy_B*grid->y_step, yB());}
+vec3 tile::vC(){return vec3(Ix_C*grid->x_step,Iy_C*grid->y_step, yC());}
+vec3 tile::vD(){return vec3(Ix_D*grid->x_step,Iy_D*grid->y_step, yD());}
 
-#define setcandidate(x,n,z)	{		    \
-	resolutions[x].pos = centerA;       \
-	resolutions[x].normal = n;          \
-	resolutions[x].penetration = n*z;   \
-	resolutions[x].depth = z;		    \
+float tile::yA(){return (*grid)[Ix_A][Iy_A];}
+float tile::yB(){return (*grid)[Ix_B][Iy_B];}
+float tile::yC(){return (*grid)[Ix_C][Iy_C];}
+float tile::yD(){return (*grid)[Ix_D][Iy_D];}
+
+
+char get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y,
+    float p2_x, float p2_y, float p3_x, float p3_y, float *i_x, float *i_y)
+{
+    float s1_x, s1_y, s2_x, s2_y;
+    s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
+    s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
+	//printf("s1: %s, s2: %s\n",toCString(vec2(s1_x,s1_y)),toCString(vec2(s2_x,s2_y)));
+
+    float s, t;
+    s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+	//printf("s = %f, t = %f\n",s,t);
+    if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+    {
+        // Collision detected
+        if (i_x != NULL)
+            *i_x = p0_x + (t * s1_x);
+        if (i_y != NULL)
+            *i_y = p0_y + (t * s1_y);
+        return 1;
+    }
+
+    return 0; // No collision
 }
 
-#define print(x) printf(#x ": %f\n", x)
-#define print2(x) printf(#x ": %s\n", toString(x).c_str())
+vec3 tile::getDiagPointOnLine(vec2 p1, vec2 p2){
+	vec3 p3;
+	vec3 p12;
+	float p1h = height(vec2(p1.x,p1.y));
+	float p2h = height(vec2(p2.x,p2.y));
+	if(p1h < p2h){p12 = vec3(p2.x,p2.y,p2h);}else{p12 = vec3(p1.x,p1.y,p1h);}
+	//float x; float y;
+	//float dh_dx;
+	//float dh_dy;
+	//float dy_dx;
+	//float dx; float dy;
+	//float y0;
+	//float z;
+	float u,t;
+	vec2 diagStart, diagDir, diagEnd, segStart, segDir, segEnd,res;
+	switch(shape){
+		case TILE_DIAG:
+TILE_DIAG_LABEL:
+				diagStart = vB();
+				diagEnd = vC();
+				if(get_line_intersection(
+					p1.x,p1.y,
+					p2.x,p2.y,
+					diagStart.x,diagStart.y,
+					diagEnd.x,diagEnd.y,
+					&res.x,&res.y)){
+					p3 = toVec3(res,height(res));
+					//if(p3.z > p12.z){return p3;}
+					//else{return p12;}
+					return p3; //for debug
+				}
+				/*
+				//another fuck-it
+				diagStart = vB();//toVec2(vB());
+				diagDir = toVec2(vC())-diagStart; //non-normalized
+				//float diagLen = length(diagDir);
+				//diagDir = normalizeSafe(diagDir);
+
+				segStart = p1;
+				segDir = p2-p1; //non-normalized
+				if(dot(segDir,diagDir) < 0){//if(dot(diagDir,segDir) < 0){
+					segStart = segStart+segDir;
+					segDir = -segDir;
+
+					//diagStart = diagStart+diagDir;
+					//diagDir = -diagDir;
 
 
-// https://tavianator.com/fast-branchless-raybounding-box-intersections/
-collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAABB *bodyAABB){
-	//collisionbodyRay *bodyRay = dynamic_cast<collisionbodyRay*>(cpRay.body);
-	//collisionbodyAABB *bodyAABB = dynamic_cast<collisionbodyAABB*>(cpAABB.body);
-	vec3 from = bodyRay->from;
-	vec3 dir = bodyRay->dir;
-	AABB aabb = bodyAABB->aabb.moveBy(bodyAABB->pos);
-	
-	float t1,t2,tmin,tmax;
-	tmin = -1.f/0.f; //-inf
-	tmax = 1.f/0.f;  //+inf
-	if(dir.x != 0){
-		float t1 = (aabb.start.x - from.x)/dir.x;
-		float t2 = (aabb.end.x - from.x)/dir.x;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-	if(dir.y != 0){
-		float t1 = (aabb.start.y - from.y)/dir.y;
-		float t2 = (aabb.end.y - from.y)/dir.y;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-	if(dir.z != 0){
-		float t1 = (aabb.start.z - from.z)/dir.z;
-		float t2 = (aabb.end.z - from.z)/dir.z;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-	
-	if((tmax >= 0) && (tmax >= tmin)){
-		collisioninfo *col = new collisioninfo();
-		col->body1 = bodyRay;
-		col->body2 = bodyAABB;
-		collisionpoint cpt1;
-		cpt1.pos = from+dir*tmin;
-		cpt1.depth = length(dir)*tmin;
-		
-		if(tmin >= 0){
-			collisionpoint cpt2;
-			cpt2.pos = from+dir*tmax;
-			cpt2.depth = length(dir)*tmax;
-			col->cpts.push_back(cpt2);
-		}else{
-			cpt1.pos = from+dir*tmax;
-			cpt1.depth = length(dir)*tmax;
-		}
-		col->c_to_c = cpt1;
-		return col;
-	}else{
-		return 0;
-	}
-}
+					printf("dot flip\n");
+				}
+				//float segLen = length(segDir);
+				//segDir = normalizeSafe(segDir);
 
-void resolve1Dcollision(float vel1, float mass1, float vel2, float mass2, float *vel1_result, float *vel2_result,float restitution){
-	float vel1_new,vel2_new;
-	//float restitution = 0.0f;//0.5f;
-	if((mass1 == 0) and (mass2 == 0)){printf("warning: resolving collisions, both objects massless\n"); return;}
-	if(mass1 == 0){
-		//the limit of elastic equations for infinite mass:
-		vel1_new = vel1;
-		//vel2_new = -vel2+2*vel1;
-		vel2_new = vel1+restitution*(vel1-vel2);
-	}else if(mass2 == 0){
-		//vel1_new = -vel1+2*vel2;
-		vel1_new = vel2+restitution*(vel2-vel1);
-		vel2_new = vel2;
-	}else{
-		//vel1_new = (vel1*(mass1-mass2)+2*mass2*vel2)/(mass1+mass2);
-		//vel2_new = (vel2*(mass2-mass1)+2*mass1*vel1)/(mass1+mass2);
-		vel1_new = (mass1*vel1+mass2*vel2+restitution*mass2*(vel2-vel1))/(mass1+mass2);
-		vel2_new = (mass1*vel1+mass2*vel2+restitution*mass1*(vel1-vel2))/(mass1+mass2);
-	}
-	*vel1_result = vel1_new;
-	*vel2_result = vel2_new;
-}
+				t = cross((diagStart-segStart),segDir)/cross(diagDir,segDir);
+				u = cross((segStart-diagStart),diagDir)/cross(segDir,diagDir);
+				printf("p1 = %s, p2 = %s\n",toCString(p1),toCString(p2));
+				printf("diag = %s -> %s\n",toCString(diagStart),toCString(diagDir));
+				printf("seg  = %s -> %s\n",toCString(segStart), toCString(segDir));
+				printf("t = %f, u = %f\n",t,u);
+				if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
+					p3 = vB()+(vB()-vC())*t;
+					return p3;
+				}
+				*/
+			break;
+		case TILE_ALTERNATING_DIAG:
+			if(((Ix_A+Iy_A) % 2) == 0){
+				goto TILE_DIAG_LABEL;
+			}else{
+				diagStart = vA();
+				diagEnd = vD();
+				if(get_line_intersection(
+					p1.x,p1.y,
+					p2.x,p2.y,
+					diagStart.x,diagStart.y,
+					diagEnd.x,diagEnd.y,
+					&res.x,&res.y)){
+					p3 = toVec3(res,height(res));
+					//if(p3.z > p12.z){return p3;}
+					//else{return p12;}
+					return p3; //for debug
+				}
+					/*
+					diagStart = toVec2(vA());
+					diagDir = toVec2(vD())-diagStart; //non-normalized
+					//float diagLen = length(diagDir);
+					//diagDir = normalizeSafe(diagDir);
 
-//compute friction for a pair of bodies.
-float frictionFormula(float f1, float f2){
-	return f1*f2;
-}
+					segStart = p1;
+					segDir = p2-p1; //non-normalized
+					if(cross(diagDir,segDir) < 0){segDir = p1-p2;}
+					//float segLen = length(segDir);
+					//segDir = normalizeSafe(segDir);
 
-//compute restitution for a pair of bodies
-float restitutionFormula(float r1, float r2){
-	return r1*r2;
-}
-
-//void resolveCollision(collisioninfo col, vec3 *vel1, float mass1, vec3 *vel2, float mass2,float friction,float restitution){
-void resolveCollision(collisioninfo *col){
-	if(!col){error("no collision info\n");}
-	if(!col->body1){error("no body1\n");}
-	if(!col->body2){error("no body2\n");}
-	vec3 vel1 			= col->body1->vel;
-	float mass1 		= col->body1->mass;
-	float friction1 	= col->body1->friction;
-	float restitution1 	= col->body1->restitution;
-	vec3 vel2 			= col->body2->vel;
-	float mass2 		= col->body2->mass;
-	float friction2 	= col->body2->friction;
-	float restitution2 	= col->body2->restitution;
-	
-	float friction = frictionFormula(friction1, friction2);
-	float restitution = restitutionFormula(restitution1, restitution2);
-	
-	//if(mass1 and mass2){printf("collision: m1 = %f, m2 = %f, friction = %f, rest = %f\n",mass1,mass2,friction,restitution);}
-	//we treat mass = 0 as infinite mass
-	vec3 n = col->c_to_c.normal;
-	if(length(n) == 0){printf("no normal\n"); return;}
-	vec3 v1 = vel1-vel2;//*vel1;
-	if(length(v1) == 0){/*printf("penetration\n");*/ return;}
-	vec3 v2 = vec3(0,0,0);//*vel2;
-	
-	//float friction = 0.005f;
-	
-	vec3 v1_perp_comp = glm::proj(v1,n);
-	float v1_norm_length = dot(v1_perp_comp,n);
-	if(v1_norm_length > 0){/*printf("separating collision\n");*/return;}
-	vec3 v1_par_comp = v1-v1_perp_comp;
-	
-	vec3 v2_perp_comp = -v1_perp_comp;
-	float v2_norm_length = 0;
-	vec3 v2_par_comp = vec3(0,0,0);
-	
-	vec3 v1_par_friction = vec3(0,0,0);
-	vec3 v2_par_friction = vec3(0,0,0);
-	if(length(v1_par_comp)){
-		vec3 v1_par_dir = normalize(v1_par_comp);
-		float v1_par_len = length(v1_par_comp);
-		if(mass1){v1_par_friction = -v1_par_dir*min(friction/mass1,v1_par_len);}
-		if(mass2){v2_par_friction = v1_par_dir*min(friction/mass2,v1_par_len);}
-	}
-	//vec3 v2_perp_comp = proj(v2,n);
-	//float v2_norm_length = dot(v2_perp_comp,n);
-	//vec3 v2_par_comp = v2-v2_perp_comp;
-	
-	float v1_perp_comp_result, v2_perp_comp_result;
-	
-	resolve1Dcollision(v1_norm_length,mass1,v2_norm_length,mass2,&v1_perp_comp_result,&v2_perp_comp_result,restitution);
-	
-	
-	vel1 = vel2+v1_par_comp+normalize(v1_perp_comp)*v1_perp_comp_result+v1_par_friction;
-	vel2 = vel2+v2_par_comp+normalize(v2_perp_comp)*v2_perp_comp_result+v2_par_friction;
-	
-	if(col->body1->type == BODY_DYNAMIC){col->body1->vel = vel1;}
-	if(col->body2->type == BODY_DYNAMIC){col->body2->vel = vel2;}
-}
-
-class rec_counter{
-	public:
-	int *val;
-	rec_counter(int *newval){
-		val = newval;
-		(*val)++;
-	}
-	~rec_counter(){
-		(*val)--;
-	}
-};
-
-void indent(int num,char C){while(num--){printf("%c",C);}}
-int bprecs = 0;
-broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
-	broadphaseinfo *bp1 = new broadphaseinfo();
-	if(!node){return bp1;}
-	if(!node->visitors.size()){return bp1;}
-	for(auto I = node->visitors.begin(); I != node->visitors.end(); I++){
-	//	string ename = (*I)->body->E->name;
-	//	indent(bprecs+1,' '); printf("entity %s\n",ename.c_str());
-		bp1->bodies.push_back((*I)->body);
-	}
-	//and make pairwise pairs of wise
-	for(auto I = bp1->bodies.begin(); I != bp1->bodies.end(); I++){
-		//if((*I)->type == BODY_NOCOLLIDE){continue;}
-		for(auto J = I+1; J != bp1->bodies.end(); J++){
-			if(!canCollide(*I,*J)){continue;}
-			//S-D, D-D, T-S, T-D collisions only
-			bp1->pairs.push_back({*I,*J});
-			//string ename1 = (*I)->E->name;
-			//string ename2 = (*J)->E->name;
-			//printf("pair %s - %s\n",ename1.c_str(),ename2.c_str());
-		}
-	}
-	return bp1;
-}
-
-void broadphaseinfo::add(broadphaseinfo *bp[8]){
-	for(int octant = 0; octant < 8; octant++){
-		broadphaseinfo *bp2 = bp[octant];
-		if(!bp2){continue;}
-		bodies.insert(bodies.end(),bp2->bodies.begin(),bp2->bodies.end());
-		pairs.insert(pairs.end(),bp2->pairs.begin(),bp2->pairs.end());
-	}
-}
-
-void broadphaseinfo::addJoin(broadphaseinfo *bp[8]){
-	//pairs between old and new bodies
-	for(int octant = 0; octant < 8; octant++){
-		broadphaseinfo *bp2 = bp[octant];
-		if(!bp2){continue;}
-		for(auto I = bodies.begin(); I != bodies.end(); I++){
-			for(auto J = bp2->bodies.begin(); J != bp2->bodies.end(); J++){
-				if(!canCollide(*I,*J)){continue;}
-				pairs.push_back({*I,*J});
-				//string ename1 = (*I)->E->name;
-				//string ename2 = (*J)->E->name;
-				//string nname1 = (*I)->ov->curNode->getName();
-				//string nname2 = (*J)->ov->curNode->getName();
-				//printf("pair %s (@ %s) - %s (@ %s)\n",
-				//	ename1.c_str(),nname1.c_str(),
-				//	ename2.c_str(), nname2.c_str()
-				//);
+					t = cross((diagStart-segStart),segDir)/cross(diagDir,segDir);
+					u = cross((segStart-diagStart),diagDir)/cross(segDir,diagDir);
+					if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
+						p3 = vA()-(vA()-vD())*t;
+						return p3;
+					}
+					*/
 			}
+			break;
+		case TILE_BILINEAR:
+			//no diagonal here
+			//but a quadratic equation
+			//x = (pos.x-A.x)/(B.x-A.x);
+			//y = (pos.y-A.y)/(C.y-A.y);
+			//FUCK IT
+			/*
+			dx = p2.x-p1.x;
+			dy = p2.y-p1.y;
+			if(dx != 0){dy_dx = dy/dx;}else{dy_dx = 0;}
+			float y0 = height(vec2(p1.x,p1.y));
+
+
+			//y = y0+x*dy_dx
+			//float dh_dx = -A.z+C.z+A.z*x - B.z*x - C.z*x + D.z*x;
+			//float dh_dy = -A.z+B.z+A.z*y - B.z*y - C.z*y + D.z*y;
+
+			//dh_dx = -A.z+B.z+A.z*(y0+x*dy_dx) -B.z*(y0+x*dy_dx) -C.z*(y0+x*dy_dx) +D.z*(y0+x*dy_dx)
+			//dh_dx = 0
+			//A.z-B.z = (A.z-B.z-C.z+D.z)*(y0+x*dy_dx)
+			if(dy_dx != 0){
+				x = (A.z-B.z-y0*(A.z-B.z-C.z+D.z))/dy_dx;
+				y = y0+x*dy_dx;
+			}else{
+				if(dx == 0){
+					if(dy == 0){return p1;}
+					else{
+						x = p1.x;
+						//dh_dy = -A.z+C.z+A.z*x - B.z*x - C.z*x + D.z*x;
+						//dh_dy = 0
+						//A.z-C.z = (A.z-B.z-C.z+D.z)*x
+						//x = (A.z-C.z)/(A.z-B.z-C.z+D.z)
+						float DD = A.z-B.z-C.z+D.z;
+						if(DD != 0){
+							x = (A.z-C.z) / DD;
+						}else{
+							return p12;
+						}
+					}
+				}
+			}
+			break;
+			*/
+		break;
+	};
+	printf("fallback 1/2\n");
+	return p12;
+}
+//struct v_tri{vec3 A,B,C};
+
+float diagonalTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = false){
+	//printf("diagTileHeight\n");
+	//normalize to a square tile
+	//printf("dTH: A(%s) B(%s) C(%s) D(%s) pos(%s) flip(%d)\n",toCString(A),toCString(B),toCString(C),toCString(D),toCString(pos),(int)flip);
+	vec2 size = vec2(B.x-A.x,C.y-A.y);
+	B.x = (B.x-A.x)/size.x;
+	B.y = (B.y-A.y)/size.y;
+	C.x = (C.x-A.x)/size.x;
+	C.y = (C.y-A.y)/size.y;
+	D.x = (D.x-A.x)/size.x;
+	D.y = (D.y-A.y)/size.y;
+	pos.x = (pos.x-A.x)/size.x;
+	pos.y = (pos.y-A.y)/size.y;
+
+	float zA, zB, zC, zD;
+	bool tri1;
+	float dz_dx, dz_dy;
+	if(!flip){
+		//now we have coords:
+		// (0,0,zA)------------(1,0,zB)
+		//    |                 / |
+		//	  |      *        /   |
+		//	  |(p.x,p.y,h)  /     |
+		//	  |           /       |
+		//	  |  1      /         |
+		//	  |       /        2  |
+		//	  |     /             |
+		//	  |   /               |
+		//	  | /                 |
+		// (0,1,zC)------------(1,1,zD)
+		if(pos.x <= 1.f-pos.y){	//plane of triangle 1 (A,B,C)
+			zA = A.z;
+			zB = B.z;
+			zC = C.z;
+			dz_dx = (zB-zA);
+			//float dz_dy = (zC-zA);
+			//zD = zA + dz_dx + dz_dy;
+			zD = zC + dz_dx; //equivalent
+		}else{	//plane of triangle 2 (B,D,C)
+			zB = B.z;
+			zC = C.z;
+			zD = D.z;
+			//float dz_dx = (zD-zC);
+			dz_dy = (zD-zB);
+			//zA = zD - dz_dx - dz_dy;
+			zA = zC - dz_dy; //equivalent
+		}
+	}else{
+		//now we have coords:
+		// (0,0,zA)------------(1,0,zB)
+		//    | \                 |
+		//	  |   \           *   |
+		//	  |     \ (p.x,p.y,h) |
+		//	  |       \           |
+		//	  |         \     1   |
+		//	  |           \       |
+		//	  |    2        \     |
+		//	  |               \   |
+		//	  |                 \ |
+		// (0,1,zC)------------(1,1,zD)
+		if(pos.x <= pos.y){	//plane of triangle 1 (A,B,D)
+			zA = A.z;
+			zB = B.z;
+			zD = D.z;
+			//dz_dx = (zB-zA);
+			dz_dy = (zD-zB);
+			//zC = zB - dz_dx + dz_dy;
+			zC = zA + dz_dy; //equivalent
+		}else{	//plane of triangle 2 (A,D,C)
+			zA = A.z;
+			zC = C.z;
+			zD = D.z;
+			dz_dx = (zD-zC);
+			//dz_dy = (zC-zA);
+			//zB = zC + dz_dx - dz_dy;
+			zB = zA+dz_dx; // equivalent
 		}
 	}
-	//also concatenate the new bps
-	add(bp);
+	//the bilinear formula can be used for flat sheets too
+	float h = (zA*(1-pos.x)+zB*pos.x)*(1-pos.y)+(zC*(1-pos.x)+zD*pos.x)*pos.y;
+	return h;
 }
 
-broadphaseinfo *checkCollisionBroadphase(octree_node *node){
-	if(!node){return 0;}
-	rec_counter rc(&bprecs);
-	//first, add bodies from this node
-	string nname = node->getName();
-	//if(!node->isLeaf){
-	//	indent(bprecs,'_'); printf("node %s:\n",nname.c_str());
-	//}
-	broadphaseinfo *bp1 = getBroadphaseNodeOnly(node);
-	//then, add the bodies from sub-nodes
-	if(!node->isLeaf){
-		//indent(bprecs,' '); printf("subnodes of %s:\n",nname.c_str());
-		broadphaseinfo *bp2[8];
-		for(int I = 0; I < 8; I++){
-			//if(node->children[I] && !node->children[I]->isLeaf){
-			//	indent(bprecs+1,' '); printf("s.n %d:\n",I);
-			//}
-			bp2[I] = checkCollisionBroadphase(node->children[I]);
+#define FLIP_DIAGONAL true
+vec2 diagonalTileGradient(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = false){
+	//assumption: tile is rectangular and axis-aligned.
+	//normalize to a square tile
+	vec2 size = vec2(B.x-A.x,C.y-A.y);
+	B.x = (B.x-A.x)/size.x;
+	B.y = (B.y-A.y)/size.y;
+	C.x = (C.x-A.x)/size.x;
+	C.y = (C.y-A.y)/size.y;
+	D.x = (D.x-A.x)/size.x;
+	D.y = (D.y-A.y)/size.y;
+	pos.x = (pos.x-A.x)/size.x;
+	pos.y = (pos.y-A.y)/size.y;
+	A.x = 0; A.y = 0;
+
+	float zA, zB, zC, zD;
+	bool tri1;
+	float dz_dx, dz_dy;
+	if(!flip){
+		//now we have coords:
+		// (0,0,zA)------------(1,0,zB)
+		//    |                 / |
+		//	  |      *        /   |
+		//	  |(p.x,p.y,h)  /     |
+		//	  |           /       |
+		//	  |         /         |
+		//	  |       /           |
+		//	  |     /             |
+		//	  |   /               |
+		//	  | /                 |
+		// (0,1,zC)------------(1,1,zD)
+		if(pos.x <= 1.f-pos.y){	//plane of triangle 1 (A,B,C)
+			zA = A.z;
+			zB = B.z;
+			zC = C.z;
+			dz_dx = (zB-zA);
+			dz_dy = (zC-zA);
+			//debugDrawPoint(A, vec3(255,0,0));
+			//debugDrawPoint(B, vec3(196,0,0));
+			//debugDrawPoint(C, vec3(128,0,0));
+		}else{	//plane of triangle 2 (B,D,C)
+			zB = B.z;
+			zC = C.z;
+			zD = D.z;
+			dz_dx = (zD-zC);
+			dz_dy = (zD-zB);
+			//debugDrawPoint(B, vec3(196,0,0));
+			//debugDrawPoint(C, vec3(128,0,0));
+			//debugDrawPoint(D, vec3(64,0,0));
 		}
-		bp1->addJoin(bp2);
-		for(int I = 0; I < 8; I++){delete bp2[I];}
+	}else{
+		//now we have coords:
+		// (0,0,zA)------------(1,0,zB)
+		//    | \                 |
+		//	  |   \           *   |
+		//	  |     \ (p.x,p.y,h) |
+		//	  |       \           |
+		//	  |         \         |
+		//	  |           \       |
+		//	  |             \     |
+		//	  |               \   |
+		//	  |                 \ |
+		// (0,1,zC)------------(1,1,zD)
+		if(pos.x <= pos.y){	//plane of triangle 1 (A,B,D)
+			zA = A.z;
+			zB = B.z;
+			zD = D.z;
+			dz_dx = (zB-zA);
+			dz_dy = (zD-zB);
+		}else{	//plane of triangle 2 (A,D,C)
+			zA = A.z;
+			zC = C.z;
+			zD = D.z;
+			dz_dx = (zD-zC);
+			dz_dy = (zC-zA);
+		}
 	}
-	return bp1;
+	//todo: reverse the normalization
+	return vec2(dz_dx/size.x,dz_dy/size.y);
 }
 
-void broadphaseRender(broadphaseinfo *bp){
-	//setDepthTest(false);
-	setColor(vec3(0,0,255));
-	setPosition(vec3(0,0,0));
-	setScale(vec3(1,1,1));
-	setPointSize(3.f);
-	setColoring(false);
-	setTexturing(false);
-	setLighting(false);
-	int j = 0;
-	for(auto I = bp->bodies.begin(); I != bp->bodies.end(); I++){
-		vec3 pos = (*I)->ov->pos;
-		//printf("body %d pos = %s\n", j, toCString(pos));
-		drawPoint(pos);
-		j++;
-	}
-	for(auto I = bp->pairs.begin(); I != bp->pairs.end(); I++){
-		drawLine((*I).first->ov->pos,(*I).second->ov->pos);
-	}
-	//setDepthTest(true);
-	//printf("\n");
+float bilinearTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos){
+	float x = (pos.x-A.x)/(B.x-A.x);
+	float y = (pos.y-A.y)/(C.y-A.y);
+	float h = (A.z*(1-x)+B.z*x)*(1-y)+(C.z*(1-x)+D.z*x)*y;
+	return h;
 }
 
-/*
-void resolveCollision(collisioninfo col, vec3 *vel1, float mass1, vec3 *vel2, float mass2){
-	float energy_retention = 0.9;
-	//we treat mass = 0 as infinite mass
-	vec3 n = col.c_to_c.normal;
-	vec3 v1 = *vel1;
-	vec3 v2 = *vel2;
-	
-	vec3 v1_perp_comp = glm::proj(v1,n);
-	float v1_norm_length = dot(v1_perp_comp,n);
-	vec3 v1_par_comp = v1-v1_perp_comp;
-	vec3 v2_perp_comp = proj(v2,n);
-	float v2_norm_length = dot(v2_perp_comp,n);
-	vec3 v2_par_comp = v2-v2_perp_comp;
-	
-	float v1_perp_comp_result, v2_perp_comp_result;
-	
-	//sad bork :( resolve1Dcollision(v1_norm_length,mass1,v2_norm_length,mass2,&v1_perp_comp_result,&v2_perp_comp_result);
-	
-	
-	*vel1 = v1_par_comp+normalize(v1_perp_comp)*v1_perp_comp_result;
-	*vel2 = v2_par_comp+normalize(v2_perp_comp)*v2_perp_comp_result;
+vec2 bilinearTileGradient(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos){
+	float x = (pos.x-A.x)/(B.x-A.x);
+	float y = (pos.y-A.y)/(C.y-A.y);
+	/*
+	normals:
+
+	zA
+	- zA*x + zB*x
+	- zA*y + Zc*y
+	+ zA*x*y - zB*x*y - Zc*x*y + zD*x*y
+
+	dz/dx = - zA + zB + zA*y - zB*y - zC*y + zD*y
+	dz/dy = - zA + zC + zA*x - zB*x - zC*x + zD*x
+	*/
+	float dh_dx = -A.z+B.z+A.z*y - B.z*y - C.z*y + D.z*y;
+	float dh_dy = -A.z+C.z+A.z*x - B.z*x - C.z*x + D.z*x;
+	return vec2(dh_dx, dh_dy);
 }
-*/
-/*
-(aabbA.min.x < aabbB.max.x)&&
-(aabbA.min.y < aabbB.max.y)&&
-(aabbA.min.z < aabbB.max.z)&&
-(aabbA.max.x > aabbB.min.x)&&
-(aabbA.max.y > aabbB.min.y)&&
-(aabbA.max.z > aabbB.min.z)
-*/
+
+float tile::height(vec2 pos){
+	if(!grid){return 0;}
+	float h = 0;
+	vec3 A = vA();
+	vec3 B = vB();
+	vec3 C = vC();
+	vec3 D = vD();
+	//float x1 = A.x;
+	//float x2 = B.x;
+	//float y1 = A.y;
+	//float y2 = C.y;
+	//v_tri T1, v_tri T2;
+	switch(shape){
+		case TILE_DIAG:
+			h = diagonalTileHeight(A,B,C,D,pos);
+			break;
+		case TILE_ALTERNATING_DIAG:
+			if(((Ix_A+Iy_A) % 2) == 0){
+				h = diagonalTileHeight(A,B,C,D,pos);
+			}else{
+				//if we are on a diagonal tile, flip the diagonal
+				h = diagonalTileHeight(A,B,C,D,pos, FLIP_DIAGONAL);
+			}
+			break;
+		case TILE_BILINEAR:
+			h = bilinearTileHeight(A,B,C,D,pos);
+			break;
+	}
+	return h;
+}
+vec2 tile::gradient(vec2 pos){
+	if(!grid){return vec2();}
+	vec2 g;
+	vec3 A = vA();
+	vec3 B = vB();
+	vec3 C = vC();
+	vec3 D = vD();
+	//float x1 = A.x;
+	//float x2 = B.x;
+	//float y1 = A.y;
+	//float y2 = C.y;
+	//v_tri T1, v_tri T2;
+	switch(shape){
+		case TILE_DIAG:
+			g = diagonalTileGradient(A,B,C,D,pos);
+			break;
+		case TILE_ALTERNATING_DIAG:
+			if(((Ix_A+Iy_A) % 2) == 0){
+				g = diagonalTileGradient(A,B,C,D,pos);
+			}else{
+				//if we are on a diagonal tile, flip the diagonal
+				g = diagonalTileGradient(A,B,C,D,pos, FLIP_DIAGONAL);
+			}
+			break;
+		case TILE_BILINEAR:
+			g = bilinearTileGradient(A,B,C,D,pos);
+			break;
+	}
+	return g;
+}
+vec3 tile::normal(vec2 pos){
+	if(!grid){return vec3(0,0,0);}
+	vec2 g = gradient(pos);
+	vec3 A(0,0,0);
+	vec3 B(1,0,g.x);
+	vec3 C(0,1,g.y);
+	vec3 n = -triangle_normal(A,B,C);
+	//printf("tile:normal = %s\n",toCString(n));
+	return n;
+}
+
+collisionbodyPoint::collisionbodyPoint(){ type = BODY_TRIGGER; }
+collisionbodyPoint::collisionbodyPoint(vec3 p)
+{
+	type = BODY_TRIGGER;
+	pos = p;
+}
+
+void collisionbodyTerrain::generateGridFromModel(int numx, int numy){
+	if(!em){error("no editmodel!"); return;}
+	int newsize = em->verts.size();
+	grid.height_grid.resize(em->verts.size());
+	grid.x_tile_count = numx;
+	grid.y_tile_count = numy;
+	grid.x_point_count = numx+1;
+	grid.y_point_count = numy+1;
+	printf("grid resized to (%d) * (%d) = %d verts (actually got %d verts)\n",
+		grid.x_point_count, grid.y_point_count, (grid.x_point_count)*(grid.y_point_count),newsize);
+	updateGridFromModel();
+}
+
+void collisionbodyTerrain::updateGridFromModel(){
+	if(!em){error("no editmodel!"); return;}
+	printf("udateGrid:\n\told aabb = %s\n",toCString(aabb));
+
+	for(auto V = em->verts.begin(); V != em->verts.end(); V++){
+		e_vertex &ev = **V;
+		vec3 v = ev.pos;
+		if(V == em->verts.begin()){
+			aabb.end = aabb.start;
+		}
+		//aabb.start = vec3_min(aabb.start, v);
+		aabb.end = vec3_max(aabb.end, aabb.start+v);
+	}
+	aabb.size = aabb.end - aabb.start;
+	printf("\tnew aabb = %s\n",toCString(aabb));
+	//printf("updateGrid: new aabb = %s\n",toCString(aabb));
+	float sizex = aabb.size.x;
+	float sizey = aabb.size.y;
+	grid.x_step = sizex / (float) (grid.x_tile_count);
+	grid.y_step = sizey / (float) (grid.y_tile_count);
+
+	for(auto V = em->verts.begin(); V != em->verts.end(); V++){
+		e_vertex &ev = **V;
+		vec3 v = ev.pos;
+		int Ix = roundi(v.x/(float)grid.x_step);//(int)((v.x / (float)grid.x_step) + 0.5f);
+		int Iy = roundi(v.y/(float)grid.y_step);//(int)((v.y / (float)grid.y_step) + 0.5f);
+		int addr = Ix+Iy*grid.x_point_count;
+		grid.height_grid[addr] = v.z;
+		grid.debugVerts[addr] = v;
+		printf("v %s to [%d,%d]\n",toCString(v),Ix,Iy);
+	}
+}
+
+//AABB infAABB(){
+//	float inf = INFINITY; 
+//	return AABB(vec3(-inf,-inf,-inf),vec3(inf,inf,inf),vec3(inf,inf,inf));
+//}
+
+collisionbodyPlane::collisionbodyPlane(vec3 n, float offset):normal(n),offset(offset){aabb = AABB(vec3(1,1,1),-vec3(1,1,1));}
+collisionbodyPlane::collisionbodyPlane(vec3 A, vec3 B, vec3 C){
+	normal = triangle_normal(A,B,C);
+	offset = dot(A,normal);
+	float s = 100.f;
+	aabb = AABB(s*vec3(1,1,1),-s*vec3(1,1,1));
+}
+
+tile gridKind::getTile(vec2 pos){
+	int X1 = floori(pos.x/x_step); //clampi(floori(g_dx1/grid.x_step), 0, grid.x_point_count-1);
+	int Y1 = floori(pos.y/y_step); //clampi(floori(g_dy1/grid.y_step), 0, grid.y_point_count-1);
+	int X2 = X1+1;
+	int Y2 = Y1+1;
+	if((X1 < 0) || (X2 > (x_point_count-1))){return {0,TILE_DIAG,0,0,0,0,0,0,0,0};}
+	if((Y1 < 0) || (Y2 > (y_point_count-1))){return {0,TILE_DIAG,0,0,0,0,0,0,0,0};}
+	tile T = {this,TILE_DIAG,X1,Y1,X2,Y1,X1,Y2,X2,Y2};
+	return T;
+}
+
+float gridKind::height(vec2 pos){
+    /*
+    //1.2. box coords
+	float b_z1 = p.z
+	float b_z2 = p.z
+	float b_x1 = p.x;
+	float b_x2 = p.x;
+	float b_y1 = p.y;
+	float b_y2 = p.y;
+
+
+	//1.3. grid coords
+	AABB groundaabb = body2->aabb.moveBy(body2->pos);
+	vec3 offs = body2->pos;
+	float grid_x1 = groundaabb.start.x;
+	float grid_x2 = groundaabb.end.x;
+	float grid_y1 = groundaabb.start.y;
+	float grid_y2 = groundaabb.end.y;
+	float grid_z1 = groundaabb.start.z;
+	float grid_z2 = groundaabb.end.z;
+
+	auto &grid = body2->grid;
+	//2. early exit if no AABB intersection
+	if(b_x1 > grid_x2){hasAABBcol = false;}
+	if(b_x2 < grid_x1){hasAABBcol = false;}
+	if(b_y1 > grid_y2){hasAABBcol = false;}
+	if(b_y2 < grid_y1){hasAABBcol = false;}
+	if(b_z1 > grid_z2){hasAABBcol = false;}
+	if(b_z2 < grid_z1){hasAABBcol = false;} //comment this out for infinitely deep terrain
+	//if(!debugStop)
+	//printf("hasAABBcol = %d\n",hasAABBcol);
+	if(!hasAABBcol){return 0;}
+    */
+	//3. find grid indices
+	//float g_dx1 = point.x - grid_x1;
+	//float g_dy1 = point.y - grid_y1;
+	return getTile(pos).height(pos);
+}
+
+vec2 gridKind::gradient(vec2 pos){
+	return getTile(pos).gradient(pos);
+}
+
+vec3 gridKind::normal(vec2 pos){
+	return getTile(pos).normal(pos);
+}
+
+vec2 gridKind::getEnd(){
+	return vec2(x_step*x_tile_count,
+				y_step*y_tile_count);
+}
+
+void printCollisionBody(collisionbody *body){
+	vec3 v = body->vel;
+	float vl = length(v);
+	float m = body->mass;
+	float r = body->restitution;
+	float f = body->friction;
+	printf("vel = %s (vl = %f)\n",toCString(v),vl);
+	printf("mass = %f\n",m);
+	printf("restitution = %f\n",r);
+	printf("friction = %f\n",f);
+}
+
+void printCollision(collisioninfo *col){
+	collisionbody *body1 = col->body1;
+	collisionbody *body2 = col->body2;
+	string ename1 = body1->E->name;
+	string ename2 = body2->E->name;
+	string type1 = toString(body1->type);//bodyTypeToString(body1);
+	string type2 = toString(body2->type);//bodyTypeToString(body2);
+
+	printf("------------------\n");
+	printf("collision between %s (%s) and %s (%s):\n",
+		ename1.c_str(),
+		type1.c_str(),
+		ename2.c_str(),
+		type2.c_str()
+		);
+	vec3 dv = body1->vel - body2->vel;
+	vec3 n = col->c_to_c.normal;
+	vec3 dv_perp = glm::proj(dv,n);
+	vec3 dv_par = dv-dv_perp;
+	printf("dv = %f\n",length(dv));
+	printf("dv_perp = %f\n",length(dv_perp));
+	printf("dv_par = %f\n",length(dv_par));
+	printf("body1:\n");
+	printCollisionBody(body1);
+	printf("body2:\n");
+	printCollisionBody(body2);
+	printf("------------------\n\n");
+}
 
 //swaps collision parties A and B
+//and flips normals
 collisioninfo *reverseCollision(collisioninfo *ci){
-	auto body1 = ci->body1;
-	ci->body1 = ci->body2;
-	ci->body2 = body1;
-	
+	if(ci){
+		auto body1 = ci->body1;
+		ci->body1 = ci->body2;
+		ci->body2 = body1;
+		ci->c_to_c.normal = -(ci->c_to_c.normal);
+		ci->c_to_c.penetration = -(ci->c_to_c.penetration);
+	}
+
 	//collisionPoint cpt = ci->c_to_c;
 	//dunno yet what to do with collision points
 	return ci;
 }
 
-collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyAABB *body2){
-	if(!body1){printf("ccAA: no body1\n"); return 0;}
-	if(!body2){printf("ccAA: no body2\n"); return 0;}
-	AABB aabbA = body1->aabb;//dynamic_cast<collisionbodyAABB*>(cpAABB1.body)->aabb;
-	vec3 posA = body1->pos;//cpAABB1.pos;
-	vec3 velA = body1->vel;//cpAABB1.vel;
-	
-	AABB aabbB = body2->aabb;//dynamic_cast<collisionbodyAABB*>(cpAABB2.body)->aabb;
-	vec3 posB = body2->pos;//cpAABB2.pos;
-	vec3 velB = body2->vel;//cpAABB2.vel;
-	//AABB *aabbA = A->aabb;//dynamic_cast<AABB*>(A);
-	//AABB *aabbB = B->aabb;//dynamic_cast<AABB*>(B);
-	//if(!aabbA || !aabbB){return 0;}
-	
-	vec3 centerA = (aabbA.start+aabbA.end)/2.f;
-	
-	vec3 relative = posA-posB;
-	
-	aabbA = aabbA.moveBy(posA);
-	aabbB = aabbB.moveBy(posB);
-	
-	
-	float dist_right 	= aabbB.start.x 		- aabbA.end.x;
-	float dist_left 	= aabbA.start.x 		- aabbB.end.x;
-	float dist_front 	= aabbB.start.y 		- aabbA.end.y;
-	float dist_back 	= aabbA.start.y 		- aabbB.end.y;
-	float dist_top 		= aabbB.start.z 		- aabbA.end.z;
-	float dist_bottom 	= aabbA.start.z 		- aabbB.end.z;
-	
-	
-	
-	//1) check if collision exists at all
-	if(
-		(dist_right >0)||
-		(dist_left >0)||
-		(dist_front >0)||
-		(dist_back >0)||
-		(dist_top >0)||
-		(dist_bottom >0)
-	){return 0;}
-	
-	//print2(aabbA.start);
-	// print2(aabbA.end);
-	// print2(aabbA.size);
-	//print2(aabbB.start);
-	// print2(aabbB.end);
-	// print2(aabbB.size);
-	if(false){
-	print(dist_right);
-	print(dist_left);
-	print(dist_front);
-	print(dist_back);
-	print(dist_top);
-	print(dist_bottom);
-	}
-	collisionpoint resolutions[6];
-	//check candidate collision resolutions
-	float sign = -1.f;
-	setcandidate(0,sign*vec3( 1, 0, 0),dist_right);
-	setcandidate(1,sign*vec3(-1, 0, 0),dist_left);
-	setcandidate(2,sign*vec3( 0, 1, 0),dist_front);
-	setcandidate(3,sign*vec3( 0,-1, 0),dist_back);
-	setcandidate(4,sign*vec3( 0, 0, 1),dist_top);
-	setcandidate(5,sign*vec3( 0, 0,-1),dist_bottom);
-	
-	float mindepth = fabs(resolutions[0].depth);
-	int bestI = -1; //default = top
-	for(int i = 0; i < 6; i++){
-		if(fabs(resolutions[i].depth) <= mindepth){
-			mindepth = fabs(resolutions[i].depth);
-			bestI = i;
-		}
-	}
-	if(bestI == -1){printf("can't find lowest depth\n");bestI = 4;}
-	collisioninfo *cinfo = new collisioninfo();
-	cinfo->body1 = body1;
-	cinfo->body2 = body2;
-	cinfo->c_to_c = resolutions[bestI];
-	//printf("collision: side %d, dist %f\n",bestI,resolutions[bestI].depth);
-	return cinfo;
-}
-
-collisioninfo *collisionCheckDispatch(collisionbody *body1, collisionbody *body2){
-	collisionbodyAABB *body1AABB = dynamic_cast<collisionbodyAABB*>(body1);
-	collisionbodyRay *body1Ray = dynamic_cast<collisionbodyRay*>(body1);
-	collisionbodyAABB *body2AABB = dynamic_cast<collisionbodyAABB*>(body2);
-	collisionbodyRay *body2Ray = dynamic_cast<collisionbodyRay*>(body2);
-	if(body1AABB){
-		if(body2AABB){
-			return checkCollisionAABB_AABB(body1AABB,body2AABB);
-		}else
-		if(body2Ray){
-			return reverseCollision(checkCollisionRay_AABB(body2Ray,body1AABB));
-		}else{
-			error("can't check collision pair AABB - uknown");
-		}
-	}else
-	if(body1Ray){
-		if(body2AABB){
-			return checkCollisionRay_AABB(body1Ray,body2AABB);
-		}else
-		if(body2Ray){
-			return 0; //rays can't collide with other rays
-		}else{
-			error("can't check collision pair Ray - unknown");
-		}
-	}else
-	error("can't check collision pair unknown - unknown");
-}
-
-bool canCollide(collisionbody *body1, collisionbody *body2){
-	return !(	
-		body1->type == BODY_NOCOLLIDE ||
-		body2->type == BODY_NOCOLLIDE ||
-		(body1->type == BODY_STATIC && body2->type == BODY_STATIC)
-	);
-	//NOCOLLIDE bodies are never checked
-	//STATIC bodies are not checked against other static bodies
-	//(since they are assumed not to move)
-}
-
-
-int numCollisionPairs = 0;//entity *I, entity *J, 
-void pairwiseCollisionCheck(collisionbody *body1, collisionbody *body2){
-	if(!body1){printf("pcc: no body1\n"); return;}
-	if(!body2){printf("pcc: no body2\n"); return;}
-	numCollisionPairs++;
-	
-	if(body1 == body2){
-		//printf("no collision (ignored/same)\n\n");
-		return;
-	}
-	if(body1->type == BODY_NOCOLLIDE || body2->type == BODY_NOCOLLIDE){
-		//printf("no collision (ignored/nocollide)\n\n");
-		return; //no-collide bodies are not checked for collisions
-	}
-	if(body1->type == BODY_STATIC && body2->type == BODY_STATIC){
-		//printf("no collision (ignored/static)\n\n");
-		return; //static-static collisions are ignored
-	}
-	collisioninfo *col = collisionCheckDispatch(body1,body2);
-	if(!col){
-		//printf("no collision\n\n");
-		return;
-	}else{
-		// printf("collision check:\n");
-		// printf("body1:\n");
-		// printf("	entity: %s\n",body1->E->name.c_str());
-		// printf("	type: %s\n", toCString(body1->type));
-		// printf("body2:\n");
-		// printf("	entity: %s\n",body2->E->name.c_str());
-		// printf("	type: %s\n", toCString(body2->type));
-		// printf("yes collision\n\n");
-	}
-	//printf("collision!\n");
-	resolveCollision(col);
-	//vec3 vel1 = body1->vel;			
-	//vec3 pos1 = body1->pos;
-	//float mass1 = body1->mass;
-
-	//vec3 vel2 = body2->vel;
-	//vec3 pos2 = body2->pos;
-	//float mass2 = body2->mass;
-	float sign = -1.f;
-	float separation = 1.01f;
-	if(body1->type == BODY_DYNAMIC){//hasComponent(I,velocity)){
-		//getComponent(I,velocity)->val = vel1;
-		//body1->vel = vel1;
-		if(col->c_to_c.depth < 0){
-			//getComponent(I,position)->val = pos1+separation*sign*col->c_to_c.penetration;
-			body1->pos += separation*sign*col->c_to_c.penetration;
-		}
-	}
-	if(body2->type == BODY_DYNAMIC){//hasComponent(J,velocity)){
-		//getComponent(J,velocity)->val = vel2;
-		//body2->vel = vel2;
-		if(col->c_to_c.depth < 0){
-			//getComponent(J,position)->val = pos2-separation*sign*col->c_to_c.penetration;
-			body2->pos -= separation*sign*col->c_to_c.penetration;
-		}
-	}
-}
-
 //-----------------------------------------------------------------------------
 
-collisioninfo *raytrace(vec3 from, vec3 dir){
-	collisionbodyRay *bodyRay = new collisionbodyRay(from,dir);
+collisioninfo *raytrace(vec3 from, vec3 dir,const vector<entity *> &ignore){
+	//collisionbodyRay *bodyRay = new collisionbodyRay(from,dir);
+	entity *ERay = new entity();
+	ERay->body = new collisionbodyRay(from,dir);//bodyRay;
+	ERay->body->bodyname = "raytrace";
+	ERay->body->type = BODY_TRIGGER;
+	ERay->name = "raytrace";
 	//collisionParty cp[2];
 	//cp[0].body = bodyRay;
 	//cp[0].ent = 0;
-	bodyRay->pos = vec3(0,0,0);
-	bodyRay->vel = vec3(0,0,0);
+	//ERay->body->pos = vec3(0,0,0); set by default
+	//ERay->body->vel = vec3(0,0,0);
 	collisioninfo *bestcol = 0;
 	for(auto I = entities.begin(); I != entities.end(); I++){
+
+		bool skip = false;
+		for(auto J = ignore.begin(); J != ignore.end(); J++){
+			if(*I == *J){skip = true; break;}
+		}
+		if(skip){continue;}
+
 		entity *E = *I;
 		if(E->body){
 			collisionbody *body2 = E->body;
 			//cp[1].ent = *I;
 			//cp[1].pos = getPosition(*I);
 			//cp[1].vel = getVelocity(*I);
-			collisioninfo *col = collisionCheckDispatch(bodyRay,body2);
+			collisioninfo *col = collisionCheckDispatch(ERay->body,body2);
 			if(col){
 				if(bestcol){
 					if(bestcol->c_to_c.depth > col->c_to_c.depth){
@@ -570,8 +757,10 @@ collisioninfo *raytrace(vec3 from, vec3 dir){
 			}
 		}
 	}
+	delete ERay;
 	return bestcol;
 }
+
 
 //future collision stuff:
 //checkCollision() - is there a collision at this time?

@@ -4,6 +4,13 @@
 #include "simplemath.h"
 #include "stringUtils.h"
 
+//
+// A B
+// C D
+//
+// E F
+// G H
+
 e_model *generateBox(vec3 scale, float texscale){
 	e_model *EM = new e_model();;
 	
@@ -15,6 +22,21 @@ e_model *generateBox(vec3 scale, float texscale){
 	e_vertex *F = new e_vertex({1,0,1},EM);
 	e_vertex *G = new e_vertex({0,1,1},EM);
 	e_vertex *H = new e_vertex({1,1,1},EM);
+	
+	e_edge *AB = new e_edge(A,B,EM);
+	e_edge *BD = new e_edge(B,D,EM);
+	e_edge *DC = new e_edge(D,C,EM);
+	e_edge *CA = new e_edge(C,A,EM);
+	
+	e_edge *EF = new e_edge(E,F,EM);
+	e_edge *FH = new e_edge(F,H,EM);
+	e_edge *HG = new e_edge(H,G,EM);
+	e_edge *GE = new e_edge(G,E,EM);
+	
+	e_edge *AE = new e_edge(A,E,EM);
+	e_edge *BF = new e_edge(B,F,EM);
+	e_edge *CG = new e_edge(C,G,EM);
+	e_edge *DH = new e_edge(D,H,EM);
 	
 	e_triangle *top1 = new e_triangle(E,F,G,EM);
 	e_triangle *top2 = new e_triangle(G,F,H,EM);
@@ -44,6 +66,7 @@ e_model *generateBox(vec3 scale, float texscale){
 	e_triangle *back2 = new e_triangle(C,A,G,EM);
 	e_face *back = new e_face({back1,back2},EM);
 	
+	EM->recalculateNeighbors();
 	e_selection selAll = EM->selectAll();
 	selAll.move(vec3(-0.5,-0.5,-0.5));
 	//selAll.scale(vec3(0.5,0.5,0.5),scale);
@@ -52,13 +75,16 @@ e_model *generateBox(vec3 scale, float texscale){
 	vec3 dv = scale/2.f;
 	dv.y *= -1;
 	vec3 corner = center+dv;
+	selAll.recalculateNormalsFlat();
 	selAll.uv_project_box(corner,texscale);//-scale);
 	//selAll.rebuildRmodel();
 	//return selAll.rm[2];
 	return EM;
 }
 
-e_model *generateCyllinder(float r, float h, int numsides){
+e_model *generateCyllinder(float r, float h, int numsides, float texscale){
+	printf("generateCyllinder(r = %f, h = %f, numsides = %d, texscale = %f\n",r,h,numsides,texscale);
+	assert(numsides != 0);
 	e_model *EM = new e_model();
 	//int numsides = 16;
 	vector<e_vertex*> verts;
@@ -80,20 +106,39 @@ e_model *generateCyllinder(float r, float h, int numsides){
 		e_vertex *B1 = verts[idx1*2+1];
 		e_vertex *A2 = verts[idx2*2];
 		e_vertex *B2 = verts[idx2*2+1];
-		e_triangle *top = new e_triangle(T,A1,A2,EM);
-		e_triangle *bottom = new e_triangle(O,B1,B2,EM);
-		e_triangle *side1 = new e_triangle(A1,B1,A2,EM);
-		e_triangle *side2 = new e_triangle(B1,A2,B2,EM);
+		e_triangle *top = new e_triangle(T,A2,A1,EM);//(T,A1,A2,EM);
+		e_triangle *bottom = new e_triangle(B2,B1,O,EM);//(O,B1,B2,EM);
+		e_triangle *side1 = new e_triangle(A2,A1,B1,EM);//(A1,B1,A2,EM);
+		e_triangle *side2 = new e_triangle(B1,B2,A2,EM);//(B1,A2,B2,EM);
 		new e_face({side1,side2},EM);
 		toptris.push_back(top);
 		bottomtris.push_back(bottom);
 	}
 	new e_face(toptris, EM);
 	new e_face(bottomtris, EM);
+	
+	{
+		printf("before1: num tris = %d\n",EM->tris.size());
+	}
+	
+	EM->recalculateNeighbors();
+	e_selection selAll = EM->selectAll();
+	selAll.recalculateNormalsSmooth();
+	vec3 center = selAll.center();
+	vec3 dv = vec3(r,r,h)/2.f;
+	dv.y *= -1;
+	vec3 corner = center+dv;
+	selAll.uv_project_box(corner,texscale);
+	
+	{
+		printf("before2: num tris = %d\n",EM->tris.size());
+	}
+	
 	return EM;
 }
 
-e_model *generateCone(float r, float h, int numsides){
+e_model *generateCone(float r, float h, int numsides, float texscale){
+	assert(numsides != 0);
 	e_model *EM = new e_model();
 	//int numsides = 16;
 	vector<e_vertex*> verts;
@@ -111,16 +156,28 @@ e_model *generateCone(float r, float h, int numsides){
 		int idx2 = (I+1)%numsides;
 		e_vertex *A1 = verts[idx1];
 		e_vertex *A2 = verts[idx2];
-		e_triangle *top = new e_triangle(T,A1,A2,EM);
-		e_triangle *bottom = new e_triangle(O,A1,A2,EM);
+		e_triangle *top = new e_triangle(A1,A2,T,EM);//(T,A1,A2,EM);
+		e_triangle *bottom = new e_triangle(A2,A1,O,EM);//(O,A1,A2,EM);
 		new e_face({top},EM);
 		bottomtris.push_back(bottom);
 	}
-		new e_face(bottomtris, EM);
+	new e_face(bottomtris, EM);
+		
+	EM->recalculateNeighbors();
+	e_selection selAll = EM->selectAll();
+	selAll.recalculateNormalsSmooth();
+	vec3 center = selAll.center();
+	vec3 dv = vec3(r,r,h)/2.f;
+	dv.y *= -1;
+	vec3 corner = center+dv;
+	selAll.uv_project_box(corner,texscale);
+		
 	return EM;
 }
 
-e_model *generateSphere(float r, int numsides, int numslices){
+e_model *generateSphere(float r, int numsides, int numslices, float texscale){
+	assert(numsides != 0);
+	assert(numslices != 0);
 	e_model *EM = new e_model();
 	//int numsides = 16;
 	//int numslices = 8;
@@ -185,5 +242,106 @@ e_model *generateSphere(float r, int numsides, int numslices){
 		}
 	}
 	//printf("result e_model: %s\n",toCString(EM));
+	
+	EM->recalculateNeighbors();
+	e_selection selAll = EM->selectAll();
+	selAll.recalculateNormalsSmooth();
+	vec3 center = selAll.center();
+	vec3 dv = vec3(r,r,r)/2.f;
+	dv.y *= -1;
+	vec3 corner = center+dv;
+	selAll.uv_project_box(corner,texscale);
+	
 	return EM;
 }
+
+e_model *generateSheet(int numx, int numy, vec3 scale, float texscale){
+	assert(numx != 0);
+	assert(numy != 0);
+	e_model *EM = new e_model();
+	float xstep = scale.x/numx;
+	float ystep = scale.y/numy;
+	printf("xstep = %f, ystep = %f\n",xstep,ystep);
+	vector<e_vertex*> verts;
+	for(int I = 0; I < numx+1; I++){
+		for(int J = 0; J < numy+1; J++){
+			vec3 pos = vec3(xstep*I,ystep*J,0);
+			e_vertex *V = new e_vertex(pos,EM);
+			verts.push_back(V);
+			//printf("vert(%d,%d) = %s\n",I,J, toCString(pos));
+		}
+	}
+	for(int I = 0; I < numx; I++){
+		for(int J = 0; J < numy; J++){
+			e_vertex *A = verts[(I+0)*(numy+1)+(J+0)];
+			e_vertex *B = verts[(I+1)*(numy+1)+(J+0)];
+			//e_vertex *C = verts[(I+1)*(numy+1)+(J+1)];
+			//e_vertex *D = verts[(I+0)*(numy+1)+(J+1)];
+			e_vertex *C = verts[(I+0)*(numy+1)+(J+1)];
+			e_vertex *D = verts[(I+1)*(numy+1)+(J+1)];
+			
+			e_triangle *T1 = new e_triangle(A,B,C,EM);
+			//e_triangle *T2 = new e_triangle(C,D,A,EM);
+			e_triangle *T2 = new e_triangle(D,C,B,EM);
+		}
+	}
+	
+	EM->recalculateNeighbors();
+	e_selection selAll = EM->selectAll();
+	selAll.recalculateNormalsSmooth();
+	vec3 center = selAll.center();
+	vec3 dv = scale/2.f;
+	dv.y *= -1;
+	vec3 corner = center+dv;
+	selAll.uv_project_box(corner,texscale);
+	
+	return EM;
+}
+
+e_model *generatePlane(vec3 normal, float offset, vec2 size, float texscale){
+	e_model *EM = new e_model();
+	
+	vec3 planeX = normalizeSafe(cross(normal,vec3(0,0,1)));
+	if(normal == vec3(0,0,1)){planeX = vec3(1,0,0);}
+	if(normal == vec3(0,0,-1)){planeX = vec3(-1,0,0);}
+	vec3 planeY = normalizeSafe(cross(normal,planeX));
+	vec3 voffset = offset*normal;
+	
+	vec3 A = planeX*(-0.5f*size.x) + planeY*(-0.5f*size.y) + voffset;
+	vec3 B = planeX*(+0.5f*size.x) + planeY*(-0.5f*size.y) + voffset;
+	vec3 C = planeX*(-0.5f*size.x) + planeY*(+0.5f*size.y) + voffset;
+	vec3 D = planeX*(+0.5f*size.x) + planeY*(+0.5f*size.y) + voffset; 
+	
+	e_vertex *vA = new e_vertex(A,EM);
+	e_vertex *vB = new e_vertex(B,EM);
+	e_vertex *vC = new e_vertex(C,EM);
+	e_vertex *vD = new e_vertex(D,EM);
+	
+	e_triangle *T1 = new e_triangle(vA,vB,vC, EM);
+	e_triangle *T2 = new e_triangle(vC,vB,vD, EM);
+	
+	EM->recalculateNeighbors();
+	e_selection selAll = EM->selectAll();
+	selAll.recalculateNormalsSmooth();
+	vec3 center = selAll.center();
+	selAll.uv_project_box(center,texscale);
+	
+	return EM;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

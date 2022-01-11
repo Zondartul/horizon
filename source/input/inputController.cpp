@@ -32,10 +32,10 @@ using std::string;
     |		|
 	v		v
 	---GUI---
-	|		|	
+	|		|
 	v		v
 	controller
-		
+
 */
 
 inputControllerKind::inputControllerKind(){
@@ -48,13 +48,15 @@ inputControllerKind::inputControllerKind(){
 	speeds.walk_fast		= 0.01;
 	speeds.walk_normal		= 0.003;
 	speeds.walk_slow		= 0.001;
-	
+    speeds.jump             = 0.1;
+
 	velocity = {0,0,0};
 	targetspeed = speeds.fly_normal;
 	accelerating = false;
 	warp = 1;
 	inputChannel->addListener(this);
 	globalChannel->addListener(this);
+	character = 0;
 }
 inputControllerKind::~inputControllerKind(){}
 /*
@@ -67,7 +69,7 @@ void resetBox(){
 	}
 }
 */
-
+#include "glm/gtx/projection.hpp"
 void inputControllerKind::think(){
 /*
 	if(character){
@@ -81,29 +83,63 @@ void inputControllerKind::think(){
 	}
 	*/
 	//vec3 targetvel = warp*targetspeed*vec3(forward-backward,left-right,up-down);
-	
-	vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*camera.rot));
-	if(length(targetvel) && accelerating){warp = 10.f;}//{warp = warp *(1+(0.25f)/60.f);}
-	else{warp = 1.f;}
-	vec3 dv = targetvel - velocity;
-	//weird-ass acceleration formula
-	//tl;dr:
-	//if dv is less than max acceleration, just use dv.
-	//if dv is more than max acceleration, 
-	//		then limit dv to max acceleration, scaled so things that are already fast accelerate quicker.
-	if(length(dv) > speeds.fly_acceleration){
-		//dv = normalize(dv)*speeds.fly_acceleration*(max(velocity.length()/speeds.fly_normal,1));
-		vec3 dir = normalize(dv);
-		float acc = speeds.fly_acceleration;
-		float vel_len = length(velocity);
-		float fly_ratio = vel_len / speeds.fly_normal;
-		float acc_coeff = max(fly_ratio,1);
-		dv = dir*acc*acc_coeff;
+
+	if(character && character->E){
+		float horSpeed = targetspeed;
+
+
+		vec3 flyDir = rotate(vec3(forward-backward,left-right,0),d2r*camera.rot);
+		vec3 horDir = normalizeSafe(vec3(flyDir.x,flyDir.y,0));//normalizeSafe(flyDir-proj(flyDir,vec3(0,0,1)));
+		velocity = horSpeed*horDir+speeds.jump*vec3(0,0,up-down);
+	}else{
+		vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*camera.rot));
+		if(length(targetvel) && accelerating){warp = 10.f;}//{warp = warp *(1+(0.25f)/60.f);}
+		else{warp = 1.f;}
+		vec3 dv = targetvel - velocity;
+		//weird-ass acceleration formula
+		//tl;dr:
+		//if dv is less than max acceleration, just use dv.
+		//if dv is more than max acceleration,
+		//		then limit dv to max acceleration, scaled so things that are already fast accelerate quicker.
+		if(length(dv) > speeds.fly_acceleration){
+			//dv = normalize(dv)*speeds.fly_acceleration*(max(velocity.length()/speeds.fly_normal,1));
+			vec3 dir = normalize(dv);
+			float acc = speeds.fly_acceleration;
+			float vel_len = length(velocity);
+			float fly_ratio = vel_len / speeds.fly_normal;
+			float acc_coeff = max(fly_ratio,1);
+			dv = dir*acc*acc_coeff;
+		}
+		velocity = velocity+dv;
+		//velocity = targetvel;
+		vec3 dpos = velocity;
 	}
-	velocity = velocity+dv;
-	//velocity = targetvel;
-	vec3 dpos = velocity;
-	setPos(camera.pos+dpos);
+	//apply velocity and camera position
+	if(character && character->E){
+		character->targetVelocity = velocity;
+		character->jump = up;
+		auto E = character->E;
+
+		vec3 cp = camera.pos;
+		vec3 cf = camera.forward();
+		vec3 cu = camera.up();
+		character->targetDir = toVec3Angle(setZ(camera.forward(),0));
+		vec3 bp = E->body->pos;
+		//first-person camera
+		//camera.setPos(bp);
+		//third-person camera
+		float sh = 0.9f;//shoulder height
+		float sl = 1.f;//shoulder length
+		//vec3 shoulder = bp+normalizeSafe(cross(cf,vec3(1,0,0)))*sh-cf*sl;
+		vec3 bf = normalize(setZ(cf,0));//body forward
+		vec3 camOffset = vec3(0,0,sh);
+		vec3 camArm = vec3(0,-sl,0.2);
+		vec3 up = vec3(0,0,1);
+		vec3 shoulder = bp+camOffset.y*bf+camOffset.z*up+camArm.y*cf+camArm.z*cu;
+		camera.setPos(shoulder);
+	}else{
+		setPos(camera.pos+velocity);
+	}
 	//resetBox();
 	//printf("(%f,%f,%f),<(%f,%f,%f)\n",camera.pos.x,camera.pos.y,camera.pos.z,camera.rot.x,camera.rot.y,camera.rot.z);
 }
@@ -124,13 +160,25 @@ void inputControllerKind::aim(vec3 aim){
 	camera.setRot(aim);
 }
 void inputControllerKind::toggleMouseCapture(){
-	mousecapture = !mousecapture;
-	if(mousecapture){inputChannel->moveListenerToFront(this);} //temporary hack
-	else{inputChannel->moveListenerToBack(this);}
-	printf("mousecapture = %d\n",mousecapture);
-	setMouseRelativeMode(mousecapture);
+	//mousecapture = !mousecapture;
+	//if(mousecapture){inputChannel->moveListenerToFront(this);} //temporary hack
+	//else{inputChannel->moveListenerToBack(this);}
+	//printf("mousecapture = %d\n",mousecapture);
+	//setMouseRelativeMode(mousecapture);
+	mousecapture? disableMouseCapture() : enableMouseCapture();
 }
-
+void inputControllerKind::enableMouseCapture(){
+	printf("mouse captured\n");
+	mousecapture = true;
+	inputChannel->moveListenerToFront(this);
+	setMouseRelativeMode(true);
+}
+void inputControllerKind::disableMouseCapture(){
+	printf("mouse released\n");
+	mousecapture = false;
+	inputChannel->moveListenerToBack(this);
+	setMouseRelativeMode(false);
+}
 /*
 void spawnBox(){
 	vec3 pos = camera.pos+camera.forward()*camera.eyetrace(2.0)+(vec3){0,0,0.75};
@@ -183,17 +231,27 @@ void inputControllerKind::onEvent(eventKind event){
 		//if(K == "F1"){debugDrawEnabled = !debugDrawEnabled;return;}
 		//if(K == "F"){if(character){character->toggleFly();}return;}
 		//if(K == "C"){if(character){character = 0;}else{character = new physCharacter();setPos(camera.pos);}return;}
+		if(K == "C"){if(character){event.maskEvent(); character = 0;}}
 		if(K == "T"){
 			event.maskEvent();
-			setPos(camera.pos+camera.forward()*camera.eyetrace(100)+(vec3){0,0,0.5});
+			if(!character){
+				float dist = 100;
+				auto *ci = camera.eyetrace(false);
+				if(ci){
+					float dist2 = ci->c_to_c.depth;
+					if(dist2 < dist){dist = dist2;}
+				}
+				dist -= 0.3f;
+				setPos(camera.pos+camera.forward()*dist/*+(vec3){0,0,0.5}*/);
+			}
 			//if(character){character->toggleFly();character->toggleFly();}
 			return;
 		}
-		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_fast;accelerating = true;return;}
+		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_fast;accelerating = true; speeds.jump = 0.2f; return;}
 		//if(K == "P"){physics = !physics;return;}
 		//if(K == "G"){toggleGravity();return;}
 		//if(K == "Keypad 7"){experiment1();}
-			
+
 		printf("[%s]",K.c_str());
 	}
 	if (event.type == EVENT_KEY_UP){
@@ -205,7 +263,7 @@ void inputControllerKind::onEvent(eventKind event){
 		if(K == "D"){event.maskEvent();right = false;return;}
 		if(K == "Space"){event.maskEvent();up = false;return;}
 		if(K == "Left Ctrl"){event.maskEvent();down = false;return;}
-		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_normal;accelerating = false;return;}
+		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_normal;accelerating = false; speeds.jump = 0.1f; return;}
 	}
 	if (event.type == EVENT_MOUSE_MOVE){
 		if(mousecapture){
@@ -217,7 +275,7 @@ void inputControllerKind::onEvent(eventKind event){
 		return;
 	}
 }
-/* 
+/*
 void inputControllerKind::sdl_event(SDL_Event event){
 	if (event.type == SDL_KEYDOWN){
 		string K = SDL_GetKeyName(event.key.keysym.sym);

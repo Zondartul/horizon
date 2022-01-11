@@ -11,10 +11,13 @@ using std::string;
 //a keybind list is a grouping of keybinds (key->function)
 //that can be collectively turned on/off, or given priority.
 
+
 struct bind{
-	function<void(eventKind event)> keyDown;
-	function<void(eventKind event)> keyUp;
+	//function<void(eventKind event)> keyDown;
+	//function<void(eventKind event)> keyUp;
+	string cmd;
 };
+
 
 class keybindList:public eventListener{
 	public:

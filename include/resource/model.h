@@ -18,6 +18,7 @@ struct triangle{
 	vertex v[3];
 };
 
+struct e_model;
 
 struct model{
 	string name;
@@ -27,6 +28,7 @@ struct model{
 	//int handle[4];
 	void add(model B);
 	void recalculateNormals();
+	e_model *toEmodel();
 	AABB getAABB();
 };
 

@@ -13,6 +13,7 @@ using std::vector;
 #include "simplemath.h"
 #define DEBUG_GUARD
 #include "globals.h"
+#include "timer.h"
 //extern int ticks;
 int ticks = 0;
 FILE *debugFile;
@@ -47,17 +48,26 @@ debugAllocation debugAllocList[debugAllocListSize];
 #else
 vector<debugAllocation> debugAllocList;
 #endif
+
+void clearDeleteBuffer();
+
 void debuginit(){
 	debugFile = fopen("log.txt","w");
 	setbuf(debugFile,0);
 	if(!debugFile){printf("ERROR: can't open debug log file!\n");exit(0);}
 	else{printf("opened log file %p\n",debugFile);}
+//#ifdef DEBUG_NEW
+    new timer([=](timer *T){clearDeleteBuffer();}, 3, true);
+//#endif
+	printf("-------- debug init done ----------\n");
+
 }
+void crash();
 
 void debugprint(const char *file, int line, const char *mode, const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
-	
+
 	char buff[240];
 	vsnprintf(buff, 239, format, ap);
 	//vsprintf(buff,format,ap);
@@ -69,15 +79,92 @@ void debugprint(const char *file, int line, const char *mode, const char *format
 	sprintf(buff2,"[%d.%d]:\tf%d:\t%s:%d:\t\t%s",seconds,miliseconds,ticks,file,line,buff);
 	fprintf(debugFile,"%s",buff2);
 	va_end(ap);
-	
+
 	if(!strcmp(mode,"memory")){return;}
 	if(!strcmp(mode,"printf")){printf("%s",buff);}
 	if(!strcmp(mode,"warning")){printf("%s",buff);}
-	if(!strcmp(mode,"error")){printf("%s",buff);exit(0);}
+	if(!strcmp(mode,"error")){printf("%s",buff);crash();}
 }
 
-#ifdef DEBUG_NEW
-void *operator new(size_t size){
+const char *alloc_file = 0;
+int alloc_line = 0;
+int total_size = 0;
+
+struct mapped_alloc{
+	int size;
+	void *p;
+	int frame;
+    bool freed;
+};
+struct mapped_alloc_key{
+	const char *alloc_file;
+	int alloc_line;
+	int num;
+};
+typedef vector<mapped_alloc> struct_alloc_line;
+typedef map<int,struct_alloc_line> struct_alloc_file;
+
+map<const char*,struct_alloc_file> allocation_map;
+
+//map<mapped_alloc_key,mapped_alloc> allocation_map;
+map<void*, mapped_alloc_key> deallocation_map;
+int set_alloc_pos(const char *file, int line){
+	alloc_file = file;
+	alloc_line = line;
+	return 0;
+}
+//#ifdef DEBUG_NEW
+int getGameTicks();
+
+typedef vector<void*> delayedDeleteList;
+delayedDeleteList deleteBuffer[2];
+//int deleteBufferI = 0;
+int activeDeleteBuffer = 0;
+bool delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
+
+void *operator new(size_t size) throw(std::bad_alloc){
+	void *res = 0;
+	static size_t num = 0;
+	if(alloc_file != 0){
+		const char *af = alloc_file; alloc_file = 0;
+		int al = alloc_line; alloc_line = 0;
+		auto &r_afile = allocation_map[af];
+		auto &r_aline = r_afile[al];
+		int num = r_aline.size();
+		mapped_alloc_key key = {af,al,num};
+		mapped_alloc A;
+		A.size = size;
+		A.p = malloc(size);
+		A.frame = getGameTicks();
+        A.freed = false;
+		//allocation_map[key] = A;
+		deallocation_map[A.p] = key;
+		r_aline.push_back(A);
+		total_size = total_size + size;
+		/*
+		int linesize = 0;
+		int minframe;
+		for(int I = 0; I < r_aline.size(); I++){
+			if(I == 0){
+				minframe = r_aline[I].frame;
+			}
+			linesize += r_aline[I].size;
+			minframe = min(minframe,r_aline[I].frame);
+		}
+		int frame_age = getGameTicks() - minframe;
+		if(frame_age > 10){
+			printf("persistent (age %d) @ %s:%d new(%d) (line %d \\ total %dk)\n",frame_age,af,al,size,linesize,total_size/1024);
+		}
+		*/
+		//printf("%s:%d new(%d) (line %d \\ total %dk)\n",af,al,size,linesize,total_size/1024);
+		res = A.p;
+	}else{
+		res = malloc(size);
+	}
+	if(!res){printf("ERROR: OUT OF MEMORY\n"); throw std::bad_alloc();}
+	//printf("new %p @ %d\n",res,getGameTicks());
+	return res;
+	/*
 	if(redirect_new || !debug_line){
 		redirect_new = 0;
 		void *p = malloc(size);
@@ -85,7 +172,7 @@ void *operator new(size_t size){
 		if(!p){printf("ERROR: allocation failed!\n");exit(0);}
 		debug_mem_allocated += size;
 		debug_mem_watermark = max(debug_mem_watermark, debug_mem_allocated);
-		
+
 		int time = SDL_GetTicks();
 		int seconds = time/1000;
 		int milliseconds = time%1000;
@@ -110,19 +197,147 @@ void *operator new(size_t size){
 		#else
 		debugAllocList.push_back(A);
 		#endif
-		
+
 		redirect_new = 1;
 		return p;
 	}else{
 		void *p = malloc(size);
 		return p;
 	}
+	*/
 }
-void operator delete(void *ptr){
+
+void debug_delete(void *ptr){
+	if(!ptr){printf("warning: delete null\n"); return;}
+	static int recurseCounter = 0;
+	//printf("del %p @ %d\n",ptr,getGameTicks());
+	if(!recurseCounter){
+		recurseCounter++;
+		//printf("delete: read alloc map\n\n");
+		/*
+		for(auto I = allocation_map.begin(); I != allocation_map.end(); I++){
+			//printf("\rd:I = %s, L = %d, k = %d",I->first, L->first, k);
+			auto &r_afile = I->second;
+			for(auto L = r_afile.begin(); L != r_afile.end(); L++){
+				//printf("L = %d,",L->first);
+				auto &r_aline = L->second;
+				int k = 0;
+				for(auto K         mapped_alloc_key key = deallocation_map[ptr];
+        struct_alloc_file &f = allocation_map[key.alloc_file];
+        struct_alloc_line &l = f[key.alloc_line];
+        for(auto J = l.begin(); J != l.end();){
+            mapped_alloc &al = *J;
+            if(al.p == ptr){
+                J = l.erase(J);
+                deallocation_map.erase(ptr);
+            }else{
+                J++;
+            }
+        }= r_aline.begin(); K != r_aline.end();){
+					//printf("k = %d",k);
+					mapped_alloc A = *K;
+					if(A.p == ptr){
+						//del_found:
+						//free(ptr);
+						total_size -= A.size;
+						//printf("%s:%d -- delete\n",I->first,L->first);
+						K = r_aline.erase(K);
+						//return;
+					}else{
+						K++;
+					}
+					k++;
+				}
+			}
+		}
+		*/
+		if(deallocation_map.count(ptr)){
+			mapped_alloc_key key = deallocation_map[ptr];
+			auto &r_afile = allocation_map[key.alloc_file];
+			auto &r_line = r_afile[key.alloc_line];
+			for(auto I = r_line.begin(); I != r_line.end();){
+				mapped_alloc &A = *I;
+				if(A.p == ptr){
+					total_size -= A.size;
+                    if(delayedDelete){
+                        A.freed = true;
+                        deleteBuffer[activeDeleteBuffer].push_back(ptr);
+                        I++;
+                    }else{
+                        I = r_line.erase(I);
+                        deallocation_map.erase(ptr);
+                    }
+				}else{
+					I++;
+				}
+			}
+		}
+		recurseCounter--;
+		//printf("\n\n");
+	}
+	//printf("warning: delete pointer (%p) not found\n",ptr);
+    if(!delayedDelete){free(ptr);}
+	//free(ptr);
+}
+
+void clearDeleteBuffer(){
+    if(!delayedDelete){return;}
+    int inactiveDeleteBuffer = 0;
+    if(activeDeleteBuffer == 0){inactiveDeleteBuffer = 1;}
+    delayedDeleteList &dellist = deleteBuffer[inactiveDeleteBuffer];
+    int total = 0;
+    for(int I = 0; I < dellist.size(); I++){
+        void *ptr = dellist[I];
+        mapped_alloc_key key = deallocation_map[ptr];
+        struct_alloc_file &f = allocation_map[key.alloc_file];
+        struct_alloc_line &l = f[key.alloc_line];
+        for(auto J = l.begin(); J != l.end();){
+            mapped_alloc &al = *J;
+            if(al.p == ptr){
+                J = l.erase(J);
+                deallocation_map.erase(ptr);
+                free(ptr);
+                total++;
+            }else{
+                J++;
+            }
+        }
+    }
+    dellist.clear();
+    //printf("cleared %d deletes\n", total);
+    //deleteBufferI = (deleteBufferI+1)%2;
+    activeDeleteBuffer = inactiveDeleteBuffer;
+}
+
+bool wasRecentlyDeleted(void *ptr){
+    if(deallocation_map.count(ptr)){
+        mapped_alloc_key key = deallocation_map[ptr];
+        struct_alloc_file &f = allocation_map[key.alloc_file];
+        struct_alloc_line &l = f[key.alloc_line];
+        for(auto J = l.begin(); J != l.end(); J++){
+            mapped_alloc &al = *J;
+            if(al.p == ptr){
+                return al.freed;
+            }
+        }
+    }
+    return false;
+}
+
+void operator delete(void *ptr, size_t size) noexcept{
+	debug_delete(ptr);
+}
+
+
+
+void operator delete(void *ptr) noexcept{
+	debug_delete(ptr);
+
+	/*
 	if(redirect_delete || !debug_line){
 		redirect_delete = 0;
 		//debugprint("unknown",0,"memory","[memop:%d] delete(%p)\n",debug_mem_op_index,ptr);
-		
+
 		bool found = false;
 		int I;
 		#ifdef DEBUG_NEW
@@ -144,7 +359,7 @@ void operator delete(void *ptr){
 		}
 		if(found){debugprint(debug_file,debug_line,"memory","[memop:%d] delete(%p) (prev memop=%d)\n",debug_mem_op_index,ptr,I);}
 		else{debugprint(debug_file,debug_line,"error","[memop:%d] delete(%p) ERROR: wild delete!\n",debug_mem_op_index,ptr);abort();}
-		
+
 		free(ptr);
 		debug_mem_op_index++;
 		debug_file = "unknown";
@@ -155,17 +370,18 @@ void operator delete(void *ptr){
 		free(ptr);
 		return;
 	}
+	*/
 }
-#endif
+//#endif
 
 void *debugmalloc(const char *file, int line, size_t size){
 	void *p = malloc(size);
 	debugprint(file,line,"memory","[memop:%d] malloc(%d) = %p\n",debug_mem_op_index,size,p);
 	if(!p){printf("ERROR: allocation failed!\n");exit(0);}
-	
+
 	debug_mem_allocated += size;
 	debug_mem_watermark = max(debug_mem_watermark, debug_mem_allocated);
-	
+
 	int time = SDL_GetTicks();
 	int seconds = time/1000;
 	int milliseconds = time%1000;
@@ -188,7 +404,7 @@ void *debugmalloc(const char *file, int line, size_t size){
 	#else
 	debugAllocList.push_back(A);
 	#endif
-	
+
 	return p;
 }
 
@@ -196,10 +412,10 @@ void *debugcalloc(const char *file, int line, size_t num, size_t size){
 	void *p = calloc(num,size);
 	debugprint(file,line,"memory","[memop:%d] calloc(%d,%d) = %p\n",debug_mem_op_index,num,size,p);
 	if(!p){printf("ERROR: allocation failed!\n");exit(0);}
-	
+
 	debug_mem_allocated += size;
 	debug_mem_watermark = max(debug_mem_watermark, debug_mem_allocated);
-	
+
 	int time = SDL_GetTicks();
 	int seconds = time/1000;
 	int milliseconds = time%1000;
@@ -229,11 +445,11 @@ void *debugrealloc(const char *file, int line, void *ptr, size_t size){
 	void *p = realloc(ptr,size);
 	debugprint(file,line,"memory","[memop:%d] realloc(%p,%d) = %p\n",debug_mem_op_index,ptr,size,p);
 	if(!p){printf("ERROR: allocation failed!\n");exit(0);}
-	
+
 	//subtract previous size
 	debug_mem_allocated += size;
 	debug_mem_watermark = max(debug_mem_watermark, debug_mem_allocated);
-	
+
 	int time = SDL_GetTicks();
 	int seconds = time/1000;
 	int milliseconds = time%1000;
@@ -261,7 +477,7 @@ void *debugrealloc(const char *file, int line, void *ptr, size_t size){
 
 void debugfree(const char *file, int line, void *ptr){
 	//debugprint(file,line,"memory","[memop:%d] free(%p)\n",debug_mem_op_index,ptr);
-	
+
 	bool found = false;
 	int I;
 	#ifdef DEBUG_NEW
@@ -287,6 +503,7 @@ void debugfree(const char *file, int line, void *ptr){
 	debug_mem_op_index++;
 }
 
+
 struct debugProfile{
 	uint64_t time;
 	uint32_t seconds;
@@ -296,9 +513,10 @@ struct debugProfile{
 	uint32_t heapused;
 	uint32_t heapleaked;
 } currentDebugProfile;
+
 #define CANARY 247
 #define STACK_CANARY_SIZE 10000
-debugSetStackCanary(){
+void debugSetStackCanary(){
 	char s[STACK_CANARY_SIZE];
 	memset(s,STACK_CANARY_SIZE,CANARY);
 }
@@ -333,6 +551,38 @@ debugProfile profileEnd(){
 	return currentDebugProfile;
 }
 
+void *mytrace[100];
+int mytraceI;
+//#define F_INSTRUMENT
+#ifdef F_INSTRUMENT
+//add -finstrument-functions to compiler options
+extern "C"{
+void __cyg_profile_func_enter (void *this_fn, void *call_site) __attribute__((no_instrument_function));
+void __cyg_profile_func_exit (void *this_fn, void *call_site) __attribute__((no_instrument_function));
 
+void __cyg_profile_func_enter (void *this_fn, void *call_site) {
+    //printf( "entering %p\n", this_fn );
+//    if(this_fn == (void*)(&debugprint)){
+//        printf("---------- is debugPrint!\n");
+//    }
+    if(mytraceI < 100){
+        mytrace[mytraceI++] = this_fn;
+    }
+}
 
+void __cyg_profile_func_exit (void *this_fn, void *call_site) {
+    //printf( "leaving %p\n", this_fn );
+    if(mytraceI){
+        mytrace[--mytraceI] = 0;
+    }
+}
 
+}
+#endif
+vector<void*> getTrace(){
+    vector<void*> v;
+    for(int I = 0; I < mytraceI; I++){
+        v.push_back(mytrace[I]);
+    }
+    return v;
+}

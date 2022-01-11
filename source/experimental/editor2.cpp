@@ -23,7 +23,7 @@
 class editor2Kind:public eventListener{
 	public:
 	editor2Kind();
-	
+
 	struct{
 		renderLayer *l3D;
 		renderLayer *l3Dimmediate;
@@ -32,20 +32,20 @@ class editor2Kind:public eventListener{
 	} layers;
 	void setupLayers();
 	void resetLayer(renderLayer *L);
-	
+
 	e_model EM;
 	void constructTestModel();
 	e_selection sel;
 	void redraw();
 	void printselection();
-	
+
 	void think();
 	void onEvent(eventKind event);
-	
+
 	bool hasLastPoint = false;
 	bool showLine = false;
 	vec3 lastPoint;
-	
+
 	bool boxSelectOn = false;
 	bool hasBox = false;
 	vec2 boxStart;
@@ -58,25 +58,34 @@ editor2Kind *editor2;
 //renderLayer *editorLayerImmediate3D;
 
 void editor2Kind::setupLayers(){
-	layers.l3D 			= new renderLayer();
-	layers.l3Dimmediate = new renderLayer();
-	layers.l2D 			= new renderLayer();
-	layers.l2Dimmediate = new renderLayer();
+	printf("editor.setupLayers()\n");
+	layers.l3D 			= new renderLayer("editor.l3D");
+	layers.l3Dimmediate = new renderLayer("editor.l3Dimmediate");
+	layers.l2D 			= new renderLayer("editor.l2D");
+	layers.l2Dimmediate = new renderLayer("editor.l2Dimmedate");
 	addLayer(layer3D,		layers.l3D);
 	addLayer(layers.l3D,	layers.l3Dimmediate);
 	addLayer(layer2D,		layers.l2D);
 	addLayer(layers.l2D,	layers.l2Dimmediate);
 }
 
+
+#define if_first() static int first = 1; if(first-- > 0)
+#define if_not_first() static int first = 1; if(!(first-- > 0))
+
 void editor2Kind::resetLayer(renderLayer *L){
+	//if_not_first(){error("too many resets\n");}
 	if(L == layers.l3D){
+		printf("editor.resetLayer(l3D)\n");
 		layers.l3D->clear();
 		setLayer(layers.l3D);
 		setColoring(true);
 		setTexturing(false);
+		setTransparency(true);
 		setPointSize(3);
 	}
 	if(L == layers.l3Dimmediate){
+		//printf("editor.resetLayer(l3Dimmediate)\n");
 		layers.l3Dimmediate->clear();
 		setLayer(layers.l3Dimmediate);
 		setColoring(true);
@@ -84,12 +93,14 @@ void editor2Kind::resetLayer(renderLayer *L){
 		setPointSize(3);
 	}
 	if(L == layers.l2D){
+		printf("editor.resetLayer(l2D)\n");
 		layers.l2D->clear();
 	}
 	if(L == layers.l2Dimmediate){
+		//printf("editor.resetLayer(l2Dimmediate)\n");
 		layers.l2Dimmediate->clear();
 	}
-	
+
 }
 
 void editor2Kind::printselection(){
@@ -115,6 +126,7 @@ void editor2Kind::printselection(){
 */
 
 void editor2Kind::constructTestModel(){
+	printf("editor.constructTestModel()\n");
 	EM = e_model();
 	/*
 	   D   F
@@ -125,15 +137,15 @@ void editor2Kind::constructTestModel(){
 	   O-+-A
 	    \|/
 	     B
-	
+
 	*/
 	e_vertex *vO = new e_vertex({0,0,0},&EM);
 	e_vertex *vA = new e_vertex({1,0,0},&EM);
 	e_vertex *vB = new e_vertex({0,1,0},&EM);
-	e_vertex *vC = new e_vertex({0,0,1},&EM);	
+	e_vertex *vC = new e_vertex({0,0,1},&EM);
 	e_vertex *vD = new e_vertex({0,0,2},&EM);
-	e_vertex *vF = new e_vertex({1,1,2},&EM);
-	
+	/*e_vertex *vF = */new e_vertex({1,1,2},&EM);
+
 	new e_edge(vO,vA,&EM);
 	new e_edge(vO,vB,&EM);
 	new e_edge(vA,vB,&EM);
@@ -141,14 +153,14 @@ void editor2Kind::constructTestModel(){
 	new e_edge(vB,vC,&EM);
 	new e_edge(vA,vC,&EM);
 	new e_edge(vC,vD,&EM);
-	
+
 	new e_triangle(vO,vA,vB,&EM);
 	new e_triangle(vO,vA,vC,&EM);
 	new e_triangle(vO,vB,vC,&EM);
 	new e_triangle(vA,vB,vC,&EM);
-	
+
 	EM.recalculateNeighbors();
-	
+
 	setLayer(layers.l3D);
 	sel = EM.selectAll();
 	sel.rebuildRmodel();
@@ -156,7 +168,7 @@ void editor2Kind::constructTestModel(){
 
 void openEditor2(){
 	editor2 = new editor2Kind();
-	
+
 	//editorLayerImmediate3D = new renderLayer();
 	//editorLayer = new renderLayer();
 	//setLayer(layer3D);
@@ -164,13 +176,15 @@ void openEditor2(){
 	//addLayer(editorLayerImmediate3D);
 	//resetEditorLayer();
 	//resetEditorLayerImmediate3D();
-	
+
 	//plane1[0] = vec3(0,0,0);
 	//plane1[1] = vec3(1,0,0);
 	//plane1[2] = vec3(0,1,0);
 }
 
+//constructor
 editor2Kind::editor2Kind():sel(&EM){
+	printf("editor.editorKind()\n");
 	inputChannel->addListener(this);
 	inputChannel->moveListenerToFront(this);
 	globalChannel->addListener(this);
@@ -182,6 +196,7 @@ editor2Kind::editor2Kind():sel(&EM){
 //extern vector<renderLayer*> layers; why tf is this here?
 
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
+	printf("editor.boxSelect()\n");
 	sel.clear();
 	camera.go3D();
 	string S1 = string("boxStart: ")+toString(boxStart)+"boxEnd: "+toString(boxEnd);
@@ -190,34 +205,40 @@ void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 		vec3 vw = (*I)->pos;
 		vec3 vs = camera.worldToScreen(vw);
 		vec2 vsi = {vs.x,vs.y};
-		bool contains = false;
+		//bool contains = false;
 		if(rect(boxStart,boxEnd).repair().contains(vsi)){
 			sel.verts.push_back(*I);
-			contains = true;
+			//contains = true;
 		}
 		//string S = string("vw: ")+toString(vw)+", vs: "+toString(vs)+", contains: "+toString(contains);
 		//printf("%s\n",S.c_str());
 	}
 	redraw();
+	printselection();
 }
 
 void editor2Kind::redraw(){
-	resetLayer(layers.l3D);
-	setLayer(layers.l3D);
+	printf("editor.redraw()\n");
+	//resetLayer(layers.l3D);
+	//setLayer(layers.l3D);
 	e_selection selAll = EM.selectAll();
 	selAll.removeElements(sel);
 	sel.colorVerts	= {0,1.f,1.f};
 	sel.colorEdges	= {0,0,1.f};
 	sel.colorTris	= {0,0.5f,1.f};
+	sel.rainbowTris = false;
+	selAll.rainbowTris = false;
 	printf("selAll.verts = %d\nsel.verts = %d\n",selAll.verts.size(),sel.verts.size());
 	sel.rebuildRmodel();
 	selAll.rebuildRmodel();
-	
+
 	//setDepthTest(false);
+	resetLayer(layers.l3D);
+	setLayer(layers.l3D);
 	setPointSize(3);
 	selAll.render();
-	
-	
+
+
 	//clearDepthBuffer();
 	setPointSize(5);
 	sel.render();
@@ -268,9 +289,29 @@ void editor2Kind::think(){
 	}
 }
 
+void splitTest(){
+	static int step = 0;
+	int maxstep = 10;
+	printf("splitTest step %d/%d\n",step,maxstep);
+
+	switch(step){
+		case 0:
+
+		break;
+		case 1:
+		break;
+		default:
+        break;
+	}
+
+	step++;
+	if(step>maxstep){step = 0;}
+}
+
 void editor2Kind::onEvent(eventKind event){
 	vec2 screenpos;
 	vec3 forward;
+	string K;
 	switch(event.type){
 		case(EVENT_FRAME):
 			think();
@@ -319,7 +360,7 @@ void editor2Kind::onEvent(eventKind event){
 			screenpos = event.mousemove.pos;
 		break;
 		case(EVENT_KEY_DOWN):
-			string K = event.keyboard.key;
+			K = event.keyboard.key;
 			if(K == "P"){
 				event.maskEvent();
 				printAllLayersNextRender();
@@ -327,7 +368,12 @@ void editor2Kind::onEvent(eventKind event){
 			if(K == "B"){
 				event.maskEvent();
 				boxSelectOn = !boxSelectOn;
-				printf("boxSelectOn = %d\n",boxSelectOn);
+				printf("\nboxSelectOn = %d\n",boxSelectOn);
+			}
+			if(K == "T"){
+				event.maskEvent();
+				splitTest();
+				printf("\nsplit\n");
 			}
 			if(K == "1"){
 				event.maskEvent();
@@ -341,12 +387,13 @@ void editor2Kind::onEvent(eventKind event){
 				sel = sel.getImplicitVerts();
 				printselection();
 				redraw();
+				printf("\nselected implicit verts\n");
 			}
 			if(K == "2"){
 				event.maskEvent();
 				//printf("drawing DISTANCE umbrella\n");
 				//drawFrustumbrella(Z_IS_DISTANCE);
-				
+
 				//e_selection sel2 = EM.selectAll();
 				//sel = e_selection();
 				//sel.EM = &EM;
@@ -355,7 +402,8 @@ void editor2Kind::onEvent(eventKind event){
 				sel = sel.getImplicitEdges();
 				printselection();
 				redraw();
-				
+				printf("\nselected implicit edges\n");
+
 			}
 			if(K == "3"){
 				event.maskEvent();
@@ -369,61 +417,74 @@ void editor2Kind::onEvent(eventKind event){
 				sel = sel.getImplicitTris();
 				printselection();
 				redraw();
-				
+				printf("\nselected implicit triangles\n");
+
 			}
 			if(K == "4"){
 				event.maskEvent();
 				//drawCurvyPoint();
-				
+
 				//e_selection sel;
 				//e_selection sel2 = EM.selectAll();
 				//sel.EM = &EM;
 				//sel.verts.push_back(sel2.verts[3]);
 				//sel.verts.push_back(sel2.verts[4]);
-				sel.rotate({0,0,0},{1,0,0},d2r*30);
-				
+				sel.rotate({0,0,0},{1,0,0},15);
+
 				//resetEditorLayer();
 				redraw();
+				printf("\nrotated by 15 degrees around Y\n");
 			}
 			if(K == "5"){
 				event.maskEvent();
 				const char *bork = EM.checkDegenerate(false);
 				printf("bork = [%s]\n",bork);
 				printf("EM: %d verts, %d edges, %d tris\n",EM.verts.size(),EM.edges.size(),EM.tris.size());
+				printf("\nprinted selection properties\n");
 			}
 			if(K == "6"){
 				event.maskEvent();
-				sel = sel.getNeighborsEssential();
-				printselection();
-				redraw();
+				//sel = sel.getNeighborsEssential();
+				//printselection();
+				//redraw();
+				//printf("\nprinted essential neighbors\n");
+				printf("\nkey 6 not in use\n");
 			}
 			if(K == "7"){
 				event.maskEvent();
-				sel = sel.getNeighborsDirect();
-				printselection();
-				redraw();
+				//sel = sel.getNeighborsDirect();
+				//printselection();
+				//redraw();
+				//printf("\nselected direct neighbors\n");
+				printf("\nkey 7 not in use\n");
 			}
 			if(K == "8"){
 				event.maskEvent();
-				e_selection sel2(&EM);
-				sel2.addElements(sel.getNeighborsDirect());
-				sel2.addElements(sel.getNeighborsEssential());
-				sel = sel2;
-				printselection();
-				redraw();
+				//e_selection sel2(&EM);
+				//sel2.addElements(sel.getNeighborsDirect());
+				//sel2.addElements(sel.getNeighborsEssential());
+				//sel = sel2;
+				//printselection();
+				//redraw();
+				//printf("\nadded direct and essential neighbors to selection\n");
+				printf("\nkey 8 not in use\n");
 			}
 			if(K == "9"){
 				event.maskEvent();
 				sel = sel.extrude()[0];
 				sel.move({1,0,0});
 				redraw();
+				printf("\nextruded selection in X direction\n");
 			}
 			if(K == "0"){
 				event.maskEvent();
 				EM.verts.push_back(EM.verts.back());
 				redraw();
+				printf("\nduplicated last vertex\n");
 			}
 		break;
+		default:
+        break;
 	}
 }
 
@@ -532,7 +593,7 @@ void drawFrustum(){
 	drawWorldRay2(p7,p5);
 
 	drawWorldRay2(p1,p5); //top+bottom
-	drawWorldRay2(p2,p6); 
+	drawWorldRay2(p2,p6);
 	drawWorldRay2(p3,p7);
 	drawWorldRay2(p4,p8);
 

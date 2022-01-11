@@ -2,7 +2,6 @@
 #include "collision.h"
 #include "gadgets/frameprinter.h"
 #include "physics/octree.h"
-bool physicsOn = true;
 
 list<entity*> entities;
 //ecs_render_system_kind ecs_render_system;
@@ -21,7 +20,7 @@ list<entity*> entities;
 //imp_component0(vec3, color);
 
 entity::entity(){
-	entities.push_back(this);
+	//entities.push_back(this);
 }
 
 entity::~entity(){
@@ -30,7 +29,11 @@ entity::~entity(){
 }
 
 vec3 entity::getPosition(){return body ? body->pos : vec3(0,0,0);}
-void entity::setPosition(vec3 pos){body->pos = pos; body->ov->moveTo(pos);}
+void entity::setPosition(vec3 pos){
+	body->pos = pos; 
+	body->ov->moveTo(pos);
+	if(r){r->pos = pos;}
+}
 
 vec3 entity::getVelocity(){return body ? body->vel : vec3(0,0,0);}
 void entity::setVelocity(vec3 vel){body->vel = vel;}
@@ -50,11 +53,22 @@ void entity::setGravity(vec3 gravity){body->gravity = gravity;}
 vec3 entity::getColor(){return r ? r->color: vec3(255,255,255);}
 void entity::setColor(vec3 color){r->color = color;}
 
+void addEntity(entity *E){
+	entities.push_back(E);
+}
 void removeEntity(entity *E){
-	delete E;
-	for(auto I = entities.begin(); I != entities.end();){
-		if(*I=E){I = entities.erase(I);}else{I++;}
+	if(!E){return;}
+	if(E->body){
+		delete E->body;
 	}
+	
+	for(auto I = entities.begin(); I != entities.end();){
+		if(*I==E){I = entities.erase(I);}else{I++;}
+	}
+}
+
+entity *lastEntity(){
+	return entities.back();
 }
 //future ecs stuff:
 //overal "dispatch" system that handles lists of similar components

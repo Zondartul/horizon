@@ -30,11 +30,11 @@ struct event_mouse_wheel{
 	int x;
 	int y;
 };
-enum eventType{	EVENT_KEY_UP, 
-			EVENT_KEY_DOWN, 
+enum eventType{	EVENT_KEY_UP,
+			EVENT_KEY_DOWN,
 			EVENT_MOUSE_BUTTON_UP,
 			EVENT_MOUSE_BUTTON_DOWN,
-			EVENT_MOUSE_MOVE, 
+			EVENT_MOUSE_MOVE,
 			EVENT_MOUSE_WHEEL,
 			EVENT_FRAME};
 struct eventKind{
@@ -67,6 +67,8 @@ typedef eventListenerList eventChannel;
 
 class eventListener{
 	public:
+    virtual ~eventListener() = default;
+
 	virtual void onEvent(eventKind event);
 };
 

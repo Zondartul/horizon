@@ -24,7 +24,7 @@ int octree_node::getOctant(AABB vaabb){
 	pzae = planes.z		> volume.end.z;
 	//printf("pxbs\tpybs\tpzbs\tpxae\tpyae\tpzae\n");
 	//printf("%d\t%d\t%d\t%d\t%d\t%d\n",pxbs,pybs,pzbs,pxae,pyae,pzae);
-	
+
 	int res;
 	xon = vaabb.start.x		< volume.start.x;
 	xop = vaabb.end.x 		> volume.end.x;
@@ -35,7 +35,7 @@ int octree_node::getOctant(AABB vaabb){
 	//printf("xon\txop\tyon\tyop\tzon\tzop\n");
 	//printf("%d\t%d\t%d\t%d\t%d\t%d\n",xon,xop,yon,yop,zon,zop);
 	res = 0;
-	
+
 	if(xon or xop or yon or yop or zon or zop){res = -1; goto getoctExit;}	//gone to parent node
 	xn = vaabb.start.x 		< planes.x;
 	xp = vaabb.end.x 		> planes.x;
@@ -45,7 +45,7 @@ int octree_node::getOctant(AABB vaabb){
 	zp = vaabb.end.z 		> planes.z;
 	//printf("xn\txp\tyn\typ\tzn\tzp\n");
 	//printf("%d\t%d\t%d\t%d\t%d\t%d\n",xn,xp,yn,yp,zn,zp);
-	
+
 	if((xn and xp) or (yn and yp) or (zn and zp)){res = 0; goto getoctExit;}
 	if(xn and yn and zn){res = 1; goto getoctExit;}
 	if(xp and yn and zn){res = 2; goto getoctExit;}
@@ -55,8 +55,8 @@ int octree_node::getOctant(AABB vaabb){
 	if(xp and yn and zp){res = 6; goto getoctExit;}
 	if(xn and yp and zp){res = 7; goto getoctExit;}
 	if(xp and yp and zp){res = 8; goto getoctExit;}
-	
-	
+
+
 	res = 0;
 getoctExit:
 	//printf("res = %d\n\n",res);
@@ -85,7 +85,7 @@ bool octree_node::canMerge(){
 void octree_node::merge(){
 	//printf("merging node %p\n", this);
 	if(isLeaf){
-		//printf("(is leaf)\n"); 
+		//printf("(is leaf)\n");
 		return;
 	}
 	for(int I = 0; I < 8; I++){
@@ -108,7 +108,7 @@ void octree_node::merge(){
 //
 //  bottom:
 //      |
-//	 1  r  2  
+//	 1  r  2
 //      |
 //	-g--+--g-
 //	    |
@@ -116,7 +116,7 @@ void octree_node::merge(){
 //      |
 //  top:
 //      |
-//	 5  r  6  
+//	 5  r  6
 //      |
 //	-g--+--g-
 //	    |
@@ -138,11 +138,11 @@ void octree_node::split(){
 	float x0 = volume.start.x;
 	float x1 = planes.x;
 	float x2 = volume.end.x;
-	
+
 	float y0 = volume.start.y;
 	float y1 = planes.y;
 	float y2 = volume.end.y;
-	
+
 	float z0 = volume.start.z;
 	float z1 = planes.z;
 	float z2 = volume.end.z;
@@ -150,31 +150,31 @@ void octree_node::split(){
 	vs = vec3(x0,y0,z0); ve = vec3(x1,y1,z1);
 	children[0]->volume = AABB(vs,ve);
 	children[0]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x1,y0,z0); ve = vec3(x2,y1,z1);
 	children[1]->volume = AABB(vs,ve);
 	children[1]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x0,y1,z0);ve = vec3(x1,y2,z1);
 	children[2]->volume = AABB(vs,ve);
 	children[2]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x1,y1,z0); ve = vec3(x2,y2,z1);
 	children[3]->volume = AABB(vs,ve);
 	children[3]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x0,y0,z1); ve = vec3(x1,y1,z2);
 	children[4]->volume = AABB(vs,ve);
 	children[4]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x1,y0,z1); ve = vec3(x2,y1,z2);
 	children[5]->volume = AABB(vs,ve);
 	children[5]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x0,y1,z1); ve = vec3(x1,y2,z2);
 	children[6]->volume = AABB(vs,ve);
 	children[6]->planes = vs + (ve-vs)/2.f;
-	
+
 	vs = vec3(x1,y1,z1); ve = vec3(x2,y2,z2);
 	children[7]->volume = AABB(vs,ve);
 	children[7]->planes = vs + (ve-vs)/2.f;
@@ -231,7 +231,7 @@ string toString(octree_node *N){
 	S += fstring("volume = %s\n",toCString(N->volume));
 	S += fstring("infinite = %d\n",N->infinite);
 	S += fstring("visitors.size = %d\n",N->visitors.size());
-	return S;	
+	return S;
 }
 
 ////-----------------------------
@@ -242,7 +242,7 @@ octree_visitor::octree_visitor(octree_node *node, collisionbody *body, vec3 pos)
 	this->pos = pos;
 	node->addVisitor(this);
 	moveTo(pos);
-}	
+}
 
 octree_visitor::~octree_visitor(){
 	if(curNode){curNode->removeVisitor(this);}
@@ -255,8 +255,8 @@ void octree_visitor::moveTo(vec3 pos){
 	//printf("%p.ov::moveTo(%s)\n",body,toCString(pos));
 	//printf("curNode info:\n");
 	//printf("%s\n",toCString(curNode));
-	
-	AABB aabb = body->aabb.moveBy(pos);//dynamic_cast<collisionbodyAABB*>(body)->aabb.moveBy(pos);
+
+	AABB aabb = body->getAABB().moveBy(pos);//dynamic_cast<collisionbodyAABB*>(body)->aabb.moveBy(pos);
 	int octant = curNode->getOctant(aabb);
 	//printf("octant = %d\n",octant);
 	bool insertNeeded = false;
@@ -371,7 +371,7 @@ void octreeRender(octree_node *N){
 			// drawBoxWireframe(center+offset*(I/n),rot,scale*(I/n));
 		// }
 		drawBox(pos,rot,scale);
-		
+
 		//y-plane
 		setColor(vec3(0,128,0));
 		newstart	= vec3(vmin.x,planes.y,vmin.z);
@@ -383,7 +383,7 @@ void octreeRender(octree_node *N){
 			// drawBoxWireframe(center+offset*(I/n),rot,scale*(I/n));
 		// }
 		drawBox(pos,rot,scale);
-		
+
 		//z-plane
 		setColor(vec3(0,0,128));
 		newstart	= vec3(vmin.x,vmin.y,planes.z);
@@ -395,7 +395,7 @@ void octreeRender(octree_node *N){
 			// drawBoxWireframe(center+offset*(I/n),rot,scale*(I/n));
 		// }
 		drawBox(pos,rot,scale);
-		
+
 		setTransparency(false);
 		setColor(vec3(0,0,0));
 	}
@@ -417,7 +417,7 @@ void octreePrint(octree_node *N){
 		owin = new GUIwindow();
 		owin->setSize(vec2(200,300));
 		dynamic_cast<GUIwindow*>(owin)->setTitle(fstring("octree_node %p",N));
-		
+
 		lbl = new GUIlabel();
 		//lbl->setSize(vec2(200,300));
 		owin->addChild(lbl);
@@ -430,7 +430,7 @@ void octreePrint(octree_node *N){
 		text += fstring("AABB: %s\n",toCString(N->volume));
 		text += fstring("visitors: %d\n",N->visitors.size());
 	}
-	
+
 	lbl->setText(text);
 	lbl->sizeToContents();
 	owin->sizeToContents();

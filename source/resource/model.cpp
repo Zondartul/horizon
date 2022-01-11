@@ -33,3 +33,41 @@ AABB model::getAABB(){
 	}
 	return aabb;
 }
+#include "editmodel.h"
+e_model *model::toEmodel(){
+	e_model *EM = new e_model();
+	for(int I = 0; I < tris.size(); I++){
+		e_vertex *A = new e_vertex(tris[I].v[0].pos,EM);
+		e_vertex *B = new e_vertex(tris[I].v[1].pos,EM);
+		e_vertex *C = new e_vertex(tris[I].v[2].pos,EM);
+		vec2 uvA = tris[I].v[0].uv; uvA.y = -uvA.y;
+		vec2 uvB = tris[I].v[1].uv; uvB.y = -uvB.y;
+		vec2 uvC = tris[I].v[2].uv; uvC.y = -uvC.y;
+		vec3 vnA = tris[I].v[0].normal;
+		vec3 vnB = tris[I].v[1].normal;
+		vec3 vnC = tris[I].v[2].normal;
+		e_triangle *T = new e_triangle(A,B,C,EM);
+		//T->uvs.push_back(uvA);
+		//T->uvs.push_back(uvB);
+		//T->uvs.push_back(uvC);
+		T->uvs[0] = uvA;
+		T->uvs[1] = uvB;
+		T->uvs[2] = uvC;
+		//T->vert_normals.push_back(vnA);
+		//T->vert_normals.push_back(vnB);
+		//T->vert_normals.push_back(vnC);
+		T->vert_normals[0] = vnA;
+		T->vert_normals[1] = vnB;
+		T->vert_normals[2] = vnC;
+	}
+	EM->recalculateNeighbors();
+	return EM;
+}
+
+
+
+
+
+
+
+

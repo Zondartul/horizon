@@ -175,9 +175,9 @@ void bitmap::forEachPixel(void (*f)(pixel *P)){
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-//int stbi_write_png(char const *filename, 
+//int stbi_write_png(char const *filename,
 //		int w, int h, int comp, const void *data, int stride_in_bytes);
-   
+
 void bitmap::saveAs(const char *filename){
 	int comp;
 	switch(format){
@@ -209,6 +209,7 @@ int bytesPerPixel(pixelFormat F){
 		case(TL_LUMINANCE): return 1; break;
 		case(TL_LUMINANCE_ALPHA): return 2; break;
 	}
+	return 0;
 }
 
 bitmap blankBitmap(int height, int width, pixelFormat format){

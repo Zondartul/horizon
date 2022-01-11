@@ -10,6 +10,8 @@ uniform sampler2D Tex;
 
 uniform bool texturingOn;
 uniform bool coloringOn;
+uniform bool uvColoringOn;
+uniform bool normalColoringOn;
 uniform bool debuggingOn;
 uniform bool transparencyOn;
 uniform bool scissoringOn;
@@ -43,11 +45,25 @@ void main(){
 	vec4 texColor = texture(Tex, UV);
 	vec4 color = vec4(Color,1.0);
 	FragColor = FragColor*vec4(globalColor,1.0);
+	
+	vec2 UVmod = mod(UV,vec2(1.0,1.0));
+	
 	if(transparencyOn){
 		FragColor = FragColor*vec4(1.0,1.0,1.0,globalAlpha);
 	}
 	if(coloringOn){
 		FragColor = FragColor*color;
+	}
+	if(uvColoringOn){
+		FragColor = FragColor*vec4(UVmod.x,UVmod.y,1.0-(UVmod.x+UVmod.y)/2.0,1.0);
+		if((int(UVmod.x*256)%16) < 1.0){FragColor = vec4(0,0,0,1.0);}
+		if((int(UVmod.y*256)%16) < 1.0){FragColor = vec4(0,0,0,1.0);}
+		if((UVmod.x == 0) && (UVmod.y == 0)){FragColor = vec4(1.0,1.0,1.0,1.0);}
+	}
+	if(normalColoringOn){
+		vec3 normColor = WorldNormal*0.5+0.5;
+		FragColor = FragColor*vec4(normColor.x,normColor.y,normColor.z,1.0);
+		
 	}
 	if(texturingOn){
 		FragColor = FragColor*texColor;
@@ -72,5 +88,6 @@ void main(){
 	if(debuggingOn){
 		FragColor = vec4(0.25*FragColor.r+0.75*UV.r,0.25*FragColor.g+0.75*UV.g,FragColor.b,1.0);
 	}
+	if(FragColor.a == 0.0){ discard; }
 	
 }

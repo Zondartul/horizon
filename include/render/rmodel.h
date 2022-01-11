@@ -19,4 +19,17 @@ class rmodel{
 	void clear();
 };
 
+struct rmpack{
+	union{
+		rmodel *rm[4];
+		struct{
+			rmodel *rm_verts;
+			rmodel *rm_edges;
+			rmodel *rm_tris;
+			rmodel *rm_wire;
+		};
+	};
+	rmpack();
+};
+
 #endif

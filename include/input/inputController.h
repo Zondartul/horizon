@@ -5,6 +5,7 @@
 //#include "SDL2/SDL.h" //for event
 #include "event.h"
 //#include "physCharacter.h"
+#include "characterController.h"
 
 class inputControllerKind:public eventListener{ //if there is a user (not headless), this does his thing.
 	public:
@@ -20,8 +21,9 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 		float walk_fast;
 		float walk_normal;
 		float walk_slow;
+		float jump;
 	}speeds;
-	
+
 	bool mousecapture;
 	inputControllerKind();
 	~inputControllerKind();
@@ -30,8 +32,11 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 	void aimRelative(vec3 aim);
 	void aim(vec3 aim);
 	void toggleMouseCapture();
+	void enableMouseCapture();
+	void disableMouseCapture();
 	void onEvent(eventKind event);
 	//physCharacter *character;
+	elastic_ptr<characterController> character;
 };
 
 void captureKeyboard(eventListener *L);

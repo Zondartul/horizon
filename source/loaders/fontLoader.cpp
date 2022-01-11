@@ -31,7 +31,8 @@ FT_Face		face;
 
 void initFreeType(){
 	if(FT_Init_FreeType(&freetype) != 0)
-	{printf("FreeType: could not initialize!\n");exit(0);}	
+	{printf("FreeType: could not initialize!\n");exit(0);}
+	printf("-------- FreeType init done -------\n");
 }
 
 void loadFont_FT(const char *fontpath, int size){
