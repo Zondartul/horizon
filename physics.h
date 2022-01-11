@@ -4,11 +4,13 @@ class physBody
 	model *mdl;
 	vec pos;
 	quat orient;
+	double scale;
 	vec3i color;
 	vec BScenter;//bounding sphere
 	double BSradius;
 	char tracegroup; // 0 = no traces, 1 = phys traces
 	ptrSniper<physBody> ptrs;
+	void (*onThink)(void*);
 	void zero()
 	{
 		mdl = NULL;
@@ -16,9 +18,11 @@ class physBody
 		orient = quat::fromAngleAxis(0,0,0,1);
 		color = {255,255,255};
 		BScenter = {0,0,0};
+		scale = 1;
 		BSradius = 0.0f;
 		tracegroup = 1;
 		ptrs.upperThis = this;
+		onThink = NULL;
 	}
 	physBody()
 	{
@@ -99,7 +103,7 @@ class trace
 	}
 	void scan()
 	{
-	
+		//int triNum = -1;//temp - debug triangle index
 		for(int i = 0; i<AllPhysBodies.size(); i++)
 		{
 			
@@ -146,6 +150,7 @@ class trace
 					hitpos = hit1;
 					hitObj = AllPhysBodies[i];
 					hit = true;
+					//triNum = t;
 				}
 			}
 			/*
@@ -164,7 +169,7 @@ class trace
 			*/
 			start = start+Bod->pos; // re-setting ray position for next object
 		}
-		
+		//printf("|%d",triNum);
 	}
 };
 

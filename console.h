@@ -372,4 +372,5 @@ void initConCommands()
 	cmdlist.push_back({"cls","clear screen",&cmd_cls});
 	printf("assigning 2\n");
 	printf("\nsize of physBody = %d, * = %d\n",sizeof(physBody),sizeof(physBody*));
+	printf("{0,0,1}.angle({1,0,0}) = %f\n", ((vec){0,0,1}).angle({1,0,0}));
 }

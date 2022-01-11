@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <math.h>
 #include <ctype.h>
+#include <algorithm>
 //#include <iostream>
 //#include <string>
 //#include <sstream> 
@@ -568,6 +569,8 @@ void Render2D()
     */
 	RenderGUI();
 }
+vector<physBody*> TranslucentBodies;
+bool BodyDistanceComparator(physBody* i, physBody* j){return (i->pos-SomeVec1).length()>(j->pos-SomeVec1).length();}
 void Render3D()
 {
 	int Errc = 0;
@@ -613,6 +616,7 @@ void Render3D()
 	//while(!Body){i++; Body = AllPhysBodies[i];}
 	glTranslatef(Body->pos.x,Body->pos.y,Body->pos.z);
 	glRotatef(Body->orient.getAngle(),Body->orient.getX(),Body->orient.getY(),Body->orient.getZ());
+	glScalef(Body->scale,Body->scale,Body->scale);
 	myModel = Body->mdl;
 	if(myModel!=NULL)
 	{
@@ -639,36 +643,46 @@ void Render3D()
 		if(myModel->numtextures)
 		{
 		int prevTex = 0;
-						//Errc = glGetError();if(Errc){printf("<4=%s>\n",gluErrorString(Errc));}
+		if(myModel->blendmode>1){TranslucentBodies.push_back(Body); glPopMatrix(); continue;}
+		
 		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_BLEND);
+		
+		if(myModel->blendmode==1)
+		{
+			glAlphaFunc(GL_GREATER, 0.5);
+			glEnable(GL_ALPHA_TEST);
+		}
+		else
+		{
+			glDisable(GL_ALPHA_TEST);
+		}
 		glFrontFace(GL_CW);
 		glEnable(GL_CULL_FACE);
-						//Errc = glGetError();if(Errc){printf("<5=%s>\n",gluErrorString(Errc));}
 		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
-						//Errc = glGetError();if(Errc){printf("<6=%s>\n",gluErrorString(Errc));}
-		//printf("texture[0].t = %d\n",myModel->textures[0].t);
-		glBegin(GL_TRIANGLES);
 		for(int I=0;I<myModel->numtris;I++)
 		{
 			triangle T = myModel->mesh[I];
 			textriangle tT = myModel->texmap[I];
+			// render translucent stuff last, and in order.
 			
 			if(tT.texid!=prevTex)
 			{
 										//Errc = glGetError();if(Errc){printf("<7=%s>\n",gluErrorString(Errc));}
-				glEnd();//invalid operation here?
+				//glEnd();//invalid operation here?
 										//Errc = glGetError();if(Errc){printf("<7.5=%s>\n",gluErrorString(Errc));}
 				glBindTexture( GL_TEXTURE_2D, myModel->textures[tT.texid].t );
 										//Errc = glGetError();if(Errc){printf("<8=%s>\n",gluErrorString(Errc));}
-				glBegin(GL_TRIANGLES);
+				//glBegin(GL_TRIANGLES);
 				//printf("|ts");
 				prevTex = tT.texid;
 										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
+				
 			}
+			glBegin(GL_TRIANGLES);
 			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			glEnd();
 		}
 		
 						//Errc = glGetError();if(Errc){printf("<9.5=%s>\n",gluErrorString(Errc));}
@@ -694,12 +708,105 @@ void Render3D()
 		}
 		glEnd();
 		glDisable(GL_CULL_FACE);
+		glDisable(GL_ALPHA_TEST);
 		}
 		}
 	}
 	glPopMatrix();
 	}
-					//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
+	sort(TranslucentBodies.begin(), TranslucentBodies.end(), BodyDistanceComparator);
+	//GL_DISABLE(GL_DEPTH_BUFFER_WRITE);
+	//glDepthFunc(GL_ALWAYS);
+	for(int i = 0;i<TranslucentBodies.size();i++)
+	{
+		glPushMatrix();
+		physBody *Body = TranslucentBodies[i];
+		//while(!Body){i++; Body = AllPhysBodies[i];}
+		glTranslatef(Body->pos.x,Body->pos.y,Body->pos.z);
+		glRotatef(Body->orient.getAngle(),Body->orient.getX(),Body->orient.getY(),Body->orient.getZ());
+		glScalef(Body->scale,Body->scale,Body->scale);
+		myModel = Body->mdl;
+	
+		int prevTex = 0;
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		/*
+		if(myModel->blendmode==2)
+		{
+			glEnable(GL_BLEND);
+		}
+		else
+		{
+			printf("Asking for shader\n");
+			glPopMatrix(); continue; // don't have a shader yet
+		}*/
+		vec3i col = Body->color;
+		glColor3ub(col.x,col.y,col.z);
+		
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
+		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
+		for(int I=0;I<myModel->numtris;I++)
+		{
+			triangle T = myModel->mesh[I];
+			textriangle tT = myModel->texmap[I];
+			// render translucent stuff last, and in order.
+			
+			if((tT.flags&R_DARKEN)&(tT.flags&R_LIGHTEN))
+			{
+				glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+			}
+			else
+			{
+				if(tT.flags&R_DARKEN)
+				{
+					glBlendFunc(GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA);
+				}
+				if(tT.flags&R_LIGHTEN)
+				{
+					glBlendFunc(GL_DST_COLOR,GL_ONE);
+				}
+				if(!((tT.flags&R_DARKEN)|(tT.flags&R_LIGHTEN)))
+				{
+					printf("no light nor darkness for triangle %d!\n", I);
+					glDisable(GL_BLEND);
+				}
+			}
+			
+			//glBlendFunc(GL_DST_COLOR,GL_ONE);
+			if(tT.texid!=prevTex)
+			{
+										//Errc = glGetError();if(Errc){printf("<7=%s>\n",gluErrorString(Errc));}
+				//glEnd();//invalid operation here?
+										//Errc = glGetError();if(Errc){printf("<7.5=%s>\n",gluErrorString(Errc));}
+				glBindTexture( GL_TEXTURE_2D, myModel->textures[tT.texid].t );
+										//Errc = glGetError();if(Errc){printf("<8=%s>\n",gluErrorString(Errc));}
+				//glBegin(GL_TRIANGLES);
+				//printf("|ts");
+				prevTex = tT.texid;
+										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
+				
+			}
+			glBegin(GL_TRIANGLES);
+			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			glEnd();
+		}
+		
+						//Errc = glGetError();if(Errc){printf("<9.5=%s>\n",gluErrorString(Errc));}
+		glEnd();
+						//Errc = glGetError();if(Errc){printf("<10=%s>\n",gluErrorString(Errc));}
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_BLEND);
+						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
+	glPopMatrix();
+	}
+	TranslucentBodies.clear();
+	//glEnable(GL_DEPTH_BUFFER_WRITE);
+	//glDepthFunc(GL_LESS);
+		//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
     glPopMatrix();
 }
 void Render_go2D()
@@ -795,6 +902,14 @@ void RenderTick(HDC hDC)
     Sleep(1);
 }
 
+void ThinkTick()
+{
+	for(int i = 0; i<AllPhysBodies.size(); i++)
+	{
+		physBody *B = AllPhysBodies[i];
+		if(B->onThink){B->onThink((void*)B);}
+	}
+}
 
 void ProgramTick(HWND hwnd, HDC hDC)
 {
@@ -817,6 +932,7 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	windowCenter.x = windowCorner.x+width/2;
 	windowCenter.y = windowCorner.y+height/2;
 	InputTick();
+	ThinkTick();
     RenderTick(hDC);
 	PhysicsTick();
 }

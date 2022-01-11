@@ -52,7 +52,9 @@ void OpenMenuToolbox()
 	ParseCommand("textureload C:/Stride/textures/barrel-top.bmp");
 	ParseCommand("textureload C:/Stride/textures/barrel-side.bmp");
 	ParseCommand("textureload C:/Stride/textures/sinus-wide.bmp");
+	texture_load_pixelated = true;
 	ParseCommand("textureload C:/Stride/textures/windrose.bmp");
+	texture_load_pixelated = false;
 }
 
 model *genCube(double l, double w, double h)
@@ -91,14 +93,14 @@ model *genCube(double l, double w, double h)
 	*/ 
 	
 	
-	vec A = {0,	0,	0}; //A = A*10;
-	vec B = {0,	V.y,0}; //B = B*10;
-	vec C = {V.x,V.y,0}; //C = C*10;
-	vec D = {V.x,0,	0}; //D = D*10;
-	vec E = {0,	0,	V.z}; //E = E*10;
-	vec F = {0,	V.y,V.z}; //F = F*10;
-	vec G = {V.x,V.y,V.z};// G = G*10;
-	vec H = {V.x,0,	V.z}; //H = H*10;
+	vec A = {-l/2,-w/2,-h/2}; //A = A*10;
+	vec B = {-l/2,w/2,-h/2}; //B = B*10;
+	vec C = {l/2,w/2,-h/2}; //C = C*10;
+	vec D = {l/2,-w/2,-h/2}; //D = D*10;
+	vec E = {-l/2,-w/2,h/2}; //E = E*10;
+	vec F = {-l/2,w/2,h/2}; //F = F*10;
+	vec G = {l/2,w/2,h/2};// G = G*10;
+	vec H = {l/2,-w/2,h/2}; //H = H*10;
 	//texture:
 	//A - B
 	//|   |
@@ -471,7 +473,10 @@ void btnGenCube(void* arg)
 	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
-	AllPhysBodies.push_back(new physBody(genCube(l,w,h)));
+	physBody* bod = new physBody(genCube(l,w,h));
+	bod->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
+	bod->mdl->blendmode = rand()%2+1;
+	AllPhysBodies.push_back(bod);
 }
 void btnGenCyl(void* arg)
 {
@@ -650,13 +655,40 @@ void toggleWireframe(void* arg)
 	else{ConsoleParse("Nope wireframe");}
 	renderWireframe = *(bool*)arg;
 }
+
+
+
+
+physBody *prevSelected = 0;
+physBody *EntSelected = 0;
+bool wPBfuncSet = 0;
+void entSelect(void *arg)
+{
+	if(EntLookAt){EntLookAt->ptrs.get(&EntSelected);}//EntSelected
+	EntSelected = EntLookAt; //even if 0, though ptrs.get assigns too
+	if(prevSelected){prevSelected->color = {255,255,255};}
+	if(EntSelected){EntSelected->color = {64,255,64}; prevSelected = EntSelected;}
+	
+	printf("beep boop");
+}
+
+void update3Dcursor(void* arg)
+{
+	physBody *cursor = (physBody *)arg;
+	cursor->orient = quat::from4vecs({0,0,-1},cursor->pos-SomeVec1,{1,0,0},CamAngle.rotateVector({1,0,0})); //or just = camAngle;
+	if(EntSelected){cursor->pos = EntSelected->pos; cursor->scale = 3*EntSelected->BSradius;}
+}
+
 void toggle3Dcursor(void* arg)
 {
 	static physBody *cursor = 0;
 	if(!cursor)
 	{
 		cursor = new physBody(genPlane(1,1));
-		cursor->mdl->textures[0] = textureGet("C:/Stride/windrose.bmp");
+		cursor->mdl->textures[0] = textureGet("C:/Stride/textures/windrose.bmp");
+		//cursor->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
+		//cursor->mdl->blendmode = 1;
+		cursor->onThink = &update3Dcursor;
 		AllPhysBodies.push_back(cursor);
 	}
 	else
@@ -684,18 +716,7 @@ void windowOpts(void* arg)
 	check2->setParent((GUIbase*)Menu);		label2->text = "3D cursor";
 	check2->func = &toggle3Dcursor;			label2->setParent((GUIbase*)Menu);
 }
-physBody *prevSelected = 0;
-physBody *EntSelected = 0;
-bool wPBfuncSet = 0;
-void entSelect(void *arg)
-{
-	if(EntLookAt){EntLookAt->ptrs.get(&EntSelected);}//EntSelected
-	EntSelected = EntLookAt; //even if 0, though ptrs.get assigns too
-	if(prevSelected){prevSelected->color = {255,255,255};}
-	if(EntSelected){EntSelected->color = {255,0,0}; prevSelected = EntSelected;}
-	
-	printf("beep boop");
-}
+
 void windowPhysbodyOptions(void *arg)
 {
 	double x = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
@@ -708,9 +729,9 @@ void windowPhysbodyOptions(void *arg)
 	{
 		EntSelected->pos = {x,y,z};
 		EntSelected->orient = quat::fromAngleAxis(rz,0,0,1);
+		quat q = EntSelected->orient;
+		printf("quat: {%f,%f,%f,%f} | {%f,%f,%f,%f}\n",q.w,q.v.x,q.v.y,q.v.z,q.getAngle(),q.getX(),q.getY(),q.getZ());
 	}
-	quat q = EntSelected->orient;
-	printf("quat: {%f,%f,%f,%f} | {%f,%f,%f,%f}\n",q.w,q.v.x,q.v.y,q.v.z,q.getAngle(),q.getX(),q.getY(),q.getZ());
 }
 void windowPhysbodyUpdate(void *arg)
 {
@@ -722,8 +743,6 @@ void windowPhysbodyUpdate(void *arg)
 		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinz")))->vals[1]=EntSelected->pos.z;
 	}
 }
-
-
 
 void windowPhysbody(void* arg)
 {

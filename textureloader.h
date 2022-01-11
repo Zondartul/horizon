@@ -105,6 +105,7 @@ GLuint LoadTextureRAW( const char * filename, int wrap )
   printf("texture loaded: %s",filename);
   return tex;
 }
+static bool texture_load_pixelated = 0;
 
 texture GenTextureBMP( string filename)
 {
@@ -160,8 +161,19 @@ texture GenTextureBMP( string filename)
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 
   // when texture area is small, bilinear filter the closest MIP map
+  if(texture_load_pixelated)
+  {
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                   GL_LINEAR_MIPMAP_NEAREST );
+                  GL_NEAREST);
+	
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  }
+  else
+  {
+   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  GL_LINEAR_MIPMAP_NEAREST );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+  }
   // when texture area is large, bilinear filter the first MIP map
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 

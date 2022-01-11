@@ -35,10 +35,8 @@ struct quat
 	double w;
 	vec v;
 	
-	quat operator -(){return {-w,-v};}
-	quat operator +(quat B){return {w+B.w, v+B.v};}
-	quat operator -(quat B){return {w-B.w, v-B.v};}
-	quat operator *(double N){return {w*N, v*N};}
+	quat operator -(){return {w,-v};}		
+	quat operator *(double N){return {w*N, v};}
 	quat operator *(quat B)
 	{
 		double lhs1 = w;
@@ -120,7 +118,39 @@ struct quat
 		vec res = ((*this)*((quat){0,vect})*((*this).inv())).v; //C++ evaluates right-hand first I think
 		return res;
 	}
+	static quat from2vecs(vec X1, vec Y1) // one vec can be rotated to another, but it's "roll" is not preserved.
+	{				 			   // use 4-vector version to define the third degree of freedom.
+		return quat::fromAngleAxis(X1.angle(Y1),X1.cross(Y1).norm());
+	}
+	static quat from4vecs(vec X1, vec Y1, vec X2, vec Y2)
+	{
+		quat q1 = quat::fromAngleAxis(X1.angle(Y1),X1.cross(Y1).norm());
+		vec X4 = q1.rotateVector(X2);
+		
+		quat q2 = quat::fromAngleAxis(((X4-X4.vectorProjection(Y1)).sgnAngle(Y2-Y2.vectorProjection(Y1),Y1)) ,X1);
+		//quat q2 = quat::fromAngleAxis(((X2-X2.vectorProjection(Y1)).sgnAngle(Y2-Y2.vectorProjection(Y1),Y1)) ,Y1);
+		//printf("angle = %f\n", (X4-X4.vectorProjection(Y1)).sgnAngle(Y2-Y2.vectorProjection(Y1),Y1));
+		//quat q3 = q1; q3.v = q2.corotateVector(q1.v);
+		//quat q3 = q2; q3.v = q1.corotateVector(q2.v);
+		//return q2*q3;
+		return q1*q2;
+								//(X2-X2.vectorProjection(X1)) //projection of X2 onto plane of X1 (X2 is now perp to X1
+								// same for Y1, and then find the angle on the plane.
+	}
 	
+	quat operator +(quat B)
+	{
+		//quat q = quat::from4vecs((*this).rotateVector(B.rotateVector({1,0,0}),{1,0,0},B.rotateVector({0,1,0}),{0,1,0});
+		// q returns from B to original axis. same as B.corotate?
+		//fuck this makes no sense at all
+		//there is no meaning to commutative addition of quaternions
+		//unless simultaneous
+		vec sv1 = v*w;
+		vec sv2 = B.v*B.w;
+		vec sv3 = sv1+sv2;
+		return {sv3.length(), sv3.norm()};
+	}
+	quat operator -(quat B){return (*this)+(-B);}
 	double getX()
 	{
 		return v.x/sqrt(1-w*w);

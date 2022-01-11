@@ -209,3 +209,8 @@ template<class T> class ptrSniper // I'm in way over my head.
 		}
 	}
 };
+
+template <typename T> int sgn(T val) 
+{
+    return (T(0) < val) - (val < T(0));
+}

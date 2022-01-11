@@ -169,7 +169,8 @@ void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC)
     pfd.iLayerType = PFD_MAIN_PLANE;
 
     iFormat = ChoosePixelFormat(*hDC, &pfd);
-
+	
+	
     SetPixelFormat(*hDC, iFormat, &pfd);
 
     /* create and enable the render context (RC) */

@@ -10,9 +10,9 @@ enum renderflags
 	R_NODRAW		=1,
 	R_UNLIT			=2,
 	R_TEXTURE		=4,
-	R_TRANSPARENT	=8,
-	R_MIRROR		=16, //same texture index = same mirror plane.
-	R_LENS			=32,
+	R_LIGHTEN		=8,  //transparency: 0 = opaque, LIGHTEN+DARKEN = normal
+	R_DARKEN		=16, 
+	R_MIRROR		=32, //same texture index = same mirror plane.
 	R_DEBUG			=64, //overdraws debug data
 	R_MINDFUCK		=128//acid
 };
@@ -44,6 +44,7 @@ struct model
 	textriangle *texmap;	
 	texture *textures;		int numtextures;
 	vec min,max;
+	char blendmode; //0 = opaque, 1 = alpha test only, 2 = object-ordered blending, 3 = shader blending
 	model()
 	{
 		numtris = 0; numtextures = 0;
@@ -52,5 +53,14 @@ struct model
 		texmap = NULL;
 		textures = NULL;
 		min = max = {0,0,0};
+		blendmode = 1;
+	}
+	void applyRenderFlags(int R)
+	{
+		// is texmap missing?
+		for(int i = 0;i<numtris;i++)
+		{
+			texmap[i].flags = (renderflags)R;
+		}
 	}
 };
