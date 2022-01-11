@@ -83,31 +83,42 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 		case(WM_LBUTTONDOWN):{
 			msg.type = "lmb_down"; 
 			mouse1down = true;
+			msg.set(0, (vec2i)getMousePos());
 			channel.publish(&msg);
+			msg.erase<vec2i>(0);
+			
 		} break;
 		case(WM_LBUTTONUP):{
 			msg.type = "lmb_up"; 
 			mouse1down = false;
+			msg.set(0, (vec2i)getMousePos());
 			channel.publish(&msg);
+			msg.erase<vec2i>(0);
 		} break;
 		case(WM_RBUTTONDOWN):{
 			msg.type = "rmb_down"; 
 			mouse2down = true;
+			msg.set(0, (vec2i)getMousePos());
 			channel.publish(&msg);
+			msg.erase<vec2i>(0);
 		} break;
 		case(WM_RBUTTONUP):{
 			msg.type = "rmb_up"; 
 			mouse2down = false;
+			msg.set(0, (vec2i)getMousePos());
 			channel.publish(&msg);
+			msg.erase<vec2i>(0);
 		} break;
 		case(WM_MOUSEMOVE):
 		{
 			msg.type = "mouse_move";
-			msg.set(0, (vec2i)(getMousePos()-prevMousePos));
+			msg.set(0, (vec2i)getMousePos());
+			msg.set(1, (vec2i)(getMousePos()-prevMousePos));
 			//msg.data.v2i = (getMousePos()-prevMousePos);
 			prevMousePos = getMousePos();
 			channel.publish(&msg);
 			msg.erase<vec2i>(0);
+			msg.erase<vec2i>(1);
 		} break;
 		case(WM_MOUSEWHEEL):
 		{

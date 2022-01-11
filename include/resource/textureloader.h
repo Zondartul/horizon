@@ -23,6 +23,9 @@ extern map<string,texture> AllTextures;
 //load the texture into the texture storage and return it
 texture LoadTexture(const char *filename);
 
+//load texture if it doesn't exist and return a pointer to it's descriptor
+texture *getTextureHandle(string name);
+
 //look up loaded texture by name
 texture textureGet(string name);
 

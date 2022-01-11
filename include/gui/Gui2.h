@@ -23,7 +23,8 @@ using std::string;
 #include "Gui2/GUI2spinner.h"
 #include "Gui2/GUI2textEntry.h"
 #include "Gui2/GUI2valuedisplay.h"
- 
+#include "Gui2/GUI2horizontalList.h"
+
 
 extern color3i paintColor; //???
 extern byte paintAlpha;

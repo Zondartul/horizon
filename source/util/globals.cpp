@@ -105,16 +105,31 @@ bool operator == (vec4i A, vec4i B)
 	return ((A.x1==B.x1)&&(A.y1==B.y1)&&(A.x2==B.x2)&&(A.y2==B.y2));
 }
 
-rect &rect::setStart(vec2i A){setx(A.x);sety(A.y);}
-rect &rect::setEnd(vec2i A){setx2(A.x);sety2(A.y);}
-rect &rect::setSize(vec2i A){setw(A.x);seth(A.y);}
-rect &rect::move(vec2i A){setStart(start+A); setEnd(end+A);}
-rect &rect::setx(int x){start.x = x; size.x = end.x-start.x;}// return *this;}
-rect &rect::sety(int y){start.y = y; size.y = end.y-start.y;}
-rect &rect::setw(int w){size.x = w; end.x = start.x+size.x;}
-rect &rect::seth(int h){size.y = h; end.y = start.y+size.y;}
-rect &rect::setx2(int x2){end.x = x2; size.x = end.x-start.x;}
-rect &rect::sety2(int y2){end.y = y2; size.y = end.y-start.y;}
+rect::rect(){
+	start = {0,0};
+	end = {0,0};
+	size = {0,0};
+	parent = 0;
+}
+rect::rect(vec2i start, vec2i end){
+	this->start = start;
+	this->end = end;
+	size = end-start;
+	parent = 0;
+}
+rect &rect::setStart(vec2i A){setx(A.x);sety(A.y); return *this;}
+rect &rect::setEnd(vec2i A){setx2(A.x);sety2(A.y); return *this;}
+rect &rect::setSize(vec2i A){setw(A.x);seth(A.y); return *this;}
+rect &rect::moveBy(vec2i A){setStart(start+A); setEnd(end+A); return *this;}
+rect &rect::moveStart(vec2i A){vec2i size = getSize(); setStart(A); setSize(size); return *this;}
+rect &rect::moveEnd(vec2i A){vec2i size = getSize(); setStart(A-size); setSize(size); return *this;}
+rect &rect::setx(int x){start.x = x; size.x = end.x - start.x; return *this;} //changing start keeps end but changes size (resize)
+rect &rect::sety(int y){start.y = y; size.y = end.y - start.y; return *this;}
+rect &rect::setw(int w){size.x = w; end.x = start.x+size.x; return *this;}	//changing size keeps start but changes end (resize)
+rect &rect::seth(int h){size.y = h; end.y = start.y+size.y; return *this;}
+rect &rect::setx2(int x2){end.x = x2; size.x = end.x-start.x; return *this;}//changing end keeps start but changes size (resize)
+rect &rect::sety2(int y2){end.y = y2; size.y = end.y-start.y; return *this;}
+rect &rect::setParent(rect *parent){this->parent = parent; return *this;}
 bool rect::contains(vec2i A){return (A.x >= start.x) && (A.x <= end.x) && (A.y >= start.y) && (A.y <= end.y);}
 bool rect::contains(vec4i A){return contains((vec2i){A.x1,A.y1}) && contains((vec2i){A.x2,A.y2});}
 bool rect::contains(rect A){return contains(A.start) && contains(A.end);}
@@ -128,7 +143,7 @@ rect rect::insert(rect A){
 	else if(end.x < A.end.x){diff.x = end.x - A.end.x;}
 	if(A.start.y < start.y){diff.y = start.y - A.start.y;}
 	else if(end.y < A.end.y){diff.y = end.y - A.end.y;}
-	return A.move(diff);
+	return A.moveBy(diff);
 }
 rect rect::toParent(rect A){	//A is in local, need it in parent's coords.
 	return A.setStart(toParent(A.start)).setEnd(toParent(A.end));
@@ -191,6 +206,19 @@ vec2i rect::fromWorld(vec2i A){
 		return fromParent(A);
 	}
 }
+bool operator == (rect A, rect B){
+	return (A.getStart() == B.getStart()) && (A.getEnd() == B.getEnd());
+}
+vec2i rect::getStart(){return start;}
+vec2i rect::getEnd(){return end;}
+vec2i rect::getSize(){return size;}
+int rect::getx(){return start.x;}
+int rect::gety(){return start.y;}
+int rect::getw(){return size.x;}
+int rect::geth(){return size.y;}
+int rect::getx2(){return end.x;}
+int rect::gety2(){return end.y;}
+rect *rect::getParent(){return parent;}
 
 vec3i::operator color3i()
 {

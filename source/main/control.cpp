@@ -24,6 +24,7 @@
 #include "gui/Gui2.h"
 #include "gui/Gui3.h"
 #include "gui/Gui4.h"
+#include "gui/Gui5.h"
 #include "math/vectors.h"
 #include "resource/models.h"
 #include "math/quaternions.h"
@@ -35,6 +36,7 @@
 #include "game/camera.h"
 #include "display/renderable.h"
 #include "gui/window_modeller.h"
+#include "gui/window_gui_editor.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -42,6 +44,7 @@
 
 GUI2base *GUI;
 GUI2frame *myFrame;
+GUI5base *GUI5;
 //model *myModel;
 vec SomeVec1; //cam pos.
 vec SomeVec2;
@@ -274,12 +277,12 @@ void displaySizes(void *arg){
 		char str[80];
 		snprintf(str,80,"[%p]:size %d x %d (%d,%d - %d,%d)\n",
 			bases[I],
-			bases[I]->area.size.x,
-			bases[I]->area.size.y,
-			bases[I]->area.start.x,
-			bases[I]->area.start.y,
-			bases[I]->area.end.x,
-			bases[I]->area.end.y);
+			bases[I]->area.getw(),
+			bases[I]->area.geth(),
+			bases[I]->area.getx(),
+			bases[I]->area.gety(),
+			bases[I]->area.getx2(),
+			bases[I]->area.gety2());
 		text += str;
 	}
 	((GUI4label*)(bases[0]))->setText(text);
@@ -306,6 +309,18 @@ void OpenGUI4(){
 	//GUI4->setClickable(true);
 }
 
+void openGUI5(){
+	GUI5 = new GUI5base();
+	GUI5->setPos({200,200}).setSize({500,500}).setDebug(true);
+	GUI5->subscribeToMessageChannel(&input.channel,"");
+	GUI5tabgroup *tab = new GUI5tabgroup();
+	tab->setTitle(0,"text").addElement((*(new GUI5label)).setText("hello").setPos({50,50}).setDebug(true));
+	tab->setTitle(1,"btn").addElement((*(new GUI5button)).setText("[PRESS ME]").setPos({50,100}).setDebug(true));
+	tab->addElement((*(new GUI5image)).setImage("../resource/textures/other/error.png").setPos({50,200}).setDebug(true)); //todo: make a resource path resolver
+	tab->addElement((*(new GUI5window)).setTitle("Window!").setPos({200,25}).setSize({200,200}).setDebug(false));
+	tab->setDebug(true);
+	GUI5->addElement(*tab);
+}
 bool ParseKey(int kb)
 {
 	if(kb>0)
@@ -489,6 +504,8 @@ void OnProgramStart()
 	bground.a = 255;
 
 	
+	openGUI5();
+	
 	
 	GUI = new GUI2base;
 	GUI->setPos(0,0);
@@ -513,7 +530,7 @@ void OnProgramStart()
 		//OpenValScreen(GUI);
 	//OpenGUI4();
 	startModellerSession();
-	
+	startGUIeditorSession();
 	KeyBinds["b"] = "echo butts";
 	KeyBinds["w"] = "+camforward";
 	KeyBinds["s"] = "+cambackward";
@@ -573,6 +590,7 @@ void RenderGUI()
 	GUI2base::propagateRender(GUI,(void*)(&windowrect),0);
 	
 	if(GUI4){GUI4->think(); GUI4->render();}
+	if(GUI5){GUI5->renderlogic();}
 	//GUI3rendertick();
 	
 	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
@@ -889,6 +907,7 @@ void ThinkTick()
 	hook.run("onTick");
 	printvals("ticks", "there have been "+itoa(ticks)+" ticks since the start.");
 	camera.tick();
+	if(GUI5){GUI5->think();}
 /*
 	for(int i = 0; i<AllPhysBodies.size(); i++)
 	{

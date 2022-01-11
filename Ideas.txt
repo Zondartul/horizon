@@ -55,3 +55,337 @@ window
    button           //save button
    button           //load button
 -------------------------------------------------------
+change some gui elements
+each element has a name/id/id
+each element generates events as a console string
+to be parsed externally
+in the grand scheme of things, size of the element does not depend on it's position
+but it does depend on positions of it's children.
+position of the element depends on it's size and size of other elements.
+So invalidate order should be: bottom children update size, then position
+then mid-level elements update children's position, own size, own position
+then top level elements update children's position and own size.
+
+actually, when tested, everything depends on everything in the end?...
+let's try to formalize again.
+
+5 types of relations:
+1) static position/size
+2) click-and-drag position/size
+3) size-to-contents
+4) percentage of parent size
+5) other, e.g. horizontal alignment without overlap
+
+1) x = const
+2) mouse-x = const
+3) x = y
+4) x = const*y
+5) x = sum(y_i)
+
+idea: forbid circular dependency. Check dependency by keeping a "set" of
+elements that this element depends on. The element can not be in it's own
+dependency set.
+
+idea: constraintManager. Each constraint would have to be written as
+a method of the constraintManager using getArea, getParentArea,
+getNeighborAreas, and getChildrenAreas, then setArea, setParentArea,
+setNeighborAreas, and setChildrenAreas. These methods would, as a side effect,
+mark said groups of elements as "set"s depending on "get"s and the manager would
+then  construct a dependency graph while ensuring that said graph is acyclic.
+When an element is moved or resized, it's "invalidate" method should
+call constraintManager to check constraints, which it would do by traversing
+the graph in the order of dependency (the path must cross the calling element).
+The graph will probably not be fully connected, as many elements are not related
+to anything, therefore there will be a lot of islands.
+It's possible for "invalidate" method to be called with "desired newArea",
+which the constraint manager may permit or forbid.
+Also, the "constraint" or "relation" or "dependency" method can be an arbitrary
+function, meaning complex math or even randomized outputs. Not sure what the
+behavior is in this case, but most likely it doesn't result in anything cyclic.
+-----------------------------------------------------------------------
+window:
+ ___________________
+|_Title___________|x|
+|					|
+|					|
+|					|
+|___________________|
+
+frame: (invisible)
+ ___________________
+|					|
+|					|
+|					|
+|___________________|
+
+frame: (scrollable)
+ __________________
+|                |^|
+|                | |
+|________________|v|
+|<______________>|_|
+
+tab group: expands to fill parent's client area (filling)
+  ____ ____ ___
+ /tab1\tab2\tab3\___
+|                   |
+|                   |
+|                   |
+|___________________|
+
+list_horizontal: (alignment-left, order left-to-right), filling
+ ___________________
+|[c1][c2][c3]		|
+|					|
+|					|
+|___________________|
+
+list_vertical: (alightment-up, order top-to-bottom), filling
+ ___________________
+|[c1]				|
+|[c2]				|
+|[c3]				|
+|___________________|
+
+
+button:
+
+ [text]
+
+label:
+
+ text
+
+image:
+ ____
+|    |
+| :3 |
+|____|
+
+text entry:
+
+ [    ]
+
+checkbox:
+
+ [v]
+
+radiobutton:
+
+ (*)
+
+radio_group: a zero-size element defined anywhere; not visible on higher levels
+(so like a variable's scoping). Can be specified by radiobutton as a group in which
+said button shall be uniquely checked.
+
+selectable: (invisible) can be clicked to select it, double-clicked, right-clicked
+or rectangle-selected. Deselected when clicking anywhere else.
+ ____
+|    |
+|    |
+|____|
+
+selectable_group: as with radio_group. Allows rectangle-selection of multiple
+selectables. Questionable?
+
+menu: a selection of menuoptions. Can be set to disappear when clicking elsewhere.
+ __________
+|option 1  |
+|option 2 >|
+|option 3  |
+|__________|
+
+menuoption: text, optional icon, optional submenu (another instance of menu).
+Client, if present, replaces text.
+
+tree: a selection of treeoptions.
+ _________
+|-foo     |
+| -bar    |
+|  -baz	  |
+|  -drinks|
+|+stuff   |
+|_________|
+
+treeoption: an expandible item in the tree. text, optional icon, optional sub-tree.
+Client, if present, replaces text.
+
+spinner:
+ _______
+|↕|_125_|
+
+slider:
+
+|--------()-------|
+
+dropdownlist: (uses menu to present other options)
+ __________
+|__apples|<|
+
+-------------------------------------------------------------------------------
+Layouts:				dependency		properties
+						direction		
+SizeToContents			up				-		
+HorizontalList			down			wrap		
+VerticalList			down			wrap
+PercentageSize			down			percent, add
+SplitVertical			down			ratio
+SplitHorizontal			down			ratio
+Dock					sideways		element, type:anchor,magnet
+
+Behaviors:
+Clickable				a function will be called on click					mousebutton, clickStart, clickContinue, clickEnd
+Double-clickable		a function will be called on double-click			mousebutton, doubleClickEnd
+Click-through			when clicked, the element below is also clicked		-
+Click-strata			when clicked, ends up on top of other elements		-
+Click-menu				when clicked, a menu appears						mousebutton, menu
+Draggable_immediate		can be dragged (changes take effect immediately)	mousebutton, type:body/border/header, dragStart, dragContinue, dragEnd, bordersize
+Draggable_delayed		can be dragged (only an outline moves at first)		mousebutton, type:body/border/header, dragStart, dragContinue, dragEnd, bordersize
+Resizible				can be resized										mousebutton, dragStart, dragContinue, dragEnd, bordersize
+Thinking				a function will be called each tick					onThink
+
+-------------------------------------------------------------------------------
+gui editor would be
+from
+
+window
+|scrollable-frame	//half-window with element hierarchy
+| tree-collapsible  //hierarchy itself
+|  selectable       //items in the tree can be selected one- or several- at a time.
+|   label           //item text
+|vertical-list      //half window with properties and save/load
+  frame             //top part is the properties window
+  horizontal-list   //bottom part is the save/load buttons
+   button           //save button
+   button           //load button
+
+to
+
+window
+	id: gui_editor_window
+	title: "GUI Editor"
+	sizex: 400
+	sizey: 300
+
+	horizontal_list
+		frame
+			sizex: 50%
+			sizey: 100%
+			scrollabley: true
+			scrollablex: true
+			
+			tree
+				id: tree_of_elements
+				
+				selectable
+					id: tree_root
+					sizetocontents: true
+					menu: tree_element_menu
+					
+					label
+						id: tree_root_label
+						text: "Window"
+					end
+				end
+			end
+		end
+		frame
+			sizex: 50%
+			sizey: 100%
+			frame
+				id: options_frame
+				sizex: 100%
+				sizey: 100% -32
+			end
+			horizontal_list
+				button
+					id: save_button
+					text:	"Save"
+				end
+				button
+					id: load_button
+					text: "Load"
+				end
+			end
+		end
+	end
+end
+
+menu:
+	id: tree_element_menu
+	
+	option:
+		text: "add"
+		submenu: tree_new_element_menu
+	end
+	option:
+		text: "replace"
+		submenu: tree_new_element_menu
+	end
+	option:
+		text: "remove"
+	end
+end
+
+frame
+	id: options_window
+	sizex: 100%
+	sizey: 100%
+	
+	vertical_list
+		horizontal_list
+			text_entry
+				id: window_option_id
+				sizex: 128
+			end
+			label
+				text: "id"
+			end
+		end
+		horizontal_list
+			text_entry
+				id: window_option_title
+				sizex: 128
+			end
+			label
+				text: "title"
+			end
+		end
+		horizontal_list
+			checkbox
+				id: window_option_closebutton
+			end
+			label
+				text: "close button"
+			end
+		end
+		horizontal_list
+			slider
+				id: window_option_sizex
+				sizex: 256
+				min: 0
+				max: 2000
+				default: 400
+			end
+			label
+				text: "size x"
+			end
+		end
+		horizontal_list
+			slider
+				id: window_option_sizey
+				sizex: 256
+				min: 0
+				max: 2000
+				default: 300
+			end
+			label
+				text: "size y"
+			end
+		end
+	end
+end
+------------------------------------------------------------
+
+
+

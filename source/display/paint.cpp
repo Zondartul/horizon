@@ -1,5 +1,16 @@
 #include "display/paint.h"
 
+void paintLine(int X1, int Y1, int X2, int Y2){
+	glBegin(GL_LINES);
+	glVertex2i(X1, Y1);
+	glVertex2i(X2, Y2);
+	glEnd();
+}
+
+void paintLine(vec2i P1, vec2i P2){
+	paintLine(P1.x, P1.y, P2.x, P2.y);
+}
+
 void paintRect(int X1, int Y1, int X2, int Y2)
 {
     glBegin(GL_QUADS);
@@ -10,13 +21,13 @@ void paintRect(int X1, int Y1, int X2, int Y2)
     glEnd();
 }
 void paintRect(rect A){
-	paintRect(A.start.x,A.start.y,A.end.x,A.end.y);
+	paintRect(A.getx(),A.gety(),A.getx2(),A.gety2());
 }
-void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
+void paintTexturedRect(int X1, int Y1, int X2, int Y2, texture *tex)
 {
 	glColor3f(1.0f,1.0f,1.0f);
 	glEnable( GL_TEXTURE_2D );
-	glBindTexture( GL_TEXTURE_2D, tex );
+	glBindTexture( GL_TEXTURE_2D, tex->t );
     glBegin(GL_QUADS);
 	glTexCoord2f(0,0);
     glVertex2i(X1, Y1);
@@ -29,8 +40,8 @@ void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
     glEnd();	
 	glDisable( GL_TEXTURE_2D );
 }
-void paintTexturedRect(rect A, GLuint tex){
-	paintTexturedRect(A.start.x,A.start.y,A.end.x,A.end.y,tex);
+void paintTexturedRect(rect A, texture *tex){
+	paintTexturedRect(A.getx(),A.gety(),A.getx2(),A.gety2(),tex);
 }
 void paintCircle(int X1, int Y1, int Radius)
 {
@@ -74,7 +85,7 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
     glEnd();
 }
 void paintRectOutline(rect A){
-	paintRectOutline(A.start.x,A.start.y,A.end.x,A.end.y);
+	paintRectOutline(A.getx(),A.gety(),A.getx2(),A.gety2());
 }
 
 color3i paintColor;

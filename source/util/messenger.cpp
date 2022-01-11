@@ -10,7 +10,7 @@
 
 message::message()
 {
-	suspended = false;
+	handled = false;
 }
 message::message(string type, string name)
 {
@@ -38,7 +38,7 @@ void MessageChannel::publish(message *msg){
 		if((msg->type == I->type) || (I->type == ""))
 		{
 			I->subscriber->receiveMessage(msg);
-			if(msg->suspended){return;}
+			if(msg->handled){return;}
 		}
 	}
 }

@@ -46,6 +46,11 @@ texture LoadTexture(const char *filename){
 	return notexture();
 }
 
+texture *getTextureHandle(string name){
+	if(!AllTextures.count(name)){LoadTexture(name.c_str());}
+	return &AllTextures[name];
+}
+
 texture textureGet(string name){
 	return AllTextures[name];
 }

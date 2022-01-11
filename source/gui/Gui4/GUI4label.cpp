@@ -12,7 +12,7 @@ void GUI4label::render(){
 	setColor(color2);
 	paintRectOutline(vis);//paintRectOutline(area.toWorld());
 	
-	printw(vis.start.x+text_origin.x,vis.start.y+text_origin.y,-1,-1,"%s",text.c_str());
+	printw(vis.getx()+text_origin.x,vis.gety()+text_origin.y,-1,-1,"%s",text.c_str());
 	GUI4base::render();	
 }
 
@@ -29,10 +29,10 @@ void GUI4label::checkSizeToContents(){
 		size.setStart({0,0}).setEnd({0,0});
 		preprintw(&size, 0, -1, -1, "%s", text.c_str());
 		
-		printf("[%p]:G4label::cSTC:(%d,%d)\n",this,size.size.x,size.size.y);
-		setSize(size.size.x,size.size.y);
+		printf("[%p]:G4label::cSTC:(%d,%d)\n",this,size.getw(),size.geth());
+		setSize(size.getw(),size.geth());
 		//area.setSize(size.size);
-		text_origin = -(size.start);
+		text_origin = -(size.getStart());
 		//printf("[x:%d,y:%d]\n",text_origin.x,text_origin.y);
 	}
 }

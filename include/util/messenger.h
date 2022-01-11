@@ -20,8 +20,9 @@ struct message
 	string type;
 	//message name. No effect.
 	string name;
-	//If set to true, no further channel subscribers will receive this message.
-	bool suspended;
+	//Set to true to indicate that the message has been dealt with and no further
+	//action is required.
+	bool handled;
 	//typeless data is stored here by pointer.
 	vector<void*> data;
 	//create an empty message of type ""

@@ -7,7 +7,7 @@
 GUI4base::GUI4base(){//constructor
 	area.setStart({0,0}).setEnd({100,100});
 	client_area.setStart({0,0}).setEnd({100,100});
-	client_area.parent = &area;
+	client_area.setParent(&area);
 	parent = NULL;
 	children.clear();
 	client_order = ORDER_NONE;
@@ -80,7 +80,7 @@ rect GUI4base::getVisibleWorldArea(){
 //mutators
 GUI4base &GUI4base::setPos(int x, int y){
 	//area.setx(x).sety(y);
-	vec2i S = area.size;
+	vec2i S = area.getSize();
 	area.setStart({x,y}).setSize(S);
 	recalculateAnchor();
 	invalidate();
@@ -96,7 +96,7 @@ GUI4base &GUI4base::setSize(int w, int h){
 	return *this;
 }
 GUI4base &GUI4base::setClientPos(int x, int y){
-	vec2i S = client_area.size;
+	vec2i S = client_area.getSize();
 	client_area.setStart({x,y}).setSize(S);
 	invalidate();
 	return *this;
@@ -129,33 +129,33 @@ GUI4base &GUI4base::sortContents(bool (*compare)(GUI4base *A, GUI4base *B)){
 void GUI4base::recalculateAnchor(){
 	switch(anchor_type_bottom){
 		case(1)://move
-			anchor_diff_bottom = area.parent->toWorld().end.y - area.toWorld().start.y;
+			anchor_diff_bottom = area.getParent()->toWorld().gety2() - area.toWorld().gety();
 		break;
 		case(2)://scale
-			anchor_diff_bottom = area.parent->toWorld().end.y - area.toWorld().end.y;
+			anchor_diff_bottom = area.getParent()->toWorld().gety2() - area.toWorld().gety2();
 		break;
 	}
 	switch(anchor_type_right){
 		case(1)://move
-			anchor_diff_right = area.parent->toWorld().end.x - area.toWorld().start.x;
+			anchor_diff_right = area.getParent()->toWorld().getx2() - area.toWorld().getx();
 		break;
 		case(2)://scale
-			anchor_diff_right = area.parent->toWorld().end.x - area.toWorld().end.x;
+			anchor_diff_right = area.getParent()->toWorld().getx2() - area.toWorld().getx2();
 		break;
 	}
 }
 
 void GUI4base::checkAnchor(){
 	if(parent){
-		vec2i newPos = area.start;
-		vec2i newSize = area.size;
+		vec2i newPos = area.getStart();
+		vec2i newSize = area.getSize();
 		//check bottom anchor
 		if(anchor_type_bottom != 0){
 			int diffCurrent;
 			int diffNeeded;
 			switch(anchor_type_bottom){
 			case(1)://move
-				diffCurrent = area.parent->toWorld().end.y - area.toWorld().start.y;
+				diffCurrent = area.getParent()->toWorld().gety2() - area.toWorld().gety();
 				diffNeeded = anchor_diff_bottom;
 				if(diffCurrent != diffNeeded){
 					//printf("[%p]:anchor-bottom-move\n",this);
@@ -163,7 +163,7 @@ void GUI4base::checkAnchor(){
 				}
 			break;
 			case(2)://scale
-				diffCurrent = area.parent->toWorld().end.y - area.toWorld().end.y;
+				diffCurrent = area.getParent()->toWorld().gety2() - area.toWorld().gety2();
 				diffNeeded = anchor_diff_bottom;
 				if(diffCurrent != diffNeeded){
 					//printf("[%p]:anchor-bottom-scale\n",this);
@@ -178,7 +178,7 @@ void GUI4base::checkAnchor(){
 			int diffNeeded;
 			switch(anchor_type_right){
 			case(1)://move
-				diffCurrent = area.parent->toWorld().end.x - area.toWorld().start.x;
+				diffCurrent = area.getParent()->toWorld().getx2() - area.toWorld().getx();
 				diffNeeded = anchor_diff_right;
 				if(diffCurrent != diffNeeded){
 					//printf("[%p]:anchor-right-move\n",this);
@@ -186,7 +186,7 @@ void GUI4base::checkAnchor(){
 				}
 			break;
 			case(2)://scale
-				diffCurrent = area.parent->toWorld().end.x - area.toWorld().end.x;
+				diffCurrent = area.getParent()->toWorld().getx2() - area.toWorld().getx2();
 				diffNeeded = anchor_diff_right;
 				if(diffCurrent != diffNeeded){
 					//printf("[%p]:anchor-right-scale\n",this);
@@ -281,13 +281,13 @@ void GUI4base::invalidateSelf(){
 			case ORDER_HORIZONTAL:
 					for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
 						(*I)->setPos(x,0);
-						x = (*I)->area.end.x+1;
+						x = (*I)->area.getx2()+1;
 					}
 				break;
 			case ORDER_VERTICAL:
 					for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
 						(*I)->setPos(0,y);
-						y = (*I)->area.end.y+1;
+						y = (*I)->area.gety2()+1;
 					}
 				break;
 		}
@@ -308,9 +308,9 @@ GUI4base &GUI4base::addElement(GUI4base *A){
 	children.push_back(A);
 	A->parent = this;
 	if(A->is_client){
-		A->area.parent = &client_area;
+		A->area.setParent(&client_area);
 	}else{
-		A->area.parent = &area;
+		A->area.setParent(&area);
 	}
 	A->recalculateAnchor();
 }
@@ -323,15 +323,15 @@ void GUI4base::checkSizeToContents(){
 	int y;
 	for(vector<GUI4base*>::iterator I = children.begin(); I != children.end(); I++){
 		if((*I)->is_client){
-			x = (*I)->area.end.x;
-			y = (*I)->area.end.y;
+			x = (*I)->area.getx2();
+			y = (*I)->area.gety2();
 			if(x > maxx){maxx = x;}
 			if(y > maxy){maxy = y;}
 		}
 	}
-	if((maxx != client_area.end.x)||(maxy != client_area.end.y)){
+	if((maxx != client_area.getx2())||(maxy != client_area.gety2())){
 		//setSize(maxx+area.end.x-client_area.end.x,maxy+area.end.y-client_area.end.y);
-		vec2i diff = area.end-client_area.end;
+		vec2i diff = area.getEnd()-client_area.getEnd();
 		vec2i end = {maxx,maxy};
 		client_area.setEnd(end);
 		area.setEnd(end+diff);
@@ -354,7 +354,7 @@ void GUI4base::think(){
 				//record initial mouse and window positions
 				click_pos = mouse;						
 				prev_area = area.toWorld();
-				client_diff = area.size-client_area.size;
+				client_diff = area.getSize()-client_area.getSize();
 				if(vis.contains(mouse)){
 					//was the click on one of the edges?
 					resize_edge = 0;
@@ -390,11 +390,11 @@ void GUI4base::think(){
 				if(mouse != click_pos){
 					//figure out how the mouse should be constrained
 					//to prevent weird positions
-					vec2i c_start = screen.start;
-					vec2i c_end = screen.end;
+					vec2i c_start = screen.getStart();
+					vec2i c_end = screen.getEnd();
 					if(parent){
-						c_start = area.parent->toWorld().start;
-						c_end = area.parent->toWorld().start;
+						c_start = area.getParent()->toWorld().getStart();
+						c_end = area.getParent()->toWorld().getEnd();
 						/* if(is_client){
 							c_start = parent->client_area.toWorld().start;
 							c_end = parent->client_area.toWorld().end;
@@ -408,8 +408,8 @@ void GUI4base::think(){
 					}
 					if(is_movable && click_state == 1){
 						//drag condition
-						c_start = c_start+(click_pos-prev_area.start);
-						c_end = c_end+(click_pos-prev_area.end);
+						c_start = c_start+(click_pos-prev_area.getStart());
+						c_end = c_end+(click_pos-prev_area.getEnd());
 						/* if(parent){
 							if(is_client){c_end = parent->client_area.toWorld().end+(mouse-area.toWorld().end);}
 							else{c_end = parent->area.toWorld().end+(mouse-area.toWorld().end);}
@@ -419,20 +419,20 @@ void GUI4base::think(){
 						if(resize_edge & 1){ //right edge
 							//start is left edge
 							//end is parent area end
-							c_start.x = prev_area.start.x;
+							c_start.x = prev_area.getx();
 						}else if(resize_edge & 4){ //left edge
 							//start is parent area start
 							//end is right edge
-							c_end.x = prev_area.end.x;
+							c_end.x = prev_area.getx2();
 						}
 						if(resize_edge & 2){ //bottom edge
 							//start is top edge
 							//end is parent area end
-							c_start.y = prev_area.start.y;
+							c_start.y = prev_area.gety();
 						}else if(resize_edge & 8){ //top edge
 							//start is parent area start
 							//end is bottom edge
-							c_end.y = prev_area.end.y;
+							c_end.y = prev_area.gety2();
 						}
 						
 					}
@@ -443,7 +443,7 @@ void GUI4base::think(){
 						
 						//calculate the change in mouse position
 						//and fromt that the new window position
-						vec2i newV = (prev_area.start+mouse-click_pos);
+						vec2i newV = (prev_area.getStart()+mouse-click_pos);
 						//convert to propper coordinate system
 						if(parent){newV = parent->area.fromWorld(newV);}
 						//move window
@@ -454,13 +454,13 @@ void GUI4base::think(){
 						//calculate the change in mouse position
 						vec2i diff = mouse-click_pos;
 						//calculate the change in size
-						vec2i newSize = prev_area.size;
+						vec2i newSize = prev_area.getSize();
 						//for left and top edge, we combine move and resize.
-						vec2i newPos = prev_area.start;
-						if(resize_edge & 1){newSize.x = prev_area.size.x+diff.x;}
-						else if(resize_edge & 4){newSize.x = prev_area.size.x-diff.x; newPos.x = prev_area.start.x+diff.x;}
-						if(resize_edge & 2){newSize.y = prev_area.size.y+diff.y;}
-						else if(resize_edge & 8){newSize.y = prev_area.size.y-diff.y; newPos.y = prev_area.start.y+diff.y;}
+						vec2i newPos = prev_area.getStart();
+						if(resize_edge & 1){newSize.x = prev_area.getw()+diff.x;}
+						else if(resize_edge & 4){newSize.x = prev_area.getw()-diff.x; newPos.x = prev_area.getx()+diff.x;}
+						if(resize_edge & 2){newSize.y = prev_area.geth()+diff.y;}
+						else if(resize_edge & 8){newSize.y = prev_area.geth()-diff.y; newPos.y = prev_area.gety()+diff.y;}
 						//convert to propper coordinate system
 						if(parent){newPos = parent->area.fromWorld(newPos);}
 						//move window

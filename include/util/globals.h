@@ -85,21 +85,38 @@ struct vec4i{
 bool operator == (vec4i A, vec4i B);
 
 //a 2d rectangle with integer coordinates.
-struct rect{
-	rect *parent;	//the rectangle that this rectangle's coordinates are relative to.
+class rect{
+	private:
 	vec2i start;	//top-left vertex
 	vec2i end;		//bottom-right vertex
 	vec2i size;		//width and height.
-	rect &setStart(vec2i A);
+	rect *parent;	//the rectangle that this rectangle's coordinates are relative to.
+	public:
+	rect();
+	rect(vec2i start, vec2i end);
+	rect &setStart(vec2i A);			//change dimensions (resize)
 	rect &setEnd(vec2i A);
 	rect &setSize(vec2i A);
-	rect &move(vec2i A);
-	rect &setx(int x);
+	rect &setParent(rect *parent);
+	rect &moveBy(vec2i A);				//move without resizing
+	rect &moveStart(vec2i A);			
+	rect &moveEnd(vec2i A);				
+	rect &setx(int x);					//change dimensions (resize)
 	rect &sety(int y);
 	rect &setw(int w);
 	rect &seth(int h);
 	rect &setx2(int x2);
 	rect &sety2(int y2);
+	vec2i getStart();
+	vec2i getEnd();
+	vec2i getSize();
+	int getx();
+	int gety();
+	int getw();
+	int geth();
+	int getx2();
+	int gety2();
+	rect *getParent();
 	bool contains(vec2i A); // is A inside of this?
 	bool contains(vec4i A);
 	bool contains(rect A);
@@ -120,6 +137,7 @@ struct rect{
 	vec2i fromWorld(vec2i A);
 };
 bool operator == (rect A, rect B);
+
 struct listNode{
     listNode* next;
     void* thing;
