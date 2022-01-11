@@ -15,6 +15,7 @@ cursorHandle *getCursorHandle(string name){
 		if(name == "crosshair"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);}
 		if(name == "waitarrow"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAITARROW);}
 		if(name == "sizenwse"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENWSE);}
+		if(name == "sizenesw"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENESW);}
 		if(name == "sizewe"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEWE);}
 		if(name == "sizens"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);}
 		if(name == "sizeall"){newCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);}

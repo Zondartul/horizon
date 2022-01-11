@@ -1,0 +1,5 @@
+<map id="cameraKind" name="cameraKind">
+<area shape="rect" id="node2" href="$structfrustum.html" title="frustum" alt="" coords="46,197,111,224"/>
+<area shape="rect" id="node3" href="$structvec.html" title="vec" alt="" coords="58,5,99,32"/>
+<area shape="rect" id="node4" href="$structquat.html" title="quat" alt="" coords="135,197,182,224"/>
+</map>

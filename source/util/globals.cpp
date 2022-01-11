@@ -1,7 +1,7 @@
 #define EXCEPT_SUPPRESS //lol, have to suppress the macro in this particular
 //translation unit, because that's where the REAL except is actually defined
 #include "util/globals.h"
-#include "main/control.h"
+//#include "main/control.h"
 #include "assert.h"
 using namespace std;
 /*
@@ -32,7 +32,8 @@ color4i bground;
 //vec2i mousePos;		USE input.GetMousePos() INSTEAD
 double d2r(double x){return x*M_PI/180.0;}
 double r2d(double x){return x*180.0/M_PI;}
-
+SDL_Window *window;
+SDL_GLContext glcontext;
 
 unsigned int explode(const string &txt, vector<string> &strs, char ch)
 {

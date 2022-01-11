@@ -1,0 +1,21 @@
+<map id="C:/MinGW32/horizon/horizonSVN/horizon/source/gui/Gui2/GUI2spinner.cpp" name="C:/MinGW32/horizon/horizonSVN/horizon/source/gui/Gui2/GUI2spinner.cpp">
+<area shape="rect" id="node2" href="$_g_u_i2spinner_8h.html" title="gui/Gui2/GUI2spinner.h" alt="" coords="1295,109,1451,136"/>
+<area shape="rect" id="node33" href="$_g_u_i2button_8h.html" title="gui/Gui2/GUI2button.h" alt="" coords="1304,184,1455,211"/>
+<area shape="rect" id="node35" href="$paint_8h.html" title="display/paint.h" alt="" coords="1486,184,1593,211"/>
+<area shape="rect" id="node36" href="$fonts_8h.html" title="resource/fonts.h" alt="" coords="2019,333,2134,360"/>
+<area shape="rect" id="node3" href="$_g_u_i2base_8h.html" title="gui/Gui2/GUI2base.h" alt="" coords="1176,259,1319,285"/>
+<area shape="rect" id="node4" href="$messenger_8h.html" title="util/messenger.h" alt="" coords="1220,333,1339,360"/>
+<area shape="rect" id="node5" href="$globals_8h.html" title="../util/globals.h" alt="" coords="1346,408,1453,435"/>
+<area shape="rect" id="node21" href="$ptr_sniper_8h.html" title="templates/ptrSniper.h" alt="" coords="709,483,855,509"/>
+<area shape="rect" id="node22" href="$sgn_8h.html" title="templates/sgn.h" alt="" coords="879,483,994,509"/>
+<area shape="rect" id="node23" href="$to_string_8h.html" title="templates/toString.h" alt="" coords="1018,483,1157,509"/>
+<area shape="rect" id="node24" href="$bits_8h.html" title="templates/bits.h" alt="" coords="1181,483,1295,509"/>
+<area shape="rect" id="node25" href="$vec2i_8h.html" title="util/vec2i.h" alt="" coords="1509,557,1591,584"/>
+<area shape="rect" id="node26" href="$vec3i_8h.html" title="util/vec3i.h" alt="" coords="1319,483,1402,509"/>
+<area shape="rect" id="node27" href="$color3i_8h.html" title="util/color3i.h" alt="" coords="769,557,861,584"/>
+<area shape="rect" id="node28" href="$vec4i_8h.html" title="util/vec4i.h" alt="" coords="1785,557,1867,584"/>
+<area shape="rect" id="node29" href="$color4i_8h.html" title="util/color4i.h" alt="" coords="1628,483,1720,509"/>
+<area shape="rect" id="node30" href="$rect_8h.html" title="util/rect.h" alt="" coords="1528,483,1604,509"/>
+<area shape="rect" id="node31" href="$more_strings_8h.html" title="util/moreStrings.h" alt="" coords="1744,483,1868,509"/>
+<area shape="rect" id="node34" href="$textureloader_8h.html" title="resource/textureloader.h" alt="" coords="1343,259,1506,285"/>
+</map>

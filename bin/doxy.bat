@@ -1,0 +1,1 @@
+doxygen\doxygen.exe mydoxyconfig.cfg

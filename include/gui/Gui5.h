@@ -8,5 +8,6 @@
 #include "gui/Gui5/GUI5tabgroup.h"
 #include "gui/Gui5/GUI5frame.h"
 #include "gui/Gui5/GUI5scrollbar.h"
+#include "gui/Gui5/GUI5split.h"
 
 #endif

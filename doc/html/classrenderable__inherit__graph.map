@@ -1,0 +1,7 @@
+<map id="renderable" name="renderable">
+<area shape="rect" id="node2" href="$classfloatingtext.html" title="floatingtext" alt="" coords="5,80,91,107"/>
+<area shape="rect" id="node3" href="$classline.html" title="line" alt="" coords="115,80,157,107"/>
+<area shape="rect" id="node4" href="$classpoint.html" title="point" alt="" coords="181,80,232,107"/>
+<area shape="rect" id="node5" href="$classrmodel.html" title="rmodel" alt="" coords="256,80,317,107"/>
+<area shape="rect" id="node6" href="$classrtriangle.html" title="rtriangle" alt="" coords="342,80,410,107"/>
+</map>

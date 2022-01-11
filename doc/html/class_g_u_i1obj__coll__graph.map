@@ -1,0 +1,5 @@
+<map id="GUI1obj" name="GUI1obj">
+<area shape="rect" id="node2" href="$structcolor3i.html" title="color3i" alt="" coords="5,5,65,32"/>
+<area shape="rect" id="node3" href="$structvec2i.html" title="vec2i" alt="" coords="90,5,141,32"/>
+<area shape="rect" id="node4" href="$structlist_node.html" title="listNode" alt="" coords="165,5,234,32"/>
+</map>

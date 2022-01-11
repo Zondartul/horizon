@@ -68,11 +68,14 @@ void GUI2textEntry::onKeyboard(string kb)
 	if(kb == "backspace"){
 		if(text.length()){text.erase(text.length()-1);}
 	}else if((kb == "v") && input.keybuffer["ctrl"]){
-		OpenClipboard(NULL);
-		HANDLE pasta = GetClipboardData(CF_TEXT);
-		text += (char *)GlobalLock(pasta);
-		GlobalUnlock(pasta);
-		CloseClipboard();
+		//OpenClipboard(NULL);
+		//HANDLE pasta = GetClipboardData(CF_TEXT);
+		//text += (char *)GlobalLock(pasta);
+		//GlobalUnlock(pasta);
+		//CloseClipboard();
+		char *t = SDL_GetClipboardText();
+		text += t;
+		SDL_free(t);
 	}else if(kb == "return"){
 		if(multiline){text += '\n';}
 		else{text = "";}

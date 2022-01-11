@@ -1,7 +1,7 @@
 #ifndef INPUT_GUARD
 #define INPUT_GUARD
 //#include "codetostring.h"
-#include <windows.h>
+//#include <windows.h> how dare thee
 #include "../util/messenger.h"
 
 //singleton class intended to receive all window input
@@ -18,23 +18,27 @@
 //	mouse_move				0:(vec2i)newPos			mouse was moved.
 //							1:(vec2i)deltaPos
 //	mouse_wheel				0:(int)deltaWheel		mouse wheel was turned.
-
+//! singleton class intended to receive all window input and send it over a MessageChannel (messenger.h)
 class inputKind
 {
 	public:
-	HWND hwnd;						//handle of the current window (for getting mouse pos and such)
-	messageChannel channel;			//channel where all events will be posted
-	vec2i prevMousePos;
-	map<string, bool> keybuffer;	//a keyboard buffer - shows which keys are still down
-	inputKind();					//constructor
-	vec2i getMousePos();			//returns window-relative mouse position
-	bool mouse1down;
-	bool mouse2down;
-	bool mouse3down;
-	char getShifted(char c);		//returns the character that results from holding shift while pressing the given key.
+	//HWND hwnd;						//handle of the current window (for getting mouse pos and such)
+	messageChannel channel;			//!< channel where all events will be posted
+	vec2i prevMousePos;				//!< (internal) mouse position at previous mouse move event.
+	map<string, bool> keybuffer;	//!< a keyboard buffer - shows which keys are still down
+	inputKind();					//!< constructor
+	vec2i getMousePos();			//!< returns window-relative mouse position
+	bool mouse1down;				/*!< keeps track of mouse button 1*/
+	bool mouse2down;				/*!< keeps track of mouse button 2*/
+	bool mouse3down;				/*!< keeps track of mouse button 3*/
+	char getShifted(char c);		/*!< figures out the character you pressed by combining shift and another keyboard key.
+										\param c the character whose keyboard key that was pressed.
+										\return the alternative character that corresponds to the same keyboard key.
+									*/
 	//void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam);	//OS messages are fed into this function.
-	void keyThing(SDL_Event event);
+	void keyThing(SDL_Event event); //!< SDL messages are fed into this function.
+									//!\param event an event fired by the SDL library. Only input-related events will have any effect.
 };
-extern inputKind input;	//singleton declaration (created in input.cpp)
+extern inputKind input;	//!<singleton declaration (created in input.cpp)
 #endif
 //VIRTUAL KEY TABLE

@@ -1,0 +1,19 @@
+<map id="GUI2base" name="GUI2base">
+<area shape="rect" id="node3" href="$class_g_u_i2button.html" title="GUI2button" alt="" coords="325,5,411,32"/>
+<area shape="rect" id="node4" href="$class_g_u_i2checkbox.html" title="GUI2checkbox" alt="" coords="315,56,421,83"/>
+<area shape="rect" id="node5" href="$class_g_u_i2colorbox.html" title="GUI2colorbox" alt="" coords="318,107,418,133"/>
+<area shape="rect" id="node6" href="$class_g_u_i2dropdownlist.html" title="GUI2dropdownlist" alt="" coords="307,157,429,184"/>
+<area shape="rect" id="node7" href="$class_g_u_i2frame.html" title="GUI2frame" alt="" coords="327,208,409,235"/>
+<area shape="rect" id="node8" href="$class_g_u_i2horizontal_list.html" title="GUI2horizontalList" alt="" coords="304,259,432,285"/>
+<area shape="rect" id="node9" href="$class_g_u_i2image.html" title="GUI2image" alt="" coords="325,309,411,336"/>
+<area shape="rect" id="node10" href="$class_g_u_i2label.html" title="GUI2label" alt="" coords="329,360,407,387"/>
+<area shape="rect" id="node11" href="$class_g_u_i2listbox.html" title="GUI2listbox" alt="" coords="323,411,413,437"/>
+<area shape="rect" id="node12" href="$class_g_u_i2radiobutton.html" title="GUI2radiobutton" alt="" coords="311,461,425,488"/>
+<area shape="rect" id="node13" href="$class_g_u_i2scroll_bar.html" title="GUI2scrollBar" alt="" coords="317,512,419,539"/>
+<area shape="rect" id="node14" href="$class_g_u_i2scrollslidey.html" title="GUI2scrollslidey" alt="" coords="310,563,426,589"/>
+<area shape="rect" id="node15" href="$class_g_u_i2slider.html" title="GUI2slider" alt="" coords="327,613,409,640"/>
+<area shape="rect" id="node16" href="$class_g_u_i2spinner.html" title="GUI2spinner" alt="" coords="321,664,415,691"/>
+<area shape="rect" id="node17" href="$class_g_u_i2text_entry.html" title="GUI2textEntry" alt="" coords="316,715,420,741"/>
+<area shape="rect" id="node18" href="$class_g_u_i2valuedisplay.html" title="GUI2valuedisplay" alt="" coords="307,765,429,792"/>
+<area shape="rect" id="node2" href="$classmessage_receiver.html" title="messageReceiver" alt="" coords="5,385,129,412"/>
+</map>

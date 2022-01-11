@@ -55,6 +55,8 @@ extern int freq;
 extern float theta;
 extern int counter;
 extern color4i bground;
+extern SDL_Window *window;
+extern SDL_GLContext glcontext;
 double d2r(double x);
 double r2d(double x);
 typedef void (*funcptr)(void *arg);

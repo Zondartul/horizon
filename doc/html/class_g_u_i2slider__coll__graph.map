@@ -1,0 +1,8 @@
+<map id="GUI2slider" name="GUI2slider">
+<area shape="rect" id="node2" href="$class_g_u_i2base.html" title="GUI2base" alt="" coords="292,133,371,159"/>
+<area shape="rect" id="node3" href="$classmessage_receiver.html" title="messageReceiver" alt="" coords="5,5,129,32"/>
+<area shape="rect" id="node4" href="$structcolor3i.html" title="color3i" alt="" coords="153,5,213,32"/>
+<area shape="rect" id="node5" href="$structvec2i.html" title="vec2i" alt="" coords="261,5,311,32"/>
+<area shape="rect" id="node6" href="$structlist_node.html" title="listNode" alt="" coords="335,5,405,32"/>
+<area shape="rect" id="node8" href="$structvec4i.html" title="vec4i" alt="" coords="562,5,613,32"/>
+</map>

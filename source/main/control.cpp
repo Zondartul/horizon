@@ -61,8 +61,6 @@ bool renderWireframe;
 bool mouseCapture;
 bool camRotOn;
 //HWND hwnd;
-SDL_Window *window;
-SDL_GLContext glcontext;
 //#include "physics.h"
 //#include "console.h"
 /*
@@ -325,7 +323,10 @@ void openGUI5(){
 		scroll->setVerticalLimits(0,1000).setHorizontalLimits(0,1000);
 		scroll->setVertical(true).setHorizontal(false);
 	tab->addElement(*scroll);
-	tab->addElement((*(new GUI5window)).setTitle("Window!").setPos({200,25}).setSize({200,200}).setDebug(false));
+		GUI5split *split = new GUI5split();
+		split->setRatio({20,30,50});
+		split->addElement((*(new GUI5window)).setTitle("Window!").setPos({200,25}).setSize({200,200}).setDebug(false));
+	tab->addElement(*split);
 	tab->setDebug(true);
 	window->addElement(*tab);
 	GUI5->addElement(*window);
@@ -657,7 +658,8 @@ void RenderTick()
 	SDL_GL_SwapWindow(window);
 	
     theta += 1.0f;
-    Sleep(1);
+	SDL_Delay(10); //granularity is 10 ms
+    //Sleep(1);
 }
 
 int ticks = 0;

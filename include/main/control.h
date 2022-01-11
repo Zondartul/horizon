@@ -1,6 +1,6 @@
 #ifndef CONTROL_GUARD
 #define CONTROL_GUARD
-#include <windows.h>
+//#include <windows.h> no
 #include "util/globals.h"
 
 extern SDL_Window *window;

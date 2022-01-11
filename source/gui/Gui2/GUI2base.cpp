@@ -5,6 +5,8 @@
 #include "resource/fonts.h"
 #include "input/input.h"
 #include "input/inputMessage.h"
+#include "resource/cursor.h"
+
 GUI2base::GUI2base(){
 		pos = size = {0,0};
 		crect = {0,0,0,0};
@@ -363,10 +365,10 @@ int GUI2base::propagateMouseOver(GUI2base* obj, void* arg, int rec)
 				if(psx - mx <= b){e=true;}
 				if(my - py <= b){n=true;}
 				if(psy - my <= b){s=true;}
-				if((n&&e)||(s&&w)){SetCursor(LoadCursor(NULL,IDC_SIZENESW));}
-				else if((n&&w)||(s&&e)){SetCursor(LoadCursor(NULL,IDC_SIZENWSE));}
-				else if(n||s){SetCursor(LoadCursor(NULL,IDC_SIZENS));}
-				else if(e||w){SetCursor(LoadCursor(NULL,IDC_SIZEWE));}
+				if((n&&e)||(s&&w)){setCursor(getCursorHandle("sizenesw"));}//SetCursor(LoadCursor(NULL,IDC_SIZENESW));}
+				else if((n&&w)||(s&&e)){setCursor(getCursorHandle("sizenwse"));}
+				else if(n||s){setCursor(getCursorHandle("sizens"));}
+				else if(e||w){setCursor(getCursorHandle("sizewe"));}
 			}
 			return 1;//found do not continue//but continue
 		}

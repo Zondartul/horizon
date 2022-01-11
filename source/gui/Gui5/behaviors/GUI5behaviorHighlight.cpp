@@ -5,7 +5,7 @@
 GUI5behaviorHighlight::GUI5behaviorHighlight(){
 	mouseover = false;
 	newColors["border"] = (color4i){255,255,255,255};
-	newColors["text"] = (color4i){255,255,255,255};
+	//newColors["text"] = (color4i){255,255,255,255};
 }
 
 void GUI5behaviorHighlight::run(GUI5base *B, message *msg){

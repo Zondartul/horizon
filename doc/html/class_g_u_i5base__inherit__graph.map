@@ -1,0 +1,11 @@
+<map id="GUI5base" name="GUI5base">
+<area shape="rect" id="node3" href="$class_g_u_i5button.html" title="GUI5button" alt="" coords="311,5,398,32"/>
+<area shape="rect" id="node4" href="$class_g_u_i5frame.html" title="GUI5frame" alt="" coords="313,56,396,83"/>
+<area shape="rect" id="node5" href="$class_g_u_i5image.html" title="GUI5image" alt="" coords="311,107,398,133"/>
+<area shape="rect" id="node6" href="$class_g_u_i5label.html" title="GUI5label" alt="" coords="315,157,394,184"/>
+<area shape="rect" id="node7" href="$class_g_u_i5scrollbar.html" title="GUI5scrollbar" alt="" coords="305,208,405,235"/>
+<area shape="rect" id="node8" href="$class_g_u_i5split.html" title="GUI5split" alt="" coords="317,259,392,285"/>
+<area shape="rect" id="node9" href="$class_g_u_i5tabgroup.html" title="GUI5tabgroup" alt="" coords="304,309,405,336"/>
+<area shape="rect" id="node10" href="$class_g_u_i5window.html" title="GUI5window" alt="" coords="308,360,401,387"/>
+<area shape="rect" id="node2" href="$classmessage_receiver.html" title="messageReceiver" alt="" coords="5,183,129,209"/>
+</map>

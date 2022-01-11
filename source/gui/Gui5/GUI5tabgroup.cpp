@@ -8,13 +8,22 @@ GUI5tabgroup::GUI5tabgroup(){
 }
 
 // fancy render schematic
+// render schematic A:
 //       p2--------p3
 //      /  (p5)Tab  \
-// A--p1             p4---------B 
-// |                            |
+// A--p1             p4---------B
+// |							|
 // | ~actual element goes here~ |
 // |                            |
 // D----------------------------C
+// render schematic B:
+//       p2--------p3
+//      /  (p5)Tab  \
+// A--p1             p4---------B
+// A1---------------------------B1
+//   ~actual element goes here~ 
+//
+//
 
 GUI5tabgroup &GUI5tabgroup::setTitle(int n, string title){
 	tabs[n].title = title;
@@ -48,13 +57,17 @@ void GUI5tabgroup::render(){
 	paintLine(pstart, tabs[currentTab].p1);
 	paintLine(tabs[currentTab].p4, pend);
 	//paint an outline just because
-	paintLine(tabs[children.size()-1].p4, world.getBottomRight());
-	paintLine(world.getBottomRight(), world.getBottomLeft());
-	paintLine(world.getBottomLeft(), tabs[0].p1);
+	//paintLine(tabs[children.size()-1].p4, world.getBottomRight());
+	//paintLine(world.getBottomRight(), world.getBottomLeft());
+	//paintLine(world.getBottomLeft(), tabs[0].p1);
 	//setColor({128,128,128});
 	//setAlpha(64);
 	setColorAlpha(colors["body"]);
-	paintRect(tabs[0].p1,world.getEnd());
+	//paintRect(tabs[0].p1,world.getEnd());
+	paintRect(tabs[0].p1, tabs[children.size()-1].p4+(vec2i){0,4});
+	//paint the border between tabs and content
+	setColorAlpha(colors["border"]);
+	paintLine(tabs[0].p1+(vec2i){0,4},tabs[children.size()-1].p4+(vec2i){0,4});
 }
 
 void GUI5tabgroup::receiveMessageExtra(message *msg){
@@ -63,7 +76,7 @@ void GUI5tabgroup::receiveMessageExtra(message *msg){
 		for(int I = 0; I < children.size(); I++){
 			rect tabrect;
 			tabrect.setStart(tabs[I].p2);
-			tabrect.setEnd(tabs[I].p3+(vec2i){0,20});
+			tabrect.setEnd(tabs[I].p3+(vec2i){0,24});
 			if(tabrect.contains(pos)){
 				currentTab = I;
 				msg->handled = true;
@@ -82,7 +95,7 @@ void GUI5tabgroup::layout(){
 		area.setStart({0,0});
 		area.setSize(parent->client_area.getSize());
 		client_area = area;
-		client_area.setStart({0,20});
+		client_area.setStart({0,24});
 	}
 	//check if current tab is still valid
 	if(currentTab > children.size()-1){currentTab = children.size()-1;}

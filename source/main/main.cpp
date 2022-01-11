@@ -1,6 +1,7 @@
 #include "SDL2/SDL.h" 
 #include <stdio.h>
 #include <iostream>
+#include <stdlib.h> //for atexit
 #include "main/control.h"
 
 int main( int argc, char* args[] ) 

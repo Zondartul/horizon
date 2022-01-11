@@ -1,0 +1,5 @@
+<map id="GUI1obj" name="GUI1obj">
+<area shape="rect" id="node2" href="$class_g_u_i1button.html" title="GUI1button" alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" href="$class_g_u_i1frame.html" title="GUI1frame" alt="" coords="117,80,199,107"/>
+<area shape="rect" id="node4" href="$class_g_u_i1text_entry.html" title="GUI1textEntry" alt="" coords="223,80,327,107"/>
+</map>
