@@ -35,6 +35,7 @@ quat CamAngle;
 quat CamAngTest;
 double Camnorm;
 #include "console.h"
+#include "toolbox.h"
 bool mouseCapture;
 bool camRotOn;
 //int pie = 3.14;
@@ -91,113 +92,10 @@ void OpenMenuModel()
 	Mtext->text = text;
 	Mtext->setParent((GUIbase*) ModelMenu);
 }
-void genCube(void *arg)
-{
-	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
-	vec V = {l,w,h};
-	model* M = new model;
-	((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
-	
-	M->mesh = new triangle[12];
-	/*
-	  F-----G
-	 /|    /|
-	E-+---H |
-	| |   | |
-	| B---+-C
-	|/    |/
-	A-----D
-	
-	AB = +y
-	AD = +x
-	AE = +z
-	*/ 
-	vec A = {0,0,0}; A = A*10;
-	vec B = {0,1,0}; B = B*10;
-	vec C = {1,1,0}; C = C*10;
-	vec D = {1,0,0}; D = D*10;
-	vec E = {0,0,1}; E = E*10;
-	vec F = {0,1,1}; F = F*10;
-	vec G = {1,1,1}; G = G*10;
-	vec H = {1,0,1}; H = H*10;
-	
-	//CW culling.
-	//front
-	M->mesh[0] = (triangle){A,E,H};
-	M->mesh[1] = (triangle){H,D,A};
-	//right
-	M->mesh[2] = (triangle){D,H,G};
-	M->mesh[3] = (triangle){G,C,D};
-	//back
-	M->mesh[4] = (triangle){C,G,F};
-	M->mesh[5] = (triangle){F,B,C};
-	//left
-	M->mesh[6] = (triangle){B,F,E};
-	M->mesh[7] = (triangle){E,A,B};
-	//up
-	M->mesh[8] = (triangle){E,F,G};
-	M->mesh[9] = (triangle){G,H,E};
-	//down
-	M->mesh[10] = (triangle){B,A,D};
-	M->mesh[11] = (triangle){D,C,B};
-	//
-	M->numtris = 12;
-	myModel = M;
-	OpenMenuModel();
-}
-void OpenMenuGen()
-{
-	GUIframe* GenMenu = new GUIframe;
-	GenMenu->setPos(128,128);
-	GenMenu->setSize(256,128);
-	GenMenu->title = "Generator";
-	GenMenu->setParent(GUI);
-	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
-	spinx->setPos(4,32);					spinxtext->setPos(96,32);
-	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "length";
-	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
-	spiny->setPos(4,48);					spinytext->setPos(96,48);
-	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "width";
-	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
-	
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
-	spinz->setPos(4,64);					spinztext->setPos(96,64);
-	spinz->setVals(-10,0,10,0.5,2);			spinztext->text = "height";
-	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
-	
-	void **arg = new void*[3];
-	arg[0] = (void*)spinx;
-	arg[1] = (void*)spiny;
-	arg[2] = (void*)spinz;
-	GUIbutton* btnGen = new GUIbutton;
-	btnGen->setPos(4,96);
-	btnGen->setSize(96,16);
-	btnGen->text = "Generate";
-	btnGen->func = &genCube;
-	btnGen->arg = (void*)arg;
-	btnGen->setParent((GUIbase*) GenMenu);
-	
-}
 
-void designerMenu()
-{
-	GUIframe* designerFrame = new GUIframe;
-	designerFrame->setPos(64,64);
-	designerFrame->setSize(128,512);
-	designerFrame->title = "GUI designer";
-	designerFrame->setParent(GUI);
-	
-	GUIImage* image1 = new GUIImage;
-	image1->setPos(32,32);
-	image1->setSize(32,32);
-	image1->setImage("C:/Stride/textures/grass3.bmp");//"C:/Stride/grass3.raw");
-	image1->setParent((GUIbase*)designerFrame);
-}
+
+
 
 void OpenMenu1()
 {	
@@ -330,12 +228,16 @@ void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
 void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
 */
 
-void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,0,-0.1});}
-void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,0,0.1});}
-void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({.1,0,0});}
-void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({-.1,0,0});}
-void camUp(void* arg){SomeVec1 = SomeVec1+(vec){0,0.1,0};}
-void camDown(void* arg){SomeVec1 = SomeVec1+(vec){0,-0.1,0};}
+// x = right
+// y = forward
+// z = up
+
+void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,.1,0});}
+void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,-.1,0});}
+void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({-.1,0,0});}
+void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({.1,0,0});}
+void camUp(void* arg){SomeVec1 = SomeVec1+(vec){0,0,.1};}
+void camDown(void* arg){SomeVec1 = SomeVec1+(vec){0,0,-.1};}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 
@@ -364,9 +266,9 @@ void OnProgramStart()
 	SomeVec2 = {2,5,5};
 	bindKey('T',&Test1,NULL,1);
 	bindKey('W',&camForward,NULL,4);
-	bindKey('A',&camRight,NULL,4);
+	bindKey('A',&camLeft,NULL,4);
 	bindKey('S',&camBack,NULL,4);
-	bindKey('D',&camLeft,NULL,4);
+	bindKey('D',&camRight,NULL,4);
 	bindKey(32,&camUp,NULL,4);
 	bindKey('C',&camDown,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
@@ -397,12 +299,11 @@ void OnProgramStart()
 	GUI->recalculateClientRect();
 	GUI->visible=false;
 	
-	OpenMenu1();
-	OpenMenuGen();
+	//OpenMenu1();
 	initConCommands();
 	OpenMenuConsole();
 	OpenVals();
-	designerMenu();
+	OpenMenuToolbox();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -520,7 +421,7 @@ void InputTick()
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
 		SomeVec2 = SomeVec2 + (vec){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
-		quat horiz = quat::fromAngleAxis((-90.0*(double)deltaMouse.x)/width,CamAngle.corotateVector({0,1,0})); 
+		quat horiz = quat::fromAngleAxis((-90.0*(double)deltaMouse.x)/width,CamAngle.corotateVector({0,0,1})); 
 		quat verti = quat::fromAngleAxis((-90.0*(double)deltaMouse.y)/height,{1,0,0});
 					// rotating vector by quaternion converts from local to global
 		
@@ -647,12 +548,17 @@ void Render2D()
 }
 void Render3D()
 {
+	int Errc = 0;
+					//Errc = glGetError();if(Errc){printf("<1=%s>\n",gluErrorString(Errc));}
     glPushMatrix();
+	
+	glRotatef(-90,1,0,0);
+	
 	//glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
 	double w = CamAngle.getRotationAngle();
 	vec v = CamAngle.getRotationAxis();
 	glBegin(GL_LINES); //cordinate helper
-		vec a = {0,-1,-2};//SomeVec1+CamAngle.rotateVector({0,0,-2});
+		vec a = {0,2,-1};//SomeVec1+CamAngle.rotateVector({0,0,-2});
 		quat qc = CamAngle; qc.w = -qc.w;
 		vec b = a+qc.rotateVector({0.5,0,0});
 		glColor3f(1.0f,0.0f,0.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);
@@ -663,7 +569,7 @@ void Render3D()
 		b = a+qc.rotateVector({0,0,0.5});
 		glColor3f(0.0f,0.0f,1.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);	
 	glEnd();
-	
+	Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
 	if(camRotOn){glRotatef(-w,v.x,v.y,v.z);}
 	glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
     //glRotatef(theta, 0.0f, 0.0f, 1.0f);
@@ -676,29 +582,74 @@ void Render3D()
 
     glEnd();
 	
-	
+	Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
 	
 	if(myModel!=NULL)
 	{
 		//apply orientation here
+		if(myModel->numtextures)
+		{
+		int prevTex = 0;
+						//Errc = glGetError();if(Errc){printf("<4=%s>\n",gluErrorString(Errc));}
+		glEnable(GL_TEXTURE_2D);
+		glDisable(GL_BLEND);
+						//Errc = glGetError();if(Errc){printf("<5=%s>\n",gluErrorString(Errc));}
+		glBindTexture( GL_TEXTURE_2D, myModel->textures[0].t );
+						//Errc = glGetError();if(Errc){printf("<6=%s>\n",gluErrorString(Errc));}
+		//printf("texture[0].t = %d\n",myModel->textures[0].t);
 		glBegin(GL_TRIANGLES);
 		for(int I=0;I<myModel->numtris;I++)
 		{
 			triangle T = myModel->mesh[I];
+			textriangle tT = myModel->texmap[I];
+			
+			if(tT.texid!=prevTex)
+			{
+										//Errc = glGetError();if(Errc){printf("<7=%s>\n",gluErrorString(Errc));}
+				glEnd();//invalid operation here?
+										//Errc = glGetError();if(Errc){printf("<7.5=%s>\n",gluErrorString(Errc));}
+				glBindTexture( GL_TEXTURE_2D, myModel->textures[tT.texid].t );
+										//Errc = glGetError();if(Errc){printf("<8=%s>\n",gluErrorString(Errc));}
+				glBegin(GL_TRIANGLES);
+				//printf("|ts");
+				prevTex = tT.texid;
+										//Errc = glGetError();if(Errc){printf("<9=%s>\n",gluErrorString(Errc));}
+			}
+			glColor3f(1.0f,1.0f,1.0f);
+			glTexCoord2f(tT.v[0].x,tT.v[0].y); glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glTexCoord2f(tT.v[1].x,tT.v[1].y); glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glTexCoord2f(tT.v[2].x,tT.v[2].y); glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+		}
+		
+						//Errc = glGetError();if(Errc){printf("<9.5=%s>\n",gluErrorString(Errc));}
+		glEnd();
+						//Errc = glGetError();if(Errc){printf("<10=%s>\n",gluErrorString(Errc));}
+		glDisable(GL_TEXTURE_2D);
+						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
+		}
+		else
+		{
+		glBegin(GL_TRIANGLES);
+		
+		for(int I=0;I<myModel->numtris;I++)
+		{
+			triangle T = myModel->mesh[I];
+			
 			glColor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
 		}
 		glEnd();
+		}
 	}
-
+					//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
     glPopMatrix();
 }
 void Render_go2D()
 {
     glMatrixMode(GL_PROJECTION);
 	glDisable(GL_DEPTH_TEST);
-    glPushMatrix();
+    //glPushMatrix();
     glLoadIdentity();
     glOrtho(0, width, height, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);

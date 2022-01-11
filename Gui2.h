@@ -581,6 +581,7 @@ class GUIbutton: public GUIbase
 	void (*func)(void*);
 	void* arg;
 	string text;
+	GLuint image;
 	GUIbutton():GUIbase()
 	{
 		func = NULL;
@@ -595,6 +596,11 @@ class GUIbutton: public GUIbase
 			if(func)(func(arg));
 		}
 	}
+	void setImage(string path)
+	{
+		//ImageTex = LoadTextureRAW(path, 1);
+		image = GenTextureBMP(path).t;
+	}
 	void render(void *arg)
 	{
 		resizeCheck();
@@ -604,7 +610,8 @@ class GUIbutton: public GUIbase
 		
 		setColor(color_panel);
 		if(mouseOver){setAlpha(255);}else{setAlpha(64);}
-		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		if(image==0){paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);}
+		else{paintTexturedRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y,image);}
 		setAlpha(255);
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
@@ -906,6 +913,7 @@ class GUIspinner: public GUIbase
 		btnUp->func = &fUp;
 		btnUp->arg = (void*)this;
 		btnUp->size = {18,9};
+		btnUp->resizible = false;
 		btnUp->pos = {size.x-18,0};
 		btnUp->text = "^";
 		btnUp->setParent((GUIbase*)this);
@@ -914,6 +922,7 @@ class GUIspinner: public GUIbase
 		btnDown->func = &fDown;
 		btnDown->arg = (void*)this;
 		btnDown->size = {18,9};
+		btnDown->resizible = false;
 		btnDown->pos = {size.x-18,9};
 		btnDown->text = "v";
 		btnDown->setParent((GUIbase*)this);

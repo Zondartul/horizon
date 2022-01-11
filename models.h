@@ -19,13 +19,14 @@ enum renderflags
 
 struct textriangle
 {
-	vec2i v[3];
+	vec2f v[3];
 	int texid;
 	renderflags flags;
+	/*
 	textriangle()
 	{
 		v[0]=v[1]=v[2] = {0,0};
-	}
+	}*/
 };
 /*
 struct texture
@@ -41,15 +42,15 @@ struct model
 	triangle *mesh;			int numtris;
 	triangle *normals;
 	textriangle *texmap;	
-	//texture *textures;		int numtextures;
+	texture *textures;		int numtextures;
 	vec min,max;
 	model()
 	{
-		numtris = 0; //numtextures = 0;
+		numtris = 0; numtextures = 0;
 		mesh = NULL;
 		normals = NULL;
-		//texmap = NULL;
-		//textures = NULL;
+		texmap = NULL;
+		textures = NULL;
 		min = max = {0,0,0};
 	}
 };

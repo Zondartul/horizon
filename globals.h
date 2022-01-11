@@ -27,6 +27,11 @@ struct vec2i
     int x;
     int y;
 };
+struct vec2f
+{
+    double x;
+    double y;
+};
 vec2i operator + (vec2i A, vec2i B)
 {
 	return {A.x+B.x, A.y+B.y};
