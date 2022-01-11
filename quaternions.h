@@ -1,3 +1,4 @@
+
 //quaternions
 /*
 struct quat
@@ -49,10 +50,10 @@ struct quat
 		double rhs3 = B.v.y;
 		double rhs4 = B.v.z;
 		return{
-		lhs1*rhs1-lhs2*rhs2-lhs3*rhs4-lhs4*rhs4,
+		lhs1*rhs1-lhs2*rhs2-lhs3*rhs3-lhs4*rhs4,
 	   {lhs1*rhs2+lhs2*rhs1+lhs3*rhs4-lhs4*rhs3,
-		lhs1*rhs3+lhs3*rhs1+lhs4*rhs2-lhs2*rhs4,
-		lhs1*rhs4+lhs4*rhs1+lhs2*rhs3-lhs3*rhs2}
+		lhs1*rhs3-lhs2*rhs4+lhs3*rhs1+lhs4*rhs2,
+		lhs1*rhs4+lhs2*rhs3-lhs3*rhs2+lhs4*rhs1}
 		};
 	}
 	double abs(){return sqrt(w*w+v.x*v.x+v.y*v.y+v.z*v.z);}
@@ -68,10 +69,17 @@ struct quat
 		quat qy = {cos(y), {0,0,sin(y)}};
 		return qy*(qp*qr);
 	}
+	static quat fromAngleAxis(double w, vec v){return quat::fromAngleAxis(w,v.x,v.y,v.z);}
+	static quat fromAngleAxis(double w, double x, double y, double z)
+	{
+		return {cos(w*deg2rad/2),((vec){x,y,z}).norm()*sin(w*deg2rad/2)};
+	}
 	quat inv()
 	{
+		
 		double div = w*w+v.x*v.x+v.y*v.y+v.z*v.z;
 		return {w/div, -v/div};
+		
 	}
 	quat qmod()
 	{
@@ -102,9 +110,15 @@ struct quat
 		//D.v = D.v;
 		return D.norm();
 	}
+	vec corotateVector(vec vect)
+	{	
+		vec res = ((*this).inv()*((quat){0,vect})*(*this)).v; //C++ evaluates right-hand first I think
+		return res;
+	}
 	vec rotateVector(vec vect)
 	{
-		return ((*this)*((quat){0,vect})*(*this).inv()).v;
+		vec res = ((*this)*((quat){0,vect})*((*this).inv())).v; //C++ evaluates right-hand first I think
+		return res;
 	}
 	vec forward()
 	{

@@ -22,7 +22,6 @@
 //GUIManager GUIM;
 
 GUIbase *GUI;
-#include "console.h"
 GUIframe *myFrame;
 model *myModel;
 vec SomeVec1;
@@ -32,8 +31,12 @@ vec2i windowCorner;
 vec2i windowSize;
 vec2i windowCenter;
 quat CamAngle;
+quat CamAngTest;
+double Camnorm;
+#include "console.h"
 bool mouseCapture;
-int pie = 3.14;
+bool camRotOn;
+//int pie = 3.14;
 /*
 void myButton(void *holder)
 {
@@ -110,14 +113,14 @@ void genCube(void *arg)
 	AD = +x
 	AE = +z
 	*/ 
-	vec A = {0,0,0};
-	vec B = {0,1,0};
-	vec C = {1,1,0};
-	vec D = {1,0,0};
-	vec E = {0,0,1};
-	vec F = {0,1,1};
-	vec G = {1,1,1};
-	vec H = {1,0,1};
+	vec A = {0,0,0}; A = A*10;
+	vec B = {0,1,0}; B = B*10;
+	vec C = {1,1,0}; C = C*10;
+	vec D = {1,0,0}; D = D*10;
+	vec E = {0,0,1}; E = E*10;
+	vec F = {0,1,1}; F = F*10;
+	vec G = {1,1,1}; G = G*10;
+	vec H = {1,0,1}; H = H*10;
 	
 	//CW culling.
 	//front
@@ -282,40 +285,58 @@ void OpenVals()
 	
 	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
 	valx->setPos(0,32);								val2x->setPos(128,32);
-	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&SomeVec2.x);
+	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&CamAngTest.w);
 	valx->mode = 'f';								val2x->mode = 'f';
 	valx->setParent(valframe);						val2x->setParent(valframe);
 	
 	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
 	valy->setPos(0,64);								val2y->setPos(128,64);
-	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&SomeVec2.y);
+	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&CamAngTest.v.x);
 	valy->mode = 'f';								val2y->mode = 'f';
 	valy->setParent(valframe);						val2y->setParent(valframe);
 	
 	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
 	valz->setPos(0,96);								val2z->setPos(128,96);
-	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&SomeVec2.z);
+	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&CamAngTest.v.y);
 	valz->mode = 'f';								val2z->mode = 'f';
 	valz->setParent(valframe);						val2z->setParent(valframe);
 	
 	GUIvaluedisplay* valmx = new GUIvaluedisplay;	GUIvaluedisplay* val2my = new GUIvaluedisplay;
 	valmx->setPos(0,128);							val2my->setPos(128,128);
-	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&mousePos.y);
-	valmx->mode = 'f';								val2my->mode = 'd';
+	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&CamAngTest.v.z);
+	valmx->mode = 'f';								val2my->mode = 'f';
 	valmx->setParent(valframe);						val2my->setParent(valframe);
 	
 	GUIvaluedisplay* valdmx = new GUIvaluedisplay;	GUIvaluedisplay* val2dmy = new GUIvaluedisplay;
 	valdmx->setPos(0,128+32);							val2dmy->setPos(128,128+32);
-	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&deltaMouse.y);
-	valdmx->mode = 'd';								val2dmy->mode = 'd';
+	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&Camnorm);
+	valdmx->mode = 'd';								val2dmy->mode = 'f';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 
-void camForward(void* arg){SomeVec1 = SomeVec1+(vec){0,.1,0};}
-void camBack(void* arg){SomeVec1 = SomeVec1+(vec){0,-.1,0};}
-void camLeft(void* arg){SomeVec1 = SomeVec1+(vec){-.1,0,0};}
-void camRight(void* arg){SomeVec1 = SomeVec1+(vec){.1,0,0};}
+void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
+void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
+void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{1,0,0});}
+void camRotXCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{1,0,0});}
+void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,0,1});}
+void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,0,1});}
+/*
+void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
+void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
+void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
+void camRotXCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
+void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
+void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
+*/
+
+void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,0,-0.1});}
+void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({0,0,0.1});}
+void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({.1,0,0});}
+void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector({-.1,0,0});}
+void camUp(void* arg){SomeVec1 = SomeVec1+(vec){0,0.1,0};}
+void camDown(void* arg){SomeVec1 = SomeVec1+(vec){0,-0.1,0};}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
+void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 
 void OnProgramStart()
 {
@@ -345,10 +366,25 @@ void OnProgramStart()
 	bindKey('A',&camRight,NULL,4);
 	bindKey('S',&camBack,NULL,4);
 	bindKey('D',&camLeft,NULL,4);
+	bindKey(32,&camUp,NULL,4);
+	bindKey(17,&camDown,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
-	mouseCapture = false;
-	CamAngle = {0,{0,0,1}};
 	
+	//numpad
+	// 103 104 105
+	// 100 101 102
+	//  97  98  99
+	bindKey(100,&camRotYCCW,NULL,1);
+	bindKey(102,&camRotYCW,NULL,1);
+	bindKey(104,&camRotXCCW,NULL,1);
+	bindKey(98,&camRotXCW,NULL,1);
+	bindKey(103,&camRotZCCW,NULL,1);
+	bindKey(105,&camRotZCW,NULL,1);
+	bindKey(97, &ToggleCamRot,NULL,1);
+	mouseCapture = false;
+	camRotOn = true;
+	CamAngle = quat::fromAngleAxis(0,{0,0,1});//{0,{0,0,1}};
+	CamAngTest = {1,{0,0,1}};
 	bground.r = 142;
 	bground.g = 187;
 	bground.b = 255;
@@ -483,9 +519,20 @@ void InputTick()
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
 		SomeVec2 = SomeVec2 + (vec){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
-		CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
-		if(CamAngle.w>360){CamAngle.w=0;}
-		if(CamAngle.w<0){CamAngle.w=360;}
+		quat horiz = quat::fromAngleAxis((-90.0*(double)deltaMouse.x)/width,CamAngle.corotateVector({0,1,0})); 
+		quat verti = quat::fromAngleAxis((-90.0*(double)deltaMouse.y)/height,{1,0,0});
+					// rotating vector by quaternion converts from local to global
+		
+		CamAngle = CamAngle*horiz;
+		CamAngle = CamAngle*verti;
+		CamAngle = CamAngle.norm();
+		CamAngTest.w = CamAngle.getRotationAngle();
+		CamAngTest.v = CamAngle.getRotationAxis();
+		Camnorm = (CamAngle.rotateVector({1,0,0})).dot(CamAngle.rotateVector({0,1,0}));
+		//CamAngle = CamAngle.norm();
+		//CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
+		//if(CamAngle.w>360){CamAngle.w=0;}
+		//if(CamAngle.w<0){CamAngle.w=360;}
 		SetCursorPos(windowCenter.x,windowCenter.y);
 	}
 }
@@ -600,10 +647,26 @@ void Render2D()
 void Render3D()
 {
     glPushMatrix();
-	glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
-	glTranslated(SomeVec1.x,SomeVec1.z,SomeVec1.y);
+	//glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
+	double w = CamAngle.getRotationAngle();
+	vec v = CamAngle.getRotationAxis();
+	glBegin(GL_LINES); //cordinate helper
+		vec a = {0,-1,-2};//SomeVec1+CamAngle.rotateVector({0,0,-2});
+		quat qc = CamAngle; qc.w = -qc.w;
+		vec b = a+qc.rotateVector({0.5,0,0});
+		glColor3f(1.0f,0.0f,0.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);
+		
+		b = a+qc.rotateVector({0,0.5,0});
+		glColor3f(0.0f,1.0f,0.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);
+		
+		b = a+qc.rotateVector({0,0,0.5});
+		glColor3f(0.0f,0.0f,1.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);	
+	glEnd();
+	
+	if(camRotOn){glRotatef(-w,v.x,v.y,v.z);}
+	glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
     //glRotatef(theta, 0.0f, 0.0f, 1.0f);
-	glScalef(0.1f,0.1f,0.1f);
+	//glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
 
         glColor3f(1.0f, 0.0f, 0.0f);   glVertex2f(0.0f,   1.0f);
@@ -611,6 +674,9 @@ void Render3D()
         glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
 
     glEnd();
+	
+	
+	
 	if(myModel!=NULL)
 	{
 		//apply orientation here

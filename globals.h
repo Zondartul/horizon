@@ -2,6 +2,11 @@
 #include <sstream>
 #include <cstdarg>
 #include <vector>
+
+#ifndef M_PI
+#define M_PI           3.14159265358979323846
+#endif
+
 using namespace std;
 
 int clamp(int A, int B, int C)
@@ -138,3 +143,32 @@ vec2i mousePos;
 typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-returning funtion that takes
 									                      // a pointer-to-void" type.
 
+unsigned int explode(const string &txt, vector<string> &strs, char ch)
+{
+    unsigned int pos = txt.find( ch );
+    unsigned int initialPos = 0;
+    strs.clear();
+
+    // Decompose statement
+    while( pos != string::npos ) {
+        strs.push_back( txt.substr( initialPos, pos - initialPos ) );
+        initialPos = pos + 1;
+
+        pos = txt.find( ch, initialPos );
+    }
+
+    // Add the last one
+    strs.push_back( txt.substr( initialPos, min( pos, txt.size() ) - initialPos + 1 ) );
+
+    return strs.size();
+}
+
+string itoa(double I)
+{
+	stringstream str;
+	str.str("");
+	str<<I;
+	return str.str();
+}
+
+//atoi already there
