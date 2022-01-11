@@ -265,7 +265,19 @@ std::string operator+(std::string const &a, double b){
   return oss.str();
 }
 
+class except: public exception{
+	public:
+	const char *mystr;
+	except(const char *a, int b, const char *str){
+		mystr = (string(str)+" ["+string(a)+", line "+b+"]").c_str();
+	}
+	virtual const char* what() const throw()
+	{
+		return mystr;
+	}
+};
 
+#define except(a) except(__FILE__,__LINE__,a)
 /*
 //dafuk is this
 #define TL_DR_1 typename vector< pair<size_t, vector<pair<K,V>>> >::iterator

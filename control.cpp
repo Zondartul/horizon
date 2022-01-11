@@ -395,7 +395,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "95";
+	string vnumber = "96";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -1018,6 +1018,7 @@ int ticks = 0;
 void ThinkTick()
 {
 	ticks++;
+	//parse("test4");
 	hook.run("onTick");
 	printvals("ticks", "there have been "+itoa(ticks)+" ticks since the start.");
 	camera.tick();

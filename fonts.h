@@ -93,8 +93,9 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
     //glBlendColor(0.0f, 0.0f, 0.0f, 0.0f);
-    unsigned char *newbuff = (unsigned char*)malloc(2*fwidth*fheight);
-    if(aa)
+    unsigned char *newbuff = (unsigned char*)malloc(2*fwidth*fheight); // CRASHED HERE... SOMETIMES
+    if(newbuff == 0){throw except("failed to allocate character buffer @here");}		// BEFORE THIS LINE WAS ADDED
+	if(aa)
 	{
 		for(int j = 0; j<fwidth*fheight; j++)
 		{
