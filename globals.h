@@ -46,6 +46,17 @@ struct vec3i
     int y;
     int z;
 };
+struct vec4i
+{
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+};
+bool operator == (vec4i A, vec4i B)
+{
+	return ((A.x1==B.x1)&&(A.y1==B.y1)&&(A.x2==B.x2)&&(A.y2==B.y2));
+}
 struct color3i
 {
 	int r;

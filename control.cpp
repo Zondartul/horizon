@@ -66,7 +66,14 @@ void OnProgramStart()
 	GUI->pos = {32,32};
 	GUI->size={128,128};
 	GUI->mousePtr = &mousePos;
+	GUI->recalculateClientRect();
 	GUI->visible=true;
+	
+	GUIframe* myFrame = new GUIframe;
+	myFrame->pos = {64,64};
+	myFrame->size= {96,96};
+	myFrame->setParent(GUI);
+	myFrame->visible = true;
 	/*
     GUIobj* myFrame = new GUIobj;
     myFrame->pos.x = 350;
@@ -124,8 +131,9 @@ void RenderGUI()
 	string version("Version ");
 	string vnumber = "53";
 	twidth = printw(32,32,version+vnumber);
-    GUIbase::propagateMouseOver(GUI,(void*)(&mousePos), 0);
-	GUIbase::propagateRender(GUI,NULL,0);
+	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
+    GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
+	GUIbase::propagateRender(GUI,(void*)(&(GUI->crect)),0);
 	//GUIM.render(NULL);
 	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
