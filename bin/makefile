@@ -74,8 +74,7 @@ ALLDELETE = $(call flipslashes,$(OBJECTFILES:%="%") $(DEPFILES:%="%") $(FIXEDDEP
 #This is the main rule
 $(PROGNAME): $(DIRS) $(OBJECTFILES)
 	$(info linking the .exe)
-	@$(COMPILEEXE)
-	$(info done)
+	@$(COMPILEEXE) && echo done
 
 #the rule to clean everything
 clean:

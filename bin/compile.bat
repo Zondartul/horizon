@@ -1,4 +1,4 @@
-..\..\..\bin\g++ ^
+g++ ^
 util/globals.cpp ^
 util/messenger.cpp ^
 util/debug.cpp ^

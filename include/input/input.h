@@ -13,8 +13,12 @@ class inputKind
 	map<string, bool> keybuffer;
 	inputKind();
 	vec2i getMousePos();
+	bool mouse1down;
+	bool mouse2down;
+	bool mouse3down;
 	char getShifted(char c);
 	void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam);
 };
+extern inputKind input;
 #endif
 //VIRTUAL KEY TABLE

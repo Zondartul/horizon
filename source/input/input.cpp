@@ -79,10 +79,10 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 		
-		case(WM_LBUTTONDOWN):{msg.type = "lmb_down";} break;
-		case(WM_LBUTTONUP):{msg.type = "lmb_up";} break;
-		case(WM_RBUTTONDOWN):{msg.type = "rmb_down";} break;
-		case(WM_RBUTTONUP):{msg.type = "rmb_up";} break;
+		case(WM_LBUTTONDOWN):{msg.type = "lmb_down"; mouse1down = true;} break;
+		case(WM_LBUTTONUP):{msg.type = "lmb_up"; mouse1down = false;} break;
+		case(WM_RBUTTONDOWN):{msg.type = "rmb_down"; mouse2down = true;} break;
+		case(WM_RBUTTONUP):{msg.type = "rmb_up"; mouse2down = false;} break;
 		case(WM_MOUSEMOVE):
 		{
 			msg.type = "mouse_move";
@@ -100,4 +100,5 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 	//use microsoft's VK_CODE table and make own key name table.
 }
 
+inputKind input;
 //VIRTUAL KEY TABLE

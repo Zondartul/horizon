@@ -4,6 +4,7 @@
 #include "main/control.h"
 #include "gui/newconsole.h"
 #include "input/keybinds.h"
+#include "experimental/terrain.h"
 void bindtests();
 
 void testfunc1(void* arg){ //draws the view frustum

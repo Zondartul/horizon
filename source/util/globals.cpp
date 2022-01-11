@@ -73,6 +73,16 @@ bool operator == (vec4i A, vec4i B)
 	return ((A.x1==B.x1)&&(A.y1==B.y1)&&(A.x2==B.x2)&&(A.y2==B.y2));
 }
 
+rect &rect::setx(int x){this->x = x; x2 = x+w; return *this;}
+rect &rect::sety(int y){this->y = y; y2 = y+h; return *this;}
+rect &rect::setw(int w){this->w = w; x2 = x+w; return *this;}
+rect &rect::seth(int h){this->h = h; y2 = y+h; return *this;}
+rect &rect::setx2(int x2){this->x2 = x2; w = x2-x; return *this;}
+rect &rect::sety2(int y2){this->y2 = y2; h = y2-y; return *this;}
+bool rect::contains(vec2i A){return (A.x >= x) && (A.x <= x2) && (A.y >= y) && (A.y <= y2);}
+bool rect::contains(vec4i A){return contains((vec2i){A.x1,A.y1}) && contains((vec2i){A.x2,A.y2});}
+bool rect::contains(rect A){return contains((vec2i){A.x,A.y}) && contains((vec2i){A.x2,A.y2});}
+vec2i rect::clamp(vec2i A){return {::clamp(A.x, x, x2),::clamp(A.y,y,y2)};} //nothing::something means "find something in global scope"
 vec3i::operator color3i()
 {
 	return {clamp(x,0,255),clamp(y,0,255),clamp(z,0,255)};

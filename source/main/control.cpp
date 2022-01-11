@@ -16,12 +16,13 @@
 #include "resource/fonts.h"
 #include "util/debug.h"
 #include "input/input.h"
-inputKind input;
+//inputKind input;
 PSchannel GUI_PS;
 //#include "Gui.h"
 #include "display/paint.h"
 #include "gui/Gui2.h"
 #include "gui/Gui3.h"
+#include "gui/Gui4.h"
 #include "math/vectors.h"
 #include "resource/models.h"
 #include "math/quaternions.h"
@@ -258,6 +259,15 @@ void OpenVals()
 	valdmx->mode = 'd';								val2dmy->mode = 'f';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
+GUI4base *GUI4;
+void OpenGUI4(){
+	GUI4 = &((new GUI4frame())->setPos(200,100).setSize(100,100).setClientSize(100,100).setClientPos(0,0));
+	GUI4->addElement(&((new GUI4frame())->setPos(10,10).setSize(50,50).setClient(false).setClickable(true).setMovable(true)));
+	GUI4->addElement(&((new GUI4frame())->setPos(70,10).setSize(50,50).setClient(true).setClickable(true).setMovable(true)));
+	GUI4->setSizeToContents(true).setClickable(true).setMovable(false).invalidate();
+	//GUI4->setMovable(true);
+	//GUI4->setClickable(true);
+}
 
 void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
 void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
@@ -391,6 +401,7 @@ void OnProgramStart()
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 	OpenNewConsole(GUI);
 	OpenValScreen(GUI);
+	OpenGUI4();
 	
 	KeyBinds["b"] = "echo butts";
 	KeyBinds["w"] = "+camforward";
@@ -433,6 +444,7 @@ void RenderGUI()
 	GUI2base::propagateMouseOver(GUI,(void*)(pack), 0);
 	GUI2base::propagateRender(GUI,(void*)(&windowrect),0);
 	
+	if(GUI4){GUI4->think(); GUI4->render();}
 	//GUI3rendertick();
 	
 	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
@@ -535,6 +547,7 @@ void ProcessMouseclick(int mb)
 			input.channel.unsubscribe("", &Binder2);
 			input.channel.subscribe("", GUI);
 			printf("click window\n");
+			convars["camera_mouse_capture"] = 0;
 		}else
 			printf("unclick window\n");
 	}

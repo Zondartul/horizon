@@ -63,6 +63,26 @@ struct vec4i{
 	bool contains(vec2i A);
 };
 bool operator == (vec4i A, vec4i B);
+
+struct rect{
+	int x;
+	int y;
+	int x2;
+	int y2;
+	int w;
+	int h;
+	rect &setx(int x);
+	rect &sety(int y);
+	rect &setw(int w);
+	rect &seth(int h);
+	rect &setx2(int x2);
+	rect &sety2(int y2);
+	bool contains(vec2i A);
+	bool contains(vec4i A);
+	bool contains(rect A);
+	vec2i clamp(vec2i A);
+};
+bool operator == (rect A, rect B);
 struct listNode{
     listNode* next;
     void* thing;
