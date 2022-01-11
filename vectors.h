@@ -11,6 +11,7 @@ struct vec
 	vec operator - (vec B){return {x-B.x, y-B.y, z-B.z};}
 	vec operator - (){return {-x,-y,-z};}
 	vec operator * (double b){return {x*b,y*b,z*b};}
+	vec operator * (vec B){return {x*B.x,y*B.y,z*B.z};}
 	vec operator / (double b){return {x/b,y/b,z/b};}
 	double dot(vec B){return {x*B.x+y*B.y+z*B.z};}
 	vec cross(vec B){return {y*B.z-z*B.y, z*B.x-x*B.z, x*B.y-y*B.x};}
@@ -22,3 +23,5 @@ struct vec
 	double sgnAngle(vec B, vec ref) // sign only possible when you know axis of rotation
 	{return sgn(ref.dot(cross(B)))*acos(dot(B)/(length()*B.length()))*180/M_PI;}
 };
+
+vec operator * (double b, vec a){return a*b;}

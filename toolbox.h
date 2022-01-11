@@ -59,24 +59,24 @@ void OpenMenuToolbox()
 
 model *genCube(double l, double w, double h)
 {
-	printf("<1>");
+	//printf("<1>");
 	/*
 	
 	*/
 	vec V = {l,w,h};
 	model* M = new model;
-	printf("<2>");
+	//printf("<2>");
 	//((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
 	
 	M->mesh = new triangle[12];
-	printf("<3>");
+	//printf("<3>");
 	M->texmap = new textriangle[12];
 	M->numtextures = 2;
-	printf("<4>");
+	//printf("<4>");
 	M->textures = new texture[2];
 	M->textures[0] = textureGet("C:/Stride/textures/crate32.bmp");
 	M->textures[1] = textureGet("C:/Stride/textures/grass3.bmp");
-	printf("<5>");
+	//printf("<5>");
 	
 	/*
 	  E-----H
@@ -134,11 +134,11 @@ model *genCube(double l, double w, double h)
 	//
 	M->numtris = 12;//12;
 	
-	printf("<6>");
+	//printf("<6>");
 	//myModel = M;
 	return M;
 	//AllPhysBodies.push_back(physBody(M));
-	printf("<7>");
+	//printf("<7>");
 	//OpenMenuModel();
 }
 model *genPlane(double l, double w)
@@ -474,8 +474,8 @@ void btnGenCube(void* arg)
 	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
 	physBody* bod = new physBody(genCube(l,w,h));
-	bod->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
-	bod->mdl->blendmode = rand()%2+1;
+	//bod->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
+	//bod->mdl->blendmode = rand()%2+1;
 	AllPhysBodies.push_back(bod);
 }
 void btnGenCyl(void* arg)
@@ -506,20 +506,21 @@ void genBox(void* arg)
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Box Generator";
 	GenMenu->setParent(GUI);
+	GUIbase::fixstrata((GUIbase*)GenMenu);
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
-	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "length";
+	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "length";
 	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
-	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "width";
+	spiny->setVals(-10,1,10,0.5,2);			spinytext->text = "width";
 	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
 	
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
-	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
-	spinz->setVals(-10,0,10,0.5,2);			spinztext->text = "height";
+	spinz->setPos(4,4+32+4);				spinztext->setPos(96,4+32);
+	spinz->setVals(-10,1,10,0.5,2);			spinztext->text = "height";
 	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
 	
 	void **newarg = new void*[3];
@@ -545,15 +546,16 @@ void genCyl(void* arg)
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Cylinder Generator";
 	GenMenu->setParent(GUI);
+	GUIbase::fixstrata((GUIbase*)GenMenu);
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
-	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
 	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
-	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "radius";
+	spiny->setVals(-10,0.5,10,0.25,2);			spinytext->text = "radius";
 	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
 	
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
@@ -582,15 +584,16 @@ void genCon(void* arg)
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Cone Generator";
 	GenMenu->setParent(GUI);
+	GUIbase::fixstrata((GUIbase*)GenMenu);
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
-	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
 	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
-	spiny->setVals(-10,0,10,0.5,2);			spinytext->text = "radius";
+	spiny->setVals(-10,0.5,10,0.25,2);		spinytext->text = "radius";
 	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
 	
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
@@ -619,10 +622,11 @@ void genSph(void* arg)
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Sphere Generator";
 	GenMenu->setParent(GUI);
+	GUIbase::fixstrata((GUIbase*)GenMenu);
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
-	spinx->setVals(-10,0,10,0.5,2);			spinxtext->text = "height";
+	spinx->setVals(-10,0.5,10,0.25,2);			spinxtext->text = "height";
 	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
 
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
@@ -669,14 +673,26 @@ void entSelect(void *arg)
 	if(prevSelected){prevSelected->color = {255,255,255};}
 	if(EntSelected){EntSelected->color = {64,255,64}; prevSelected = EntSelected;}
 	
+	trace ray;
+	ray.start = SomeVec1;
+	ray.dir = CamAngle.rotateVector({0,1,0});
+	ray.scan();
+	if(ray.hit)
+	{
+		physBody *tempPoint = new physBody(genSphere(0.01,8,16));
+		tempPoint->tracegroup = 0;
+		tempPoint->pos = ray.hitpos; 
+		AllPhysBodies.push_back(tempPoint);
+	}
 	printf("beep boop");
 }
 
 void update3Dcursor(void* arg)
 {
-	physBody *cursor = (physBody *)arg;
-	cursor->orient = quat::from4vecs({0,0,-1},cursor->pos-SomeVec1,{1,0,0},CamAngle.rotateVector({1,0,0})); //or just = camAngle;
-	if(EntSelected){cursor->pos = EntSelected->pos; cursor->scale = 3*EntSelected->BSradius;}
+	physBody *cursor = (physBody *)arg;//     vvv cursor->pos-SomeVec1
+	cursor->orient = quat::from4vecs({0,0,-1},CamAngle.rotateVector({0,1,0}),{1,0,0},CamAngle.rotateVector({1,0,0})); //or just = camAngle;
+	if(EntSelected){cursor->pos = EntSelected->pos; cursor->scale = 3*EntSelected->BSradius*EntSelected->scale;}
+	else{cursor->scale = 0;}
 }
 
 void toggle3Dcursor(void* arg)
@@ -698,6 +714,54 @@ void toggle3Dcursor(void* arg)
 	}
 }
 
+void AABBupdate(void* arg)
+{
+	physBody* S = (physBody*)arg;
+	physBody* B = S->parent;
+	double x = B->AABBmax.x-B->AABBmin.x;
+	double y = B->AABBmax.y-B->AABBmin.y;
+	double z = B->AABBmax.z-B->AABBmin.z;
+	S->pos = vec(B->AABBmin.x+x/2,B->AABBmin.y+y/2,B->AABBmin.z+z/2);
+	//S->setPos({0,0,0});
+	S->setOrient(quat::fromAngleAxis(0,0,0,1));
+	S->setScale(1);
+	delete S->mdl;
+	S->mdl = genCube(x,y,z);
+	S->mdl->applyRenderFlags(R_DARKEN|R_LIGHTEN);
+	S->mdl->blendmode = 2;
+	S->mdl->numtextures = 0;
+}
+
+void toggleAABB(void* arg)
+{
+	if(*(bool*)arg)
+	{
+		int k = AllPhysBodies.size();
+		for(int i = 0;i<k;i++)
+		{
+			physBody *B = AllPhysBodies[i];
+			if(B->tracegroup==1)
+			{
+				physBody *AABB = new physBody();
+				AABB->setParent(B);
+				AABB->color = {128,128,256};
+				AABB->alpha = 128;
+				AABB->tracegroup = -2;
+				AABB->onThink = &AABBupdate;
+				AllPhysBodies.push_back(AABB);
+			}
+		}
+	}
+	else
+	{
+		int i = 0;
+		while(i < AllPhysBodies.size())
+		{
+			if(AllPhysBodies[i]->tracegroup==-2){delete AllPhysBodies[i];}else {i++;}
+		}
+	}
+}
+
 void windowOpts(void* arg)
 {
 	GUIframe* Menu = new GUIframe;
@@ -705,6 +769,7 @@ void windowOpts(void* arg)
 	Menu->setSize(128,128);
 	Menu->title = "Display options";
 	Menu->setParent(GUI);
+	GUIbase::fixstrata((GUIbase*)Menu);
 
 	GUIcheckbox* check = new GUIcheckbox;	GUIlabel* label1 = new GUIlabel;
 	check->pos = {4,4};						label1->pos = {4+16,4};
@@ -712,9 +777,14 @@ void windowOpts(void* arg)
 	check->func = &toggleWireframe;			label1->setParent((GUIbase*)Menu);
 	
 	GUIcheckbox* check2 = new GUIcheckbox;	GUIlabel* label2 = new GUIlabel;
-	check2->pos = {4,32};					label2->pos = {4+16,32};
+	check2->pos = {4,4+16};					label2->pos = {4+16,4+16};
 	check2->setParent((GUIbase*)Menu);		label2->text = "3D cursor";
 	check2->func = &toggle3Dcursor;			label2->setParent((GUIbase*)Menu);
+	
+	GUIcheckbox* check3 = new GUIcheckbox;	GUIlabel* label3 = new GUIlabel;
+	check3->pos = {4,4+32};					label3->pos = {4+16,32};
+	check3->setParent((GUIbase*)Menu);		label3->text = "show AABB's";
+	check3->func = &toggleAABB;				label3->setParent((GUIbase*)Menu);
 }
 
 void windowPhysbodyOptions(void *arg)
@@ -722,25 +792,37 @@ void windowPhysbodyOptions(void *arg)
 	double x = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	double y = 	(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
 	double z = 	(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
-	double rz =	(((GUIspinner*)(((void**)arg)[3]))->vals[1]);
-
-	printf("New pos: <%f,%f,%f>, new angles: <%f>\n",x,y,z,rz);
+	double rx =	(((GUIspinner*)(((void**)arg)[3]))->vals[1]);
+	double ry =	(((GUIspinner*)(((void**)arg)[4]))->vals[1]);
+	double rz =	(((GUIspinner*)(((void**)arg)[5]))->vals[1]);
+	double s =  (((GUIspinner*)(((void**)arg)[6]))->vals[1]);
+	printf("New pos: <%f,%f,%f>, new angles: <%f,%f,%f>\n",x,y,z,rx,ry,rz);
 	if(EntSelected)
 	{
-		EntSelected->pos = {x,y,z};
-		EntSelected->orient = quat::fromAngleAxis(rz,0,0,1);
+		EntSelected->setPos({x,y,z});
+		EntSelected->setOrient(quat::fromAngleAxis(rz,0,0,1)*quat::fromAngleAxis(rx,1,0,0)*quat::fromAngleAxis(ry,0,1,0));
+		EntSelected->setScale(s);
 		quat q = EntSelected->orient;
 		printf("quat: {%f,%f,%f,%f} | {%f,%f,%f,%f}\n",q.w,q.v.x,q.v.y,q.v.z,q.getAngle(),q.getX(),q.getY(),q.getZ());
 	}
 }
 void windowPhysbodyUpdate(void *arg)
 {
-	((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = "body: "+itoa((double)(*(reinterpret_cast<int*>(&EntSelected))));
+	
 	if(EntSelected)
 	{
+		((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = 
+		"body: "+itoa((double)(*(reinterpret_cast<int*>(&EntSelected))))+"\n"+
+		"name: "+EntSelected->name+"\n"+
+		"id: "+itoa(EntSelected->id)+"\n"+
+		"collision count: "+itoa(EntSelected->collisionCount);
 		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinx")))->vals[1]=EntSelected->pos.x;
 		((GUIspinner*)(((GUIbase*)arg)->findByTag("spiny")))->vals[1]=EntSelected->pos.y;
 		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinz")))->vals[1]=EntSelected->pos.z;
+	}
+	else
+	{
+		((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = "body: none";
 	}
 }
 
@@ -748,46 +830,70 @@ void windowPhysbody(void* arg)
 {
 	GUIframe* Menu = new GUIframe;			//GUIbutton* btnUpdate = new GUIbutton;
 	Menu->setPos(128,128);					//btnUpdate->setPos(4,128);
-	Menu->setSize(192,192);					//btnUpdate->setSize(64,32);
+	Menu->setSize(192,280);					//btnUpdate->setSize(64,32);
 	Menu->title = "Body manipulator";		//btnUpdate->text = "Update";
 	Menu->setParent(GUI);					//btnUpdate->func = &windowPhysbodyUpdate;
-											//btnUpdate->setParent((GUIbase*) Menu);
+	GUIbase::fixstrata((GUIbase*)Menu);		//btnUpdate->setParent((GUIbase*) Menu);
 	GUIlabel* bodytext = new GUIlabel;
 	bodytext->setPos(4,4);
+	bodytext->setSize(192-8,64);
 	bodytext->text = "body: none";
 	bodytext->setParent((GUIbase*) Menu);
 	bodytext->tag = "bodytext";
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
-	spinx->setPos(4,32);					spinxtext->setPos(96,32);
-	spinx->setVals(-10,0,10,0.5,1);			spinxtext->text = "pos x";
+	spinx->setPos(4,48+32);					spinxtext->setPos(96,48+32);
+	spinx->setVals(-10,0,10,0.25,2);		spinxtext->text = "pos x";
 	spinx->setParent((GUIbase*) Menu);		spinxtext->setParent((GUIbase*) Menu);
 	spinx->tag="spinx";
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
-	spiny->setPos(4,32+18);					spinytext->setPos(96,32+18);
-	spiny->setVals(-10,0,10,0.5,1);			spinytext->text = "pos y";
+	spiny->setPos(4,48+32+18);				spinytext->setPos(96,48+32+18);
+	spiny->setVals(-10,0,10,0.25,2);		spinytext->text = "pos y";
 	spiny->setParent((GUIbase*) Menu);		spinytext->setParent((GUIbase*) Menu);
 	spiny->tag="spiny";
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
-	spinz->setPos(4,32+32+4);				spinztext->setPos(96,32+32+4);
-	spinz->setVals(-10,0,10,0.5,1);			spinztext->text = "pos z";
+	spinz->setPos(4,48+32+32+4);			spinztext->setPos(96,48+32+32+4);
+	spinz->setVals(-10,0,10,0.25,2);		spinztext->text = "pos z";
 	spinz->setParent((GUIbase*) Menu);		spinztext->setParent((GUIbase*) Menu);
 	spinz->tag="spinz";
 	
+	GUIspinner* spinrx = new GUIspinner;	GUIlabel* spinrxtext = new GUIlabel;
+	spinrx->setPos(4,48+32+18*4);			spinrxtext->setPos(96,48+32+18*4);
+	spinrx->setVals(-180,0,180,15,0);		spinrxtext->text = "rot x";
+	spinrx->setParent((GUIbase*) Menu);		spinrxtext->setParent((GUIbase*) Menu);
+	spinrx->tag="spinrx";
+	
+	GUIspinner* spinry = new GUIspinner;	GUIlabel* spinrytext = new GUIlabel;
+	spinry->setPos(4,48+32+18*5);			spinrytext->setPos(96,48+32+18*5);
+	spinry->setVals(-180,0,180,15,0);		spinrytext->text = "rot y";
+	spinry->setParent((GUIbase*) Menu);		spinrytext->setParent((GUIbase*) Menu);
+	spinry->tag="spinry";
+	
 	GUIspinner* spinrz = new GUIspinner;	GUIlabel* spinrztext = new GUIlabel;
-	spinrz->setPos(4,32+18*4);				spinrztext->setPos(96,32+18*4);
+	spinrz->setPos(4,48+32+18*6);			spinrztext->setPos(96,48+32+18*6);
 	spinrz->setVals(-180,0,180,15,0);		spinrztext->text = "rot z";
 	spinrz->setParent((GUIbase*) Menu);		spinrztext->setParent((GUIbase*) Menu);
 	spinrz->tag="spinrz";
 	
-	void **newarg = new void*[5];
+	GUIspinner* spins = new GUIspinner;		GUIlabel* spinstext = new GUIlabel;
+	spins->setPos(4,48+32+18*8);			spinstext->setPos(96,48+32+18*8);
+	spins->setVals(-5,1,5,0.1,1);			spinstext->text = "scale";
+	spins->setParent((GUIbase*) Menu);		spinstext->setParent((GUIbase*) Menu);
+	spins->tag="spins";
+	
+	void **newarg = new void*[7];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	newarg[3] = (void*)spinrz;
-	newarg[4] = (void*)bodytext;
-	spinx->func = spiny->func = spinz->func = spinrz->func = &windowPhysbodyOptions;
-	spinx->arg = spiny->arg = spinz->arg = spinrz->arg = newarg;
+	newarg[3] = (void*)spinrx;
+	newarg[4] = (void*)spinry;
+	newarg[5] = (void*)spinrz;
+	newarg[6] = (void*)spins;
+	newarg[7] = (void*)bodytext;
+	spinx->func = spiny->func = spinz->func = spinrz->func = 
+	spinrx->func = spinry->func = spins->func = &windowPhysbodyOptions;
+	spinx->arg = spiny->arg = spinz->arg = spinrz->arg = 
+	spinrx->arg = spinry->arg = spins->arg = newarg;
 	Menu->think = &windowPhysbodyUpdate;
 	
 	if(!wPBfuncSet)

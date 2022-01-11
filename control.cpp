@@ -691,20 +691,26 @@ void Render3D()
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_CULL_FACE);
 						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
+		glDisable(GL_ALPHA_TEST);
 		}
 		else
 		{
 		glFrontFace(GL_CW);
 		glEnable(GL_CULL_FACE);
 		glBegin(GL_TRIANGLES);
-		
+		glColor3ub(Body->color.x,Body->color.y,Body->color.z);
 		for(int I=0;I<myModel->numtris;I++)
 		{
 			triangle T = myModel->mesh[I];
-			
-			glColor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			/*
+			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
 			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
 			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			*/
+			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			
 		}
 		glEnd();
 		glDisable(GL_CULL_FACE);
@@ -727,6 +733,8 @@ void Render3D()
 		glScalef(Body->scale,Body->scale,Body->scale);
 		myModel = Body->mdl;
 	
+		if(myModel->numtextures)
+		{
 		int prevTex = 0;
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
@@ -801,6 +809,36 @@ void Render3D()
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_BLEND);
 						//Errc = glGetError();if(Errc){printf("<11=%s>\n",gluErrorString(Errc));}
+		}
+		else
+		{
+		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
+		glBegin(GL_TRIANGLES);
+		glColor3ub(Body->color.x,Body->color.y,Body->color.z);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE_MINUS_CONSTANT_ALPHA,GL_CONSTANT_ALPHA);
+		//glBlendColor(0,0,0,Body->alpha);
+		//bluh, fuck alpha, I need to load extensions or something
+		//glSet(GL_BLEND_COLOR)
+		//glBlendColor(0,0,0,Body->alpha);
+		for(int I=0;I<myModel->numtris;I++)
+		{
+			triangle T = myModel->mesh[I];
+			/*
+			glcolor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			*/
+			glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+			
+		}
+		glEnd();
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_ALPHA_TEST);
+		}
 	glPopMatrix();
 	}
 	TranslucentBodies.clear();
@@ -831,7 +869,7 @@ void Render_go3D()
 	double fov = 90;
 	double znear = 0.1;
 	double zfar = 100;
-	double aspect = 1;
+	double aspect = (float)width/(float)height;//1;
 	
 	top = tan(fov*3.14159/360.0) * znear;
 	bottom = -top;
