@@ -22,7 +22,7 @@ struct glyphkind
 
 glyphkind* CurFont = NULL;
 
-void setFont(glyphkind *Font){CurFont = Font;}
+void setFont(void *Font){CurFont = (glyphkind*)Font;}
 
 glyphkind* GenerateFont(const char* filepath, int size,bool aa)
 {

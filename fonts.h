@@ -8,6 +8,6 @@ struct glyphkind
     GLuint texture;
 };
 glyphkind* GenerateFont(const char* filepath, int size,bool aa);
-void setFont(glyphkind *Font);
+void setFont(void *Font);
 int printw(int x, int y, const char* format, ...);
 void fontFree(glyphkind *Font);

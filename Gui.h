@@ -58,6 +58,7 @@ class GUIobj
     color3i color;
     int counter;
 	GUIobj *parent;
+	void *GUIM;
     bool mouseOver;
     listNode children;
 	int strata;
@@ -76,6 +77,7 @@ class GUIobj
         color.b = 32;
 		strata = 0;
     }
+	/*
     int ParseMessage(GUIMessage msg, int param, bool propagate)
     {
         if(propagate)
@@ -100,12 +102,14 @@ class GUIobj
         }
 		return 0;
     }
+	*/
     virtual void render()
     {
         int renderX1 = pos.x;
         int renderY1 = pos.y;
         int renderX2 = pos.x+size.x;
         int renderY2 = pos.y+size.y;
+		
         glColor3f(color.r/255.0f,color.g/255.0f, color.b/255.0f);
 		
 		if(mouseOver)
@@ -116,12 +120,12 @@ class GUIobj
             {
                 paintRectOutline(renderX1, renderY1, renderX2, renderY2);
                 //if(Calibri20n2 == 0){Calibri20n2 = GenerateFont("C:/Stride/calibri.ttf", 20);}
-                //setFont(Calibri20n2);
+                setFont(Calibri20);
                 printw(renderX1, renderY1+size.y/2, "Button");
             }
         printw(renderX2+8, renderY1+size.y/2, "Clicks: %d",counter);
     }
-	void onClick(int mb)
+	virtual void onClick(int mb)
 	{
 		counter++;
 	}
@@ -146,12 +150,20 @@ class GUIManager //manages windows and controlls, their allocation and message p
 		int strata = 0;
         while(!done)
         {
-            if(Cur->thing==NULL){Cur->thing=(void*)it; it->strata = strata; done = 1;}
+            if(Cur->thing==NULL)
+			{
+				Cur->thing=(void*)it; 
+				it->strata = strata; 
+				it->GUIM = (void*)this;
+				done = 1;
+			}
             else if(Cur->next==NULL)
             {
                 Cur->next = new listNode;
                 Cur->next->next = NULL;
 				it->strata = strata+1;
+				it->GUIM = (void*)this;
+				//if(it->parent){reposition(it,{0,0}, it->parent->pos);}
                 Cur->next->thing = (void*)it;
                 done = 1;
             }
@@ -221,6 +233,16 @@ class GUIManager //manages windows and controlls, their allocation and message p
 		}
 		return false;
 	}
+	void reposition(GUIobj* obj, vec2i pos1, vec2i pos2)
+	{
+		obj->pos = obj->pos+pos2-pos1;
+		listNode* Cur = &(obj->children);
+		while(Cur!=NULL)
+		{
+			if(Cur->thing){reposition((GUIobj*)Cur->thing,pos1,pos2);}
+			Cur = Cur->next;
+		}
+	}
 	void click(GUIobj* obj, int mb)
 	{
 		listNode* Cur;
@@ -249,15 +271,54 @@ class GUIManager //manages windows and controlls, their allocation and message p
 
 class GUIframe: public GUIobj
 {
-	//vec2i dragStart;
-	void render()
+	public:
+	vec2i dragStart;
+	vec2i oldpos;
+	bool dragging;
+	GUIframe()
 	{
+		dragging = 0;
+		dragStart = {0,0};
+		oldpos = {0,0};
+		GUIobj* myButton = new GUIobj;
+		myButton->pos = {0,0};
+		myButton->size = {24,24};
+		myButton->color = color;
+		myButton->parent = (GUIobj*)this;//commenting this makes me crash?
+		((GUIManager*)GUIM)->activate(myButton); //this button gets positioned to the moon. FIND IT!
+	}
+	void onClick(int mb)
+	{
+		if(mb)
+		{
+			dragStart = mousePos-pos;
+			dragging = 1;
+		}
+		else
+		{
+			dragging = 0;
+		}
+	}
+	void render() // later will be delegated to skins to draw on their own
+	{
+		if(dragging){pos = mousePos-dragStart;}
+		if(!(oldpos==pos)){((GUIManager*)GUIM)->reposition(this, oldpos, pos);pos = (pos-oldpos)/2;}
 		int rX1 = pos.x;
         int rY1 = pos.y;
         int rX2 = pos.x+size.x;
         int rY2 = pos.y+size.y;
-		glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
-		paintRect(rX1+2, rY1+2, rX2-2, rY1+32);
+		
+		//window
+		glColor4f(color.r/255.0f,color.g/255.0f,color.b/255.0f,0.5f);
+		paintRect(rX1,rY1,rX2,rY2);
+		glColor4f(color.r/255.0f,color.g/255.0f,color.b/255.0f,1.0f);
 		paintRectOutline(rX1,rY1,rX2,rY2);
+		//title bar
+		paintRect(rX1+2, rY1+2, rX2-2, rY1+32);
+		glColor3f(1.0f,1.0f,1.0f);
+		setFont(Tahoma22);
+		printw(rX1+2, rY1+8, "Title");//todo: centering func
+		
+		printw(rX2+8, rY1+size.y/2, "Clicks: %d",counter);
 	}
 };

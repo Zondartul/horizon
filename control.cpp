@@ -46,7 +46,7 @@ void OnProgramStart()
 	CourierNew20= (void*)GenerateFont("C:/Stride/cour.ttf",20,true);
 	CourierNew22= (void*)GenerateFont("C:/Stride/cour.ttf",22,true);
 	
-	setFont((glyphkind*)Calibri18);
+	setFont(Calibri18);
 	
 	bground.r = 142;
 	bground.g = 187;
@@ -166,15 +166,14 @@ void RenderTick(HDC hDC)
 
 void ProgramTick(HWND hwnd, HDC hDC)
 {
-    POINT cursorPos;
-    GetCursorPos(&cursorPos);
-    mousePos.x = cursorPos.x-7;
-    mousePos.y = cursorPos.y-29;
-
     RECT rect;
+	POINT cursorPos;
+	GetWindowRect(hwnd, &rect);
+    GetCursorPos(&cursorPos);
+    mousePos.x = cursorPos.x-rect.left-7;
+    mousePos.y = cursorPos.y-rect.top-29;
+
     GetClientRect(hwnd, &rect);
-    mousePos.x -= rect.left;
-    mousePos.y -= rect.top;
 	width = rect.right;
 	height = rect.bottom;
     RenderTick(hDC);
