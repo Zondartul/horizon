@@ -57,6 +57,10 @@ struct quat
 	double abs(){return sqrt(w*w+v.x*v.x+v.y*v.y+v.z*v.z);}
 	quat conj(){return {w,-v};}
 	quat norm(){return (*this)*(1/abs());}
+	/*void operator =(quat B){
+		w = B.w;
+		v = B.v;
+	}*/
 	static quat fromAngle(double p, double y, double r)
 	{
 		p = p*deg2rad*0.5;
@@ -110,12 +114,12 @@ struct quat
 	}
 	vec corotateVector(vec vect) //CW
 	{	
-		vec res = ((*this).inv()*((quat){0,vect})*(*this)).v; //C++ evaluates right-hand first I think
+		vec res = (((*this).inv()*((quat){0,vect}))*(*this)).v; //C++ evaluates left-hand first actually
 		return res;
 	}
 	vec rotateVector(vec vect) //CCW
 	{
-		vec res = ((*this)*((quat){0,vect})*((*this).inv())).v; //C++ evaluates right-hand first I think
+		vec res = (((*this)*((quat){0,vect}))*((*this).inv())).v; //C++ evaluates left-hand first actually
 		return res;
 	}
 	static quat from2vecs(vec X1, vec Y1) // one vec can be rotated to another, but it's "roll" is not preserved.
@@ -171,7 +175,7 @@ struct quat
 	{
 		return 360*acos(w)/M_PI;
 	}
-	vec forward()
+	vec right()
 	{
 		double this1 = w;
 		double this2 = v.x;
@@ -186,7 +190,7 @@ struct quat
 			t4*this2-t3*this1
 		};
 	}
-	vec right()
+	vec forward()
 	{
 		double this1 = w;
 		double this2 = v.x;
@@ -195,11 +199,11 @@ struct quat
 		double t2 = this2*2;
 		double t3 = this3*2;
 		double t4 = this4*2;
-		return {
+		return -((vec){
 			t4*this1-t2*this3,
 			this2*this2-this1*this1+this4*this4-this3*this3,
 			-t2*this1-t3*this4
-		};
+		});
 	}
 	vec up()
 	{
@@ -215,6 +219,10 @@ struct quat
 			t3*this4-t2*this1,
 			this1*this1-this2*this2-this3*this3+this4*this4
 		};
+	}
+	string toString(){
+		string str = "";
+		return str+"quat:["+w+"|"+v.x+","+v.y+","+v.z+"]";
 	}
 };
 

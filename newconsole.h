@@ -7,6 +7,7 @@ GUItextEntry *textentry;
 GUIlabel *text;
 
 map<string, double> convars;
+map<string, funcptr> confuncs;
 
 void OpenNewConsole(GUIbase *GUI){
 	newconsole = new GUIframe;
@@ -20,6 +21,7 @@ void OpenNewConsole(GUIbase *GUI){
 	textentry->setSize(400-BRDB,24);
 	textentry->setParent(newconsole);
 	textentry->callback = consolecallback;
+	textentry->text = "";
 	
 	text = new GUIlabel;
 	text->setPos(0,0);
@@ -75,9 +77,15 @@ void userparse(string str){
 void parse(string str){
 	vector<string> words;
 	explode(str, words, ' ');
-	if(words[0] == "help")
-		cprint("help, unprint, echo, exit, clear, vars");
-	else if(words[0] == "unprint")
+	if(words[0] == "help"){
+		cprint("Built-in commands: help, unprint, echo, exit, clear, vars");
+		cprint("Learned commands:");
+		for (std::map<string,funcptr>::iterator it=confuncs.begin(); it!=confuncs.end(); ++it){
+			string first = it->first;
+			funcptr second = it->second;
+			cprint(first+"   "+(int)second);
+		}
+	}else if(words[0] == "unprint")
 		cunprint();
 	else if(words[0] == "echo"){
 		if(words[1] == "off")
@@ -100,8 +108,6 @@ void parse(string str){
 			double second = it->second;
 			cprint(first+"   "+second);
 		}
-	}else if(words[0] == "box"){
-		
 	}else{
 		if(convars.count(words[0])){
 			if(words.size()>1){
@@ -110,6 +116,14 @@ void parse(string str){
 			}else
 				cprint(words[0]+" is currently "+convars[words[0]]);
 			return;
+		}
+		for (std::map<string,funcptr>::iterator it=confuncs.begin(); it!=confuncs.end(); ++it){
+			string first = it->first;
+			if(first == words[0]){
+				funcptr func = it->second;
+				func(NULL);
+				return;
+			}
 		}
 		cprint("Unknown Command \""+words[0]+"\"");
 	}

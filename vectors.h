@@ -23,6 +23,10 @@ struct vec
 	double angle(vec B){return acos(dot(B)/(length()*B.length()))*180/M_PI;}
 	double sgnAngle(vec B, vec ref) // sign only possible when you know axis of rotation
 	{return sgn(ref.dot(cross(B)))*acos(dot(B)/(length()*B.length()))*180/M_PI;}
+	string toString(){
+		string str = "";
+		return str+"vec:["+x+","+y+","+z+"]";
+	}
 };
 
 vec operator * (double b, vec a){return a*b;}

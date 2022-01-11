@@ -25,6 +25,8 @@ PSchannel GUI_PS;
 #include "quaternions.h"
 #include "newconsole.h"
 #include "keybinds.h"
+#include "camera.h"
+#include "renderable.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -270,10 +272,10 @@ void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});
 // y = forward
 // z = up
 
-void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*camSpeed);}
-void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,-.1,0})*camSpeed);}
-void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){-.1,0,0})*camSpeed);}
-void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){.1,0,0})*camSpeed);}
+void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*convars["camSpeed"]);}
+void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,-.1,0})*convars["camSpeed"]);}
+void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){-.1,0,0})*convars["camSpeed"]);}
+void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){.1,0,0})*convars["camSpeed"]);}
 void camSlow(void* arg){camSpeed = 0.2;}
 void camFast(void* arg){camSpeed = 1;}
 void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
@@ -281,6 +283,38 @@ void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 class BinderKind;
+
+vector<renderable*> scene;
+vec old = {0,0,0};
+void testfunc(void* arg){
+	frustum frust = camera.getFrustum();
+	printf("point A: [%f, %f, %f], H: [%f, %f, %f]\n", frust.A.x, frust.A.y, frust.A.z, frust.H.x, frust.H.y, frust.H.z);
+	scene.push_back(new point(frust.A));
+	scene.push_back(new point(frust.B));
+	scene.push_back(new point(frust.C));
+	scene.push_back(new point(frust.D));
+	scene.push_back(new point(frust.E));
+	scene.push_back(new point(frust.F));
+	scene.push_back(new point(frust.G));
+	scene.push_back(new point(frust.H));
+	
+	scene.push_back(new line(frust.A, frust.B));
+	scene.push_back(new line(frust.B, frust.C));
+	scene.push_back(new line(frust.C, frust.D));
+	scene.push_back(new line(frust.D, frust.A));
+	scene.push_back(new line(frust.E, frust.F));
+	scene.push_back(new line(frust.F, frust.G));
+	scene.push_back(new line(frust.G, frust.H));
+	scene.push_back(new line(frust.H, frust.E));
+	scene.push_back(new line(frust.A, frust.E));
+	scene.push_back(new line(frust.B, frust.F));
+	scene.push_back(new line(frust.C, frust.G));
+	scene.push_back(new line(frust.D, frust.H));
+	scene.push_back(new line(frust.E, frust.G));
+	scene.push_back(new line(frust.F, frust.H));
+	printf("point E distance: %f\n", (frust.H-camera.pos).length());
+	
+}
 
 void OnProgramStart()
 {
@@ -305,27 +339,27 @@ void OnProgramStart()
 	setFont(Calibri18);
 	SomeVec1 = {0,0,0};
 	SomeVec2 = {2,5,5};
-	bindKey('t',&Test1,NULL,1);
-	bindKey('w',&camForward,NULL,4);
-	bindKey('a',&camLeft,NULL,4);
-	bindKey('s',&camBack,NULL,4);
-	bindKey('d',&camRight,NULL,4);
-	bindKey(32,&camUp,NULL,4);
-	bindKey('c',&camDown,NULL,4);
-	bindKey(27,&ToggleMouseCapture,NULL,1);
-	bindKey(16,&camSlow,&camFast,1);
+	//bindKey('t',&Test1,NULL,1);
+	//bindKey('w',&camForward,NULL,4);
+	//bindKey('a',&camLeft,NULL,4);
+	//bindKey('s',&camBack,NULL,4);
+	//bindKey('d',&camRight,NULL,4);
+	//bindKey(32,&camUp,NULL,4);
+	//bindKey('c',&camDown,NULL,4);
+	//bindKey(27,&ToggleMouseCapture,NULL,1);
+	//bindKey(16,&camSlow,&camFast,1);
 	
 	//numpad
 	// 103 104 105
 	// 100 101 102
 	//  97  98  99
-	bindKey(100,&camRotYCCW,NULL,1);
-	bindKey(102,&camRotYCW,NULL,1);
-	bindKey(104,&camRotXCCW,NULL,1);
-	bindKey(98,&camRotXCW,NULL,1);
-	bindKey(103,&camRotZCCW,NULL,1);
-	bindKey(105,&camRotZCW,NULL,1);
-	bindKey(97, &ToggleCamRot,NULL,1);
+	//bindKey(100,&camRotYCCW,NULL,1);
+	//bindKey(102,&camRotYCW,NULL,1);
+	//bindKey(104,&camRotXCCW,NULL,1);
+	//bindKey(98,&camRotXCW,NULL,1);
+	//bindKey(103,&camRotZCCW,NULL,1);
+	//bindKey(105,&camRotZCW,NULL,1);
+	//bindKey(97, &ToggleCamRot,NULL,1);
 	mouseCapture = false;
 	camRotOn = true;
 	camSpeed = 1;
@@ -358,6 +392,20 @@ void OnProgramStart()
 	OpenNewConsole(GUI);
 	
 	KeyBinds["b"] = "echo butts";
+	KeyBinds["w"] = "+camforward";
+	KeyBinds["s"] = "+cambackward";
+	KeyBinds["a"] = "+camleft";
+	KeyBinds["d"] = "+camright";
+	KeyBinds["r"] = "camreset";
+	KeyBinds["space"] = "+camup";
+	KeyBinds["ctrl"] = "+camdown";
+	confuncs["forwardonce"] = camForward;
+	confuncs["backwardonce"] = camBack;
+	KeyBinds["esc"] = "camera_mouse_capture 0";
+	KeyBinds["t"] = "test";
+	confuncs["test"] = testfunc;
+	
+	scene.push_back(new point({0,0,0}));
 }
 
 
@@ -370,7 +418,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "92";
+	string vnumber = "93";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -466,6 +514,7 @@ void ProcessMouseclick(int mb)
 		if(mb==1){
 			printf("click void\n");
 			ParseKey(1);
+			convars["camera_mouse_capture"] = 1;
 			input.channel.unsubscribe("", GUI);
 			input.channel.subscribe("", &Binder);
 			input.channel.subscribe("", &Binder2);
@@ -506,19 +555,10 @@ void InputTick()
 	//now do mouse!
 	if(convars["camera_mouse_capture"])//if(mouseCapture)
 	{
+		//CamAngle = camera.angle;
 		//get delta from center and then re-center!
-		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
-		SomeVec2 = SomeVec2 + (vec){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
-		quat horiz = quat::fromAngleAxis((-90.0*(double)deltaMouse.x)/width,CamAngle.corotateVector({0,0,1})); 
-		quat verti = quat::fromAngleAxis((-90.0*(double)deltaMouse.y)/height,{1,0,0});
-					// rotating vector by quaternion converts from local to global
+		camera.mouseAim();
 		
-		CamAngle = CamAngle*horiz;
-		CamAngle = CamAngle*verti;
-		CamAngle = CamAngle.norm();
-		CamAngTest.w = CamAngle.getRotationAngle();
-		CamAngTest.v = CamAngle.getRotationAxis();
-		Camnorm = (CamAngle.rotateVector({1,0,0})).dot(CamAngle.rotateVector({0,1,0}));
 		//CamAngle = CamAngle.norm();
 		//CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
 		//if(CamAngle.w>360){CamAngle.w=0;}
@@ -653,11 +693,14 @@ void Render3D()
 	glRotatef(-90,1,0,0);
 	
 	//glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
-	double w = CamAngle.getRotationAngle();
-	vec v = CamAngle.getRotationAxis();
+	//double w = CamAngle.getRotationAngle();
+	double w = camera.angle.getRotationAngle();
+	//vec v = CamAngle.getRotationAxis();
+	vec v = camera.angle.getRotationAxis();
 	glBegin(GL_LINES); //cordinate helper
 		vec a = {0,2,-1};//SomeVec1+CamAngle.rotateVector({0,0,-2});
-		quat qc = CamAngle; qc.w = -qc.w;
+		//quat qc = CamAngle; qc.w = -qc.w;
+		quat qc = camera.angle; qc.w = -qc.w;
 		vec b = a+qc.rotateVector({0.5,0,0});
 		glColor3f(1.0f,0.0f,0.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);
 		
@@ -669,8 +712,9 @@ void Render3D()
 	glEnd();
 	//Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
 	if(camRotOn){glRotatef(-w,v.x,v.y,v.z);}
-	glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
-    //glRotatef(theta, 0.0f, 0.0f, 1.0f);
+	//glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
+    glTranslated(-camera.pos.x, -camera.pos.y, -camera.pos.z);
+	//glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	//glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
 
@@ -679,7 +723,16 @@ void Render3D()
         glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
 
     glEnd();
-	
+	for(std::vector<renderable*>::iterator I = scene.begin(); I != scene.end(); I++){
+	//for(int I = 0; I < scene.size(); I++){
+		if((*I)->lifetime == 0){
+			scene.erase(I);
+			I--;
+		}else{
+			(*I)->render();
+			(*I)->lifetime--;
+		}
+	}
 	//Errc = glGetError();if(Errc){printf("<3=%s>\n",gluErrorString(Errc));}
 	/*
 	for(int i = 0;i<AllPhysBodies.size();i++)
@@ -936,21 +989,7 @@ void Render_go3D()
     glMatrixMode(GL_PROJECTION);
 	//glPopMatrix();
 	glLoadIdentity();
-	double top;
-	double bottom;
-	double left;
-	double right;
-	double fov = 90;
-	double znear = 0.1;
-	double zfar = 100;
-	double aspect = (float)width/(float)height;//1;
-	
-	top = tan(fov*3.14159/360.0) * znear;
-	bottom = -top;
-	left = aspect * bottom;
-	right = aspect * top;
-
-    glFrustum(left,right,bottom,top,znear,zfar);
+	camera.setFrustum();
 	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_MODELVIEW);
 	
@@ -1016,6 +1055,7 @@ void RenderTick(HDC hDC)
 
 void ThinkTick()
 {
+	camera.tick();
 /*
 	for(int i = 0; i<AllPhysBodies.size(); i++)
 	{
@@ -1048,6 +1088,8 @@ void ProgramTick(HWND hwnd, HDC hDC)
 	InputTick();
 	ThinkTick();
     RenderTick(hDC);
+	//vec coords = camera.worldtoscreen({0,0,0});
+	scene.push_back(new point(camera.pos, 200));
 	//PhysicsTick();
 }
 

@@ -158,6 +158,9 @@ float height = 640.0f;
 color4i bground;
 vec2i mousePos;
 
+double d2r(double x){return x*M_PI/180.0;}
+double r2d(double x){return x*180.0/M_PI;}
+
 typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-returning funtion that takes
 									                      // a pointer-to-void" type.
 
