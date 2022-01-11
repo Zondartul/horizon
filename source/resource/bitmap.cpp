@@ -226,3 +226,19 @@ bitmap blankBitmap(int height, int width, pixelFormat format){
 	return BMP;
 }
 
+bitmap bitmap::clone(){
+	bitmap BMP;
+	BMP.height = height;
+	BMP.width = width;
+	BMP.format = format;
+	int size = BMP.numBytes();
+	if(!size){size=1;}
+	//printf("bbmp (%dx%d) BMP = %p, size = %d\n",height,width,&BMP, size);
+	unsigned char *buff = (unsigned char*)calloc(1,size);
+	if(!buff){printf("can't alloc bitmap!\n");exit(0);}
+	memcpy(buff,data.get(),size);
+	//printf("bbmp buff = %p\n",buff);
+	BMP.data.reset(buff);
+	return BMP;
+}
+

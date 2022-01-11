@@ -4,9 +4,9 @@
 #include "stdio.h"
 
 vec2f textPos;
-font curFont;
+font *curFont;
 
-void setFont(font fnt){curFont = fnt;}
+void setFont(font *fnt){curFont = fnt;}
 void setTextPos(vec2f pos){textPos = pos;}
 //todo: switch texture only once
 //todo: make a model and stuff
@@ -15,15 +15,16 @@ void printText2D(const char *text){
 	int x=textPos.x,y=textPos.y,I=0;
 	//texture ot = currentRenderOptions.tex;
 	while(C != 0){
-		if(curFont.charmap.count(C)){
-			glyph G = curFont.charmap[C];
-			texture t = G.t;
+		if(curFont->charmap.count(C)){
+			glyph G = curFont->charmap[C];
+			texture *t = G.t;
 			
 			//if(C == 'i'){
 				//printf("print: t.UV: %s\n",t.UV.toString());
 			
 			setTexture(t);
-			renderCmd(RCMD::TRANSPARENCY,b = true);
+			//renderCmd(RCMD::TRANSPARENCY,b = true);
+			rqueue->push_back(new rcmd_transparency(true));
 			//renderCmd(RCMD::TEXTURE_SELECT, t.handle.t);
 			//setColor({0,255,0});
 			//drawRectOutline(t.rect().moveBy({150,50}));
@@ -31,7 +32,7 @@ void printText2D(const char *text){
 			//drawRectOutline(t.rect().moveTo({x,y}));
 			//setColor({255,255,255});
 			float scale = 1;//currentRenderOptions.textScale;
-			drawTexturedRectUV((t.rect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y}),t.UV);
+			drawTexturedRectUV((t->rect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y}),t->UV);
 			x+=G.advance*scale;
 			//}
 			//printf("%c",C);
@@ -51,13 +52,13 @@ rect preprintText2D(const char *text){
 	int x=0,y=0,I=0;
 	//texture ot = currentRenderOptions.tex;
 	while(C != 0){
-		if(curFont.charmap.count(C)){
-			glyph G = curFont.charmap[C];
-			texture t = G.t;
+		if(curFont->charmap.count(C)){
+			glyph G = curFont->charmap[C];
+			texture *t = G.t;
 			
 			//setTexture(t);
 			float scale = 1;//textScale;
-			rect R = (t.rect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y});
+			rect R = (t->rect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y});
 			
 			maxx = max(maxx,R.end.x);
 			maxy = max(maxy,R.end.y);

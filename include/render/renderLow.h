@@ -44,14 +44,15 @@ void renderLowInit();
 void renderTick();
 //void renderTest();
 void renderParseCommandBuffer(renderCommandBuffer *cmdbuff);
+void renderParseQueue(renderQueue *rqueue);
 void uploadModel(model *m);
 void uploadModel(rmodel *rm);
 void renderModel(model *m);
 void renderModel(RCMD command, rmodel *rm);
 void unloadModel(rmodel *rm);
 extern renderCommandBuffer cmdbuff;
-#define renderCmd(t,d) { renderCommand cmd; cmd.type = t; cmd.d; cmdbuff.push_back(cmd); }
-
+//#define renderCmd(t,d) { renderCommand cmd; cmd.type = t; cmd.d; cmdbuff.push_back(cmd); }
+extern renderQueue *rqueue;
 
 /*
 void renderLowInit();

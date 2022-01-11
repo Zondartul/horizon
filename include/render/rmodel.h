@@ -1,6 +1,9 @@
 #ifndef RMODEL_GUARD
 #define RMODEL_GUARD
-#include "modelLoader.h"
+#include <vector>
+using std::vector;
+#include "vec.h"
+struct model;
 
 class rmodel{
 	public:
@@ -8,10 +11,10 @@ class rmodel{
 	vector<vec3> *colors;
 	vector<vec3> *normals;
 	vector<vec2> *uvs;
-	int handle[4];
 	rmodel();
 	rmodel(model *m);
 	~rmodel();
+	void finalize();
 };
 
 #endif

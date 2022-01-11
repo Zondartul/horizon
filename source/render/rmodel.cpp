@@ -1,11 +1,10 @@
 #include "rmodel.h"
 #include "renderLow.h" //renderLow decides how rendermodel is loaded/unloaded
+#include "model.h"
+#include <vector>
+using std::vector;
 
 rmodel::rmodel(){
-	handle[0] = 0;
-	handle[1] = 0;
-	handle[2] = 0;
-	handle[3] = 0;
 	vertices = new vector<vec3>;
 	colors = new vector<vec3>;
 	normals = new vector<vec3>;
@@ -40,11 +39,12 @@ rmodel::rmodel(model *m){
 	}
 }
 rmodel::~rmodel(){
+	//assume we are being deleted by renderLow, who already unloaded us.
+	/*
 	//can't delete buffers immediately, cause this might not have been
 	//drawn yet. so tell the queue to do it.
-	if(handle[0]){
-		unloadModel(this);
-	}
+	
+	//unloadModel(this); //actually rcmd_rmodel_delete unloads it too.
 	//also can't delete the CPU-side vertex vectors, same reason.
 	//make rmodel sharedly owned or pass rmodel to queue so queue can delete it.
 	if(vertices){
@@ -53,8 +53,10 @@ rmodel::~rmodel(){
 		rm->colors = colors;
 		rm->normals = normals;
 		rm->uvs = uvs;
-		renderCmd(RCMD::RMODEL_DELETE,p=(void*)rm);//lolhax
+		//renderCmd(RCMD::RMODEL_DELETE,p=(void*)rm);//lolhax
+		rqueue->push_back(new rcmd_rmodel_delete(this));
 	}
+	*/
 }
 //make sure they're all the same size 
 model *modelFromPoints(vector<vec3> *vertices,
@@ -84,4 +86,12 @@ model *modelFromPoints(vector<vec3> *vertices,
 		m->tris.push_back(t);
 	}
 	return m;
+}
+
+
+
+void rmodel::finalize(){
+	while(colors->size() < vertices->size()){colors->push_back(vec3(1.0f,1.0f,1.0f));}//default color is white
+	while(normals->size() < vertices->size()){normals->push_back(vec3(0.0f,0.0f,0.0f));}
+	while(uvs->size() < vertices->size()){uvs->push_back(vec2(0.0f,0.0f));}
 }

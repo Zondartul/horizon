@@ -4,7 +4,7 @@
 #include "fonts.h"
 extern vec2f textPos;
 
-void setFont(font f);
+void setFont(font *f);
 void printText2D(const char *text);
 rect preprintText2D(const char *text);
 void printw(const char *format, ...);

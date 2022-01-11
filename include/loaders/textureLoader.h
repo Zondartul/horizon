@@ -1,10 +1,7 @@
 #ifndef TEXTURELOADER_GUARD
 #define TEXTURELOADER_GUARD
-#include <string>
-using std::string;
-#include "bitmap.h"
-#include "stdint.h"
-
+#include "texture.h"
+/*
 struct textureHandle{	//corresponds to a loaded OpenGL texture
 	textureHandle();
 	bitmap BMP;			//contains image parameters and a pointer to actual data.
@@ -24,6 +21,7 @@ struct texture{
 	vec2i size();
 	rect rect();
 };
+*/
 
 
 //enum pixelType{TL_UNSIGNED_BYTE, TL_UNSIGNED_SHORT_5_6_5, TL_UNSIGNED_SHORT_4_4_4_4, TL_UNSIGNED_SHORT_5_5_5_1};
@@ -31,9 +29,10 @@ struct texture{
 //returns a texture by the given name.
 //if no such texture exists, attempts to 
 //load a texture by that filename.
-texture getTexture(string name);
-texture makeTexture(string name, textureHandle handle);
-bitmap loadImage(const char *filename);
-textureHandle uploadImage(bitmap BMP);
+//texture *getTexture(string name);
+//texture makeTexture(string name, textureHandle handle);
+//bitmap *loadImage(const char *filename);
+texture *loadTexture(const char *filename);
+//textureHandle uploadImage(bitmap BMP);
 
 #endif

@@ -5,7 +5,8 @@ using std::vector;
 #include "vec.h"
 #include <memory>
 using std::shared_ptr;
-
+#include <string>
+using std::string;
 //functions to manipulate bitmaps
 
 enum pixelFormat{TL_ALPHA, TL_RGB, TL_RGBA, TL_LUMINANCE, TL_LUMINANCE_ALPHA};
@@ -24,10 +25,10 @@ struct pixel{
 	// int getValue();
 	// int setValue();
 };
-
 ///Used to store raw image data and manipulate it.
 struct bitmap{
 	//data 
+	string name;
 	int height;///<height in pixels
 	int width;///<width in pixels
 	pixelFormat format;		///<how many elements per pixel

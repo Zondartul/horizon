@@ -4,11 +4,14 @@
 #include "renderLow.h"
 #include "SDL2/SDL.h"
 #include "modelLoader.h"
+#include "fontLoader.h"
 #include "inputController.h"
 #include "camera.h"
 #include "fonts.h"
 #include "printw.h"
-model mBox;
+#include "model.h"
+#include "resource.h"
+model *mBox;
 
 int main(int argc, char **argv){
 	printf("Hello World!\n");
@@ -17,14 +20,14 @@ int main(int argc, char **argv){
 	OpenGL_printVersion();
 	renderLowInit();
 	initFreeType();
-	setFont(getFont("calibri",18));
+	setFont(getFont("calibri 18"));
 	
 	//renderTest1();
 	camera.setPos({-0.5,0,0});
 	//renderTest();
 	setbuf(stdout,0);
 	mBox = getModel("box");
-	uploadModel(&mBox);
+	uploadModel(mBox);
 	printf("size of mat4: %d\n",sizeof(mat4));
 	printf("size of void*: %d\n",sizeof(void*));
 	printf("size of int: %d\n",sizeof(int));

@@ -13,53 +13,19 @@ using std::map;
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 #include "simplemath.h"
+#include "model.h"
 
-map<string,model> modelCache;
-vector<tinyobj::shape_t> shapes;
-vector<tinyobj::material_t> materials;
+// map<string,model> modelCache;
 
-void model::add(model B){
-	for(int I = 0; I < B.tris.size(); I++){
-		tris.push_back(B.tris[I]);
-	}
-}
-
-void model::recalculateNormals(){
-	for(int I = 0; I < tris.size(); I++){
-		auto &A = tris[I].v[0];
-		auto &B = tris[I].v[1];
-		auto &C = tris[I].v[2];
-		
-		vec3f norm = (B.pos-A.pos).cross(C.pos-A.pos).norm();
-		A.normal = norm;
-		B.normal = norm;
-		C.normal = norm;
-	}
-}
-
-AABB model::getAABB(){
-	AABB aabb;
-	aabb = aabb.setStart(tris[0].v[0].pos);
-	aabb = aabb.setEnd(tris[0].v[0].pos);
-	for(int I = 0; I < tris.size(); I++){
-		for(int J = 0; J < 3; J++){
-			vec3f p = tris[I].v[J].pos;
-			aabb = aabb.setStart({min(aabb.start.x,p.x),min(aabb.start.y,p.y),min(aabb.start.z,p.z)});
-			aabb = aabb.setEnd({max(aabb.end.x,p.x),max(aabb.end.y,p.y),max(aabb.end.z,p.z)});
-		}
-	}
-	return aabb;
-}
-
-model getModel(string name){
-	if(!modelCache.count(name)){
-		string filepath = locateResource("model",name.c_str());
-		model M = loadModel(filepath.c_str());
-		M.t = getTexture(string()+"models/"+name+"/model_"+name);
-		modelCache[name] = M;
-	}
-	return modelCache[name];
-}
+// model getModel(string name){
+	// if(!modelCache.count(name)){
+		// string filepath = locateResource("model",name.c_str());
+		// model M = loadModel(filepath.c_str());
+		// M.t = getTexture(string()+"models/"+name+"/model_"+name);
+		// modelCache[name] = M;
+	// }
+	// return modelCache[name];
+// }
 
 void printCurrentModel();
 
@@ -79,22 +45,27 @@ triangle readTriangle(auto S, int I){
 	return T;
 }
 
-model loadModel(const char *filepath){
-	string inputfile = filepath;
+
+vector<tinyobj::shape_t> shapes; 
+vector<tinyobj::material_t> materials;
+
+model *loadModel(const char *filepath){
+	//string inputfile = filepath;
 
 	string err;
-	bool ret = tinyobj::LoadObj(shapes, materials, err, inputfile.c_str());
+	
+	bool ret = tinyobj::LoadObj(shapes, materials, err, filepath); //value-copy? wat
 	if(!err.empty()){warning("loadModel: error: %s\n",err.c_str());}
 	if(!ret){error("loadModel: LoadObj failed\n");}
 	if(!shapes.size()){error("loadModel: empty obj file\n");}
 	//printCurrentModel();
 	
-	model M;
+	model *M = new model();
 	auto &S = shapes[0].mesh;
 	int numVerts = S.positions.size()/3;
 	int numTris = S.num_vertices.size();
 	for(int I = 0; I < numTris; I++){
-		M.tris.push_back(readTriangle(S,I));		
+		M->tris.push_back(readTriangle(S,I));		
 	}
 	printf("model loaded: %d triangles, %d vertices (%d%% reuse)\n",numTris, numVerts, 100-(33*numVerts/numTris));
 	//printf("loadModel: loaded %d verts, %d faces\n",
@@ -103,7 +74,7 @@ model loadModel(const char *filepath){
 	return M;
 }
 
-void printCurrentModel(){
+void printLastModel(){
 	for (size_t i = 0; i < shapes.size(); i++) {
 	  printf("shape[%ld].name = %s\n", i, shapes[i].name.c_str());
 	  printf("Size of shape[%ld].indices: %ld\n", i, shapes[i].mesh.indices.size());
