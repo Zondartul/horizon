@@ -1,8 +1,0 @@
-<map id="GUI2colorbox" name="GUI2colorbox">
-<area shape="rect" id="node2" href="$class_g_u_i2base.html" title="GUI2base" alt="" coords="283,155,362,181"/>
-<area shape="rect" id="node3" href="$classmessage_receiver.html" title="messageReceiver" alt="" coords="273,5,397,32"/>
-<area shape="rect" id="node4" href="$structcolor3i.html" title="color3i" alt="" coords="189,5,249,32"/>
-<area shape="rect" id="node5" href="$structvec2i.html" title="vec2i" alt="" coords="5,5,56,32"/>
-<area shape="rect" id="node6" href="$structlist_node.html" title="listNode" alt="" coords="421,5,491,32"/>
-<area shape="rect" id="node8" href="$structvec4i.html" title="vec4i" alt="" coords="113,5,164,32"/>
-</map>

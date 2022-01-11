@@ -1,0 +1,8 @@
+﻿E:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  pch.cpp
+  dllmain.cpp
+  file.cpp
+D:\Stride\shared\horizon\VS\horizonOStools\file.cpp(278,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  window.cpp
+D:\Stride\shared\horizon\VS\horizonOStools\window.cpp(278,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...

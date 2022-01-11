@@ -1,7 +1,0 @@
-<map id="GUI3base2" name="GUI3base2">
-<area shape="rect" id="node2" href="$classfunctor__v.html" title="functor_v" alt="" coords="5,5,79,32"/>
-<area shape="rect" id="node3" href="$classfunctor__v2i__msg.html" title="functor_v2i_msg" alt="" coords="103,5,218,32"/>
-<area shape="rect" id="node4" href="$classfunctor__v2i.html" title="functor_v2i" alt="" coords="242,5,325,32"/>
-<area shape="rect" id="node5" href="$classfunctor__msg.html" title="functor_msg" alt="" coords="349,5,442,32"/>
-<area shape="rect" id="node6" href="$structvec4i.html" title="vec4i" alt="" coords="483,5,534,32"/>
-</map>

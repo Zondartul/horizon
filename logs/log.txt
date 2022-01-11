@@ -1,0 +1,27 @@
+[1.372]:	f0:	source/selfaware.cpp:44:		font "calibri" found
+[1.389]:	f0:	source/fonts.cpp:43:		font opened: [C:\Stride\Boilerplate\common\bin\../resource/fonts/calibri.ttf]
+[1.420]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 64, height = 64 / 50 needed
+[1.435]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 64, height = 64 / 50 needed
+[1.504]:	f0:	source/selfaware.cpp:44:		font "calibri" found
+[1.506]:	f0:	source/fonts.cpp:43:		font opened: [C:\Stride\Boilerplate\common\bin\../resource/fonts/calibri.ttf]
+[1.524]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 128, height = 128 / 65 needed
+[1.532]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 128, height = 128 / 65 needed
+[1.549]:	f0:	source/selfaware.cpp:44:		font "calibri" found
+[1.553]:	f0:	source/fonts.cpp:43:		font opened: [C:\Stride\Boilerplate\common\bin\../resource/fonts/calibri.ttf]
+[1.570]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 128, height = 128 / 127 needed
+[1.580]:	f0:	source/fancymath.cpp:63:		2D packing complete: 95/95 items packed
+width = 128, height = 128 / 127 needed
+[1.653]:	f0:	source/selfaware.cpp:44:		texture "heightmap128" found
+[1.732]:	f0:	source/selfaware.cpp:44:		texture "bricks" found
+[1.793]:	f0:	source/selfaware.cpp:44:		texture "heightmap128" found
+[1.843]:	f0:	source/selfaware.cpp:44:		model "box" found
+[1.889]:	f0:	source/modelLoader.cpp:86:		loadModel: error: WARN: Material file [ boxsmall.mtl ] not found. Created a default material.
+[1.919]:	f0:	source/modelLoader.cpp:98:		model loaded: 252 triangles, 504 vertices (34% reuse)
+[1.962]:	f0:	source/selfaware.cpp:44:		texture "model_box" found
+[2.53]:	f0:	source/selfaware.cpp:44:		texture "milkyway" found
+[3.173]:	f29:	source/inputController.cpp:60:		mousecapture = 1

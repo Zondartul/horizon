@@ -1,0 +1,8 @@
+<GUIwindow area="(150.000,100.000 + 500.000,500.000)" bgColor="(128.000,196.000,255.000)" borderColor="(100.000,128.000,196.000)" hasCloseButton="1" hidden="0" isClient="1" moveable="1" name="" noframe="0" title="GUI workspace" type="GUIwindow">
+    <GUIbutton alignment_horizontal="ALIGN_CENTER" alignment_vertical="ALIGN_CENTER" area="(478.000,1.000 + 21.000,21.000)" bgColor="(128.000,196.000,255.000)" borderColor="(100.000,128.000,196.000)" const_height="" hidden="0" hoverColor="(115.200,176.400,229.500)" image="tex:[null]" isClient="0" name="" noframe="0" pressedColor="(102.400,156.800,204.000)" text="x" textColor="(0.000,0.000,0.000)" textfont="font:[calibri 18]" type="GUIbutton"/>
+    <GUIlabel alignment_horizontal="ALIGN_CENTER" alignment_vertical="ALIGN_CENTER" area="(5.000,5.000 + 111.000,15.000)" const_height="" hidden="0" isClient="0" name="" text="GUI workspace" textColor="(0.000,0.000,0.000)" textfont="font:[calibri 18]" type="GUIlabel"/>
+    <GUIselectable area="(24.000,24.000 + 80.000,96.000)" bgColor="(128.000,196.000,255.000)" borderColor="(100.000,128.000,196.000)" hidden="0" isClient="1" name="SLtile" noframe="0" type="GUIselectable">
+        <GUIimage area="(8.000,8.000 + 64.000,64.000)" bgColor="(128.000,196.000,255.000)" borderColor="(100.000,128.000,196.000)" hidden="0" image="tex:[other/crate32]" isClient="1" name="SLimage" noframe="1" type="GUIimage"/>
+        <GUIlabel alignment_horizontal="ALIGN_CENTER" alignment_vertical="ALIGN_CENTER" area="(0.000,72.000 + 80.000,16.000)" const_height="" hidden="0" isClient="1" name="SLtext" text="text" textColor="(0.000,0.000,0.000)" textfont="font:[calibri 18]" type="GUIlabel"/>
+    </GUIselectable>
+</GUIwindow>

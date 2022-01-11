@@ -1,0 +1,9 @@
+building build/entity/ecs.o
+In file included from include/entity/entity.h:11:0,
+                 from source/entity/ecs.cpp:2:
+include/util/elastic_ptr.h:35:2: error: 'elastic_ptr_anchor_proxy' does not name a type
+  elastic_ptr_anchor_proxy *proxy=0;
+  ^
+compilation terminated due to -fmax-errors=1.
+makefile:175: recipe for target 'build/entity/ecs.o' failed
+mingw32-make: *** [build/entity/ecs.o] Error 1

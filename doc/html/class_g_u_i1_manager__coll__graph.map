@@ -1,6 +1,0 @@
-<map id="GUI1Manager" name="GUI1Manager">
-<area shape="rect" id="node2" href="$structlist_node.html" title="listNode" alt="" coords="5,5,75,32"/>
-<area shape="rect" id="node3" href="$class_g_u_i1obj.html" title="GUI1obj" alt="" coords="126,109,194,136"/>
-<area shape="rect" id="node4" href="$structcolor3i.html" title="color3i" alt="" coords="153,5,213,32"/>
-<area shape="rect" id="node5" href="$structvec2i.html" title="vec2i" alt="" coords="237,5,288,32"/>
-</map>

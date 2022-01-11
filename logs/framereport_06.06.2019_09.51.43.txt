@@ -1,0 +1,612 @@
+main sequence (RC2):
+layer "main.loadLayer"+persistent 
+ 0: layer(0x00000000)
+    <null>
+layer "main.layer3D"+persistent 
+ 0: layer(0x013b0b20)
+    layer "main.layer3D.reset"+persistent +special 
+layer "ecs"+persistent 
+ 0: layer(0x01449a28)
+    layer "ecs.reset"+persistent +special 
+layer "main.layer3D.reset"+persistent +special 
+layer "main.layerDebug"+persistent 
+ 0: layer(0x013b0bf8)
+    layer "main.layerDebug.reset"+persistent +special 
+layer "main.layerDebug.reset"+persistent +special 
+layer "main.layer2D"+persistent 
+ 0: layer(0x013b0cc8)
+    layer "main.layer2D.reset"+persistent +special 
+layer "ecs2d"+persistent 
+ 0: layer(0x01449aa8)
+    layer "ecs2d.reset"+persistent +special 
+layer "frameprinter"+persistent 
+ 0: layer(0x014499a8)
+    layer "frameprinter.reset"+persistent +special 
+layer "GUI.layerGUI"+persistent 
+layer "console.terminal"+persistent 
+ 0: layer(0x01449868)
+    layer "console.terminal.reset"+persistent +special 
+layer "main.layer2D.reset"+persistent +special 
+layer "main.layerDebug2D"+persistent 
+ 0: layer(0x013b0d88)
+    layer "main.layerDebug2D.reset"+persistent +special 
+layer "main.layerDebug2D.reset"+persistent +special 
+layer "main.deleteLayer"+persistent 
+ 0: layer(0x00000000)
+    <null>
+
+main sequence (RC3):
+layer "main.loadLayer"+persistent 
+ 0: layer <deleted 00000000>
+    <null>
+layer "main.layer3D"+persistent 
+ 0: layer 0x013b0b20
+    layer "main.layer3D.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: depth_test 1
+     3: depth_mask 1
+     4: lighting 1
+     5: sun_pos (0.500,0.750,1.000)
+     6: sun_light_color (0.900,0.900,0.900)
+     7: ambient_light_color (0.300,0.300,0.300)
+     8: coloring 1
+     9: texturing 0
+     10: scissoring 0
+     11: transparency 0
+     12: alpha 255.000000
+     13: color (255.000,255.000,255.000)
+ 1: projection 0x013c1fe8
+ 2: clear_screen 
+ 3: rmodel_upload 0x0fd727f0
+ 4: mode_select 3
+ 5: rmodel_render 0x0fd727f0
+ 6: rmodel_delete 0x0fd727f0
+ 7: coloring 1
+ 8: text_pos (0.000,0.000)
+ 9: print_text "Hello World [ ijk XYZ o_O ] "
+ 10: coloring 0
+ 11: texturing 1
+ 12: texture_select 0x014497a8
+ 13: rmodel_render 0x0a968d38
+ 14: comment "comment: layer3D done\n"
+layer "ecs"+persistent 
+ 0: layer 0x01449a28
+    layer "ecs.reset"+persistent +special 
+     0: coloring 0
+     1: texturing 1
+     2: lighting 1
+     3: color (255.000,255.000,255.000)
+     4: alpha 255.000000
+     5: mode_select 3
+     6: uv_coloring 0
+     7: normal_coloring 0
+     8: scissoring 0
+     9: scissor (0.000,0.000 + 0.000,0.000)
+     10: transparency 1
+     11: depth_mask 1
+     12: depth_test 1
+     13: debug 0
+     14: position (0.000,0.000,0.000)
+     15: rotation (0.000,0.000,0.000)
+     16: scale (1.000,1.000,1.000)
+     17: text_pos (0.000,0.000)
+     18: point_size 1.000000
+     19: line_width 1.000000
+     20: sun_pos (0.500,0.750,1.000)
+     21: sun_light_color (0.900,0.900,0.900)
+     22: ambient_light_color (0.300,0.300,0.300)
+ 1: position (0.000,0.000,-1.500)
+ 2: scale (1.000,1.000,1.000)
+ 3: rotation (0.000,0.000,0.000)
+ 4: color (255.000,255.000,255.000)
+ 5: texture_select 0x01449ae8
+ 6: rmodel_render 0x01436818
+ 7: position (-5.500,3.500,0.000)
+ 8: scale (1.000,1.000,1.000)
+ 9: rotation (0.000,0.000,0.000)
+ 10: color (255.000,255.000,255.000)
+ 11: texture_select 0x01449be8
+ 12: rmodel_render 0x01435c10
+ 13: position (-5.500,-7.000,0.000)
+ 14: scale (1.000,1.000,1.000)
+ 15: rotation (0.000,0.000,0.000)
+ 16: color (255.000,255.000,255.000)
+ 17: texture_select 0x01449be8
+ 18: rmodel_render 0x0a984508
+ 19: position (0.500,-5.500,0.000)
+ 20: scale (1.000,1.000,1.000)
+ 21: rotation (0.000,0.000,0.000)
+ 22: color (255.000,255.000,255.000)
+ 23: texture_select 0x01449be8
+ 24: rmodel_render 0x0a9e0ac0
+ 25: position (3.500,-1.000,0.000)
+ 26: scale (1.000,1.000,1.000)
+ 27: rotation (0.000,0.000,0.000)
+ 28: color (255.000,255.000,255.000)
+ 29: texture_select 0x01449be8
+ 30: rmodel_render 0x0a9e33e0
+ 31: position (1.500,-3.500,-0.750)
+ 32: scale (1.000,1.000,1.000)
+ 33: rotation (0.000,0.000,0.000)
+ 34: color (255.000,255.000,255.000)
+ 35: texture_select 0x01449be8
+ 36: rmodel_render 0x0aad7bd0
+ 37: position (0.000,-2.000,-1.000)
+ 38: scale (1.000,1.000,1.000)
+ 39: rotation (0.000,0.000,0.000)
+ 40: color (255.000,255.000,255.000)
+ 41: texture_select 0x01449be8
+ 42: rmodel_render 0x0aaf0f28
+ 43: position (2.476,1.399,-0.503)
+ 44: scale (1.000,1.000,1.000)
+ 45: rotation (0.000,0.000,0.000)
+ 46: color (255.000,255.000,255.000)
+ 47: texture_select 0x01449be8
+ 48: rmodel_render 0x0cb5e470
+ 49: texturing 0
+layer "main.layer3D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: depth_test 1
+ 3: depth_mask 1
+ 4: lighting 1
+ 5: sun_pos (0.500,0.750,1.000)
+ 6: sun_light_color (0.900,0.900,0.900)
+ 7: ambient_light_color (0.300,0.300,0.300)
+ 8: coloring 1
+ 9: texturing 0
+ 10: scissoring 0
+ 11: transparency 0
+ 12: alpha 255.000000
+ 13: color (255.000,255.000,255.000)
+layer "main.layerDebug"+persistent 
+ 0: layer 0x013b0bf8
+    layer "main.layerDebug.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: depth_test 0
+     3: depth_mask 1
+     4: lighting 0
+     5: coloring 1
+     6: texturing 0
+     7: scissoring 0
+     8: transparency 0
+     9: alpha 255.000000
+     10: color (255.000,255.000,255.000)
+     11: point_size 3.000000
+ 1: color (0.000,0.000,255.000)
+ 2: rmodel_upload 0x0fd70f30
+ 3: mode_select 1
+ 4: position (0.000,0.000,0.000)
+ 5: rotation (0.000,0.000,0.000)
+ 6: scale (1.000,1.000,1.000)
+ 7: rmodel_render 0x0fd70f30
+ 8: rmodel_delete 0x0fd70f30
+ 9: color (0.000,255.000,0.000)
+ 10: rmodel_upload 0x0fd70ff0
+ 11: mode_select 2
+ 12: position (0.000,0.000,0.000)
+ 13: rotation (0.000,0.000,0.000)
+ 14: scale (1.000,1.000,1.000)
+ 15: rmodel_render 0x0fd70ff0
+ 16: rmodel_delete 0x0fd70ff0
+ 17: rmodel_upload 0x0fd71080
+ 18: mode_select 2
+ 19: position (0.000,0.000,0.000)
+ 20: rotation (0.000,0.000,0.000)
+ 21: scale (1.000,1.000,1.000)
+ 22: rmodel_render 0x0fd71080
+ 23: rmodel_delete 0x0fd71080
+ 24: rmodel_upload 0x0fd71110
+ 25: mode_select 2
+ 26: position (0.000,0.000,0.000)
+ 27: rotation (0.000,0.000,0.000)
+ 28: scale (1.000,1.000,1.000)
+ 29: rmodel_render 0x0fd71110
+ 30: rmodel_delete 0x0fd71110
+ 31: rmodel_upload 0x0fd711a0
+ 32: mode_select 2
+ 33: position (0.000,0.000,0.000)
+ 34: rotation (0.000,0.000,0.000)
+ 35: scale (1.000,1.000,1.000)
+ 36: rmodel_render 0x0fd711a0
+ 37: rmodel_delete 0x0fd711a0
+ 38: rmodel_upload 0x0fd71230
+ 39: mode_select 2
+ 40: position (0.000,0.000,0.000)
+ 41: rotation (0.000,0.000,0.000)
+ 42: scale (1.000,1.000,1.000)
+ 43: rmodel_render 0x0fd71230
+ 44: rmodel_delete 0x0fd71230
+ 45: color (255.000,0.000,0.000)
+ 46: rmodel_upload 0x0fd712c0
+ 47: mode_select 1
+ 48: position (0.000,0.000,0.000)
+ 49: rotation (0.000,0.000,0.000)
+ 50: scale (1.000,1.000,1.000)
+ 51: rmodel_render 0x0fd712c0
+ 52: rmodel_delete 0x0fd712c0
+ 53: color (0.000,255.000,0.000)
+ 54: rmodel_upload 0x0fd71380
+ 55: mode_select 1
+ 56: position (0.000,0.000,0.000)
+ 57: rotation (0.000,0.000,0.000)
+ 58: scale (1.000,1.000,1.000)
+ 59: rmodel_render 0x0fd71380
+ 60: rmodel_delete 0x0fd71380
+ 61: color (0.000,0.000,255.000)
+ 62: rmodel_upload 0x0fd71440
+ 63: mode_select 1
+ 64: position (0.000,0.000,0.000)
+ 65: rotation (0.000,0.000,0.000)
+ 66: scale (1.000,1.000,1.000)
+ 67: rmodel_render 0x0fd71440
+ 68: rmodel_delete 0x0fd71440
+ 69: color (0.000,0.000,0.000)
+ 70: rmodel_upload 0x0fd71500
+ 71: mode_select 1
+ 72: position (0.000,0.000,0.000)
+ 73: rotation (0.000,0.000,0.000)
+ 74: scale (1.000,1.000,1.000)
+ 75: rmodel_render 0x0fd71500
+ 76: rmodel_delete 0x0fd71500
+ 77: color (0.000,0.000,255.000)
+ 78: rmodel_upload 0x0fd715c0
+ 79: mode_select 2
+ 80: position (0.000,0.000,0.000)
+ 81: rotation (0.000,0.000,0.000)
+ 82: scale (1.000,1.000,1.000)
+ 83: rmodel_render 0x0fd715c0
+ 84: rmodel_delete 0x0fd715c0
+ 85: rmodel_upload 0x0fd71650
+ 86: mode_select 2
+ 87: position (0.000,0.000,0.000)
+ 88: rotation (0.000,0.000,0.000)
+ 89: scale (1.000,1.000,1.000)
+ 90: rmodel_render 0x0fd71650
+ 91: rmodel_delete 0x0fd71650
+ 92: rmodel_upload 0x0fd716e0
+ 93: mode_select 2
+ 94: position (0.000,0.000,0.000)
+ 95: rotation (0.000,0.000,0.000)
+ 96: scale (1.000,1.000,1.000)
+ 97: rmodel_render 0x0fd716e0
+ 98: rmodel_delete 0x0fd716e0
+ 99: rmodel_upload 0x0fd71770
+ 100: mode_select 2
+ 101: position (0.000,0.000,0.000)
+ 102: rotation (0.000,0.000,0.000)
+ 103: scale (1.000,1.000,1.000)
+ 104: rmodel_render 0x0fd71770
+ 105: rmodel_delete 0x0fd71770
+ 106: rmodel_upload 0x0fd71800
+ 107: mode_select 2
+ 108: position (0.000,0.000,0.000)
+ 109: rotation (0.000,0.000,0.000)
+ 110: scale (1.000,1.000,1.000)
+ 111: rmodel_render 0x0fd71800
+ 112: rmodel_delete 0x0fd71800
+ 113: color (255.000,0.000,0.000)
+ 114: rmodel_upload 0x0fd71890
+ 115: mode_select 1
+ 116: position (0.000,0.000,0.000)
+ 117: rotation (0.000,0.000,0.000)
+ 118: scale (1.000,1.000,1.000)
+ 119: rmodel_render 0x0fd71890
+ 120: rmodel_delete 0x0fd71890
+ 121: color (0.000,255.000,0.000)
+ 122: rmodel_upload 0x0fd71950
+ 123: mode_select 1
+ 124: position (0.000,0.000,0.000)
+ 125: rotation (0.000,0.000,0.000)
+ 126: scale (1.000,1.000,1.000)
+ 127: rmodel_render 0x0fd71950
+ 128: rmodel_delete 0x0fd71950
+ 129: color (0.000,0.000,255.000)
+ 130: rmodel_upload 0x0fd71a10
+ 131: mode_select 1
+ 132: position (0.000,0.000,0.000)
+ 133: rotation (0.000,0.000,0.000)
+ 134: scale (1.000,1.000,1.000)
+ 135: rmodel_render 0x0fd71a10
+ 136: rmodel_delete 0x0fd71a10
+ 137: color (0.000,0.000,0.000)
+ 138: rmodel_upload 0x0fd71ad0
+ 139: mode_select 1
+ 140: position (0.000,0.000,0.000)
+ 141: rotation (0.000,0.000,0.000)
+ 142: scale (1.000,1.000,1.000)
+ 143: rmodel_render 0x0fd71ad0
+ 144: rmodel_delete 0x0fd71ad0
+ 145: color (0.000,255.000,0.000)
+ 146: rmodel_upload 0x0fd71b90
+ 147: mode_select 2
+ 148: position (0.000,0.000,0.000)
+ 149: rotation (0.000,0.000,0.000)
+ 150: scale (1.000,1.000,1.000)
+ 151: rmodel_render 0x0fd71b90
+ 152: rmodel_delete 0x0fd71b90
+ 153: rmodel_upload 0x0fd71c20
+ 154: mode_select 2
+ 155: position (0.000,0.000,0.000)
+ 156: rotation (0.000,0.000,0.000)
+ 157: scale (1.000,1.000,1.000)
+ 158: rmodel_render 0x0fd71c20
+ 159: rmodel_delete 0x0fd71c20
+ 160: rmodel_upload 0x0fd71cb0
+ 161: mode_select 2
+ 162: position (0.000,0.000,0.000)
+ 163: rotation (0.000,0.000,0.000)
+ 164: scale (1.000,1.000,1.000)
+ 165: rmodel_render 0x0fd71cb0
+ 166: rmodel_delete 0x0fd71cb0
+ 167: rmodel_upload 0x0fd71d40
+ 168: mode_select 2
+ 169: position (0.000,0.000,0.000)
+ 170: rotation (0.000,0.000,0.000)
+ 171: scale (1.000,1.000,1.000)
+ 172: rmodel_render 0x0fd71d40
+ 173: rmodel_delete 0x0fd71d40
+ 174: rmodel_upload 0x0fd71dd0
+ 175: mode_select 2
+ 176: position (0.000,0.000,0.000)
+ 177: rotation (0.000,0.000,0.000)
+ 178: scale (1.000,1.000,1.000)
+ 179: rmodel_render 0x0fd71dd0
+ 180: rmodel_delete 0x0fd71dd0
+ 181: color (255.000,0.000,0.000)
+ 182: rmodel_upload 0x0fd71e60
+ 183: mode_select 1
+ 184: position (0.000,0.000,0.000)
+ 185: rotation (0.000,0.000,0.000)
+ 186: scale (1.000,1.000,1.000)
+ 187: rmodel_render 0x0fd71e60
+ 188: rmodel_delete 0x0fd71e60
+ 189: color (0.000,255.000,0.000)
+ 190: rmodel_upload 0x0fd71f20
+ 191: mode_select 1
+ 192: position (0.000,0.000,0.000)
+ 193: rotation (0.000,0.000,0.000)
+ 194: scale (1.000,1.000,1.000)
+ 195: rmodel_render 0x0fd71f20
+ 196: rmodel_delete 0x0fd71f20
+ 197: color (0.000,0.000,255.000)
+ 198: rmodel_upload 0x0fd71fe0
+ 199: mode_select 1
+ 200: position (0.000,0.000,0.000)
+ 201: rotation (0.000,0.000,0.000)
+ 202: scale (1.000,1.000,1.000)
+ 203: rmodel_render 0x0fd71fe0
+ 204: rmodel_delete 0x0fd71fe0
+ 205: color (0.000,0.000,0.000)
+ 206: rmodel_upload 0x0fd720a0
+ 207: mode_select 1
+ 208: position (0.000,0.000,0.000)
+ 209: rotation (0.000,0.000,0.000)
+ 210: scale (1.000,1.000,1.000)
+ 211: rmodel_render 0x0fd720a0
+ 212: rmodel_delete 0x0fd720a0
+ 213: color (0.000,0.000,255.000)
+ 214: rmodel_upload 0x0fd72160
+ 215: mode_select 2
+ 216: position (0.000,0.000,0.000)
+ 217: rotation (0.000,0.000,0.000)
+ 218: scale (1.000,1.000,1.000)
+ 219: rmodel_render 0x0fd72160
+ 220: rmodel_delete 0x0fd72160
+ 221: rmodel_upload 0x0fd721f0
+ 222: mode_select 2
+ 223: position (0.000,0.000,0.000)
+ 224: rotation (0.000,0.000,0.000)
+ 225: scale (1.000,1.000,1.000)
+ 226: rmodel_render 0x0fd721f0
+ 227: rmodel_delete 0x0fd721f0
+ 228: rmodel_upload 0x0fd72280
+ 229: mode_select 2
+ 230: position (0.000,0.000,0.000)
+ 231: rotation (0.000,0.000,0.000)
+ 232: scale (1.000,1.000,1.000)
+ 233: rmodel_render 0x0fd72280
+ 234: rmodel_delete 0x0fd72280
+ 235: rmodel_upload 0x0fd72310
+ 236: mode_select 2
+ 237: position (0.000,0.000,0.000)
+ 238: rotation (0.000,0.000,0.000)
+ 239: scale (1.000,1.000,1.000)
+ 240: rmodel_render 0x0fd72310
+ 241: rmodel_delete 0x0fd72310
+ 242: rmodel_upload 0x0fd723a0
+ 243: mode_select 2
+ 244: position (0.000,0.000,0.000)
+ 245: rotation (0.000,0.000,0.000)
+ 246: scale (1.000,1.000,1.000)
+ 247: rmodel_render 0x0fd723a0
+ 248: rmodel_delete 0x0fd723a0
+ 249: color (255.000,0.000,0.000)
+ 250: rmodel_upload 0x0fd72430
+ 251: mode_select 1
+ 252: position (0.000,0.000,0.000)
+ 253: rotation (0.000,0.000,0.000)
+ 254: scale (1.000,1.000,1.000)
+ 255: rmodel_render 0x0fd72430
+ 256: rmodel_delete 0x0fd72430
+ 257: color (0.000,255.000,0.000)
+ 258: rmodel_upload 0x0fd724f0
+ 259: mode_select 1
+ 260: position (0.000,0.000,0.000)
+ 261: rotation (0.000,0.000,0.000)
+ 262: scale (1.000,1.000,1.000)
+ 263: rmodel_render 0x0fd724f0
+ 264: rmodel_delete 0x0fd724f0
+ 265: color (0.000,0.000,255.000)
+ 266: rmodel_upload 0x0fd725b0
+ 267: mode_select 1
+ 268: position (0.000,0.000,0.000)
+ 269: rotation (0.000,0.000,0.000)
+ 270: scale (1.000,1.000,1.000)
+ 271: rmodel_render 0x0fd725b0
+ 272: rmodel_delete 0x0fd725b0
+ 273: color (0.000,0.000,0.000)
+ 274: rmodel_upload 0x0fd72670
+ 275: mode_select 1
+ 276: position (0.000,0.000,0.000)
+ 277: rotation (0.000,0.000,0.000)
+ 278: scale (1.000,1.000,1.000)
+ 279: rmodel_render 0x0fd72670
+ 280: rmodel_delete 0x0fd72670
+ 281: color (255.000,0.000,255.000)
+ 282: rmodel_upload 0x0fd72730
+ 283: mode_select 1
+ 284: position (0.000,0.000,0.000)
+ 285: rotation (0.000,0.000,0.000)
+ 286: scale (1.000,1.000,1.000)
+ 287: rmodel_render 0x0fd72730
+ 288: rmodel_delete 0x0fd72730
+layer "main.layerDebug.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: depth_test 0
+ 3: depth_mask 1
+ 4: lighting 0
+ 5: coloring 1
+ 6: texturing 0
+ 7: scissoring 0
+ 8: transparency 0
+ 9: alpha 255.000000
+ 10: color (255.000,255.000,255.000)
+ 11: point_size 3.000000
+layer "main.layer2D"+persistent 
+ 0: layer 0x013b0cc8
+    layer "main.layer2D.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: coloring 0
+     3: transparency 0
+     4: texturing 0
+     5: scissoring 0
+     6: scissor (0.000,0.000 + 512.000,512.000)
+     7: depth_test 0
+     8: depth_mask 1
+     9: lighting 0
+ 1: projection 0x013c2040
+layer "ecs2d"+persistent 
+ 0: layer 0x01449aa8
+    layer "ecs2d.reset"+persistent +special 
+layer "frameprinter"+persistent 
+ 0: layer 0x014499a8
+    layer "frameprinter.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: coloring 0
+     3: transparency 0
+     4: texturing 0
+     5: scissoring 0
+     6: scissor (0.000,0.000 + 512.000,512.000)
+     7: depth_test 0
+     8: depth_mask 1
+     9: lighting 0
+ 1: alpha 255.000000
+ 2: color (255.000,255.000,255.000)
+ 3: text_pos (0.000,14.000)
+ 4: print_text "[8 bodies, 6 pairs (9% of N^2)]"
+ 5: text_pos (0.000,32.000)
+ 6: print_text "[entities: 8]"
+ 7: text_pos (0.000,50.000)
+ 8: print_text "[rmodels: 0, 0.000000 MB]"
+ 9: text_pos (0.000,68.000)
+ 10: print_text "[textures: 0, 0.000000 MB]"
+ 11: text_pos (0.000,86.000)
+ 12: print_text "[Hello World [ ijk XYZ o_O ] ]"
+ 13: text_pos (0.000,104.000)
+ 14: print_text "[FPS (filtered): 60.2, frametime (filtered): 16.648ms]"
+ 15: text_pos (0.000,122.000)
+ 16: print_text "[FPS: 56.4, frametime: 17.739ms]"
+ 17: text_pos (0.000,140.000)
+ 18: print_text "[T1: 610]"
+ 19: text_pos (0.000,158.000)
+ 20: print_text "[cam speed: 0.000000]"
+layer "GUI.layerGUI"+persistent 
+ 0: coloring 0
+ 1: texturing 0
+ 2: color (128.000,196.000,255.000)
+ 3: transparency 1
+ 4: alpha 255.000000
+ 5: scissoring 0
+ 6: text_pos (0.000,0.000)
+ 7: font_select 0x01420330
+ 8: position (0.000,0.000,0.000)
+ 9: rotation (0.000,0.000,0.000)
+ 10: scale (1.000,1.000,1.000)
+layer "console.terminal"+persistent 
+ 0: layer 0x01449868
+    layer "console.terminal.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: coloring 0
+     3: transparency 0
+     4: texturing 0
+     5: scissoring 0
+     6: scissor (0.000,0.000 + 512.000,512.000)
+     7: depth_test 0
+     8: depth_mask 1
+     9: lighting 0
+ 1: transparency 1
+ 2: color (64.000,128.000,64.000)
+ 3: alpha 196.000000
+ 4: rmodel_upload 0x0e5c7a08
+ 5: mode_select 3
+ 6: rmodel_render 0x0e5c7a08
+ 7: rmodel_delete 0x0e5c7a08
+ 8: color (128.000,255.000,128.000)
+ 9: alpha 255.000000
+ 10: font_select 0x013bda50
+ 11: text_pos (0.000,170.667)
+ 12: print_text ""
+ 13: text_pos (0.000,128.667)
+ 14: print_text "user:> physbox"
+ 15: text_pos (0.000,142.667)
+ 16: print_text "user:> framereport"
+ 17: text_pos (0.000,156.667)
+ 18: print_text ""
+layer "main.layer2D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: coloring 0
+ 3: transparency 0
+ 4: texturing 0
+ 5: scissoring 0
+ 6: scissor (0.000,0.000 + 512.000,512.000)
+ 7: depth_test 0
+ 8: depth_mask 1
+ 9: lighting 0
+layer "main.layerDebug2D"+persistent 
+ 0: layer 0x013b0d88
+    layer "main.layerDebug2D.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: coloring 0
+     3: transparency 0
+     4: texturing 0
+     5: scissoring 0
+     6: scissor (0.000,0.000 + 512.000,512.000)
+     7: depth_test 0
+     8: depth_mask 1
+     9: lighting 0
+ 1: color (0.000,0.000,0.000)
+ 2: text_pos (277.579,191.256)
+ 3: print_text "test"
+layer "main.layerDebug2D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: coloring 0
+ 3: transparency 0
+ 4: texturing 0
+ 5: scissoring 0
+ 6: scissor (0.000,0.000 + 512.000,512.000)
+ 7: depth_test 0
+ 8: depth_mask 1
+ 9: lighting 0
+layer "main.deleteLayer"+persistent 
+ 0: layer <deleted 00000000>
+    <null>

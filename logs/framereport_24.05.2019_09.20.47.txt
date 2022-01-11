@@ -1,0 +1,18 @@
+main sequence:
+layer "main.loadLayer"+persistent 
+layer "main.layer3D"+persistent 
+layer "ecs"+persistent 
+ 0: layer(0x089567f8)
+    layer "ecs.reset"+persistent +special 
+layer "main.layer3D.reset"+persistent +special 
+layer "main.layerDebug"+persistent 
+layer "main.layerDebug.reset"+persistent +special 
+layer "main.layer2D"+persistent 
+layer "GUI.layerGUI"+persistent 
+layer "console.terminal"+persistent 
+ 0: layer(0x08956188)
+    layer "console.terminal.reset"+persistent +special 
+layer "main.layer2D.reset"+persistent +special 
+layer "main.layerDebug2D"+persistent 
+layer "main.layerDebug2D.reset"+persistent +special 
+layer "main.deleteLayer"+persistent 

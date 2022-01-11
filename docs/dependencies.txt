@@ -1,0 +1,138 @@
+dependency:
+
+bitmap
+camera
+fancymath
+simplemath
+fonts
+FreeType
+SDL
+globals
+inputController
+paint
+stb_image
+stb_image_write
+textureloader
+vec
+main
+-----------------
+simplemath:
+ none
+
+fancymath:
+ simplemath
+ <vector>
+ vec
+
+vec:
+ <math>
+
+bitmap:
+ vec
+ <memory> - shared_ptr
+ ------
+ stbi_image_write
+
+atlas:
+ bitmap
+ fancymath
+
+camera:
+ vec
+ ------
+ <math>
+ SDL - getWindowSize
+ OpenGL - lots of stuff
+ bitmap - screenshot
+ stdlib - check if file exists
+ <string> - filename toomfoolery
+
+fonts:
+ bitmap - generateGlyphBitmap
+ <map> - font
+ textureLoader - texture
+ ------
+ FreeType
+ atlas
+
+inputController:
+ vec
+ SDL - event
+ ------
+ camera
+ <string> - convenient comparison
+
+paint:
+ vec
+ textureLoader
+ fonts
+ ------
+ <vector> - options stack
+ OpenGL
+ <stdarg> - printw
+
+textureLoader:
+ <string> - names
+ bitmap
+ stdint - uint32_t replaces GLuint
+ ------
+ <map> - texture storage
+ stbi_image - read into bitmap
+ OpenGL
+
+main:
+ (everything?)
+
+
+==============================
+reverse dependency:
+==============================
+
+vec:
+ fancymath
+ bitmap
+ camera
+ inputController
+ paint
+
+simplemath:
+ fancymath
+
+fancymath:
+ atlas
+
+bitmap:			camera:
+ atlas			 inputController
+ camera
+ textureLoader 
+
+textureLoader:		inputController:
+ fonts
+ paint
+
+atlas:
+ fonts.cpp
+
+fonts:
+ paint
+
+paint:
+ 
+
+simplemath    vec
+       |     / | \_    
+     fancymath |  \\_   
+	  |    |   \ \_  
+	  |  bitmap \  \_
+          | /  |  \  \   \_
+        atlas  |   camera  \_
+	  |    |         \   \_
+	  |    |	  \    \
+ 	  | textureLoader inputController
+          |  /    |
+          fonts   |
+              \   |
+               paint
+
+
+

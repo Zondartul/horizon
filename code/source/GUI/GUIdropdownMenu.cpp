@@ -1,0 +1,142 @@
+#include "GUI_internal.h"
+
+GUIdropdownMenu::GUIdropdownMenu(){
+	setSize(vec2(10,10));
+	grid = new GUIgrid();
+	grid->setSize(vec2(10,10));
+	this->addChild(grid);
+	noframe = true;
+	constructed = true;
+	globalChannel->addListener(this); //for "frame"
+}
+
+GUIbutton *GUIdropdownMenu::addItem(string text){
+	GUIbutton *btn = new GUIbutton();
+	btn->setText(text);
+	btn->setSize(vec2(80,24));
+	btn->moveTo(vec2(0,0));
+	
+	grid->addChild(btn);
+	grid->grid(btn);
+	invalidate();
+	return btn;
+}
+
+GUIbutton *GUIdropdownMenu::addItem(string text, function<void()> func){
+	GUIbutton *btn = addItem(text);
+	btn->F = func;
+	invalidate();
+	return btn;
+}
+
+GUIdropdownMenu *GUIdropdownMenu::addSubmenu(string text){
+	//conundrum - the menu is logically subservant to this menu,
+	//but must render outside of it.
+	//can't parent to parent because we are not yet
+	//parented ourselves.
+	//solution: get so big all the submenus are inside.
+	GUIdropdownMenu *ddm = new GUIdropdownMenu();
+	ddm->name = name+"_sub";
+	submenus.push_back(ddm);
+	ddm->isClient = false;
+	ddm->hidden = true;
+	
+	GUIbutton *btn = addItem(text+" >",[=](){
+		ddm->hidden = false;
+	});
+	ddm->btnMenu = btn;
+	ddm->moveTo(vec2(btn->area.end.x,btn->area.start.y));
+	addChild(ddm);
+	invalidate();
+	return ddm;
+}
+
+void GUIdropdownMenu::invalidate(){
+	if(!constructed){return;}
+	vec2 max_corner = grid->area.end;
+	for(auto I = submenus.begin(); I != submenus.end(); I++){
+		(*I)->invalidate();
+		vec2 corner = (*I)->area.start+(*I)->grid->area.end; //a coordinate chain conversion is more accurate
+		max_corner = max(max_corner, corner);
+	}
+	area = area.setSize(max_corner);
+	clientArea = area.setStart(vec2(0,0));;
+}
+
+/*
+void GUIdropdownMenu::close(){
+	GUIbase *p = parent;
+	GUIdropdownMenu *ddm = dynamic_cast<GUIdropdownMenu*>(p);
+	if(ddm){
+		//auto &S = ddm->submenus;
+		//S.erase(S.find(S.begin,S.end,this));
+		ddm->close();
+	}else{
+		delete this;
+	}
+}
+*/
+
+float rectDist(rect R, vec2 pos){
+	vec2 A = R.start;
+	vec2 D = R.end;
+	vec2 B(D.x,A.y);
+	vec2 C(A.x,D.y);
+	float dist = length(pos-A);
+	dist = min(dist,length(pos-B));
+	dist = min(dist,length(pos-C));
+	dist = min(dist,length(pos-D));
+	if(R.contains(pos)){dist = 0;}
+	return dist;
+}
+
+float GUIdropdownMenu::getMouseDist(){
+	vec2 pos = getMousePos();
+	rect R = grid->worldArea();
+	float dist = rectDist(R,pos);
+	if(btnMenu){
+		R = btnMenu->worldArea();
+		dist = min(dist, rectDist(R,pos));
+	}
+	for(auto I = submenus.begin(); I != submenus.end(); I++){
+		GUIdropdownMenu *ddm = *I;
+		dist = min(dist, ddm->getMouseDist());
+	}
+	return dist;
+}
+
+//guibase needs a "tick" and "ticklogic" for non-render time-dependent logic
+
+void GUIdropdownMenu::onEvent(eventKind event){
+	GUIbase::onEvent(event);
+	if(event.isMasked()){return;}
+	
+	//if(event.type != EVENT_FRAME){ //this will break as soon as there are more global events than frame
+	//	GUIbase::onEvent(event);
+	//	if(event.isMasked()){return;}
+	//}
+	
+	//if(event.type == EVENT_MOUSE_MOVE){
+	//	float dist = getMouseDist();	
+	//	if(dist > 50){hidden = true;}
+	//}
+	if(event.type == EVENT_FRAME){
+		printf("ddm[%s]:frame, hh = %d\n",name.c_str(),hideCounter);
+		if(!hidden){
+			float dist = getMouseDist();
+			if(dist == 0){hideCounter = 0;}
+			else{hideCounter += dist;}
+			if(hideCounter > 100*10){
+				hideCounter = 0;
+				hidden = true;
+			}
+		}
+	}
+}
+
+string GUIdropdownMenu::getType(){return "GUIdropdownMenu";}
+
+
+
+
+

@@ -1,0 +1,4 @@
+[0.145]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:35:		OpenGL version: (null), profile: CORE
+[0.146]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:115:		-------- window init done ---------
+[0.147]:	f0:	D:\Stride\shared\horizon\code\source\input\input.cpp:12:		-------- input init done ----------
+[0.147]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:35:		-------- FreeType init done -------

@@ -1,0 +1,194 @@
+Incremental memory report for frames 986 .. 1064
+code/source/entity/ecs.cpp:
+ @30: 0 x 56 b = 0 b
+ @31: 0 x 56 b = 0 b
+ @35: 0 x 56 b = 0 b
+ @36: 0 x 56 b = 0 b
+file: 0.000 kb
+code/source/gadgets/console.cpp:
+ @27: 0 x 56 b = 0 b
+ @139: 0 x 72 b = 0 b
+file: 0.000 kb
+code/source/gadgets/frameprinter.cpp:
+ @16: 0 x 56 b = 0 b
+file: 0.000 kb
+code/source/game/commands.cpp:
+ @19: 0 x 40 b = 0 b
+file: 0.000 kb
+code/source/generators/editmodel.cpp:
+ @448: 0 x 16 b = 0 b
+file: 0.000 kb
+code/source/generators/modelprimitives.cpp:
+ @15: 0 x 52 b = 0 b
+ @17: 0 x 376 b = 0 b
+ @18: 0 x 376 b = 0 b
+ @19: 0 x 376 b = 0 b
+ @20: 0 x 376 b = 0 b
+ @21: 0 x 376 b = 0 b
+ @22: 0 x 376 b = 0 b
+ @23: 0 x 376 b = 0 b
+ @24: 0 x 376 b = 0 b
+ @26: 0 x 364 b = 0 b
+ @27: 0 x 364 b = 0 b
+ @28: 0 x 364 b = 0 b
+ @29: 0 x 364 b = 0 b
+ @31: 0 x 364 b = 0 b
+ @32: 0 x 364 b = 0 b
+ @33: 0 x 364 b = 0 b
+ @34: 0 x 364 b = 0 b
+ @36: 0 x 364 b = 0 b
+ @37: 0 x 364 b = 0 b
+ @38: 0 x 364 b = 0 b
+ @39: 0 x 364 b = 0 b
+ @41: 0 x 436 b = 0 b
+ @42: 0 x 436 b = 0 b
+ @43: 0 x 0 b = 0 b
+ @45: 0 x 436 b = 0 b
+ @46: 0 x 436 b = 0 b
+ @47: 0 x 0 b = 0 b
+ @49: 0 x 436 b = 0 b
+ @50: 0 x 436 b = 0 b
+ @51: 0 x 0 b = 0 b
+ @53: 0 x 436 b = 0 b
+ @54: 0 x 436 b = 0 b
+ @55: 0 x 0 b = 0 b
+ @57: 0 x 436 b = 0 b
+ @58: 0 x 436 b = 0 b
+ @59: 0 x 0 b = 0 b
+ @65: 0 x 436 b = 0 b
+ @66: 0 x 436 b = 0 b
+ @67: 0 x 0 b = 0 b
+ @302: 0 x 0 b = 0 b
+ @315: 0 x 376 b = 0 b
+ @316: 0 x 376 b = 0 b
+ @317: 0 x 376 b = 0 b
+ @318: 0 x 376 b = 0 b
+ @320: 0 x 436 b = 0 b
+ @321: 0 x 436 b = 0 b
+file: 0.000 kb
+code/source/generators/physbox.cpp:
+ @21: 0 x 60 b = 0 b
+ @24: 0 x 52 b = 0 b
+ @35: 0 x 44 b = 0 b
+ @63: 0 x 60 b = 0 b
+ @65: 0 x 160 b = 0 b
+ @70: 0 x 68 b = 0 b
+ @97: 0 x 60 b = 0 b
+ @100: 0 x 52 b = 0 b
+ @109: 0 x 44 b = 0 b
+file: 0.000 kb
+code/source/input/input.cpp:
+ @8: 0 x 12 b = 0 b
+ @9: 0 x 76 b = 0 b
+file: 0.000 kb
+code/source/loaders/fontLoader.cpp:
+ @151: 0 x 44 b = 0 b
+ @158: 0 x 72 b = 0 b
+ @166: 0 x 52 b = 0 b
+file: 0.000 kb
+code/source/loaders/imageLoader.cpp:
+ @19: 0 x 44 b = 0 b
+file: 0.000 kb
+code/source/loaders/modelLoader.cpp:
+ @71: 0 x 44 b = 0 b
+file: 0.000 kb
+code/source/loaders/textureLoader.cpp:
+ @19: 0 x 52 b = 0 b
+file: 0.000 kb
+code/source/main/main.cpp:
+ @106: 0 x 108 b = 0 b
+ @119: 0 x 20 b = 0 b
+ @129: 0 x 16 b = 0 b
+ @152: 0 x 8 b = 0 b
+ @153: 0 x 8 b = 0 b
+ @154: 0 x 188 b = 0 b
+ @265: 0 x 56 b = 0 b
+ @267: 0 x 84 b = 0 b
+file: 0.000 kb
+code/source/physics/characterController.cpp:
+ @25: 0 x 60 b = 0 b
+ @28: 0 x 52 b = 0 b
+ @63: 0 x 144 b = 0 b
+file: 0.000 kb
+code/source/physics/collision.cpp:
+ @35: 0 x 20 b = 0 b
+ @723: 0 x 0 b = 0 b
+ @724: 0 x 0 b = 0 b
+file: 0.000 kb
+code/source/physics/collision/broadphase.cpp:
+ @70: 0 x 0 b = 0 b
+file: 0.000 kb
+code/source/physics/collision/narrowphase.cpp:
+ @115: 78 x 60 b = 4680 b
+ @261: 0 x 0 b = 0 b
+ @1289: 78 x 60 b = 4680 b
+file: 9.141 kb
+code/source/physics/octree.cpp:
+ @132: 0 x 108 b = 0 b
+file: 0.000 kb
+code/source/render/paint.cpp:
+ @50: 0 x 56 b = 0 b
+ @116: 0 x 28 b = 0 b
+ @117: 0 x 28 b = 0 b
+ @118: 0 x 28 b = 0 b
+ @119: 0 x 28 b = 0 b
+ @120: 0 x 28 b = 0 b
+ @121: 0 x 28 b = 0 b
+ @122: 0 x 28 b = 0 b
+ @123: 0 x 28 b = 0 b
+ @125: 0 x 28 b = 0 b
+ @126: 0 x 28 b = 0 b
+ @127: 0 x 28 b = 0 b
+ @128: 0 x 28 b = 0 b
+ @129: 0 x 28 b = 0 b
+ @130: 0 x 28 b = 0 b
+ @131: 0 x 28 b = 0 b
+ @132: 0 x 28 b = 0 b
+ @133: 0 x 28 b = 0 b
+ @135: 0 x 0 b = 0 b
+ @136: 0 x 0 b = 0 b
+ @137: 0 x 0 b = 0 b
+ @142: 0 x 28 b = 0 b
+ @143: 0 x 28 b = 0 b
+ @144: 0 x 28 b = 0 b
+ @146: 0 x 28 b = 0 b
+ @147: 0 x 28 b = 0 b
+ @149: 0 x 0 b = 0 b
+ @150: 0 x 28 b = 0 b
+ @153: 0 x 28 b = 0 b
+ @154: 0 x 28 b = 0 b
+ @155: 0 x 28 b = 0 b
+ @156: 0 x 28 b = 0 b
+ @157: 0 x 28 b = 0 b
+ @194: 0 x 0 b = 0 b
+ @203: 0 x 0 b = 0 b
+ @263: 0 x 0 b = 0 b
+ @274: 0 x 0 b = 0 b
+file: 0.000 kb
+code/include/util/util.h:
+ @13: 0 x 24 b = 0 b
+file: 0.000 kb
+code/source/render/render.cpp:
+ @331: 0 x 204 b = 0 b
+file: 0.000 kb
+code/source/render/renderCommand.cpp:
+ @113: 0 x 28 b = 0 b
+file: 0.000 kb
+code/source/render/renderLow.cpp:
+ @29: 0 x 276 b = 0 b
+file: 0.000 kb
+code/source/resource/model.cpp:
+ @38: 0 x 52 b = 0 b
+ @40: 0 x 376 b = 0 b
+ @41: 0 x 376 b = 0 b
+ @42: 0 x 376 b = 0 b
+ @49: 0 x 436 b = 0 b
+file: 0.000 kb
+code/source/util/elastic_ptr.cpp:
+ @4: 0 x 8 b = 0 b
+file: 0.000 kb
+code/source/util/event.cpp:
+ @87: 0 x 12 b = 0 b
+file: 0.000 kb
+user total: 9.141 kb
+sys  total: 9.141 kb
