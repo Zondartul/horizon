@@ -54,6 +54,7 @@ struct quat
 		lhs1*rhs4+lhs2*rhs3-lhs3*rhs2+lhs4*rhs1}
 		};
 	}
+	static quat zero(){return {1,{0,0,0}};}
 	double abs(){return sqrt(w*w+v.x*v.x+v.y*v.y+v.z*v.z);}
 	quat conj(){return {w,-v};}
 	quat norm(){return (*this)*(1/abs());}
@@ -112,12 +113,12 @@ struct quat
 		//D.v = D.v;
 		return D.norm();
 	}
-	vec corotateVector(vec vect) //CW
+	vec corotateVector(vec vect) //CW converts from world space to local space
 	{	
 		vec res = (((*this).inv()*((quat){0,vect}))*(*this)).v; //C++ evaluates left-hand first actually
 		return res;
 	}
-	vec rotateVector(vec vect) //CCW
+	vec rotateVector(vec vect) //CCW converts from local space to world space
 	{
 		vec res = (((*this)*((quat){0,vect}))*((*this).inv())).v; //C++ evaluates left-hand first actually
 		return res;
@@ -175,6 +176,13 @@ struct quat
 	{
 		return 360*acos(w)/M_PI;
 	}
+	vec forward()	{return rotateVector({0,1,0});} //important definitions for right-handed coordinate system
+	vec right()		{return rotateVector({1,0,0});}
+	vec up()		{return rotateVector({0,0,1});}
+	vec localX()	{return rotateVector({1,0,0});}
+	vec localY()	{return rotateVector({0,1,0});}
+	vec localZ()	{return rotateVector({0,0,1});}
+	/*
 	vec right()
 	{
 		double this1 = w;
@@ -199,11 +207,11 @@ struct quat
 		double t2 = this2*2;
 		double t3 = this3*2;
 		double t4 = this4*2;
-		return -((vec){
+		return {
 			t4*this1-t2*this3,
 			this2*this2-this1*this1+this4*this4-this3*this3,
 			-t2*this1-t3*this4
-		});
+		};
 	}
 	vec up()
 	{
@@ -219,7 +227,7 @@ struct quat
 			t3*this4-t2*this1,
 			this1*this1-this2*this2-this3*this3+this4*this4
 		};
-	}
+	}*/
 	string toString(){
 		string str = "";
 		return str+"quat:["+w+"|"+v.x+","+v.y+","+v.z+"]";

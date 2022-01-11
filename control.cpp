@@ -287,6 +287,17 @@ class BinderKind;
 vector<renderable*> scene;
 vec old = {0,0,0};
 void testfunc(void* arg){
+	scene.push_back(new floatingtext(camera.pos, "Hello World!", 300));
+	line *l = new line(camera.pos, camera.pos+camera.angle.forward(), 300);
+	l->color1 = {255,0,0};
+	l->color2 = {0,255,0};
+	scene.push_back(l);
+	quat testQ = quat::fromAngleAxis(1,{0,0,1});//((quat){0,{0,0,1}});
+	l = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+testQ.rotateVector(camera.angle.forward()), 300);
+	l->color1 = {255,0,0};
+	l->color2 = {0,0,255};
+	scene.push_back(l);
+	/*
 	frustum frust = camera.getFrustum();
 	printf("point A: [%f, %f, %f], H: [%f, %f, %f]\n", frust.A.x, frust.A.y, frust.A.z, frust.H.x, frust.H.y, frust.H.z);
 	scene.push_back(new point(frust.A, 0.5*2500));
@@ -312,7 +323,7 @@ void testfunc(void* arg){
 	scene.push_back(new line(frust.D, frust.H, 0.5*1200));
 	scene.push_back(new line(frust.E, frust.G, 0.5*1100));
 	scene.push_back(new line(frust.F, frust.H, 0.5*1000));
-	
+	*/
 	/*
 	scene.push_back(new rtriangle(frust.A, frust.C, frust.B, 1600));
 	scene.push_back(new rtriangle(frust.C, frust.A, frust.D, 1600));
@@ -333,15 +344,33 @@ void testfunc(void* arg){
 		scene.push_back(new rtriangle(frust.getTri(I,0),frust.getTri(I,1),frust.getTri(I,2)));
 	}
 	*/
-	printf("point E distance: %f\n", (frust.H-camera.pos).length());
+	//printf("point E distance: %f\n", (frust.H-camera.pos).length());
 	
 }
 
 void testfunc2(void* arg){
-	line *myline = new line(camera.pos, camera.pos+camera.angle.forward()*100);
-	myline->thickness = 1;
-	myline->infinite = true;
-	myline->lifetime = 3000;
+	line *myline = new line(camera.pos, camera.pos+camera.angle.localX());
+	myline->color2 = {255,0,0};
+	myline->lifetime = 600;
+	scene.push_back(myline);
+	scene.push_back(new floatingtext(camera.pos+camera.angle.localX(),"x",600));
+	myline = new line(camera.pos, camera.pos+camera.angle.forward());
+	myline->color2 = {0,255,0};
+	myline->lifetime = 600;
+	scene.push_back(myline);
+	scene.push_back(new floatingtext(camera.pos+camera.angle.localY(),"y",600));
+	myline = new line(camera.pos, camera.pos+camera.angle.up());
+	myline->color2 = {0,0,255};
+	myline->lifetime = 600;
+	scene.push_back(myline);
+	scene.push_back(new floatingtext(camera.pos+camera.angle.localZ(),"z",600));
+	myline = new line(camera.pos, camera.pos+quat::fromAngleAxis(30,camera.angle.localZ()).rotateVector(camera.angle.localY()));
+	myline->color2 = {255,255,255};
+	myline->lifetime = 600;
+	scene.push_back(myline);
+	myline = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+camera.angle.localX().cross(camera.angle.localY()));
+	myline->color2 = {0,255,255};
+	myline->lifetime = 600;
 	scene.push_back(myline);
 	vec intersex;
 	if(ray_triangle_intersection(camera.pos, camera.angle.forward(), vec(0,1,0),vec(0.87, -0.5,0), vec(-0.87, -0.5,0), intersex))
@@ -440,6 +469,10 @@ void OnProgramStart()
 	confuncs["test"] = testfunc;
 	confuncs["test2"] = testfunc2;
 	scene.push_back(new point({0,0,0}));
+	
+	scene.push_back(new floatingtext({0,1,0},"R"));
+	scene.push_back(new floatingtext({0.87,-0.5,0},"G"));
+	scene.push_back(new floatingtext({-0.87,-0.5,0},"B"));
 }
 
 
@@ -724,8 +757,8 @@ void Render3D()
 					//Errc = glGetError();if(Errc){printf("<1=%s>\n",gluErrorString(Errc));}
     glPushMatrix();
 	
+	//glRotatef(180,0,0,1);
 	glRotatef(-90,1,0,0);
-	
 	//glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
 	//double w = CamAngle.getRotationAngle();
 	double w = camera.angle.getRotationAngle();
@@ -745,9 +778,12 @@ void Render3D()
 		glColor3f(0.0f,0.0f,1.0f); glVertex3f(a.x,a.y,a.z); glVertex3f(b.x,b.y,b.z);	
 	glEnd();
 	//Errc = glGetError();if(Errc){printf("<2=%s>\n",gluErrorString(Errc));}
-	if(camRotOn){glRotatef(-w,v.x,v.y,v.z);}
+	int sw = -1;
+	int sv = 1;
+	int sc = -1;
+	if(camRotOn){glRotatef(sw*w,sv*v.x,sv*v.y,sv*v.z);}
 	//glTranslated(-SomeVec1.x,-SomeVec1.y,-SomeVec1.z);
-    glTranslated(-camera.pos.x, -camera.pos.y, -camera.pos.z);
+    glTranslated(sc*camera.pos.x, sc*camera.pos.y, sc*camera.pos.z);
 	//glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	//glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
@@ -1008,26 +1044,6 @@ void Render3D()
 		//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
     glPopMatrix();
 }
-void Render_go2D()
-{
-    glMatrixMode(GL_PROJECTION);
-	glDisable(GL_DEPTH_TEST);
-    //glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0, width, height, 0, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-}
-
-void Render_go3D()
-{
-    glMatrixMode(GL_PROJECTION);
-	//glPopMatrix();
-	glLoadIdentity();
-	camera.setFrustum();
-	glEnable(GL_DEPTH_TEST);
-	glMatrixMode(GL_MODELVIEW);
-	
-}
 
 /*
 void BuildPerspProjMat(float *m, float fov, float aspect,
@@ -1077,9 +1093,9 @@ void RenderTick(HDC hDC)
     glLoadIdentity();
     Render3D();
 
-    Render_go2D();
+    camera.go2D();
     Render2D();
-    Render_go3D();
+    camera.go3D();
 
     SwapBuffers(hDC);
 

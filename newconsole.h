@@ -5,13 +5,14 @@ void userparse(string str);
 GUIframe *newconsole;
 GUItextEntry *textentry;
 GUIlabel *text;
+//GUIscrollBar *scrollbar;
 
 map<string, double> convars;
 map<string, funcptr> confuncs;
 
 void OpenNewConsole(GUIbase *GUI){
 	newconsole = new GUIframe;
-	newconsole->setPos(128,128);
+	newconsole->setPos(32,64);
 	newconsole->setSize(400,300);
 	newconsole->title = "Console";
 	newconsole->setParent(GUI);
@@ -23,11 +24,21 @@ void OpenNewConsole(GUIbase *GUI){
 	textentry->callback = consolecallback;
 	textentry->text = "";
 	
+	/*
+	scrollbar = new GUIscrollBar;
+	scrollbar->setPos(0,0);
+	scrollbar->setSize(400-22,300-BRDT-26);
+	scrollbar->insideSize.y = 1200;
+	scrollbar->setParent(newconsole);
+	*/
+	
 	text = new GUIlabel;
 	text->setPos(0,0);
-	text->setSize(400,300-BRDT-24);
+	text->setSize(400,300-BRDT-24);//(400-32,1200);
 	text->text = "";
 	text->setParent(newconsole);
+	//text->setParent(scrollbar);
+	
 	convars["variable"] = 1;
 	convars["camera_mouse_capture"] = 0;
 }
