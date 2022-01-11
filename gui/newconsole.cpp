@@ -3,22 +3,22 @@ void consolecallback(void *arg);
 void parse(string str);
 void userparse(string str);
 
-GUIframe *newconsole;
-GUItextEntry *textentry;
-GUIlabel *text;
+GUI2frame *newconsole;
+GUI2textEntry *textentry;
+GUI2label *text;
 //GUIscrollBar *scrollbar;
 
 map<string, double> convars;
 map<string, funcptr> confuncs;
 
-void OpenNewConsole(GUIbase *GUI){
-	newconsole = new GUIframe;
+void OpenNewConsole(GUI2base *GUI){
+	newconsole = new GUI2frame;
 	newconsole->setPos(32,64);
 	newconsole->setSize(400,300);
 	newconsole->title = "Console";
 	newconsole->setParent(GUI);
 	
-	textentry = new GUItextEntry;
+	textentry = new GUI2textEntry;
 	textentry->setPos(0,300-BRDT-24);
 	textentry->setSize(400-BRDB,24);
 	textentry->setParent(newconsole);
@@ -33,7 +33,7 @@ void OpenNewConsole(GUIbase *GUI){
 	scrollbar->setParent(newconsole);
 	*/
 	
-	text = new GUIlabel;
+	text = new GUI2label;
 	text->setPos(0,0);
 	text->setSize(400,300-BRDT-24);//(400-32,1200);
 	text->text = "";

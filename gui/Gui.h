@@ -1,11 +1,14 @@
+#ifndef GUI_GUARD
+#define GUI_GUARD
 #include <string>
+#include "../util/globals.h"
 using std::string;
 
-void paintRect(int X1, int Y1, int X2, int Y2);
+//void paintRect(int X1, int Y1, int X2, int Y2);
 
-void paintRectOutline(int X1, int Y1, int X2, int Y2);
+//void paintRectOutline(int X1, int Y1, int X2, int Y2);
 
-enum GUIMessage
+enum GUI1Message
 {
     GUIM_RENDER,
     GUIM_CHECK_MOUSEOVER,
@@ -15,7 +18,7 @@ enum GUIMessage
 };
 
 
-class GUIobj
+class GUI1obj
 {
     public:
     vec2i pos;
@@ -23,15 +26,15 @@ class GUIobj
     color3i color;
 	color3i color2;
     int counter;
-	GUIobj *parent;
+	GUI1obj *parent;
 	void *GUIM;
     bool mouseOver;
     listNode children;
 	int strata;
-    GUIobj();
+    GUI1obj();
     virtual void render();
 	virtual void onClick(int mb);
-	virtual ~GUIobj();
+	virtual ~GUI1obj();
 	virtual void keyDown(int kb);
 	virtual void keyUp(int kb);
 	virtual void invalidate();
@@ -40,28 +43,28 @@ class GUIobj
 
 
 
-class GUIManager //manages windows and controlls, their allocation and message passing
+class GUI1Manager //manages windows and controlls, their allocation and message passing
 {
     public:
 	
-	GUIobj *focus;
-	GUIobj *lastClick;
+	GUI1obj *focus;
+	GUI1obj *lastClick;
 	
     //render tree
-    GUIManager();
-    void activate(GUIobj* it);
-    void remove(GUIobj* curObj, GUIobj* obj);
-	void axe(GUIobj* obj);
-    void render(GUIobj* obj);
-	bool checkMouseOver(GUIobj* obj, int x, int y);
-	void reposition(GUIobj* obj, vec2i pos1, vec2i pos2);
-	void click(GUIobj* obj, int mb);
+    GUI1Manager();
+    void activate(GUI1obj* it);
+    void remove(GUI1obj* curObj, GUI1obj* obj);
+	void axe(GUI1obj* obj);
+    void render(GUI1obj* obj);
+	bool checkMouseOver(GUI1obj* obj, int x, int y);
+	void reposition(GUI1obj* obj, vec2i pos1, vec2i pos2);
+	void click(GUI1obj* obj, int mb);
 	void keyboard(int kb);
     void input();
     listNode Root;
 };
 
-class GUIbutton: public GUIobj
+class GUI1button: public GUI1obj
 {
 	public:
 	void (*func)(void*);
@@ -69,38 +72,38 @@ class GUIbutton: public GUIobj
 	string text;
 	bool pressed;
 	color3i textcolor;
-	GUIbutton();
+	GUI1button();
 	void onClick(int mb);
 	void render();
 };
 
-class GUIframe: public GUIobj
+class GUI1frame: public GUI1obj
 {
 	public:
 	vec2i dragStart;
 	vec2i oldpos;
 	bool dragging;
-	GUIbutton *myButton;
+	GUI1button *myButton;
 	static void btnClose_wrapper(void* me);
 	
 	void btnClose();
-	GUIframe();
-	~GUIframe();
+	GUI1frame();
+	~GUI1frame();
 	void invalidate();
 	void onClick(int mb);
 	void render();
 };
 
-class GUItextEntry: public GUIobj
+class GUI1textEntry: public GUI1obj
 {
 	public:
 	color3i textColor;
 	string text;
 	void *font;
 	bool hasFocus;
-	GUItextEntry();
+	GUI1textEntry();
 	void render();
 	void onClick(int mb);
 	void keyDown(int kb);
 };
-
+#endif

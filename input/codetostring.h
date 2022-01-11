@@ -7,13 +7,13 @@ struct VK
 	unsigned char code;
 	string name;
 };
-VK *VKshift;
-VK *VKtable;
+extern VK *VKshift;
+extern VK *VKtable;
 
 string VKtoString(unsigned char code);
 
 
-struct WMArray {
+extern struct WMArray {
  UINT Code;
  char Message[100];
 } *waWMArray;

@@ -35,8 +35,8 @@ PSchannel GUI_PS;
 
 //GUIManager GUIM;
 
-GUIbase *GUI;
-GUIframe *myFrame;
+GUI2base *GUI;
+GUI2frame *myFrame;
 //model *myModel;
 vec SomeVec1; //cam pos.
 vec SomeVec2;
@@ -130,88 +130,88 @@ void sendMsg1(void* arg)
 void OpenMenu1()
 {	
 	//myModel = NULL;
-	myFrame = new GUIframe;
+	myFrame = new GUI2frame;
 	myFrame->setPos(0,0);
 	myFrame->setSize(256,512);
 	myFrame->title = "Frame 1";
 	myFrame->setParent(GUI);
 	
-	GUIframe* myFrame2 = new GUIframe;
+	GUI2frame* myFrame2 = new GUI2frame;
 	myFrame2->setPos(0,0);
 	myFrame2->setSize(96,96);
 	myFrame2->title = "Frame 2";
-	myFrame2->setParent((GUIbase*)myFrame);
+	myFrame2->setParent((GUI2base*)myFrame);
 	
 	
-	GUIbutton* Button = new GUIbutton;
+	GUI2button* Button = new GUI2button;
 	Button->pos.x = 200;
 	Button->pos.y = 64;
 	Button->size.x = 64;
 	Button->size.y = 64;
 	Button->color_panel = {0,64,255};
-	Button->setParent((GUIbase*)myFrame2);
+	Button->setParent((GUI2base*)myFrame2);
 	
-	GUIlabel* Label = new GUIlabel;
+	GUI2label* Label = new GUI2label;
 	Label->pos = {4,32};
 	Label->size = {256-8,128-34};
-	Label->setParent((GUIbase*)myFrame2);
+	Label->setParent((GUI2base*)myFrame2);
    
-	GUItextEntry* Text = new GUItextEntry;
+	GUI2textEntry* Text = new GUI2textEntry;
 	Text->pos = {4, 128};
-	Text->setParent((GUIbase*)myFrame);
+	Text->setParent((GUI2base*)myFrame);
 	
-	GUIcheckbox* check = new GUIcheckbox;
+	GUI2checkbox* check = new GUI2checkbox;
 	check->pos = {4,196};
-	check->setParent((GUIbase*)myFrame);
+	check->setParent((GUI2base*)myFrame);
 	
-	GUIspinner* spin = new GUIspinner;
+	GUI2spinner* spin = new GUI2spinner;
 	spin->pos = {4, 154};
 	//spin->vals = {-10,0,10,3};
 	spin->vals[0]=-10;spin->vals[1]=0;spin->vals[2]=10;spin->vals[3]=3;
-	spin->setParent((GUIbase*)myFrame);
+	spin->setParent((GUI2base*)myFrame);
 	
-	GUIradiobutton* radio1 = new GUIradiobutton;
+	GUI2radiobutton* radio1 = new GUI2radiobutton;
 	radio1->pos = {4,256};
-	radio1->setParent((GUIbase*)myFrame);
+	radio1->setParent((GUI2base*)myFrame);
 	
-	GUIradiobutton* radio2 = new GUIradiobutton;
+	GUI2radiobutton* radio2 = new GUI2radiobutton;
 	radio2->pos = {32,256};
-	radio2->setParent((GUIbase*)myFrame);
+	radio2->setParent((GUI2base*)myFrame);
 	
-	GUIradiogroup* group = new GUIradiogroup;
+	GUI2radiogroup* group = new GUI2radiogroup;
 	group->addButton((void*)radio1);
 	group->addButton((void*)radio2);
 	
-	GUIlistbox* list = new GUIlistbox;
+	GUI2listbox* list = new GUI2listbox;
 	list->addOption("pony",NULL,NULL);
 	list->addOption("cupcake",NULL,NULL);
 	list->addOption("shipping",NULL,NULL);
 	list->setPos(4,290);
-	list->setParent((GUIbase*)myFrame);
+	list->setParent((GUI2base*)myFrame);
 	
-	GUIdropdownlist* ddlist = new GUIdropdownlist;
+	GUI2dropdownlist* ddlist = new GUI2dropdownlist;
 	ddlist->addOption("Pinkie", NULL,NULL);
 	ddlist->addOption("Rainbow", NULL,NULL);
 	ddlist->addOption("Applejack", NULL,NULL);
 	ddlist->setPos(96,290);
-	ddlist->setParent((GUIbase*)myFrame);
+	ddlist->setParent((GUI2base*)myFrame);
 	
-	GUIslider* slide = new GUIslider;
+	GUI2slider* slide = new GUI2slider;
 	slide->setPos(4,400);
-	slide->setParent((GUIbase*)myFrame);
+	slide->setParent((GUI2base*)myFrame);
 	
-	GUIcolorbox* cbox = new GUIcolorbox;
+	GUI2colorbox* cbox = new GUI2colorbox;
 	cbox->setPos(4,430);
-	cbox->setParent((GUIbase*)myFrame);
+	cbox->setParent((GUI2base*)myFrame);
 	
-	GUIbutton* btn1 = new GUIbutton;
+	GUI2button* btn1 = new GUI2button;
 	btn1->setPos(16,32);
 	btn1->setSize(64,64);
 	btn1->func = &sendMsg1;
 	btn1->arg = (void *)btn1;
 	btn1->setParent(myFrame);
 
-	GUIbutton* btn2 = new GUIbutton;
+	GUI2button* btn2 = new GUI2button;
 	btn2->setPos(16+64,32);
 	btn2->setSize(64,64);
 	btn2->func = &sendMsg1;
@@ -221,38 +221,38 @@ void OpenMenu1()
 
 void OpenVals()
 {
-	GUIframe* valframe = new GUIframe;
+	GUI2frame* valframe = new GUI2frame;
 	valframe->setSize(256,256);
 	valframe->setPos(768,32);
 	valframe->setParent(GUI);
 	
-	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
+	GUI2valuedisplay* valx = new GUI2valuedisplay;	GUI2valuedisplay* val2x = new GUI2valuedisplay;
 	valx->setPos(0,32);								val2x->setPos(128,32);
 	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&CamAngTest.w);
 	valx->mode = 'f';								val2x->mode = 'f';
 	valx->setParent(valframe);						val2x->setParent(valframe);
 	
-	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
+	GUI2valuedisplay* valy = new GUI2valuedisplay;	GUI2valuedisplay* val2y = new GUI2valuedisplay;
 	valy->setPos(0,64);								val2y->setPos(128,64);
 	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&CamAngTest.v.x);
 	valy->mode = 'f';								val2y->mode = 'f';
 	valy->setParent(valframe);						val2y->setParent(valframe);
 	
-	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
+	GUI2valuedisplay* valz = new GUI2valuedisplay;	GUI2valuedisplay* val2z = new GUI2valuedisplay;
 	valz->setPos(0,96);								val2z->setPos(128,96);
 	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&CamAngTest.v.y);
 	valz->mode = 'f';								val2z->mode = 'f';
 	valz->setParent(valframe);						val2z->setParent(valframe);
 	
-	GUIvaluedisplay* valmx = new GUIvaluedisplay;	GUIvaluedisplay* val2my = new GUIvaluedisplay;
+	GUI2valuedisplay* valmx = new GUI2valuedisplay;	GUI2valuedisplay* val2my = new GUI2valuedisplay;
 	valmx->setPos(0,128);							val2my->setPos(128,128);
-	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&CamAngTest.v.z);
+	valmx->val = (void*)(&CamAngle.v.z);			val2my->val = (void*)(&CamAngTest.v.z);
 	valmx->mode = 'f';								val2my->mode = 'f';
 	valmx->setParent(valframe);						val2my->setParent(valframe);
 	
-	GUIvaluedisplay* valdmx = new GUIvaluedisplay;	GUIvaluedisplay* val2dmy = new GUIvaluedisplay;
-	valdmx->setPos(0,128+32);							val2dmy->setPos(128,128+32);
-	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&Camnorm);
+	GUI2valuedisplay* valdmx = new GUI2valuedisplay;GUI2valuedisplay* val2dmy = new GUI2valuedisplay;
+	valdmx->setPos(0,128+32);						val2dmy->setPos(128,128+32);
+	valdmx->val = (void*)(&deltaMouse.x);			val2dmy->val = (void*)(&Camnorm);
 	valdmx->mode = 'd';								val2dmy->mode = 'f';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
@@ -372,7 +372,7 @@ void OnProgramStart()
 
 	
 	
-	GUI = new GUIbase;
+	GUI = new GUI2base;
 	GUI->setPos(0,0);
 	GUI->setSize(1024,1024);
 	GUI->recalculateClientRect();
@@ -402,6 +402,7 @@ void OnProgramStart()
 	confuncs["backwardonce"] = camBack;
 	KeyBinds["esc"] = "camera_mouse_capture 0";
 	bindtests();
+	camInit();
 	scene.push_back(new point({0,0,0}));
 	
 	scene.push_back(new floatingtext({0,1,0},"R"));
@@ -420,15 +421,15 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "96";
-	string vdate = " of 28th June 2014";
+	string vnumber = "97";
+	string vdate = " of 1st February 2015"; //" of 28th June 2014";
 	twidth = printw(32,32,-1,-1,version+vnumber+vdate);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
     vec4i windowrect = {0,0,(int)width,(int)height};
 	
-	GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
-	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
+	GUI2base::propagateMouseOver(GUI,(void*)(pack), 0);
+	GUI2base::propagateRender(GUI,(void*)(&windowrect),0);
 	
 	//GUI3rendertick();
 	
@@ -511,7 +512,7 @@ class BinderKind: public PSsubscriber{
 
 void ProcessMouseclick(int mb)
 {
-   if(!GUIbase::propagateClick(GUI,(void*)(&mb),0))
+   if(!GUI2base::propagateClick(GUI,(void*)(&mb),0))
    {
 		printf("mb = %d\n",mb);
 		if(mb==1){

@@ -13,7 +13,7 @@ class texture
 	~texture();
 };
 texture notexture();
-vector<texture> AllTextures;
+extern vector<texture> AllTextures;
 texture textureGet(string name);
 GLuint LoadTextureRAW(const char *filename, int wrap);
 static bool texture_load_pixelated;

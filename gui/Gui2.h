@@ -13,14 +13,14 @@ using std::string;
 extern color3i paintColor; //???
 extern byte paintAlpha;
 extern vec2i mouseP; // mid-man variable for extra GUI's
-void setColor(color3i color);
-void setAlpha(byte alpha);
+//void setColor(color3i color);
+//void setAlpha(byte alpha);
 
-class GUIbase: public PSsubscriber
+class GUI2base: public PSsubscriber
 {
 	public:
 	listNode* children;
-	GUIbase* parent;
+	GUI2base* parent;
 	vec2i pos;
 	vec2i size;
 	vec4i crect; //client area rect
@@ -46,7 +46,7 @@ class GUIbase: public PSsubscriber
 	string tag;
 	void (*think)(void*); //think func, different for each window
 	
-	GUIbase();
+	GUI2base();
 	virtual void setPos(int x, int y);
 	virtual void setSize(int x, int y);
 	virtual void setdock(bool up, bool down, bool left, bool right);
@@ -63,44 +63,44 @@ class GUIbase: public PSsubscriber
 	void scissorCheck(void* arg);
 	virtual void render(void* arg);
 	
-	static bool foreach(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec);
+	static bool foreach(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec);
 	
-	static bool foreachbackwards_check(listNode* Cur, int (*func)(GUIbase*, void*, int), void* arg, int rec);
-	static bool foreachbackwards(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec);
-	virtual void setParent(GUIbase* obj);
-	GUIbase* findByTag(string tag);
-	static void addChild(GUIbase* parent, GUIbase* obj);
-	static int wrapInvalidate(GUIbase* obj, void* arg, int rec);
-	static int propagateMouseOver(GUIbase* obj, void* arg, int rec);
-	static GUIbase* lastClicked; //I hope you won't need to click two things at once.
-	static GUIbase* focus;
+	static bool foreachbackwards_check(listNode* Cur, int (*func)(GUI2base*, void*, int), void* arg, int rec);
+	static bool foreachbackwards(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec);
+	virtual void setParent(GUI2base* obj);
+	GUI2base* findByTag(string tag);
+	static void addChild(GUI2base* parent, GUI2base* obj);
+	static int wrapInvalidate(GUI2base* obj, void* arg, int rec);
+	static int propagateMouseOver(GUI2base* obj, void* arg, int rec);
+	static GUI2base* lastClicked; //I hope you won't need to click two things at once.
+	static GUI2base* focus;
 	static int propagateKeyboard(string kb);
-	static int propagateClick(GUIbase* obj, void* arg, int rec);
-	static void fixstrata(GUIbase* obj);
-	static int propagateRender(GUIbase* obj, void* arg, int rec);
-	~GUIbase();
+	static int propagateClick(GUI2base* obj, void* arg, int rec);
+	static void fixstrata(GUI2base* obj);
+	static int propagateRender(GUI2base* obj, void* arg, int rec);
+	~GUI2base();
 };
 
-class GUIbutton: public GUIbase
+class GUI2button: public GUI2base
 {
 	public:
 	void (*func)(void*);
 	void* arg;
 	string text;
 	GLuint image;
-	GUIbutton();
+	GUI2button();
 	void onClick(int mb);
 	void setImage(string path);
 	void render(void *arg);
 };
 
-class GUIframe: public GUIbase
+class GUI2frame: public GUI2base
 {
 	public:
 	string title;
-	GUIbutton* CloseButton;
+	GUI2button* CloseButton;
 	static void btnClose(void* arg);
-	GUIframe();
+	GUI2frame();
 	void invalidate(vec2i newPos, vec2i newSize);
 	
 	
@@ -108,15 +108,15 @@ class GUIframe: public GUIbase
 	void render(void* arg);
 };
 
-class GUIlabel: public GUIbase
+class GUI2label: public GUI2base
 {
 	public:
 	string text;
-	GUIlabel();
+	GUI2label();
 	void render(void* arg);
 };
 
-class GUItextEntry: public GUIbase
+class GUI2textEntry: public GUI2base
 {
 	public:
 	string text;
@@ -124,68 +124,68 @@ class GUItextEntry: public GUIbase
 	bool sizeToContents;
 	void (*callback)(void*);
 	void* arg;
-	GUItextEntry();
+	GUI2textEntry();
 	void render(void* arg);
 	void onKeyboard(string kb);
 };
 
-class GUIcheckbox: public GUIbase
+class GUI2checkbox: public GUI2base
 {
 	public:
 	bool checked;
 	void (*func)(void*);
-	GUIcheckbox();
+	GUI2checkbox();
 	
 	void onClick(int mb);
 	void render(void* arg);
 };
 
-class GUIradiogroup
+class GUI2radiogroup
 {
 	public:
 	void *buttons[32];
 	int selection;
-	GUIradiogroup();
+	GUI2radiogroup();
 	void checkButton(void *btn);
 	void addButton(void *btn);
 };
 
-class GUIradiobutton: public GUIbase
+class GUI2radiobutton: public GUI2base
 {
 	public:
 	bool checked;
-	GUIradiogroup* group;
-	GUIradiobutton();
+	GUI2radiogroup* group;
+	GUI2radiobutton();
 	void onClick(int mb);
 	void render(void* arg);
 };
-class GUIspinner: public GUIbase
+class GUI2spinner: public GUI2base
 {
 	public:
 	double vals[5];// min - cur - max - speed - precision
-	GUIbutton* btnUp;
-	GUIbutton* btnDown;
+	GUI2button* btnUp;
+	GUI2button* btnDown;
 	void (*func)(void*);
 	void* arg;
 	string text;
 	
 	static void fUp(void* arg);
 	static void fDown(void* arg);
-	GUIspinner();
+	GUI2spinner();
 	void setVals(double a,double b,double c,double d,double e);
 	void invalidate(vec2i newPos, vec2i newSize);
 	void render(void* arg);
 };
 
-class GUIlistbox: public GUIbase
+class GUI2listbox: public GUI2base
 {
 	public:
-	GUIbutton* sel[32];
+	GUI2button* sel[32];
 	int selected;
 	string selText;
 	void (*callback)(void*);
 	void* callarg;
-	GUIlistbox();
+	GUI2listbox();
 	static void wrapFunc(void* arg);
 	void addOption(string text, void (*func)(void*), void* arg);
 	void render(void* arg);
@@ -193,28 +193,28 @@ class GUIlistbox: public GUIbase
 	void invalidate(vec2i newPos, vec2i newSize);
 };
 
-class GUIdropdownlist: public GUIbase
+class GUI2dropdownlist: public GUI2base
 {
 	public:
-	GUIlistbox* list;
-	GUIbutton* btn;
+	GUI2listbox* list;
+	GUI2button* btn;
 	string text;
 	bool open;
 	static void showList(void* arg);
 	static void setCurOption(void* arg);
-	GUIdropdownlist();
+	GUI2dropdownlist();
 	void addOption(string text, void (*func)(void*), void* arg);
 	void render(void* arg);
 	void invalidate(vec2i newPos, vec2i newSize);
 };
 
-class GUIslider: public GUIbase
+class GUI2slider: public GUI2base
 {
 	public:
 	//double vals[3];
 	vector<double> vals;
 	bool sliding;
-	GUIslider();
+	GUI2slider();
 	void render(void *arg);
 	void onClick(int mb);
 	void updateSlider();
@@ -225,7 +225,7 @@ class GUIslider: public GUIbase
 vec3i RGBtoHSV(vec3i RGB);
 vec3i HSVtoRGB(vec3i HSV);
 
-class GUIcolorbox: public GUIbase
+class GUI2colorbox: public GUI2base
 {
 	public:
 	vec3i colorHSV;
@@ -235,52 +235,52 @@ class GUIcolorbox: public GUIbase
 	vec3i colLD;
 	vec3i colRD;
 	vec2i cursor;
-	GUIcolorbox();
+	GUI2colorbox();
 	void onClick(int mb);
 	void render(void *arg);
 };
 
-class GUIvaluedisplay:public GUIbase
+class GUI2valuedisplay:public GUI2base
 {
 	public:
 	void *val;
 	char mode;
 	int precision;
 	char str[256];
-	GUIvaluedisplay();
+	GUI2valuedisplay();
 	void render(void *arg);
 };
 
-class GUIImage:public GUIbase
+class GUI2Image:public GUI2base
 {
 	public:
 	GLuint ImageTex;
-	GUIImage();
+	GUI2Image();
 	void setImage(char *path);
 	void render(void *arg);
 };
 
-class GUIscrollslidey:public GUIbase
+class GUI2scrollslidey:public GUI2base
 {
 	public:
 	void (*callback)(void*);
 	void* arg;
 	bool vertical;
-	GUIscrollslidey();
+	GUI2scrollslidey();
 	void onClick(int mb);
 	void dragCheck();
 	void moveupdown(int dist);
 	void render(void *arg);
 };
 
-class GUIscrollBar:public GUIbase
+class GUI2scrollBar:public GUI2base
 {
 	public:
 	bool vertical;
-	GUIbutton *btnup;
-	GUIbutton *btndn;
-	GUIbutton *track;
-	GUIscrollslidey *slidey;
+	GUI2button *btnup;
+	GUI2button *btndn;
+	GUI2button *track;
+	GUI2scrollslidey *slidey;
 	vec2i insideSize;
 	vec2i sizeOff;
 	float Amin; //slider position
@@ -289,10 +289,10 @@ class GUIscrollBar:public GUIbase
 	static void btnupFunc(void *arg);
 	static void btndnFunc(void *arg);
 	static void updateBar(void *arg);
-	static int propagateScroll(GUIbase* obj, void* arg, int rec);
+	static int propagateScroll(GUI2base* obj, void* arg, int rec);
 	void setSize(int x, int y);
-	GUIscrollBar();
-	void setParent(GUIbase* obj);
+	GUI2scrollBar();
+	void setParent(GUI2base* obj);
 	void invalidate(vec2i newPos, vec2i newSize);
 	void render(void *arg);
 };

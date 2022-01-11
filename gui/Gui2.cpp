@@ -8,16 +8,16 @@
 #include "../display/paint.h"
 #include "../resource/fonts.h"
 #include "../resource/textureloader.h"
-#define GUI2_GUARD
 #include "../main/control.h" //bad
 
 using std::string;
 
 //#include "paint.h"
 
-color3i paintColor;
-byte paintAlpha;
+//color3i paintColor;
+//byte paintAlpha;
 vec2i mouseP; // mid-man variable for extra GUI's
+/*
 void setColor(color3i color)
 {
 	paintColor = color;
@@ -27,10 +27,10 @@ void setAlpha(byte alpha)
 {
 	paintAlpha = alpha;
 	glColor4f(paintColor.r/255.0f,paintColor.g/255.0f,paintColor.b/255.0f,paintAlpha/255.0f);
-}
-GUIbase* GUIbase::lastClicked = NULL; //I hope you won't need to click two things at once.
-GUIbase* GUIbase::focus = NULL; //wtfffff
-GUIbase::GUIbase(){
+}*/
+GUI2base* GUI2base::lastClicked = NULL; //I hope you won't need to click two things at once.
+GUI2base* GUI2base::focus = NULL; //wtfffff
+GUI2base::GUI2base(){
 		pos = size = {0,0};
 		crect = {0,0,0,0};
 		color_border = color_text = {0,0,0};
@@ -62,16 +62,16 @@ GUIbase::GUIbase(){
 		tag = "";
 		think = NULL;
 }
-void GUIbase::setPos(int x, int y){
+void GUI2base::setPos(int x, int y){
 		invalidate((vec2i){x,y},size);
 		setdock(dockup,dockdown,dockleft,dockright);
 }
-void GUIbase::setSize(int x, int y)
+void GUI2base::setSize(int x, int y)
 {
 	invalidate(pos, (vec2i){x,y});
 	setdock(dockup,dockdown,dockleft,dockright);
 }
-void GUIbase::setdock(bool up, bool down, bool left, bool right)
+void GUI2base::setdock(bool up, bool down, bool left, bool right)
 {
 
 	dockup = up;
@@ -89,7 +89,7 @@ void GUIbase::setdock(bool up, bool down, bool left, bool right)
 
 }
 
-void GUIbase::dockCheck()
+void GUI2base::dockCheck()
 {
 	if(!(dockup||dockdown||dockleft||dockright)){return;}
 	if(parent)
@@ -105,7 +105,7 @@ void GUIbase::dockCheck()
 		//printf("-------------\n");
 	}
 }
-void GUIbase::onClick(int mb)
+void GUI2base::onClick(int mb)
 {
 	if(mb>0)
 	{
@@ -134,16 +134,16 @@ void GUIbase::onClick(int mb)
 	}
 	counter++;
 }
-void GUIbase::onKeyboard(string kb)
+void GUI2base::onKeyboard(string kb)
 {
 }
-void GUIbase::PSreceive(message msg){
+void GUI2base::PSreceive(message msg){
 	if(msg.type == "key_down" || msg.type == "key_still_down"){
 		propagateKeyboard(msg.str);
 	}
 }
 //void onKeyboard();
-void GUIbase::invalidate(vec2i newPos, vec2i newSize)
+void GUI2base::invalidate(vec2i newPos, vec2i newSize)
 {
 	//this one should also reposition children and stuff
 	vec2i sendPos = newPos-pos;//+newSize-size; and guess what happens when x is parented to y of size {0,0}?
@@ -156,14 +156,14 @@ void GUIbase::invalidate(vec2i newPos, vec2i newSize)
 	dockCheck();
 	foreach(this, &wrapInvalidate, (void*)(&sendPos), 0);
 }
-void GUIbase::recalculateClientRect()
+void GUI2base::recalculateClientRect()
 {
 	crect.x1 = pos.x+border;
 	crect.y1 = pos.y+border;
 	crect.x2 = pos.x+size.x-border;
 	crect.y2 = pos.y+size.y-border;
 }
-void GUIbase::resizeCheck()
+void GUI2base::resizeCheck()
 {
 	if(!pressed){return;}
 	vec2i newSize = size;
@@ -194,14 +194,14 @@ void GUIbase::resizeCheck()
 	}
 	invalidate(newPos, newSize);
 }
-void GUIbase::dragCheck()
+void GUI2base::dragCheck()
 {
 	if(dragging)
 	{
 		invalidate(mouseP-startTouch, size);
 	}
 }
-void GUIbase::scissorCheck(void* arg)
+void GUI2base::scissorCheck(void* arg)
 {
 	if(scissor)
 	{
@@ -210,7 +210,7 @@ void GUIbase::scissorCheck(void* arg)
 		glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
 	}
 }
-void GUIbase::render(void* arg)
+void GUI2base::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -228,7 +228,7 @@ void GUIbase::render(void* arg)
 	glDisable(GL_SCISSOR_TEST);
 }
 
-bool GUIbase::foreach(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec) 
+bool GUI2base::foreach(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec) 
 {
 	//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
 	// i couldn't think of saner way. sorry.
@@ -237,21 +237,21 @@ bool GUIbase::foreach(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg
 	listNode* Cur = obj->children;
 	while(Cur!=NULL)
 	{
-		if(Cur->thing){stop = stop+func((GUIbase*)Cur->thing, arg, rec+1);}
+		if(Cur->thing){stop = stop+func((GUI2base*)Cur->thing, arg, rec+1);}
 		Cur = Cur->next;
 		if(stop==1){Cur=NULL;}
 	}
 	return stop;
 }
 
-bool GUIbase::foreachbackwards_check(listNode* Cur, int (*func)(GUIbase*, void*, int), void* arg, int rec)
+bool GUI2base::foreachbackwards_check(listNode* Cur, int (*func)(GUI2base*, void*, int), void* arg, int rec)
 {
 	bool stop = 0;
 	if(Cur->next){stop = foreachbackwards_check(Cur->next, func, arg, rec+1);}
-	if(Cur->thing){return func((GUIbase*)Cur->thing, arg, rec+1)||stop;}
+	if(Cur->thing){return func((GUI2base*)Cur->thing, arg, rec+1)||stop;}
 	else return stop;
 }
-bool GUIbase::foreachbackwards(GUIbase* obj, int (*func)(GUIbase*, void*, int), void* arg, int rec) 
+bool GUI2base::foreachbackwards(GUI2base* obj, int (*func)(GUI2base*, void*, int), void* arg, int rec) 
 {
 	//calls func (3rd argument) upon all filled or all (arg2) children nodes of obj(arg1)
 	// i couldn't think of saner way. sorry.
@@ -259,30 +259,30 @@ bool GUIbase::foreachbackwards(GUIbase* obj, int (*func)(GUIbase*, void*, int), 
 	listNode* Cur = obj->children;
 	bool stop = 0;
 	if(Cur->next){stop = foreachbackwards_check(Cur->next, func, arg, rec+1);}
-	if(Cur->thing){return func((GUIbase*)Cur->thing, arg, rec+1)||stop;}
+	if(Cur->thing){return func((GUI2base*)Cur->thing, arg, rec+1)||stop;}
 	else return stop;
 }
-void GUIbase::setParent(GUIbase* obj)
+void GUI2base::setParent(GUI2base* obj)
 {
 	parent = obj;
 	parent->recalculateClientRect();
 	invalidate(pos+(vec2i){parent->crect.x1,parent->crect.y1}, size);
-	GUIbase::addChild(parent, this);
+	GUI2base::addChild(parent, this);
 }
-GUIbase* GUIbase::findByTag(string tag)
+GUI2base* GUI2base::findByTag(string tag)
 {
 	listNode* Cur = children;
 	while(Cur!=NULL)
 	{
 		if(Cur->thing)
 		{
-			if(((GUIbase*)(Cur->thing))->tag==tag){return ((GUIbase*)(Cur->thing));}
+			if(((GUI2base*)(Cur->thing))->tag==tag){return ((GUI2base*)(Cur->thing));}
 		}
 		Cur = Cur->next;
 	}
 	return NULL;
 }
-void GUIbase::addChild(GUIbase* parent, GUIbase* obj)
+void GUI2base::addChild(GUI2base* parent, GUI2base* obj)
 {
 	bool stop = false;
 	listNode* Cur = parent->children;
@@ -298,11 +298,11 @@ void GUIbase::addChild(GUIbase* parent, GUIbase* obj)
 		Cur = Cur->next;
 	}
 }
-int GUIbase::wrapInvalidate(GUIbase* obj, void* arg, int rec)
+int GUI2base::wrapInvalidate(GUI2base* obj, void* arg, int rec)
 {
 	obj->invalidate(*((vec2i*)arg)+obj->pos,obj->size);
 }
-int GUIbase::propagateMouseOver(GUIbase* obj, void* arg, int rec)
+int GUI2base::propagateMouseOver(GUI2base* obj, void* arg, int rec)
 {
 	vec2i mouse = ((vec2i*)arg)[0];
 	int x1,x2,y1,y2;
@@ -383,11 +383,11 @@ int GUIbase::propagateMouseOver(GUIbase* obj, void* arg, int rec)
 	}
 	return false;
 }
-int GUIbase::propagateKeyboard(string kb)
+int GUI2base::propagateKeyboard(string kb)
 {
 	if(focus!=NULL){focus->onKeyboard(kb);return 1;}else{return 0;}
 }
-int GUIbase::propagateClick(GUIbase* obj, void* arg, int rec)
+int GUI2base::propagateClick(GUI2base* obj, void* arg, int rec)
 {
 	int mb = *((int*)arg);
 	if(mb>0)
@@ -426,7 +426,7 @@ int GUIbase::propagateClick(GUIbase* obj, void* arg, int rec)
 	}
 	//its ok to have no return? What?
 }
-void GUIbase::fixstrata(GUIbase* obj)
+void GUI2base::fixstrata(GUI2base* obj)
 {
 	listNode* prevFirst = obj->parent->children;
 	listNode* prevThis = NULL;
@@ -446,7 +446,7 @@ void GUIbase::fixstrata(GUIbase* obj)
 	}
 	}
 }
-int GUIbase::propagateRender(GUIbase* obj, void* arg, int rec)
+int GUI2base::propagateRender(GUI2base* obj, void* arg, int rec)
 {
 	if(true) // temp: if(obj->visible)
 	{
@@ -468,7 +468,7 @@ int GUIbase::propagateRender(GUIbase* obj, void* arg, int rec)
 	}
 	return false;
 }
-GUIbase::~GUIbase()
+GUI2base::~GUI2base()
 {
 	listNode *Cur, *Prev;
 	Cur = parent->children;
@@ -505,28 +505,28 @@ GUIbase::~GUIbase()
 	//we're done with the tree.
 }
 
-GUIbutton::GUIbutton():GUIbase()
+GUI2button::GUI2button():GUI2base()
 {
 	func = NULL;
 	arg = NULL;
 	text = "";
 	image = 0;
 }
-void GUIbutton::onClick(int mb)
+void GUI2button::onClick(int mb)
 {
 	if((mb==0)&&mouseOver)
 	{
-		GUIbase::onClick(mb);
+		GUI2base::onClick(mb);
 		if(func)(func(arg));
 		printf("[%s]\n",toString(this).c_str());
 	}
 }
-void GUIbutton::setImage(string path)
+void GUI2button::setImage(string path)
 {
 	//ImageTex = LoadTextureRAW(path, 1);
 	image = GenTextureBMP(path).t;
 }
-void GUIbutton::render(void *arg)
+void GUI2button::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -547,31 +547,31 @@ void GUIbutton::render(void *arg)
 }
 
 
-void GUIframe::btnClose(void* arg)
+void GUI2frame::btnClose(void* arg)
 {
-	delete ((GUIframe*)arg);
+	delete ((GUI2frame*)arg);
 }
-GUIframe::GUIframe():GUIbase()
+GUI2frame::GUI2frame():GUI2base()
 {
 	title = "Title";
-	CloseButton = new GUIbutton();
+	CloseButton = new GUI2button();
 	CloseButton->func = &btnClose;
 	CloseButton->movable = false;
 	CloseButton->resizible = false;
 	CloseButton->scissor = false; //see we can't paint it outside client area and that's a problem.
 	CloseButton->setSize(24,24);
 	CloseButton->arg = (void*)this;
-	CloseButton->setParent((GUIbase*)this);
+	CloseButton->setParent((GUI2base*)this);
 	CloseButton->tag = "btnClose";
 }
-void GUIframe::invalidate(vec2i newPos, vec2i newSize)
+void GUI2frame::invalidate(vec2i newPos, vec2i newSize)
 {
-	GUIbase::invalidate(newPos, newSize);
+	GUI2base::invalidate(newPos, newSize);
 	CloseButton->setPos(pos.x+size.x-border-CloseButton->size.x,pos.y+border);
 }
 
 
-void GUIframe::recalculateClientRect()
+void GUI2frame::recalculateClientRect()
 {
 	crect.x1 = pos.x+border;
 	crect.y1 = pos.y+border+32;
@@ -579,7 +579,7 @@ void GUIframe::recalculateClientRect()
 	crect.y2 = pos.y+size.y-border;
 }
 
-void GUIframe::render(void* arg)
+void GUI2frame::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -598,7 +598,7 @@ void GUIframe::render(void* arg)
 	glDisable(GL_SCISSOR_TEST);
 }
 
-GUIlabel::GUIlabel():GUIbase()
+GUI2label::GUI2label():GUI2base()
 {
 	text = "label";
 	resizible = false;
@@ -606,7 +606,7 @@ GUIlabel::GUIlabel():GUIbase()
 	size.y = 22;
 	size.x = 256;
 }
-void GUIlabel::render(void* arg)
+void GUI2label::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -619,7 +619,7 @@ void GUIlabel::render(void* arg)
 }
 
 
-GUItextEntry::GUItextEntry():GUIbase()
+GUI2textEntry::GUI2textEntry():GUI2base()
 {
 	text = "Text entry";
 	resizible = false;
@@ -631,7 +631,7 @@ GUItextEntry::GUItextEntry():GUIbase()
 	color_text = {0,0,0};
 	sizeToContents = false;
 }
-void GUItextEntry::render(void* arg)
+void GUI2textEntry::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -650,7 +650,7 @@ void GUItextEntry::render(void* arg)
 	
 	glDisable(GL_SCISSOR_TEST);
 }
-void GUItextEntry::onKeyboard(string kb)
+void GUI2textEntry::onKeyboard(string kb)
 {
 	/*
 	if(kb<0){return;}
@@ -708,7 +708,7 @@ void GUItextEntry::onKeyboard(string kb)
 }
 
 
-GUIcheckbox::GUIcheckbox():GUIbase()
+GUI2checkbox::GUI2checkbox():GUI2base()
 {
 	checked = false;
 	resizible = false;
@@ -717,7 +717,7 @@ GUIcheckbox::GUIcheckbox():GUIbase()
 	func = NULL;
 }
 
-void GUIcheckbox::onClick(int mb)
+void GUI2checkbox::onClick(int mb)
 {
 	//GUIbase::onClick(mb);
 	if((mb==0)&&mouseOver)
@@ -726,7 +726,7 @@ void GUIcheckbox::onClick(int mb)
 		if(func){func((void*)&checked);}
 	}
 }
-void GUIcheckbox::render(void* arg)
+void GUI2checkbox::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -745,24 +745,24 @@ void GUIcheckbox::render(void* arg)
 }
 
 
-GUIradiogroup::GUIradiogroup()
+GUI2radiogroup::GUI2radiogroup()
 {
 	for(int I = 0;I<32;I++){buttons[I] = NULL;}
 	selection = 0;
 }
 
-GUIradiobutton::GUIradiobutton():GUIbase()
+GUI2radiobutton::GUI2radiobutton():GUI2base()
 {
 	checked = false;
 	resizible = false;
 	movable = false;
 	size = {16,16};
 }
-void GUIradiobutton::onClick(int mb)
+void GUI2radiobutton::onClick(int mb)
 {
 	if((mb==0)&&mouseOver&&(group!=NULL)){group->checkButton((void*)this);}
 }
-void GUIradiobutton::render(void* arg)
+void GUI2radiobutton::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -781,42 +781,42 @@ void GUIradiobutton::render(void* arg)
 	glDisable(GL_SCISSOR_TEST);
 }
 
-void GUIradiogroup::addButton(void *btn)
+void GUI2radiogroup::addButton(void *btn)
 {
-	((GUIradiobutton*)btn)->group = this;
+	((GUI2radiobutton*)btn)->group = this;
 	for(int I = 0;I<32;I++)
 	{
 		if(buttons[I]==NULL){buttons[I] = btn; return;}
 	}
 };
-void GUIradiogroup::checkButton(void *btn)
+void GUI2radiogroup::checkButton(void *btn)
 {
-	((GUIradiobutton*)btn)->checked = true;
+	((GUI2radiobutton*)btn)->checked = true;
 	for(int I = 0;I<32;I++)
 	{
 		if(buttons[I]!=NULL)
 		{
-			if(buttons[I] != btn){((GUIradiobutton*)(buttons[I]))->checked = false;}
+			if(buttons[I] != btn){((GUI2radiobutton*)(buttons[I]))->checked = false;}
 			else{selection = I+1;}
 		}
 	}
 };
 
-void GUIspinner::fUp(void* arg)
+void GUI2spinner::fUp(void* arg)
 {
-	double *vals = ((GUIspinner*)arg)->vals;
+	double *vals = ((GUI2spinner*)arg)->vals;
 	vals[1]+=vals[3];
 	if(vals[1]>vals[2]){vals[1]=vals[2];}
-	if(((GUIspinner*)arg)->func){((GUIspinner*)arg)->func(((GUIspinner*)arg)->arg);}
+	if(((GUI2spinner*)arg)->func){((GUI2spinner*)arg)->func(((GUI2spinner*)arg)->arg);}
 }
-void GUIspinner::fDown(void* arg)
+void GUI2spinner::fDown(void* arg)
 {
-	double *vals = ((GUIspinner*)arg)->vals;
+	double *vals = ((GUI2spinner*)arg)->vals;
 	vals[1]-=vals[3];
 	if(vals[1]<vals[0]){vals[1]=vals[0];}
-	if(((GUIspinner*)arg)->func){((GUIspinner*)arg)->func(((GUIspinner*)arg)->arg);}
+	if(((GUI2spinner*)arg)->func){((GUI2spinner*)arg)->func(((GUI2spinner*)arg)->arg);}
 }
-GUIspinner::GUIspinner():GUIbase()
+GUI2spinner::GUI2spinner():GUI2base()
 {
 	counter = 0;
 	size = {64,18};
@@ -826,36 +826,36 @@ GUIspinner::GUIspinner():GUIbase()
 	movable = false;
 	resizible = false;
 	func = NULL;
-	btnUp = new GUIbutton;
+	btnUp = new GUI2button;
 	btnUp->func = &fUp;
 	btnUp->arg = (void*)this;
 	btnUp->size = {18,9};
 	btnUp->resizible = false;
 	btnUp->pos = {size.x-18,0};
 	btnUp->text = "^";
-	btnUp->setParent((GUIbase*)this);
+	btnUp->setParent((GUI2base*)this);
 	
-	btnDown = new GUIbutton;
+	btnDown = new GUI2button;
 	btnDown->func = &fDown;
 	btnDown->arg = (void*)this;
 	btnDown->size = {18,9};
 	btnDown->resizible = false;
 	btnDown->pos = {size.x-18,9};
 	btnDown->text = "v";
-	btnDown->setParent((GUIbase*)this);
+	btnDown->setParent((GUI2base*)this);
 
 }
-void GUIspinner::setVals(double a,double b,double c,double d,double e)
+void GUI2spinner::setVals(double a,double b,double c,double d,double e)
 {
 	vals[0]=a;vals[1]=b;vals[2]=c;vals[3]=d;vals[4]=e;
 }
-void GUIspinner::invalidate(vec2i newPos, vec2i newSize)
+void GUI2spinner::invalidate(vec2i newPos, vec2i newSize)
 {
-	GUIbase::invalidate(newPos, newSize);
+	GUI2base::invalidate(newPos, newSize);
 	btnUp->setPos(pos.x+size.x-18,pos.y);
 	btnDown->setPos(pos.x+size.x-18,pos.y+9);
 }
-void GUIspinner::render(void* arg)
+void GUI2spinner::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -873,7 +873,7 @@ void GUIspinner::render(void* arg)
 }
 
 
-GUIlistbox::GUIlistbox():GUIbase()
+GUI2listbox::GUI2listbox():GUI2base()
 {
 	size = {96,64};
 	selected = 0;
@@ -886,7 +886,7 @@ GUIlistbox::GUIlistbox():GUIbase()
 		sel[I] = NULL;
 	}
 }
-void GUIlistbox::wrapFunc(void* arg)
+void GUI2listbox::wrapFunc(void* arg)
 {
 	//arg:
 	// 0 - I
@@ -894,7 +894,7 @@ void GUIlistbox::wrapFunc(void* arg)
 	// 2 - prev arg
 	// 3 - prev func
 	void** newArg = (void**)arg;
-	GUIlistbox* L = (GUIlistbox*)(newArg[1]);
+	GUI2listbox* L = (GUI2listbox*)(newArg[1]);
 	int I = *((int*)newArg[0]);
 	L->selected = I+1;
 	L->selText = L->sel[I]->text;
@@ -905,13 +905,13 @@ void GUIlistbox::wrapFunc(void* arg)
 		func(newArg[2]);
 	}
 }
-void GUIlistbox::addOption(string text, void (*func)(void*), void* arg)
+void GUI2listbox::addOption(string text, void (*func)(void*), void* arg)
 {
 	for(int I = 0;I<32;I++)
 	{
 		if(sel[I]==NULL)
 		{
-			sel[I] = new GUIbutton;
+			sel[I] = new GUI2button;
 			void** newArg = new void*[4];
 			int* aye;
 			aye = new int;
@@ -924,12 +924,12 @@ void GUIlistbox::addOption(string text, void (*func)(void*), void* arg)
 			sel[I]->arg = (void*)newArg;
 			sel[I]->text = text;
 			sel[I]->size = {size.x, 14};
-			sel[I]->setParent((GUIbase*)this);
+			sel[I]->setParent((GUI2base*)this);
 			return;
 		}
 	}
 }
-void GUIlistbox::render(void* arg)
+void GUI2listbox::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -945,9 +945,9 @@ void GUIlistbox::render(void* arg)
 	glDisable(GL_SCISSOR_TEST);
 }
 
-void GUIlistbox::invalidate(vec2i newPos, vec2i newSize)
+void GUI2listbox::invalidate(vec2i newPos, vec2i newSize)
 {
-	GUIbase::invalidate(newPos, newSize);
+	GUI2base::invalidate(newPos, newSize);
 	for(int I = 0; I<32;I++)
 	{
 		if(sel[I]!=NULL)
@@ -959,41 +959,41 @@ void GUIlistbox::invalidate(vec2i newPos, vec2i newSize)
 }
 
 
-void GUIdropdownlist::showList(void* arg)
+void GUI2dropdownlist::showList(void* arg)
 {
-	GUIdropdownlist *L = ((GUIdropdownlist*)arg);
+	GUI2dropdownlist *L = ((GUI2dropdownlist*)arg);
 	if(!L->open){L->setSize(L->size.x,96);}else{L->setSize(L->size.x,14);}
 	L->open = !L->open;
 }
-void GUIdropdownlist::setCurOption(void* arg)
+void GUI2dropdownlist::setCurOption(void* arg)
 {
-	GUIdropdownlist* dd = (GUIdropdownlist*)arg;
+	GUI2dropdownlist* dd = (GUI2dropdownlist*)arg;
 	dd->text = dd->list->selText;
 	showList(dd);
 }
-GUIdropdownlist::GUIdropdownlist():GUIbase()
+GUI2dropdownlist::GUI2dropdownlist():GUI2base()
 {
 	open = false;
 	movable = false;
 	resizible = false;
 	text = "";
 	size = {64,14};
-	list = new GUIlistbox;
+	list = new GUI2listbox;
 	list->callback = &setCurOption;
 	list->callarg = (void*)this;
-	list->setParent((GUIbase*)this);
-	btn = new GUIbutton;
+	list->setParent((GUI2base*)this);
+	btn = new GUI2button;
 	btn->func = &showList;
 	btn->arg = (void*)this;
 	btn->setSize(14,14);
 	btn->text = "<";
-	btn->setParent((GUIbase*)this);
+	btn->setParent((GUI2base*)this);
 }
-void GUIdropdownlist::addOption(string text, void (*func)(void*), void* arg)
+void GUI2dropdownlist::addOption(string text, void (*func)(void*), void* arg)
 {
 	list->addOption(text, func, arg);
 }
-void GUIdropdownlist::render(void* arg)
+void GUI2dropdownlist::render(void* arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1011,16 +1011,16 @@ void GUIdropdownlist::render(void* arg)
 	glDisable(GL_SCISSOR_TEST);
 }
 
-void GUIdropdownlist::invalidate(vec2i newPos, vec2i newSize)
+void GUI2dropdownlist::invalidate(vec2i newPos, vec2i newSize)
 {
-	GUIbase::invalidate(newPos, newSize);
+	GUI2base::invalidate(newPos, newSize);
 	btn->setPos(pos.x+size.x-14,pos.y);
 	list->setPos(pos.x,pos.y+14);
 	recalculateClientRect();
 }
 
 
-GUIslider::GUIslider():GUIbase()
+GUI2slider::GUI2slider():GUI2base()
 {
 	movable = false;
 	resizible = false;
@@ -1030,7 +1030,7 @@ GUIslider::GUIslider():GUIbase()
 	//vals[0]=-100;vals[1]=0;vals[2]=100;
 	sliding = false;
 }
-void GUIslider::render(void *arg)
+void GUI2slider::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1053,11 +1053,11 @@ void GUIslider::render(void *arg)
 	printw(pos.x+size.x,pos.y, size.x, size.y,"%f",vals[1]);
 	glDisable(GL_SCISSOR_TEST);
 }
-void GUIslider::onClick(int mb)
+void GUI2slider::onClick(int mb)
 {
 	sliding = mb;
 }
-void GUIslider::updateSlider()
+void GUI2slider::updateSlider()
 {
 	if(sliding)
 	{
@@ -1162,7 +1162,7 @@ vec3i HSVtoRGB(vec3i HSV)
 }
 
 
-GUIcolorbox::GUIcolorbox():GUIbase()
+GUI2colorbox::GUI2colorbox():GUI2base()
 {
 	movable = false;
 	resizible = false;
@@ -1175,7 +1175,7 @@ GUIcolorbox::GUIcolorbox():GUIbase()
 	colorRGB = {0,0,0};
 	cursor = {-1,-1};
 }
-void GUIcolorbox::onClick(int mb)
+void GUI2colorbox::onClick(int mb)
 {
 	if(mb>0)
 	{
@@ -1185,7 +1185,7 @@ void GUIcolorbox::onClick(int mb)
 		colorRGB = HSVtoRGB(colorHSV);
 	}
 }
-void GUIcolorbox::render(void *arg)
+void GUI2colorbox::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1225,7 +1225,7 @@ void GUIcolorbox::render(void *arg)
 }
 
 
-GUIvaluedisplay::GUIvaluedisplay():GUIbase()
+GUI2valuedisplay::GUI2valuedisplay():GUI2base()
 {
 	size = {128,32};
 	resizible = 0;
@@ -1234,7 +1234,7 @@ GUIvaluedisplay::GUIvaluedisplay():GUIbase()
 	val = NULL;
 	mode = 'd';
 }
-void GUIvaluedisplay::render(void *arg)
+void GUI2valuedisplay::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1274,19 +1274,19 @@ void GUIvaluedisplay::render(void *arg)
 
 
 
-GUIImage::GUIImage():GUIbase()
+GUI2Image::GUI2Image():GUI2base()
 {
 	movable = false;
 	resizible = false;
 	size = {256,256};
 	ImageTex = 0;
 }
-void GUIImage::setImage(char *path)
+void GUI2Image::setImage(char *path)
 {
 	//ImageTex = LoadTextureRAW(path, 1);
 	ImageTex = GenTextureBMP(path).t;
 }
-void GUIImage::render(void *arg)
+void GUI2Image::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1308,14 +1308,14 @@ void GUIImage::render(void *arg)
 }
 
 
-GUIscrollslidey::GUIscrollslidey():GUIbase()
+GUI2scrollslidey::GUI2scrollslidey():GUI2base()
 {
 	callback = NULL;
 	arg = NULL;
 	movable = true;
 	vertical = true;
 }
-void GUIscrollslidey::onClick(int mb)
+void GUI2scrollslidey::onClick(int mb)
 {
 	if(mb==1)
 	{
@@ -1326,7 +1326,7 @@ void GUIscrollslidey::onClick(int mb)
 	}
 	else{dragging = 0;}
 }
-void GUIscrollslidey::dragCheck()
+void GUI2scrollslidey::dragCheck()
 {
 	
 	if(dragging)
@@ -1346,7 +1346,7 @@ void GUIscrollslidey::dragCheck()
 		}	
 	}
 }
-void GUIscrollslidey::moveupdown(int dist)
+void GUI2scrollslidey::moveupdown(int dist)
 {
 	vec2i newPos = {pos.x+dist, pos.y+dist};
 	if(vertical){newPos.x = pos.x;}else{newPos.y=pos.y;}
@@ -1362,7 +1362,7 @@ void GUIscrollslidey::moveupdown(int dist)
 		callback(arg);
 	}	
 }
-void GUIscrollslidey::render(void *arg)
+void GUI2scrollslidey::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();
@@ -1396,17 +1396,17 @@ void invalidate(vec2i newPos, vec2i newSize)
 */
 
 
-void GUIscrollBar::btnupFunc(void *arg){
-	GUIscrollBar* S = (GUIscrollBar*)arg;
+void GUI2scrollBar::btnupFunc(void *arg){
+	GUI2scrollBar* S = (GUI2scrollBar*)arg;
 	S->slidey->moveupdown(-S->slidey->size.y/2);
 }
-void GUIscrollBar::btndnFunc(void *arg){
-	GUIscrollBar* S = (GUIscrollBar*)arg;
+void GUI2scrollBar::btndnFunc(void *arg){
+	GUI2scrollBar* S = (GUI2scrollBar*)arg;
 	S->slidey->moveupdown(S->slidey->size.y/2);
 }
-void GUIscrollBar::updateBar(void *arg)
+void GUI2scrollBar::updateBar(void *arg)
 {
-	GUIscrollBar* S = (GUIscrollBar*)arg;
+	GUI2scrollBar* S = (GUI2scrollBar*)arg;
 	
 	if(S->vertical)
 	{
@@ -1414,12 +1414,12 @@ void GUIscrollBar::updateBar(void *arg)
 		//S->Amax = ((float)(S->slidey->pos.y-S->track->pos.y+S->slidey->size.y+1))/((float)(S->track->size.y));
 	}
 	printf("Scroll: %f to %f ", S->Amin,S->Amax);
-	foreach((GUIbase*)arg,&propagateScroll,arg,0);//'this' and 'arg' are NOT the same down the line.
+	foreach((GUI2base*)arg,&propagateScroll,arg,0);//'this' and 'arg' are NOT the same down the line.
 	printf(" *\n");
 }
-int GUIscrollBar::propagateScroll(GUIbase* obj, void* arg, int rec)
+int GUI2scrollBar::propagateScroll(GUI2base* obj, void* arg, int rec)
 {
-	GUIscrollBar *S = (GUIscrollBar*)arg;
+	GUI2scrollBar *S = (GUI2scrollBar*)arg;
 	if((obj!=S->btnup)&&(obj!=S->btndn)&&(obj!=S->track))
 	{
 		vec2i newPos = obj->pos;
@@ -1440,14 +1440,14 @@ int GUIscrollBar::propagateScroll(GUIbase* obj, void* arg, int rec)
 		obj->setPos(newPos.x,newPos.y);
 	}
 }
-void GUIscrollBar::setSize(int x, int y)
+void GUI2scrollBar::setSize(int x, int y)
 {
 	vec2i newSize = {x,y};
 	if(parent){sizeOff = parent->size-newSize;}
 	invalidate(pos, newSize);
 	printf("newSize = {%d, %d}\n", newSize.x, newSize.y);
 }
-GUIscrollBar::GUIscrollBar():GUIbase()
+GUI2scrollBar::GUI2scrollBar():GUI2base()
 {
 	movable = false;
 	resizible = false;
@@ -1459,21 +1459,21 @@ GUIscrollBar::GUIscrollBar():GUIbase()
 	Amin = 0.0;
 	Amax = 0.5;
 	Aoffset = 0;
-	btnup = new GUIbutton;
+	btnup = new GUI2button;
 	btnup->setSize(16,16);
 	btnup->text = "^";
 	btnup->scissor = false;
 	btnup->func = btnupFunc;
 	btnup->arg = (void*)this;
 	
-	btndn = new GUIbutton;
+	btndn = new GUI2button;
 	btndn->setSize(16,16);
 	btndn->text = "v";
 	btndn->func = btndnFunc;
 	btndn->arg = (void*)this;
 	btndn->scissor = false; //for the future - use intrinsic children who use parent's scissor rect.
 							//or, make "false scissor" do that...
-	track = new GUIbutton;
+	track = new GUI2button;
 	track->scissor = false;
 	color3i darken = {-64,-64,-64};
 	track->color_panel.r *= 3;// + darken;
@@ -1484,7 +1484,7 @@ GUIscrollBar::GUIscrollBar():GUIbase()
 	track->color_panel.b /= 4;// + darken;
 	
 	
-	slidey = new GUIscrollslidey;
+	slidey = new GUI2scrollslidey;
 	slidey->setSize(16,32);
 	slidey->scissor = false;
 	slidey->callback = &updateBar;
@@ -1496,17 +1496,17 @@ GUIscrollBar::GUIscrollBar():GUIbase()
 	slidey->setParent(track);
 	slidey->setPos(track->pos.x,track->pos.y);
 }
-void GUIscrollBar::setParent(GUIbase* obj)
+void GUI2scrollBar::setParent(GUI2base* obj)
 {
 	parent = obj;
 	parent->recalculateClientRect();
 	sizeOff = parent->size-size;
 	printf("1 Psize = %d, size = %d, sizeOff = %d\n",parent->size.x, size.x, sizeOff.x);
 	invalidate(pos+(vec2i){parent->crect.x1,parent->crect.y1}, size);
-	GUIbase::addChild(parent, this);
+	GUI2base::addChild(parent, this);
 	printf("2 Psize = %d, size = %d, sizeOff = %d\n",parent->size.x, size.x, sizeOff.x);
 }
-void GUIscrollBar::invalidate(vec2i newPos, vec2i newSize)
+void GUI2scrollBar::invalidate(vec2i newPos, vec2i newSize)
 {
 	//this one should also reposition children and stuff
 	vec2i sendPos = newPos-pos;//+newSize-size; and guess what happens when x is parented to y of size {0,0}?
@@ -1543,7 +1543,7 @@ void GUIscrollBar::invalidate(vec2i newPos, vec2i newSize)
 	}
 	
 }
-void GUIscrollBar::render(void *arg)
+void GUI2scrollBar::render(void *arg)
 {
 	resizeCheck();
 	dragCheck();

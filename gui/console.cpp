@@ -2,7 +2,7 @@
 #include "../main/control.h" //bad
 #include "../resource/textureloader.h"
 #include "../game/physics.h"
-GUIframe *Console;
+GUI2frame *Console;
 
 int ConsoleNumLines = 0;
 struct concommand
@@ -21,7 +21,7 @@ void ConsoleParse(string text)
 	
 	if(Console!=NULL)
 	{
-		GUIlabel *L = (GUIlabel*)(Console->findByTag("Scroll")->findByTag("Text"));
+		GUI2label *L = (GUI2label*)(Console->findByTag("Scroll")->findByTag("Text"));
 		if(L==NULL){printf("can't findByTag(Text)\n");}
 		//printf("adding text <%s> to <%s>\n",text.c_str(), L->text.c_str());	
 		L->text += '\n';
@@ -52,7 +52,7 @@ void ParseCommand(string inputString)
 }
 void MenuConsoleConEntryCallback(void *arg)
 {
-	GUItextEntry *E = (GUItextEntry*)arg;
+	GUI2textEntry *E = (GUI2textEntry*)arg;
 	if(E->text[E->text.length()-1]=='\n')
 	{
 		E->text.erase(E->text.length()-1);
@@ -75,27 +75,27 @@ void OpenMenuConsole()
 {
 	if(Console==NULL)
 	{
-		Console = new GUIframe;
+		Console = new GUI2frame;
 		Console->setSize(256,512);
 		Console->setParent(GUI);
 		Console->setPos(64,64);
 		Console->color_panel = {32,32,64};
-		((GUIbutton*)Console->findByTag("btnClose"))->func = &makeInvisible;
+		((GUI2button*)Console->findByTag("btnClose"))->func = &makeInvisible;
 		
-		GUIscrollBar *Scroll = new GUIscrollBar;
+		GUI2scrollBar *Scroll = new GUI2scrollBar;
 		Scroll->setSize(Console->size.x-22,Console->size.y-64-3);
 		Scroll->insideSize.y = 1024;
 		Scroll->setParent(Console);
 		Scroll->tag = "Scroll";
 		
-		GUIlabel *ConText = new GUIlabel;
+		GUI2label *ConText = new GUI2label;
 		ConText->setSize(Scroll->size.x-4,1024);
 		ConText->setPos(0,0);
 		ConText->setParent(Scroll);
 		ConText->tag = "Text";
 		ConText->setdock(false,false,false,true);
 		
-		GUItextEntry *ConEntry = new GUItextEntry;
+		GUI2textEntry *ConEntry = new GUI2textEntry;
 		ConEntry->setSize(256-4,32-4);
 		ConEntry->setPos(0,512-64);
 		ConEntry->multiline = true;
@@ -131,7 +131,7 @@ void cmd_resetcam(void *arg)
 }
 void cmd_cls(void *arg)
 {
-	GUIlabel *L = (GUIlabel*)(Console->findByTag("Scroll")->findByTag("Text"));
+	GUI2label *L = (GUI2label*)(Console->findByTag("Scroll")->findByTag("Text"));
 	L->text.erase();
 	ConsoleNumLines = 0;
 }

@@ -1,6 +1,6 @@
-GUIframe *Console;
+extern GUI2frame *Console;
 
-int ConsoleNumLines;
+extern int ConsoleNumLines;
 struct concommand
 {
 	string cmd;
@@ -8,7 +8,7 @@ struct concommand
 	funcptr func;
 };
 
-vector<concommand> cmdlist;
+extern vector<concommand> cmdlist;
 
 
 

@@ -60,6 +60,7 @@ int frustum::triangles[12][3];
 
 
 cameraKind::cameraKind(){
+	printf("cameraKind constructor start\n");
 	pos = {0,0,0};
 	angle = quat::zero();
 	
@@ -68,8 +69,7 @@ cameraKind::cameraKind(){
 	znear = 0.1;
 	zfar = 100;
 	
-	camInit();
-	convars["camSpeed"] = 0.1;
+	printf("cameraKind constructor end\n");
 }
 void cameraKind::onMove(){
 	//cout << "dist: "<< pos.length() <<", origin to screen: "<< worldtoscreen({0,0,0}).toString() << "\n";
@@ -220,6 +220,8 @@ void camReset(void* arg){
 };
 
 void camInit(){
+	printf("camInit start\n");
+	convars["camSpeed"] = 0.1;
 	confuncs["+camforward"] = camGoForward;
 	confuncs["-camforward"] = camStopForward;
 	confuncs["+cambackward"] = camGoBackward;
@@ -233,4 +235,5 @@ void camInit(){
 	confuncs["+camleft"] = camGoLeft;
 	confuncs["-camleft"] = camStopLeft;
 	confuncs["camreset"] = camReset;
+	printf("camInit end\n");
 }

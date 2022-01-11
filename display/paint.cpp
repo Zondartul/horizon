@@ -67,3 +67,17 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
 
     glEnd();
 }
+
+color3i paintColor;
+byte paintAlpha;
+
+void setColor(color3i color)
+{
+	paintColor = color;
+	glColor4f(paintColor.r/255.0f,paintColor.g/255.0f,paintColor.b/255.0f,paintAlpha/255.0f);
+}
+void setAlpha(byte alpha)
+{
+	paintAlpha = alpha;
+	glColor4f(paintColor.r/255.0f,paintColor.g/255.0f,paintColor.b/255.0f,paintAlpha/255.0f);
+}

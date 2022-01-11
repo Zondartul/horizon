@@ -6,13 +6,13 @@ void consolecallback(void *arg);
 void parse(string str);
 void userparse(string str);
 
-GUIframe *newconsole;
-GUItextEntry *textentry;
-GUIlabel *text;
-map<string, double> convars;
-map<string, funcptr> confuncs;
+extern GUI2frame *newconsole;
+extern GUI2textEntry *textentry;
+extern GUI2label *text;
+extern map<string, double> convars;
+extern map<string, funcptr> confuncs;
 
-void OpenNewConsole(GUIbase *GUI);
+void OpenNewConsole(GUI2base *GUI);
 
 void consolecallback(void *arg);
 
@@ -21,7 +21,7 @@ int countlines(string str);
 void cprint(string str);
 void cunprint();
 void cclear();
-bool echoOn;
+extern bool echoOn;
 void userparse(string str);
 void parse(string str);
 #endif

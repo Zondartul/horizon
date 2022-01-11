@@ -1,8 +1,8 @@
-map<string,bool> debugdisabled; //list of debug places for which messages are disabled.
-stack<string> debugcurrent;		//current debug place
-int print_file;
-int print_line;
-int print_current;
+extern map<string,bool> debugdisabled; //list of debug places for which messages are disabled.
+extern stack<string> debugcurrent;		//current debug place
+extern int print_file;
+extern int print_line;
+extern int print_current;
 #define debug(...) if(! debugdisabled[debugcurrent.top()] ){ \
 if(print_file or print_line or print_current){printf("[");} \
 if(print_file){printf("%s", __FILE__ );} \

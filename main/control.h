@@ -19,8 +19,8 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode);
 #include "../input/input.h"
 extern inputKind input;
 #include "../math/quaternions.h"
-extern GUIbase *GUI;
-extern GUIframe *myFrame;
+extern GUI2base *GUI;
+extern GUI2frame *myFrame;
 //model *myModel;
 extern vec SomeVec1; //cam pos.
 extern vec SomeVec2;

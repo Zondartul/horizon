@@ -15,35 +15,35 @@ void windowPhysbody(void* arg);
 
 void OpenMenuToolbox()
 {
-	GUIframe* toolFrame = new GUIframe;
+	GUI2frame* toolFrame = new GUI2frame;
 	toolFrame->setPos(64,64);
 	toolFrame->setSize(64+8,256);
 	toolFrame->title = "Toolbox";
 	toolFrame->setParent(GUI);
 	
-	GUIbutton* btnBox = new GUIbutton;							GUIbutton* btnCyl = new GUIbutton;
+	GUI2button* btnBox = new GUI2button;						GUI2button* btnCyl = new GUI2button;
 	btnBox->setPos(4,4);										btnCyl->setPos(4+32,4);
 	btnBox->setSize(32,32);										btnCyl->setSize(32,32);
 	btnBox->setImage("C:/Stride/textures/cube.bmp");			btnCyl->setImage("C:/Stride/textures/cylinder.bmp");
 	btnBox->func = &genBox;										btnCyl->func = &genCyl;
 	btnBox->arg = NULL;											btnCyl->arg = NULL;
-	btnBox->setParent((GUIbase*) toolFrame);					btnCyl->setParent((GUIbase*) toolFrame);
+	btnBox->setParent((GUI2base*) toolFrame);					btnCyl->setParent((GUI2base*) toolFrame);
 	
-	GUIbutton* btnSphere = new GUIbutton;						GUIbutton* btnCone = new GUIbutton;
+	GUI2button* btnSphere = new GUI2button;						GUI2button* btnCone = new GUI2button;
 	btnSphere->setPos(4,4+32);									btnCone->setPos(4+32,4+32);
 	btnSphere->setSize(32,32);									btnCone->setSize(32,32);
 	btnSphere->setImage("C:/Stride/textures/sphere.bmp");		btnCone->setImage("C:/Stride/textures/cone.bmp");
 	btnSphere->func = &genSph;									btnCone->func = &genCon;
 	btnSphere->arg = NULL;										btnCone->arg = NULL;
-	btnSphere->setParent((GUIbase*) toolFrame);					btnCone->setParent((GUIbase*) toolFrame);
+	btnSphere->setParent((GUI2base*) toolFrame);				btnCone->setParent((GUI2base*) toolFrame);
 	
-	GUIbutton* btnGoggles = new GUIbutton;						GUIbutton* btnArrows = new GUIbutton;
+	GUI2button* btnGoggles = new GUI2button;					GUI2button* btnArrows = new GUI2button;
 	btnGoggles->setPos(4,4+96);									btnArrows->setPos(4+32,4+96);
 	btnGoggles->setSize(32,32);									btnArrows->setSize(32,32);
 	btnGoggles->setImage("C:/Stride/textures/goggles.bmp");		btnArrows->setImage("C:/Stride/textures/fourarrows.bmp");
 	btnGoggles->func = &windowOpts;								btnArrows->func = &windowPhysbody;
 	btnGoggles->arg = NULL;										btnArrows->arg = NULL;
-	btnGoggles->setParent((GUIbase*) toolFrame);				btnArrows->setParent((GUIbase*) toolFrame);
+	btnGoggles->setParent((GUI2base*) toolFrame);				btnArrows->setParent((GUI2base*) toolFrame);
 	/*
 	GUIImage* image1 = new GUIImage;
 	image1->setPos(32,32);
@@ -475,9 +475,9 @@ model *genSphere(double radius, int numverti, int numhori)
 
 void btnGenCube(void* arg)
 {
-	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
+	double l = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
+	double w = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
+	double h = 	((GUI2spinner*)(((void**)arg)[2]))->vals[1];
 	physBody* bod = new physBody(genCube(l,w,h));
 	//bod->mdl->applyRenderFlags(R_TEXTURE|R_LIGHTEN);
 	//bod->mdl->blendmode = rand()%2+1;
@@ -485,60 +485,60 @@ void btnGenCube(void* arg)
 }
 void btnGenCyl(void* arg)
 {
-	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	double height = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
 	AllPhysBodies.push_back(new physBody(genCylinder(height,radius,numsides)));
 }
 void btnGenCone(void* arg)
 {
-	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	double height = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUI2spinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
 	AllPhysBodies.push_back(new physBody(genCone(height,radius,numsides)));
 }
 void btnGenSphere(void* arg)
 {
-	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
-	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	double radius = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
+	int numverti = 	(int)(((GUI2spinner*)(((void**)arg)[1]))->vals[1]);
+	int numhori = 	(int)(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
 	AllPhysBodies.push_back(new physBody(genSphere(radius,numverti,numhori)));
 }
 void genBox(void* arg)
 {
-	GUIframe* GenMenu = new GUIframe;
+	GUI2frame* GenMenu = new GUI2frame;
 	GenMenu->setPos(128,128);
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Box Generator";
 	GenMenu->setParent(GUI);
-	GUIbase::fixstrata((GUIbase*)GenMenu);
+	GUI2base::fixstrata((GUI2base*)GenMenu);
 	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "length";
-	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
 
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,1,10,0.5,2);			spinytext->text = "width";
-	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
 	
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);				spinztext->setPos(96,4+32);
 	spinz->setVals(-10,1,10,0.5,2);			spinztext->text = "height";
-	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUIbutton* btnGen = new GUIbutton;
+	GUI2button* btnGen = new GUI2button;
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
 	btnGen->func = &btnGenCube;
 	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUIbase*) GenMenu);
+	btnGen->setParent((GUI2base*) GenMenu);
 	
 }
 
@@ -546,115 +546,115 @@ void genBox(void* arg)
 
 void genCyl(void* arg)
 {
-	GUIframe* GenMenu = new GUIframe;
+	GUI2frame* GenMenu = new GUI2frame;
 	GenMenu->setPos(128,128);
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Cylinder Generator";
 	GenMenu->setParent(GUI);
-	GUIbase::fixstrata((GUIbase*)GenMenu);
+	GUI2base::fixstrata((GUI2base*)GenMenu);
 	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
-	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
 
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,0.5,10,0.25,2);			spinytext->text = "radius";
-	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
 	
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
-	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUIbutton* btnGen = new GUIbutton;
+	GUI2button* btnGen = new GUI2button;
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
 	btnGen->func = &btnGenCyl;
 	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUIbase*) GenMenu);
+	btnGen->setParent((GUI2base*) GenMenu);
 	
 }
 
 void genCon(void* arg)
 {
-	GUIframe* GenMenu = new GUIframe;
+	GUI2frame* GenMenu = new GUI2frame;
 	GenMenu->setPos(128,128);
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Cone Generator";
 	GenMenu->setParent(GUI);
-	GUIbase::fixstrata((GUIbase*)GenMenu);
+	GUI2base::fixstrata((GUI2base*)GenMenu);
 	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,1,10,0.5,2);			spinxtext->text = "height";
-	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
 
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(-10,0.5,10,0.25,2);		spinytext->text = "radius";
-	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
 	
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(2,8,64,1,2);			spinztext->text = "num sides";
-	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUIbutton* btnGen = new GUIbutton;
+	GUI2button* btnGen = new GUI2button;
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
 	btnGen->func = &btnGenCone;
 	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUIbase*) GenMenu);
+	btnGen->setParent((GUI2base*) GenMenu);
 	
 }
 
 void genSph(void* arg)
 {
-	GUIframe* GenMenu = new GUIframe;
+	GUI2frame* GenMenu = new GUI2frame;
 	GenMenu->setPos(128,128);
 	GenMenu->setSize(256,128);
 	GenMenu->title = "Sphere Generator";
 	GenMenu->setParent(GUI);
-	GUIbase::fixstrata((GUIbase*)GenMenu);
+	GUI2base::fixstrata((GUI2base*)GenMenu);
 	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,4);						spinxtext->setPos(96,4);
 	spinx->setVals(-10,0.5,10,0.25,2);			spinxtext->text = "height";
-	spinx->setParent((GUIbase*) GenMenu);	spinxtext->setParent((GUIbase*) GenMenu);
+	spinx->setParent((GUI2base*) GenMenu);	spinxtext->setParent((GUI2base*) GenMenu);
 
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,4+18);					spinytext->setPos(96,4+16);
 	spiny->setVals(0,8,10,0.5,2);			spinytext->text = "vertical sides";
-	spiny->setParent((GUIbase*) GenMenu);	spinytext->setParent((GUIbase*) GenMenu);
+	spiny->setParent((GUI2base*) GenMenu);	spinytext->setParent((GUI2base*) GenMenu);
 	
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,4+32+4);					spinztext->setPos(96,4+32);
 	spinz->setVals(0,8,64,1,2);			spinztext->text = "horizontal sides";
-	spinz->setParent((GUIbase*) GenMenu);	spinztext->setParent((GUIbase*) GenMenu);
+	spinz->setParent((GUI2base*) GenMenu);	spinztext->setParent((GUI2base*) GenMenu);
 	
 	void **newarg = new void*[3];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
-	GUIbutton* btnGen = new GUIbutton;
+	GUI2button* btnGen = new GUI2button;
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
 	btnGen->func = &btnGenSphere;
 	btnGen->arg = (void*)newarg;
-	btnGen->setParent((GUIbase*) GenMenu);
+	btnGen->setParent((GUI2base*) GenMenu);
 	
 }
 
@@ -773,38 +773,38 @@ void toggleAABB(void* arg)
 
 void windowOpts(void* arg)
 {
-	GUIframe* Menu = new GUIframe;
+	GUI2frame* Menu = new GUI2frame;
 	Menu->setPos(128,128);
 	Menu->setSize(128,128);
 	Menu->title = "Display options";
 	Menu->setParent(GUI);
-	GUIbase::fixstrata((GUIbase*)Menu);
+	GUI2base::fixstrata((GUI2base*)Menu);
 
-	GUIcheckbox* check = new GUIcheckbox;	GUIlabel* label1 = new GUIlabel;
+	GUI2checkbox* check = new GUI2checkbox;	GUI2label* label1 = new GUI2label;
 	check->pos = {4,4};						label1->pos = {4+16,4};
-	check->setParent((GUIbase*)Menu);		label1->text = "wireframe";
-	check->func = &toggleWireframe;			label1->setParent((GUIbase*)Menu);
+	check->setParent((GUI2base*)Menu);		label1->text = "wireframe";
+	check->func = &toggleWireframe;			label1->setParent((GUI2base*)Menu);
 	
-	GUIcheckbox* check2 = new GUIcheckbox;	GUIlabel* label2 = new GUIlabel;
+	GUI2checkbox* check2 = new GUI2checkbox;	GUI2label* label2 = new GUI2label;
 	check2->pos = {4,4+16};					label2->pos = {4+16,4+16};
-	check2->setParent((GUIbase*)Menu);		label2->text = "3D cursor";
-	check2->func = &toggle3Dcursor;			label2->setParent((GUIbase*)Menu);
+	check2->setParent((GUI2base*)Menu);		label2->text = "3D cursor";
+	check2->func = &toggle3Dcursor;			label2->setParent((GUI2base*)Menu);
 	
-	GUIcheckbox* check3 = new GUIcheckbox;	GUIlabel* label3 = new GUIlabel;
+	GUI2checkbox* check3 = new GUI2checkbox;	GUI2label* label3 = new GUI2label;
 	check3->pos = {4,4+32};					label3->pos = {4+16,32};
-	check3->setParent((GUIbase*)Menu);		label3->text = "show AABB's";
-	check3->func = &toggleAABB;				label3->setParent((GUIbase*)Menu);
+	check3->setParent((GUI2base*)Menu);		label3->text = "show AABB's";
+	check3->func = &toggleAABB;				label3->setParent((GUI2base*)Menu);
 }
 
 void windowPhysbodyOptions(void *arg)
 {
-	double x = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double y = 	(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
-	double z = 	(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
-	double rx =	(((GUIspinner*)(((void**)arg)[3]))->vals[1]);
-	double ry =	(((GUIspinner*)(((void**)arg)[4]))->vals[1]);
-	double rz =	(((GUIspinner*)(((void**)arg)[5]))->vals[1]);
-	double s =  (((GUIspinner*)(((void**)arg)[6]))->vals[1]);
+	double x = 	((GUI2spinner*)(((void**)arg)[0]))->vals[1];
+	double y = 	(((GUI2spinner*)(((void**)arg)[1]))->vals[1]);
+	double z = 	(((GUI2spinner*)(((void**)arg)[2]))->vals[1]);
+	double rx =	(((GUI2spinner*)(((void**)arg)[3]))->vals[1]);
+	double ry =	(((GUI2spinner*)(((void**)arg)[4]))->vals[1]);
+	double rz =	(((GUI2spinner*)(((void**)arg)[5]))->vals[1]);
+	double s =  (((GUI2spinner*)(((void**)arg)[6]))->vals[1]);
 	printf("New pos: <%f,%f,%f>, new angles: <%f,%f,%f>\n",x,y,z,rx,ry,rz);
 	if(EntSelected)
 	{
@@ -820,74 +820,74 @@ void windowPhysbodyUpdate(void *arg)
 	
 	if(EntSelected)
 	{
-		((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = 
+		((GUI2label*)(((GUI2base*)arg)->findByTag("bodytext")))->text = 
 		"body: "+itoa((double)(*(reinterpret_cast<int*>(&EntSelected))))+"\n"+
 		"name: "+EntSelected->name+"\n"+
 		"id: "+itoa(EntSelected->id)+"\n"+
 		"collision count: "+itoa(EntSelected->collisionCount);
-		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinx")))->vals[1]=EntSelected->pos.x;
-		((GUIspinner*)(((GUIbase*)arg)->findByTag("spiny")))->vals[1]=EntSelected->pos.y;
-		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinz")))->vals[1]=EntSelected->pos.z;
+		((GUI2spinner*)(((GUI2base*)arg)->findByTag("spinx")))->vals[1]=EntSelected->pos.x;
+		((GUI2spinner*)(((GUI2base*)arg)->findByTag("spiny")))->vals[1]=EntSelected->pos.y;
+		((GUI2spinner*)(((GUI2base*)arg)->findByTag("spinz")))->vals[1]=EntSelected->pos.z;
 	}
 	else
 	{
-		((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = "body: none";
+		((GUI2label*)(((GUI2base*)arg)->findByTag("bodytext")))->text = "body: none";
 	}
 }
 
 void windowPhysbody(void* arg)
 {
-	GUIframe* Menu = new GUIframe;			//GUIbutton* btnUpdate = new GUIbutton;
+	GUI2frame* Menu = new GUI2frame;			//GUIbutton* btnUpdate = new GUIbutton;
 	Menu->setPos(128,128);					//btnUpdate->setPos(4,128);
 	Menu->setSize(192,280);					//btnUpdate->setSize(64,32);
 	Menu->title = "Body manipulator";		//btnUpdate->text = "Update";
 	Menu->setParent(GUI);					//btnUpdate->func = &windowPhysbodyUpdate;
-	GUIbase::fixstrata((GUIbase*)Menu);		//btnUpdate->setParent((GUIbase*) Menu);
-	GUIlabel* bodytext = new GUIlabel;
+	GUI2base::fixstrata((GUI2base*)Menu);		//btnUpdate->setParent((GUIbase*) Menu);
+	GUI2label* bodytext = new GUI2label;
 	bodytext->setPos(4,4);
 	bodytext->setSize(192-8,64);
 	bodytext->text = "body: none";
-	bodytext->setParent((GUIbase*) Menu);
+	bodytext->setParent((GUI2base*) Menu);
 	bodytext->tag = "bodytext";
 	
-	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
+	GUI2spinner* spinx = new GUI2spinner;		GUI2label* spinxtext = new GUI2label;
 	spinx->setPos(4,48+32);					spinxtext->setPos(96,48+32);
 	spinx->setVals(-10,0,10,0.25,2);		spinxtext->text = "pos x";
-	spinx->setParent((GUIbase*) Menu);		spinxtext->setParent((GUIbase*) Menu);
+	spinx->setParent((GUI2base*) Menu);		spinxtext->setParent((GUI2base*) Menu);
 	spinx->tag="spinx";
-	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
+	GUI2spinner* spiny = new GUI2spinner;		GUI2label* spinytext = new GUI2label;
 	spiny->setPos(4,48+32+18);				spinytext->setPos(96,48+32+18);
 	spiny->setVals(-10,0,10,0.25,2);		spinytext->text = "pos y";
-	spiny->setParent((GUIbase*) Menu);		spinytext->setParent((GUIbase*) Menu);
+	spiny->setParent((GUI2base*) Menu);		spinytext->setParent((GUI2base*) Menu);
 	spiny->tag="spiny";
-	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
+	GUI2spinner* spinz = new GUI2spinner;		GUI2label* spinztext = new GUI2label;
 	spinz->setPos(4,48+32+32+4);			spinztext->setPos(96,48+32+32+4);
 	spinz->setVals(-10,0,10,0.25,2);		spinztext->text = "pos z";
-	spinz->setParent((GUIbase*) Menu);		spinztext->setParent((GUIbase*) Menu);
+	spinz->setParent((GUI2base*) Menu);		spinztext->setParent((GUI2base*) Menu);
 	spinz->tag="spinz";
 	
-	GUIspinner* spinrx = new GUIspinner;	GUIlabel* spinrxtext = new GUIlabel;
+	GUI2spinner* spinrx = new GUI2spinner;	GUI2label* spinrxtext = new GUI2label;
 	spinrx->setPos(4,48+32+18*4);			spinrxtext->setPos(96,48+32+18*4);
 	spinrx->setVals(-180,0,180,15,0);		spinrxtext->text = "rot x";
-	spinrx->setParent((GUIbase*) Menu);		spinrxtext->setParent((GUIbase*) Menu);
+	spinrx->setParent((GUI2base*) Menu);		spinrxtext->setParent((GUI2base*) Menu);
 	spinrx->tag="spinrx";
 	
-	GUIspinner* spinry = new GUIspinner;	GUIlabel* spinrytext = new GUIlabel;
+	GUI2spinner* spinry = new GUI2spinner;	GUI2label* spinrytext = new GUI2label;
 	spinry->setPos(4,48+32+18*5);			spinrytext->setPos(96,48+32+18*5);
 	spinry->setVals(-180,0,180,15,0);		spinrytext->text = "rot y";
-	spinry->setParent((GUIbase*) Menu);		spinrytext->setParent((GUIbase*) Menu);
+	spinry->setParent((GUI2base*) Menu);		spinrytext->setParent((GUI2base*) Menu);
 	spinry->tag="spinry";
 	
-	GUIspinner* spinrz = new GUIspinner;	GUIlabel* spinrztext = new GUIlabel;
+	GUI2spinner* spinrz = new GUI2spinner;	GUI2label* spinrztext = new GUI2label;
 	spinrz->setPos(4,48+32+18*6);			spinrztext->setPos(96,48+32+18*6);
 	spinrz->setVals(-180,0,180,15,0);		spinrztext->text = "rot z";
-	spinrz->setParent((GUIbase*) Menu);		spinrztext->setParent((GUIbase*) Menu);
+	spinrz->setParent((GUI2base*) Menu);		spinrztext->setParent((GUI2base*) Menu);
 	spinrz->tag="spinrz";
 	
-	GUIspinner* spins = new GUIspinner;		GUIlabel* spinstext = new GUIlabel;
+	GUI2spinner* spins = new GUI2spinner;		GUI2label* spinstext = new GUI2label;
 	spins->setPos(4,48+32+18*8);			spinstext->setPos(96,48+32+18*8);
 	spins->setVals(-5,1,5,0.1,1);			spinstext->text = "scale";
-	spins->setParent((GUIbase*) Menu);		spinstext->setParent((GUIbase*) Menu);
+	spins->setParent((GUI2base*) Menu);		spinstext->setParent((GUI2base*) Menu);
 	spins->tag="spins";
 	
 	void **newarg = new void*[7];
