@@ -1,4 +1,4 @@
-glyphkind* Calibri20n2 = 0;
+
 /*
 render tree
 root node:                                 root
@@ -38,11 +38,7 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
 
     glEnd();
 }
-struct listNode
-{
-    listNode* next;
-    void* thing;
-};
+
 
 enum GUIMessage
 {
@@ -52,23 +48,7 @@ enum GUIMessage
     GUIM_KEYBOARD,
     GUIM_DESTROY
 };
-struct vec2i
-{
-    int x;
-    int y;
-};
-struct vec3i
-{
-    int x;
-    int y;
-    int z;
-};
-struct color3i
-{
-	int r;
-	int g;
-	int b;
-};
+
 
 class GUIobj
 {
@@ -269,6 +249,7 @@ class GUIManager //manages windows and controlls, their allocation and message p
 
 class GUIframe: public GUIobj
 {
+	//vec2i dragStart;
 	void render()
 	{
 		int rX1 = pos.x;

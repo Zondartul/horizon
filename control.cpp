@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <math.h>
 #include <vector>
+#include "globals.h"
 #include "fonts.h"
 #include "Gui.h"
 //global vars go here
@@ -25,19 +26,6 @@ struct color4i
 	int b;
 	int a;
 };
-struct color3f
-{
-	float r;
-	float g;
-	float b;
-};
-struct color4f
-{
-	float r;
-	float g;
-	float b;
-	float a;
-};
 
 
 int ms = 0;
@@ -46,12 +34,9 @@ float theta;
 int counter = 0;
 float width = 640.0f;
 float height = 640.0f;
-color4f bground;
-glyphkind *Tahoma16;
-glyphkind *Calibri20;
+color4i bground;
 
-    int mouseX;
-    int mouseY;
+vec2i mousePos;
 
 
 
@@ -62,14 +47,28 @@ void OnProgramStart()
 {
     theta = 1.0f;
     //if(MessageBox(0,"V: 44. Continue?", "Version", MB_OKCANCEL|MB_ICONQUESTION )==2){PostQuitMessage(0); return;}
-    Tahoma16 = GenerateFont("C:/Stride/tahoma.ttf", 16);
-    Calibri20 = GenerateFont("C:/Stride/calibri.ttf", 20);
-	setFont(Calibri20);
+    Tahoma8 = (void*)GenerateFont("C:/Stride/tahoma.ttf",8,true);//no aa
+	Tahoma12= (void*)GenerateFont("C:/Stride/tahoma.ttf",12,false);//no aa
+	Tahoma18= (void*)GenerateFont("C:/Stride/tahoma.ttf",18,true);
+	Tahoma20= (void*)GenerateFont("C:/Stride/tahoma.ttf",20,true);
+	Tahoma22= (void*)GenerateFont("C:/Stride/tahoma.ttf",22,true);
+	Calibri8= (void*)GenerateFont("C:/Stride/calibri.ttf",8,true);
+	Calibri12= (void*)GenerateFont("C:/Stride/calibri.ttf",12,true);
+	Calibri18= (void*)GenerateFont("C:/Stride/calibri.ttf",18,true);
+	Calibri20= (void*)GenerateFont("C:/Stride/calibri.ttf",20,true);
+	Calibri22= (void*)GenerateFont("C:/Stride/calibri.ttf",22,true);
+	CourierNew8= (void*)GenerateFont("C:/Stride/cour.ttf",8,true);
+	CourierNew12= (void*)GenerateFont("C:/Stride/cour.ttf",12,true);
+	CourierNew18= (void*)GenerateFont("C:/Stride/cour.ttf",18,true);
+	CourierNew20= (void*)GenerateFont("C:/Stride/cour.ttf",20,true);
+	CourierNew22= (void*)GenerateFont("C:/Stride/cour.ttf",22,true);
 	
-	bground.r = 142/255.0f;
-	bground.g = 187/255.0f;
-	bground.b = 255/255.0f;
-	bground.a = 1.0f;
+	setFont((glyphkind*)Calibri18);
+	
+	bground.r = 142;
+	bground.g = 187;
+	bground.b = 255;
+	bground.a = 255;
     GUIobj* myFrame = new GUIobj;
     myFrame->pos.x = 350;
     myFrame->pos.y = 32;
@@ -107,7 +106,7 @@ void RenderGUI()
 	glColor3f(1.0f,1.0f,1.0f);
 	twidth = printw(32,32,"Version: 46");
     GUIM.render(NULL);
-	GUIM.checkMouseOver(NULL, mouseX, mouseY);
+	GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
 
 void ProcessMouseclick(int mb)
@@ -166,7 +165,7 @@ void Render_go3D()
 
 void RenderTick(HDC hDC)
 {
-    glClearColor(bground.r,bground.g,bground.b,bground.a);
+    glClearColor(bground.r/255.0f,bground.g/255.0f,bground.b/255.0f,bground.a/255.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     Render3D();
@@ -186,19 +185,32 @@ void ProgramTick(HWND hwnd, HDC hDC)
 {
     POINT cursorPos;
     GetCursorPos(&cursorPos);
-    mouseX = cursorPos.x-7;
-    mouseY = cursorPos.y-29;
+    mousePos.x = cursorPos.x-7;
+    mousePos.y = cursorPos.y-29;
 
     RECT rect;
     GetWindowRect(hwnd, &rect);
-    mouseX -= rect.left;
-    mouseY -= rect.top;
+    mousePos.x -= rect.left;
+    mousePos.y -= rect.top;
     RenderTick(hDC);
 }
 
 void CallDestructor()
 {
-    //GUI vectors call destructors in their elements
-    fontFree(Tahoma16);
-    fontFree(Calibri20);
+	//gotta call GUI destructor too
+    fontFree((glyphkind*)Calibri8);
+	fontFree((glyphkind*)Calibri12);
+	fontFree((glyphkind*)Calibri18);
+	fontFree((glyphkind*)Calibri20);
+	fontFree((glyphkind*)Calibri22);
+	fontFree((glyphkind*)Tahoma8);
+	fontFree((glyphkind*)Tahoma12);
+	fontFree((glyphkind*)Tahoma18);
+	fontFree((glyphkind*)Tahoma20);
+	fontFree((glyphkind*)Tahoma22);
+	fontFree((glyphkind*)CourierNew8);
+	fontFree((glyphkind*)CourierNew12);
+	fontFree((glyphkind*)CourierNew18);
+	fontFree((glyphkind*)CourierNew20);
+	fontFree((glyphkind*)CourierNew22);
 }

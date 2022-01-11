@@ -24,7 +24,7 @@ glyphkind* CurFont = NULL;
 
 void setFont(glyphkind *Font){CurFont = Font;}
 
-glyphkind* GenerateFont(const char* filepath, int size)
+glyphkind* GenerateFont(const char* filepath, int size,bool aa)
 {
     int error = 0;
     if(library == NULL){error = FT_Init_FreeType( &library );
@@ -90,11 +90,21 @@ glyphkind* GenerateFont(const char* filepath, int size)
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
     //glBlendColor(0.0f, 0.0f, 0.0f, 0.0f);
     unsigned char *newbuff = (unsigned char*)malloc(2*fwidth*fheight);
-    for(int j = 0; j<fwidth*fheight; j++)
-    {
-        newbuff[2*j] = 255-buff[j];//inverting texture
-        newbuff[2*j+1]=buff[j];
-    }
+    if(aa)
+	{
+		for(int j = 0; j<fwidth*fheight; j++)
+		{
+			newbuff[2*j] = 255-buff[j];//inverting texture
+			newbuff[2*j+1]=buff[j];
+		}
+	}else
+	{
+		for(int j = 0; j<fwidth*fheight; j++)
+		{
+			if(buff[j]>64){newbuff[2*j]=0;newbuff[2*j+1]=255;}
+			else{newbuff[2*j]=255;newbuff[2*j+1]=0;}
+		}
+	}
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, 2, fwidth, fheight,
                  0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, newbuff);

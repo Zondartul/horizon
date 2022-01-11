@@ -7,7 +7,7 @@ struct glyphkind
     int advance;
     GLuint texture;
 };
-glyphkind* GenerateFont(const char* filepath, int size);
+glyphkind* GenerateFont(const char* filepath, int size,bool aa);
 void setFont(glyphkind *Font);
 int printw(int x, int y, const char* format, ...);
 void fontFree(glyphkind *Font);
