@@ -28,9 +28,16 @@ CC = g++
 
 # compiler flags
 # add -mwindows to not couple to the calling console / not create a console
-CFLAGS = -std=c++0x -g -fmax-errors=1 
+CFLAGS = -std=c++0x -g -fmax-errors=1
 # additional libraries libraries
-CLIBS = -luser32 -lopengl32 -lglu32 -lgdi32 -lfreetype
+# opengl32 - used basically everywhere
+# freetype - used by fonts.cpp to generate fancy fonts.
+# SDL2 - used for platform independent window, input, etc etc
+# SDL2main and mingw32 - needed because of "WinMain16" shenanigans.
+# libraries that used to be here:
+# glu32 - was used by textureloader - LoadTextureRAW/BMP/PNG for mipmaps
+# user32, gdi32 - *hisssssssssssssssss*
+CLIBS = -lopengl32 -lfreetype -lmingw32 -lSDL2main -lSDL2 -LC:/MinGW32/horizon/horizonSVN/horizon/lib
 # command to compile an object file
 COMPILEOBJECT = $(CC) -c $(CFLAGS) $< -o $(TEMPDIR)/$*.o -I$(HEADERDIR)
 # command to compile a dependency file

@@ -1,7 +1,7 @@
 #ifndef GLOBALS_GUARD
 #define GLOBALS_GUARD
 
-#include <windows.h>
+//#include <windows.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
 #include <string>
@@ -16,13 +16,15 @@
 #include <map>
 #include <set>
 #include <stack>
-#define M_PI           3.14159265358979323846
+#include "SDL2/SDL.h"
+//#define M_PI           3.14159265358979323846
 #define listForwardI iterator I = subscribers.start(), E = subscribers.end(); I!=E;I++
 #define BRDB 4
 // border-border
 #define BRDT 36
 // border-title
 using namespace std;
+typedef uint8_t byte;
 int clamp(int A, int B, int C);
 
 struct vec2i{
@@ -152,11 +154,11 @@ extern int ms;
 extern int freq;
 extern float theta;
 extern int counter;
-extern float width;
-extern float height;
+//extern float width;
+//extern float height;
 extern color4i bground;
-extern vec2i mousePos;
-extern rect screen;
+//extern vec2i mousePos;
+//extern rect screen;
 double d2r(double x);
 double r2d(double x);
 typedef void (*funcptr)(void *arg);
@@ -179,6 +181,8 @@ std::string operator+(std::string const &a, double b);
 string tolower(string A);
 string toupper(string A);
 string fstring(const char* fmt, ...);
+string translateEnum(uint32_t E, string type); //provide the enum and the name of the function returning it
+												//a string representation of that enum will be returned
 #ifndef EXCEPT_SUPPRESS
 #define except(a) except(__FILE__,__LINE__,a)
 #endif

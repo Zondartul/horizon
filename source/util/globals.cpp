@@ -237,11 +237,11 @@ int ms = 0;
 int freq = 66;
 float theta;
 int counter = 0;
-float width = 1024.0f;
-float height = 640.0f;
+//float width = 1024.0f; USE getScreenRect() INSTEAD
+//float height = 640.0f;
+//rect screen;
 color4i bground;
-vec2i mousePos;
-rect screen;
+//vec2i mousePos;		USE input.GetMousePos() INSTEAD
 double d2r(double x){return x*M_PI/180.0;}
 double r2d(double x){return x*180.0/M_PI;}
 
@@ -331,6 +331,22 @@ except::except(const char *a, int b, const char *str){
 const char* except::what() const throw()
 {
 	return mystr;
+}
+
+
+string translateEnum(uint32_t E, string type){
+	if(type == "glGetError"){
+		switch(E){
+			case GL_NO_ERROR:return "GL_NO_ERROR";break;
+			case GL_INVALID_ENUM:return "GL_INVALID_ENUM";break;
+			case GL_INVALID_VALUE:return "GL_INVALID_VALUE";break;
+			case GL_INVALID_OPERATION:return "GL_INVALID_OPERATION";break;
+			//case GL_INVALID_FRAMEBUFFER_OPERATION:return "GL_INVALID_FRAMEBUFFER_OPERATION";break;
+			case GL_OUT_OF_MEMORY:return "GL_OUT_OF_MEMORY";break;
+			default:return "unknown "+type+" enum";
+		}
+	}
+	return "(unknown enum type)";
 }
 
 /*

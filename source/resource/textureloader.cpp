@@ -1,9 +1,8 @@
 // Texture ///////////////////////////////////////////////////////////
 #include "resource/textureloader.h"
-#include <windows.h>
 #include <gl/gl.h>
-#include <gl/glu.h>
-#include <gl/glext.h>
+//#include <gl/glu.h>
+//#include <gl/glext.h>
 #include <stdio.h>    //  Standard Input\Output C Library
 //#include <stdarg.h>   //  To use functions with variables arguments
 //#include <stdlib.h>   //  for malloc
@@ -72,7 +71,7 @@ texture LoadTextureRAW( const char * filename)
 {
   GLuint tex;
   int width, height;
-  BYTE * data;
+  byte * data;
   FILE * file;
 
   // open texture data
@@ -82,7 +81,7 @@ texture LoadTextureRAW( const char * filename)
   // allocate buffer
   width = 256;
   height = 256;
-  data = (BYTE*)malloc( width * height * 3 );
+  data = (byte*)malloc( width * height * 3 );
 
   // read texture data
   fread( data, width * height * 3, 1, file );
@@ -97,10 +96,9 @@ texture LoadTextureRAW( const char * filename)
   // select modulate to mix texture with color for shading
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 
-  // when texture area is small, bilinear filter the closest MIP map
-  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                   GL_LINEAR_MIPMAP_NEAREST );
-  // when texture area is large, bilinear filter the first MIP map
+  // when texture area is small, -lolnope-
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+  // when texture area is large, -lolnope-
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
   // if wrap is true, the texture wraps over at the edges (repeat)
@@ -111,8 +109,8 @@ texture LoadTextureRAW( const char * filename)
                    texture_load_wrap ? GL_REPEAT : GL_CLAMP );
 
   // build our texture MIP maps
-  gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width,
-    height, GL_RGB, GL_UNSIGNED_BYTE, data );
+/*   gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width,
+    height, GL_RGB, GL_UNSIGNED_BYTE, data ); */
 
   // free buffer
   free( data );
@@ -133,8 +131,8 @@ texture LoadTextureBMP(const char *filename)
   GLuint tex;
   int width, height;
   char depth;
-  BYTE * data;
-  BYTE * newdata;
+  byte * data;
+  byte * newdata;
   FILE * file;
 
   // open texture data
@@ -150,7 +148,7 @@ texture LoadTextureBMP(const char *filename)
   printf("width x height x depth = %d x %d x %d\n", width, height, depth);
   //width = 256;
   //height = 256;
-  data = (BYTE*)malloc( width * height * depth/8 );
+  data = (byte*)malloc( width * height * depth/8 );
   
   
   
@@ -160,10 +158,10 @@ texture LoadTextureBMP(const char *filename)
   fclose( file );
   
   //image manipulation magics happen here
-  newdata = (BYTE*)malloc( width * height * (depth/8+1) );
+  newdata = (byte*)malloc( width * height * (depth/8+1) );
   for(int i = 0;i<(width*height);i++)
   {
-	BYTE r,g,b;
+	byte r,g,b;
 	newdata[i*4] = b = data[i*3];
 	newdata[i*4+1] = g = data[i*3+1];
 	newdata[i*4+2] = r = data[i*3+2];
@@ -181,7 +179,7 @@ texture LoadTextureBMP(const char *filename)
   // select modulate to mix texture with color for shading
   glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 
-  // when texture area is small, bilinear filter the closest MIP map
+  // when texture area is small, -lolnope-
   if(texture_load_pixelated)
   {
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
@@ -191,11 +189,10 @@ texture LoadTextureBMP(const char *filename)
   }
   else
   {
-   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_LINEAR_MIPMAP_NEAREST );
+   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
   }
-  // when texture area is large, bilinear filter the first MIP map
+  // when texture area is large, -lolnope-
   glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
   // if wrap is true, the texture wraps over at the edges (repeat)
@@ -206,8 +203,8 @@ texture LoadTextureBMP(const char *filename)
   // build our texture MIP maps
   //glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   
-  gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, //HUH
-    height, GL_BGRA, GL_UNSIGNED_BYTE, newdata );
+/*   gluBuild2DMipmaps( GL_TEXTURE_2D, 4, width, //HUH
+    height, GL_BGRA, GL_UNSIGNED_BYTE, newdata ); */
 
   // free buffer
   free( data );
@@ -229,7 +226,7 @@ GLuint LoadTextureBMP( const char * filename)
   GLuint tex;
   int width, height;
   char depth;
-  BYTE * data;
+  byte * data;
   FILE * file;
 
   // open texture data
@@ -245,7 +242,7 @@ GLuint LoadTextureBMP( const char * filename)
   printf("width x height x depth = %d x %d x %d\n", width, height, depth);
   //width = 256;
   //height = 256;
-  data = (BYTE*)malloc( width * height * depth/8 );
+  data = (byte*)malloc( width * height * depth/8 );
 
   // read texture data
   fseek(file,0x36,SEEK_SET);
@@ -274,7 +271,7 @@ GLuint LoadTextureBMP( const char * filename)
 
   // build our texture MIP maps
   gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, //HUH
-    height, GL_RGB, GL_UNSIGNED_BYTE, data );
+    height, GL_RGB, GL_UNSIGNED_byte, data );
 
   // free buffer
   free( data );
@@ -291,14 +288,25 @@ texture LoadTexturePNG( const char *filename ){
 		T.width = x;
 		T.height = y;
 		T.name = filename;
+		GLenum err;
+		err = glGetError();
+		if(err){
+			printf("texture error1: %s\n", translateEnum(err, "glGetError").c_str());
+		}
 		glGenTextures(1,&T.t);
 		glBindTexture(GL_TEXTURE_2D,T.t);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D,GL_GENERATE_MIPMAP, GL_TRUE); I appear to have misplaced my MIPMAPs, so uh, fuck it, we'll use linear.
+		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-		gluBuild2DMipmaps(GL_TEXTURE_2D,4,x,y,GL_RGBA,GL_UNSIGNED_BYTE,data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		//gluBuild2DMipmaps(GL_TEXTURE_2D,4,x,y,GL_RGBA,GL_UNSIGNED_BYTE,data);
+		err = glGetError();
+		if(err){
+			printf("texture error2: %s\n", translateEnum(err, "glGetError").c_str());
+		}
 		stbi_image_free(data);
 		printf("texture loaded: %s\n",filename);
 		AllTextures[filename] = T;

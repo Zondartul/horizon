@@ -14,6 +14,7 @@ string VKtoString(unsigned char code);
 
 struct WMArray {
  UINT Code;
+ unsigned int Code;
  char Message[100];
 };
 

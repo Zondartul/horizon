@@ -113,7 +113,8 @@ void parse(string str){
 		}
 	}else if(words[0] == "exit"){
 		printf("\n\nShutting down <3\n\n");
-		PostQuitMessage(0);
+		printf("NOT IMPLEMENTED O_o\n");
+		//PostQuitMessage(0);
 	}else if(words[0] == "clear"){
 		cclear();
 	}else if(words[0] == "vars"){

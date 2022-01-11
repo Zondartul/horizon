@@ -8,7 +8,7 @@ void windowBtnCloseFunc(void *arg){
 }
 
 GUI5window::GUI5window(){
-	addElement((*(new GUI5button())).setText(" X").setFunc((funcptr)&GUI5base::close).setArg((void*)this).setSize({20,20}).setClient(false));
+	addElement((*(new GUI5button())).setText(" X").setFunc(&windowBtnCloseFunc).setArg((void*)this).setSize({20,20}).setClient(false));
 }
 
 GUI5window &GUI5window::setTitle(string t){

@@ -4,6 +4,7 @@
 #include "gui/newconsole.h"
 #include "gui/valscreen.h"
 #include "input/input.h"
+#include "main/control.h"
 void camInit();
 
 vec frustum::getTri(int tri, int vert){ // this is really dumb. why can't we have a normal convex hull generator?
@@ -78,13 +79,18 @@ void cameraKind::onMove(){
 }
 void cameraKind::mouseAim(){
 	vec deltaMouse;
-	deltaMouse.x = mousePos.x/width - 0.5;
-	deltaMouse.y = mousePos.y/height - 0.5;
+	vec2i mousePos = input.getMousePos();
+	rect screen = getScreenRect();
+	int height = screen.geth();
+	int width = screen.getw();
+	deltaMouse.x = (mousePos.x-width/2)/(double)width;
+	deltaMouse.y = (mousePos.y-height/2)/(double)height;
 	if(deltaMouse.x or deltaMouse.y){
 		angle = angle.addRotation(-90.0*deltaMouse.x, {0,0,1});
 		angle = angle.addRotation(-90.0*deltaMouse.y, angle.right());
 		onMove();
 	}
+	SDL_WarpMouseInWindow(window,width/2, height/2);
 }
 void cameraKind::tick(){
 	if(goingForward)
@@ -111,6 +117,9 @@ void cameraKind::setFrustum(){
 	double bottom;
 	double left;
 	double right;
+	rect screen = getScreenRect();
+	double height = (double)screen.geth();
+	double width = (double)screen.getw();
 	aspect = height/width;
 	//aspect = 1.0f;
 	//aspect = width/height;
@@ -132,6 +141,9 @@ vec cameraKind::worldtoscreen(vec worldpos){ //algorithmical reversal of screent
 	double top = getFrustumTop();
 	double x = lspos.x/(2*right);
 	double y = lspos.z/(2*top);
+	rect screen = getScreenRect();
+	int height = screen.geth();
+	int width = screen.getw();
 	x = (x+0.5)*width;
 	y = (0.5-y)*height;
 	return {x,y,depth};
@@ -140,6 +152,9 @@ vec cameraKind::screentoworld(vec screenpos){
 	double x = screenpos.x;
 	double y = screenpos.y;
 	double depth = screenpos.z;
+	rect screen = getScreenRect();
+	double height = (double)screen.geth();
+	double width = (double)screen.getw();
 	aspect = height/width;
 	x = (x/width)-0.5f; // x becomes percentage of screen away from center
 	y = 0.5f-(y/height);
@@ -176,6 +191,9 @@ void cameraKind::getNewFrustum(){
 	frustum viewfrustum; // A - near top left, then CW.
 	//printf("H = %f, W = %f\n", height, width);
 	//printf("znear = %f, cos1 = %f, cos2 = %f\n", znear, cos(d2r(fov/2.0)), cos(d2r(fov/2.0*aspect)));
+	rect screen = getScreenRect();
+	double height = (double)screen.geth();
+	double width = (double)screen.getw();
 	double top = getFrustumTop();
 	double right = getFrustumRight();
 	double lnear = sqrt(znear*znear+right*right+top*top); // distance to any of 4 vertices of near plane
@@ -191,9 +209,16 @@ void cameraKind::getNewFrustum(){
 	viewfrustum.H = screentoworld({0,		height,	lfar});
 	curFrustum = viewfrustum;
 }
+// 2D-3D ortho-projection hijinks:
+// Remember that screen coords should be double to avoid integer division crap
+// also main.cpp should resize glViewport(0,0,width,height) when window size changes
+// idk why viewport isn't included in frustrum/projection matrix/etc.
 void cameraKind::go2D()
 {
 	//printf("camera go2D: %dx%d\n", (int)width, (int)height);
+	rect screen = getScreenRect();
+	double height = (double)screen.geth();
+	double width = (double)screen.getw();
 	glMatrixMode(GL_PROJECTION);
 	glDisable(GL_DEPTH_TEST);
 	glLoadIdentity();
@@ -214,6 +239,9 @@ void cameraKind::go3D()
 	glPopMatrix();
 }
 bool cameraKind::screencoordsvisible(vec pos){
+	rect screen = getScreenRect();
+	int height = screen.geth();
+	int width = screen.getw();
 	return (pos.z >= 0) and (pos.x >= 0) and (pos.x <= width) and (pos.y >= 0) and (pos.y <= height);
 }
 bool cameraKind::worldcoordsvisible(vec pos){

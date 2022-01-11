@@ -440,7 +440,7 @@ void GUI1frame::onClick(int mb)
 {
 	if(mb)
 	{
-		dragStart = mousePos-pos;
+		//dragStart = mousePos-pos;
 		dragging = 1;
 	}
 	else
@@ -450,7 +450,7 @@ void GUI1frame::onClick(int mb)
 }
 void GUI1frame::render() // later will be delegated to skins to draw on their own
 {
-	if(dragging){pos = mousePos-dragStart;}
+	//if(dragging){pos = mousePos-dragStart;}
 	if(!(oldpos==pos))
 	{
 		vec2i pos2 = pos;

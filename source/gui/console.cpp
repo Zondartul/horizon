@@ -122,8 +122,8 @@ void cmd_exit(void *arg){exit(0);}
 void cmd_resetcam(void *arg)
 {
 	ConsoleParse("[color=white]Camera reset.[/color]");
-	CamAngle = quat::fromAngleAxis(0,{0,0,1});
-	SomeVec1 = {0,0,0};
+	//CamAngle = quat::fromAngleAxis(0,{0,0,1});
+	//SomeVec1 = {0,0,0};
 }
 void cmd_cls(void *arg)
 {

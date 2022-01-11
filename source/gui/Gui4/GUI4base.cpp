@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "assert.h"
 #include "display/paint.h"
+#include "main/control.h"
 
 //functions
 GUI4base::GUI4base(){//constructor
@@ -390,6 +391,7 @@ void GUI4base::think(){
 				if(mouse != click_pos){
 					//figure out how the mouse should be constrained
 					//to prevent weird positions
+					rect screen = getScreenRect();
 					vec2i c_start = screen.getStart();
 					vec2i c_end = screen.getEnd();
 					if(parent){

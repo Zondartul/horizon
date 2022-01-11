@@ -290,8 +290,8 @@ void PhysicsTick()
 	
 	//static int prevObj = -1;
 	trace ray;
-	ray.start = SomeVec1;
-	if(mouseCapture){ray.dir = CamAngle.rotateVector({0,1,0});}
+	//ray.start = SomeVec1;
+	if(0){}//if(mouseCapture){ray.dir = CamAngle.rotateVector({0,1,0});}
 	else
 	{
 		vec v1,v2,v3,worldVec;
@@ -305,8 +305,10 @@ void PhysicsTick()
 		glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
 		glGetIntegerv(GL_VIEWPORT, viewport);
 		
-		gluUnProject(mousePos.x,mousePos.y,0,modelMatrix,projMatrix,viewport,&v1.x,&v1.y,&v1.z);
-		gluUnProject(mousePos.x,mousePos.y,1,modelMatrix,projMatrix,viewport,&v2.x,&v2.y,&v2.z);
+		//?
+		//gluUnProject(mousePos.x,mousePos.y,0,modelMatrix,projMatrix,viewport,&v1.x,&v1.y,&v1.z);
+		//gluUnProject(mousePos.x,mousePos.y,1,modelMatrix,projMatrix,viewport,&v2.x,&v2.y,&v2.z);
+		
 		//if(gluUnProject(mousePos.x,mousePos.y,1,modelMatrix,projMatrix,viewport,&v2.x,&v2.y,&v2.z)==GL_TRUE)
 		//{printf("true, {%f,%f,%f}\n",v2.x,v2.y,v2.z);}else{printf("false, {%f,%f,%f}\n",v2.x,v2.y,v2.z);}
 		
@@ -314,7 +316,7 @@ void PhysicsTick()
 		worldVec.x = v3.x;
 		worldVec.y =-v3.z;
 		worldVec.z =-v3.y;
-		ray.dir = CamAngle.rotateVector(worldVec.norm());
+		//ray.dir = CamAngle.rotateVector(worldVec.norm());
 	}
 	ray.scan();
 	//if(prevObj!=-1){AllPhysBodies[prevObj].color = {255,255,255};}

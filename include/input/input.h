@@ -32,7 +32,8 @@ class inputKind
 	bool mouse2down;
 	bool mouse3down;
 	char getShifted(char c);		//returns the character that results from holding shift while pressing the given key.
-	void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam);	//OS messages are fed into this function.
+	//void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam);	//OS messages are fed into this function.
+	void keyThing(SDL_Event event);
 };
 extern inputKind input;	//singleton declaration (created in input.cpp)
 #endif

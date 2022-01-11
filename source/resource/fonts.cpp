@@ -1,5 +1,4 @@
 #include "resource/fonts.h"
-#include <windows.h>
 #include <gl/gl.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -27,21 +26,22 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
 	int error = 0;
 	//if(library == NULL){ //re-initializing the freetype library hid the heisenbug again...
 		error = FT_Init_FreeType( &library );
-		if(error){MessageBox(0,"Couldn't init FreeType", "Error", MB_OK|MB_ICONERROR );}
+		//if(error){MessageBox(0,"Couldn't init FreeType", "Error", MB_OK|MB_ICONERROR );}
+		if(error){printf("Couldn't init FreeType\n");}
 	//}
 	
 	error = FT_New_Face( library,filepath,0,&face );
-	if ( error == FT_Err_Unknown_File_Format ){MessageBox(0,"FreeType: wrong file format", "Error", MB_OK|MB_ICONERROR );}
-	else if(error){MessageBox(0,"FreeType: some file error", "Error", MB_OK|MB_ICONERROR );}
-	
+	if ( error == FT_Err_Unknown_File_Format ){printf("FreeType: wrong file format.\n");}//{MessageBox(0,"FreeType: wrong file format", "Error", MB_OK|MB_ICONERROR );}
+	else //if(error){MessageBox(0,"FreeType: some file error", "Error", MB_OK|MB_ICONERROR );}
+	if(error){printf("FreeType: some file error\n");}
 	error = FT_Set_Char_Size(
         face,    /* handle to face object           */
         0,       /* char_width in 1/64th of points  */
         size*64,   /* char_height in 1/64th of points */
 		72,     /* horizontal device resolution    */
         72 );   /* vertical device resolution      */
-	if(error){MessageBox(0,"FreeType: can't set size for this font", "Error", MB_OK|MB_ICONWARNING );}
-	
+	if(error)//{MessageBox(0,"FreeType: can't set size for this font", "Error", MB_OK|MB_ICONWARNING );}
+	{printf("FreeType: can't set size for this font\n");}
 	glyphkind *charmap = new glyphkind[256];//(glyphkind*)malloc(256*sizeof(glyphkind));
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
@@ -54,17 +54,17 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
 	{
 		error = FT_Load_Char( face, I, FT_LOAD_DEFAULT);
 		if(error){
-			MessageBox(0,"printing cookie...", "info", MB_OK|MB_ICONINFORMATION );
+			//MessageBox(0,"printing cookie...", "info", MB_OK|MB_ICONINFORMATION );
 			char* str;
 			sprintf(str, "FreeType: Couldn't load char %d, '%c', error = %d", I, (char)I, error);
-			MessageBox(0,str, "Error", MB_OK|MB_ICONWARNING );
-			PostQuitMessage(0);
+			//MessageBox(0,str, "Error", MB_OK|MB_ICONWARNING );
+			//PostQuitMessage(0);
 			return NULL;
 		}
 		
 		error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
-		if(error){MessageBox(0,"FreeType: can't render glyph.","Error", MB_OK|MB_ICONWARNING);PostQuitMessage(0);return NULL;}
-		
+		if(error)//{MessageBox(0,"FreeType: can't render glyph.","Error", MB_OK|MB_ICONWARNING);PostQuitMessage(0);return NULL;}
+		{printf("FreeType: can't render glyph.\n");}
 		int fwidth = face->glyph->bitmap.width; 
 		charmap[I].sizeX = fwidth;
 		int fheight = face->glyph->bitmap.rows; 

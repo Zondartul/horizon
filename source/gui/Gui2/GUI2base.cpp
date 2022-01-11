@@ -195,6 +195,9 @@ void GUI2base::scissorCheck(void* arg)
 	{
 		vec4i scissor = *((vec4i*)arg);
 		//if(!(scissor == (vec4i){0,0,0,0})){glEnable(GL_SCISSOR_TEST);}
+		rect screen = getScreenRect();
+		int height = screen.geth();
+		int width = screen.getw();
 		glScissor(scissor.x1-1,height-scissor.y2-1,scissor.x2-scissor.x1+1,scissor.y2-scissor.y1+1);
 	}
 }

@@ -1,5 +1,4 @@
 #include "main/control.h"
-#include <windows.h>
 #include <gl/gl.h>
 #include <cstdio>
 #include <math.h>
@@ -47,22 +46,23 @@ GUI2base *GUI;
 GUI2frame *myFrame;
 GUI5base *GUI5;
 //model *myModel;
-vec SomeVec1; //cam pos.
-vec SomeVec2;
-vec2i deltaMouse;
-vec2i windowCorner;
-vec2i windowSize;
-vec2i windowCenter;
-quat CamAngle;
-quat CamAngTest;
-double Camnorm;
-double camSpeed;
+//vec SomeVec1; //cam pos.
+//vec SomeVec2;
+//vec2i deltaMouse;
+//vec2i windowCorner;
+//vec2i windowSize;
+//vec2i windowCenter;
+//quat CamAngle;
+//quat CamAngTest;
+//double Camnorm;
+//double camSpeed;
 bool renderWireframe;
 //int EntLookAt;
 bool mouseCapture;
 bool camRotOn;
-HWND hwnd;
-
+//HWND hwnd;
+SDL_Window *window;
+SDL_GLContext glcontext;
 //#include "physics.h"
 //#include "console.h"
 /*
@@ -230,7 +230,7 @@ void OpenMenu1()
 	btn2->arg = (void *)btn2;
 	btn2->setParent(myFrame);
 }
-
+/* 
 void OpenVals()
 {
 	GUI2frame* valframe = new GUI2frame;
@@ -267,7 +267,7 @@ void OpenVals()
 	valdmx->val = (void*)(&deltaMouse.x);			val2dmy->val = (void*)(&Camnorm);
 	valdmx->mode = 'd';								val2dmy->mode = 'f';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
-}
+} */
 GUI4base *GUI4;
 
 void displaySizes(void *arg){
@@ -344,7 +344,7 @@ bool ParseKey(int kb)
 			case 4://every tick
 				//do nothing, handled elsewere.
 				break;
-			case 5://whenever windows tells us
+			case 5://whenever?
 				if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
 				break;
 		}
@@ -371,7 +371,7 @@ bool ParseKey(int kb)
 			case 4://every tick
 				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
 				break;
-			case 5://whenever windows tells us
+			case 5://whenever?
 				if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
 				break;
 		}
@@ -390,13 +390,13 @@ class BinderKind: public messageReceiver{
 		}
 	}
 } Binder;
-
+/* 
 void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
 void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
 void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{1,0,0});}
 void camRotXCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{1,0,0});}
 void camRotZCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,0,1});}
-void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,0,1});}
+void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,0,1});} */
 /*
 void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
 void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
@@ -410,14 +410,14 @@ void camRotZCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});
 // y = forward
 // z = up
 
-void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*convars["camSpeed"]);}
+/* void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,.1,0})*convars["camSpeed"]);}
 void camBack(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){0,-.1,0})*convars["camSpeed"]);}
 void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){-.1,0,0})*convars["camSpeed"]);}
 void camRight(void* arg){SomeVec1 = SomeVec1+CamAngle.rotateVector(((vec){.1,0,0})*convars["camSpeed"]);}
 void camSlow(void* arg){camSpeed = 0.2;}
 void camFast(void* arg){camSpeed = 1;}
 void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
-void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;}
+void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;} */
 void ToggleMouseCapture(void* arg){convars["camera_mouse_capture"] = !convars["camera_mouse_capture"];}//{mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 class BinderKind;
@@ -448,7 +448,8 @@ void OnProgramStart()
 	print_current = 1;
 	debugcurrent.push("OnProgramStart");
 	debug("hi\n");
-	debug("freetype version = %d.%d.%d",FF_version_major, FF_version_minor, FF_version_patch);
+	debug("freetype version = %d.%d.%d\n",FF_version_major, FF_version_minor, FF_version_patch);
+	debug("OpenGL version: %s\n", glGetString(GL_VERSION));
     theta = 1.0f;
     //if(MessageBox(0,"V: 44. Continue?", "Version", MB_OKCANCEL|MB_ICONQUESTION )==2){PostQuitMessage(0); return;}
     Tahoma8 = GenerateFont("C:/Windows/Fonts/tahoma.ttf",8,true);//no aa
@@ -470,35 +471,10 @@ void OnProgramStart()
 	setFont(Calibri18);
 	debug("fonts done\n");
 	paintInit();
-	SomeVec1 = {0,0,0};
-	SomeVec2 = {2,5,5};
-	//bindKey('t',&Test1,NULL,1);
-	//bindKey('w',&camForward,NULL,4);
-	//bindKey('a',&camLeft,NULL,4);
-	//bindKey('s',&camBack,NULL,4);
-	//bindKey('d',&camRight,NULL,4);
-	//bindKey(32,&camUp,NULL,4);
-	//bindKey('c',&camDown,NULL,4);
-	//bindKey(27,&ToggleMouseCapture,NULL,1);
-	//bindKey(16,&camSlow,&camFast,1);
-	
-	//numpad
-	// 103 104 105
-	// 100 101 102
-	//  97  98  99
-	//bindKey(100,&camRotYCCW,NULL,1);
-	//bindKey(102,&camRotYCW,NULL,1);
-	//bindKey(104,&camRotXCCW,NULL,1);
-	//bindKey(98,&camRotXCW,NULL,1);
-	//bindKey(103,&camRotZCCW,NULL,1);
-	//bindKey(105,&camRotZCW,NULL,1);
-	//bindKey(97, &ToggleCamRot,NULL,1);
+
 	mouseCapture = false;
 	camRotOn = true;
-	camSpeed = 1;
-	CamAngle = quat::fromAngleAxis(0,{0,0,1});//{0,{0,0,1}};
-	CamAngTest = {1,{0,0,1}};
-	//EntLookAt = 0;
+
 	renderWireframe = false;
 	bground.r = 142;
 	bground.g = 187;
@@ -542,10 +518,10 @@ void OnProgramStart()
 	KeyBinds["space"] = "+camup";
 	KeyBinds["ctrl"] = "+camdown";
 	KeyBinds["shift"] = "+camslow";
-	confuncs["forwardonce"] = camForward;
-	confuncs["backwardonce"] = camBack;
+	//confuncs["forwardonce"] = camForward;
+	//confuncs["backwardonce"] = camBack;
 	//KeyBinds["esc"] = "camera_mouse_capture 0";
-	KeyBinds["esc"] = "toggle_mouse";
+	KeyBinds["escape"] = "toggle_mouse";
 	confuncs["toggle_mouse"] = ToggleMouseCapture;
 	bindtests();
 	camInit();
@@ -568,6 +544,7 @@ void OnProgramStart()
 	scene.push_back(new floatingtext({0,1,0},"R"));
 	scene.push_back(new floatingtext({0.87,-0.5,0},"G"));
 	scene.push_back(new floatingtext({-0.87,-0.5,0},"B"));
+
 	debugcurrent.pop();
 }
 
@@ -575,74 +552,34 @@ void OnProgramStart()
 
 void RenderGUI()
 {
-	mouseP = mousePos;
+	//mouseP = mousePos;
 	static int twidth = 0;
 	glColor3f(0.2f,0.7f,0.7f);
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "101";
-	string vdate = " of 15th September 2015";	//" of 8th August 2015"; 
+	string vnumber = "102";
+	string vdate = " of 24th December 2015"; //" of 15th September 2015";
 	twidth = printw(32,32,-1,-1,version+vnumber+vdate);
 	
-	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
-    vec4i windowrect = {0,0,(int)width,(int)height};
+	rect screen = getScreenRect();
+	vec2i pack[3]= {input.getMousePos(), screen.getStart(), screen.getEnd()};
+    vec4i windowrect = {screen.getx(),screen.gety(),screen.getx2(),screen.gety2()};
 	
 	GUI2base::propagateMouseOver(GUI,(void*)(pack), 0);
 	GUI2base::propagateRender(GUI,(void*)(&windowrect),0);
 	
 	if(GUI4){GUI4->think(); GUI4->render();}
 	if(GUI5){GUI5->renderlogic();}
-	//GUI3rendertick();
-	
-	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
-	
-	//GUIM.render(NULL);
-	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
 
 
 
 
 
-void ProcessMouseclick(int mb)
+/* void ProcessMouseclick(int mb)
 {
-   /*
-   if(!GUI2base::propagateClick(GUI,(void*)(&mb),0))
-   {
-		printf("mb = %d\n",mb);
-		if(mb==1){
-			printf("click void\n");
-			ParseKey(1);
-			//convars["camera_mouse_capture"] = 1;
-			GUI->unsubscribeFromMessageChannel(&input.channel, "");
-			//input.channel.unsubscribe("", GUI);
-			//input.channel.subscribe("", &Binder);
-			//input.channel.subscribe("", &Binder2);
-			Binder.subscribeToMessageChannel(&input.channel, "");
-			Binder2.subscribeToMessageChannel(&input.channel, "");
-		}//Binds[1].keyDown = true;}
-		if(mb==2){ParseKey(2);}//Binds[2].keyDown = true;}
-		if(mb==0){ParseKey(-1);
-		printf("unclick void\n");}//Binds[1].keyDown = false;}
-		if(mb==-1){ParseKey(-2);}//Binds[2].keyDown= false;}
-   }else{
-		if(mb == 1){
-			//input.channel.unsubscribe("", &Binder);
-			//input.channel.unsubscribe("", &Binder2);
-			//input.channel.subscribe("", GUI);
-			
-			Binder.unsubscribeFromMessageChannel(&input.channel, "");
-			Binder2.unsubscribeFromMessageChannel(&input.channel, "");
-			GUI->subscribeToMessageChannel(&input.channel, "");
-			printf("click window\n");
-			convars["camera_mouse_capture"] = 0;
-		}else
-			printf("unclick window\n");
-	}
-	*/
-   // GUIM.click(NULL, mb);
-}
+} */
 
 void InputTick()
 {
@@ -653,147 +590,23 @@ void InputTick()
 			Binds[I].onPress(NULL);
 		}
 	}
-	//also lower 16-ish keys are non-mapped, lets use em for mouse
-	//1 - mouse1
-	//2 - mouse2
-	//3 - mouse3
-	//4 - mouse wheel up
-	//5 - mouse wheel down
-	//6 - mouseY updated
-	//7 - mouseX updated
-	//now do mouse!
 	if(convars["camera_mouse_capture"])//if(mouseCapture)
 	{
-		//CamAngle = camera.angle;
-		//get delta from center and then re-center!
 		camera.mouseAim();
-		
-		//CamAngle = CamAngle.norm();
-		//CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
-		//if(CamAngle.w>360){CamAngle.w=0;}
-		//if(CamAngle.w<0){CamAngle.w=360;}
-		SetCursorPos(windowCenter.x,windowCenter.y);
 	}
 }
-
-void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
+void keyThing(SDL_Event event){
+	input.keyThing(event);
+}
+/* void ProcessKeyboard(int kb)
 {
-	input.keyThing(umsg, wParam, lParam);
-}
-
-void ProcessKeyboard(int kb)
-{
-	/* it's been ages since this was even a thing
-	return;
-	int letter = 0;
-	if(kb>0)
-	{
-		letter = 'a';
-		MapVirtualKey((unsigned int)kb,2);
-		if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
-		else
-		{
-		switch(letter)
-		{
-			case ',':
-				letter = '<';
-				break;
-			case '.':
-				letter = '>';
-				break;
-			case '/':
-				letter = '?';
-				break;
-			case ';':
-				letter = ':';
-				break;
-			case '\'':
-				letter = '"';
-				break;
-			case '1':
-				letter = '!';
-				break;
-			case '2':
-				letter = '@';
-				break;
-			case '3':
-				letter = '#';
-				break;
-			case '4':
-				letter = '$';
-				break;
-			case '5':
-				letter = '%';
-				break;
-			case '6':
-				letter = '^';
-				break;
-			case '7':
-				letter = '&';
-				break;
-			case '8':
-				letter = '*';
-				break;
-			case '9':
-				letter = '(';
-				break;
-			case '0':
-				letter = ')';
-				break;
-			case '-':
-				letter = '_';
-				break;
-			case '=':
-				letter = '+';
-				break;
-			case '[':
-				letter = '{';
-				break;
-			case ']':
-				letter = '}';
-				break;
-			case '|':
-				letter = '\\';
-				break;
-		}
-		}
-	}
-	bool b = false;
-	//bool b = GUIbase::propagateKeyboard(letter*kb/abs(kb));
-	if(!b&&!ParseKey(kb))
-	{
-		//string mystring = "";
-		char str[64];
-		 //std::ostringstream stringStream;
-		//stringStream << "Unbound key: " << kb << " = [" <<(char)kb <<"]/[" <<(char)letter << "]";
-		
-		sprintf(str,"Unbound key: %d ",kb);//= [%c]/[%c]",kb,(char)kb,(char)letter);
-		printf("sending string to parse: \"%s\"\n",str);
-		//ConsoleParse((string)str);
-	}
-	//GUIM.keyboard(kb); */
-}
+} */
 
 void Render2D()
 {
-    /*
-	glColor3f(0.0f,1.0f,0.0f);
-    paintRectOutline(1,1,128,128);
-    glColor3f(0.9f, 0.5f, 0.0f);
-    setFont(Tahoma16);
-
-    int len = printw(32,256, "I like ponies, theta = %d c:", (int)theta);
-    printw(32,128,"%c = %d", (char)((int)(theta/10)%128),((int)(theta/10)%128));
-    glColor3f(1.0f,1.0f,1.0f);
-    setFont(Calibri20);
-    printw(32,32, "length of that line is %d pixels", len);
-
-    printw(32,64, "MouseX: %d, MouseY: %d", mouseX, mouseY);
-    */
 	RenderGUI();
 }
-//vector<physBody*> TranslucentBodies;
-//bool BodyDistanceComparator(physBody* i, physBody* j){return (i->pos-SomeVec1).length()>(j->pos-SomeVec1).length();}
+
 void Render3D()
 {
 	//NO ONE FUCKING TOUCHES THOSE MATRICES
@@ -821,13 +634,6 @@ void Render3D()
 	int sc = -1;
 	if(camRotOn){glRotatef(sw*w,sv*v.x,sv*v.y,sv*v.z);}
     glTranslated(sc*camera.pos.x, sc*camera.pos.y, sc*camera.pos.z);
-    // glBegin(GL_TRIANGLES);
-
-        // glColor3f(1.0f, 0.0f, 0.0f);   glVertex2f(0.0f,   1.0f);
-        // glColor3f(0.0f, 1.0f, 0.0f);   glVertex2f(0.87f,  -0.5f);
-        // glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
-
-    // glEnd();
 	for(std::vector<renderable*>::iterator I = scene.begin(); I != scene.end(); I++){
 		if((*I)->lifetime == 0){
 			scene.erase(I);
@@ -841,48 +647,8 @@ void Render3D()
     //glPopMatrix();
 }
 
-/*
-void BuildPerspProjMat(float *m, float fov, float aspect,
- float znear, float zfar)
- {
-  float ymax = znear * tan(fov * PI_OVER_360);
-  float ymin = -ymax;
-  float xmax = ymax * aspect;
-  float xmin = ymin * aspect;
 
-  float width = xymax - xmin;
-  float height = xymax - ymin;
-
-  float depth = zfar - znear;
-  float q = -(zfar + znear) / depth;
-  float qn = -2 * (zfar * znear) / depth;
-
-  float w = 2 * znear / width;
-  w = w / aspect;
-  float h = 2 * znear / height;
-
-  m[0]  = w;
-  m[1]  = 0;
-  m[2]  = 0;
-  m[3]  = 0;
-
-  m[4]  = 0;
-  m[5]  = h;
-  m[6]  = 0;
-  m[7]  = 0;
-
-  m[8]  = 0;
-  m[9]  = 0;
-  m[10] = q;
-  m[11] = -1;
-
-  m[12] = 0;
-  m[13] = 0;
-  m[14] = qn;
-  m[15] = 0;
- }
- */
-void RenderTick(HDC hDC)
+void RenderTick()
 {
     glClearColor(bground.r/255.0f,bground.g/255.0f,bground.b/255.0f,bground.a/255.0f);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -895,8 +661,9 @@ void RenderTick(HDC hDC)
     Render2D();
     camera.go3D();
 
-    SwapBuffers(hDC);
-
+    //SwapBuffers(hDC);
+	SDL_GL_SwapWindow(window);
+	
     theta += 1.0f;
     Sleep(1);
 }
@@ -919,42 +686,18 @@ void ThinkTick()
 }
 
 rect getScreenRect(){
-	RECT r;
-	GetClientRect(hwnd, &r);
 	rect R;
-	R.setStart({0,0});
-	R.setEnd({r.right-r.left, r.bottom-r.top});
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+	R.setStart({0,0}).setSize({w,h});
 	return R;
 }
-void ProgramTick(HWND hwnd, HDC hDC)
-{
-	input.hwnd = hwnd;
-    RECT rect;
-	POINT cursorPos;
-	GetWindowRect(hwnd, &rect);
-    GetCursorPos(&cursorPos);
-    windowCorner.x = rect.left+7;
-	windowCorner.y = rect.top+29;
-	
-	mousePos.x = cursorPos.x-rect.left-7;
-    mousePos.y = cursorPos.y-rect.top-29;
-
-	
-    GetClientRect(hwnd, &rect);
-	width = rect.right;
-	height = rect.bottom;
-	windowSize.x = width;
-	windowSize.y = height;
-	screen.setStart({0,0});
-	screen.setSize({(int)width,(int)height});
-	windowCenter.x = windowCorner.x+width/2;
-	windowCenter.y = windowCorner.y+height/2;
+//
+void ProgramTick(){
 	InputTick();
 	ThinkTick();
-    RenderTick(hDC);
-	//vec coords = camera.worldtoscreen({0,0,0});
+	RenderTick();
 	scene.push_back(new point(camera.pos, 200));
-	//PhysicsTick();
 }
 
 void CallDestructor()
@@ -975,4 +718,9 @@ void CallDestructor()
 	fontFree((glyphkind*)CourierNew18);
 	fontFree((glyphkind*)CourierNew20);
 	fontFree((glyphkind*)CourierNew22);
+}
+
+void Cleanup(){
+	SDL_DestroyWindow(window);
+	SDL_Quit();
 }

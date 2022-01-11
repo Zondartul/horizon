@@ -691,8 +691,8 @@ void entSelect(void *arg)
 	if(EntSelected){EntSelected->color = {64,255,64}; prevSelected = EntSelected;}
 	
 	trace ray;
-	ray.start = SomeVec1;
-	ray.dir = CamAngle.rotateVector({0,1,0});
+	//ray.start = SomeVec1;
+	//ray.dir = CamAngle.rotateVector({0,1,0});
 	ray.scan();
 	if(ray.hit)
 	{
@@ -705,13 +705,13 @@ void entSelect(void *arg)
 }
 void entPush(void *arg)
 {
-	if(EntLookAt){EntLookAt->applyForce(CamAngle.rotateVector({0,1,0}));}
+	//if(EntLookAt){EntLookAt->applyForce(CamAngle.rotateVector({0,1,0}));}
 }
 
 void update3Dcursor(void* arg)
 {
 	physBody *cursor = (physBody *)arg;//     vvv cursor->pos-SomeVec1
-	cursor->orient = quat::from4vecs({0,0,-1},CamAngle.rotateVector({0,1,0}),{1,0,0},CamAngle.rotateVector({1,0,0})); //or just = camAngle;
+	//cursor->orient = quat::from4vecs({0,0,-1},CamAngle.rotateVector({0,1,0}),{1,0,0},CamAngle.rotateVector({1,0,0})); //or just = camAngle;
 	if(EntSelected){cursor->pos = EntSelected->pos; cursor->scale = 3*EntSelected->BSradius*EntSelected->scale;}
 	else{cursor->scale = 0;}
 }
