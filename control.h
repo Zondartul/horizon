@@ -8,4 +8,5 @@ void RenderTick(HDC hDC);
 
 void ProgramTick(HWND hwnd, HDC hDC);
 void ProcessMouseclick(int mb);
+void ProcessKeyboard(int kb);
 void CallDestructor();

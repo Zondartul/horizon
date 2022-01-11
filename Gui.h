@@ -39,6 +39,10 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
     glEnd();
 }
 
+void setColor3(color3i color)
+{
+	glColor3f(color.r/255.0f, color.g/255.0f, color.b/255.0f);
+}
 
 enum GUIMessage
 {
@@ -56,6 +60,7 @@ class GUIobj
     vec2i pos;
     vec2i size;
     color3i color;
+	color3i color2;
     int counter;
 	GUIobj *parent;
 	void *GUIM;
@@ -75,6 +80,7 @@ class GUIobj
         color.r = 32;
         color.g = 255;
         color.b = 32;
+		color2 = {0,0,0};
 		strata = 0;
     }
 	/*
@@ -132,6 +138,15 @@ class GUIobj
 	virtual ~GUIobj()
 	{
 	}
+	virtual void keyDown(int kb)
+	{
+	}
+	virtual void keyUp(int kb)
+	{
+	}
+	virtual void invalidate()
+	{
+	}
 };
 
 
@@ -158,6 +173,7 @@ class GUIManager //manages windows and controlls, their allocation and message p
 				Cur->thing=(void*)it; 
 				it->strata = strata; 
 				it->GUIM = (void*)this;
+				it->invalidate();
 				done = 1;
 			}
             else if(Cur->next==NULL)
@@ -166,6 +182,7 @@ class GUIManager //manages windows and controlls, their allocation and message p
                 Cur->next->next = NULL;
 				it->strata = strata+1;
 				it->GUIM = (void*)this;
+				it->invalidate();
 				//if(it->parent){reposition(it,{0,0}, it->parent->pos);}
                 Cur->next->thing = (void*)it;
                 done = 1;
@@ -268,7 +285,10 @@ class GUIManager //manages windows and controlls, their allocation and message p
 	GUIobj* lastClick;
 	void click(GUIobj* obj, int mb)
 	{
-		if(mb<1){lastClick->onClick(mb);}
+		if(mb<1)
+		{
+			if(lastClick){lastClick->onClick(mb);}
+		}
 		else
 		{
 		listNode* Cur;
@@ -287,6 +307,15 @@ class GUIManager //manages windows and controlls, their allocation and message p
 			}
 			Cur = Cur->next;
 		}
+		}
+	}
+	GUIobj *focus;
+	void keyboard(int kb)
+	{
+		if(focus)
+		{
+			if(kb>0){focus->keyDown(kb);}
+			else{focus->keyUp(kb);}
 		}
 	}
     void input()
@@ -327,15 +356,20 @@ class GUIbutton: public GUIobj
 	{
 		if(!pressed)
 		{
-			glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
-			paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+				glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
+				paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+			if(mouseOver)
+			{
+				glColor3f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f);
+				paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+			}
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
 			printw(pos.x+4,pos.y+4,"%s",text);
 		}
 		else
 		{
 			if(!mouseOver){pressed = 0;}
-			glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
+			glColor3f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f);
 			paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
 			printw(pos.x+4,pos.y+4,"%s",text);
@@ -367,9 +401,7 @@ class GUIframe: public GUIobj
 		pos = {0,0};
 		oldpos = {0,0};
 		myButton = new GUIbutton;
-		myButton->pos = {0,0};
 		myButton->size = {24,24};
-		myButton->color = color;
 		myButton->parent = (GUIobj*)this;//commenting this makes me crash?
 		myButton->func = &btnClose_wrapper;
 		myButton->funcHolder = (void*)this;
@@ -380,6 +412,12 @@ class GUIframe: public GUIobj
 		//delete myButton;//uhh do I need to?...
 		((GUIManager*)GUIM)->remove(NULL, (GUIobj*)this);
 		//delete this; NEVER do this in a destructor
+	}
+	void invalidate()
+	{
+		myButton->pos = {size.x-26,2};
+		myButton->color = color+(color3i){32,32,32};
+		myButton->color2 = color2;
 	}
 	void onClick(int mb)
 	{
@@ -411,16 +449,59 @@ class GUIframe: public GUIobj
 		//window
 		glColor4f(color.r/255.0f,color.g/255.0f,color.b/255.0f,0.5f);
 		paintRect(rX1,rY1,rX2,rY2);
-		glColor4f(color.r/255.0f,color.g/255.0f,color.b/255.0f,1.0f);
+		glColor4f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f,1.0f);
 		paintRectOutline(rX1,rY1,rX2,rY2);
 		//title bar
-		paintRect(rX1+2, rY1+2, rX2-2, rY1+32);
-		glColor3f(1.0f,1.0f,1.0f);
+		glColor4f(color.r/255.0f,color.g/255.0f,color.b/255.0f,1.0f);
+		paintRect(rX1+2, rY1+2, rX2-2, rY1+26);
+		glColor4f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f,1.0f);
 		setFont(Tahoma22);
-		printw(rX1+2, rY1+8, "Title");//todo: centering func
+		printw(rX1+4, rY1+5, "Title");//todo: centering func
 		
-		printw(rX2+8, rY1+size.y/2, "Clicks: %d",counter);
+		//printw(rX2+8, rY1+size.y/2, "Clicks: %d",counter);
 	}
 };
 
+class GUItextEntry: public GUIobj
+{
+	public:
+	color3i textColor;
+	char *text;
+	char oneChar;
+	void *font;
+	bool hasFocus;
+	GUItextEntry()
+	{
+		textColor = {0,0,0};
+		text = "All the pretty little horses";
+		font = Calibri18;
+		color = {255,255,255};
+		color2 = {0,0,0};
+	}
+	void render()
+	{
+		setColor3(color);
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		
+		setColor3(color2);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		
+		setColor3(textColor);
+		setFont(font);
+		printw(pos.x+4,pos.y+4, text);
+	}
+	void onClick(int mb)
+	{
+		hasFocus = true;
+		((GUIManager*)GUIM)->focus = (GUIobj*)this;
+	}
+	void keyDown(int kb)
+	{
+		if(hasFocus)
+		{
+			text = &oneChar;
+			oneChar = (char)kb;
+		}
+	}
+};
 

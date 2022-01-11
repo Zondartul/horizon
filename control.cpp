@@ -73,9 +73,16 @@ void OnProgramStart()
 	
 	GUIobj* Frame2 = new GUIframe;
 	//Frame2->pos = {64,64};
-	Frame2->size = {128,196};
+	Frame2->size = {256,128};
 	Frame2->color = {196,196,196};
 	GUIM.activate(Frame2);
+	
+	GUIobj* Text = new GUItextEntry;
+	Text->pos = {4,32};
+	Text->size = {256-8,128-34};
+	//((GUItextEntry*)Text)->text = "pintos and bays";
+	Text->parent = Frame2;
+	GUIM.activate(Text);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -87,7 +94,7 @@ void RenderGUI()
 	glColor3f(0.2f,0.7f,0.7f);
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
-	twidth = printw(32,32,"Version: 46");
+	twidth = printw(32,32,"Version: 52");
     GUIM.render(NULL);
 	GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
@@ -95,6 +102,11 @@ void RenderGUI()
 void ProcessMouseclick(int mb)
 {
     GUIM.click(NULL, mb);
+}
+
+void ProcessKeyboard(int kb)
+{
+	GUIM.keyboard(kb);
 }
 
 void Render2D()

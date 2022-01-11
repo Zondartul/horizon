@@ -1,3 +1,16 @@
+int clamp(int A, int B, int C)
+{
+	if(A<B)
+	{
+		return B;
+	}
+	else
+	{
+		if(A>C){return C;}
+		else{return A;}
+	}
+}
+
 struct vec2i
 {
     int x;
@@ -36,6 +49,10 @@ struct color3i
 	int g;
 	int b;
 };
+color3i operator + (color3i A, color3i B)
+{
+	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255)};
+}
 
 struct listNode
 {
