@@ -88,6 +88,11 @@ void OnProgramStart()
 	check->pos = {4,196};
 	check->setParent((GUIbase*)myFrame);
 	
+	GUIspinner* spin = new GUIspinner;
+	spin->pos = {4, 154};
+	spin->vals = {-10,0,10,3};
+	spin->setParent((GUIbase*)myFrame);
+	
 	GUIradiobutton* radio1 = new GUIradiobutton;
 	radio1->pos = {4,256};
 	radio1->setParent((GUIbase*)myFrame);

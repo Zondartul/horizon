@@ -1,6 +1,7 @@
 //Gui.h
 #include <string>
 #include <cstdio>
+#include <math.h>
 using std::string;
 
 void paintRect(int X1, int Y1, int X2, int Y2)
@@ -12,7 +13,24 @@ void paintRect(int X1, int Y1, int X2, int Y2)
     glVertex2i(X2, Y1);
     glEnd();
 }
-
+void paintCircle(int X1, int Y1, int Radius)
+{
+	glBegin(GL_POLYGON);
+	for(double I = 0; I<36;I++)
+	{
+		glVertex2i(X1+Radius*sin(3.1415926535897932384626433832795*I/18), Y1+Radius*cos(3.1415926535897932384626433832795*I/18));
+	}
+	glEnd();
+}
+void paintCircleOutline(int X1, int Y1, int Radius)
+{
+	glBegin(GL_LINE_LOOP);
+	for(double I = 0; I<36;I++)
+	{
+		glVertex2i(X1+Radius*sin(3.1415926535897932384626433832795*I/18), Y1+Radius*cos(3.1415926535897932384626433832795*I/18));
+	}
+	glEnd();
+}
 void paintRectOutline(int X1, int Y1, int X2, int Y2)
 {
     float x1 = X1;// /width-1.0f;
@@ -434,10 +452,12 @@ class GUIbutton: public GUIbase
 	public:
 	void (*func)(void*);
 	void* arg;
+	string text;
 	GUIbutton():GUIbase()
 	{
 		func = NULL;
 		arg = NULL;
+		text = "";
 	}
 	void onClick(int mb)
 	{
@@ -446,6 +466,24 @@ class GUIbutton: public GUIbase
 			GUIbase::onClick(mb);
 			if(func)(func(arg));
 		}
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		if(mouseOver){setAlpha(255);}else{setAlpha(64);}
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		printw(pos.x+2,pos.y-4,text);
+		
+		glDisable(GL_SCISSOR_TEST);
 	}
 };
 
@@ -630,7 +668,7 @@ class GUIradiobutton: public GUIbase
 		checked = false;
 		resizible = false;
 		movable = false;
-		size = {14,14};
+		size = {16,16};
 	}
 	void onClick(int mb)
 	{
@@ -645,12 +683,13 @@ class GUIradiobutton: public GUIbase
 		
 		setColor(color_panel);
 		if(focus==this){setAlpha(255);}else{setAlpha(196);}
-		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		paintCircle(pos.x+size.x/2,pos.y+size.y/2,size.x/2);
+		//paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setAlpha(255);
 		setColor(color_border);
-		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		paintCircleOutline(pos.x+size.x/2,pos.y+size.y/2,size.x/2);
 		setColor(color_text);
-		if(checked){printw(pos.x+size.x/2-4,pos.y-4,"o");}
+		if(checked){printw(pos.x+size.x/2-5,pos.y-4,"o");}
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
@@ -674,6 +713,75 @@ void GUIradiogroup::checkButton(void *btn)
 		}
 	}
 };
+class GUIspinner: public GUIbase
+{
+	public:
+	double vals[4];// min - cur - max - speed
+	GUIbutton* btnUp;
+	GUIbutton* btnDown;
+	string text;
+	
+	static void fUp(void* arg)
+	{
+		double *vals = ((GUIspinner*)arg)->vals;
+		vals[1]+=vals[3];
+		if(vals[1]>vals[2]){vals[1]=vals[2];}
+	}
+	static void fDown(void* arg)
+	{
+		double *vals = ((GUIspinner*)arg)->vals;
+		vals[1]-=vals[3];
+		if(vals[1]<vals[0]){vals[1]=vals[0];}
+	}
+	GUIspinner():GUIbase()
+	{
+		counter = 0;
+		size = {64,18};
+		pos = {0,0};
+		vals = {-10,0,10,3};
+		movable = false;
+		resizible = true;
+		btnUp = new GUIbutton;
+		btnUp->func = &fUp;
+		btnUp->arg = (void*)this;
+		btnUp->size = {18,9};
+		btnUp->pos = {size.x-18,0};
+		btnUp->text = "^";
+		btnUp->setParent((GUIbase*)this);
+		
+		btnDown = new GUIbutton;
+		btnDown->func = &fDown;
+		btnDown->arg = (void*)this;
+		btnDown->size = {18,9};
+		btnDown->pos = {size.x-18,9};
+		btnDown->text = "v";
+		btnDown->setParent((GUIbase*)this);
+	
+	}
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		GUIbase::invalidate(newPos, newSize);
+		btnUp->setPos(pos.x+size.x-18,pos.y);
+		btnDown->setPos(pos.x+size.x-18,pos.y+9);
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		printw(pos.x+2,pos.y,"%d", (int)vals[1]);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
+
 /*
 GUI element check list!
 --INPUT--
@@ -684,6 +792,10 @@ TextEntry	* (sorta)
 Spinner
 DropDownList
 ListBox
+Slider
+RoundSlider
+ColorWheel
+ColorBox
 --NAVIGATION--
 Frame		*
 ScrollBar
