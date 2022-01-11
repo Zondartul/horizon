@@ -5,7 +5,10 @@ class physBody
 	public:
 	model *mdl;
 	vec pos;
+	vec vel;
+	vec acc;
 	quat orient;
+	double mass;
 	double scale;
 	vec3i color;
 	unsigned char alpha;
@@ -26,12 +29,13 @@ class physBody
 	void zero()
 	{
 		mdl = NULL;
-		pos = {0,0,0};
+		pos = vel = acc = {0,0,0};
 		orient = quat::fromAngleAxis(0,0,0,1);
 		color = {255,255,255};
 		alpha = 255;
 		BScenter = {0,0,0};
 		scale = 1;
+		mass = 1;
 		BSradius = 0.0f;
 		tracegroup = 1;
 		ptrs.upperThis = this;
@@ -164,6 +168,11 @@ class physBody
 			AABBmax.z = max(AABBmax.z,A.z); //AABB calculation	
 		}
 	}
+	void applyForce(vec force)
+	{
+		vel = vel+force/mass;
+	}
+	
 	~physBody(); // will declare outside
 	
 };
@@ -217,7 +226,6 @@ class trace
 		vec initDir = dir;
 		for(int i = 0; i<AllPhysBodies.size(); i++)
 		{
-			
 			//ray-sphere intersection
 			physBody *Bod = AllPhysBodies[i];
 			if(!Bod){continue;}
@@ -285,8 +293,12 @@ class trace
 	}
 };
 
+bool GJKcollision(physBody *A, physBody *B);
+
 void PhysicsTick()
 {
+	double timestep = 1.0/60;
+	
 	//static int prevObj = -1;
 	trace ray;
 	ray.start = SomeVec1;
@@ -330,8 +342,15 @@ void PhysicsTick()
 	}
 	//printf("-frame-\n");
 	
+	//init physics tick
+	for(int i = 0;i<AllPhysBodies.size();i++)
+	{
+		physBody *A = AllPhysBodies[i];
+		A->collisionCount = 0;
+		A->acc = {0,0,0};
+	}
+	
 	//collision detection,
-	for(int i = 0;i<AllPhysBodies.size();i++){AllPhysBodies[i]->collisionCount = 0;}
 	for(int i = 0;i<AllPhysBodies.size();i++)
 	{
 		//first, O(n^2) pairwise AABB checks
@@ -343,6 +362,7 @@ void PhysicsTick()
 			physBody *B = AllPhysBodies[j];
 			if(B->tracegroup!=1){continue;}
 			// [A--B] [D--C], (D>A, D<B)|(C>A,C<B)
+			//printf("check %d vs %d\n",i+1,j+1);
 			double xA = A->AABBmin.x; double xB = A->AABBmax.x; double xD = B->AABBmin.x; double xC = B->AABBmax.x;
 			double yA = A->AABBmin.y; double yB = A->AABBmax.y; double yD = B->AABBmin.y; double yC = B->AABBmax.y;
 			double zA = A->AABBmin.z; double zB = A->AABBmax.z; double zD = B->AABBmin.z; double zC = B->AABBmax.z;
@@ -354,14 +374,129 @@ void PhysicsTick()
 				
 				A->collisionCount++;
 				B->collisionCount++;
+				if(GJKcollision(A,B))
+				{
+					A->collisionCount+=10;
+					B->collisionCount+=10;
+					vec push;
+					if((A->pos-B->pos).length()==0){push = vec(random(-1,1),random(-1,1),random(-1,1));}
+					else{push = A->pos-B->pos;}
+					push = push.norm();
+					double restitution = 0.95;
+					double pushmag = (1+restitution)*(B->vel-A->vel).dot(push)/(1/A->mass+1/B->mass);
+					A->applyForce(push*pushmag);
+					B->applyForce(-push*pushmag);
+				}
 			}
+			/*
 			if(i==0&&j==1){printf("{C:%d|%d:%d,%d,%d,%d,%d,%d}{%d,%d,%d}-{%d,%d,%d}\n",i,j,
 				( (xC>=xA)&&(xC<=xB) ),( (xD>=xA)&&(xD<=xB) ),
 				( (yC>=yA)&&(yC<=yB) ),( (yD>=yA)&&(yD<=yB) ),
 				( (zC>=zA)&&(zC<=zB) ),( (zD>=zA)&&(zD<=zB) ),
 				(int)A->AABBmin.x,(int)A->AABBmin.y,(int)A->AABBmin.z,
 				(int)B->AABBmin.x,(int)B->AABBmin.y,(int)B->AABBmin.z)
-				;}
+				;}*/
 		}
+	}
+	// velocity loop
+	for(int i = 0;i<AllPhysBodies.size();i++)
+	{
+		//first, O(n^2) pairwise AABB checks
+		physBody *A = AllPhysBodies[i];
+		A->vel = A->vel+A->acc;
+		A->setPos(A->pos+A->vel*timestep);
+		A->vel = A->vel*(1-timestep/3);
+	}
+	//printf("\n");
+}
+
+//GJK collision detection
+
+vec GJKsupport(physBody *A, physBody *B, vec d)
+{
+	//get furthest point in direction for mesh A
+	vec p1 = A->mdl->mesh[0].v[1];
+	for(int i = 0; i<A->mdl->numtris;i++)
+	{
+		for(int t = 0; t<3;t++)
+		{
+			vec p = A->mdl->mesh[i].v[t];
+			if(p.dot(d)>p1.dot(d)){p1 = p;}
+		}
+	}
+	//same for mesh B
+	vec p2 = B->mdl->mesh[0].v[1];
+	for(int i = 0; i<B->mdl->numtris;i++)
+	{
+		for(int t = 0; t<3;t++)
+		{
+			vec p = B->mdl->mesh[i].v[t];
+			if(p.dot(-d)>p2.dot(-d)){p2 = p;}
+		}
+	}
+	return (p1+A->pos)-(p2+B->pos);
+}
+
+bool GJKcollision(physBody *A, physBody *B)
+{
+	// tetrahedron simplex;
+	vec d1 = { 1,  1,  1};  //   d3--d1
+	vec d2 = {-1, -1,  1};  //    |./|
+	vec d3 = {-1,  1, -1};  //    |/.|   
+	vec d4 = { 1, -1, -1};  //   d2--d4
+
+	vec p1 = GJKsupport(A,B,d1);if(p1.dot(d1)<=0){return false;} //if even one point does not "pass the origin",
+	vec p2 = GJKsupport(A,B,d2);if(p2.dot(d2)<=0){return false;} //then the minkowski sum cannot contain the origin,
+	vec p3 = GJKsupport(A,B,d3);if(p3.dot(d3)<=0){return false;} //meaning shapes do not intersect.
+	vec p4 = GJKsupport(A,B,d4);if(p4.dot(d4)<=0){return false;}
+	
+	int rec = 0;
+	bool insideOut = false;
+	while(true) //always terminates because geometry
+	{
+	//printf("~%d.",rec++);
+	vec dir1 = (p2-p1).cross(p3-p1); // anti p4
+	vec dir2 = (p1-p2).cross(p4-p2); // anti p3
+	vec dir3 = (p1-p4).cross(p3-p4); // anti p2
+	vec dir4 = (p2-p3).cross(p4-p3); // anti p1
+	if(insideOut){dir1=-dir1;dir2=-dir2;dir3=-dir3;dir4=-dir4;}
+	
+	if(p1.dot(dir1)<0) // is origin outside first plane?
+	{
+		//printf("1");
+		insideOut = !insideOut;
+		p4 = GJKsupport(A,B,dir1);
+		if(p4.dot(dir1)<0){return false;}
+		continue;
+	}
+	else if(p1.dot(dir2)<0) //is origin outside second plane?
+	{
+		//printf("2");
+		insideOut = !insideOut;
+		p3 = GJKsupport(A,B,dir2);
+		if(p3.dot(dir2)<0){return false;}
+		continue;
+	}
+	else if(p1.dot(dir3)<0) 
+	{
+		//printf("3");
+		insideOut = !insideOut;
+		p2 = GJKsupport(A,B,dir3);
+		if(p2.dot(dir3)<0){return false;}
+		continue;
+	}
+	else if(p2.dot(dir4)<0)
+	{
+		//printf("4");
+		insideOut = !insideOut;
+		p1 = GJKsupport(A,B,dir4);
+		if(p1.dot(dir4)<0){return false;}
+		continue;
+	}
+	else //origin inside all planes.
+	{
+		//printf("5");
+		return true;
+	}
 	}
 }

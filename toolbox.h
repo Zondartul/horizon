@@ -686,6 +686,10 @@ void entSelect(void *arg)
 	}
 	printf("beep boop");
 }
+void entPush(void *arg)
+{
+	if(EntLookAt){EntLookAt->applyForce(CamAngle.rotateVector({0,1,0}));}
+}
 
 void update3Dcursor(void* arg)
 {
@@ -901,5 +905,6 @@ void windowPhysbody(void* arg)
 		wPBfuncSet=true; 
 		cmdlist.push_back({"ent_select","select enitity",&entSelect});
 		bindKey(1,&entSelect,NULL,1);
+		bindKey(2,&entPush,NULL,1);
 	}
 }
