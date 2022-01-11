@@ -9,5 +9,5 @@ struct glyphkind
 };
 glyphkind* GenerateFont(const char* filepath, int size,bool aa);
 void setFont(void *Font);
-int printw(int x, int y, const char* format, ...);
+int printw(int x, int y, string format, ...);
 void fontFree(glyphkind *Font);

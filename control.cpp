@@ -2,10 +2,12 @@
 #include <gl/gl.h>
 #include <cstdio>
 #include <math.h>
-#include <vector>
+//#include <vector>
+
 #include "globals.h"
 #include "fonts.h"
 #include "Gui.h"
+
 //global vars go here
 
 /*
@@ -25,6 +27,11 @@ GUI:
 
 
 GUIManager GUIM;
+
+void myButton(void *holder)
+{
+	GUIM.axe(NULL);
+}
 
 void OnProgramStart()
 {
@@ -80,9 +87,19 @@ void OnProgramStart()
 	GUIobj* Text = new GUItextEntry;
 	Text->pos = {4,32};
 	Text->size = {256-8,128-34};
-	//((GUItextEntry*)Text)->text = "pintos and bays";
 	Text->parent = Frame2;
 	GUIM.activate(Text);
+	
+	GUIbutton* Btn2 = new GUIbutton;
+	Btn2->pos = {400,400};
+	Btn2->size = {64,32};
+	Btn2->color = {128,128,128};
+	Btn2->color2 = {255,0,0};
+	Btn2->text = "CLEAR";
+	Btn2->func = &myButton;
+	Btn2->funcHolder = (void*)Btn2;
+	GUIM.activate((GUIobj*)Btn2);
+	
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -94,7 +111,9 @@ void RenderGUI()
 	glColor3f(0.2f,0.7f,0.7f);
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
-	twidth = printw(32,32,"Version: 52");
+	string version("Version ");
+	string vnumber = "53";
+	twidth = printw(32,32,version+vnumber);
     GUIM.render(NULL);
 	GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }

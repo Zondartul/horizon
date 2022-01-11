@@ -1,4 +1,5 @@
-
+#include <string>
+using std::string;
 /*
 render tree
 root node:                                 root
@@ -155,6 +156,10 @@ class GUIobj
 class GUIManager //manages windows and controlls, their allocation and message passing
 {
     public:
+	
+	GUIobj *focus;
+	GUIobj *lastClick;
+	
     //render tree
     GUIManager()
     {
@@ -213,6 +218,37 @@ class GUIManager //manages windows and controlls, their allocation and message p
 			}
 		}
     }
+	void axe(GUIobj* obj) // recursively deletes all object's descendants.
+	{					  // (apparently wiping root is a bad idea...)
+							// BLUH
+		/*
+		listNode *Cur;
+		listNode *old;
+		Cur = &Root;//if(obj){Cur = &(obj->children);}else{Cur = &Root;}
+		
+		while(Cur!=NULL)
+		{
+			//if(Cur->thing){axe((GUIobj*)Cur->thing);}
+			old = Cur;
+			Cur = Cur->next;
+			if(old->thing)
+			{
+			if(old->thing==(void*)lastClick){lastClick = NULL;}
+			if(old->thing==(void*)focus){focus = NULL;}
+			//if(old->thing!=(void*)me){delete (GUIobj*)old->thing;}
+			}
+			
+			if(old==&Root)
+				{
+					old->next = NULL;
+					delete ((GUIobj*)old->thing);
+				}
+			else
+				{delete old;} // wipe the linked list.
+			
+		}*/
+		
+	}
     void render(GUIobj* obj)
     {
 		listNode* Cur;
@@ -282,7 +318,6 @@ class GUIManager //manages windows and controlls, their allocation and message p
 			Cur = Cur->next;
 		}
 	}
-	GUIobj* lastClick;
 	void click(GUIobj* obj, int mb)
 	{
 		if(mb<1)
@@ -309,7 +344,6 @@ class GUIManager //manages windows and controlls, their allocation and message p
 		}
 		}
 	}
-	GUIobj *focus;
 	void keyboard(int kb)
 	{
 		if(focus)
@@ -330,7 +364,7 @@ class GUIbutton: public GUIobj
 	public:
 	void (*func)(void*);
 	void *funcHolder;
-	char *text;
+	string text;
 	bool pressed;
 	color3i textcolor;
 	GUIbutton()
@@ -346,10 +380,10 @@ class GUIbutton: public GUIobj
 		{
 			if(pressed)
 			{
+				pressed = 0;
 				if(func&&funcHolder)
 				{func(funcHolder);}
 			}
-			pressed = 0;
 		}
 	}
 	void render()
@@ -364,7 +398,7 @@ class GUIbutton: public GUIobj
 				paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 			}
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
-			printw(pos.x+4,pos.y+4,"%s",text);
+			printw(pos.x+4,pos.y+4,text);
 		}
 		else
 		{
@@ -372,7 +406,7 @@ class GUIbutton: public GUIobj
 			glColor3f(color2.r/255.0f,color2.g/255.0f,color2.b/255.0f);
 			paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
-			printw(pos.x+4,pos.y+4,"%s",text);
+			printw(pos.x+4,pos.y+4,text);
 		}
 	}
 };
@@ -411,6 +445,7 @@ class GUIframe: public GUIobj
 	{
 		//delete myButton;//uhh do I need to?...
 		((GUIManager*)GUIM)->remove(NULL, (GUIobj*)this);
+		((GUIManager*)GUIM)->axe((GUIobj*)this);
 		//delete this; NEVER do this in a destructor
 	}
 	void invalidate()
@@ -466,8 +501,7 @@ class GUItextEntry: public GUIobj
 {
 	public:
 	color3i textColor;
-	char *text;
-	char oneChar;
+	string text;
 	void *font;
 	bool hasFocus;
 	GUItextEntry()
@@ -499,8 +533,7 @@ class GUItextEntry: public GUIobj
 	{
 		if(hasFocus)
 		{
-			text = &oneChar;
-			oneChar = (char)kb;
+			text+=(char)kb;
 		}
 	}
 };

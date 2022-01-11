@@ -1,3 +1,6 @@
+#include <string>
+using namespace std;
+
 int clamp(int A, int B, int C)
 {
 	if(A<B)

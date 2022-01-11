@@ -2,7 +2,9 @@
 #include <gl/gl.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
+#include <string>
+using std::string;
+//typedef std::string string;
 FT_Library  library;
 FT_Face     face;      /* handle to face object */
 
@@ -113,18 +115,19 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
   return charmap;
 }
 
-int printw (int x, int y, const char* format, ...)
+int printw (int x, int y, string format, ...)
 {
     if(CurFont == NULL){return -1;}
 
+	const char *format2 = format.c_str();
     va_list args;   //  Variable argument list
     int len;        // String length
     int i;          //  Iterator
     char * text;    // Text
     va_start(args, format);
-    len = _vscprintf(format, args) + 1;
+    len = _vscprintf(format2, args) + 1;
     text = (char*)malloc(len * sizeof(char));
-    vsprintf(text, format, args);
+    vsprintf(text, format2, args);
     va_end(args);
 
     //  Draw the characters one by one
