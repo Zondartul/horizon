@@ -99,6 +99,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	keyThing(uMsg, wParam, lParam);
     switch (uMsg)
     {
         case WM_CLOSE:
@@ -108,11 +109,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_DESTROY:
             return 0;
 
+		case WM_SYSKEYDOWN:
         case WM_KEYDOWN:
         {
 			ProcessKeyboard((int)wParam);
         }
 		break;
+		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
 			ProcessKeyboard(-(int)wParam);

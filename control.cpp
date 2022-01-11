@@ -9,12 +9,17 @@
 //#include <sstream> 
 //using namespace std;
 //#include <vector>
-
 #include "globals.h"
+#include "messanger.h"
+#include "input.h"
+inputKind input;
+PSchannel GUI_PS;
 #include "textureloader.h"
 #include "fonts.h"
 //#include "Gui.h"
+#include "paint.h"
 #include "Gui2.h"
+#include "Gui3.h"
 #include "vectors.h"
 #include "models.h"
 #include "quaternions.h"
@@ -105,6 +110,14 @@ void OpenMenuModel()
 
 
 
+void sendMsg1(void* arg)
+{
+	message newMsg;
+	newMsg.type = "stuff";
+	newMsg.push<string>("apples");
+	newMsg.push(arg);
+	GUI_PS.publish(newMsg);
+}
 
 void OpenMenu1()
 {	
@@ -182,6 +195,20 @@ void OpenMenu1()
 	GUIcolorbox* cbox = new GUIcolorbox;
 	cbox->setPos(4,430);
 	cbox->setParent((GUIbase*)myFrame);
+	
+	GUIbutton* btn1 = new GUIbutton;
+	btn1->setPos(16,32);
+	btn1->setSize(64,64);
+	btn1->func = &sendMsg1;
+	btn1->arg = (void *)btn1;
+	btn1->setParent(myFrame);
+
+	GUIbutton* btn2 = new GUIbutton;
+	btn2->setPos(16+64,32);
+	btn2->setSize(64,64);
+	btn2->func = &sendMsg1;
+	btn2->arg = (void *)btn2;
+	btn2->setParent(myFrame);
 }
 
 void OpenVals()
@@ -308,11 +335,14 @@ void OnProgramStart()
 	bground.b = 255;
 	bground.a = 255;
 
+	
+	
 	GUI = new GUIbase;
 	GUI->setPos(0,0);
 	GUI->setSize(1024,1024);
 	GUI->recalculateClientRect();
 	GUI->visible=false;
+	GUI3start();
 	
 	OpenMenu1();
 	//initConCommands();
@@ -333,7 +363,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "53";
+	string vnumber = "90";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -342,6 +372,7 @@ void RenderGUI()
 	GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
 	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
 	
+	GUI3rendertick();
 	
 	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
 	
@@ -464,12 +495,19 @@ void InputTick()
 	}
 }
 
+void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
+{
+	input.keyThing(umsg, wParam, lParam);
+}
+
 void ProcessKeyboard(int kb)
 {
+	return;
 	int letter = 0;
 	if(kb>0)
 	{
-		letter = MapVirtualKey((unsigned int)kb,2);
+		letter = 'a';
+		MapVirtualKey((unsigned int)kb,2);
 		if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
 		else
 		{
@@ -955,6 +993,7 @@ void ThinkTick()
 
 void ProgramTick(HWND hwnd, HDC hDC)
 {
+	input.hwnd = hwnd;
     RECT rect;
 	POINT cursorPos;
 	GetWindowRect(hwnd, &rect);

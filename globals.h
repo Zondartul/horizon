@@ -1,12 +1,16 @@
 #include <string>
 #include <sstream>
+#include <iostream>
 #include <cstdarg>
 #include <vector>
+#include <list>
 #include <map>
 
 #ifndef M_PI
 #define M_PI           3.14159265358979323846
 #endif
+
+#define listForwardI iterator I = subscribers.start(), E = subscribers.end(); I!=E;I++
 
 using namespace std;
 
@@ -95,6 +99,11 @@ struct vec4i
 	int y1;
 	int x2;
 	int y2;
+	bool contains(vec2i A)
+	{
+		return  (A.x >= x1) && (A.x <= x2) &&
+				(A.y >= y1) && (A.y <= y2);
+	}
 };
 bool operator == (vec4i A, vec4i B)
 {
@@ -223,6 +232,66 @@ double random(double min, double max)
 template <typename T> string toString(T *val)
 {
 	char C[127];
-	sprintf(C, "%s@%p", typeid(T).name(), val);
+	sprintf(C, "%s_@_%p", typeid(T).name(), val);
 	return string(C);
 }
+
+template <typename T> T bits(T val, int start, int end)
+{
+	return val & ((unsigned long long)(pow(2,end+1)-1) >> start); 
+}
+
+
+
+/*
+//dafuk is this
+#define TL_DR_1 typename vector< pair<size_t, vector<pair<K,V>>> >::iterator
+#define TL_DR_2 typename vector<pair<K,V>>::iterator
+class hashtable
+{ //lol wut
+	vector< pair<size_t, vector<pair<void *,void *>>> > buckets;
+	//copies a key-object pair
+	template <typename K, typename V> void set(K k, V v)
+	{
+		std::hash<K> hasher;
+		size_t myHash = hasher(k);
+		for(TL_DR_1 I = buckets.begin(); I != buckets.end(); I++)
+		{
+			if(I.first == myHash)
+			{
+				for(TL_DR_2 T = I.second.begin(); T != I.second.end(); T++)
+				{
+					if(*((K*)T.first) == k)
+					{
+						*T.second = v;
+						return;
+					}
+				}
+				I.push_back(pair<void *, void*>(k,v));
+			}
+		}
+		buckets.push_back(vector<pair<K,V>>((k,v)));
+	}
+	template <typename K, typename V> V get(K k)
+	{
+		std::hash<K> hasher;
+		size_t myHash = hasher(k);
+		for(TL_DR_1 I = buckets.begin(); I != buckets.end(); I++)
+		{
+			if(I.first == myHash)
+			{
+				for(TL_DR_2 T = I.second.begin(); T != I.second.end(); T++)
+				{
+					if(*((K*)T.first) == k)
+					{
+						return T.second;
+					}
+				}
+			}
+		}
+		return NULL;
+	}
+};
+I don't need your shitty metatables
+especially if they don't work
+*/
