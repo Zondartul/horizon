@@ -4,6 +4,7 @@
 using std::map;
 #include <string>
 using std::string;
+#include "vec.h"
 struct texture;
 struct glyph{
 	texture *t;
@@ -14,7 +15,7 @@ struct glyph{
 
 struct font{
 	string name;
-	int ysize;
+	rect maxrect;
 	map<char,glyph> charmap;
 };
 #endif

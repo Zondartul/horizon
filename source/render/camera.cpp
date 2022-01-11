@@ -14,8 +14,8 @@ using std::string;
 #include "glm/gtc/matrix_transform.hpp"
 using glm::mat4;
 using glm::vec3;
-
 //#include "physics.h"
+#include "mouse.h"
 
 cameraKind::cameraKind(){
 	pos = {0,0,0};
@@ -206,37 +206,181 @@ void cameraKind::screenshot(){
 	// glRotatef(rot.x,1,0,0);
 	// glRotatef(rot.y,0,1,0);
 	// glRotatef(rot.z,0,0,1);
-vec3f cameraKind::toWorld(vec2i scrpos){
-	vec2i scr = getScreenSize();
-	double width,height,aspect,znear,zfar,left,right,bottom,top;
-	width = scr.x;
-	height = scr.y;
-	if(perspective){
-		aspect = ((double)width)/((double)height);
-		znear = 0.1;
-		zfar = 100;
-		left = -znear*tan(fov*d2r/2.0);
-		right = -left;
-		bottom = -znear*tan(fov*d2r/2.0)*aspect;
-		top = -bottom;
-	}else{
-		znear = 0.1;
-		zfar = 100;
-		left = -width*scale/2;
-		right = -left;
-		bottom = -height*scale/2;
-		top = -bottom;
-	}
-	vec3f W = {left+((float)scrpos.x)/scr.x,top+((float)scrpos.y)/scr.y,znear};
-	W = W.rotate((vec3f){1,0,0},rot.x).rotate((vec3f){0,1,0},rot.y).rotate((vec3f){0,0,1},rot.z).norm();
-	return W;
+#define swizz3(V,a,b,c) {V.a,V.b,V.c}
+
+vec3 cameraKind::worldToDevice(vec3 worldpos){
+	vec4 V4 = vec4(worldpos,1.f);
+	V4 = mProjection * mView * V4;
+	vec3 V3 = vec3(V4.x,V4.y,V4.z)/V4.w;
+	return V3;
 }
-vec2i cameraKind::toScreen(vec3f worldpos){
-	vec2i scr = getScreenSize();
-	worldpos = worldpos - pos;
-	worldpos = worldpos.rotate((vec3f){1,0,0},-rot.x).rotate((vec3f){0,1,0},-rot.y).rotate((vec3f){0,0,1},-rot.z).norm();
-	worldpos = worldpos * 0.1;
-	return (vec2i){worldpos.x+scr.x/2,worldpos.y+scr.y/2};
+vec3 cameraKind::deviceToWorld(vec3 devpos){
+	vec4 V4 = vec4(devpos,1.f);
+	V4 = inverse(mProjection * mView) * V4;
+	vec3 V3 = vec3(V4.x,V4.y,V4.z)/V4.w;
+	return V3;
+}
+vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
+	float x = scrpos.x;
+	float y = scrpos.y;
+	float z = scrpos.z;
+	vec2 scr = toVec2((vec2f)getScreenSize());
+	float zfar = 100.f;
+	float zfar_true,zratio;
+	vec3 osdw,wtd;
+	switch(zm){
+		case(Z_IS_ORTHODOX):
+			x = x/scr.x;		//x normed
+			x = 2.f*x-1.f;		//x shifted
+			
+			y = scr.y-y-1.f; 	//y flipped
+			y = y/scr.y;		//y normed
+			y = 2.f*y-1.f;		//y shifted
+			
+			z = 2.f*z-1.f;		//z shifted
+			return vec3(x,y,z);
+		break;
+		case(Z_IS_DISTANCE):
+			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
+			wtd = worldToDevice(toVec3(camera.pos)+normalize(osdw-toVec3(camera.pos))*scrpos.z);
+			return wtd;
+		break;
+		case(Z_IS_PLANE):
+			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
+			
+			zfar_true = length(osdw-toVec3(camera.pos));
+			zratio = zfar_true/zfar;
+			wtd = worldToDevice(toVec3(camera.pos)+normalize(osdw-toVec3(camera.pos))*scrpos.z*zratio);
+			return wtd;
+		break;
+	}
+}
+vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
+	float x = devpos.x;
+	float y = devpos.y;
+	float z = devpos.z;
+	vec2 scr = toVec2((vec2f)getScreenSize());
+	float zfar = 100.f;
+	float zfar_true,zratio;
+	vec3 dtw,dts;
+	switch(zm){
+		case(Z_IS_ORTHODOX):
+			x = (x+1.f)/2.f; 	//x unshifted
+			x = x*scr.x;		//x unnormed
+
+			y = (y+1.f)/2.f;	//y unshifted
+			y = y*scr.y;		//y unnormed
+			y = scr.y-y-1.f;	//y unflipped
+			
+			z = (z+1.f)/2.f;	//z unshifted
+			return vec3(x,y,z);
+		break;
+		case(Z_IS_DISTANCE):
+			dtw = deviceToWorld(devpos);
+			dts = deviceToScreen({devpos.x,devpos.y,1},Z_IS_ORTHODOX);
+			dts.z = length(toVec3(camera.pos)-dtw);
+			return dts;
+		break;
+		case(Z_IS_PLANE):
+			dtw = deviceToWorld({0,0,devpos.z});
+			dts = deviceToScreen(devpos,Z_IS_ORTHODOX);
+			dts.z = length(toVec3(camera.pos)-dtw);
+			return dts;
+		break;
+	}
+}
+vec3 cameraKind::getMouseDir(){
+	vec2 mouse = toVec2((vec2f)getMousePos());
+	vec3 wp = screenToWorld({mouse.x,mouse.y,1},Z_IS_ORTHODOX);
+	return normalize(wp-toVec3(camera.pos));
+}
+#define printval(x) printf(#x ": %f\n", x)
+#define zToWorld(z) (znear/(1.f+znear/zfar-z))
+#define zToDevice(z) (znear*(1/zfar - 1/z)+1)
+
+vec3 cameraKind::screenToWorld(vec3 scrpos, z_meaning zm){	
+	perspective = true;
+	go3D();
+	return deviceToWorld(screenToDevice(scrpos,zm));
+}
+vec3 cameraKind::worldToScreen(vec3 worldpos, z_meaning zm){
+	return deviceToScreen(worldToDevice(worldpos),zm);
 }
 
+
 cameraKind camera;
+
+
+
+	/*
+	float zfar = 100.f;
+	float znear = 0.1f;
+	//scrpos.z = (scrpos.z-znear)/zfar;			// z.world -> z.device
+	vec2 scrpos1 = vec2(scrpos.x,scrpos.y);
+	vec2 scr = toVec2((vec2f)getScreenSize());
+	vec4 viewport= {0,0,scr.x,scr.y};
+	//float znear = 0.1;
+	mat4 mP = mProjection;
+	mat4 mV = mView;
+	bool flipy = true;
+	bool fixz = true;
+	float z = scrpos.z;//zToDevice(scrpos.z);
+	
+	//#if GLM_DEPTH_CLIP_SPACE == GLM_DEPTH_ZERO_TO_ONE
+	//printf("Z from 0 to 1\n")
+	//#else
+	//printf("Z from -1 to 1\n");
+	//#endif
+	//printf("zToDevice: %f\n",z);
+	//printf("zToWorld: %f\n",zToWorld(z));
+	
+	//vec3 WTD = worldToDevice(scrpos);
+	//printf("WTD: %s, len: %f\n",toString(WTD).c_str(),length(WTD));
+	
+	//vec3 STD = screenToDevice(scrpos);
+	//printf("STD: %s, len: %f\n",toString(STD).c_str(),length(STD));
+	
+	//vec3 DTW = deviceToWorld(STD);
+	//printf("DTW: %s, len: %f\n",toString(DTW).c_str(),length(DTW));
+	
+	//z = (z-znear)/(zfar-znear);			// z.world -> z.device
+	if(flipy){scrpos1.y = scr.y-scrpos1.y-1;}	// z.screen -> z.screen(o-dox)
+	
+	
+	
+    //mat4 invVP = glm::inverse(mP * mV);
+	
+	vec3 p0 = toVec3(pos);
+	vec3 pr = glm::unProject(vec3(scrpos1.x,scrpos1.y,z),mV,mP,viewport);
+	vec3 dir = pr-p0;
+	//it appears that z becomes znear/(1-z)
+	//reverse should be 
+	
+	if(fixz){
+		//vec3 p1 = glm::unProject(vec3(scrpos1.x,scrpos1.y,0),mV,mP,viewport);
+		//vec3 p2 = glm::unProject(vec3(scrpos1.x,scrpos1.y,1),mV,mP,viewport);
+		//float zfar_true = length(p2-p0);
+		//float znear_true = length(p1-p0);
+		//printf("pr-p0: %f\n",length(pr-p0));
+		//printf("zfar_true: %f\n znear_true: %f\n",zfar_true,znear_true);
+		//printval(znear_true);
+		//printval(zfar_true);
+		//float zpred = znear/(1.f+znear/zfar-scrpos.z);
+		//printf("predicted len: %f\n",zpred);
+		//float zw = znear*(1/zfar - 1/zpred)+1;
+		//printf("zw: %f, z real: %f\n",zw, dir.z);
+		printf("dir1: %s, len: %f\n",toString(dir).c_str(),length(dir));
+		//dir = normalize(p2-p0);
+		//vec3 dd = normalize(dir);
+		//float len = length(dir);
+		//dir = dd*(len/znear_true);
+		//printf("dir2: %s, len: %f\n",toString(dir).c_str(),length(dir));
+		
+		float newlen = length(dir);
+		//float newlen = z*zfar_true+znear_true;
+		printf("scrpos.z: %f, newlen: %f\n",scrpos.z,newlen);
+		//pr = p0+normalize(dir)*newlen;//scrpos.z*zfar_true;
+	}
+	printf("\n");
+	return pr;
+	*/

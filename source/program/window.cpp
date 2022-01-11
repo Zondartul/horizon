@@ -126,12 +126,25 @@ void sysMessageTick(){
 			break;
 		case(SDL_MOUSEBUTTONDOWN):
 			event.type = EVENT_MOUSE_BUTTON_DOWN;
-			event.mousebutton.button = sdl_event.button.button;
+			switch(sdl_event.button.button){
+				case(SDL_BUTTON_LEFT):event.mousebutton.button = MOUSE_LEFT;break;
+				case(SDL_BUTTON_MIDDLE):event.mousebutton.button = MOUSE_MIDDLE;break;
+				case(SDL_BUTTON_RIGHT):event.mousebutton.button = MOUSE_RIGHT;break;
+				case(SDL_BUTTON_X1):event.mousebutton.button = MOUSE_X1;break;
+				case(SDL_BUTTON_X2):event.mousebutton.button = MOUSE_X2;break;
+			}
+			//event.mousebutton.button = sdl_event.button.button;
 			goto dispatchEvent;
 			break;
 		case(SDL_MOUSEBUTTONUP):
 			event.type = EVENT_MOUSE_BUTTON_UP;
-			event.mousebutton.button = sdl_event.button.button;
+			switch(sdl_event.button.button){
+				case(SDL_BUTTON_LEFT):event.mousebutton.button = MOUSE_LEFT;break;
+				case(SDL_BUTTON_MIDDLE):event.mousebutton.button = MOUSE_MIDDLE;break;
+				case(SDL_BUTTON_RIGHT):event.mousebutton.button = MOUSE_RIGHT;break;
+				case(SDL_BUTTON_X1):event.mousebutton.button = MOUSE_X1;break;
+				case(SDL_BUTTON_X2):event.mousebutton.button = MOUSE_X2;break;
+			}
 			goto dispatchEvent;
 			break;
 		case(SDL_MOUSEWHEEL):

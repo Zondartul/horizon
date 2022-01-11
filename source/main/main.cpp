@@ -16,6 +16,11 @@
 #include "GUI.h"
 #include "stringUtils.h"
 #include "simplemath.h"
+#include "editor2.h"
+#include "timer.h"
+#include "frameprinter.h"
+#include "modelprimitives.h"
+#include "entity.h"
 // void renderLayer::setColoring(bool b){queue.push_back(new rcmd_coloring(b));}
 // void renderLayer::setTransparency(bool b){queue.push_back(new rcmd_transparency(b));}
 // void renderLayer::setTexturing(bool b){queue.push_back(new rcmd_texturing(b));}
@@ -38,9 +43,15 @@ model *m;
 GUIbase *GUI = 0;
 float fps = 0;
 float frametime = 0;
+int t = 0;
+timer T1([&](){t++;},60,1);
+
 void openGUI();
 
 eventChannel inputChannel;
+eventChannel globalChannel;
+
+frameprinter *fprint;
 //
 // NEXT:
 //  get an FPS counter
@@ -57,6 +68,10 @@ eventChannel inputChannel;
 //	derp physics
 //	derp char controller
 
+//rmodel *rm2;
+//texture *rm2t;
+entity *E;
+
 int main(int argc, char **argv){
 	printf("Hello World!\n");
 	debuginit();
@@ -68,14 +83,18 @@ int main(int argc, char **argv){
 	printf("-------- render low init done -----\n");
 	initFreeType();
 	printf("-------- FreeType init done -------\n");
-	loadLayer = new renderLayer();
-	layer3D = new renderLayer();
-	layer2D = new renderLayer();
-	deleteLayer = new renderLayer();
+	loadLayer = addNewLayer();
+	layer3D = addNewLayer();
+	layer2D = addNewLayer();
+	deleteLayer = addNewLayer();
+	
+	setFramePrinter(new frameprinter());
+	//openGUI();
+	//openEditor2();
+	
 	setLayer(loadLayer);
 	
 	setFont(getFont("calibri 18"));
-	openGUI();
 	//renderTest1();
 	camera.setPos({-0.5,0,0});
 	//renderTest();
@@ -87,6 +106,15 @@ int main(int argc, char **argv){
 	uploadTexture(m->t);
 	uploadRmodel(m->rm);
 	
+	//rm2 = generateBox(vec3(1,1,10));
+	//rm2t = getTexture("materials/brick2");
+	//uploadTexture(rm2t);
+	//uploadRmodel(rm2);
+	E = new entity();
+	addComponent(E,position,vec3(0,0,0));
+	addComponent(E,texture,getTexture("materials/brick2"));
+	addComponent(E,rmodel,generateBox(vec3(1,1,10)));
+	
 	printf("size of mat4: %d\n",sizeof(mat4));
 	printf("size of void*: %d\n",sizeof(void*));
 	printf("size of int: %d\n",sizeof(int));
@@ -95,9 +123,12 @@ int main(int argc, char **argv){
 	
 	while(1){
 		//renderTest1Tick();
-		inputController.think();
+		//inputController.think();
+		eventKind e; e.type = EVENT_FRAME;
+		globalChannel.publishEvent(e);
 		profile(renderTick(),frametime);
 		if(frametime){fps = 1.0f/frametime;}
+		timersTick();
 		sysMessageTick();
 		//SDL_Delay(1);
 	}
@@ -178,33 +209,50 @@ void openGUI(){
 void renderTick(){
 	//glClearColor(0.3,0.7,0.9,1.0);
 	//glClearColor(0.1,0.23,0.3,1.0);
+	//========================= 3D ==============================
 	setLayer(layer3D);
 	clearScreen();
-	
 	//glEnable(GL_CULL_FACE);
 	//glFrontFace(GL_CCW);
 	camera.go3D();
 	setProjection(camera.mProjection*camera.mView);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
 	setDepthTest(true);
 	//renderTriangle();
 	
 	setColoring(true);
 	setTexturing(false);
 	setScissoring(false);
+	setTransparency(false);
+	setAlpha(255);
 	setColor({255,255,255});
 	drawTriangle(vec3(0,-0.67,-0.5),vec3(0,0,0.5),vec3(0,0.67,-0.5));
 	setColoring(true);
 	setTextPos(vec2(0,0));
 	printText("Hello World [ ijk XYZ o_O ] ");
+	
 	setColoring(false);
 	setTexturing(true);
 	setTexture(m->t);
 	drawRmodel(m->rm);
 	renderComment("comment: layer3D done\n");
 	
+	//setColoring(false);
+	//setTexturing(true);
+	//setTexture(rm2t);
+	
+	//setPosition(vec3(0,0,t));
+	//setScale(vec3(1,1,10));
+	//drawRmodel(rm2);
+	getComponent(E,position)->val = vec3(t,0,0);
+	ecs_render_system.render();
+	//========================= 2D ==============================
 	setLayer(layer2D);
 	camera.go2D();
 	setProjection(camera.mProjection*camera.mView);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
 	setDepthTest(false);
 	setColoring(false);
 	setTexturing(false);
@@ -214,14 +262,24 @@ void renderTick(){
 	//textPos = {0.0f,25.0f};//{100.0f,100.0f};
 	//renderCmd(RCMD::DEBUG,b=true);
 	setColoring(false);
-	setTextPos(vec2(0,0));
-	printText("Hello World [ ijk XYZ o_O ] ");
-	setTextPos(vec2(0,20));
+	//setTextPos(vec2(0,0));
+	//printText("Hello World [ ijk XYZ o_O ] ");
+	frameprint("Hello World [ ijk XYZ o_O ] ");
+	
+	//setTextPos(vec2(0,20));
 	static float fps_filtered = 60.f;
 	static float frametime_filtered = 0.015f;
 	fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
 	frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
-	printText(string("FPS: ")+ftoa(fps_filtered,1)+", frametime: "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
+	//printText(string("FPS: ")+ftoa(fps_filtered,1)+", frametime: "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
+	frameprint(string("FPS: ")+ftoa(fps_filtered,1)+", frametime: "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
+	
+	//setTextPos(vec2(0,40));
+	//printText(string("T1: ")+t);
+	//setTextPos(vec2(0,60));
+	//printText(string("cam speed: ")+inputController.velocity.length());
+	frameprint(string("T1: ")+t);
+	frameprint(string("cam speed: ")+inputController.velocity.length());
 	if(GUI){GUI->renderLogic();}
 	// renderLayer(loadLayer); durrr, renderLayer(renderLayer)
 	// renderLayer(layer3D);
@@ -232,10 +290,11 @@ void renderTick(){
 	// clearLayer(layer3D);
 	// clearLayer(layer2D);
 	// clearLayer(deleteLayer);
-	loadLayer->render();
-	layer3D->render();
-	layer2D->render();
-	deleteLayer->render();
+	renderAllLayers();
+	//loadLayer->render();
+	//layer3D->render();
+	//layer2D->render();
+	//deleteLayer->render();
 	
 	loadLayer->clear();
 	layer3D->clear();

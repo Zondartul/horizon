@@ -17,7 +17,15 @@ string toString(vec2i);
 string toString(vec2f);
 string toString(rect);
 string toString(rectf);
+string toString(vec2 V);
+string toString(vec3 V);
+string toString(mat4 M);
 #endif
 
+string toString(void *p);
+string toString(bool B);
+string toString(int I);
+string toString(float f);
+string toString(string S);
 
 #endif

@@ -1,6 +1,6 @@
 #include "renderLayer.h"
 #include "renderLow.h"
-
+#include "stdio.h"
 
 // rcmd_coloring::rcmd_coloring(bool on){b = on;}
 // rcmd_transparency::rcmd_transparency(bool on){b = on;}
@@ -29,10 +29,14 @@ rcmd1_c_impl(font_select,font*);
 rcmd1_c_impl(mode_select,int);
 rcmd1_c_impl(text_pos,vec2);
 rcmd1_c_impl(scissor,rect);
+rcmd1_c_impl(pointsize,float);
+rcmd1_c_impl(linewidth,float);
 rcmd1_c_impl(texture_upload,texture*);
 rcmd1_c_impl(rmodel_upload,rmodel*);
 rcmd1_c_impl(rmodel_delete,rmodel*);
 rcmd1_c_impl(projection,mat4);
+rcmd1_c_impl(position,vec3);
+rcmd1_c_impl(scale,vec3);
 rcmd0_c_impl(clear_screen);
 rcmd1_c_impl(rmodel_render,rmodel*);
 rcmd1_c_impl(print_text,string);
@@ -44,6 +48,12 @@ void renderLayer::clear(){
 		delete *I;
 	}
 	queue.clear();
+}
+void renderLayer::print(){
+	int J = 0;
+	for(auto I = queue.begin(); I != queue.end(); I++,J++){
+		printf("%d: %s\n",J,(*I)->toString().c_str());
+	}
 }
 
 // rcmd_scissoring::rcmd_scissoring(bool on){b = on;}

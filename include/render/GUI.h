@@ -80,12 +80,17 @@ class GUIframe:public virtual GUIbase{
 	virtual void render();
 };
 
+enum alignmentKind{ALIGN_NONE,ALIGN_LEFT,ALIGN_RIGHT,ALIGN_TOP,ALIGN_BOTTOM,ALIGN_CENTER};
+
 class GUIlabel:public virtual GUIbase{
 	public:
 	GUIlabel();
 	vec3f textColor;
 	font *textfont;
 	string text;
+	alignmentKind alignment_horizontal;
+	alignmentKind alignment_vertical;
+	bool const_height;	//1 - text height depends on font, 0 - text height depends on actual text
 	GUIlabel *setTextColor(vec3f color);
 	GUIlabel *setTextFont(font *f);
 	GUIlabel *setText(string newtext);

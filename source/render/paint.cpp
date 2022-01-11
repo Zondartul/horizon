@@ -5,10 +5,62 @@
 #include "renderLayer.h"
 #include "rmodel.h"
 #include "model.h"
+#include <vector>
+using std::vector;
 
-renderLayer *currentLayer;
+renderLayer *currentLayer = 0;
 //core functions
+
+vector<renderLayer*> layers;
+
 void setLayer(renderLayer *L){currentLayer = L;}
+void addLayer(renderLayer *L){
+	if(currentLayer){
+		for(auto I = layers.begin(); I!= layers.end(); I++){
+			if(*I == currentLayer){
+				layers.insert(I+1,L);
+				return;
+			}
+		}
+	}else{
+		layers.push_back(L);
+	}
+}
+void addLayer(renderLayer *L1, renderLayer *L2){
+	for(auto I = layers.begin(); I!= layers.end(); I++){
+			if(*I == L1){
+				layers.insert(I+1,L2);
+				return;
+			}
+	}
+}
+renderLayer *addNewLayer(){
+	renderLayer *L = new renderLayer();
+	addLayer(L);
+	return L;
+}
+void removeLayer(renderLayer *L){
+	for(auto I = layers.begin(); I!= layers.end(); I++){
+		if(*I == L){
+			I = layers.erase(I);
+		}
+	}
+}
+bool printAllPending = false;
+void renderAllLayers(){
+	if(printAllPending){printAllPending = false; printAllLayers();}
+	for(auto I = layers.begin(); I!= layers.end(); I++){
+		(*I)->render();
+	}
+}
+void printAllLayers(){
+	int J = 0;
+	for(auto I = layers.begin(); I != layers.end(); I++, J++){
+		printf("layer %d:\n",J);
+		(*I)->print();
+	}
+}
+void printAllLayersNextRender(){printAllPending = true;}
 
 void setColoring(bool b){currentLayer->queue.push_back(new rcmd_coloring(b));}				//enables per-vertex coloring (no color = white)
 void setTransparency(bool b){currentLayer->queue.push_back(new rcmd_transparency(b));}		//enables transparency (no transparency = alpha 1)
@@ -23,12 +75,16 @@ void setFont(font *f){currentLayer->queue.push_back(new rcmd_font_select(f));}		
 void setRenderMode(int mode){currentLayer->queue.push_back(new rcmd_mode_select(mode));}	//0 - points, 1 - lines, 3 - triangles, 4 - triangles (wireframe)
 void setTextPos(vec2 textPos){currentLayer->queue.push_back(new rcmd_text_pos(textPos));} 	//textPos is advanced automatically after each print
 void setScissor(rect S){currentLayer->queue.push_back(new rcmd_scissor(S));}				//limits the drawn-to area
+void setPointSize(float size){currentLayer->queue.push_back(new rcmd_pointsize(size));}		//sets size of single points (not lines)
+void setLineWidth(float width){currentLayer->queue.push_back(new rcmd_linewidth(width));}	//sets the width of lines
 
 void uploadTexture(texture *t){currentLayer->queue.push_back(new rcmd_texture_upload(t));}	//uploads texture to GPU
 void uploadRmodel(rmodel *rm){currentLayer->queue.push_back(new rcmd_rmodel_upload(rm));}	//uploads rmodel to GPU
 void deleteRmodel(rmodel *rm){currentLayer->queue.push_back(new rcmd_rmodel_delete(rm));}	//deletes rmodel from GPU
 
 void setProjection(mat4 proj){currentLayer->queue.push_back(new rcmd_projection(proj));}	//changes current projection matrix
+void setPosition(vec3 pos){currentLayer->queue.push_back(new rcmd_position(pos));}			//changes current world pos
+void setScale(vec3 scale){currentLayer->queue.push_back(new rcmd_scale(scale));}       		//changes current object scale 
 
 void clearScreen(){currentLayer->queue.push_back(new rcmd_clear_screen());}					//clears screen with current color
 void drawRmodel(rmodel *rm){currentLayer->queue.push_back(new rcmd_rmodel_render(rm));}//draws rendermodel
@@ -44,7 +100,28 @@ void drawPoint(vec3 pos){
 	drawRmodel(rm); 
 	deleteRmodel(rm);
 }
+void drawPoint(vec3 pos,vec3f color){
+	setColor(color);
+	rmodel *rm = new rmodel(); 
+	rm->vertices->push_back(pos); 
+	rm->finalize(); 
+	uploadRmodel(rm);
+	setRenderMode(1);
+	drawRmodel(rm); 
+	deleteRmodel(rm);
+}
 void drawLine(vec3 start, vec3 end){
+	rmodel *rm = new rmodel(); 
+	rm->vertices->push_back(start); 
+	rm->vertices->push_back(end); 
+	rm->finalize(); 
+	uploadRmodel(rm);
+	setRenderMode(2);
+	drawRmodel(rm); 
+	deleteRmodel(rm);
+}
+void drawLine(vec3 start, vec3 end,vec3f color){
+	setColor(color);
 	rmodel *rm = new rmodel(); 
 	rm->vertices->push_back(start); 
 	rm->vertices->push_back(end); 

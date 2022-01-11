@@ -6,7 +6,7 @@ using std::vector;
 #include "stdint.h"
 #include <string>
 using std::string;
-
+#include "stringUtils.h"
 //texture has pimpl: textureRenderHandle *handle;
 //is usually GLuint;
 //rmodel has pimpl: rmodelRenderHandle *handle;
@@ -49,6 +49,7 @@ class renderCommand2{
 	//RCMD type;
 	const char *type;
 	virtual void execute()=0;
+	virtual string toString()=0;
 };
 
 #define rcmd0(name) \
@@ -56,6 +57,7 @@ class rcmd_##name:public renderCommand2{\
 	public:\
 	rcmd_##name();\
 	void execute();\
+	string toString();\
 };
 
 #define rcmd1(name,T) \
@@ -64,13 +66,17 @@ class rcmd_##name:public renderCommand2{\
 	T val;\
 	rcmd_##name(T val);\
 	void execute();\
+	string toString();\
 };
 
-#define rcmd0_c_impl(name)\
-rcmd_##name::rcmd_##name(){type = #name;}
+#define rcmd0_c_impl(name) \
+rcmd_##name::rcmd_##name(){type = #name;} \
+string rcmd_##name::toString(){return string(type)+"()";}
 
-#define rcmd1_c_impl(name,T)\
-rcmd_##name::rcmd_##name(T val){type = #name; this->val = val;}
+#define rcmd1_c_impl(name,T) \
+rcmd_##name::rcmd_##name(T val){type = #name; this->val = val;} \
+string rcmd_##name::toString(){return string(type)+"("+::toString(val)+")";}
+
 
 struct rmodel;
 struct texture;
@@ -90,10 +96,14 @@ rcmd1(font_select,font*);
 rcmd1(mode_select,int);
 rcmd1(text_pos,vec2);
 rcmd1(scissor,rect);
+rcmd1(pointsize,float);
+rcmd1(linewidth,float);
 rcmd1(texture_upload,texture*);
 rcmd1(rmodel_upload,rmodel*);
 rcmd1(rmodel_delete,rmodel*);
 rcmd1(projection,mat4);
+rcmd1(position,vec3);
+rcmd1(scale,vec3);
 rcmd0(clear_screen);
 rcmd1(rmodel_render,rmodel*);
 rcmd1(print_text,string);
@@ -246,6 +256,7 @@ class renderLayer{
 	
 	void render();
 	void clear();
+	void print();
 };
 
 #endif

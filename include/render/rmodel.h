@@ -15,6 +15,7 @@ class rmodel{
 	rmodel(model *m);
 	~rmodel();
 	void finalize();
+	void clear();
 };
 
 #endif

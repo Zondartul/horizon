@@ -158,20 +158,41 @@ rect::rect(vec2i size){
 	this->size = size;
 }
 rect::rect(vec2i start, vec2i end){
+	//vec2i newstart;
+	//vec2i newend;
+	//newstart.x = min(start.x,end.x);
+	//newstart.y = min(start.y,end.y);
+	//newend.x = max(start.x,end.x);
+	//newend.y = max(start.y,end.y);
 	this->start = start;
 	this->end = end;
-	size = end-start;
+	this->size = start-end;
 }
 rect::rect(vec2i start, vec2i end, vec2i size){
+	//vec2i newstart;
+	//vec2i newend;
+	//newstart.x = min(start.x,end.x);
+	//newstart.y = min(start.y,end.y);
+	//newend.x = max(start.x,end.x);
+	//newend.y = max(start.y,end.y);
 	this->start = start;
 	this->end = end;
-	this->size = size;
+	this->size = size;//newstart-newend;
 }
 rect rect::setStart(vec2i start){return {start,end,end-start};}
 rect rect::setEnd(vec2i end){return {start,end,end-start};}
 rect rect::setSize(vec2i size){return {start,start+size,size};}
 rect rect::moveTo(vec2i start){return {start,start+size,size};}
 rect rect::moveBy(vec2i relative){return {start+relative,end+relative,size};}
+rect rect::repair(){
+	vec2i newstart;
+	vec2i newend;
+	newstart.x = min(start.x,end.x);
+	newstart.y = min(start.y,end.y);
+	newend.x = max(start.x,end.x);
+	newend.y = max(start.y,end.y);
+	return {newstart,newend,newstart-newend};
+}
 vec2i rect::clamp(vec2i V){return ::clamp(V, start, end);}
 rect rect::clamp(rect R){
 	R = R.setStart(clamp(R.start)).setEnd(clamp(R.end));

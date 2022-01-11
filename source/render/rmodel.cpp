@@ -95,3 +95,10 @@ void rmodel::finalize(){
 	while(normals->size() < vertices->size()){normals->push_back(vec3(0.0f,0.0f,0.0f));}
 	while(uvs->size() < vertices->size()){uvs->push_back(vec2(0.0f,0.0f));}
 }
+
+void rmodel::clear(){
+	vertices->clear();
+	colors->clear();
+	normals->clear();
+	uvs->clear();
+}

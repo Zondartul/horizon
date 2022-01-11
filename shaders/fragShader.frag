@@ -12,6 +12,7 @@ uniform bool debuggingOn;
 uniform bool transparencyOn;
 uniform bool scissoringOn;
 uniform vec3 globalColor;
+uniform float globalAlpha;
 uniform vec4 scissor;
 
 out vec4 FragColor;
@@ -33,6 +34,9 @@ void main(){
 	vec4 texColor = texture(Tex, UV);
 	vec4 color = vec4(Color,1.0);
 	FragColor = FragColor*vec4(globalColor,1.0);
+	if(transparencyOn){
+		FragColor = FragColor*vec4(1.0,1.0,1.0,globalAlpha);
+	}
 	if(coloringOn){
 		FragColor = FragColor*color;
 	}

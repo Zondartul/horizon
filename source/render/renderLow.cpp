@@ -35,14 +35,18 @@ map<rmodel*,GLuint[4]> rmodel_GPU_handles;
 
 struct renderStateKind{
 	public:
-	int renderMode; //1 - points, 2 - edges, 3 - triangles
-	font *f;
-	vec2 textPos;
+	int renderMode = 0; //1 - points, 2 - edges, 3 - triangles
+	font *f = 0;
+	vec2 textPos = vec2(0,0);
+	vec3 pos = vec3(0,0,0);
+	vec3 scale = vec3(1,1,1);
+	mat4 VP;
+	/*
 	renderStateKind(){
 		renderMode = 1;
 		f = 0;
 		textPos = vec2(0,0);
-	}
+	}*/
 } renderState;
 
 GLuint uploadShader(GLuint shaderType, const char *filepath){
@@ -154,14 +158,15 @@ void renderLowInit(){
 	locations["TexOffset"] = 0;
 	locations["TexSize"] = 0;
 	locations["globalColor"] = 0;
+	locations["globalAlpha"] = 0;
 	locations["scissoringOn"] = 0;
 	locations["scissor"] = 0;
-	
 	for(auto I = locations.begin(); I != locations.end(); I++){
 		I->second = glGetUniformLocation(programHandle,I->first.c_str());
 		printf("uniform '%s' at '%d'\n",I->first.c_str(),I->second);
 	}
 	rqueue = new renderQueue();
+	
 	printf("renderLow: init OK\n");
 }
 
@@ -251,9 +256,31 @@ void rcmd_debug::execute(){
 	glUniform1i(locations["debuggingOn"],val);
 }
 
+void reproject(){
+	mat4 MVP = renderState.VP;
+	MVP = glm::translate(MVP, renderState.pos);
+	MVP = glm::scale(MVP,renderState.scale);
+	glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&MVP);
+}
+
 void rcmd_projection::execute(){
 	if(debug){printf("projection\n");}
-	glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&val);
+	renderState.VP = val;
+	reproject();
+	//glUniformMatrix4fv(locations["MVP"],1,GL_FALSE,(const GLfloat*)&val);
+}
+
+void rcmd_position::execute(){
+	if(debug){printf("position\n");}
+	renderState.pos = val;
+	reproject();
+	
+}
+
+void rcmd_scale::execute(){
+	if(debug){printf("scale\n");}
+	renderState.scale = val;
+	reproject();
 }
 
 GLenum pixelFormatToGL(pixelFormat F){
@@ -417,15 +444,17 @@ void rcmd_scissoring::execute(){
 
 void rcmd_color::execute(){
 	if(debug){printf("set color to %d %d %d\n",val.x,val.y,val.z);}
-	val.x /= 255.0f;
-	val.y /= 255.0f;
-	val.z /= 255.0f;
-	glUniform3fv(locations["globalColor"],1,(const GLfloat*)&val);
+	vec3f val2 = val;
+	val2.x /= 255.0f;
+	val2.y /= 255.0f;
+	val2.z /= 255.0f;
+	glUniform3fv(locations["globalColor"],1,(const GLfloat*)&val2);
 }
 
 void rcmd_alpha::execute(){
-	if(debug){printf("set alpha to %d\n",255*val);}
-	glUniform1fv(locations["alpha"],1,(const GLfloat*)&val);
+	if(debug){printf("set alpha to %f\n",val);}
+	float val2 = val/255.0f;
+	glUniform1fv(locations["globalAlpha"],1,(const GLfloat*)&val2);
 }
 
 void rcmd_font_select::execute(){
@@ -461,6 +490,15 @@ void rcmd_scissor::execute(){
 	R[3] = 2*(0.5-y1);
 	
 	glUniform4fv(locations["scissor"],1,(const GLfloat*)&R);
+}
+void rcmd_pointsize::execute(){
+	if(debug){printf("set point size to %f\n",val);}
+	glPointSize(val);
+}
+
+void rcmd_linewidth::execute(){
+	if(debug){printf("set line width to %f\n",val);}
+	glLineWidth(val);
 }
 
 void rcmd_print_text::execute(){

@@ -1,6 +1,7 @@
 #include "stringutils.h"
 #include "stdio.h"
 #include "globals.h"
+#include "vec.h"
 
 string itoa(int N){
 	char buff[20];
@@ -57,6 +58,19 @@ string toString(rectf R){
 	return string(buff);
 }
 
+string toString(void *p){
+	char buff[80];
+	snprintf(buff,79,"0x%p",p);
+	return string(buff);
+}
+string toString(bool B){return itoa(B);}
+string toString(string S){return S;}
+string toString(int I){return itoa(I);}
+string toString(float f){return ftoa(f);}
+
+string toString(vec2 V){return toString(toVec2f(V));}
+string toString(vec3 V){return toString(toVec3f(V));}
+string toString(mat4 M){return "<mat4>";}
 string operator+(const string S, const int N){return S+itoa(N);}
 string operator+(const string S, const double N){return S+ftoa(N);}
 

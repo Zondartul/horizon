@@ -16,6 +16,7 @@ FT_Face		face;
 #include "texture.h"
 #include "renderLow.h" //to submit rendercommand (upload texture)
 #include "bitmap.h"
+#include "simplemath.h"
 // map<string, font> fontCache;
 // font getFont(const char *fontname, int size){
 	// string name = string(fontname)+itoa(size);
@@ -155,6 +156,9 @@ font *loadFont(const char *fontpath, int size){
 	font *F = new font();
 	int maxy=0;
 	int J = 0;
+	vec2i start = {0,0};
+	vec2i end = {0,0};
+	bool first = 0;
 	for(int I = 0; I < 255; I++){
 		if(isprint(I)){
 			texture *t = new texture();
@@ -181,12 +185,41 @@ font *loadFont(const char *fontpath, int size){
 			G.bearingX = face->glyph->metrics.horiBearingX/64;
 			G.bearingY = face->glyph->metrics.horiBearingY/64;
 			G.advance = face->glyph->metrics.horiAdvance/64;
-			if(G.bearingY > maxy){maxy = G.bearingY;}
-			//printf("genfont: char %c, bx=%d, by=%d, ad=%d\n",I,G.bearingX,G.bearingY,G.advance);
+			//if(G.bearingY > maxy){maxy = G.bearingY;}
+			
 			F->charmap[I] = G;
+			
+			int ysize = AUV.size.y;
+			int xsize = AUV.size.x;
+			
+			//if(hscale > 100){printf("glyph %d [%c] has ysize of %d\n",I,(char)I,ysize);}
+			//if(wscale > 100){printf("glyph %d [%c] has xsize of %d\n",I,(char)I,xsize);}
+			
+			if(!first){
+				first = true;
+				start.x = G.bearingX; 
+				end.x = start.x+xsize;
+				start.y = G.bearingY;
+				end.y = start.y+ysize;
+			}
+			start.x = min(start.x,G.bearingX);
+			start.y = min(start.y,G.bearingY);
+			end.x = max(end.x,start.x+xsize);
+			end.y = max(end.y,start.y+ysize);
+			//if(start.x > maxrect.start.x){start.x = maxrect.start.x;}
+			//if(end.x < maxrect.end.x){end.x = maxrect.end.x;}
+			//if(start.y > maxrect.start.y){start.y = maxrect.start.y;}
+			//if(end.y < maxrect.start.x){start.x = maxrect.start.x;}
+			
+			//if(I == 0 || G.bearingY +hscale > maxrect.end.y){maxrect.setEnd({maxrect.end.x,G.bearingY+hscale});}
+			//if(I == 0 || G.bearingX +wscale > maxrect.end.x){maxrect.setEnd({G.bearingX+wscale,maxrect.end.y});}
+			//if(I == 0 || G.bearingY < maxrect.start.y){maxrect.setStart({maxrect.start.x,G.bearingY});}
+			//if(I == 0 || G.bearingX < maxrect.start.x){maxrect.setStart({G.bearingX,maxrect.start.y});}
+			//printf("genfont: char %c, bx=%d, by=%d, ad=%d\n",I,G.bearingX,G.bearingY,G.advance);
 		}
 	}
-	F->ysize = maxy;
+	//F->ysize = maxy;
+	F->maxrect = rect(start,end);
 	return F;
 }
 

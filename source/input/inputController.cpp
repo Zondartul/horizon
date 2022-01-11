@@ -12,7 +12,7 @@ using std::string;
 //#include "paint.h"
 //extern bool physics;
 #include "stdlib.h"
-
+#include "simplemath.h"
 /*
 //mousecapture:
 
@@ -37,12 +37,24 @@ using std::string;
 
 
 extern eventChannel inputChannel;
+extern eventChannel globalChannel;
 inputControllerKind::inputControllerKind(){
 	mousecapture=forward=backward=left=right=up=down=false;
 	//character = 0;
-	speed = 0.07;
-	flyspeed = 0.05;//0.25;
+	speeds.fly_fast			= 0.25;
+	speeds.fly_normal		= 0.05;
+	speeds.fly_slow			= 0.01;
+	speeds.fly_acceleration	= 0.01;
+	speeds.walk_fast		= 0.01;
+	speeds.walk_normal		= 0.003;
+	speeds.walk_slow		= 0.001;
+	
+	velocity = {0,0,0};
+	targetspeed = speeds.fly_normal;
+	accelerating = false;
+	warp = 1;
 	inputChannel.addListener(this);
+	globalChannel.addListener(this);
 }
 inputControllerKind::~inputControllerKind(){}
 /*
@@ -68,7 +80,18 @@ void inputControllerKind::think(){
 		setPos(camera.pos+dpos);
 	}
 	*/
-	vec3f dpos = flyspeed*((vec3f){forward-backward,left-right,up-down}).rotate(camera.rot);
+	vec3f targetvel = warp*targetspeed*((vec3f){forward-backward,left-right,up-down}).rotate(camera.rot);
+	if(targetvel.length() && accelerating){warp = warp *(1+(0.25f)/60.f);}
+	else{warp = 1.f;}
+	vec3f dv = targetvel - velocity;
+	//weird-ass acceleration formula
+	//tl;dr:
+	//if dv is less than max acceleration, just use dv.
+	//if dv is more than max acceleration, 
+	//		then limit dv to max acceleration, scaled so things that are already fast accelerate quicker.
+	if(dv.length() > speeds.fly_acceleration){dv = dv.norm()*speeds.fly_acceleration*(max(velocity.length()/speeds.fly_normal,1));}
+	velocity = velocity+dv;
+	vec3f dpos = velocity;
 	setPos(camera.pos+dpos);
 	//resetBox();
 	//printf("(%f,%f,%f),<(%f,%f,%f)\n",camera.pos.x,camera.pos.y,camera.pos.z,camera.rot.x,camera.rot.y,camera.rot.z);
@@ -127,6 +150,9 @@ void experiment1(){
 
 bool keyboardCaptured;
 void inputControllerKind::onEvent(eventKind event){
+	if (event.type == EVENT_FRAME){
+		think();
+	}
 	if(keyboardCaptured){return;}
 	if (event.type == EVENT_KEY_DOWN){
 		string K = event.keyboard.key;
@@ -152,7 +178,7 @@ void inputControllerKind::onEvent(eventKind event){
 			//if(character){character->toggleFly();character->toggleFly();}
 			return;
 		}
-		if(K == "Left Shift"){event.maskEvent();speed = 0.14;flyspeed = 0.5;return;}
+		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_fast;accelerating = true;return;}
 		//if(K == "P"){physics = !physics;return;}
 		//if(K == "G"){toggleGravity();return;}
 		//if(K == "Keypad 7"){experiment1();}
@@ -168,7 +194,7 @@ void inputControllerKind::onEvent(eventKind event){
 		if(K == "D"){event.maskEvent();right = false;return;}
 		if(K == "Space"){event.maskEvent();up = false;return;}
 		if(K == "Left Ctrl"){event.maskEvent();down = false;return;}
-		if(K == "Left Shift"){event.maskEvent();speed = 0.07;flyspeed = 0.25;return;}
+		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_normal;accelerating = false;return;}
 	}
 	if (event.type == EVENT_MOUSE_MOVE){
 		if(mousecapture){

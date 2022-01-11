@@ -1,7 +1,7 @@
 #ifndef SIMPLEMATH_GUARD
 #define SIMPLEMATH_GUARD
 
-#define d2r 0.01745329251
+#define d2r 0.01745329251f
 //raises 2 to the power of name
 int exp2(int n);
 //returns closest power-of-two
@@ -18,6 +18,5 @@ float max(float A, float B);
 //rounds to n decimal places.
 float round2(float A, float n);
 #define mix2(a,b,n) (a*(1.0f-n)+b*n)
-
 
 #endif

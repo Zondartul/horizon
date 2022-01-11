@@ -39,8 +39,50 @@ GUIsetFavoriteRenderOptions(){
 	//setTextScale(1);
 }
 
-vec2i getTextCentering(rect area, rect text){
-	return area.center()-text.center();//-text.topLeftCorner();
+//area is arbitrary world rect in which the alignment happens
+//rect text should be the rect returned by preprintw
+vec2i getTextCentering(rect area, rect text,alignmentKind alignment_vertical, alignmentKind alignment_horizontal, bool const_height, font *F){
+	rect R;
+	int yborder = 2; //if it was 0, letters would be printed over the actual border-border.
+	if(const_height){
+		//printf("===========\ntext: %s\nmaxrect: %s\n",toString(text).c_str(),toString(F->maxrect).c_str());
+		//calculation fucks up when start position changes. Maybe preprint doesn't include vertical bearing. 
+		//bool cond = text.size.y < F->maxrect.end.y;
+		//if(cond){text = text.setEnd(text.start+(vec2i){text.size.x,F->maxrect.end.y});}
+		//if(cond){text = text.setSize({text.size.x,F->maxrect.end.y});}
+		//printf("cond: %d\ntext2: %s\n",cond,toString(text).c_str());
+		text = text.setEnd({text.size.x,F->maxrect.size.y+yborder});
+	}
+	float axs = area.start.x;
+	float axc = area.center().x;
+	float axe = area.end.x;
+	float txs = text.start.x;
+	float txc = text.center().x;
+	float txe = text.end.x;
+	
+	float ays = area.start.y;
+	float ayc = area.center().y;
+	float aye = area.end.y;
+	float tys = text.start.y;
+	float tyc = text.center().y;
+	float tye = text.end.y;
+	
+	
+	float x,y;
+	
+	switch(alignment_horizontal){
+		case(ALIGN_LEFT):	x = axs-txs; break;
+		case(ALIGN_CENTER):	x = axc-txc; break;
+		case(ALIGN_RIGHT):	x = axe-txe; break;
+	}
+	
+	switch(alignment_vertical){
+		case(ALIGN_TOP):	y = ays-tys; break;
+		case(ALIGN_CENTER):	y = ayc-tyc; break;
+		case(ALIGN_BOTTOM):	y = aye-tye; break;
+	}
+	return (vec2f){x,y};
+	//return area.center()-text.center();//-text.topLeftCorner();
 }
 
 //GUIbase
@@ -253,7 +295,10 @@ void GUIframe::render(){
 GUIlabel::GUIlabel(){
 	textColor = defaulttextColor;
 	textfont = defaulttextfont;
+	alignment_horizontal = ALIGN_CENTER;
+	alignment_vertical = ALIGN_CENTER;
 	text = defaulttext;
+	const_height = false;
 }
 GUIlabel *GUIlabel::setTextColor(vec3f color){
 	textColor = color;
@@ -286,7 +331,7 @@ void GUIlabel::render(){
 	//pos.y += area.size.y/2;
 	rect tRect = preprintw(textfont,"%s",text.c_str());
 	//setTextPos(thisToWorld(-tRect.start));
-	vec2f tp = getTextCentering(worldArea(),tRect);//-tRect.start;
+	vec2f tp = getTextCentering(worldArea(),tRect,alignment_vertical,alignment_horizontal,const_height,textfont);//-tRect.start;
 	//setColor({0,0,255});
 	//drawRectOutline(worldArea());
 	//setColor({0,255,0});
@@ -898,6 +943,10 @@ GUItextEntry::GUItextEntry(){
 	multiline = false;
 	numeric = false;
 	text = "";
+
+	alignment_horizontal = ALIGN_LEFT;
+	alignment_vertical = ALIGN_BOTTOM;
+	const_height = true;
 }
 
 GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}

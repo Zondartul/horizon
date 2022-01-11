@@ -16,8 +16,9 @@ struct event_keyboard{
 	int mod;
 };
 
+enum mouseButtonType{MOUSE_LEFT,MOUSE_MIDDLE,MOUSE_RIGHT,MOUSE_X1,MOUSE_X2};
 struct event_mouse_button{
-	int button;
+	mouseButtonType button;
 };
 
 struct event_mouse_move{
@@ -34,7 +35,8 @@ enum eventType{	EVENT_KEY_UP,
 			EVENT_MOUSE_BUTTON_UP,
 			EVENT_MOUSE_BUTTON_DOWN,
 			EVENT_MOUSE_MOVE, 
-			EVENT_MOUSE_WHEEL};
+			EVENT_MOUSE_WHEEL,
+			EVENT_FRAME};
 struct eventKind{
 	eventType type;
 	int *mask;

@@ -1,7 +1,10 @@
 #ifndef VEC_GUARD
 #define VEC_GUARD
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtx/rotate_vector.hpp"
 using glm::mat4;
+using glm::vec4;
 using glm::vec3;
 using glm::vec2;
 
@@ -83,6 +86,7 @@ struct rect{
 	rect setSize(vec2i size); //start stays
 	rect moveTo(vec2i start); //size stays
 	rect moveBy(vec2i relative); //size stays
+	rect repair(); //put start in the top-left, put end in the bottom-right
 	vec2i clamp(vec2i V);
 	rect clamp(rect R);
 	bool contains(vec2i V);

@@ -58,7 +58,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 	//setTransparency(true);
 	rcmd_transparency(true).execute();
 	float yoffset = 0;
-	if(printFromTop){yoffset = F->ysize;}
+	if(printFromTop){yoffset = F->maxrect.end.y;}
 	float scale = 1;
 	while(C != 0){
 		if(F->charmap.count(C)){
@@ -89,7 +89,7 @@ rect preprintText2D(const char *text, font *F){
 	//texture ot = currentRenderOptions.tex;
 	float scale = 1;//textScale;
 	float yoffset = 0;
-	if(printFromTop){yoffset = F->ysize;}
+	if(printFromTop){yoffset = F->maxrect.end.y;}
 	while(C != 0){
 		if(F->charmap.count(C)){
 			glyph G = F->charmap[C];
