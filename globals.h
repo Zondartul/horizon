@@ -11,7 +11,10 @@
 #endif
 
 #define listForwardI iterator I = subscribers.start(), E = subscribers.end(); I!=E;I++
-
+#define BRDB 4
+// border-border
+#define BRDT 36
+// border-title
 using namespace std;
 
 int clamp(int A, int B, int C)

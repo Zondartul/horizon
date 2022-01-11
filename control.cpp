@@ -4,7 +4,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <algorithm>
-//#include <iostream>
+#include <iostream>
 //#include <string>
 //#include <sstream> 
 //using namespace std;
@@ -23,6 +23,7 @@ PSchannel GUI_PS;
 #include "vectors.h"
 #include "models.h"
 #include "quaternions.h"
+#include "newconsole.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -49,7 +50,6 @@ bool camRotOn;
 
 //#include "physics.h"
 //#include "console.h"
-//int pie = 3.14;
 /*
 void myButton(void *holder)
 {
@@ -342,15 +342,17 @@ void OnProgramStart()
 	GUI->setSize(1024,1024);
 	GUI->recalculateClientRect();
 	GUI->visible=false;
-	GUI3start();
+	input.channel.subscribe("", GUI);
+	//GUI3start();
 	
-	OpenMenu1();
+	//OpenMenu1();
 	//initConCommands();
 	//OpenMenuConsole();
 	//OpenVals();
 	//OpenMenuToolbox();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
+	OpenNewConsole(GUI);
 }
 
 
@@ -363,7 +365,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "90";
+	string vnumber = "91";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -372,7 +374,7 @@ void RenderGUI()
 	GUIbase::propagateMouseOver(GUI,(void*)(pack), 0);
 	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
 	
-	GUI3rendertick();
+	//GUI3rendertick();
 	
 	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
 	
@@ -576,7 +578,8 @@ void ProcessKeyboard(int kb)
 		}
 		}
 	}
-	bool b = GUIbase::propagateKeyboard(letter*kb/abs(kb));
+	bool b = false;
+	//bool b = GUIbase::propagateKeyboard(letter*kb/abs(kb));
 	if(!b&&!ParseKey(kb))
 	{
 		//string mystring = "";

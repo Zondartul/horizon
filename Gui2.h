@@ -20,7 +20,7 @@ void setAlpha(byte alpha)
 	glColor4f(paintColor.r/255.0f,paintColor.g/255.0f,paintColor.b/255.0f,paintAlpha/255.0f);
 }
 
-class GUIbase
+class GUIbase: public PSsubscriber
 {
 	public:
 	listNode* children;
@@ -156,8 +156,14 @@ class GUIbase
 		}
 		counter++;
 	}
-	virtual void onKeyboard(int kb)
+	virtual void onKeyboard(string kb)
 	{
+	}
+	virtual void PSreceive(message msg){
+		if(msg.type == "key_down" || msg.type == "key_still_down"){
+			string msgstr = msg.popString();
+			propagateKeyboard(msgstr);
+		}
 	}
 	//virtual void onKeyboard();
 	virtual void invalidate(vec2i newPos, vec2i newSize)
@@ -402,7 +408,7 @@ class GUIbase
 	}
 	static GUIbase* lastClicked; //I hope you won't need to click two things at once.
 	static GUIbase* focus;
-	static int propagateKeyboard(int kb)
+	static int propagateKeyboard(string kb)
 	{
 		if(focus!=NULL){focus->onKeyboard(kb);return 1;}else{return 0;}
 	}
@@ -693,13 +699,13 @@ class GUItextEntry: public GUIbase
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
 		if(sizeToContents){size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;}
-		else{printw(pos.x+2,pos.y, -1, -1,text)+4;}
+		else{printw(pos.x+2,pos.y, size.x-BRDB, size.y-BRDT,"%s", text.c_str())+4;}
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
-	void onKeyboard(int kb)
+	void onKeyboard(string kb)
 	{
-		
+		/*
 		if(kb<0){return;}
 		if(isprint(kb))
 		{
@@ -726,10 +732,31 @@ class GUItextEntry: public GUIbase
 				CloseClipboard();
 			}
 		}
-		printf("TE[1],");
-		if(callback){callback(arg);}
+		*/
+		//cout << kb;
+		if(kb == "backspace"){
+			if(text.length()){text.erase(text.length()-1);}
+		}else if((kb == "v") && input.keybuffer["ctrl"]){
+			OpenClipboard(NULL);
+			HANDLE pasta = GetClipboardData(CF_TEXT);
+			text += (char *)GlobalLock(pasta);
+			GlobalUnlock(pasta);
+			CloseClipboard();
+		}else if(kb == "enter"){
+			if(multiline){text += '\n';}
+		}else if(kb == "space"){
+			text += " ";
+		}else if(kb.length() == 1){
+			if(input.keybuffer["shift"]){
+				text += input.getShifted(kb[0]);
+			}else{
+				text += kb;
+			}
+		}
+		//printf("TE[1],");
+		if(callback){callback((void*)&kb);}
 		
-		printf("TE[2],");
+		//printf("TE[2],");
 		
 	}
 };
