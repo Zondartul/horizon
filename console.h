@@ -371,4 +371,5 @@ void initConCommands()
 	cmdlist.push_back({"texturestore","repo of all loaded textures",&cmd_textureStore});
 	cmdlist.push_back({"cls","clear screen",&cmd_cls});
 	printf("assigning 2\n");
+	printf("\nsize of physBody = %d, * = %d\n",sizeof(physBody),sizeof(physBody*));
 }

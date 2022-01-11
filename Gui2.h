@@ -114,6 +114,7 @@ class GUIbase
 	vec2i startTouch; //place of mouse click
 	int counter; //mostly useless
 	string tag;
+	void (*think)(void*); //think func, different for each window
 	
 	GUIbase()
 	{
@@ -146,6 +147,7 @@ class GUIbase
 		startTouch = {0,0};
 		counter = 0;
 		tag = "";
+		think = NULL;
 	}
 	virtual void setPos(int x, int y)
 	{
@@ -489,7 +491,15 @@ class GUIbase
 			{
 				if(((rec!=0)&&(obj->visible==false))||(foreach(obj,&propagateClick,arg,rec+1)==false))
 				{
-					if(rec==0){lastClicked=NULL; focus = NULL;}//rec==0 is when invisible master-parent thingy is cliked.
+					if(rec==0)
+					{
+						//lastClicked=NULL; focus = NULL;return false;
+						
+						lastClicked=NULL;
+						if(focus){return true;}
+						else {return false;}
+						
+					}//rec==0 is when invisible master-parent thingy is cliked.
 					return false;
 				} else {if(rec!=0){fixstrata(obj);} return true;} //fuck yes
 			}
@@ -497,6 +507,7 @@ class GUIbase
 		else //releases are delivered to who you clicked, not current mouseover.
 		{
 			if(lastClicked){lastClicked->onClick(mb);lastClicked=NULL;}
+			else{if(focus){focus = NULL; return true;}else{return false;}}
 		}
 		//its ok to have no return? What?
 	}
@@ -524,7 +535,11 @@ class GUIbase
 	{
 		if(true) // temp: if(obj->visible)
 		{
-			if(obj->visible){obj->render(arg);}
+			if(obj->visible)
+			{
+				if(obj->think){obj->think((void*)obj);}
+				obj->render(arg);
+			}
 			if(obj->visible||rec==0)
 			{
 			vec4i scissor = *((vec4i*)arg);

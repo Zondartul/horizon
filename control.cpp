@@ -36,11 +36,13 @@ quat CamAngTest;
 double Camnorm;
 double camSpeed;
 bool renderWireframe;
-#include "physics.h"
-#include "console.h"
-#include "toolbox.h"
+//int EntLookAt;
 bool mouseCapture;
 bool camRotOn;
+
+
+#include "physics.h"
+#include "console.h"
 //int pie = 3.14;
 /*
 void myButton(void *holder)
@@ -71,6 +73,7 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
 	Binds[key].mode = mode;
 }
 
+#include "toolbox.h"
 
 
 void Test1(void* arg)
@@ -295,6 +298,7 @@ void OnProgramStart()
 	camSpeed = 1;
 	CamAngle = quat::fromAngleAxis(0,{0,0,1});//{0,{0,0,1}};
 	CamAngTest = {1,{0,0,1}};
+	EntLookAt = 0;
 	renderWireframe = false;
 	bground.r = 142;
 	bground.g = 187;
@@ -342,11 +346,7 @@ void RenderGUI()
 	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
 }
 
-void ProcessMouseclick(int mb)
-{
-   GUIbase::propagateClick(GUI,(void*)(&mb),0);
-   // GUIM.click(NULL, mb);
-}
+
 
 bool ParseKey(int kb)
 {
@@ -404,6 +404,20 @@ bool ParseKey(int kb)
 		Binds[kb].keyDown = false;
 	}
 	if(Binds[kb].onPress||Binds[kb].onRelease){return true;}else{return false;}
+}
+
+void ProcessMouseclick(int mb)
+{
+   if(!GUIbase::propagateClick(GUI,(void*)(&mb),0))
+   {
+		//printf("click void\n");
+		printf("mb = %d\n",mb);
+		if(mb==1){ParseKey(1);}//Binds[1].keyDown = true;}
+		if(mb==2){ParseKey(2);}//Binds[2].keyDown = true;}
+		if(mb==0){ParseKey(-1);}//Binds[1].keyDown = false;}
+		if(mb==-1){ParseKey(-2);}//Binds[2].keyDown= false;}
+   }
+   // GUIM.click(NULL, mb);
 }
 
 void InputTick()
@@ -594,10 +608,15 @@ void Render3D()
 	
 	for(int i = 0;i<AllPhysBodies.size();i++)
 	{
-	myModel = AllPhysBodies[i].mdl;
+	glPushMatrix();
+	physBody *Body = AllPhysBodies[i];
+	//while(!Body){i++; Body = AllPhysBodies[i];}
+	glTranslatef(Body->pos.x,Body->pos.y,Body->pos.z);
+	glRotatef(Body->orient.getAngle(),Body->orient.getX(),Body->orient.getY(),Body->orient.getZ());
+	myModel = Body->mdl;
 	if(myModel!=NULL)
 	{
-		vec3i col = AllPhysBodies[i].color;
+		vec3i col = Body->color;
 		glColor3ub(col.x,col.y,col.z);
 			
 		//apply orientation here
@@ -678,6 +697,7 @@ void Render3D()
 		}
 		}
 	}
+	glPopMatrix();
 	}
 					//Errc = glGetError();if(Errc){printf("<12=%s>\n",gluErrorString(Errc));}
     glPopMatrix();

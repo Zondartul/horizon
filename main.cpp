@@ -125,6 +125,12 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONUP:
 			ProcessMouseclick(0);
 		break;
+		case WM_RBUTTONDOWN:
+            ProcessMouseclick(2);
+        break;
+		case WM_RBUTTONUP:
+			ProcessMouseclick(-1);
+		break;
 		case WM_SIZE:                           // Resize The OpenGL Window
 		{
 			

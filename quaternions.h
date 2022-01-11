@@ -120,6 +120,27 @@ struct quat
 		vec res = ((*this)*((quat){0,vect})*((*this).inv())).v; //C++ evaluates right-hand first I think
 		return res;
 	}
+	
+	double getX()
+	{
+		return v.x/sqrt(1-w*w);
+	}
+	double getY()
+	{
+		return v.y/sqrt(1-w*w);
+	}
+	double getZ()
+	{
+		return v.z/sqrt(1-w*w);
+	}
+	vec getAxis()
+	{
+		return (vec){getX(),getY(),getZ()};
+	}
+	double getAngle()
+	{
+		return 360*acos(w)/M_PI;
+	}
 	vec forward()
 	{
 		double this1 = w;

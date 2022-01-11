@@ -52,14 +52,15 @@ void OpenMenuToolbox()
 	ParseCommand("textureload C:/Stride/textures/barrel-top.bmp");
 	ParseCommand("textureload C:/Stride/textures/barrel-side.bmp");
 	ParseCommand("textureload C:/Stride/textures/sinus-wide.bmp");
+	ParseCommand("textureload C:/Stride/textures/windrose.bmp");
 }
 
-void genCube(void *arg)
+model *genCube(double l, double w, double h)
 {
 	printf("<1>");
-	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
-	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
-	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
+	/*
+	
+	*/
 	vec V = {l,w,h};
 	model* M = new model;
 	printf("<2>");
@@ -133,16 +134,40 @@ void genCube(void *arg)
 	
 	printf("<6>");
 	//myModel = M;
-	AllPhysBodies.push_back(physBody(M));
+	return M;
+	//AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
 }
-void genCylinder(void *arg)
+model *genPlane(double l, double w)
+{
+	model* M = new model;
+	M->mesh = new triangle[2];
+	M->texmap = new textriangle[2];
+	M->numtextures = 1;
+	M->textures = new texture;
+	M->textures[0] = textureGet("C:/Stride/textures/crate32.bmp");
+	vec A = {-l/2,-w/2,	0}; //A = A*10;
+	vec B = {-l/2,w/2,0}; //B = B*10;
+	vec C = {l/2,w/2,0}; //C = C*10;
+	vec D = {l/2,-w/2,0}; //D = D*10;
+	vec2f tA = {1,0};
+	vec2f tB = {0,0};
+	vec2f tC = {0,1};
+	vec2f tD = {1,1};
+	M->mesh[0] = (triangle){A,B,C}; M->texmap[0] = (textriangle){{tA,tB,tC},0,R_TEXTURE};
+	M->mesh[1] = (triangle){C,D,A}; M->texmap[1] = (textriangle){{tC,tD,tA},0,R_TEXTURE};
+	M->numtris = 2;
+	return M;
+}
+model *genCylinder(double height, double radius, int numsides)
 {
 	printf("<1>");
+	/*
 	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	*/
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -238,17 +263,20 @@ void genCylinder(void *arg)
 	
 	printf("<6>");
 	//myModel = M;
-	AllPhysBodies.push_back(physBody(M));
+	return M;
+	//AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
 }
 
-void genCone(void *arg)
+model *genCone(double height, double radius, int numsides)
 {
 	printf("<1>");
+	/*
 	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	*/
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -333,17 +361,20 @@ void genCone(void *arg)
 	
 	printf("<6>");
 	//myModel = M;
-	AllPhysBodies.push_back(physBody(M));
+	return M;
+	//AllPhysBodies.push_back(physBody(M));
 	printf("<7>");
 	//OpenMenuModel();
 }
 
-void genSphere(void *arg)
+model *genSphere(double radius, int numverti, int numhori)
 {
 	printf("<1>");
+	/*
 	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
 	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
 	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	*/
 	//vec V = {h,r,n};
 	model* M = new model;
 	printf("<2>");
@@ -427,11 +458,42 @@ void genSphere(void *arg)
 	
 	printf("<6>");
 	//myModel = M;
-	AllPhysBodies.push_back(physBody(M));
+	return M;
+	//physBody Bod = physBody(M);
+	//Bod.tracegroup = 0;
+	//AllPhysBodies.push_back(Bod);
 	printf("<7>");
 	//OpenMenuModel();
 }
 
+void btnGenCube(void* arg)
+{
+	double l = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
+	AllPhysBodies.push_back(new physBody(genCube(l,w,h)));
+}
+void btnGenCyl(void* arg)
+{
+	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	AllPhysBodies.push_back(new physBody(genCylinder(height,radius,numsides)));
+}
+void btnGenCone(void* arg)
+{
+	double height = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	double radius = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
+	int numsides = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	AllPhysBodies.push_back(new physBody(genCone(height,radius,numsides)));
+}
+void btnGenSphere(void* arg)
+{
+	double radius = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
+	int numverti = 	(int)(((GUIspinner*)(((void**)arg)[1]))->vals[1]);
+	int numhori = 	(int)(((GUIspinner*)(((void**)arg)[2]))->vals[1]);
+	AllPhysBodies.push_back(new physBody(genSphere(radius,numverti,numhori)));
+}
 void genBox(void* arg)
 {
 	GUIframe* GenMenu = new GUIframe;
@@ -463,7 +525,7 @@ void genBox(void* arg)
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
-	btnGen->func = &genCube;
+	btnGen->func = &btnGenCube;
 	btnGen->arg = (void*)newarg;
 	btnGen->setParent((GUIbase*) GenMenu);
 	
@@ -502,7 +564,7 @@ void genCyl(void* arg)
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
-	btnGen->func = &genCylinder;
+	btnGen->func = &btnGenCyl;
 	btnGen->arg = (void*)newarg;
 	btnGen->setParent((GUIbase*) GenMenu);
 	
@@ -539,7 +601,7 @@ void genCon(void* arg)
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
-	btnGen->func = &genCone;
+	btnGen->func = &btnGenCone;
 	btnGen->arg = (void*)newarg;
 	btnGen->setParent((GUIbase*) GenMenu);
 	
@@ -576,7 +638,7 @@ void genSph(void* arg)
 	btnGen->setPos(4,4+64);
 	btnGen->setSize(96,16);
 	btnGen->text = "Generate";
-	btnGen->func = &genSphere;
+	btnGen->func = &btnGenSphere;
 	btnGen->arg = (void*)newarg;
 	btnGen->setParent((GUIbase*) GenMenu);
 	
@@ -587,6 +649,21 @@ void toggleWireframe(void* arg)
 	if(*(bool*)arg){ConsoleParse("yup wireframe");}
 	else{ConsoleParse("Nope wireframe");}
 	renderWireframe = *(bool*)arg;
+}
+void toggle3Dcursor(void* arg)
+{
+	static physBody *cursor = 0;
+	if(!cursor)
+	{
+		cursor = new physBody(genPlane(1,1));
+		cursor->mdl->textures[0] = textureGet("C:/Stride/windrose.bmp");
+		AllPhysBodies.push_back(cursor);
+	}
+	else
+	{
+		delete cursor;
+		cursor = 0;
+	}
 }
 
 void windowOpts(void* arg)
@@ -601,8 +678,24 @@ void windowOpts(void* arg)
 	check->pos = {4,4};						label1->pos = {4+16,4};
 	check->setParent((GUIbase*)Menu);		label1->text = "wireframe";
 	check->func = &toggleWireframe;			label1->setParent((GUIbase*)Menu);
+	
+	GUIcheckbox* check2 = new GUIcheckbox;	GUIlabel* label2 = new GUIlabel;
+	check2->pos = {4,32};					label2->pos = {4+16,32};
+	check2->setParent((GUIbase*)Menu);		label2->text = "3D cursor";
+	check2->func = &toggle3Dcursor;			label2->setParent((GUIbase*)Menu);
 }
-
+physBody *prevSelected = 0;
+physBody *EntSelected = 0;
+bool wPBfuncSet = 0;
+void entSelect(void *arg)
+{
+	if(EntLookAt){EntLookAt->ptrs.get(&EntSelected);}//EntSelected
+	EntSelected = EntLookAt; //even if 0, though ptrs.get assigns too
+	if(prevSelected){prevSelected->color = {255,255,255};}
+	if(EntSelected){EntSelected->color = {255,0,0}; prevSelected = EntSelected;}
+	
+	printf("beep boop");
+}
 void windowPhysbodyOptions(void *arg)
 {
 	double x = 	((GUIspinner*)(((void**)arg)[0]))->vals[1];
@@ -611,47 +704,77 @@ void windowPhysbodyOptions(void *arg)
 	double rz =	(((GUIspinner*)(((void**)arg)[3]))->vals[1]);
 
 	printf("New pos: <%f,%f,%f>, new angles: <%f>\n",x,y,z,rz);
+	if(EntSelected)
+	{
+		EntSelected->pos = {x,y,z};
+		EntSelected->orient = quat::fromAngleAxis(rz,0,0,1);
+	}
+	quat q = EntSelected->orient;
+	printf("quat: {%f,%f,%f,%f} | {%f,%f,%f,%f}\n",q.w,q.v.x,q.v.y,q.v.z,q.getAngle(),q.getX(),q.getY(),q.getZ());
 }
+void windowPhysbodyUpdate(void *arg)
+{
+	((GUIlabel*)(((GUIbase*)arg)->findByTag("bodytext")))->text = "body: "+itoa((double)(*(reinterpret_cast<int*>(&EntSelected))));
+	if(EntSelected)
+	{
+		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinx")))->vals[1]=EntSelected->pos.x;
+		((GUIspinner*)(((GUIbase*)arg)->findByTag("spiny")))->vals[1]=EntSelected->pos.y;
+		((GUIspinner*)(((GUIbase*)arg)->findByTag("spinz")))->vals[1]=EntSelected->pos.z;
+	}
+}
+
+
 
 void windowPhysbody(void* arg)
 {
-	GUIframe* Menu = new GUIframe;
-	Menu->setPos(128,128);
-	Menu->setSize(192,192);
-	Menu->title = "Body manipulator";
-	Menu->setParent(GUI);
-
+	GUIframe* Menu = new GUIframe;			//GUIbutton* btnUpdate = new GUIbutton;
+	Menu->setPos(128,128);					//btnUpdate->setPos(4,128);
+	Menu->setSize(192,192);					//btnUpdate->setSize(64,32);
+	Menu->title = "Body manipulator";		//btnUpdate->text = "Update";
+	Menu->setParent(GUI);					//btnUpdate->func = &windowPhysbodyUpdate;
+											//btnUpdate->setParent((GUIbase*) Menu);
 	GUIlabel* bodytext = new GUIlabel;
 	bodytext->setPos(4,4);
-	bodytext->text = "no body selected";
+	bodytext->text = "body: none";
 	bodytext->setParent((GUIbase*) Menu);
+	bodytext->tag = "bodytext";
 	
 	GUIspinner* spinx = new GUIspinner;		GUIlabel* spinxtext = new GUIlabel;
 	spinx->setPos(4,32);					spinxtext->setPos(96,32);
 	spinx->setVals(-10,0,10,0.5,1);			spinxtext->text = "pos x";
 	spinx->setParent((GUIbase*) Menu);		spinxtext->setParent((GUIbase*) Menu);
-	
+	spinx->tag="spinx";
 	GUIspinner* spiny = new GUIspinner;		GUIlabel* spinytext = new GUIlabel;
 	spiny->setPos(4,32+18);					spinytext->setPos(96,32+18);
 	spiny->setVals(-10,0,10,0.5,1);			spinytext->text = "pos y";
 	spiny->setParent((GUIbase*) Menu);		spinytext->setParent((GUIbase*) Menu);
-	
+	spiny->tag="spiny";
 	GUIspinner* spinz = new GUIspinner;		GUIlabel* spinztext = new GUIlabel;
 	spinz->setPos(4,32+32+4);				spinztext->setPos(96,32+32+4);
 	spinz->setVals(-10,0,10,0.5,1);			spinztext->text = "pos z";
 	spinz->setParent((GUIbase*) Menu);		spinztext->setParent((GUIbase*) Menu);
-	
+	spinz->tag="spinz";
 	
 	GUIspinner* spinrz = new GUIspinner;	GUIlabel* spinrztext = new GUIlabel;
 	spinrz->setPos(4,32+18*4);				spinrztext->setPos(96,32+18*4);
 	spinrz->setVals(-180,0,180,15,0);		spinrztext->text = "rot z";
 	spinrz->setParent((GUIbase*) Menu);		spinrztext->setParent((GUIbase*) Menu);
+	spinrz->tag="spinrz";
 	
-	void **newarg = new void*[4];
+	void **newarg = new void*[5];
 	newarg[0] = (void*)spinx;
 	newarg[1] = (void*)spiny;
 	newarg[2] = (void*)spinz;
 	newarg[3] = (void*)spinrz;
+	newarg[4] = (void*)bodytext;
 	spinx->func = spiny->func = spinz->func = spinrz->func = &windowPhysbodyOptions;
 	spinx->arg = spiny->arg = spinz->arg = spinrz->arg = newarg;
+	Menu->think = &windowPhysbodyUpdate;
+	
+	if(!wPBfuncSet)
+	{
+		wPBfuncSet=true; 
+		cmdlist.push_back({"ent_select","select enitity",&entSelect});
+		bindKey(1,&entSelect,NULL,1);
+	}
 }
