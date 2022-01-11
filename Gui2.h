@@ -368,19 +368,19 @@ class GUIbase
 	static GUIbase* focus;
 	static int propagateKeyboard(int kb)
 	{
-		if(focus){focus->onKeyboard(kb);}
+		if(focus!=NULL){focus->onKeyboard(kb);return 1;}else{return 0;}
 	}
 	static int propagateClick(GUIbase* obj, void* arg, int rec)
 	{
 		int mb = *((int*)arg);
 		if(mb>0)
 		{
-			if(obj->mouseOver){obj->onClick(mb); lastClicked = obj; focus = obj; return true;}
+			if(obj->mouseOver&&(rec!=0)){obj->onClick(mb); lastClicked = obj; focus = obj; return true;}
 			else
 			{
 				if(foreach(obj,&propagateClick,arg,rec+1)==false)
 				{
-					if(rec==0){lastClicked=NULL; focus = NULL;}
+					if(rec==0){lastClicked=NULL; focus = NULL;}//rec==0 is when invisible master-parent thingy is cliked.
 					return false;
 				} else {return true;}
 			}
@@ -569,11 +569,15 @@ class GUItextEntry: public GUIbase
 {
 	public:
 	string text;
+	bool multiline;
+	void (*callback)(void*);
+	void* arg;
 	GUItextEntry():GUIbase()
 	{
 		text = "Text entry";
 		resizible = false;
 		movable = false;
+		multiline = false;
 		size.y = 22;
 		color_panel = {255,255,255};
 		color_border = {0,0,0};
@@ -603,10 +607,15 @@ class GUItextEntry: public GUIbase
 		{
 			text += kb;
 		}
+		if(kb==13)
+		{
+			if(multiline){text += '\n';}
+		}
 		if(kb==8)
 		{
 			if(text.length()){text.erase(text.length()-1);}
 		}
+		if(callback){callback(arg);}
 	}
 };
 
@@ -1163,6 +1172,61 @@ class GUIcolorbox: public GUIbase
 	}
 };
 
+class GUIvaluedisplay:public GUIbase
+{
+	public:
+	void *val;
+	char mode;
+	int precision;
+	char str[256];
+	GUIvaluedisplay():GUIbase()
+	{
+		size = {128,32};
+		resizible = 0;
+		precision = 2;
+		movable = 0;
+		val = NULL;
+		mode = 'd';
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		if(val!=NULL)
+		{
+		switch(mode)
+		{
+			case 'd':
+				sprintf(str,"%.*d",precision,*((int*)val));
+				break;
+			case 'f':
+				sprintf(str,"%.*f",precision,*((double*)val));
+				break;
+			case 'c':
+				sprintf(str,"%c",*((char*)val));
+				break;
+			case 's':
+				sprintf(str,"%s",*((char**)val));
+				break;
+			case 'p':
+				sprintf(str,"%p",*((void**)val));
+				break;
+			default:
+				sprintf(str,"val:[%p]",val);
+				break;
+		}
+		}else{sprintf(str,"val:[%p]",val);}
+		printw(pos.x,pos.y,pos.x+size.x,pos.y+size.y,str);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
+
 /*
 GUI element check list!
 --GENERAL--
@@ -1190,5 +1254,13 @@ Label		*
 Image
 --WINDOWS--
 Messagebox
+valueDisplay*
+Console
 
+ideas:
+move scissor checks into base class
+bool clickable
+callbacks for everything
 */
+
+

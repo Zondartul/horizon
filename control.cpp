@@ -12,19 +12,75 @@
 #include "vectors.h"
 #include "models.h"
 //global vars go here
+//LETS DO QUATERNIONS LIKE A BOSS
 
 //GUIManager GUIM;
-GUIbase* GUI;
+typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-returning funtion that takes
+									                      // a pointer-to-void" type.
 
-GUIframe* myFrame;
+GUIbase *GUI;
+GUIframe *Console;
+
+GUIframe *myFrame;
+funcptr Binds[256];
+model *myModel;
+vector SomeVec1;
+vector SomeVec2;
+int pie = 3.14;
 /*
 void myButton(void *holder)
 {
 	GUIM.axe(NULL);
 }
 */
-model* myModel;
 
+void ConsoleParse(string text)
+{
+	if(Console!=NULL)
+	{
+		GUIlabel *L = (GUIlabel*)(Console->children->next->thing);
+		L->text += '\n';
+		L->text += text;
+	}
+}
+
+void Test1(void* arg)
+{
+	ConsoleParse("I LIKE TURTLES");
+}
+
+void MenuConsoleConEntryCallback(void *arg)
+{
+	GUItextEntry *E = (GUItextEntry*)arg;
+	if(E->text[E->text.length()-1]=='\n')
+	{
+		E->text.erase(E->text.length()-1);
+		ConsoleParse(E->text);
+		E->text.erase();
+	}
+}
+void OpenMenuConsole()
+{
+	if(Console==NULL)
+	{
+		Console = new GUIframe;
+		Console->setSize(128,512);
+		Console->setParent(GUI);
+	
+		GUIlabel *ConText = new GUIlabel;
+		ConText->setSize(120,400);
+		ConText->setPos(4,32);
+		ConText->setParent(Console);
+		
+		GUItextEntry *ConEntry = new GUItextEntry;
+		ConEntry->setSize(128,32);
+		ConEntry->setPos(0,512-32);
+		ConEntry->multiline = true;
+		ConEntry->setParent(Console);
+		ConEntry->callback = MenuConsoleConEntryCallback;
+		ConEntry->arg = (void *)ConEntry;
+	}
+}
 void OpenMenuModel()
 {
 	GUIframe* ModelMenu = new GUIframe;
@@ -47,10 +103,54 @@ void genCube(void *arg)
 	double w = 	((GUIspinner*)(((void**)arg)[1]))->vals[1];
 	double h = 	((GUIspinner*)(((void**)arg)[2]))->vals[1];
 	vector V = {l,w,h};
-	myModel = new model;
+	model* M = new model;
 	((GUIspinner*)(((void**)arg)[0]))->vals[1] = V.length();
 	
+	M->mesh = new triangle[12];
+	/*
+	  F-----G
+	 /|    /|
+	E-+---H |
+	| |   | |
+	| B---+-C
+	|/    |/
+	A-----D
 	
+	AB = +y
+	AD = +x
+	AE = +z
+	*/ 
+	vector A = {0,0,0};
+	vector B = {0,1,0};
+	vector C = {1,1,0};
+	vector D = {1,0,0};
+	vector E = {0,0,1};
+	vector F = {0,1,1};
+	vector G = {1,1,1};
+	vector H = {1,0,1};
+	
+	//CW culling.
+	//front
+	M->mesh[0] = (triangle){A,E,H};
+	M->mesh[1] = (triangle){H,D,A};
+	//right
+	M->mesh[2] = (triangle){D,H,G};
+	M->mesh[3] = (triangle){G,C,D};
+	//back
+	M->mesh[4] = (triangle){C,G,F};
+	M->mesh[5] = (triangle){F,B,C};
+	//left
+	M->mesh[6] = (triangle){B,F,E};
+	M->mesh[7] = (triangle){E,A,B};
+	//up
+	M->mesh[8] = (triangle){E,F,G};
+	M->mesh[9] = (triangle){G,H,E};
+	//down
+	M->mesh[10] = (triangle){B,A,D};
+	M->mesh[11] = (triangle){D,C,B};
+	//
+	M->numtris = 12;
+	myModel = M;
 	OpenMenuModel();
 }
 void OpenMenuGen()
@@ -166,6 +266,37 @@ void OpenMenu1()
 	cbox->setParent((GUIbase*)myFrame);
 }
 
+void OpenVals()
+{
+	GUIframe* valframe = new GUIframe;
+	valframe->setSize(256,256);
+	valframe->setPos(768,32);
+	valframe->setParent(GUI);
+	
+	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
+	valx->setPos(0,32);								val2x->setPos(128,32);
+	valx->val = (void*)(&SomeVec1.x);				val2x->val = (void*)(&SomeVec2.x);
+	valx->mode = 'f';								val2x->mode = 'f';
+	valx->setParent(valframe);						val2x->setParent(valframe);
+	
+	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
+	valy->setPos(0,64);								val2y->setPos(128,64);
+	valy->val = (void*)(&SomeVec1.y);				val2y->val = (void*)(&SomeVec2.y);
+	valy->mode = 'f';								val2y->mode = 'f';
+	valy->setParent(valframe);						val2y->setParent(valframe);
+	
+	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
+	valz->setPos(0,96);								val2z->setPos(128,96);
+	valz->val = (void*)(&SomeVec1.z);				val2z->val = (void*)(&SomeVec2.z);
+	valz->mode = 'f';								val2z->mode = 'f';
+	valz->setParent(valframe);						val2z->setParent(valframe);
+}
+
+void camForward(void* arg){SomeVec1 = SomeVec1+(vector){0,.1,0};}
+void camBack(void* arg){SomeVec1 = SomeVec1+(vector){0,-.1,0};}
+void camLeft(void* arg){SomeVec1 = SomeVec1+(vector){-.1,0,0};}
+void camRight(void* arg){SomeVec1 = SomeVec1+(vector){.1,0,0};}
+
 void OnProgramStart()
 {
     theta = 1.0f;
@@ -187,6 +318,14 @@ void OnProgramStart()
 	CourierNew22= (void*)GenerateFont("C:/Stride/cour.ttf",22,true);
 	
 	setFont(Calibri18);
+	SomeVec1 = {0,0,0};
+	SomeVec2 = {2,5,5};
+	for(int I=0;I<256;I++){Binds[I]=NULL;}
+	Binds['T'] = &Test1;
+	Binds['W'] = &camForward;
+	Binds['A'] = &camRight;
+	Binds['S'] = &camBack;
+	Binds['D'] = &camLeft;
 	
 	bground.r = 142;
 	bground.g = 187;
@@ -199,9 +338,10 @@ void OnProgramStart()
 	GUI->recalculateClientRect();
 	GUI->visible=false;
 	
-	OpenMenu1();
+	//OpenMenu1();
 	OpenMenuGen();
-
+	OpenMenuConsole();
+	OpenVals();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -226,7 +366,7 @@ void RenderGUI()
 	GUIbase::propagateRender(GUI,(void*)(&windowrect),0);
 	
 	
-	printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
+	//printw(256,256,-1,-1,"crect.x = %d, y = %d, \nbtn.pos.x = %d, y = %d", myFrame->crect.x1,myFrame->crect.y1,myFrame->CloseButton->pos.x, myFrame->CloseButton->pos.y);
 	
 	//GUIM.render(NULL);
 	//GUIM.checkMouseOver(NULL, mousePos.x, mousePos.y);
@@ -238,11 +378,27 @@ void ProcessMouseclick(int mb)
    // GUIM.click(NULL, mb);
 }
 
+bool ParseKey(unsigned char kb)
+{
+	if(Binds[kb]!=NULL)
+	{
+		Binds[kb](NULL);
+		return true;
+	}
+	return false;
+}
+
 void ProcessKeyboard(int kb)
 {
-	kb = MapVirtualKey((unsigned int)kb,2);
-	if(!(GetKeyState(VK_SHIFT)&(0x8000))){kb = tolower(kb);}
-	GUIbase::propagateKeyboard(kb);
+	int letter = MapVirtualKey((unsigned int)kb,2);
+	if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
+	
+	if(!GUIbase::propagateKeyboard(letter)&&!ParseKey(kb))
+	{
+		char str[64];
+		sprintf(str,"Unbound key: %d = [%c]/[%c]",kb,(char)kb,letter);
+		ConsoleParse((string)str);
+	}
 	//GUIM.keyboard(kb);
 }
 
@@ -267,6 +423,7 @@ void Render2D()
 void Render3D()
 {
     glPushMatrix();
+	glTranslated(SomeVec1.x,SomeVec1.z,SomeVec1.y);
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
@@ -276,12 +433,26 @@ void Render3D()
         glColor3f(0.0f, 0.0f, 1.0f);   glVertex2f(-0.87f, -0.5f);
 
     glEnd();
+	if(myModel!=NULL)
+	{
+		//apply orientation here
+		glBegin(GL_TRIANGLES);
+		for(int I=0;I<myModel->numtris;I++)
+		{
+			triangle T = myModel->mesh[I];
+			glColor3f(1.0f, 0.0f, 0.0f);   glVertex3f(T.v[0].x,T.v[0].y,T.v[0].z);
+			glColor3f(0.0f, 1.0f, 0.0f);   glVertex3f(T.v[1].x,T.v[1].y,T.v[1].z);
+			glColor3f(0.0f, 0.0f, 1.0f);   glVertex3f(T.v[2].x,T.v[2].y,T.v[2].z);
+		}
+		glEnd();
+	}
 
     glPopMatrix();
 }
 void Render_go2D()
 {
     glMatrixMode(GL_PROJECTION);
+	glDisable(GL_DEPTH_TEST);
     glPushMatrix();
     glLoadIdentity();
     glOrtho(0, width, height, 0, -1, 1);
@@ -291,14 +462,73 @@ void Render_go2D()
 void Render_go3D()
 {
     glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
+	//glPopMatrix();
+	glLoadIdentity();
+	double top;
+	double bottom;
+	double left;
+	double right;
+	double fov = 90;
+	double znear = 0.1;
+	double zfar = 100;
+	double aspect = 1;
+	
+	top = tan(fov*3.14159/360.0) * znear;
+	bottom = -top;
+	left = aspect * bottom;
+	right = aspect * top;
+
+    glFrustum(left,right,bottom,top,znear,zfar);
+	glEnable(GL_DEPTH_TEST);
+	glMatrixMode(GL_MODELVIEW);
+	
 }
 
+/*
+void BuildPerspProjMat(float *m, float fov, float aspect,
+ float znear, float zfar)
+ {
+  float ymax = znear * tan(fov * PI_OVER_360);
+  float ymin = -ymax;
+  float xmax = ymax * aspect;
+  float xmin = ymin * aspect;
+
+  float width = xymax - xmin;
+  float height = xymax - ymin;
+
+  float depth = zfar - znear;
+  float q = -(zfar + znear) / depth;
+  float qn = -2 * (zfar * znear) / depth;
+
+  float w = 2 * znear / width;
+  w = w / aspect;
+  float h = 2 * znear / height;
+
+  m[0]  = w;
+  m[1]  = 0;
+  m[2]  = 0;
+  m[3]  = 0;
+
+  m[4]  = 0;
+  m[5]  = h;
+  m[6]  = 0;
+  m[7]  = 0;
+
+  m[8]  = 0;
+  m[9]  = 0;
+  m[10] = q;
+  m[11] = -1;
+
+  m[12] = 0;
+  m[13] = 0;
+  m[14] = qn;
+  m[15] = 0;
+ }
+ */
 void RenderTick(HDC hDC)
 {
     glClearColor(bground.r/255.0f,bground.g/255.0f,bground.b/255.0f,bground.a/255.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     Render3D();
 
