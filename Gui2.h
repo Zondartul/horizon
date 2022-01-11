@@ -1,6 +1,8 @@
 //Gui.h
 #include <string>
+#include <cstdio>
 using std::string;
+
 void paintRect(int X1, int Y1, int X2, int Y2)
 {
     glBegin(GL_QUADS);
@@ -105,11 +107,11 @@ class GUIbase
 		startTouch = {0,0};
 		counter = 0;
 	}
-	void setPos(int x, int y)
+	virtual void setPos(int x, int y)
 	{
 		invalidate((vec2i){x,y},size);
 	}
-	void setSize(int x, int y)
+	virtual void setSize(int x, int y)
 	{
 		invalidate(pos, (vec2i){x,y});
 	}
@@ -142,8 +144,11 @@ class GUIbase
 		}
 		counter++;
 	}
-	void onKeyboard();
-	void invalidate(vec2i newPos, vec2i newSize)
+	virtual void onKeyboard(int kb)
+	{
+	}
+	//virtual void onKeyboard();
+	virtual void invalidate(vec2i newPos, vec2i newSize)
 	{
 		//this one should also reposition children and stuff
 		vec2i sendPos = newPos-pos;//+newSize-size; and guess what happens when x is parented to y of size {0,0}?
@@ -216,7 +221,7 @@ class GUIbase
 		scissorCheck(arg);
 		
 		setColor(color_panel);
-		if(!mouseOver){setAlpha(128);}
+		if(!mouseOver){setAlpha(0);}
 		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_border);
 		setAlpha(255);
@@ -341,18 +346,30 @@ class GUIbase
 		}
 		return false;
 	}
+	static GUIbase* lastClicked; //I hope you won't need to click two things at once.
+	static GUIbase* focus;
+	static bool propagateKeyboard(int kb)
+	{
+		if(focus){focus->onKeyboard(kb);}
+	}
 	static bool propagateClick(GUIbase* obj, void* arg, int rec)
 	{
-		static GUIbase* lastClicked; //I hope you won't need to click two things at once.
 		int mb = *((int*)arg);
 		if(mb>0)
 		{
-			if(obj->mouseOver){obj->onClick(mb); lastClicked = obj; return true;}
-			else{foreach(obj,&propagateClick,arg,rec+1); return false;}
+			if(obj->mouseOver){obj->onClick(mb); lastClicked = obj; focus = obj; return true;}
+			else
+			{
+				if(foreach(obj,&propagateClick,arg,rec+1)==false)
+				{
+					if(rec==0){lastClicked=NULL; focus = NULL;}
+					return false;
+				} else {return true;}
+			}
 		}
 		else //releases are delivered to who you clicked, not current mouseover.
 		{
-			if(lastClicked){lastClicked->onClick(mb);}
+			if(lastClicked){lastClicked->onClick(mb);lastClicked=NULL;}
 		}
 		//its ok to have no return? What?
 	}
@@ -371,7 +388,46 @@ class GUIbase
 		}
 		return false;
 	}
+	~GUIbase()
+	{
+		listNode *Cur, *Prev;
+		Cur = parent->children;
+		bool stop = false;
+		if(lastClicked == this){lastClicked = NULL;}
+		
+		while(!stop)
+		{
+			if(Cur == NULL){stop = true;}
+			else if(Cur->thing == (void*)this)
+			{
+				Cur->thing = NULL;
+				//if(Cur!=parent->children){Prev->next = Cur->next; delete Cur;}//WHY CANT I DELETE THAT FAGGOT
+				stop = true;
+			}
+			else
+			{
+				Prev = Cur;
+				Cur = Cur->next;
+			}
+		}
+		//delete all children;
+		/*
+		Cur = parent->children;
+		GUIbase* delObj = NULL;
+		while(Cur!=NULL)
+		{
+			if(Cur->thing){delObj = (GUIbase*)(Cur->thing);}
+			Prev = Cur;
+			Cur = Cur->next;
+			delete Prev; //yes - root node too.
+			if(delObj){delete delObj;} // avoiding double-edged destructors.
+		}*/
+		//we're done with the tree.
+	}
 };
+
+GUIbase* GUIbase::lastClicked = NULL;
+GUIbase* GUIbase::focus = NULL;
 
 class GUIbutton: public GUIbase
 {
@@ -385,8 +441,11 @@ class GUIbutton: public GUIbase
 	}
 	void onClick(int mb)
 	{
-		GUIbase::onClick(mb);
-		//if(func)(func(arg));
+		if((mb==0)&&mouseOver)
+		{
+			GUIbase::onClick(mb);
+			if(func)(func(arg));
+		}
 	}
 };
 
@@ -404,10 +463,27 @@ class GUIframe: public GUIbase
 		title = "Title";
 		CloseButton = new GUIbutton();
 		CloseButton->func = &btnClose;
+		CloseButton->movable = false;
+		CloseButton->resizible = false;
+		//CloseButton->scissor = false; see we can't paint it outside client area and that's a problem.
 		CloseButton->setSize(24,24);
 		CloseButton->arg = (void*)this;
 		CloseButton->setParent((GUIbase*)this);
 	}
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		GUIbase::invalidate(newPos, newSize);
+		CloseButton->setPos(pos.x+size.x-border-CloseButton->size.x,pos.y+border);
+	}
+	/*
+	void recalculateClientRect()
+	{
+		crect.x1 = pos.x+border;
+		crect.y1 = pos.y+border+32;
+		crect.x2 = pos.x+size.x-border;
+		crect.y2 = pos.y+size.y-border;
+	}
+	*/
 	void render(void* arg)
 	{
 		resizeCheck();
@@ -427,3 +503,91 @@ class GUIframe: public GUIbase
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
+
+class GUIlabel: public GUIbase
+{
+	public:
+	string text;
+	GUIlabel():GUIbase()
+	{
+		text = "label";
+		resizible = false;
+		movable = false;
+		size.y = 22;
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		size.x = printw(pos.x,pos.y,text);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
+
+class GUItextEntry: public GUIbase
+{
+	public:
+	string text;
+	GUItextEntry():GUIbase()
+	{
+		text = "Text entry";
+		resizible = false;
+		movable = false;
+		size.y = 22;
+		color_panel = {255,255,255};
+		color_border = {0,0,0};
+		color_text = {0,0,0};
+	}
+	void render(void* arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		if(focus==this){setAlpha(255);}else{setAlpha(196);}
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setColor(color_text);
+		size.x = printw(pos.x+2,pos.y,text)+4;
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+	void onKeyboard(int kb)
+	{
+		if(isprint(kb))
+		{
+			text += kb;
+		}
+		if(kb==8)
+		{
+			if(text.length()){text.erase(text.end()-1);}
+		}
+	}
+};
+/*
+GUI element check list!
+--INPUT--
+Button		*
+Checkbox
+Radiobutton
+TextEntry	
+Spinner
+DropDownList
+ListBox
+--NAVIGATION--
+Frame		*
+ScrollBar
+Tab
+--OUTPUT--
+Label		*
+Image
+
+
+*/

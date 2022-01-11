@@ -316,9 +316,9 @@ class GUIManager //manages windows and controlls, their allocation and message p
 	}
 	void click(GUIobj* obj, int mb)
 	{
-		if(mb<1)
+		if(mb==1)
 		{
-			if(lastClick){lastClick->onClick(mb);}
+			if(lastClick){lastClick->onClick(mb);lastClick = NULL;}
 		}
 		else
 		{

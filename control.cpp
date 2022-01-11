@@ -2,6 +2,7 @@
 #include <gl/gl.h>
 #include <cstdio>
 #include <math.h>
+#include <ctype.h>
 //#include <vector>
 
 #include "globals.h"
@@ -10,22 +11,6 @@
 #include "Gui2.h"
 
 //global vars go here
-
-/*
-CURRENT TASK:
-GUI:
-    attempted storing frames in vectors. Sucks because it breaks pointers all the time.
-    TODO: remove vector code and replace by linked list to store every frame.
-    NOTE: obj = new cl means obj will not get auto-destroyed when leaving the scope.
-*/
-
-
-//unsigned char image[640*480];
-
-
-
-
-
 
 //GUIManager GUIM;
 GUIbase* GUI;
@@ -82,49 +67,22 @@ void OnProgramStart()
 	myFrame2->setParent((GUIbase*)myFrame);
 	
 	
-	/*
-    GUIobj* myFrame = new GUIobj;
-    myFrame->pos.x = 350;
-    myFrame->pos.y = 32;
-    myFrame->size.x = 256;
-    myFrame->size.y = 256;
-	myFrame->color.r = 255;
-	myFrame->color.g = 96;
-	myFrame->color.b = 255;
-    GUIM.activate(myFrame);
-	
-	GUIobj* Button = new GUIobj;
-	Button->pos.x = 400;
+	GUIbutton* Button = new GUIbutton;
+	Button->pos.x = 200;
 	Button->pos.y = 64;
 	Button->size.x = 64;
 	Button->size.y = 64;
-	Button->color = {0,64,255};
-	Button->parent = myFrame;
-	GUIM.activate(Button);
+	Button->color_panel = {0,64,255};
+	Button->setParent((GUIbase*)myFrame2);
 	
-	GUIobj* Frame2 = new GUIframe;
-	//Frame2->pos = {64,64};
-	Frame2->size = {256,128};
-	Frame2->color = {196,196,196};
-	GUIM.activate(Frame2);
-	
-	GUIobj* Text = new GUItextEntry;
-	Text->pos = {4,32};
-	Text->size = {256-8,128-34};
-	Text->parent = Frame2;
-	GUIM.activate(Text);
-	
-	GUIbutton* Btn2 = new GUIbutton;
-	Btn2->pos = {400,400};
-	Btn2->size = {64,32};
-	Btn2->color = {128,128,128};
-	Btn2->color2 = {255,0,0};
-	Btn2->text = "CLEAR";
-	Btn2->func = &myButton;
-	Btn2->funcHolder = (void*)Btn2;
-	GUIM.activate((GUIobj*)Btn2);
-	*/
-	
+	GUIlabel* Label = new GUIlabel;
+	Label->pos = {4,32};
+	Label->size = {256-8,128-34};
+	Label->setParent((GUIbase*)myFrame2);
+   
+	GUItextEntry* Text = new GUItextEntry;
+	Text->pos = {4, 128};
+	Text->setParent((GUIbase*)myFrame);
    //myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 }
@@ -162,6 +120,9 @@ void ProcessMouseclick(int mb)
 
 void ProcessKeyboard(int kb)
 {
+	kb = MapVirtualKey((unsigned int)kb,2);
+	if(!(GetKeyState(VK_SHIFT)&(0x8000))){kb = tolower(kb);}
+	GUIbase::propagateKeyboard(kb);
 	//GUIM.keyboard(kb);
 }
 

@@ -111,16 +111,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_KEYDOWN:
         {
 			ProcessKeyboard((int)wParam);
-			/*
-            switch (wParam)
-            {
-                case VK_ESCAPE:
-                    PostQuitMessage(0);
-                break;
-                case 'V':
-                    ProcessMouseclick(1);
-                break;
-            }*/
         }
         break;
 
