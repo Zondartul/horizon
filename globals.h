@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 using namespace std;
 
 int clamp(int A, int B, int C)
@@ -31,6 +32,10 @@ bool operator == (vec2i A, vec2i B)
 {
 	return ((A.x==B.x)&&(A.y==B.y));
 }
+bool operator != (vec2i A, vec2i B)
+{
+	return !(A==B);
+}
 vec2i operator / (vec2i A, int B)
 {
 	return {A.x/B,A.y/B};
@@ -46,6 +51,7 @@ struct color3i
 	int g;
 	int b;
 };
+
 color3i operator + (color3i A, color3i B)
 {
 	return {clamp(A.r+B.r,0,255),clamp(A.g+B.g,0,255),clamp(A.b+B.b,0,255)};

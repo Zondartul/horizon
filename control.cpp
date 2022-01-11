@@ -24,8 +24,7 @@ typedef void (*funcptr)(void *arg); // let "funcptr" be the "pointer to a void-r
 									                      // a pointer-to-void" type.
 
 GUIbase *GUI;
-GUIframe *Console;
-
+#include "console.h"
 GUIframe *myFrame;
 model *myModel;
 vector SomeVec1;
@@ -66,67 +65,14 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
 	Binds[key].mode = mode;
 }
 
-int ConsoleNumLines = 0;
-void ConsoleParse(string text)
-{
-	if(Console!=NULL)
-	{
-		GUIlabel *L = (GUIlabel*)(Console->findByTag("Text"));
-		if(L==NULL){printf("can't findByTag(Text)\n");}
-		//printf("adding text <%s> to <%s>\n",text.c_str(), L->text.c_str());	
-		L->text += '\n';
-		ConsoleNumLines++;
-		L->text += text;
-		if(ConsoleNumLines>10){L->text.erase(0,L->text.find("\n")+1);ConsoleNumLines--;}
-	}
-	else{printf("Console missing\n");}
-}
+
 
 void Test1(void* arg)
 {
 	ConsoleParse("I LIKE TURTLES");
 }
 
-void MenuConsoleConEntryCallback(void *arg)
-{
-	printf("CB[1],");
-	GUItextEntry *E = (GUItextEntry*)arg;
-	printf("CB[2],");
-	if(E->text[E->text.length()-1]=='\n')
-	{
-		printf("CB[3],");
-		E->text.erase(E->text.length()-1);
-		printf("CB[4],");
-		ConsoleParse(E->text);
-		printf("CB[5],");
-		E->text.erase();
-		printf("CB[6],");
-	}
-	printf("CB[7],");
-}
-void OpenMenuConsole()
-{
-	if(Console==NULL)
-	{
-		Console = new GUIframe;
-		Console->setSize(256,512);
-		Console->setParent(GUI);
-	
-		GUIlabel *ConText = new GUIlabel;
-		ConText->setSize(248,400);
-		ConText->setPos(4,32);
-		ConText->setParent(Console);
-		ConText->tag = "Text";
-		
-		GUItextEntry *ConEntry = new GUItextEntry;
-		ConEntry->setSize(256,32);
-		ConEntry->setPos(0,512-32);
-		ConEntry->multiline = true;
-		ConEntry->setParent(Console);
-		ConEntry->callback = MenuConsoleConEntryCallback;
-		ConEntry->arg = (void *)ConEntry;
-	}
-}
+
 void OpenMenuModel()
 {
 	GUIframe* ModelMenu = new GUIframe;

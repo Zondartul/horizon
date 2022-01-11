@@ -110,6 +110,8 @@ class GUIbase
 	bool dragging;
 	bool pressed;
 	bool scissor;
+	bool dockup, dockdown, dockleft, dockright;
+	vec4i dock;
 	vec2i startTouch; //place of mouse click
 	int counter; //mostly useless
 	string tag;
@@ -122,6 +124,7 @@ class GUIbase
 		color_panel = {255,255,255};
 		border = 2;
 		strata = 0;
+		dockup = dockdown = dockleft = dockright = false;
 		
 		children = new listNode;
 		children->thing = NULL;
@@ -148,10 +151,46 @@ class GUIbase
 	virtual void setPos(int x, int y)
 	{
 		invalidate((vec2i){x,y},size);
+		setdock(dockup,dockdown,dockleft,dockright);
 	}
 	virtual void setSize(int x, int y)
 	{
 		invalidate(pos, (vec2i){x,y});
+		setdock(dockup,dockdown,dockleft,dockright);
+	}
+	virtual void setdock(bool up, bool down, bool left, bool right)
+	{
+	
+		dockup = up;
+		dockdown = down;
+		dockleft = left;
+		dockright = right;
+		if(parent)
+		{
+			dock.x1 = (parent->pos.x+parent->size.x)-pos.x; // distance from left edge to right border
+			dock.x2 = (parent->pos.x+parent->size.x)-(pos.x+size.x); // distance from right edge to right border
+			dock.y1 = (parent->pos.y+parent->size.y)-pos.y; // distance from upper edge to lower border
+			dock.y2 = (parent->pos.y+parent->size.y)-(pos.y+size.y); // distance from lower edge to lower border
+		}
+		dockCheck();
+	
+	}
+	
+	virtual void dockCheck()
+	{
+		if(!(dockup||dockdown||dockleft||dockright)){return;}
+		if(parent)
+		{
+			//printf("\n------------\ndock debug:\n (x1 l2r):%d, (x2 r2r):%d\n(y1 u2d):%d, (y2 d2d):%d\n",dock.x1,dock.x2,dock.y1,dock.y2);
+			//printf("parent->pos: x = %d, y = %d\nparent->size: x = %d, y = %d\n",parent->pos.x,parent->pos.y,parent->size.x,parent->size.y);
+			//printf("before:pos: x=%d, y=%d; size: x=%d, y=%d\n",pos.x,pos.y,size.x,size.y);
+			if(dockup){pos.y = parent->pos.y+parent->size.y-dock.y1;}
+			if(dockdown){size.y = parent->pos.y+parent->size.y-dock.y2-pos.y;}
+			if(dockleft){pos.x = parent->pos.x+parent->size.x-dock.x1;} // I dunno why not use only 2 coordinates.
+			if(dockright){size.x = parent->pos.x+parent->size.x-dock.x2-pos.x;}	
+			//printf("after:pos: x=%d, y=%d; size: x=%d, y=%d\n",pos.x,pos.y,size.x,size.y);
+			//printf("-------------\n");
+		}
 	}
 	virtual void onClick(int mb)
 	{
@@ -196,6 +235,7 @@ class GUIbase
 		recalculateClientRect();
 		
 		size = newSize; //don't transmit size to chilren (use pack[2] if needed)
+		dockCheck();
 		foreach(this, &wrapInvalidate, (void*)(&sendPos), 0);
 	}
 	virtual void recalculateClientRect()
@@ -236,7 +276,7 @@ class GUIbase
 		}
 		invalidate(newPos, newSize);
 	}
-	void dragCheck()
+	virtual void dragCheck()
 	{
 		if(dragging)
 		{
@@ -304,7 +344,7 @@ class GUIbase
 		if(Cur->thing){return func((GUIbase*)Cur->thing, arg, rec+1)||stop;}
 		else return stop;
 	}
-	void setParent(GUIbase* obj)
+	virtual void setParent(GUIbase* obj)
 	{
 		parent = obj;
 		parent->recalculateClientRect();
@@ -363,11 +403,20 @@ class GUIbase
 			x2 = min(((vec2i*)arg)[2].x,obj->pos.x+obj->size.x);
 			y2 = min(((vec2i*)arg)[2].y,obj->pos.y+obj->size.y);
 			*/
-			x1 = max(((vec2i*)arg)[1].x,obj->pos.x);
-			y1 = max(((vec2i*)arg)[1].y,obj->pos.y);
-			x2 = min(((vec2i*)arg)[2].x,obj->pos.x+obj->size.x);
-			y2 = min(((vec2i*)arg)[2].y,obj->pos.y+obj->size.y);
-			
+			if(obj->scissor)
+			{
+				x1 = max(((vec2i*)arg)[1].x,obj->pos.x);
+				y1 = max(((vec2i*)arg)[1].y,obj->pos.y);
+				x2 = min(((vec2i*)arg)[2].x,obj->pos.x+obj->size.x);
+				y2 = min(((vec2i*)arg)[2].y,obj->pos.y+obj->size.y);
+			}
+			else
+			{
+				x1 = obj->pos.x;
+				y1 = obj->pos.y;
+				x2 = x1+obj->size.x;
+				y2 = y1+obj->size.y;
+			}
 			int x1c,x2c,y1c,y2c;
 			x1c = max(((vec2i*)arg)[1].x,obj->crect.x1);
 			y1c = max(((vec2i*)arg)[1].y,obj->crect.y1);
@@ -583,7 +632,7 @@ class GUIframe: public GUIbase
 		CloseButton->func = &btnClose;
 		CloseButton->movable = false;
 		CloseButton->resizible = false;
-		//CloseButton->scissor = false; see we can't paint it outside client area and that's a problem.
+		CloseButton->scissor = false; //see we can't paint it outside client area and that's a problem.
 		CloseButton->setSize(24,24);
 		CloseButton->arg = (void*)this;
 		CloseButton->setParent((GUIbase*)this);
@@ -593,7 +642,8 @@ class GUIframe: public GUIbase
 		GUIbase::invalidate(newPos, newSize);
 		CloseButton->setPos(pos.x+size.x-border-CloseButton->size.x,pos.y+border);
 	}
-	/*
+	
+	
 	void recalculateClientRect()
 	{
 		crect.x1 = pos.x+border;
@@ -601,7 +651,7 @@ class GUIframe: public GUIbase
 		crect.x2 = pos.x+size.x-border;
 		crect.y2 = pos.y+size.y-border;
 	}
-	*/
+	
 	void render(void* arg)
 	{
 		resizeCheck();
@@ -639,8 +689,8 @@ class GUIlabel: public GUIbase
 		dragCheck();
 		scissorCheck(arg);
 		
-		size.x = printw(pos.x,pos.y, -1, -1,text);
-		
+		printwrich(pos.x,pos.y, size.x, size.y, &color_text.r, text);
+		//size.x = printw;
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
@@ -1365,6 +1415,247 @@ class GUIImage:public GUIbase
 		glDisable(GL_SCISSOR_TEST);
 	}
 };
+
+class GUIscrollslidey:public GUIbase
+{
+	public:
+	void (*callback)(void*);
+	void* arg;
+	bool vertical;
+	GUIscrollslidey():GUIbase()
+	{
+		callback = NULL;
+		arg = NULL;
+		movable = true;
+		vertical = true;
+	}
+	void onClick(int mb)
+	{
+		if(mb==1)
+		{
+			startTouch = mouseP-pos;
+			if(callback)(callback(arg));
+			printf("clicky.");
+			if(movable){dragging = 1;}
+		}
+		else{dragging = 0;}
+	}
+	void dragCheck()
+	{
+		
+		if(dragging)
+		{
+			vec2i newPos = mouseP-startTouch;
+			if(vertical){newPos.x = pos.x;}else{newPos.y=pos.y;}
+			
+			if(parent)
+			{
+				newPos.x = clamp(newPos.x, parent->pos.x, parent->pos.x+parent->size.x-size.x);
+				newPos.y = clamp(newPos.y, parent->pos.y, parent->pos.y+parent->size.y-size.y);
+			}
+			if(newPos!=pos)
+			{
+				invalidate(newPos, size);
+				callback(arg);
+			}	
+		}
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		
+		setColor(color_panel);
+		if(mouseOver){setAlpha(255);}else{setAlpha(64);}
+		paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		setAlpha(255);
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+	/*
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		size = newSize;
+		if(parent)
+		{
+			newPos.x = clamp(newPos.x, parent->pos.x, parent->pos.x+parent->size.x-size.x);
+			newPos.y = clamp(newPos.y, parent->pos.y, parent->pos.y+parent->size.y-size.y);
+		}
+		if(newPos!=pos)
+		{
+			pos = newPos;
+			callback(arg);
+		}
+	}
+	*/
+};
+
+class GUIscrollBar:public GUIbase
+{
+	public:
+	bool vertical;
+	GUIbutton *btnup;
+	GUIbutton *btndn;
+	GUIbutton *track;
+	GUIscrollslidey *slidey;
+	vec2i insideSize;
+	vec2i sizeOff;
+	float Amin; //slider position
+	float Amax;
+	int Aoffset;
+	static void updateBar(void *arg)
+	{
+		GUIscrollBar* S = (GUIscrollBar*)arg;
+		
+		if(S->vertical)
+		{
+			S->Amin = ((float)(S->slidey->pos.y-S->track->pos.y))/((float)(S->track->size.y));
+			//S->Amax = ((float)(S->slidey->pos.y-S->track->pos.y+S->slidey->size.y+1))/((float)(S->track->size.y));
+		}
+		printf("Scroll: %f to %f ", S->Amin,S->Amax);
+		foreach((GUIbase*)arg,&propagateScroll,arg,0);//'this' and 'arg' are NOT the same down the line.
+		printf(" *\n");
+	}
+	static int propagateScroll(GUIbase* obj, void* arg, int rec)
+	{
+		GUIscrollBar *S = (GUIscrollBar*)arg;
+		if((obj!=S->btnup)&&(obj!=S->btndn)&&(obj!=S->track))
+		{
+			vec2i newPos = obj->pos;
+			
+			if(S->vertical)
+			{
+				newPos.y = newPos.y-S->Aoffset; 
+				S->Aoffset = -(S->Amin)*S->insideSize.y;
+				//S->Aoffset = -(S->Amin/S->Amax)*S->insideSize.y;
+				newPos.y = newPos.y+S->Aoffset;
+			}
+			else
+			{
+				newPos.x = newPos.x-S->Aoffset;
+				S->Aoffset = -(S->Amin/S->Amax)*S->insideSize.x;
+				newPos.x = newPos.x+S->Aoffset;
+			}
+			obj->setPos(newPos.x,newPos.y);
+		}
+	}
+	void setSize(int x, int y)
+	{
+		vec2i newSize = {x,y};
+		if(parent){sizeOff = parent->size-newSize;}
+		invalidate(pos, newSize);
+		printf("newSize = {%d, %d}\n", newSize.x, newSize.y);
+	}
+	GUIscrollBar():GUIbase()
+	{
+		movable = false;
+		resizible = false;
+		size = {128,128};
+		insideSize = size;
+		insideSize.y += size.y;
+		sizeOff = {0,0};
+		vertical = true;
+		Amin = 0.0;
+		Amax = 0.5;
+		Aoffset = 0;
+		btnup = new GUIbutton;
+		btnup->setSize(16,16);
+		btnup->text = "^";
+		btnup->scissor = false;
+		
+		btndn = new GUIbutton;
+		btndn->setSize(16,16);
+		btndn->text = "v";
+		btndn->scissor = false; //for the future - use intrinsic children who use parent's scissor rect.
+								//or, make "false scissor" do that...
+		track = new GUIbutton;
+		track->scissor = false;
+		color3i darken = {-64,-64,-64};
+		track->color_panel = color_panel + darken;
+		
+		slidey = new GUIscrollslidey;
+		slidey->setSize(16,32);
+		slidey->scissor = false;
+		slidey->callback = &updateBar;
+		slidey->arg = (void*)this;
+		
+		btnup->setParent(this);
+		btndn->setParent(this);
+		track->setParent(this);
+		slidey->setParent(track);
+		slidey->setPos(track->pos.x,track->pos.y);
+	}
+	void setParent(GUIbase* obj)
+	{
+		parent = obj;
+		parent->recalculateClientRect();
+		sizeOff = parent->size-size;
+		printf("1 Psize = %d, size = %d, sizeOff = %d\n",parent->size.x, size.x, sizeOff.x);
+		invalidate(pos+(vec2i){parent->crect.x1,parent->crect.y1}, size);
+		GUIbase::addChild(parent, this);
+		printf("2 Psize = %d, size = %d, sizeOff = %d\n",parent->size.x, size.x, sizeOff.x);
+	}
+	void invalidate(vec2i newPos, vec2i newSize)
+	{
+		//this one should also reposition children and stuff
+		vec2i sendPos = newPos-pos;//+newSize-size; and guess what happens when x is parented to y of size {0,0}?
+		
+		
+		pos = newPos;
+		recalculateClientRect();
+		
+		
+		
+		//size = newSize; //don't transmit size to chilren (use pack[2] if needed)
+		
+		if(parent&&(newSize==size)){size = parent->size-sizeOff;}
+		else{size = newSize;}
+		
+		foreach(this, &wrapInvalidate, (void*)(&sendPos), 0);
+		
+		if(vertical)
+		{
+			btnup->setPos(pos.x+size.x+2,pos.y); //upper right
+			btndn->setPos(pos.x+size.x+2,pos.y+size.y-15); //bottom right
+			track->setSize(16,size.y-33);		
+			track->setPos(pos.x+size.x+2,pos.y+17);
+			//printf("tracksize = %d, size = %d, insideSize = %d, result = %d", track->size.y, size.y, insideSize.y,track->size.y*(size.y/insideSize.y));
+			slidey->setSize(16,track->size.y*((float)(size.y-4)/(float)(insideSize.y)));//4 for border
+		}
+		else
+		{
+			btnup->setPos(pos.x,pos.y+size.y+2); //bottom left
+			btndn->setPos(pos.x+size.x-15,pos.y+size.y+2); //bottom right
+			track->setSize(size.x-33,16);		
+			track->setPos(pos.x+18,pos.y+size.y+2);
+			slidey->setSize(16,track->size.y*(size.y/insideSize.y));
+		}
+		
+	}
+	void render(void *arg)
+	{
+		resizeCheck();
+		dragCheck();
+		scissorCheck(arg);
+		
+		setColor(color_border);
+		paintRectOutline(pos.x,pos.y,pos.x+size.x+1,pos.y+size.y+1);
+		
+		//draw
+
+		//int X = pos.x;
+		//float E = size.x;
+		//int Yi = pos.y;
+		//int Yf = pos.y+size.y;
+		//vec3i col = {0,0,0};
+		
+		glDisable(GL_SCISSOR_TEST);
+	}
+};
 /*
 GUI element check list!
 --GENERAL--
@@ -1385,11 +1676,11 @@ ColorWheel
 ColorBox	*
 --NAVIGATION--
 Frame		*
-ScrollBar
+ScrollBar	*
 Tab
 --OUTPUT--
 Label		*
-Image
+Image		*
 --WINDOWS--
 Messagebox
 valueDisplay*
@@ -1398,8 +1689,12 @@ Console
 linked list browser
 ideas:
 move scissor checks into base class
+false scissor inherents parent rect
+OR extra list of children exempt from client rect
 bool clickable
 callbacks for everything
+dock left/right/up/down both moves and resizes element
+size-to-contents and min-size.
 */
 
 

@@ -96,7 +96,7 @@ glyphkind* GenerateFont(const char* filepath, int size,bool aa)
 	{
 		for(int j = 0; j<fwidth*fheight; j++)
 		{
-			newbuff[2*j] = 255-buff[j];//inverting texture
+			newbuff[2*j] = buff[j];//255-buff[j];//inverting texture
 			newbuff[2*j+1]=buff[j];
 		}
 	}else
@@ -208,4 +208,114 @@ void fontFree(glyphkind *Font)
         glDeleteTextures(1, &Font[I].texture);
 
     free(Font);
+}
+
+int printwrich (int x, int y, int xlim, int ylim, int* defcolor, string format, ...)
+{
+    if(CurFont == NULL){return -1;}
+
+	const char *format2 = format.c_str();
+    va_list args;   //  Variable argument list
+    int len;        // String length
+    int i;          //  Iterator
+    char * text;    // Text
+    va_start(args, format);
+    len = _vscprintf(format2, args) + 1;
+    text = (char*)malloc(len * sizeof(char));
+    vsprintf(text, format2, args);
+    va_end(args);
+
+    //  Draw the characters one by one
+    int x1 = x;
+    int y1 = y;
+    int y2 = y;
+    int x2 = x;
+    int x0 = x;
+    glyphkind Cur;
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // the default anyway
+
+    glEnable(GL_BLEND);
+    int y0 = y+16;
+	
+	//tags:
+	bool tagcolor = false;
+	
+	for (i = 0; text[i] != '\0'; i++)
+    {
+		if(text[i]=='[')
+		{
+			if(!strncmp(text+i,"[color=",7))
+			{
+				int hexCol = 0;
+				char brk = 0;
+				if(!strncmp(text+i+7,"red]",4)){glColor4f(1.0f,0.0f,0.0f,1.0f);tagcolor=true;i+=4+7;}
+		else	if(!strncmp(text+i+7,"green]",6)){glColor4f(.0f,1.0f,.0f,1.0f);tagcolor=true;i+=6+7;}
+		else	if(!strncmp(text+i+7,"blue]",5)){glColor4f(.0f,.0f,1.0f,1.0f);tagcolor=true;i+=5+7;}
+		else	if(!strncmp(text+i+7,"yellow]",7)){glColor4f(1.0f,1.0f,.0f,1.0f);tagcolor=true;i+=7+7;}
+		else	if(!strncmp(text+i+7,"orange]",7)){glColor4f(1.0f,.5f,.0f,1.0f);tagcolor=true;i+=7+7;}
+		else	if(!strncmp(text+i+7,"cyan]",5)){glColor4f(.5f,.5f,1.0f,1.0f);tagcolor=true;i+=5+7;}
+		else	if(!strncmp(text+i+7,"purple]",7)){glColor4f(1.0f,.0f,1.0f,1.0f);tagcolor=true;i+=7+7;}
+		else	if(!strncmp(text+i+7,"pink]",5)){glColor4f(1.0f,.5f,1.0f,1.0f);tagcolor=true;i+=5+7;}
+		else	if(!strncmp(text+i+7,"white]",6)){glColor4f(1.0f,1.0f,1.0f,1.0f);tagcolor=true;i+=6+7;}
+		else	if(!strncmp(text+i+7,"black]",6)){glColor4f(.0f,.0f,.0f,1.0f);tagcolor=true;i+=6+7;}
+		else	if(sscanf(text+i+7,"%X%c",&hexCol,&brk))
+				{
+				if(brk==']')
+				{
+				//printf("yes %x",hexCol);
+				float b = hexCol%256/256.0f;
+				hexCol /= 256;
+				float g = hexCol%256/256.0f;
+				hexCol /= 256;
+				float r = hexCol%256/256.0f;
+				//printf("= %f %f %f\n",r,g,b);
+				glColor4f(r,g,b,1.0f);
+				i = (int)(strchr(text+i,']')-text)+1;
+				tagcolor = true;
+				}
+				}
+			}
+			if(!strncmp(text+i,"[/color]",8)&tagcolor)
+			{
+				tagcolor = false;
+				glColor4f(defcolor[0]/255.0f,defcolor[1]/255.0f,defcolor[2]/255.0f,1.0f);
+				i+=8;
+			}
+		}
+		if(text[i]=='\n'){y0 += 16;x0=x;}
+		else
+		{
+        Cur = CurFont[text[i]];
+        y1 = y0-Cur.bearingY;
+        y2 = y1+Cur.sizeY;
+        x1 = x0+Cur.bearingX;
+        x2 = x1+Cur.sizeX;
+        bool draw = true;
+		if((xlim==0)||(ylim==0)){draw = false;}
+		if(xlim>-1){if(x2>(x+xlim)){x0 = x; y0 += 16;}}
+		y1 = y0-Cur.bearingY;
+        y2 = y1+Cur.sizeY;
+        x1 = x0+Cur.bearingX;
+        x2 = x1+Cur.sizeX;
+		if(ylim>-1){if(y2>(y+ylim)){draw = false;}}
+		if(draw)
+		{
+		glBindTexture(GL_TEXTURE_2D, Cur.texture);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex2i(x1, y1);
+        glTexCoord2i(1, 0); glVertex2i(x2, y1);
+        glTexCoord2i(1, 1); glVertex2i(x2, y2);
+        glTexCoord2i(0, 1); glVertex2i(x1, y2);
+        glEnd();
+        x0 = x0+Cur.advance;
+		}
+		}
+	}
+    glDisable(GL_TEXTURE_2D);
+    //glutBitmapCharacter(font_style, text[i]);
+
+    //  Free the allocated memory for the string
+    free(text);
+    return x0-x; //returns the width of printed text in pixels;
 }
