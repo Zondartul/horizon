@@ -66,15 +66,18 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
 	Binds[key].mode = mode;
 }
 
+int ConsoleNumLines = 0;
 void ConsoleParse(string text)
 {
 	if(Console!=NULL)
 	{
 		GUIlabel *L = (GUIlabel*)(Console->findByTag("Text"));
 		if(L==NULL){printf("can't findByTag(Text)\n");}
-		printf("adding text <%s> to <%s>\n",text.c_str(), L->text.c_str());	
+		//printf("adding text <%s> to <%s>\n",text.c_str(), L->text.c_str());	
 		L->text += '\n';
+		ConsoleNumLines++;
 		L->text += text;
+		if(ConsoleNumLines>10){L->text.erase(0,L->text.find("\n")+1);ConsoleNumLines--;}
 	}
 	else{printf("Console missing\n");}
 }
@@ -106,17 +109,17 @@ void OpenMenuConsole()
 	if(Console==NULL)
 	{
 		Console = new GUIframe;
-		Console->setSize(128,512);
+		Console->setSize(256,512);
 		Console->setParent(GUI);
 	
 		GUIlabel *ConText = new GUIlabel;
-		ConText->setSize(120,400);
+		ConText->setSize(248,400);
 		ConText->setPos(4,32);
 		ConText->setParent(Console);
 		ConText->tag = "Text";
 		
 		GUItextEntry *ConEntry = new GUItextEntry;
-		ConEntry->setSize(128,32);
+		ConEntry->setSize(256,32);
 		ConEntry->setPos(0,512-32);
 		ConEntry->multiline = true;
 		ConEntry->setParent(Console);
@@ -548,8 +551,7 @@ void ProcessKeyboard(int kb)
 		letter = MapVirtualKey((unsigned int)kb,2);
 		if(!(GetKeyState(VK_SHIFT)&(0x8000))){letter = tolower(letter);}
 	}
-	bool b = false;
-	if(kb>0){b = GUIbase::propagateKeyboard(letter);}
+	bool b = GUIbase::propagateKeyboard(letter*kb/abs(kb));
 	if(!b&&!ParseKey(kb))
 	{
 		//string mystring = "";
@@ -557,7 +559,7 @@ void ProcessKeyboard(int kb)
 		 //std::ostringstream stringStream;
 		//stringStream << "Unbound key: " << kb << " = [" <<(char)kb <<"]/[" <<(char)letter << "]";
 		
-		sprintf(str,"Unbound key: %d = [%c]/[%c]",kb,(char)kb,(char)letter);
+		sprintf(str,"Unbound key: %d ",kb);//= [%c]/[%c]",kb,(char)kb,(char)letter);
 		printf("sending string to parse: \"%s\"\n",str);
 		ConsoleParse((string)str);
 	}

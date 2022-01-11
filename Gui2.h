@@ -432,23 +432,7 @@ class GUIbase
 				lastClicked = obj; 
 				focus = obj; 
 				//fix strata by re-arranging children list
-				listNode* prevFirst = obj->parent->children;
-				listNode* prevThis = NULL;
-				listNode* Cur = obj->parent->children;
-				if(Cur->thing != (void *)obj)
-				{
-				while(Cur)
-				{
-					if((Cur->next)&&(Cur->next->thing==(void *)obj))
-					{
-						prevThis = Cur->next;
-						Cur->next = prevThis->next;
-						obj->parent->children = prevThis;
-						prevThis->next = prevFirst;
-						Cur = NULL;
-					}else{Cur = Cur->next;}
-				}
-				}
+				fixstrata(obj);
 				//
 				return true;
 			}
@@ -458,7 +442,7 @@ class GUIbase
 				{
 					if(rec==0){lastClicked=NULL; focus = NULL;}//rec==0 is when invisible master-parent thingy is cliked.
 					return false;
-				} else {return true;}
+				} else {if(rec!=0){fixstrata(obj);} return true;} //fuck yes
 			}
 		}
 		else //releases are delivered to who you clicked, not current mouseover.
@@ -466,6 +450,26 @@ class GUIbase
 			if(lastClicked){lastClicked->onClick(mb);lastClicked=NULL;}
 		}
 		//its ok to have no return? What?
+	}
+	static void fixstrata(GUIbase* obj)
+	{
+		listNode* prevFirst = obj->parent->children;
+		listNode* prevThis = NULL;
+		listNode* Cur = obj->parent->children;
+		if(Cur->thing != (void *)obj)
+		{
+		while(Cur)
+		{
+			if((Cur->next)&&(Cur->next->thing==(void *)obj))
+			{
+				prevThis = Cur->next;
+				Cur->next = prevThis->next;
+				obj->parent->children = prevThis;
+				prevThis->next = prevFirst;
+				Cur = NULL;
+			}else{Cur = Cur->next;}
+		}
+		}
 	}
 	static int propagateRender(GUIbase* obj, void* arg, int rec)
 	{
@@ -646,6 +650,7 @@ class GUItextEntry: public GUIbase
 	public:
 	string text;
 	bool multiline;
+	bool sizeToContents;
 	void (*callback)(void*);
 	void* arg;
 	GUItextEntry():GUIbase()
@@ -658,6 +663,7 @@ class GUItextEntry: public GUIbase
 		color_panel = {255,255,255};
 		color_border = {0,0,0};
 		color_text = {0,0,0};
+		sizeToContents = false;
 	}
 	void render(void* arg)
 	{
@@ -673,7 +679,8 @@ class GUItextEntry: public GUIbase
 		setColor(color_border);
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
-		size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;
+		if(sizeToContents){size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;}
+		else{printw(pos.x+2,pos.y, -1, -1,text)+4;}
 		
 		glDisable(GL_SCISSOR_TEST);
 	}
