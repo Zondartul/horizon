@@ -262,9 +262,9 @@ void OpenVals()
 GUI4base *GUI4;
 void OpenGUI4(){
 	GUI4 = &((new GUI4frame())->setPos(200,100).setSize(100,100).setClientSize(100,100).setClientPos(0,0));
-	GUI4->addElement(&((new GUI4frame())->setPos(10,10).setSize(50,50).setClient(false).setClickable(true).setMovable(true)));
-	GUI4->addElement(&((new GUI4frame())->setPos(70,10).setSize(50,50).setClient(true).setClickable(true).setMovable(true)));
-	GUI4->setSizeToContents(true).setClickable(true).setMovable(false).invalidate();
+	GUI4->addElement(&((new GUI4frame())->setPos(10,10).setSize(50,50).setClient(false).setMovable(true)));
+	GUI4->addElement(&((new GUI4frame())->setPos(70,10).setSize(50,50).setClient(true).setMovable(true)));
+	GUI4->setSizeToContents(true).setClickable(true).setMovable(false);
 	//GUI4->setMovable(true);
 	//GUI4->setClickable(true);
 }
@@ -434,8 +434,8 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "98";
-	string vdate = " of 21st February 2015"; //" of 28th June 2014";
+	string vnumber = "99";
+	string vdate = " of 30th June 2015"; //" of 21st February 2015";
 	twidth = printw(32,32,-1,-1,version+vnumber+vdate);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};

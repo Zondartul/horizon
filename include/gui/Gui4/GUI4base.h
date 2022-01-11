@@ -30,13 +30,16 @@ class GUI4base{
 	GUI4base(); //constructor
 	~GUI4base(); //destructor
 	//coordinate conversion
+	/*
 	vec2i ParentToWindow(vec2i A);	//parent-relative becomes this-relative
 	vec2i WorldToWindow(vec2i A);	//absolute becomes this-relative
 	vec2i WindowToClient(vec2i A);	//this-relative becomes client area-relative
 	vec2i ClientToWindow(vec2i A);
 	vec2i WindowToWorld(vec2i A);
 	vec2i WindowToParent(vec2i A);
+	*/
 	rect getVisibleWorldArea();
+	
 	//mutators
 	GUI4base &setPos(int x, int y);					//new position
 	GUI4base &setSize(int w, int h);				//new size

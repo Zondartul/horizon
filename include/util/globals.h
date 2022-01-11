@@ -64,13 +64,15 @@ struct vec4i{
 };
 bool operator == (vec4i A, vec4i B);
 
+//a 2d rectangle with integer coordinates.
 struct rect{
-	int x;
-	int y;
-	int x2;
-	int y2;
-	int w;
-	int h;
+	rect *parent;	//the rectangle that this rectangle's coordinates are relative to.
+	vec2i start;	//top-left vertex
+	vec2i end;		//bottom-right vertex
+	vec2i size;		//width and height.
+	rect &setStart(vec2i A);
+	rect &setEnd(vec2i A);
+	rect &setSize(vec2i A);
 	rect &setx(int x);
 	rect &sety(int y);
 	rect &setw(int w);
@@ -81,6 +83,19 @@ struct rect{
 	bool contains(vec4i A);
 	bool contains(rect A);
 	vec2i clamp(vec2i A);
+	rect clamp(rect A);
+	rect toParent(rect A);
+	rect toParent();
+	rect toWorld(rect A);
+	rect toWorld();
+	rect fromParent(rect A);
+	rect fromParent();
+	rect fromWorld(rect A);
+	rect fromWorld();
+	vec2i toParent(vec2i A);
+	vec2i toWorld(vec2i A);
+	vec2i fromParent(vec2i A);
+	vec2i fromWorld(vec2i A);
 };
 bool operator == (rect A, rect B);
 struct listNode{

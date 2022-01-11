@@ -1,6 +1,7 @@
 #define EXCEPT_SUPPRESS //lol, have to suppress the macro in this particular
 //translation unit, because that's where the REAL except is actually defined
 #include "util/globals.h"
+#include "assert.h"
 
 using namespace std;
 
@@ -73,16 +74,84 @@ bool operator == (vec4i A, vec4i B)
 	return ((A.x1==B.x1)&&(A.y1==B.y1)&&(A.x2==B.x2)&&(A.y2==B.y2));
 }
 
-rect &rect::setx(int x){this->x = x; x2 = x+w; return *this;}
-rect &rect::sety(int y){this->y = y; y2 = y+h; return *this;}
-rect &rect::setw(int w){this->w = w; x2 = x+w; return *this;}
-rect &rect::seth(int h){this->h = h; y2 = y+h; return *this;}
-rect &rect::setx2(int x2){this->x2 = x2; w = x2-x; return *this;}
-rect &rect::sety2(int y2){this->y2 = y2; h = y2-y; return *this;}
-bool rect::contains(vec2i A){return (A.x >= x) && (A.x <= x2) && (A.y >= y) && (A.y <= y2);}
+rect &rect::setStart(vec2i A){setx(A.x);sety(A.y);}
+rect &rect::setEnd(vec2i A){setx2(A.x);sety2(A.y);}
+rect &rect::setSize(vec2i A){setw(A.x);seth(A.y);}
+rect &rect::setx(int x){start.x = x; size.x = end.x-start.x;}// return *this;}
+rect &rect::sety(int y){start.y = y; size.y = end.y-start.y;}
+rect &rect::setw(int w){size.x = w; end.x = start.x+size.x;}
+rect &rect::seth(int h){size.y = h; end.y = start.y+size.y;}
+rect &rect::setx2(int x2){end.x = x2; size.x = end.x-start.x;}
+rect &rect::sety2(int y2){end.y = y2; size.y = end.y-start.y;}
+bool rect::contains(vec2i A){return (A.x >= start.x) && (A.x <= end.x) && (A.y >= start.y) && (A.y <= end.y);}
 bool rect::contains(vec4i A){return contains((vec2i){A.x1,A.y1}) && contains((vec2i){A.x2,A.y2});}
-bool rect::contains(rect A){return contains((vec2i){A.x,A.y}) && contains((vec2i){A.x2,A.y2});}
-vec2i rect::clamp(vec2i A){return {::clamp(A.x, x, x2),::clamp(A.y,y,y2)};} //nothing::something means "find something in global scope"
+bool rect::contains(rect A){return contains(A.start) && contains(A.end);}
+vec2i rect::clamp(vec2i A){return {::clamp(A.x, start.x, end.x),::clamp(A.y,start.y,end.y)};} //nothing::something means "find something in global scope"
+rect rect::clamp(rect A){
+	return A.setStart(clamp(A.start)).setEnd(clamp(A.end));
+}
+rect rect::toParent(rect A){	//A is in local, need it in parent's coords.
+	return A.setStart(toParent(A.start)).setEnd(toParent(A.end));
+}
+rect rect::toParent(){			//need this in parent's coords.
+	//rect A;
+	//A.setStart({0,0}).setSize(size);
+	//return toParent(A);
+	return *this; //... it's already in parent's coords.
+}
+rect rect::toWorld(rect A){		//A is in local, need it in world coords.
+	A.setStart(toWorld(A.start)).setEnd(toWorld(A.end));
+	return A;
+}
+rect rect::toWorld(){			//need this rect in world coords.
+	//rect A;
+	//A.setStart({0,0}).setSize(size);
+	//return toWorld(A);
+	if(parent){
+		return parent->toWorld(*this); //if has a parent, then we're in parent's coords.
+	}else{
+		return *this;	//else we're in world coords.
+	}
+}
+rect rect::fromParent(rect A){	//A is in parent's coords, need in local coords.
+	return A.setStart(fromParent(A.start)).setEnd(fromParent(A.end));
+}
+rect rect::fromParent(){	//need this rect in it's own coords?...
+	rect A;
+	A.setStart({0,0}).setSize(size);
+	//return fromParent(A);
+	return A;
+}
+rect rect::fromWorld(rect A){	//A is in world coords, need it in local.
+	A.setStart(fromWorld(A.start)).setEnd(fromWorld(A.end));
+}
+rect rect::fromWorld(){	//uh
+	//rect A;
+	//A.setStart({0,0}).setSize(size);
+	//return fromWorld(A);
+	assert(!"dafuq does this even mean");
+}
+vec2i rect::toParent(vec2i A){
+	return {A.x+start.x, A.y+start.y};
+}
+vec2i rect::toWorld(vec2i A){
+	if(parent){
+		return parent->toWorld(toParent(A));
+	}else{
+		return toParent(A);
+	}
+}
+vec2i rect::fromParent(vec2i A){
+	return {A.x-start.x, A.y-start.y};
+}
+vec2i rect::fromWorld(vec2i A){
+	if(parent){
+		return fromParent(parent->fromWorld(A));
+	}else{
+		return fromParent(A);
+	}
+}
+
 vec3i::operator color3i()
 {
 	return {clamp(x,0,255),clamp(y,0,255),clamp(z,0,255)};

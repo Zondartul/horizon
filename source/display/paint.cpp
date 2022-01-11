@@ -9,6 +9,9 @@ void paintRect(int X1, int Y1, int X2, int Y2)
     glVertex2i(X2, Y1);
     glEnd();
 }
+void paintRect(rect A){
+	paintRect(A.start.x,A.start.y,A.end.x,A.end.y);
+}
 void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
 {
 	glColor3f(1.0f,1.0f,1.0f);
@@ -25,6 +28,9 @@ void paintTexturedRect(int X1, int Y1, int X2, int Y2, GLuint tex)
     glVertex2i(X2, Y1);
     glEnd();	
 	glDisable( GL_TEXTURE_2D );
+}
+void paintTexturedRect(rect A, GLuint tex){
+	paintTexturedRect(A.start.x,A.start.y,A.end.x,A.end.y,tex);
 }
 void paintCircle(int X1, int Y1, int Radius)
 {
@@ -66,6 +72,9 @@ void paintRectOutline(int X1, int Y1, int X2, int Y2)
     glVertex2f(x1, y1);
 
     glEnd();
+}
+void paintRectOutline(rect A){
+	paintRectOutline(A.start.x,A.start.y,A.end.x,A.end.y);
 }
 
 color3i paintColor;
