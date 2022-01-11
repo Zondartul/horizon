@@ -1,0 +1,27 @@
+----------------------------
+event sounds:
+------------
+footsteps (various materials)
+jump/landing
+doors
+buttons
+gunshots
+melee hits
+explosions
+pain
+sprite can/relief/medkit/drinking/eating?
+beeps
+engines
+driving
+jets
+----------------------------
+ambience sounds:
+------------
+wind
+ocean/beach
+rain
+thunder
+birds
+cave
+water dripping
+fire

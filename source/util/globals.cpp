@@ -283,7 +283,15 @@ string toupper(string A){
 	}
 	return B;
 }
-
+string fstring(const char* fmt, ...){
+	va_list args;
+	va_start(args, fmt);
+	size_t num = vsnprintf(0, 0, fmt, args);
+	char *buff = new char[num+1];
+	vsnprintf(buff, num+1, fmt, args);
+	va_end(args);
+	return string(buff);
+}
 except::except(const char *a, int b, const char *str){
 	mystr = (string(str)+" ["+string(a)+", line "+b+"]").c_str();
 }

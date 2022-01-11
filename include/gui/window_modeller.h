@@ -3,7 +3,7 @@
 #include "../util/messenger.h"
 void OpenWindowModeller();
 void startModellerSession();
-class ModellerInput: public PSsubscriber{
-	void PSreceive(message msg);
+class ModellerInput: public messageReceiver{
+	void receiveMessage(message *msg);
 };
 #endif

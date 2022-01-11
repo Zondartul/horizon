@@ -5,21 +5,21 @@
 
 map<string, string> KeyBinds;
 
-void BindKind2::PSreceive(message msg){
-	if((msg.type != "key_down") && (msg.type != "key_up"))
+void BindKind2::receiveMessage(message *msg){
+	if((msg->type != "key_down") && (msg->type != "key_up"))
 		return;
 	//msgintercept(msg);
-	string key = msg.str;
+	string key = msg->name;
 	if(KeyBinds.count(key)){
-		if(msg.type == "key_down")
+		if(msg->type == "key_down")
 			parse(KeyBinds[key]);
-		else if(msg.type == "key_up"){
+		else if(msg->type == "key_up"){
 			if(KeyBinds[key][0] == '+')
 				parse("-"+KeyBinds[key].substr(1,-1));
 			//else do not parse
 		}
 	}else
-		if(msg.type == "key_down")
+		if(msg->type == "key_down")
 		cprint("Unbound key: "+key);
 }
 BindKind2 Binder2;

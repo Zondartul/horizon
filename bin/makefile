@@ -27,7 +27,8 @@ PROGNAME = a.exe
 CC = g++
 
 # compiler flags
-CFLAGS = -std=c++0x -g -fmax-errors=1
+# add -mwindows to not couple to the calling console / not create a console
+CFLAGS = -std=c++0x -g -fmax-errors=1 
 # additional libraries libraries
 CLIBS = -luser32 -lopengl32 -lglu32 -lgdi32 -lfreetype
 # command to compile an object file

@@ -4,8 +4,8 @@
 #include "../util/messenger.h"
 extern map<string, string> KeyBinds;
 
-class BindKind2: public PSsubscriber{
-	void PSreceive(message msg);
+class BindKind2: public messageReceiver{
+	void receiveMessage(message *msg);
 };
 extern BindKind2 Binder2;
 #endif

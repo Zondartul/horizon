@@ -8,7 +8,7 @@ class inputKind
 {
 	public:
 	HWND hwnd;
-	PSchannel channel;
+	MessageChannel channel;
 	vec2i prevMousePos;
 	map<string, bool> keybuffer;
 	inputKind();

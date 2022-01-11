@@ -10,81 +10,54 @@
 
 message::message()
 {
+	suspended = false;
 }
-message::message(string t, string d)
+message::message(string type, string name)
 {
-	type = t;
-	push<string>(d);
+	this->type = type;
+	this->name = name;
 }
-/*
-void pushString(string newStr)
-{
-	//printf("s1\n");
-	string* strPtr = new string;
-	//printf("s2\n");
-	*strPtr = newStr;
-	//printf("s3\n");
-	vdata.push_back((void*)strPtr);
-	//printf("s4\n");
+message::~message(){
+	for(int I = 0; I < data.size(); I++){
+		if(data[I]){assert(!"message content has not beeen erase()ed");}
+	}
 }
-string popString()
-{
-	//printf("r1\n");
-	void *dat = vdata.back();
-	string* strPtr = (string*)dat;
-	//printf("r2\n");
-	//printf("dat = %p",dat);
-	string oldStr = *strPtr;
-	//printf("r3\n");
-	vdata.pop_back();
-	//printf("r4\n");
-	delete strPtr;
-	//printf("r5\n");
-	return oldStr;
-}*/
 
-// never use these due to above problem
+void messageReceiver::receiveMessage(message *msg){}
+void messageReceiver::subscribeToMessageChannel(MessageChannel *channel, string type){
+	channel->addSubscriber(this, type);
+}
+void messageReceiver::unsubscribeFromMessageChannel(MessageChannel *channel, string type){
+	channel->removeSubscriber(this, type);
+}
 
 
-
-void PSsubscriber::PSreceive(message newMsg){}
-
-void PSchannel::publish(message newMsg)
-{
-	//printf("%s received message %s, type [%s]\n",toString(this),toString(newMsg), newMsg.type);
-	//cout << toString(this) + " received message " + toString(&newMsg) + ", type [" + newMsg.type + "]\n";
-	//cout << "num subscribers: " << subscribers.size() << "\n";
+void MessageChannel::publish(message *msg){
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
-		if((newMsg.type == I->type) || (I->type == ""))
+		if((msg->type == I->type) || (I->type == ""))
 		{
-			I->subscriber->PSreceive(newMsg);
-			//printf("%s dispatched message %s to %s\n",toString(this),toString(newMsg),toString(I->subscriber));
-			//cout << toString(this) + " dispatched message " + toString(&newMsg) + " to " + toString(I->subscriber);
+			I->subscriber->receiveMessage(msg);
+			if(msg->suspended){return;}
 		}
 	}
 }
-void PSchannel::subscribe(string type, PSsubscriber *newSub)
-{
-	unsubscribe(type, newSub);
-	subscribers.push_back({type, newSub});
-	//printf("%s subscribed %s for type [%s]\n",toString(this),toString(newSub),type);
+void MessageChannel::addSubscriber(messageReceiver *newSub, string type){
+	removeSubscriber(newSub, type);
+	subscribers.push_back({newSub, type});
 	cout << toString(this) + " subscribed <" + toString(newSub) + "> for type [" + type + "]\n";
 }
-void PSchannel::unsubscribe(string type, PSsubscriber *oldSub)
-{
+void MessageChannel::removeSubscriber(messageReceiver *oldSub, string type){
 	for(I = subscribers.begin(), E = subscribers.end(); I!=E;I++)
 	{
 		if(((I->type == type) || (type == "")) && (I->subscriber == oldSub))
 		{
 			I = subscribers.erase(I);
-			//printf("%s unsubscribed %s from type [%s]\n",toString(this),toString(oldSub),type);
-			//cout << toString(this) + " unsubscribed " + toString(oldSub) + " fro type [" + type + "]\n";
 		}
 	}
 }
 
 // debug func:
 void msgintercept(message msg){
-	cout << "msg.type = ["<<msg.type<<"], str = ["<<msg.str<<"]\n";
+	cout << "msg.type = ["<<msg.type<<"], name = ["<<msg.name<<"]\n";
 }

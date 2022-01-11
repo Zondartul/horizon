@@ -109,32 +109,34 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         case WM_DESTROY:
             return 0;
-
+		break;
+		/*
 		case WM_SYSKEYDOWN:
         case WM_KEYDOWN:
         {
-			ProcessKeyboard((int)wParam);
+			//ProcessKeyboard((int)wParam); all the buttons should go through the keything
         }
 		break;
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
-			ProcessKeyboard(-(int)wParam);
+			//ProcessKeyboard(-(int)wParam);
 		}
         break;
 
         case WM_LBUTTONDOWN:
-            ProcessMouseclick(1);
+            //ProcessMouseclick(1);
         break;
 		case WM_LBUTTONUP:
-			ProcessMouseclick(0);
+			//ProcessMouseclick(0);
 		break;
 		case WM_RBUTTONDOWN:
-            ProcessMouseclick(2);
+            //ProcessMouseclick(2);
         break;
 		case WM_RBUTTONUP:
-			ProcessMouseclick(-1);
+			//ProcessMouseclick(-1);
 		break;
+		*/
 		case WM_SIZE:                           // Resize The OpenGL Window
 		{
 			

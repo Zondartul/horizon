@@ -273,32 +273,34 @@ void G3StockMouseover::operator()(GUI3base2* me, vec2i arg)
 #define FUNCALL(a, b, ...) (*(a->b))(a, __VA_ARGS__)
 //#define FUNCALL(a, b, ...) ;
 
-void G3StockEventHandler::operator()(GUI3base2* me, message msg)
+void G3StockEventHandler::operator()(GUI3base2* me, message *msg)
 {
-	printf("G3SEH: %p received msg of type [%s]\n", me, msg.type.c_str());
-	if(msg.type == "lmb_down"){if(owner->mouseclick) FUNCALL(owner, mouseclick, input.getMousePos());}
-	if(msg.type == "lmb_down"
-	|| msg.type == "lmb_up"
-	|| msg.type == "rmb_down"
-	|| msg.type == "rmb_up"){if(owner->mousebuttons) FUNCALL(owner, mousebuttons, input.getMousePos(), msg);}
-	if(msg.type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, msg.data.v2i);}
-	if(msg.type == "key_down"
-	|| msg.type == "key_up"){if(owner->keyboardevent) FUNCALL(owner, keyboardevent, msg);}
+	printf("G3SEH: %p received msg of type [%s]\n", me, msg->type.c_str());
+	if(msg->type == "lmb_down"){if(owner->mouseclick) FUNCALL(owner, mouseclick, input.getMousePos());}
+	if(msg->type == "lmb_down"
+	|| msg->type == "lmb_up"
+	|| msg->type == "rmb_down"
+	|| msg->type == "rmb_up"){if(owner->mousebuttons) FUNCALL(owner, mousebuttons, input.getMousePos(), msg);}
+	if(msg->type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, msg->get<vec2i>(0));}
+	if(msg->type == "key_down"
+	|| msg->type == "key_up"){if(owner->keyboardevent) FUNCALL(owner, keyboardevent, msg);}
 }
-void G3StockEventHandler::PSreceive(message msg)
+void G3StockEventHandler::receiveMessage(message *msg)
 {
 	(*this)(owner, msg);
 	//printf("G3SEH received...\n");
 }
-void G3StockEventHandler::subscribe(GUI3base2* owner, PSchannel *chan, string type)
+void G3StockEventHandler::subscribe(GUI3base2* owner, MessageChannel *chan, string type)
 {
 	this->owner = owner;
-	chan->subscribe(type, this);
+	subscribeToMessageChannel(chan, type);
+	//chan->subscribe(type, this);
 	//printf("G3SEH subscribed...\n");
 }
-void G3StockEventHandler::unsubscribe(PSchannel *chan, string type)
+void G3StockEventHandler::unsubscribe(MessageChannel *chan, string type)
 {
-	chan->unsubscribe(type, this);
+	//chan->unsubscribe(type, this);
+	unsubscribeFromMessageChannel(chan, type);
 }
 
 G3StockMouseMove_drag::G3StockMouseMove_drag()
@@ -311,12 +313,12 @@ void G3StockMouseMove_drag::operator()(GUI3base2* me, vec2i delta)
 		me->setPosGlobal(me->getPosGlobal()+delta);
 }
 
-void G3StockHandler_drag::operator()(GUI3base2* me, message msg)
+void G3StockHandler_drag::operator()(GUI3base2* me, message *msg)
 {
 	G3StockEventHandler::operator()(me, msg);
-	if(msg.type == "lmb_down")
+	if(msg->type == "lmb_down")
 		((G3StockMouseMove_drag*)(me->mousemove))->isDragging = true;
-	if(msg.type == "lmb_up")
+	if(msg->type == "lmb_up")
 		((G3StockMouseMove_drag*)(me->mousemove))->isDragging = false;
 }
 /*void G3StockRender2::operator()(GUI3base2* me)

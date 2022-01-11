@@ -1,0 +1,57 @@
+qopwejgfop[qaawdjopqwne ffvowendvown ervkqwnfg
+sdtsdtjqwdpfjqwep;'mggw
+d'pgkfs
+'dtgp;'ewjntg'wejntgwpejtwef
+
+GUI elements have 'staff elements' and 'client elements'.
+Staff elements share origin and draw-box with the parent element.
+Client elements use the origin and draw-box of the client rectangle.
+-----------------------------------------------------
+texture browser
+ _________________________
+|_Textures______________|x|
+|  ____   ____   ____   |^|
+| |    | |    | |    |  | |
+| |____| |____| |____|  | |
+|  asdf   bdsf  wtfbbq  | |
+|  ____                 | |
+| |    |                | |
+| |____|                | |
+|  lolo                 | |
+|_______________________|v|
+
+[-]|window
+  [-]|scrollable-frame
+    [-]|horizontal-list-with-wrap
+      [-]|selectable (frame?)
+         |-image
+         |-label
+----------------------------------------------------
+GUI editor
+ ______________________________________
+|_GUI_editor_________________________|x|
+|-window 'thing'  |^| button properties|
+| -button 'boop'  | | text: [_thing___]|
+| +frame 'sf_dtf' | | image: [x][_____]|
+| +frame 'sfd_tk' | |                  |
+| -label 'hi'     | |                  |
+|_________________| |                  |
+|<_______________>|v|[Save][Load]______|
+
+right-clicking on an item in the tree brings options "add, remove, replace"
+and left-clicking populates the options window on the right with appropriate options.
+add - add a child element (submenu with types)
+remove - remove this element (can't use on root)
+replace - replace this element by an element of a different type
+
+window
+|scrollable-frame	//half-window with element hierarchy
+| tree-collapsible  //hierarchy itself
+|  selectable       //items in the tree can be selected one- or several- at a time.
+|   label           //item text
+|vertical-list      //half window with properties and save/load
+  frame             //top part is the properties window
+  horizontal-list   //bottom part is the save/load buttons
+   button           //save button
+   button           //load button
+-------------------------------------------------------

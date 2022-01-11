@@ -109,9 +109,24 @@ void GUI2base::onClick(int mb)
 void GUI2base::onKeyboard(string kb)
 {
 }
-void GUI2base::PSreceive(message msg){
-	if(msg.type == "key_down" || msg.type == "key_still_down"){
-		propagateKeyboard(msg.str);
+void GUI2base::receiveMessage(message *msg){
+	if(msg->type == "key_down" || msg->type == "key_still_down"){
+		if(focus != NULL){msg->suspended = true;}
+		propagateKeyboard(msg->name);
+		return;
+	}
+	int mb = 0;
+	if(msg->type == "lmb_down"){
+		mb = 1;
+		if(propagateClick(GUI,(void*)(&mb),0)){
+			msg->suspended = true;
+		}
+	}
+	if(msg->type == "lmb_up"){
+		mb = 0;
+		if(propagateClick(GUI,(void*)(&mb),0)){
+			msg->suspended = true;
+		}
 	}
 }
 //void onKeyboard();

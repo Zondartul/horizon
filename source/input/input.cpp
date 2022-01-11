@@ -74,26 +74,52 @@ void inputKind::keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 				keybuffer[translatedKey] = true;
 			}
 			
-			msg.str = translatedKey;
+			msg.name = translatedKey;
+			channel.publish(&msg);
 			//printf("[publish: %s]\n", VKtoString(wParam).c_str());
 		}
 		break;
 		
-		case(WM_LBUTTONDOWN):{msg.type = "lmb_down"; mouse1down = true;} break;
-		case(WM_LBUTTONUP):{msg.type = "lmb_up"; mouse1down = false;} break;
-		case(WM_RBUTTONDOWN):{msg.type = "rmb_down"; mouse2down = true;} break;
-		case(WM_RBUTTONUP):{msg.type = "rmb_up"; mouse2down = false;} break;
+		case(WM_LBUTTONDOWN):{
+			msg.type = "lmb_down"; 
+			mouse1down = true;
+			channel.publish(&msg);
+		} break;
+		case(WM_LBUTTONUP):{
+			msg.type = "lmb_up"; 
+			mouse1down = false;
+			channel.publish(&msg);
+		} break;
+		case(WM_RBUTTONDOWN):{
+			msg.type = "rmb_down"; 
+			mouse2down = true;
+			channel.publish(&msg);
+		} break;
+		case(WM_RBUTTONUP):{
+			msg.type = "rmb_up"; 
+			mouse2down = false;
+			channel.publish(&msg);
+		} break;
 		case(WM_MOUSEMOVE):
 		{
 			msg.type = "mouse_move";
-			msg.data.v2i = (getMousePos()-prevMousePos);
+			msg.set(0, (vec2i)(getMousePos()-prevMousePos));
+			//msg.data.v2i = (getMousePos()-prevMousePos);
 			prevMousePos = getMousePos();
+			channel.publish(&msg);
+			msg.erase<vec2i>(0);
 		} break;
-		case(WM_MOUSEWHEEL):{msg.type = "mouse_wheel"; msg.data.i = (GET_WHEEL_DELTA_WPARAM(wParam));} break;
-		
-		
+		case(WM_MOUSEWHEEL):
+		{
+			msg.type = "mouse_wheel"; 
+			//msg.data.i = (GET_WHEEL_DELTA_WPARAM(wParam));
+			msg.set(0, (int)(GET_WHEEL_DELTA_WPARAM(wParam)));
+			channel.publish(&msg);
+			msg.erase<int>(0);
+		} break;
 	}
-	if(msg.type != ""){channel.publish(msg);}
+	//if(msg.type != ""){channel.publish(&msg);}
+	
 	//different messages for normal and system keys
 	//bit for repeated keys
 	//extended as in left or right

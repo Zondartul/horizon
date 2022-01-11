@@ -155,6 +155,7 @@ std::string operator+(std::string const &a, int b);
 std::string operator+(std::string const &a, double b);
 string tolower(string A);
 string toupper(string A);
+string fstring(const char* fmt, ...);
 #ifndef EXCEPT_SUPPRESS
 #define except(a) except(__FILE__,__LINE__,a)
 #endif

@@ -1,7 +1,7 @@
 #ifndef GUI2BASE_GUARD
 #define GUI2BASE_GUARD
 #include "util/messenger.h"
-class GUI2base: public PSsubscriber
+class GUI2base: public messageReceiver
 {
 	public:
 	listNode* children;
@@ -39,7 +39,8 @@ class GUI2base: public PSsubscriber
 	virtual void dockCheck();
 	virtual void onClick(int mb);
 	virtual void onKeyboard(string kb);
-	virtual void PSreceive(message msg);
+	//virtual void PSreceive(message msg);
+	virtual void receiveMessage(message *msg);
 	//virtual void onKeyboard();
 	virtual void invalidate(vec2i newPos, vec2i newSize);
 	virtual void recalculateClientRect();

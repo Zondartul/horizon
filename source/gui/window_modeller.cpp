@@ -566,8 +566,8 @@ bool intersection_closest(pair<int, float> A, pair<int, float> B){
 	return (A.second > B.second);
 }
 
-void ModellerInput::PSreceive(message msg){
-	if(msg.type == "lmb_up"){
+void ModellerInput::receiveMessage(message *msg){
+	if(msg->type == "lmb_up"){
 		printf("modeller:click!\n");
 		vec P = camera.pos;
 		printf("camera pos: %f, %f, %f\n", P.x, P.y, P.z);
@@ -599,7 +599,7 @@ void ModellerInput::PSreceive(message msg){
 		// L->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
 		// scene.push_back(L);
 		//red - camera to direction
-		line *L2 = new line(camera.pos, camera.pos+camera.cursorDir()*3, -1);
+		line *L2 = new line(camera.pos, camera.pos+camera.cursorDir()*3, 400);
 		L2->color = {255,0,0,255};
 		L2->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
 		scene.push_back(L2);
@@ -609,7 +609,7 @@ void ModellerInput::PSreceive(message msg){
 		//L3->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
 		//scene.push_back(L3);
 		//blue - camera forward
-		line *L4 = new line(camera.pos, camera.pos+camera.angle.forward()*3, -1);
+		line *L4 = new line(camera.pos, camera.pos+camera.angle.forward()*3, 400);
 		L4->color = {0,0,255,255};
 		L4->setrenderflags(RENDER_DEFAULT | RENDER_VERTICES | COLOR_UNIFORM | LIGHT_DEFAULT | TRANSPARENCY_DEFAULT, 1);
 		scene.push_back(L4);
@@ -620,7 +620,8 @@ void ModellerInput::PSreceive(message msg){
 ModellerInput MI;
 void startModellerSession(){
 	OpenWindowModeller();
-	input.channel.subscribe("", &MI);
+	MI.subscribeToMessageChannel(&input.channel, "");
+	//input.channel.subscribe("", &MI);
 	clickButtonNew(NULL);
 }
 

@@ -17,7 +17,8 @@
 #include "util/debug.h"
 #include "input/input.h"
 //inputKind input;
-PSchannel GUI_PS;
+//PSchannel GUI_PS;
+//MessageChannel GUI_MC;
 //#include "Gui.h"
 #include "display/paint.h"
 #include "gui/Gui2.h"
@@ -124,11 +125,13 @@ void OpenMenuModel()
 
 void sendMsg1(void* arg)
 {
-	message newMsg;
+	/* message newMsg;
 	newMsg.type = "stuff";
-	newMsg.push<string>("apples"); // almost never do this, use .str instead
-	newMsg.push(arg);
-	GUI_PS.publish(newMsg);
+	//newMsg.push<string>("apples"); // almost never do this, use .str instead
+	newMsg.set(0,string("apples"));
+	//newMsg.push(arg);
+	newMsg.set(1,arg);
+	GUI_PS.publish(newMsg); */
 }
 
 void OpenMenu1()
@@ -303,6 +306,75 @@ void OpenGUI4(){
 	//GUI4->setClickable(true);
 }
 
+bool ParseKey(int kb)
+{
+	if(kb>0)
+	{
+		switch(Binds[kb].mode)
+		{
+			case 1://press/release
+				if(!Binds[kb].keyDown&&Binds[kb].onPress){Binds[kb].onPress(NULL);}
+				break;
+			case 2://rising edge
+				if(!Binds[kb].keyDown)
+				{
+					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				}
+				break;
+			case 3://falling edge
+			    //do nothing
+				break;
+			case 4://every tick
+				//do nothing, handled elsewere.
+				break;
+			case 5://whenever windows tells us
+				if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+				break;
+		}
+		Binds[kb].keyDown = true;
+	}
+	else
+	{
+		kb = -kb;
+		switch(Binds[kb].mode)
+		{
+			case 1://press/release
+				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+			case 2://rising edge
+				//do nothing
+				break;
+			case 3://falling edge
+			    if(Binds[kb].keyDown)
+				{
+					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
+					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				}
+				break;
+			case 4://every tick
+				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+			case 5://whenever windows tells us
+				if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
+				break;
+		}
+		Binds[kb].keyDown = false;
+	}
+	if(Binds[kb].onPress||Binds[kb].onRelease){return true;}else{return false;}
+}
+
+class BinderKind: public messageReceiver{
+	void receiveMessage(message *msg){
+		if(msg->type == "key_down"){
+			ParseKey(msg->name[0]);
+		}
+		if(msg->type == "key_up"){
+			ParseKey(-msg->name[0]);
+		}
+	}
+} Binder;
+
 void camRotYCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{0,1,0});}
 void camRotYCCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(-15,{0,1,0});}
 void camRotXCW(void* arg){CamAngle = CamAngle*quat::fromAngleAxis(15,{1,0,0});}
@@ -423,7 +495,11 @@ void OnProgramStart()
 	GUI->setSize(1024,1024);
 	GUI->recalculateClientRect();
 	GUI->visible=false;
-	input.channel.subscribe("", GUI);
+	GUI->subscribeToMessageChannel(&input.channel, "");
+	
+	Binder.subscribeToMessageChannel(&input.channel, "");
+	Binder2.subscribeToMessageChannel(&input.channel, "");
+	//input.channel.subscribe("", GUI);
 	//GUI3start();
 	
 		//OpenMenu1();
@@ -433,7 +509,7 @@ void OnProgramStart()
 	//OpenMenuToolbox();
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
-		//OpenNewConsole(GUI);
+	OpenNewConsole(GUI);
 		//OpenValScreen(GUI);
 	//OpenGUI4();
 	startModellerSession();
@@ -507,77 +583,11 @@ void RenderGUI()
 
 
 
-bool ParseKey(int kb)
-{
-	if(kb>0)
-	{
-		switch(Binds[kb].mode)
-		{
-			case 1://press/release
-				if(!Binds[kb].keyDown&&Binds[kb].onPress){Binds[kb].onPress(NULL);}
-				break;
-			case 2://rising edge
-				if(!Binds[kb].keyDown)
-				{
-					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
-					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
-				}
-				break;
-			case 3://falling edge
-			    //do nothing
-				break;
-			case 4://every tick
-				//do nothing, handled elsewere.
-				break;
-			case 5://whenever windows tells us
-				if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
-				break;
-		}
-		Binds[kb].keyDown = true;
-	}
-	else
-	{
-		kb = -kb;
-		switch(Binds[kb].mode)
-		{
-			case 1://press/release
-				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
-				break;
-			case 2://rising edge
-				//do nothing
-				break;
-			case 3://falling edge
-			    if(Binds[kb].keyDown)
-				{
-					if(Binds[kb].onPress){Binds[kb].onPress(NULL);}
-					if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
-				}
-				break;
-			case 4://every tick
-				if(Binds[kb].keyDown&&Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
-				break;
-			case 5://whenever windows tells us
-				if(Binds[kb].onRelease){Binds[kb].onRelease(NULL);}
-				break;
-		}
-		Binds[kb].keyDown = false;
-	}
-	if(Binds[kb].onPress||Binds[kb].onRelease){return true;}else{return false;}
-}
 
-class BinderKind: public PSsubscriber{
-	void PSreceive(message msg){
-		if(msg.type == "key_down"){
-			ParseKey(msg.str[0]);
-		}
-		if(msg.type == "key_up"){
-			ParseKey(-msg.str[0]);
-		}
-	}
-} Binder;
 
 void ProcessMouseclick(int mb)
 {
+   /*
    if(!GUI2base::propagateClick(GUI,(void*)(&mb),0))
    {
 		printf("mb = %d\n",mb);
@@ -585,9 +595,12 @@ void ProcessMouseclick(int mb)
 			printf("click void\n");
 			ParseKey(1);
 			//convars["camera_mouse_capture"] = 1;
-			input.channel.unsubscribe("", GUI);
-			input.channel.subscribe("", &Binder);
-			input.channel.subscribe("", &Binder2);
+			GUI->unsubscribeFromMessageChannel(&input.channel, "");
+			//input.channel.unsubscribe("", GUI);
+			//input.channel.subscribe("", &Binder);
+			//input.channel.subscribe("", &Binder2);
+			Binder.subscribeToMessageChannel(&input.channel, "");
+			Binder2.subscribeToMessageChannel(&input.channel, "");
 		}//Binds[1].keyDown = true;}
 		if(mb==2){ParseKey(2);}//Binds[2].keyDown = true;}
 		if(mb==0){ParseKey(-1);
@@ -595,14 +608,19 @@ void ProcessMouseclick(int mb)
 		if(mb==-1){ParseKey(-2);}//Binds[2].keyDown= false;}
    }else{
 		if(mb == 1){
-			input.channel.unsubscribe("", &Binder);
-			input.channel.unsubscribe("", &Binder2);
-			input.channel.subscribe("", GUI);
+			//input.channel.unsubscribe("", &Binder);
+			//input.channel.unsubscribe("", &Binder2);
+			//input.channel.subscribe("", GUI);
+			
+			Binder.unsubscribeFromMessageChannel(&input.channel, "");
+			Binder2.unsubscribeFromMessageChannel(&input.channel, "");
+			GUI->subscribeToMessageChannel(&input.channel, "");
 			printf("click window\n");
 			convars["camera_mouse_capture"] = 0;
 		}else
 			printf("unclick window\n");
 	}
+	*/
    // GUIM.click(NULL, mb);
 }
 
@@ -645,6 +663,7 @@ void keyThing(UINT umsg, WPARAM wParam, LPARAM lParam)
 
 void ProcessKeyboard(int kb)
 {
+	/* it's been ages since this was even a thing
 	return;
 	int letter = 0;
 	if(kb>0)
@@ -732,7 +751,7 @@ void ProcessKeyboard(int kb)
 		printf("sending string to parse: \"%s\"\n",str);
 		//ConsoleParse((string)str);
 	}
-	//GUIM.keyboard(kb);
+	//GUIM.keyboard(kb); */
 }
 
 void Render2D()

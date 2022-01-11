@@ -10,10 +10,10 @@ typedef void (*func_v_g3v2)(GUI3base *arg, vec2i arg2);
 class GUI3base2;
 typedef class{public: virtual void operator()(GUI3base2* me){}} 							functor_v;
 typedef class{public: virtual void operator()(GUI3base2* me, vec2i arg){}} 					functor_v2i;
-typedef class{public: virtual void operator()(GUI3base2* me, vec2i arg1, message arg2){}} 	functor_v2i_msg;
+typedef class{public: virtual void operator()(GUI3base2* me, vec2i arg1, message *arg2){}} 	functor_v2i_msg;
 typedef class{public: virtual void operator()(GUI3base2* me, vec2i arg1, vec2i arg2){}} 	functor_v2i_v2i;
-typedef class{public: virtual void operator()(GUI3base2* me, message arg){}} 				functor_msg;
-typedef class: public functor_msg, public PSsubscriber{} 									functor_msg_PS;
+typedef class{public: virtual void operator()(GUI3base2* me, message *arg){}} 				functor_msg;
+typedef class: public functor_msg, public messageReceiver{} 								functor_msg_mR;
 
 class GUI3base2
 {
@@ -28,7 +28,7 @@ class GUI3base2
 	functor_v2i_msg *mousebuttons; //called for every mouse button event, if has mouse focus.
 	functor_v2i *mousemove; //called when mouse is moved, if has mouse focus.
 	functor_msg *keyboardevent; //called for every keyboard event.
-	functor_msg_PS *anyevent; //all events go here. This one is responsible for sending events elsewhere.
+	functor_msg_mR *anyevent; //all events go here. This one is responsible for sending events elsewhere.
 
 	
 	GUI3base2();
@@ -67,14 +67,14 @@ class G3StockMouseover: public functor_v2i
 #define FUNCALL(a, b, ...) (*(a->b))(a, __VA_ARGS__)
 //#define FUNCALL(a, b, ...) ;
 
-class G3StockEventHandler: public functor_msg_PS
+class G3StockEventHandler: public functor_msg_mR
 {
 	public:
 	GUI3base2* owner;
-	void operator()(GUI3base2* me, message msg);
-	void PSreceive(message msg);
-	void subscribe(GUI3base2* owner, PSchannel *chan, string type);
-	void unsubscribe(PSchannel *chan, string type);
+	void operator()(GUI3base2* me, message *msg);
+	void receiveMessage(message *msg);
+	void subscribe(GUI3base2* owner, MessageChannel *chan, string type);
+	void unsubscribe(MessageChannel *chan, string type);
 };
 
 class G3StockMouseMove_drag: public functor_v2i
@@ -88,7 +88,7 @@ class G3StockMouseMove_drag: public functor_v2i
 class G3StockHandler_drag: public G3StockEventHandler
 {
 	public:
-	void operator()(GUI3base2* me, message msg);
+	void operator()(GUI3base2* me, message *msg);
 };
 
 extern GUI3base2 *Root;
