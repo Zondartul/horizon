@@ -72,7 +72,7 @@ void OnProgramStart()
 	GUIM.activate(Button);
 	
 	GUIobj* Frame2 = new GUIframe;
-	Frame2->pos = {64,64};
+	//Frame2->pos = {64,64};
 	Frame2->size = {128,196};
 	Frame2->color = {196,196,196};
 	GUIM.activate(Frame2);

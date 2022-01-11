@@ -129,6 +129,9 @@ class GUIobj
 	{
 		counter++;
 	}
+	virtual ~GUIobj()
+	{
+	}
 };
 
 
@@ -170,9 +173,28 @@ class GUIManager //manages windows and controlls, their allocation and message p
             else{Cur = Cur->next;strata++;}
         }
     }
-    void remove() //removes control from render queue
+    void remove(GUIobj* curObj, GUIobj* obj) //removes control from render queue
     {
-
+		bool done = false;
+		listNode *Cur;
+		void* objPtr = (void*)obj;
+		if(curObj){Cur = &(curObj->children);}
+		else{Cur = &Root;}
+		while(Cur!=NULL)
+		{
+			if(Cur->thing==objPtr){Cur->thing=NULL;done = true;}
+			Cur=Cur->next;
+		}
+		if(!done)	//if we didn't find the deletee on this tier, check all children recursively.
+		{
+			if(curObj){Cur = &(curObj->children);}
+			else{Cur = &Root;}
+			while(Cur!=NULL)
+			{
+				if(Cur->thing){remove(((GUIobj*)Cur->thing),obj);}
+				Cur=Cur->next;
+			}
+		}
     }
     void render(GUIobj* obj)
     {
@@ -243,8 +265,12 @@ class GUIManager //manages windows and controlls, their allocation and message p
 			Cur = Cur->next;
 		}
 	}
+	GUIobj* lastClick;
 	void click(GUIobj* obj, int mb)
 	{
+		if(mb<1){lastClick->onClick(mb);}
+		else
+		{
 		listNode* Cur;
 		GUIobj* obj2;
 		
@@ -256,10 +282,11 @@ class GUIManager //manages windows and controlls, their allocation and message p
 			if(Cur->thing!=NULL)
 			{
 				obj2 = (GUIobj*)(Cur->thing);
-				if(obj2->mouseOver){obj2->onClick(mb);}		
+				if(obj2->mouseOver){obj2->onClick(mb);lastClick = obj2;}		
 				this->click(obj2, mb);
 			}
 			Cur = Cur->next;
+		}
 		}
 	}
     void input()
@@ -269,23 +296,90 @@ class GUIManager //manages windows and controlls, their allocation and message p
     listNode Root;
 };
 
+class GUIbutton: public GUIobj
+{
+	public:
+	void (*func)(void*);
+	void *funcHolder;
+	char *text;
+	bool pressed;
+	color3i textcolor;
+	GUIbutton()
+	{
+		//func = NULL;
+		text = "X";
+		textcolor = {0,0,0};
+	}
+	void onClick(int mb)
+	{
+		if(mb){pressed = 1;}
+		else
+		{
+			if(pressed)
+			{
+				if(func&&funcHolder)
+				{func(funcHolder);}
+			}
+			pressed = 0;
+		}
+	}
+	void render()
+	{
+		if(!pressed)
+		{
+			glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
+			paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
+			printw(pos.x+4,pos.y+4,"%s",text);
+		}
+		else
+		{
+			if(!mouseOver){pressed = 0;}
+			glColor3f(color.r/255.0f,color.g/255.0f,color.b/255.0f);
+			paintRect(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
+			glColor3f(textcolor.r/255.0f,textcolor.g/255.0f,textcolor.b/255.0f);
+			printw(pos.x+4,pos.y+4,"%s",text);
+		}
+	}
+};
+
 class GUIframe: public GUIobj
 {
 	public:
 	vec2i dragStart;
 	vec2i oldpos;
 	bool dragging;
+	GUIbutton *myButton;
+	static void btnClose_wrapper(void* me) //wtf are these shenanigans
+	{									   //upper one actually gets sent
+		((GUIframe*)me)->btnClose();	   //and used for onClick(mb)
+	}
+	
+	void btnClose()
+	{
+		delete this;
+	}										//:|
+	
 	GUIframe()
 	{
 		dragging = 0;
 		dragStart = {0,0};
+		pos = {0,0};
 		oldpos = {0,0};
-		GUIobj* myButton = new GUIobj;
+		myButton = new GUIbutton;
 		myButton->pos = {0,0};
 		myButton->size = {24,24};
 		myButton->color = color;
 		myButton->parent = (GUIobj*)this;//commenting this makes me crash?
-		((GUIManager*)GUIM)->activate(myButton); //this button gets positioned to the moon. FIND IT!
+		myButton->func = &btnClose_wrapper;
+		myButton->funcHolder = (void*)this;
+		((GUIManager*)GUIM)->activate((GUIobj*)myButton); //this button gets positioned to the moon. FIND IT!
+	}
+	~GUIframe()
+	{
+		//delete myButton;//uhh do I need to?...
+		((GUIManager*)GUIM)->remove(NULL, (GUIobj*)this);
+		//delete this; NEVER do this in a destructor
 	}
 	void onClick(int mb)
 	{
@@ -302,7 +396,13 @@ class GUIframe: public GUIobj
 	void render() // later will be delegated to skins to draw on their own
 	{
 		if(dragging){pos = mousePos-dragStart;}
-		if(!(oldpos==pos)){((GUIManager*)GUIM)->reposition(this, oldpos, pos);pos = (pos-oldpos)/2;}
+		if(!(oldpos==pos))
+		{
+			vec2i pos2 = pos;
+			pos = oldpos;
+			((GUIManager*)GUIM)->reposition(this, oldpos, pos2);
+			oldpos = pos;
+		}
 		int rX1 = pos.x;
         int rY1 = pos.y;
         int rX2 = pos.x+size.x;
@@ -322,3 +422,5 @@ class GUIframe: public GUIobj
 		printw(rX2+8, rY1+size.y/2, "Clicks: %d",counter);
 	}
 };
+
+
