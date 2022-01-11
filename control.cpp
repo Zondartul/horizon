@@ -30,6 +30,10 @@ vec2i deltaMouse;
 vec2i windowCorner;
 vec2i windowSize;
 vec2i windowCenter;
+double CamA;
+double CamX;
+double CamY;
+double CamZ;
 quat CamAngle;
 bool mouseCapture;
 int pie = 3.14;
@@ -69,12 +73,15 @@ void ConsoleParse(string text)
 		GUIlabel *L = (GUIlabel*)(Console->children->next->thing);
 		L->text += '\n';
 		L->text += text;
+		if(L->text.length()>256){L->text.erase();}
 	}
 }
 
 void Test1(void* arg)
 {
 	ConsoleParse("I LIKE TURTLES");
+	SomeVec1 = {0,0,0};
+	CamAngle = quat::fromAngle(0,0,0);
 }
 
 void MenuConsoleConEntryCallback(void *arg)
@@ -294,48 +301,52 @@ void OpenMenu1()
 	cbox->setParent((GUIbase*)myFrame);
 }
 
+double camSpeed = 0.01;
+vector t;
 void OpenVals()
 {
 	GUIframe* valframe = new GUIframe;
 	valframe->setSize(256,256);
 	valframe->setPos(768,32);
 	valframe->setParent(GUI);
-	
 	GUIvaluedisplay* valx = new GUIvaluedisplay;	GUIvaluedisplay* val2x = new GUIvaluedisplay;
 	valx->setPos(0,32);								val2x->setPos(128,32);
-	valx->val = (void*)(&CamAngle.w);				val2x->val = (void*)(&SomeVec2.x);
+	valx->val = (void*)(&CamA);				val2x->val = (void*)(&t.x);
 	valx->mode = 'f';								val2x->mode = 'f';
 	valx->setParent(valframe);						val2x->setParent(valframe);
 	
 	GUIvaluedisplay* valy = new GUIvaluedisplay;	GUIvaluedisplay* val2y = new GUIvaluedisplay;
 	valy->setPos(0,64);								val2y->setPos(128,64);
-	valy->val = (void*)(&CamAngle.v.x);				val2y->val = (void*)(&SomeVec2.y);
+	valy->val = (void*)(&CamX);				val2y->val = (void*)(&t.y);
 	valy->mode = 'f';								val2y->mode = 'f';
 	valy->setParent(valframe);						val2y->setParent(valframe);
 	
 	GUIvaluedisplay* valz = new GUIvaluedisplay;	GUIvaluedisplay* val2z = new GUIvaluedisplay;
 	valz->setPos(0,96);								val2z->setPos(128,96);
-	valz->val = (void*)(&CamAngle.v.y);				val2z->val = (void*)(&SomeVec2.z);
+	valz->val = (void*)(&CamY);				val2z->val = (void*)(&t.z);
 	valz->mode = 'f';								val2z->mode = 'f';
 	valz->setParent(valframe);						val2z->setParent(valframe);
 	
 	GUIvaluedisplay* valmx = new GUIvaluedisplay;	GUIvaluedisplay* val2my = new GUIvaluedisplay;
 	valmx->setPos(0,128);							val2my->setPos(128,128);
-	valmx->val = (void*)(&CamAngle.v.z);				val2my->val = (void*)(&mousePos.y);
+	valmx->val = (void*)(&CamZ);				val2my->val = (void*)(&mousePos.y);
 	valmx->mode = 'f';								val2my->mode = 'd';
 	valmx->setParent(valframe);						val2my->setParent(valframe);
 	
+	quat A = {2,{1,0,0}};
+	double *mul = new double;
+	*mul = (A*A.inv()).w;
 	GUIvaluedisplay* valdmx = new GUIvaluedisplay;	GUIvaluedisplay* val2dmy = new GUIvaluedisplay;
 	valdmx->setPos(0,128+32);							val2dmy->setPos(128,128+32);
-	valdmx->val = (void*)(&deltaMouse.x);				val2dmy->val = (void*)(&deltaMouse.y);
-	valdmx->mode = 'd';								val2dmy->mode = 'd';
+	valdmx->val = (void*)(mul);				val2dmy->val = (void*)(&deltaMouse.y);
+	valdmx->mode = 'f';								val2dmy->mode = 'd';
 	valdmx->setParent(valframe);					val2dmy->setParent(valframe);
 }
 
-void camForward(void* arg){SomeVec1 = SomeVec1+(vector){0,.1,0};}
-void camBack(void* arg){SomeVec1 = SomeVec1+(vector){0,-.1,0};}
-void camLeft(void* arg){SomeVec1 = SomeVec1+(vector){-.1,0,0};}
-void camRight(void* arg){SomeVec1 = SomeVec1+(vector){.1,0,0};}
+void camForward(void* arg){SomeVec1 = SomeVec1+CamAngle.up()*camSpeed;}
+void camBack(void* arg){SomeVec1 = SomeVec1-CamAngle.up()*camSpeed;}
+void camLeft(void* arg){SomeVec1 = SomeVec1+CamAngle.forward()*camSpeed;}
+void camRight(void* arg){SomeVec1 = SomeVec1-CamAngle.forward()*camSpeed;}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture;}
 
 void OnProgramStart()
@@ -368,7 +379,7 @@ void OnProgramStart()
 	bindKey('D',&camLeft,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
 	mouseCapture = false;
-	CamAngle = {0,{0,0,1}};
+	CamAngle = (quat){0,0,1,0};
 	
 	bground.r = 142;
 	bground.g = 187;
@@ -502,11 +513,13 @@ void InputTick()
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
 		SomeVec2 = SomeVec2 + (vector){(double)deltaMouse.x/width,(double)deltaMouse.y/height,0};
-		CamAngle = CamAngle.addRotation(deltaMouse.x/width,{0,0,1}).addRotation(deltaMouse.y/height,{1,0,0});
-		if(CamAngle.w>360){CamAngle.w=0;}
-		if(CamAngle.w<0){CamAngle.w=360;}
+		double CamAngSpeed = 0.1;
+		CamAngle = CamAngle.addRotation(deltaMouse.x*CamAngSpeed,{0,-1,0}).addRotation(deltaMouse.y*CamAngSpeed,CamAngle.forward()).norm();//cam angular speed here
+		//if(CamAngle.w>6.26){CamAngle.w=0;}
+		//if(CamAngle.w<0){CamAngle.w=6.26;}
 		SetCursorPos(windowCenter.x,windowCenter.y);
 	}
+	t = CamAngle.rotateVector((vector){0,1,0});
 }
 
 void ProcessKeyboard(int kb)
@@ -549,8 +562,14 @@ void Render2D()
 void Render3D()
 {
     glPushMatrix();
-	glRotatef(-CamAngle.w, CamAngle.v.x, CamAngle.v.z, CamAngle.v.y);
-	glTranslated(SomeVec1.x,SomeVec1.z,SomeVec1.y);
+	double ang = CamAngle.getRotationAngle();
+	vector axis = CamAngle.getRotationAxis();
+	CamA = ang;
+	CamX = axis.x;CamY = axis.y;CamZ = axis.z;
+	glRotatef(-ang, axis.x, axis.y, axis.z);
+
+	//glRotatef(180, 0,0,1);
+	glTranslated(SomeVec1.x,SomeVec1.y,SomeVec1.z);
     //glRotatef(theta, 0.0f, 0.0f, 1.0f);
 	glScalef(0.1f,0.1f,0.1f);
     glBegin(GL_TRIANGLES);
