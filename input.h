@@ -78,7 +78,7 @@ class inputKind
 					keybuffer[translatedKey] = true;
 				}
 				
-				msg.push<string>(translatedKey);
+				msg.str = translatedKey;
 				//printf("[publish: %s]\n", VKtoString(wParam).c_str());
 			}
 			break;
@@ -90,10 +90,10 @@ class inputKind
 			case(WM_MOUSEMOVE):
 			{
 				msg.type = "mouse_move";
-				msg.push<vec2i>(getMousePos()-prevMousePos);
+				msg.data.v2i = (getMousePos()-prevMousePos);
 				prevMousePos = getMousePos();
 			} break;
-			case(WM_MOUSEWHEEL):{msg.type = "mouse_wheel"; msg.push<int>(GET_WHEEL_DELTA_WPARAM(wParam));} break;
+			case(WM_MOUSEWHEEL):{msg.type = "mouse_wheel"; msg.data.i = (GET_WHEEL_DELTA_WPARAM(wParam));} break;
 			
 			
 		}
@@ -104,4 +104,5 @@ class inputKind
 		//use microsoft's VK_CODE table and make own key name table.
 	}
 };
+
 //VIRTUAL KEY TABLE

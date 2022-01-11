@@ -161,8 +161,7 @@ class GUIbase: public PSsubscriber
 	}
 	virtual void PSreceive(message msg){
 		if(msg.type == "key_down" || msg.type == "key_still_down"){
-			string msgstr = msg.popString();
-			propagateKeyboard(msgstr);
+			propagateKeyboard(msg.str);
 		}
 	}
 	//virtual void onKeyboard();
@@ -436,9 +435,9 @@ class GUIbase: public PSsubscriber
 						//lastClicked=NULL; focus = NULL;return false;
 						
 						lastClicked=NULL;
-						if(focus){return true;}
-						else {return false;}
-						
+						//if(focus){return true;} I don't actually know what this does
+						//else {return false;}
+						return false;
 					}//rec==0 is when invisible master-parent thingy is cliked.
 					return false;
 				} else {if(rec!=0){fixstrata(obj);} return true;} //fuck yes
@@ -447,7 +446,7 @@ class GUIbase: public PSsubscriber
 		else //releases are delivered to who you clicked, not current mouseover.
 		{
 			if(lastClicked){lastClicked->onClick(mb);lastClicked=NULL;}
-			else{if(focus){focus = NULL; return true;}else{return false;}}
+			else{if(focus){focus = NULL; return false;}else{return false;}} // was true - false, idk.
 		}
 		//its ok to have no return? What?
 	}
@@ -699,7 +698,7 @@ class GUItextEntry: public GUIbase
 		paintRectOutline(pos.x,pos.y,pos.x+size.x,pos.y+size.y);
 		setColor(color_text);
 		if(sizeToContents){size.x = printw(pos.x+2,pos.y, -1, -1,text)+4;}
-		else{printw(pos.x+2,pos.y, size.x-BRDB, size.y-BRDT,"%s", text.c_str())+4;}
+		else{printw(pos.x+2,pos.y, size.x-BRDB, size.y-BRDB,"%s", text.c_str())+4;}
 		
 		glDisable(GL_SCISSOR_TEST);
 	}

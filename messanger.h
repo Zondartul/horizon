@@ -8,8 +8,19 @@
 
 struct message
 {
+	//message problem: every message carries pointer to non-primitive type
+	//messages can not be copied content must be deleted immediately.
 	string type;
-	list<void*> data;
+	list<void*> vdata; //one-use only!
+	string str;
+	union data_t{
+		char c;
+		int i;
+		double d;
+		float f;
+		vec2i v2i;
+		vec3i v3i;
+	}data;
 	message()
 	{
 	}
@@ -18,6 +29,7 @@ struct message
 		type = t;
 		push<string>(d);
 	}
+	/*
 	void pushString(string newStr)
 	{
 		//printf("s1\n");
@@ -25,39 +37,43 @@ struct message
 		//printf("s2\n");
 		*strPtr = newStr;
 		//printf("s3\n");
-		data.push_back((void*)strPtr);
+		vdata.push_back((void*)strPtr);
 		//printf("s4\n");
 	}
 	string popString()
 	{
 		//printf("r1\n");
-		void *dat = data.back();
+		void *dat = vdata.back();
 		string* strPtr = (string*)dat;
 		//printf("r2\n");
 		//printf("dat = %p",dat);
 		string oldStr = *strPtr;
 		//printf("r3\n");
-		data.pop_back();
+		vdata.pop_back();
 		//printf("r4\n");
 		delete strPtr;
 		//printf("r5\n");
 		return oldStr;
-	}
+	}*/
+	
+	// never use these due to above problem
 	template <typename T> void push(T val) //always explicitly give <type> for: "string".
 	{
-		//cout << "pushing " + toString(&val);
+		cout << "[msg]pushing " + toString(&val);
 		T* ptr = new T;
 		*ptr = val;
-		data.push_back((void*)ptr);
+		vdata.push_back((void*)ptr);
 	}
 	template <typename T> T pop()
 	{
-		T *ptr = (T*)(data.back());
+		T *ptr = (T*)(vdata.back());
 		T oldT = *ptr;
-		data.pop_back();
+		vdata.pop_back();
+		cout << "[msg]popping " << toString(ptr); 
 		delete ptr;
 		return oldT;
 	}
+	
 };
 
 class PSsubscriber //interface for accepting messages
@@ -112,3 +128,8 @@ struct PSchannel // no message caching yet.
 		}
 	}
 };
+
+// debug func:
+void msgintercept(message msg){
+	cout << "msg.type = ["<<msg.type<<"], str = ["<<msg.str<<"]\n";
+}

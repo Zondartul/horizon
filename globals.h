@@ -192,7 +192,7 @@ string itoa(double I)
 //atoi already there
 
 template<class T> class ptrSniper // I'm in way over my head.
-{
+{								  // an object that zero's all pointers to it's parent on destruction.
 	public:
 	vector<T**> pointers;
 	T* upperThis;
@@ -244,6 +244,17 @@ template <typename T> T bits(T val, int start, int end)
 	return val & ((unsigned long long)(pow(2,end+1)-1) >> start); 
 }
 
+std::string operator+(std::string const &a, int b){
+  std::ostringstream oss;
+  oss<<a<<b;
+  return oss.str();
+}
+
+std::string operator+(std::string const &a, double b){
+  std::ostringstream oss;
+  oss<<a<<b;
+  return oss.str();
+}
 
 
 /*

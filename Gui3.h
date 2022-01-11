@@ -340,7 +340,7 @@ class G3StockEventHandler: public functor_msg_PS
 		|| msg.type == "lmb_up"
 		|| msg.type == "rmb_down"
 		|| msg.type == "rmb_up"){if(owner->mousebuttons) FUNCALL(owner, mousebuttons, input.getMousePos(), msg);}
-		if(msg.type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, msg.pop<vec2i>());}
+		if(msg.type == "mouse_move"){if(owner->mousemove) FUNCALL(owner, mousemove, msg.data.v2i);}
 		if(msg.type == "key_down"
 		|| msg.type == "key_up"){if(owner->keyboardevent) FUNCALL(owner, keyboardevent, msg);}
 	}

@@ -24,6 +24,7 @@ PSchannel GUI_PS;
 #include "models.h"
 #include "quaternions.h"
 #include "newconsole.h"
+#include "keybinds.h"
 //global vars go here
 //LETS DO QUATERNIONS LIKE A BOSS
 
@@ -84,6 +85,7 @@ void bindKey(unsigned char key, funcptr onPress, funcptr onRelease, int mode)
 
 void Test1(void* arg)
 {
+	cprint("I like turtles!");
 	//ConsoleParse("I LIKE TURTLES");
 }
 
@@ -114,7 +116,7 @@ void sendMsg1(void* arg)
 {
 	message newMsg;
 	newMsg.type = "stuff";
-	newMsg.push<string>("apples");
+	newMsg.push<string>("apples"); // almost never do this, use .str instead
 	newMsg.push(arg);
 	GUI_PS.publish(newMsg);
 }
@@ -278,6 +280,7 @@ void camUp(void* arg){SomeVec1 = SomeVec1+((vec){0,0,.1})*camSpeed;}
 void camDown(void* arg){SomeVec1 = SomeVec1+((vec){0,0,-.1})*camSpeed;}
 void ToggleMouseCapture(void* arg){mouseCapture = !mouseCapture; SetCursorPos(windowCenter.x,windowCenter.y);}
 void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
+class BinderKind;
 
 void OnProgramStart()
 {
@@ -302,13 +305,13 @@ void OnProgramStart()
 	setFont(Calibri18);
 	SomeVec1 = {0,0,0};
 	SomeVec2 = {2,5,5};
-	bindKey('T',&Test1,NULL,1);
-	bindKey('W',&camForward,NULL,4);
-	bindKey('A',&camLeft,NULL,4);
-	bindKey('S',&camBack,NULL,4);
-	bindKey('D',&camRight,NULL,4);
+	bindKey('t',&Test1,NULL,1);
+	bindKey('w',&camForward,NULL,4);
+	bindKey('a',&camLeft,NULL,4);
+	bindKey('s',&camBack,NULL,4);
+	bindKey('d',&camRight,NULL,4);
 	bindKey(32,&camUp,NULL,4);
-	bindKey('C',&camDown,NULL,4);
+	bindKey('c',&camDown,NULL,4);
 	bindKey(27,&ToggleMouseCapture,NULL,1);
 	bindKey(16,&camSlow,&camFast,1);
 	
@@ -353,6 +356,8 @@ void OnProgramStart()
 	//myFrame.parent
     //MessageBox(0, "FreeType: done generating textures","info", MB_OK);
 	OpenNewConsole(GUI);
+	
+	KeyBinds["b"] = "echo butts";
 }
 
 
@@ -365,7 +370,7 @@ void RenderGUI()
 	paintRect(32,30,32+twidth,52);
 	glColor3f(1.0f,1.0f,1.0f);
 	string version("Version ");
-	string vnumber = "91";
+	string vnumber = "92";
 	twidth = printw(32,32,-1,-1,version+vnumber);
 	
 	vec2i pack[3]= {mousePos, (vec2i){0,0}, (vec2i){(int)width, (int)height}};
@@ -442,17 +447,42 @@ bool ParseKey(int kb)
 	if(Binds[kb].onPress||Binds[kb].onRelease){return true;}else{return false;}
 }
 
+class BinderKind: public PSsubscriber{
+	void PSreceive(message msg){
+		if(msg.type == "key_down"){
+			ParseKey(msg.str[0]);
+		}
+		if(msg.type == "key_up"){
+			ParseKey(-msg.str[0]);
+		}
+	}
+} Binder;
+
 void ProcessMouseclick(int mb)
 {
    if(!GUIbase::propagateClick(GUI,(void*)(&mb),0))
    {
-		//printf("click void\n");
 		printf("mb = %d\n",mb);
-		if(mb==1){ParseKey(1);}//Binds[1].keyDown = true;}
+		if(mb==1){
+			printf("click void\n");
+			ParseKey(1);
+			input.channel.unsubscribe("", GUI);
+			input.channel.subscribe("", &Binder);
+			input.channel.subscribe("", &Binder2);
+		}//Binds[1].keyDown = true;}
 		if(mb==2){ParseKey(2);}//Binds[2].keyDown = true;}
-		if(mb==0){ParseKey(-1);}//Binds[1].keyDown = false;}
+		if(mb==0){ParseKey(-1);
+		printf("unclick void\n");}//Binds[1].keyDown = false;}
 		if(mb==-1){ParseKey(-2);}//Binds[2].keyDown= false;}
-   }
+   }else{
+		if(mb == 1){
+			input.channel.unsubscribe("", &Binder);
+			input.channel.unsubscribe("", &Binder2);
+			input.channel.subscribe("", GUI);
+			printf("click window\n");
+		}else
+			printf("unclick window\n");
+	}
    // GUIM.click(NULL, mb);
 }
 
@@ -474,7 +504,7 @@ void InputTick()
 	//6 - mouseY updated
 	//7 - mouseX updated
 	//now do mouse!
-	if(mouseCapture)
+	if(convars["camera_mouse_capture"])//if(mouseCapture)
 	{
 		//get delta from center and then re-center!
 		deltaMouse = mousePos-(vec2i){(int)width/2,(int)height/2};
