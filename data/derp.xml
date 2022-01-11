@@ -1,0 +1,9 @@
+<Root>
+    <IntValue>10</IntValue>
+    <FloatValue>0.5</FloatValue>
+    <Date day="sunday"/>
+    <Derp noobs="2">
+        <wah>hai</wah>
+        <bah>bai</bah>
+    </Derp>
+</Root>

@@ -1,7 +1,0 @@
-<map id="GUI5behavior" name="GUI5behavior">
-<area shape="rect" id="node2" href="$class_g_u_i5behavior_children.html" title="GUI5behaviorChildren" alt="" coords="153,5,299,32"/>
-<area shape="rect" id="node3" href="$class_g_u_i5behavior_debug.html" title="GUI5behaviorDebug" alt="" coords="159,56,293,83"/>
-<area shape="rect" id="node4" href="$class_g_u_i5behavior_highlight.html" title="GUI5behaviorHighlight" alt="" coords="152,107,300,133"/>
-<area shape="rect" id="node5" href="$class_g_u_i5behavior_movable.html" title="GUI5behaviorMovable" alt="" coords="153,157,299,184"/>
-<area shape="rect" id="node6" href="$class_g_u_i5behavior_scalable.html" title="GUI5behaviorScalable" alt="" coords="152,208,300,235"/>
-</map>

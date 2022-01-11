@@ -1,8 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_g_u_i5constraint.html" title="GUI5constraint" alt="" coords="5,107,113,133"/>
-<area shape="rect" id="node2" href="$class_g_u_i5constraint_alignment.html" title="GUI5constraintAlignment" alt="" coords="187,5,353,32"/>
-<area shape="rect" id="node3" href="$class_g_u_i5constraint_horizontal_list.html" title="GUI5constraintHorizontalList" alt="" coords="177,56,363,83"/>
-<area shape="rect" id="node4" href="$class_g_u_i5constraint_percent_parent_size.html" title="GUI5constraintPercentParentSize" alt="" coords="161,107,379,133"/>
-<area shape="rect" id="node5" href="$class_g_u_i5constraint_size_to_contents.html" title="GUI5constraintSizeToContents" alt="" coords="170,157,370,184"/>
-<area shape="rect" id="node6" href="$class_g_u_i5constraint_vertical_list.html" title="GUI5constraintVerticalList" alt="" coords="183,208,357,235"/>
-</map>

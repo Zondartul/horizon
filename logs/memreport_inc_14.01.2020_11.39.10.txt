@@ -1,0 +1,97 @@
+Incremental memory report for frames 2994 .. 3348 (354 frames)
+code/source/generators/editmodel.cpp:
+ @448: 584 x 16 b = 9344 b
+file: 9.125 kb
+code/source/generators/modelprimitives.cpp:
+ @15: 145 x 52 b = 7540 b
+ @17: 145 x 376 b = 54520 b
+ @18: 145 x 376 b = 54520 b
+ @19: 145 x 376 b = 54520 b
+ @20: 145 x 376 b = 54520 b
+ @21: 145 x 376 b = 54520 b
+ @22: 145 x 376 b = 54520 b
+ @23: 145 x 376 b = 54520 b
+ @24: 145 x 376 b = 54520 b
+ @26: 145 x 364 b = 52780 b
+ @27: 145 x 364 b = 52780 b
+ @28: 145 x 364 b = 52780 b
+ @29: 145 x 364 b = 52780 b
+ @31: 145 x 364 b = 52780 b
+ @32: 145 x 364 b = 52780 b
+ @33: 145 x 364 b = 52780 b
+ @34: 145 x 364 b = 52780 b
+ @36: 145 x 364 b = 52780 b
+ @37: 145 x 364 b = 52780 b
+ @38: 145 x 364 b = 52780 b
+ @39: 145 x 364 b = 52780 b
+ @41: 145 x 436 b = 63220 b
+ @42: 145 x 436 b = 63220 b
+ @45: 145 x 436 b = 63220 b
+ @46: 145 x 436 b = 63220 b
+ @49: 145 x 436 b = 63220 b
+ @50: 145 x 436 b = 63220 b
+ @53: 145 x 436 b = 63220 b
+ @54: 145 x 436 b = 63220 b
+ @57: 145 x 436 b = 63220 b
+ @58: 145 x 436 b = 63220 b
+ @65: 145 x 436 b = 63220 b
+ @66: 145 x 436 b = 63220 b
+file: 1792.676 kb
+code/source/loaders/imageLoader.cpp:
+ @19: 1 x 44 b = 44 b
+file: 0.043 kb
+code/source/loaders/modelLoader.cpp:
+ @71: 1 x 44 b = 44 b
+file: 0.043 kb
+code/source/loaders/textureLoader.cpp:
+ @19: 1 x 52 b = 52 b
+file: 0.051 kb
+code/source/physics/characterController.cpp:
+ @25: 1 x 60 b = 60 b
+ @28: 1 x 52 b = 52 b
+ @63: 1 x 144 b = 144 b
+file: 0.250 kb
+code/source/physics/collision.cpp:
+ @35: 145 x 20 b = 2900 b
+file: 2.832 kb
+code/source/physics/collision/narrowphase.cpp:
+ @115: 897 x 60 b = 53820 b
+file: 52.559 kb
+code/source/physics/octree.cpp:
+ @132: 896 x 108 b = 96768 b
+file: 94.500 kb
+code/source/render/paint.cpp:
+ @119: 144 x 28 b = 4032 b
+ @121: 131 x 28 b = 3668 b
+ @123: -17 x 28 b = -476 b
+ @125: 154 x 28 b = 4312 b
+ @126: -31 x 28 b = -868 b
+ @127: 138 x 28 b = 3864 b
+ @128: -16 x 28 b = -448 b
+ @129: 105 x 28 b = 2940 b
+ @130: -14 x 28 b = -392 b
+ @131: -17 x 28 b = -476 b
+ @136: 104 x 28 b = 2912 b
+ @137: 104 x 28 b = 2912 b
+ @142: 146 x 28 b = 4088 b
+ @143: 146 x 28 b = 4088 b
+ @144: 146 x 28 b = 4088 b
+ @150: 106 x 28 b = 2968 b
+ @154: 145 x 28 b = 4060 b
+ @274: 120 x 16 b = 1920 b
+file: 42.180 kb
+code/include/util/util.h:
+ @13: -14 x 24 b = -336 b
+file: -0.328 kb
+code/source/resource/model.cpp:
+ @38: 1 x 52 b = 52 b
+ @40: 728 x 376 b = 273728 b
+ @41: 728 x 376 b = 273728 b
+ @42: 728 x 376 b = 273728 b
+ @49: 728 x 436 b = 317408 b
+file: 1111.957 kb
+code/source/util/elastic_ptr.cpp:
+ @4: 146 x 8 b = 1168 b
+file: 1.141 kb
+user total: 3107.027 kb
+sys  total: 3155.133 kb

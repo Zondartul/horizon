@@ -1,0 +1,85 @@
+Incremental memory report for frames 3610 .. 5915 (2305 frames)
+code/source/game/commands.cpp:
+ @19: -2 x 40 b = -80 b
+ @24: 1 x 40 b = 40 b
+file: -0.039 kb
+code/source/generators/editmodel.cpp:
+ @448: 96 x 16 b = 1536 b
+file: 1.500 kb
+code/source/generators/modelprimitives.cpp:
+ @15: 19 x 52 b = 988 b
+ @17: 19 x 376 b = 7144 b
+ @18: 19 x 376 b = 7144 b
+ @19: 19 x 376 b = 7144 b
+ @20: 19 x 376 b = 7144 b
+ @21: 19 x 376 b = 7144 b
+ @22: 19 x 376 b = 7144 b
+ @23: 19 x 376 b = 7144 b
+ @24: 19 x 376 b = 7144 b
+ @26: 19 x 364 b = 6916 b
+ @27: 19 x 364 b = 6916 b
+ @28: 19 x 364 b = 6916 b
+ @29: 19 x 364 b = 6916 b
+ @31: 19 x 364 b = 6916 b
+ @32: 19 x 364 b = 6916 b
+ @33: 19 x 364 b = 6916 b
+ @34: 19 x 364 b = 6916 b
+ @36: 19 x 364 b = 6916 b
+ @37: 19 x 364 b = 6916 b
+ @38: 19 x 364 b = 6916 b
+ @39: 19 x 364 b = 6916 b
+ @41: 19 x 436 b = 8284 b
+ @42: 19 x 436 b = 8284 b
+ @45: 19 x 436 b = 8284 b
+ @46: 19 x 436 b = 8284 b
+ @49: 19 x 436 b = 8284 b
+ @50: 19 x 436 b = 8284 b
+ @53: 19 x 436 b = 8284 b
+ @54: 19 x 436 b = 8284 b
+ @57: 19 x 436 b = 8284 b
+ @58: 19 x 436 b = 8284 b
+ @65: 19 x 436 b = 8284 b
+ @66: 19 x 436 b = 8284 b
+file: 234.902 kb
+code/source/loaders/modelLoader.cpp:
+ @71: 5 x 44 b = 220 b
+file: 0.215 kb
+code/source/physics/characterController.cpp:
+ @25: -1 x 60 b = -60 b
+ @28: -1 x 52 b = -52 b
+ @63: -1 x 144 b = -144 b
+file: -0.250 kb
+code/source/physics/collision.cpp:
+ @35: -8 x 20 b = -160 b
+file: -0.156 kb
+code/source/physics/collision/narrowphase.cpp:
+ @115: 26 x 60 b = 1560 b
+ @1289: 3 x 60 b = 180 b
+file: 1.699 kb
+code/source/physics/octree.cpp:
+ @132: 16 x 108 b = 1728 b
+file: 1.688 kb
+code/source/render/paint.cpp:
+ @125: 22 x 28 b = 616 b
+ @127: -36 x 28 b = -1008 b
+ @130: 3 x 28 b = 84 b
+ @142: -36 x 28 b = -1008 b
+ @143: -36 x 28 b = -1008 b
+ @144: -36 x 28 b = -1008 b
+ @150: -36 x 28 b = -1008 b
+file: -4.238 kb
+code/include/util/util.h:
+ @13: 3 x 24 b = 72 b
+file: 0.070 kb
+code/source/resource/model.cpp:
+ @38: 5 x 52 b = 260 b
+ @40: 3640 x 376 b = 1368640 b
+ @41: 3640 x 376 b = 1368640 b
+ @42: 3640 x 376 b = 1368640 b
+ @49: 3640 x 436 b = 1587040 b
+file: 5559.785 kb
+code/source/util/elastic_ptr.cpp:
+ @4: -9 x 8 b = -72 b
+file: -0.070 kb
+user total: 5795.105 kb
+sys  total: 5792.508 kb

@@ -1,0 +1,63 @@
+derpphysics
+block building
+npc spawning
+modelling
+
+-----------
+modelling
+make block
+select vertex/edge/face
+move
+rotate
+scale
+extrude
+CSG A+B, A-B, A and B, A xor B
+------------------------------
+
+octree display
+calc total world bounds
+select entity -> entity info display
+shell / console
+shell process commands but has no user I/O
+console prints commands and accepts keyboard input
+rich console: with collapsible menus and stuff.
+text to GUI
+rotation stuff
+paintPersistant: create a layer-lifetime pair (new one every time a persistant paint is called).
+debug displays:
+	performance
+	memory consumption
+	renderLayers
+	inputLayers
+	message tree
+string fstring(const char *fmt, ...)
+renderlayers can call other renderlayers
+GUI: combine-able behaviors (as ECS maybe?)
+-----------
+todo:
+fix weird camera jitter when flying.
+fix GUI click-through
+----------
+list of GUI utils:
+next/prev sibling;
+world area; visible area;
+calc offset/resulting rect to align/dock/stretch/crop
+given part of rect1 with given part of rect2 (edges, corners, midpoints)
+invalidate_up, invalidate_down, invalidate_tree
+GUIroot element as the root of a given GUI tree.
+area_desired - asks children before handing out new area.
+but then invalidate can't change own area.
+mouseover: 
+	global (ignore all)
+	visible parts of element
+	frame (visible but not children)
+	edges (NSWE)
+	custom sub-area (title bar)
+	as flags:
+	visible, nochildren, edge_x, corner_x, midpoint_x, center
+layout stuff:
+	top-down:
+		grid(min,max,weight) (desired = contents+extra*weight, final = clamp(desired,min,max))
+		+grid.span	
+		+tab/enter support
+

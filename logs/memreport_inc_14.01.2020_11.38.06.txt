@@ -1,0 +1,6 @@
+Incremental memory report for frames 2921 .. 2994 (73 frames)
+code/source/physics/octree.cpp:
+ @132: -16 x 108 b = -1728 b
+file: -1.688 kb
+user total: -1.688 kb
+sys  total: -1.688 kb

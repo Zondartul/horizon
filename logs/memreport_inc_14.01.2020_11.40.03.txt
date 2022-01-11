@@ -1,0 +1,9 @@
+Incremental memory report for frames 3348 .. 3610 (262 frames)
+code/source/render/paint.cpp:
+ @130: -1 x 28 b = -28 b
+file: -0.027 kb
+code/include/util/util.h:
+ @13: -1 x 24 b = -24 b
+file: -0.023 kb
+user total: -0.051 kb
+sys  total: -0.051 kb

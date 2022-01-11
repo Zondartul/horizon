@@ -1,0 +1,1673 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/vec.cpp"
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 31,
+                  "endLine": 12,
+                  "endColumn": 40
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?toString@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$tquat@M$0A@@glm@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::x' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::x"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::z' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::z"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::y' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::y"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::w' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::w"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::r' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::r"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::g' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::g"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::b' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::b"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::a' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::a"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::s' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::s"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::t' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::t"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::p' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::p"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::q' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::<unnamed-tag>::q"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tvec4<float,5>::<unnamed-tag>::data' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tvec4<float,5>::<unnamed-tag>::data"
+          }
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "The enum type 'glm::ctor' is unscoped. Prefer 'enum class' over 'enum' (Enum.3)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 53,
+                  "endLine": 182,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tvec4@M$04@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::z' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/gtc/quaternion.inl"
+                },
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 53,
+                  "endLine": 111,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tquat@M$0A@@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::z"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::x' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/gtc/quaternion.inl"
+                },
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 53,
+                  "endLine": 111,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tquat@M$0A@@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::x"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::y' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/gtc/quaternion.inl"
+                },
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 53,
+                  "endLine": 111,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tquat@M$0A@@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::y"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::w' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/gtc/quaternion.inl"
+                },
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 53,
+                  "endLine": 111,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tquat@M$0A@@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tquat<float,0>::<unnamed-tag>::<unnamed-tag>::w"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "Variable 'glm::tquat<float,0>::<unnamed-tag>::data' is uninitialized. Always initialize a member variable (type.6)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/gtc/quaternion.inl"
+                },
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 53,
+                  "endLine": 111,
+                  "endColumn": 53
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0?$tquat@M$0A@@glm@@QAE@W4ctor@1@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "glm::tquat<float,0>::<unnamed-tag>::data"
+          }
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30130.2",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x0112D1C0 -il C:\\Users\\Nikita\\AppData\\Local\\Temp\\_CL_1f9a6aa0ast -typedil -f vec.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -Gs -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930130 -D_MSC_BUILD=2 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -nologo -W 3 -diagnostics:column -D_GUARDOVERFLOW_CRT_ALLOCATORS=1 -Ot -DCODE_ANALYSIS -DWIN32 -D_DEBUG -DHORIZONRENDER_EXPORTS -D_WINDOWS -D_USRDLL -DNO_SDL -D_CRT_SECURE_NO_WARNINGS -D_WINDLL -D_UNICODE -DUNICODE -EHs -D_CPPUNWIND -EHc -D__MSVC_RUNTIME_CHECKS -RTCs -RTCu -MDd -D_DEBUG -D_MT -D_DLL -GS -D_M_FP_PRECISE -permissive- -Zc:wchar_t -Zc:forScope -FoDebug\\vec.obj -FdDebug\\vc142.pdb -external:W 3 -Gd -analyze:projectdirectory D:\\Stride\\shared\\horizon\\VS\\horizonRender -analyze:rulesetdirectory ;E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -external:I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\include -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\include -external:I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\atlmfc\\include -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\atlmfc\\include -external:I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Auxiliary\\VS\\include -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Auxiliary\\VS\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\ucrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\um -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\shared -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\winrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\cppwinrt -external:I D:\\Stride\\shared\\horizon\\VS\\horizonRender\\Include\\um -I D:\\Stride\\shared\\horizon\\VS\\horizonRender\\Include\\um -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\include -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.29.30130\\atlmfc\\include -I E:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Preview\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.18362.0\\cppwinrt -I D:\\Stride\\shared\\horizon\\VS\\horizonRender\\Include\\um",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/glm/detail/type_vec4.inl"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "2baca617c6e68ba612e8375aaf968f5b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/window.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "8548626a05ab3350e7b4c49ec529f9eb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/globals.h"
+          },
+          "hashes": {
+            "md5": "4efe0fdf99e31ee97284af40aa6001d8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/debug.h"
+          },
+          "hashes": {
+            "md5": "73eabb504b03bde9d6274c73a971854a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/config.h"
+          },
+          "hashes": {
+            "md5": "c7b68eb867ba1b2b5ee8831deb2e9ff2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/window.h"
+          },
+          "hashes": {
+            "md5": "1f12556eefaac2e70c49ff205dd1e4e5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/vec.h"
+          },
+          "hashes": {
+            "md5": "2f6177cee711776dc9e9c01f024b11f0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/glm.hpp"
+          },
+          "hashes": {
+            "md5": "5563c8ecdaca278d63f77a69e1f1b7cb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/_fixes.hpp"
+          },
+          "hashes": {
+            "md5": "d504340a525d7e91235fa4100e82257a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/fwd.hpp"
+          },
+          "hashes": {
+            "md5": "c51aacfb5bc876fd80e948e4d9d1b781"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_int.hpp"
+          },
+          "hashes": {
+            "md5": "f91ebc9932064cbcdd4eb794bd3f4f6c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/setup.hpp"
+          },
+          "hashes": {
+            "md5": "c2a5d6f0735852110bac2e1ab59177fb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/platform.h"
+          },
+          "hashes": {
+            "md5": "c81d99f650a6b069e87b83b64f8ec03a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_float.hpp"
+          },
+          "hashes": {
+            "md5": "594f084e676003148c133baecae31faa"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec.hpp"
+          },
+          "hashes": {
+            "md5": "7338745c1057d4a5e0bdc9e0c7ca15d1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/precision.hpp"
+          },
+          "hashes": {
+            "md5": "ec1dab5a2b79b8bbae88d63519f342fd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat.hpp"
+          },
+          "hashes": {
+            "md5": "790fd12be0f3ff2d3eb04997d7bd76aa"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/vec2.hpp"
+          },
+          "hashes": {
+            "md5": "1a2c900d01717b9818a67e5f6c1f24ab"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec2.hpp"
+          },
+          "hashes": {
+            "md5": "46a7c7b4c699230cb8c5a1aeb7d63c16"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec2.inl"
+          },
+          "hashes": {
+            "md5": "545fb0ab75fba8070942d9b7bd2b0988"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/vec3.hpp"
+          },
+          "hashes": {
+            "md5": "abf3183d876d65ef8e65de2357355867"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec3.hpp"
+          },
+          "hashes": {
+            "md5": "c3ebad68f55c46a01fde1b7a9e596bdc"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec3.inl"
+          },
+          "hashes": {
+            "md5": "31120b5c45b53c8a549b9ce482298849"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/vec4.hpp"
+          },
+          "hashes": {
+            "md5": "561d6a40bf4b93c910240fd96cb9c7f0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec4.hpp"
+          },
+          "hashes": {
+            "md5": "c8d23d6ca2368a75e3108c9464bb6ca5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec4_simd.inl"
+          },
+          "hashes": {
+            "md5": "2e55146459fdbf00ee7173e0d14dee58"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat2x2.hpp"
+          },
+          "hashes": {
+            "md5": "301df52059cb767822b41d92c6aabd5a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x2.hpp"
+          },
+          "hashes": {
+            "md5": "15fd121c18fd66b3a6b0061c32ad7d90"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x2.inl"
+          },
+          "hashes": {
+            "md5": "548f7c78bf5656ae50b328535579e776"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_matrix.hpp"
+          },
+          "hashes": {
+            "md5": "dbf74fcb209fafc30bfcf103c3da1895"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat2x3.hpp"
+          },
+          "hashes": {
+            "md5": "2de133bac31f4c2dfc9c7804ec6485ee"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x3.hpp"
+          },
+          "hashes": {
+            "md5": "cf8e133354eb15b51372e3fa9f0976e5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x3.inl"
+          },
+          "hashes": {
+            "md5": "5315b9ba1e1ac7e8e1032d1891d44f28"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat2x4.hpp"
+          },
+          "hashes": {
+            "md5": "38d2fc0ca9f2b1a6e18d1711d6255e7e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x4.hpp"
+          },
+          "hashes": {
+            "md5": "b3044faf58f15f9eea473f2211109a13"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat2x4.inl"
+          },
+          "hashes": {
+            "md5": "244091cc268beafad013c4543059418d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat3x2.hpp"
+          },
+          "hashes": {
+            "md5": "5b0a71a26943d18d554264ea0ad9cc98"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x2.hpp"
+          },
+          "hashes": {
+            "md5": "4ec8b80c37ee5bfb6d4b98cd7c4225ec"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x2.inl"
+          },
+          "hashes": {
+            "md5": "c744840db18f85b3babf2f7469454db2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat3x3.hpp"
+          },
+          "hashes": {
+            "md5": "87bb9621021118d68947bf5e1ea73aca"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x3.hpp"
+          },
+          "hashes": {
+            "md5": "4e994a575ca3c7f89c5e4d950bb29072"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x3.inl"
+          },
+          "hashes": {
+            "md5": "5c34c7e99354a3484ce8f07505b78732"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat3x4.hpp"
+          },
+          "hashes": {
+            "md5": "f698cd8c58b4d5d43245e3c455ad1e47"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x4.hpp"
+          },
+          "hashes": {
+            "md5": "7eceb1712b17225eae8b2358e2e83686"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat3x4.inl"
+          },
+          "hashes": {
+            "md5": "6d010fb003e686faac68b3755053966a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat4x2.hpp"
+          },
+          "hashes": {
+            "md5": "3cc3f8cc98276eb02f8e82756ba91ffe"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x2.hpp"
+          },
+          "hashes": {
+            "md5": "384ddd881ea1cc018dbda2362a219da1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x2.inl"
+          },
+          "hashes": {
+            "md5": "2f93b1ab1ea8c7d86bd052ae0af6eaa6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat4x3.hpp"
+          },
+          "hashes": {
+            "md5": "9ac637b0cd9d9387ec4e5313f38eecf8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x3.hpp"
+          },
+          "hashes": {
+            "md5": "de1b8692496d1e8d21af9a8cbfd5b887"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x3.inl"
+          },
+          "hashes": {
+            "md5": "ed156ff60bd6f2c8e0b6a8faf6f2ebd9"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/mat4x4.hpp"
+          },
+          "hashes": {
+            "md5": "99325e5f205788fb56de9de18bd19b06"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x4.hpp"
+          },
+          "hashes": {
+            "md5": "1b9241457e85bbf3d3dbae64df58e324"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x4.inl"
+          },
+          "hashes": {
+            "md5": "61767a8b1fa68c9d22f5ac8c2b2594b5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_mat4x4_simd.inl"
+          },
+          "hashes": {
+            "md5": "b7a2a6bea99fd5d03f8c350d17a41b4a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_matrix.inl"
+          },
+          "hashes": {
+            "md5": "dd3b1bb4716223e1a2c9498ceca7605f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/geometric.hpp"
+          },
+          "hashes": {
+            "md5": "f0ffab4206506737a047c56ed7999f9d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_geometric.hpp"
+          },
+          "hashes": {
+            "md5": "76887fea1cc2392eb9e5309805148706"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_geometric.inl"
+          },
+          "hashes": {
+            "md5": "99380e6865ef7f9ebcec1f3d40c665d9"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_exponential.hpp"
+          },
+          "hashes": {
+            "md5": "c170f1cc4993cd58630fc764dcb08e06"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec1.hpp"
+          },
+          "hashes": {
+            "md5": "1f329c3286ed11ee8e30a6da9f03cf0f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_vec1.inl"
+          },
+          "hashes": {
+            "md5": "8887a0801b468e8a25d179dd6d0f5c95"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_exponential.inl"
+          },
+          "hashes": {
+            "md5": "55319233efddd3f41a28f607253ebdc8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_vector_relational.hpp"
+          },
+          "hashes": {
+            "md5": "44350ea5899853cc3d41408d9dbde5f0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_vector_relational.inl"
+          },
+          "hashes": {
+            "md5": "eaff0d20302595011525adb98e9051f8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_vector_relational_simd.inl"
+          },
+          "hashes": {
+            "md5": "6673b851188eb8fe1929529fd5dbddb2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/_vectorize.hpp"
+          },
+          "hashes": {
+            "md5": "bf06f0cfb8519aa9a62bebe5a0117d21"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_exponential_simd.inl"
+          },
+          "hashes": {
+            "md5": "fc8fceb8c1007b0be51e57ebd2e1d501"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/exponential.h"
+          },
+          "hashes": {
+            "md5": "49807783547de4a1d364a90fbfc33b3c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_common.hpp"
+          },
+          "hashes": {
+            "md5": "4e8c2cedc2d106b5315d313a95172bf2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_common.inl"
+          },
+          "hashes": {
+            "md5": "cdbc01c568009087667aa17b17cbf4a0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_common_simd.inl"
+          },
+          "hashes": {
+            "md5": "bfdcd0abe0acd1ed0ae2aeb0f50380d8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/common.h"
+          },
+          "hashes": {
+            "md5": "4540b449533e81db167df849974cc2d7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_geometric_simd.inl"
+          },
+          "hashes": {
+            "md5": "321ba447ac55b39bc9f9ffe22d4c1e2e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/geometric.h"
+          },
+          "hashes": {
+            "md5": "f26ae3d5bdf44ac2819dcb130d3db0be"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_matrix_simd.inl"
+          },
+          "hashes": {
+            "md5": "c569d31dadd429316c71d1f52a8bd9d8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/matrix.h"
+          },
+          "hashes": {
+            "md5": "b3f39e8fafbc3d11a65b6c1bdbdeb695"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/trigonometric.hpp"
+          },
+          "hashes": {
+            "md5": "c44f073ef9ccfe3e348741e7ddb1aeb9"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_trigonometric.hpp"
+          },
+          "hashes": {
+            "md5": "9c5ad635c6ba5f0aee4b295a6f171743"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_trigonometric.inl"
+          },
+          "hashes": {
+            "md5": "f335562777737f22d11f56c5f8270ba5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_trigonometric_simd.inl"
+          },
+          "hashes": {
+            "md5": "d41d8cd98f00b204e9800998ecf8427e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/exponential.hpp"
+          },
+          "hashes": {
+            "md5": "ac7894208a167c8446f20daf7b087e62"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/common.hpp"
+          },
+          "hashes": {
+            "md5": "0fa2d97faa2c2b65e73d2eda783cf51c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/packing.hpp"
+          },
+          "hashes": {
+            "md5": "b6a8f868fab37bcc9022a7eb46296a0b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_packing.hpp"
+          },
+          "hashes": {
+            "md5": "2cac9e00dd88e69744426e5bfd240a97"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_packing.inl"
+          },
+          "hashes": {
+            "md5": "6f28ea18a10997ff245a59cb8b40d446"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_half.hpp"
+          },
+          "hashes": {
+            "md5": "7a074d916b2b95cf3828033e2fbd0bc5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/type_half.inl"
+          },
+          "hashes": {
+            "md5": "3a7867476785f0d6cd17c8ebbc962879"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_packing_simd.inl"
+          },
+          "hashes": {
+            "md5": "273da83f5bb4b842bde74f055c3aaa12"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/matrix.hpp"
+          },
+          "hashes": {
+            "md5": "2ca6b59693992374c5ce9d7ebdc496e2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/vector_relational.hpp"
+          },
+          "hashes": {
+            "md5": "fe4efbdffb7d2986ca4d6821f5fae9a5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/integer.hpp"
+          },
+          "hashes": {
+            "md5": "12c682cbcb3d52e3499a0c7b0190ba63"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_integer.hpp"
+          },
+          "hashes": {
+            "md5": "09fe93b30684046409c19a8b33bfe703"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_integer.inl"
+          },
+          "hashes": {
+            "md5": "6318bb31e94022168cd60b905dea597a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/detail/func_integer_simd.inl"
+          },
+          "hashes": {
+            "md5": "9cc313a59a5407c4ba73de4b5a655258"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/simd/integer.h"
+          },
+          "hashes": {
+            "md5": "e73d06302449d5eae7b8d8a751c5a00f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/matrix_transform.hpp"
+          },
+          "hashes": {
+            "md5": "79c24254a218edd3c18871dcc9b29e27"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/constants.hpp"
+          },
+          "hashes": {
+            "md5": "9565157893f1cb1b39fdbfa839917ccc"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/constants.inl"
+          },
+          "hashes": {
+            "md5": "2b20e7796160577349d64ee4466054c3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/matrix_transform.inl"
+          },
+          "hashes": {
+            "md5": "f8562a4e0ff361eb5765d912d88ce580"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/rotate_vector.hpp"
+          },
+          "hashes": {
+            "md5": "facfd53855a94f4b31dbd2344c229988"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/transform.hpp"
+          },
+          "hashes": {
+            "md5": "ce94fac1333c1f06312bfd921d6f52aa"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/transform.inl"
+          },
+          "hashes": {
+            "md5": "e6715904bf181409778fd2e36070dbae"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/rotate_vector.inl"
+          },
+          "hashes": {
+            "md5": "18a392eae0d35d021f8bf3948b1af4aa"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/vector_angle.hpp"
+          },
+          "hashes": {
+            "md5": "05407c3252847afa2bac2924a6c7359f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/epsilon.hpp"
+          },
+          "hashes": {
+            "md5": "338eddb29f7d22486131e791f34408df"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/epsilon.inl"
+          },
+          "hashes": {
+            "md5": "bb9bf48d79f19cc344bc482ebf135cc5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/quaternion.hpp"
+          },
+          "hashes": {
+            "md5": "1ba081101c4be167a956703fdb23f086"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/quaternion.inl"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "2f2bbae9ba2b04d18160990b72822f65"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtc/quaternion_simd.inl"
+          },
+          "hashes": {
+            "md5": "5191eb8551c5defba502da1a2b88770d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/quaternion.hpp"
+          },
+          "hashes": {
+            "md5": "63ecb351c085c8a10cc9099afc7ea945"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/norm.hpp"
+          },
+          "hashes": {
+            "md5": "08787f2e5001d71464df108b395d7fb0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/norm.inl"
+          },
+          "hashes": {
+            "md5": "dcda33da89afa5b069658d13368b9efa"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/quaternion.inl"
+          },
+          "hashes": {
+            "md5": "4e5de21a2c0b5ae51f57efa0f25c2e28"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/glm/gtx/vector_angle.inl"
+          },
+          "hashes": {
+            "md5": "f7149aa2d28cef09a271b6581f3a83a3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/gl/glew.h"
+          },
+          "hashes": {
+            "md5": "c5c47147ae0594e0a89ddcc61a4e23a3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/renderlow.h"
+          },
+          "hashes": {
+            "md5": "df05bfe231a1490e7d84cdfc8bccf76f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/render.h"
+          },
+          "hashes": {
+            "md5": "8ea0cd41412e913d6129424428f77fc1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/fonts.h"
+          },
+          "hashes": {
+            "md5": "184d4bd7e92b60e4de22aff1e4f8664f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/renderlayer.h"
+          },
+          "hashes": {
+            "md5": "245823fbe5a9064d384689b2e0201f97"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/camera.h"
+          },
+          "hashes": {
+            "md5": "5b66ca5fcf95a478791d7b14e1979f20"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/stringutils.h"
+          },
+          "hashes": {
+            "md5": "f857b196e6e407b6c890eaae99156481"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/rendercommand.h"
+          },
+          "hashes": {
+            "md5": "77c888855414b6bb0f2773b57797f0f3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/util.h"
+          },
+          "hashes": {
+            "md5": "338184d39f319a3cfe2447532831f23c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/modelloader.h"
+          },
+          "hashes": {
+            "md5": "7fd731f44356baa40d3c69e6821c84d6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/textureloader.h"
+          },
+          "hashes": {
+            "md5": "2cc08382b8762755d55551f9bcf4760b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/texture.h"
+          },
+          "hashes": {
+            "md5": "5b443cd72cb175f0bd2aebcece3cc573"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/rmodel.h"
+          },
+          "hashes": {
+            "md5": "274a0c2f834fa5c52d961daa59c742bf"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///D:/Stride/shared/horizon/VS/horizonRender/vec.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "fd6aba4e49367a14d88069fc507ce1a0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/stride/shared/horizon/vs/horizonrender/simplemath.h"
+          },
+          "hashes": {
+            "md5": "35cba5d75f0f27e469efce63d751d72e"
+          }
+        }
+      ]
+    }
+  ]
+}

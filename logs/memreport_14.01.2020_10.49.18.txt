@@ -1,0 +1,182 @@
+Memory report for frame 433
+code/source/entity/ecs.cpp:
+ @30: 1 x 56 b = 56 b
+ @31: 1 x 56 b = 56 b
+ @35: 1 x 56 b = 56 b
+ @36: 1 x 56 b = 56 b
+file: 0.219 kb
+code/source/gadgets/console.cpp:
+ @27: 1 x 56 b = 56 b
+ @139: 1 x 72 b = 72 b
+file: 0.125 kb
+code/source/gadgets/frameprinter.cpp:
+ @16: 1 x 56 b = 56 b
+file: 0.055 kb
+code/source/generators/editmodel.cpp:
+ @448: 80 x 16 b = 1280 b
+file: 1.250 kb
+code/source/generators/modelprimitives.cpp:
+ @15: 18 x 52 b = 936 b
+ @17: 18 x 376 b = 6768 b
+ @18: 18 x 376 b = 6768 b
+ @19: 18 x 376 b = 6768 b
+ @20: 18 x 376 b = 6768 b
+ @21: 18 x 376 b = 6768 b
+ @22: 18 x 376 b = 6768 b
+ @23: 18 x 376 b = 6768 b
+ @24: 18 x 376 b = 6768 b
+ @26: 18 x 364 b = 6552 b
+ @27: 18 x 364 b = 6552 b
+ @28: 18 x 364 b = 6552 b
+ @29: 18 x 364 b = 6552 b
+ @31: 18 x 364 b = 6552 b
+ @32: 18 x 364 b = 6552 b
+ @33: 18 x 364 b = 6552 b
+ @34: 18 x 364 b = 6552 b
+ @36: 18 x 364 b = 6552 b
+ @37: 18 x 364 b = 6552 b
+ @38: 18 x 364 b = 6552 b
+ @39: 18 x 364 b = 6552 b
+ @41: 18 x 436 b = 7848 b
+ @42: 18 x 436 b = 7848 b
+ @43: 0 x 0 b = 0 b
+ @45: 18 x 436 b = 7848 b
+ @46: 18 x 436 b = 7848 b
+ @47: 0 x 0 b = 0 b
+ @49: 18 x 436 b = 7848 b
+ @50: 18 x 436 b = 7848 b
+ @51: 0 x 0 b = 0 b
+ @53: 18 x 436 b = 7848 b
+ @54: 18 x 436 b = 7848 b
+ @55: 0 x 0 b = 0 b
+ @57: 18 x 436 b = 7848 b
+ @58: 18 x 436 b = 7848 b
+ @59: 0 x 0 b = 0 b
+ @65: 18 x 436 b = 7848 b
+ @66: 18 x 436 b = 7848 b
+ @67: 0 x 0 b = 0 b
+ @302: 0 x 0 b = 0 b
+ @315: 1 x 376 b = 376 b
+ @316: 1 x 376 b = 376 b
+ @317: 1 x 376 b = 376 b
+ @318: 1 x 376 b = 376 b
+ @320: 1 x 436 b = 436 b
+ @321: 1 x 436 b = 436 b
+file: 224.859 kb
+code/source/generators/physbox.cpp:
+ @21: 7 x 60 b = 420 b
+ @24: 7 x 52 b = 364 b
+ @35: 7 x 44 b = 308 b
+ @63: 1 x 60 b = 60 b
+ @65: 1 x 160 b = 160 b
+ @70: 1 x 68 b = 68 b
+ @97: 2 x 60 b = 120 b
+ @100: 2 x 52 b = 104 b
+ @109: 2 x 44 b = 88 b
+file: 1.652 kb
+code/source/input/input.cpp:
+ @8: 1 x 12 b = 12 b
+ @9: 1 x 76 b = 76 b
+file: 0.086 kb
+code/source/loaders/fontLoader.cpp:
+ @151: 2 x 44 b = 88 b
+ @158: 2 x 72 b = 144 b
+ @166: 190 x 52 b = 9880 b
+file: 9.875 kb
+code/source/loaders/imageLoader.cpp:
+ @19: 4 x 44 b = 176 b
+file: 0.172 kb
+code/source/loaders/modelLoader.cpp:
+ @71: 1 x 44 b = 44 b
+file: 0.043 kb
+code/source/loaders/textureLoader.cpp:
+ @19: 4 x 52 b = 208 b
+file: 0.203 kb
+code/source/main/main.cpp:
+ @106: 1 x 108 b = 108 b
+ @119: 1 x 20 b = 20 b
+ @129: 1 x 16 b = 16 b
+ @152: 1 x 8 b = 8 b
+ @153: 1 x 8 b = 8 b
+ @154: 1 x 188 b = 188 b
+ @265: 1 x 56 b = 56 b
+ @267: 1 x 84 b = 84 b
+file: 0.477 kb
+code/source/physics/collision.cpp:
+ @35: 10 x 20 b = 200 b
+file: 0.195 kb
+code/source/physics/collision/broadphase.cpp:
+ @70: 0 x 0 b = 0 b
+file: 0.000 kb
+code/source/physics/collision/narrowphase.cpp:
+ @261: 432 x 60 b = 25920 b
+file: 25.312 kb
+code/source/physics/octree.cpp:
+ @132: 48 x 108 b = 5184 b
+file: 5.062 kb
+code/source/render/paint.cpp:
+ @50: 10 x 56 b = 560 b
+ @116: 6 x 28 b = 168 b
+ @117: 1 x 28 b = 28 b
+ @118: 1 x 28 b = 28 b
+ @119: 6 x 28 b = 168 b
+ @120: 5 x 28 b = 140 b
+ @121: 7 x 28 b = 196 b
+ @122: 1 x 28 b = 28 b
+ @123: 6 x 28 b = 168 b
+ @125: 14 x 28 b = 392 b
+ @126: 5 x 28 b = 140 b
+ @127: 10 x 28 b = 280 b
+ @128: 1 x 28 b = 28 b
+ @129: 1 x 28 b = 28 b
+ @130: 15 x 28 b = 420 b
+ @131: 3 x 28 b = 84 b
+ @132: 2 x 28 b = 56 b
+ @133: 1 x 28 b = 28 b
+ @135: 0 x 0 b = 0 b
+ @136: 0 x 0 b = 0 b
+ @137: 0 x 0 b = 0 b
+ @142: 16 x 28 b = 448 b
+ @143: 12 x 28 b = 336 b
+ @144: 16 x 28 b = 448 b
+ @146: 4 x 28 b = 112 b
+ @147: 4 x 28 b = 112 b
+ @149: 0 x 0 b = 0 b
+ @150: 10 x 28 b = 280 b
+ @153: 5 x 28 b = 140 b
+ @154: 5 x 28 b = 140 b
+ @155: 2 x 28 b = 56 b
+ @156: 2 x 28 b = 56 b
+ @157: 2 x 28 b = 56 b
+ @194: 0 x 0 b = 0 b
+ @203: 0 x 0 b = 0 b
+ @263: 0 x 0 b = 0 b
+ @274: 0 x 0 b = 0 b
+file: 5.004 kb
+code/include/util/util.h:
+ @13: 13 x 24 b = 312 b
+file: 0.305 kb
+code/source/render/render.cpp:
+ @331: 1 x 204 b = 204 b
+file: 0.199 kb
+code/source/render/renderCommand.cpp:
+ @113: 22 x 28 b = 616 b
+file: 0.602 kb
+code/source/render/renderLow.cpp:
+ @29: 1 x 276 b = 276 b
+file: 0.270 kb
+code/source/resource/model.cpp:
+ @38: 1 x 52 b = 52 b
+ @40: 252 x 376 b = 94752 b
+ @41: 252 x 376 b = 94752 b
+ @42: 252 x 376 b = 94752 b
+ @49: 252 x 436 b = 109872 b
+file: 384.941 kb
+code/source/util/elastic_ptr.cpp:
+ @4: 10 x 8 b = 80 b
+file: 0.078 kb
+code/source/util/event.cpp:
+ @87: 1 x 12 b = 12 b
+file: 0.012 kb
+user total: 660.996 kb
+sys  total: 660.996 kb

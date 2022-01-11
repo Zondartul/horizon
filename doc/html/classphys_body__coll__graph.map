@@ -1,7 +1,0 @@
-<map id="physBody" name="physBody">
-<area shape="rect" id="node3" href="$classptr_sniper.html" title="ptrSniper\&lt; physBody \&gt;" alt="" coords="689,191,845,217"/>
-<area shape="rect" id="node2" href="$structvec3i.html" title="vec3i" alt="" coords="265,31,315,57"/>
-<area shape="rect" id="node5" href="$structmodel.html" title="model" alt="" coords="261,81,319,108"/>
-<area shape="rect" id="node10" href="$structquat.html" title="quat" alt="" coords="267,297,313,324"/>
-<area shape="rect" id="node11" href="$structvec.html" title="vec" alt="" coords="55,260,96,287"/>
-</map>

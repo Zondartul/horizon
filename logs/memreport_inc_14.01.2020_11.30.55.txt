@@ -1,0 +1,7 @@
+Incremental memory report for frames 182 .. 219
+code/source/physics/collision/narrowphase.cpp:
+ @115: 37 x 60 b = 2220 b
+ @1289: 37 x 60 b = 2220 b
+file: 4.336 kb
+user total: 4.336 kb
+sys  total: 4.336 kb

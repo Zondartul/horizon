@@ -1,0 +1,340 @@
+main sequence (RC2):
+layer "main.loadLayer"+persistent 
+layer "main.layer3D"+persistent 
+layer "ecs"+persistent 
+ 0: layer(0x02fdf248)
+    layer "ecs.reset"+persistent +special 
+layer "main.layer3D.reset"+persistent +special 
+layer "main.layerDebug"+persistent 
+layer "main.layerDebug.reset"+persistent +special 
+layer "main.layer2D"+persistent 
+layer "GUI.layerGUI"+persistent 
+layer "console.terminal"+persistent 
+ 0: layer(0x02fdf108)
+    layer "console.terminal.reset"+persistent +special 
+layer "main.layer2D.reset"+persistent +special 
+layer "main.layerDebug2D"+persistent 
+layer "main.layerDebug2D.reset"+persistent +special 
+layer "main.deleteLayer"+persistent 
+
+main sequence (RC3):
+layer "main.loadLayer"+persistent 
+ 0: texture_upload 0x02f4ef38
+ 1: texture_upload 0x02f4ef78
+ 2: texture_upload 0x02f4efb8
+ 3: texture_upload 0x02f4eff8
+ 4: texture_upload 0x02f4f038
+ 5: texture_upload 0x02f4f078
+ 6: texture_upload 0x02f4f0b8
+ 7: texture_upload 0x02f4f0f8
+ 8: texture_upload 0x02f4f138
+ 9: texture_upload 0x02f4f178
+ 10: texture_upload 0x02f4f1b8
+ 11: texture_upload 0x02f4f1f8
+ 12: texture_upload 0x02f4f238
+ 13: texture_upload 0x02f4f278
+ 14: texture_upload 0x02f4f2b8
+ 15: texture_upload 0x02f4f2f8
+ 16: texture_upload 0x02f4f338
+ 17: texture_upload 0x02f4f378
+ 18: texture_upload 0x02f4f3b8
+ 19: texture_upload 0x02f4f3f8
+ 20: texture_upload 0x02f4f438
+ 21: texture_upload 0x02f4f478
+ 22: texture_upload 0x02f4f4b8
+ 23: texture_upload 0x02f4f4f8
+ 24: texture_upload 0x02f4f538
+ 25: texture_upload 0x02f4f578
+ 26: texture_upload 0x02f4f5b8
+ 27: texture_upload 0x02f4f5f8
+ 28: texture_upload 0x02f4f638
+ 29: texture_upload 0x02f4f678
+ 30: texture_upload 0x02f4f6b8
+ 31: texture_upload 0x02f4f6f8
+ 32: texture_upload 0x02f4f738
+ 33: texture_upload 0x02f4f778
+ 34: texture_upload 0x02f4f7b8
+ 35: texture_upload 0x02f4f7f8
+ 36: texture_upload 0x02f4f838
+ 37: texture_upload 0x02f4f878
+ 38: texture_upload 0x02f4f8b8
+ 39: texture_upload 0x02f4f8f8
+ 40: texture_upload 0x02f4f938
+ 41: texture_upload 0x02f4f978
+ 42: texture_upload 0x02f4f9b8
+ 43: texture_upload 0x02f4f9f8
+ 44: texture_upload 0x02f4fa38
+ 45: texture_upload 0x02f4fa78
+ 46: texture_upload 0x02f4fab8
+ 47: texture_upload 0x02f4faf8
+ 48: texture_upload 0x02f4fb38
+ 49: texture_upload 0x02f4fb78
+ 50: texture_upload 0x02f4fbb8
+ 51: texture_upload 0x02f4fbf8
+ 52: texture_upload 0x02f4fc38
+ 53: texture_upload 0x02f4fc78
+ 54: texture_upload 0x02f4fcb8
+ 55: texture_upload 0x02f4fcf8
+ 56: texture_upload 0x02f4fd38
+ 57: texture_upload 0x02f4fd78
+ 58: texture_upload 0x02f4fdb8
+ 59: texture_upload 0x02f4fdf8
+ 60: texture_upload 0x02f4fe38
+ 61: texture_upload 0x02f4fe78
+ 62: texture_upload 0x02f4feb8
+ 63: texture_upload 0x02f81d48
+ 64: texture_upload 0x02f81d88
+ 65: texture_upload 0x02f81dc8
+ 66: texture_upload 0x02f81e08
+ 67: texture_upload 0x02f81e48
+ 68: texture_upload 0x02f81e88
+ 69: texture_upload 0x02f81ec8
+ 70: texture_upload 0x02f81f08
+ 71: texture_upload 0x02f81f48
+ 72: texture_upload 0x02f81f88
+ 73: texture_upload 0x02f81fc8
+ 74: texture_upload 0x02f82008
+ 75: texture_upload 0x02f82048
+ 76: texture_upload 0x02f82088
+ 77: texture_upload 0x02f820c8
+ 78: texture_upload 0x02f82108
+ 79: texture_upload 0x02f82148
+ 80: texture_upload 0x02f82188
+ 81: texture_upload 0x02f821c8
+ 82: texture_upload 0x02f82208
+ 83: texture_upload 0x02f82248
+ 84: texture_upload 0x02f82288
+ 85: texture_upload 0x02f822c8
+ 86: texture_upload 0x02f82308
+ 87: texture_upload 0x02f82348
+ 88: texture_upload 0x02f82388
+ 89: texture_upload 0x02f823c8
+ 90: texture_upload 0x02f82408
+ 91: texture_upload 0x02f82448
+ 92: texture_upload 0x02f82488
+ 93: texture_upload 0x02f824c8
+ 94: texture_upload 0x02f82508
+ 95: texture_upload 0x02f82608
+ 96: texture_upload 0x02f82648
+ 97: texture_upload 0x02f82688
+ 98: texture_upload 0x02f826c8
+ 99: texture_upload 0x02f82708
+ 100: texture_upload 0x02f82748
+ 101: texture_upload 0x02f82788
+ 102: texture_upload 0x02f827c8
+ 103: texture_upload 0x02f82808
+ 104: texture_upload 0x02f82848
+ 105: texture_upload 0x02f82888
+ 106: texture_upload 0x02f828c8
+ 107: texture_upload 0x02f82908
+ 108: texture_upload 0x02f82948
+ 109: texture_upload 0x02f82988
+ 110: texture_upload 0x02f829c8
+ 111: texture_upload 0x02f82a08
+ 112: texture_upload 0x02f82a48
+ 113: texture_upload 0x02f82a88
+ 114: texture_upload 0x02f82ac8
+ 115: texture_upload 0x02f82b08
+ 116: texture_upload 0x02f82b48
+ 117: texture_upload 0x02f82b88
+ 118: texture_upload 0x02f82bc8
+ 119: texture_upload 0x02f82c08
+ 120: texture_upload 0x02f82c48
+ 121: texture_upload 0x02f82c88
+ 122: texture_upload 0x02f82cc8
+ 123: texture_upload 0x02fdab30
+ 124: texture_upload 0x02fdab70
+ 125: texture_upload 0x02fdabb0
+ 126: texture_upload 0x02fdabf0
+ 127: texture_upload 0x02fdac30
+ 128: texture_upload 0x02fdac70
+ 129: texture_upload 0x02fdacb0
+ 130: texture_upload 0x02fdacf0
+ 131: texture_upload 0x02fdad30
+ 132: texture_upload 0x02fdad70
+ 133: texture_upload 0x02fdadb0
+ 134: texture_upload 0x02fdadf0
+ 135: texture_upload 0x02fdae30
+ 136: texture_upload 0x02fdae70
+ 137: texture_upload 0x02fdaeb0
+ 138: texture_upload 0x02fdaef0
+ 139: texture_upload 0x02fdaf30
+ 140: texture_upload 0x02fdaf70
+ 141: texture_upload 0x02fdafb0
+ 142: texture_upload 0x02fdaff0
+ 143: texture_upload 0x02fdb030
+ 144: texture_upload 0x02fdb070
+ 145: texture_upload 0x02fdb0b0
+ 146: texture_upload 0x02fdb0f0
+ 147: texture_upload 0x02fdb130
+ 148: texture_upload 0x02fdb170
+ 149: texture_upload 0x02fdb1b0
+ 150: texture_upload 0x02fdb1f0
+ 151: texture_upload 0x02fdb230
+ 152: texture_upload 0x02fdb270
+ 153: texture_upload 0x02fdb2b0
+ 154: texture_upload 0x02fdb2f0
+ 155: texture_upload 0x02fdb330
+ 156: texture_upload 0x02fdb370
+ 157: texture_upload 0x02fdb3b0
+ 158: texture_upload 0x02fdb3f0
+ 159: texture_upload 0x02fdb430
+ 160: texture_upload 0x02fdb470
+ 161: texture_upload 0x02fdb4b0
+ 162: texture_upload 0x02fdb4f0
+ 163: texture_upload 0x02fdb530
+ 164: texture_upload 0x02fdb570
+ 165: texture_upload 0x02fdb5b0
+ 166: texture_upload 0x02fdb5f0
+ 167: texture_upload 0x02fdb630
+ 168: texture_upload 0x02fdb670
+ 169: texture_upload 0x02fdb6b0
+ 170: texture_upload 0x02fdb6f0
+ 171: texture_upload 0x02fdb730
+ 172: texture_upload 0x02fdb770
+ 173: texture_upload 0x02fdb7b0
+ 174: texture_upload 0x02fdb7f0
+ 175: texture_upload 0x02fdb830
+ 176: texture_upload 0x02fdb870
+ 177: texture_upload 0x02fdb8b0
+ 178: texture_upload 0x02fdb8f0
+ 179: texture_upload 0x02fdb930
+ 180: texture_upload 0x02fdb970
+ 181: texture_upload 0x02fdb9b0
+ 182: texture_upload 0x02fdb9f0
+ 183: texture_upload 0x02fdba30
+ 184: texture_upload 0x02fdba70
+ 185: texture_upload 0x02fdbab0
+ 186: texture_upload 0x02fdef48
+ 187: texture_upload 0x02fdef88
+ 188: texture_upload 0x02fdefc8
+ 189: texture_upload 0x02fdf008
+ 190: font_select 0x02f67f50
+ 191: texture_upload 0x02fdf048
+ 192: rmodel_upload 0x08ab2390
+ 193: rmodel_upload 0x08ab22a0
+ 194: rmodel_upload 0x08ab2210
+ 195: rmodel_upload 0x08ab2138
+ 196: texture_upload 0x02fdf048
+ 197: rmodel_upload 0x08ab2210
+layer "main.layer3D"+persistent 
+ 0: projection <deleted>
+ 1: clear_screen 
+ 2: rmodel_upload <deleted>
+ 3: mode_select 3
+ 4: rmodel_render <deleted>
+ 5: rmodel_delete <deleted>
+ 6: coloring 1
+ 7: text_pos (0.000,0.000)
+ 8: print_text <deleted>
+ 9: coloring 0
+ 10: texturing 1
+ 11: texture_select 0x02fdf048
+ 12: rmodel_render 0x08ab2210
+ 13: comment <deleted>
+layer "ecs"+persistent 
+ 0: layer 0x02fdf248
+    layer "ecs.reset"+persistent +special 
+     0: coloring 0
+     1: texturing 1
+     2: lighting 1
+     3: color (255.000,255.000,255.000)
+     4: alpha 255.000000
+     5: mode_select 3
+     6: uv_coloring 0
+     7: normal_coloring 0
+     8: scissoring 0
+     9: scissor (0.000,0.000 + 0.000,0.000)
+     10: transparency 1
+     11: depth_mask 1
+     12: depth_test 1
+     13: debug 0
+     14: position (0.000,0.000,0.000)
+     15: rotation (0.000,0.000,0.000)
+     16: scale (1.000,1.000,1.000)
+     17: text_pos (0.000,0.000)
+     18: point_size 1.000000
+     19: line_width 1.000000
+     20: sun_pos (0.500,0.750,1.000)
+     21: sun_light_color (0.900,0.900,0.900)
+     22: ambient_light_color (0.300,0.300,0.300)
+ 1: texturing 0
+layer "main.layer3D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: depth_test 1
+ 3: depth_mask 1
+ 4: lighting 1
+ 5: sun_pos (0.500,0.750,1.000)
+ 6: sun_light_color (0.900,0.900,0.900)
+ 7: ambient_light_color (0.300,0.300,0.300)
+ 8: coloring 1
+ 9: texturing 0
+ 10: scissoring 0
+ 11: transparency 0
+ 12: alpha 255.000000
+ 13: color (255.000,255.000,255.000)
+layer "main.layerDebug"+persistent 
+layer "main.layerDebug.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: depth_test 0
+ 3: depth_mask 1
+ 4: lighting 0
+ 5: coloring 1
+ 6: texturing 0
+ 7: scissoring 0
+ 8: transparency 0
+ 9: alpha 255.000000
+ 10: color (255.000,255.000,255.000)
+ 11: point_size 3.000000
+layer "main.layer2D"+persistent 
+ 0: projection <deleted>
+layer "GUI.layerGUI"+persistent 
+ 0: coloring 0
+ 1: texturing 0
+ 2: color (128.000,196.000,255.000)
+ 3: alpha 255.000000
+ 4: scissoring 0
+ 5: text_pos (0.000,0.000)
+ 6: font_select 0x02f67f50
+layer "console.terminal"+persistent 
+ 0: layer 0x02fdf108
+    layer "console.terminal.reset"+persistent +special 
+     0: position (0.000,0.000,0.000)
+     1: scale (1.000,1.000,1.000)
+     2: coloring 0
+     3: transparency 0
+     4: texturing 0
+     5: scissoring 0
+     6: scissor (0.000,0.000 + 512.000,512.000)
+     7: depth_test 0
+     8: depth_mask 1
+     9: lighting 0
+layer "main.layer2D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: coloring 0
+ 3: transparency 0
+ 4: texturing 0
+ 5: scissoring 0
+ 6: scissor (0.000,0.000 + 512.000,512.000)
+ 7: depth_test 0
+ 8: depth_mask 1
+ 9: lighting 0
+layer "main.layerDebug2D"+persistent 
+ 0: color (0.000,0.000,0.000)
+ 1: text_pos (256.000,255.000)
+ 2: print_text "test"
+layer "main.layerDebug2D.reset"+persistent +special 
+ 0: position (0.000,0.000,0.000)
+ 1: scale (1.000,1.000,1.000)
+ 2: coloring 0
+ 3: transparency 0
+ 4: texturing 0
+ 5: scissoring 0
+ 6: scissor (0.000,0.000 + 512.000,512.000)
+ 7: depth_test 0
+ 8: depth_mask 1
+ 9: lighting 0
+layer "main.deleteLayer"+persistent 
