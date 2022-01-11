@@ -6,7 +6,7 @@
 #include "../gui/valscreen.h"
 #include "../resource/fonts.h"
 
-
+//derp
 renderable::renderable(){
 	lifetime = -1;
 }

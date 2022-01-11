@@ -1,66 +1,70 @@
+# makefile for the entire horizon project
 
-#only use the rules I specify
+# options:
+# only use the rules I specify
 MAKEFLAGS += --no-builtin-rules
+PROGNAME = a.exe
 
-# compiler command
-CC = ..\..\..\bin\g++
+# variables:
+CC = g++
 # compiler flags
 CFLAGS = -std=c++0x -g -fmax-errors=1
 # additional libraries libraries
 CLIBS = -luser32 -lopengl32 -lglu32 -lgdi32 -lfreetype
+# command to compile an object file
+COMPILEOBJECT = $(CC) -c $(CFLAGS) $< -o $*.o
+# command to compile a dependency file
+COMPILEDEPENDENCY = $(CC) -MM $(CFLAGS) $< -o $*.d && depfmt $*.d
 
-all: $(ALL_OBJECTS)
+#recursive wildcard function to match things in lower directories
+rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+#this prints the value of a variable
+#$(info AOBJECTS is $(ALLOBJECTS))
 
-#how da fuck do I clean
+#first, search for all .cpp files.
+ALLSOURCES = $(call rwildcard,,*.cpp)
+#define the object files as just the source files with a different extension.
+ALLOBJECTS = $(ALLSOURCES:.cpp=.o)
+#define other object types the same way
+ALLOTHER = $(ALLSOURCES:.cpp=.d) $(ALLSOURCES:.cpp=.d.fixed)
+#now we can write the command to link all those object files into an exe.
+COMPILEEXE = $(CC) $(CFLAGS) $(ALLOBJECTS) -o $(PROGNAME) $(CLIBS)
+
+#the rule to compile everything
+$(PROGNAME): $(ALLOBJECTS)
+	@$(COMPILEEXE)
+
+#the rule to delete all temporary files
+ALLDELETE = $(subst /,\,$(ALLOBJECTS:%="%") $(ALLOTHER:%="%"))
 clean:
-	del /q $(ALL_OBJECTS)
+	@del /f /q $(ALLDELETE) > nul 2> nul
 
-ALL_OBJECTS = $(O_display) $(O_experimental) $(O_game) $(O_gui) $(O_input) \
-$(O_main) $(O_math) $(O_resource) $(O_util)
+#generic rule to start the process
+%.o: %.cpp
+	@$(COMPILEOBJECT) && $(COMPILEDEPENDENCY)
+	
+#include any dependency files, if they exist. They are actually in makefile format.
+#$(info include is $(call rwildcard,,*.d.fixed))
+-include $(call rwildcard,,*.d.fixed)
+	
+	
+#first, "make clean" is called to ensure that the intermediary files do not exist.
+#then, "make" is called and starts checking "all".
+#since sources exist, we have a list of required object files.
+#these object files do not exist. Therefore, they need to be rebuilt.
+#a single rule exists to go from .cpp to .o files, so it is executed.
+#this creates object files and dependency files.
+#next time make is called, it includes these dependency files and adds them to
+#the dependency check. Automation complete.
 
-#1: run every sub-make
-all: display experimental game gui input main math resource util $(ALL_OBJECTS)
-	$(CC) $(CFLAGS) $(ALL_OBJECTS) -o a.exe $(CLIBS)
-	
-#2: if object files change, re-link
 
-O_display = display/paint.o display/renderable.o
-display:
-	cd display && $(MAKE)
-	
-O_experimental = experimental/testfuncs.o
-experimental:
-	cd experimental && $(MAKE)
-	
-O_game = game/camera.o game/physics.o
-game:
-	cd game && $(MAKE)
-	
-O_gui = gui/console.o gui/Gui.o gui/Gui2.o gui/Gui3.o gui/newconsole.o gui/toolbox.o gui/valscreen.o
-gui:
-	cd gui && $(MAKE)
-	
-O_input = input/codetostring.o input/input.o input/keybinds.o 
-input:
-	cd input && $(MAKE)
-	
-O_main = main/control.o main/main.o
-main:
-	cd main && $(MAKE)
-	
-O_math = math/convexhull.o math/quaternions.o math/vectors.o
-math:
-	cd math && $(MAKE)
-	
-O_resource = resource/fonts.o resource/models.o resource/textureloader.o
-resource:
-	cd resource && $(MAKE)
-	
-O_util = util/debug.o util/globals.o util/hook.o util/messenger.o
-util:
-	cd util && $(MAKE)
-		
-	
 
-	
-.PHONY: all clean display experimental game gui input main math resource util
+
+
+
+
+
+
+
+
+
