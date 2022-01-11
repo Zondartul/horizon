@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
 
 #ifndef M_PI
 #define M_PI           3.14159265358979323846
@@ -233,6 +234,11 @@ template <typename T> int sgn(T val)
 double random(double min, double max)
 {
 	return min+((double)rand()/RAND_MAX)*(max-min);
+}
+
+int randint(int min, int max)
+{
+	return (int)(min+((double)rand()/RAND_MAX)*(max-min));
 }
 
 template <typename T> string toString(T *val)

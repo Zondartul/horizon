@@ -1,5 +1,40 @@
 //models.h
 
+
+struct triangle
+{
+	int v[3];
+	int& operator [](int N){return v[N];}
+	
+	triangle(){
+		v[0] = v[1] = v[2] = 0;
+	}
+	triangle(int A, int B, int C){
+		v[0] = A;
+		v[1] = B;
+		v[2] = C;
+	}
+	triangle(vec A, vec B, vec C, vector<vec> &points){
+		bool Afound = false;
+		bool Bfound = false;
+		bool Cfound = false;
+		for(int I = 0; I<points.size(); I++){
+			if(points[I] == A){Afound = true; v[0] = I;}
+			if(points[I] == B){Bfound = true; v[1] = I;}
+			if(points[I] == C){Cfound = true; v[2] = I;}
+		}
+		if(!Afound){points.push_back(A); v[0] = points.size()-1;}
+		if(!Bfound){points.push_back(B); v[1] = points.size()-1;}
+		if(!Cfound){points.push_back(C); v[2] = points.size()-1;}
+		printf("making a triangle with v[0] = %d, v[1] = %d, v[2] = %d\n", v[0], v[1], v[2]);
+	}
+};
+
+vec getNormal(triangle t, vector<vec> &points){
+	return (points[t[2]]-points[t[0]]).cross(points[t[1]]-points[t[0]]).norm();
+}
+// now that's all good and all but lets face it, that's just dumb.
+/*
 struct triangle
 {
 	vec v[3];
@@ -8,6 +43,7 @@ struct triangle
 		return (v[2]-v[0]).cross(v[1]-v[0]).norm();
 	}
 };
+*/
 
 enum renderflags
 {
@@ -41,6 +77,7 @@ struct texture
 };
 */
 
+/*
 struct model
 {
 	triangle *mesh;			int numtris;
@@ -97,3 +134,4 @@ struct model
 		return Adj;
 	}
 };
+*/

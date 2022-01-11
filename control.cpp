@@ -23,6 +23,7 @@ PSchannel GUI_PS;
 #include "vectors.h"
 #include "models.h"
 #include "quaternions.h"
+#include "hook.h"
 #include "newconsole.h"
 #include "valscreen.h"
 #include "keybinds.h"
@@ -35,7 +36,7 @@ PSchannel GUI_PS;
 
 GUIbase *GUI;
 GUIframe *myFrame;
-model *myModel;
+//model *myModel;
 vec SomeVec1; //cam pos.
 vec SomeVec2;
 vec2i deltaMouse;
@@ -286,108 +287,8 @@ void ToggleCamRot(void* arg){camRotOn = !camRotOn;}
 class BinderKind;
 
 vector<renderable*> scene;
-vec old = {0,0,0};
-void testfunc(void* arg){
-	/*
-	scene.push_back(new floatingtext(camera.pos, "Hello World!", 300));
-	line *l = new line(camera.pos, camera.pos+camera.angle.forward(), 300);
-	l->color1 = {255,0,0};
-	l->color2 = {0,255,0};
-	scene.push_back(l);
-	quat testQ = quat::fromAngleAxis(1,{0,0,1});//((quat){0,{0,0,1}});
-	l = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+testQ.rotateVector(camera.angle.forward()), 300);
-	l->color1 = {255,0,0};
-	l->color2 = {0,0,255};
-	scene.push_back(l);*/
-	frustum frust = camera.getFrustum();
-	scene.push_back(new floatingtext(frust.A, "A", 300));
-	scene.push_back(new floatingtext(frust.B, "B", 300));
-	scene.push_back(new floatingtext(frust.C, "C", 300));
-	scene.push_back(new floatingtext(frust.D, "D", 300));
-	scene.push_back(new floatingtext(frust.E, "E", 300));
-	scene.push_back(new floatingtext(frust.F, "F", 300));
-	scene.push_back(new floatingtext(frust.G, "G", 300));
-	scene.push_back(new floatingtext(frust.H, "H", 300));
-	/*
-	frustum frust = camera.getFrustum();
-	printf("point A: [%f, %f, %f], H: [%f, %f, %f]\n", frust.A.x, frust.A.y, frust.A.z, frust.H.x, frust.H.y, frust.H.z);
-	scene.push_back(new point(frust.A, 0.5*2500));
-	scene.push_back(new point(frust.B, 0.5*2500));
-	scene.push_back(new point(frust.C, 0.5*2500));
-	scene.push_back(new point(frust.D, 0.5*2500));
-	scene.push_back(new point(frust.E, 0.5*2500));
-	scene.push_back(new point(frust.F, 0.5*2500));
-	scene.push_back(new point(frust.G, 0.5*2500));
-	scene.push_back(new point(frust.H, 0.5*2500));
-	
-	scene.push_back(new line(frust.A, frust.B, 0.5*2300));
-	scene.push_back(new line(frust.B, frust.C, 0.5*2200));
-	scene.push_back(new line(frust.C, frust.D, 0.5*2100));
-	scene.push_back(new line(frust.D, frust.A, 0.5*2000));
-	scene.push_back(new line(frust.E, frust.F, 0.5*1900));
-	scene.push_back(new line(frust.F, frust.G, 0.5*1800));
-	scene.push_back(new line(frust.G, frust.H, 0.5*1700));
-	scene.push_back(new line(frust.H, frust.E, 0.5*1600));
-	scene.push_back(new line(frust.A, frust.E, 0.5*1500));
-	scene.push_back(new line(frust.B, frust.F, 0.5*1400));
-	scene.push_back(new line(frust.C, frust.G, 0.5*1300));
-	scene.push_back(new line(frust.D, frust.H, 0.5*1200));
-	scene.push_back(new line(frust.E, frust.G, 0.5*1100));
-	scene.push_back(new line(frust.F, frust.H, 0.5*1000));
-	*/
-	/*
-	scene.push_back(new rtriangle(frust.A, frust.C, frust.B, 1600));
-	scene.push_back(new rtriangle(frust.C, frust.A, frust.D, 1600));
-	scene.push_back(new rtriangle(frust.A, frust.E, frust.D, 1600));
-	scene.push_back(new rtriangle(frust.D, frust.E, frust.H, 1600));
-	scene.push_back(new rtriangle(frust.E, frust.F, frust.H, 1600));
-	scene.push_back(new rtriangle(frust.H, frust.F, frust.G, 1600));
-	scene.push_back(new rtriangle(frust.F, frust.B, frust.G, 1600));
-	scene.push_back(new rtriangle(frust.G, frust.B, frust.C, 1600));
-	scene.push_back(new rtriangle(frust.A, frust.B, frust.F, 1600));
-	scene.push_back(new rtriangle(frust.F, frust.E, frust.A, 1600));
-	scene.push_back(new rtriangle(frust.H, frust.G, frust.D, 1600));
-	scene.push_back(new rtriangle(frust.D, frust.G, frust.C, 1600));
-	*/
-	/*
-	for(int I = 0; I<12;I++){
-		cout << I<<",1: "<< frust.getTri(0,0).toString() << "\n";
-		scene.push_back(new rtriangle(frust.getTri(I,0),frust.getTri(I,1),frust.getTri(I,2)));
-	}
-	*/
-	//printf("point E distance: %f\n", (frust.H-camera.pos).length());
-	
-}
 
-void testfunc2(void* arg){
-	line *myline = new line(camera.pos, camera.pos+camera.angle.localX());
-	myline->color2 = {255,0,0};
-	myline->lifetime = 600;
-	scene.push_back(myline);
-	scene.push_back(new floatingtext(camera.pos+camera.angle.localX(),"x",600));
-	myline = new line(camera.pos, camera.pos+camera.angle.forward());
-	myline->color2 = {0,255,0};
-	myline->lifetime = 600;
-	scene.push_back(myline);
-	scene.push_back(new floatingtext(camera.pos+camera.angle.localY(),"y",600));
-	myline = new line(camera.pos, camera.pos+camera.angle.up());
-	myline->color2 = {0,0,255};
-	myline->lifetime = 600;
-	scene.push_back(myline);
-	scene.push_back(new floatingtext(camera.pos+camera.angle.localZ(),"z",600));
-	myline = new line(camera.pos, camera.pos+quat::fromAngleAxis(30,camera.angle.localZ()).rotateVector(camera.angle.localY()));
-	myline->color2 = {255,255,255};
-	myline->lifetime = 600;
-	scene.push_back(myline);
-	myline = new line(camera.pos+vec(0.1,0.1,0.1), camera.pos+vec(0.1,0.1,0.1)+camera.angle.localX().cross(camera.angle.localY()));
-	myline->color2 = {0,255,255};
-	myline->lifetime = 600;
-	scene.push_back(myline);
-	vec intersex;
-	if(ray_triangle_intersection(camera.pos, camera.angle.forward(), vec(0,1,0),vec(0.87, -0.5,0), vec(-0.87, -0.5,0), intersex))
-		scene.push_back(new point(intersex, 300));
-	//scene.push_back(myline);
-}
+#include "testfuncs.h" // that's where "push T and shit happens" goes
 
 void OnProgramStart()
 {
@@ -476,10 +377,7 @@ void OnProgramStart()
 	confuncs["forwardonce"] = camForward;
 	confuncs["backwardonce"] = camBack;
 	KeyBinds["esc"] = "camera_mouse_capture 0";
-	KeyBinds["t"] = "test";
-	KeyBinds["y"] = "test2";
-	confuncs["test"] = testfunc;
-	confuncs["test2"] = testfunc2;
+	bindtests();
 	scene.push_back(new point({0,0,0}));
 	
 	scene.push_back(new floatingtext({0,1,0},"R"));
@@ -1103,6 +1001,7 @@ void RenderTick(HDC hDC)
     glClearColor(bground.r/255.0f,bground.g/255.0f,bground.b/255.0f,bground.a/255.0f);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+	hook.run("onRender");
     Render3D();
 
     camera.go2D();
@@ -1119,6 +1018,7 @@ int ticks = 0;
 void ThinkTick()
 {
 	ticks++;
+	hook.run("onTick");
 	printvals("ticks", "there have been "+itoa(ticks)+" ticks since the start.");
 	camera.tick();
 /*
