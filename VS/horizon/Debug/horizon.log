@@ -1,18 +1,1 @@
-﻿E:\Program Files (x86)\Microsoft Visual Studio\2019\Preview\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  main.cpp
-D:\Stride\shared\horizon\code\include\render\renderLow.h(62,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\code\include\render\renderLow.h(62): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
-D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
-D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
-D:\Stride\shared\horizon\code\source\main\main.cpp(103,26): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(103,15): warning C4244: 'argument': conversion from 'uint32_t' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(103,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(250,3): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(276,3): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(285,2): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\main\main.cpp(288,2): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
-  render.cpp
-D:\Stride\shared\horizon\code\include\render\renderLow.h(62,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\code\source\render\render.cpp(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
-  Generating Code...
-  horizon.vcxproj -> D:\Stride\shared\horizon\bin\horizon.exe
+﻿

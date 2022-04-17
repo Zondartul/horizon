@@ -6,3 +6,5 @@
         <GUIlabel alignment_horizontal="ALIGN_CENTER" alignment_vertical="ALIGN_CENTER" area="(0.000,72.000 + 80.000,16.000)" const_height="" hidden="0" isClient="1" name="SLtext" text="text" textColor="(0.000,0.000,0.000)" textfont="font:[calibri 18]" type="GUIlabel"/>
     </GUIselectable>
 </GUIwindow>
+Hello World!
+Hello World!
