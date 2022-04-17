@@ -1,7 +1,5 @@
 #ifndef GUISCROLLBAR_GUARD
 #define GUISCROLLBAR_GUARD
-//#include "GUIframe.h"
-//#include "GUIbutton.h"
 
 class GUIscrollbar;
 
@@ -10,11 +8,9 @@ class GUIscrollbarBar:public virtual GUIframe{
 	GUIscrollbar *scroll;
 	vec3 hoverColor;
 	vec3 pressedColor;
-	//bool mouseover;
 	bool pressed;
 	vec2 offset;
 	GUIscrollbarBar();
-	//virtual void render();
 	virtual void onEvent(eventKind event);
 	
 	virtual string getType(); //returns the most-derived-class of the widget.
@@ -32,7 +28,6 @@ class GUIscrollbar:public virtual GUIframe{
 	//internal vars
 	vec2 offset;
 	vec2 prevoffset;
-    //map<GUIbase*, vec2> initialOffsets;
 
 	GUIscrollbar();
 	GUIbutton *btnUp;		//child 0
@@ -53,14 +48,8 @@ class GUIscrollbar:public virtual GUIframe{
     GUIscrollbar *disableScrolling();
     GUIscrollbar *enableScrolling();
 	
-	//record the initial offsets for the beginning of a move
-	//void saveOffsets();
-	
 	virtual void renderLogic();
-	//virtual void render();
 	virtual void invalidate();
-	
-	//virtual GUIbase *addChildIgnoringOffset(GUIbase *child);
 	virtual GUIbase *addChild(GUIbase *child);
 
 	void clampInnerSizeToOuter(); //if innerSize < size, innerSize = size
@@ -68,7 +57,6 @@ class GUIscrollbar:public virtual GUIframe{
 	rect htrackRect();
 	vec2 trackDimensions();
 	vec2 areaRatio();
-	//vec2 normalizedAreaRatio();
 	vec2 scrollRatio();
 	vec2 scrollOffset();
 	virtual void onEvent(eventKind event);

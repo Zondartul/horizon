@@ -5,29 +5,6 @@
 #include "gui_editor/tool.h"
 #include "gui_editor/tool_place.h"
 #include "gui_editor/tool_edit.h"
-//editor modes, i.e. which tool is selected
-//enum gui_editor_mode{GEM_IDLE,  //no tool 
-//					GEM_PLACE,  //new element placement tool active
-//					GEM_EDIT};  //edit element tool active
-
-//tool work stage (for state machine)
-//enum gui_editor_stage{GEMT_IDLE, //none
-//					GEMT_START,  //tool had just been selected
-//					GEMT_SUBJECT,//operation subject got selected
-//					GEMT_END};   //final operation of the tool
-
-//tool setting or mode
-//enum gui_editor_submode{GEMS_IDLE, //none
-//						//placement mode - widgets
-//						GEMS_FRAME, GEMS_WINDOW, 
-//						GEMS_BUTTON, GEMS_CHECKBOX, GEMS_IMAGE, 
-//						GEMS_LABEL, GEMS_TEXTENTRY,
-//						GEMS_SCROLLBAR, GEMS_TABS,
-//						GEMS_SELECTIONGROUP, GEMS_SELECTABLE,
-//						GEMS_GRID,
-//						//edit mode
-//						GEMS_SCALE
-//						};
 
 class gui_editor_kind;
 class gui_editor_event_helper:public eventListener{
@@ -53,10 +30,6 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void onEvent(eventKind event);
 	
 	//----- tool selection -----------
-	//gui_editor_mode lastMode   = GEM_IDLE;
-	//gui_editor_mode mode       = GEM_IDLE;
-	//gui_editor_stage stage     = GEMT_IDLE;
-	//gui_editor_submode submode = GEMS_IDLE;
 	
 	void tool_start(gui_editor_tool *newtool); //select a tool
 	void tool_cleanup();  //to be called after every application of a tool
@@ -73,7 +46,6 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void place_tool_draw(); //on frame
 	void place_tool_lclick(); //left click = place
 	void place_tool_rclick(); //right click = cancel
-	//vec2 gpos2;		 bool drawVert2 = false;
 	//----edit widget tool ---------
 	void edit_tool_mousemove();
 	void edit_tool_draw();

@@ -101,7 +101,6 @@ struct rect{
 	vec2 bottomLeftCorner();
 	vec2 bottomRightCorner();
 	vec2 center();
-	//const char *toString();
 };
 rect operator*(rect A, float N);
 bool operator==(rect A, rect B);
@@ -129,103 +128,10 @@ mat3 xrotr(float ang);
 mat3 yrotr(float ang);
 mat3 zrotr(float ang);
 
-//vec3 toVec3(vec3 V);
-//vec2 toVec2(vec2 V);
-//vec3 tovec3(vec3 V);
-//vec2 tovec2(vec2 V);
 #define vec3_min(V1,V2) vec3(min((V1).x,(V2).x),min((V1).y,(V2).y),min((V1).z,(V2).z))
 #define vec3_max(V1,V2) vec3(max((V1).x,(V2).x),max((V1).y,(V2).y),max((V1).z,(V2).z))
 
 
 //old stuff
 
-/*
-struct vec3f{
-	float x;
-	float y;
-	float z;
-	float dot(vec3 B);
-	vec3f proj(vec3 B);
-	vec3f cross(vec3 B);
-	vec3f norm();
-	float length();
-	vec3f rotate(vec3f axis, float angle); //rotate around axis, by angle in degrees
-	vec3f rotate(vec3f angle); //rotate along each of the 3 axes using default order
-};
-
-bool operator==(vec3f A, vec3f B);
-vec3f operator*(vec3f A, float N);
-vec3f operator/(vec3f A, float N);
-vec3f operator*(float N, vec3f A);
-vec3f operator/(float N, vec3f A);
-vec3f operator+(vec3f A, vec3f B);
-vec3f operator-(vec3f A, vec3f B);
-
-struct vec3f{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-};
-bool operator==(vec3f A, vec3f B);
-vec3f operator*(vec3f A, float N);
-vec3f operator/(vec3f A, float N);
-vec3f operator*(float N, vec3f A);
-vec3f operator/(float N, vec3f A);
-vec3f operator+(vec3f A, vec3f B);
-vec3f operator-(vec3f A, vec3f B);
-
-struct vec2i;
-struct vec2f{
-	int x;
-	int y;
-	operator vec2i();
-};
-vec2f operator-(vec2 A);
-vec2f clamp(vec2 A, vec2 min, vec2 fmax);
-bool operator==(vec2f A, vec2f B);
-vec2f operator*(vec2f A, float N);
-vec2f operator/(vec2f A, float N);
-vec2f operator*(float N, vec2f A);
-vec2f operator/(float N, vec2f A);
-vec2f operator+(vec2f A, vec2f B);
-vec2f operator-(vec2f A, vec2f B);
-
-struct vec2i{
-	float x;
-	float y;
-	operator vec2f();
-};
-vec2i clamp(vec2i A, vec2i min, vec2i max);
-bool operator==(vec2i A, vec2i B);
-vec2i operator*(vec2i A, float N);
-vec2i operator/(vec2i A, float N);
-vec2i operator*(float N, vec2i A);
-vec2i operator/(float N, vec2i A);
-vec2i operator+(vec2i A, vec2i B);
-vec2i operator-(vec2i A, vec2i B);
-*/
-
-
-/*
-struct rectf{
-	vec2 start;
-	vec2 end;
-	vec2 size;
-	rectf();
-	rectf(float width, float height);
-	rectf(vec2 size);
-	rectf(vec2 start, vec2 end);
-	rectf(vec2 start, vec2 end, vec2 size);
-	rectf setStart(vec2 start); //end stays
-	rectf setEnd(vec2 end); //start stays
-	rectf setSize(vec2 size); //start stays
-	rectf moveTo(vec2 start); //size stays
-	rectf moveBy(vec2 relative); //size stays
-	vec2 clamp(vec2 V);
-	rectf clamp(rectf R);
-	bool contains(vec2 V);
-	//const char *toString();
-};
-rectf operator*(rectf A, float N);
-*/
 #endif

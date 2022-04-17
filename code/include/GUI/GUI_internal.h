@@ -8,8 +8,6 @@
 // #include "GUI.h" instead.
 //=======================================================
 #include "GUI.h"
-//#include "vec.h"
-//#include "util.h"
 #include "renderLayer.h"
 #include "paint.h"		 
 #include "resource.h" 

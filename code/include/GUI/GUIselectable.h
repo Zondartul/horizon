@@ -13,7 +13,6 @@ class GUIselectable;
 //acts like a radio-button-group, but for selectables.
 class GUIselectionGroup:public GUIbase{
 	public:
-	//vector<GUIselectable*> selection;
 	bool bSizeToParent = false;
 	void onEvent(eventKind event);
 	virtual string getType();

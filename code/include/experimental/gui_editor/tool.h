@@ -1,6 +1,5 @@
 #ifndef GUI_EDITOR_TOOL_GUARD
 #define GUI_EDITOR_TOOL_GUARD
-//#include "game.h"
 
 class gui_editor_kind;
 class gui_editor_tool{

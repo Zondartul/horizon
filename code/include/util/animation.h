@@ -14,7 +14,6 @@ using std::string;
 //keyframe animation
 //abstract system for key-framed interpolation between values.
 
-//enum animationKeyType{AK_FLOAT,AK_VEC3,AK_ROT};//value, position, rotation
 enum animationInterpType{INT_NEAREST,INT_LINEAR,INT_CUBIC};//interpolation
 
 

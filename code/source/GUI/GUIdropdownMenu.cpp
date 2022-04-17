@@ -63,20 +63,6 @@ void GUIdropdownMenu::invalidate(){
 	clientArea = area.setStart(vec2(0,0));;
 }
 
-/*
-void GUIdropdownMenu::close(){
-	GUIbase *p = parent;
-	GUIdropdownMenu *ddm = dynamic_cast<GUIdropdownMenu*>(p);
-	if(ddm){
-		//auto &S = ddm->submenus;
-		//S.erase(S.find(S.begin,S.end,this));
-		ddm->close();
-	}else{
-		delete this;
-	}
-}
-*/
-
 float rectDist(rect R, vec2 pos){
 	vec2 A = R.start;
 	vec2 D = R.end;
@@ -110,16 +96,7 @@ float GUIdropdownMenu::getMouseDist(){
 void GUIdropdownMenu::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
-	
-	//if(event.type != EVENT_FRAME){ //this will break as soon as there are more global events than frame
-	//	GUIbase::onEvent(event);
-	//	if(event.isMasked()){return;}
-	//}
-	
-	//if(event.type == EVENT_MOUSE_MOVE){
-	//	float dist = getMouseDist();	
-	//	if(dist > 50){hidden = true;}
-	//}
+
 	if(event.type == EVENT_FRAME){
 		printf("ddm[%s]:frame, hh = %d\n",name.c_str(),hideCounter);
 		if(!hidden){

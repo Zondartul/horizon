@@ -1,8 +1,6 @@
 #ifndef CAMERA_GUARD
 #define CAMERA_GUARD
 #include "vec.h"
-//#include "globals.h"
-//#include "glm/glm.hpp"
 
 // Camera is responsible for projection, transforms, and coordinate systems.
 // Also responsible for squares being actually square, correct chirality, and FOV.
@@ -82,7 +80,6 @@ public:
 	void setPos(vec3 newpos);
 	void setRot(vec3 newrot);
 	void setFov(float newfov);
-	//void setScale(float newscale);
 	void go2D();
 	void go3D();
 	void goPerspective();

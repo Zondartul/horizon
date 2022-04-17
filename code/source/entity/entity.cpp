@@ -4,23 +4,8 @@
 #include "physics/octree.h"
 
 list<entity*> entities;
-//ecs_render_system_kind ecs_render_system;
-
-//imp_component0(collisionbody*, collider); //noms the following:
-//imp_component0(vec3, position);
-//imp_component0(vec3, velocity);
-//imp_component0(bool, physics);
-//imp_component0(vec3, gravity);
-//imp_component0(float, mass);
-//imp_component0(physProperties,physproperties);
-//imp_component0(octree_visitor*, octree_visitor);
-//imp_component1(renderable*,renderable); //noms the following:
-//imp_component1(rmodel*, rmodel);
-//imp_component1(texture*, texture);
-//imp_component0(vec3, color);
 
 entity::entity(){
-	//entities.push_back(this);
 }
 
 entity::~entity(){

@@ -6,8 +6,6 @@
 GUIgrid::GUIgrid(){}
 void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	printf("grid(%p, row %d, col %d, spanx %d, spany %d)\n",child,row,col,spanx,spany);
-	//if(!rows.size()){resize(1,1);} - this is handled on the next line
-	
 	//row = -1 means "new row"
 	spanx = max(spanx,1);
 	spany = max(spany,1);
@@ -26,11 +24,6 @@ void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	
 	if((getNumRows() < min_size_y) || (getNumCols() < min_size_x)){resize(min_size_y, min_size_x);}
 	
-	
-//	if(row == -1){row = max(rows.size(),1); resize(row,max(getNumCols(),1));}
-	//else{
-	//resize(row+spany,col+spanx);
-	//}
 	if(spanx > 1){colspans.push_back(linespan{col,col+spanx-1,&(rows[row][col])});}
 	if(spany > 1){rowspans.push_back(linespan{row,row+spany-1,&(rows[row][col])});}
 
@@ -41,7 +34,6 @@ void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	invalidateTree();
 	printf(".grid: area after  = %s\n",toCString(area));
 	printf(".grid: client area after  = %s\n",toCString(clientArea));
-	//printf("\n");
 }
 void GUIgrid::configureRow(int row, float min, float max, float weight){
 	rowsettings[row] = gridline{min,max,weight,0,0};
@@ -52,43 +44,6 @@ void GUIgrid::configureColumn(int col, float min, float max, float weight){
 	invalidateTree();
 }
 
-/*
-void GUIgrid::render(){
-	//setScissoring(false);
-	//GUIbase::render();
-	//setColor(vec3(255,128,128));
-	//setAlpha(128);
-	//drawRect(worldArea());
-	//setAlpha(255);
-	//setColor(vec3(128,0,0));
-	//drawRectOutline(worldArea());
-	//setColor(vec3(255,0,255));
-	//drawRectOutline(parent->parent->clientToWorld(parent->clientArea));
-	//drawRectOutline(parent->visibleClientArea());
-	//printf("g    area: %s\n",toString(area).c_str());
-	// printf("gp   area: %s\n",toString(parent->area).c_str());
-	// printf("gpc  area: %s\n",toString(parent->clientArea).c_str());
-	// printf("gpp  area: %s\n",toString(parent->parent->area).c_str());
-	// printf("gppc area: %s\n",toString(parent->parent->clientArea).c_str());
-	// printf("\n");
-	// exit(0);
-	//drawRectOutline(visibleArea());
-	
-	////setColor(vec3(255,0,0));
-	////vec2 offset = worldArea().start;
-	////for(int R = 0; R < rowsettings.size(); R++){
-	////	for(int C = 0; C < colsettings.size(); C++){
-	////		float y = rowsettings[R].pos;
-	////		float ys = rowsettings[R].cur;
-	////		float x = colsettings[C].pos;
-	////		float xs = colsettings[C].cur;
-	////		rect cellrect = rect().setStart(offset+vec2(x,y)).setSize(vec2(xs,ys));
-	////		//frameprint(fstring("row %d, col %d. x=%f, y=%f, xs=%f, ys=%f, rect=%s",R,C,x,y,xs,ys,toString(cellrect).c_str()));
-	////		drawRectOutline(cellrect);
-	////	}
-	////}
-}
-*/
 
 int GUIgrid::getNumRows(){return rows.size();}
 int GUIgrid::getNumCols(){if(rows.size()){return rows[0].size();}else return 0;}
@@ -99,24 +54,20 @@ void GUIgrid::resize(int numrows, int numcols){
 	//does every row have settings?
 	while(rowsettings.size() < numrows){
 		rowsettings.push_back(gridline{-1,-1,0,0,0});
-		//printf("added settings for row %d (%d rowsets)\n",rowsettings.size()-1,rowsettings.size());
 	}
 	//does every column have settings?
 	while(colsettings.size() < numcols){
 		colsettings.push_back(gridline{-1,-1,0,0,0});
-		//printf("added settings for col %d (%d colsets)\n",colsettings.size()-1,colsettings.size());
 	}
 
 	//are there enough rows?
 	while(rows.size() < rowsettings.size()){
 		rows.push_back(gridrow());
-		//printf("added row %d              (%d rows)\n",rows.size()-1, rows.size());
 	}
 	//does every row have enough columns?
 	for(int R = 0; R < rows.size(); R++){
 		while(rows[R].size() < colsettings.size()){
 			rows[R].push_back(gridcell{1,1,0});
-			//printf("new cell at row %d, col %d (%d cols)\n",R,rows[R].size()-1,rows[R].size());
 		}
 	}
 }
@@ -135,13 +86,6 @@ void GUIgrid::clear(){
 
 void GUIgrid::invalidate(){
 //first pass: measure row/column dimensions
-	//debug print
-//	for(int R = 0; R < rowsettings.size(); R++){for(int C = 0; C < colsettings.size(); C++){
-//		auto &E = rows[R][C].child;
-		//printf("cell (%d,%d):",R,C);
-		//if(E){printf("area %s\n",toString(E->area).c_str());}
-		// else{printf("no element\n");}
-//	}}
 	//measure row height
 	for(int R = 0; R < rowsettings.size(); R++){
 		float maxy = 0;
@@ -340,17 +284,6 @@ void GUIgrid::invalidate(){
 }
 
 void GUIgrid::shrinkChildren(){
-	
-	// if(row == -1){row = rows.size() - 1;}
-	// spanx = max(spanx,1);
-	// spany = max(spany,1);
-	// resize(row+spany,col+spanx);
-	// if(spanx > 1){colspans.push_back(linespan{col,col+spanx-1,&(rows[row][col])});}
-	// if(spany > 1){rowspans.push_back(linespan{row,row+spany-1,&(rows[row][col])});}
-
-	// rows[row][col] = (gridcell){spanx,spany,child};
-	// invalidateTree();
-
 	for(int R = 0; R != rows.size(); R++){
 		gridline row_setting = rowsettings[R];
 		for(auto C = 0; C != rows[R].size(); C++){

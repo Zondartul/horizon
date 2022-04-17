@@ -18,7 +18,6 @@ GUIcompoundProperty loadGUI(string filepath){
 	for(auto I = P2.children.begin(); I != P2.children.end(); I++){
 		const GUIcompoundProperty &P3 = *I;
 		if(P3.table.table.at("isClient") == "1"){
-			//this->setCompoundProperty(P2);
 			P = P3;
 			break;
 		}

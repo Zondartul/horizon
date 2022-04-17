@@ -1,9 +1,7 @@
 #ifndef MODELPRIMITIVES_GUARD
 #define MODELPRIMITIVES_GUARD
 #include "vec.h"
-//struct rmodel;
 
-//rmodel *generateBox(vec3 scale = vec3(1,1,1),float texscale = 1.0f);
 struct e_model;
 
 e_model *generateBox(vec3 scale = vec3(1,1,1),float texscale = 1.0f);

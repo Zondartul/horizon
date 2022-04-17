@@ -1,6 +1,5 @@
 #ifndef GUIIMAGE_GUARD
 #define GUIIMAGE_GUARD
-//#include "GUIframe.h"
 
 class GUIimage:public virtual GUIframe{
 	public:
@@ -8,7 +7,6 @@ class GUIimage:public virtual GUIframe{
 	texture *image;
 	GUIimage *setImage(texture *newimage);
 	virtual GUIbase *sizeToContents();
-	//virtual void render();
 	
 	//property table
 	virtual GUIpropertyTable getDefaultPropertyTable();

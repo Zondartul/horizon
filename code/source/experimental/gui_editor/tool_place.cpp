@@ -6,17 +6,13 @@ gui_editor_tool_place::gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mo
 
 void gui_editor_tool_place::scan(){
 	gui_editor_tool::scan();
-	//GUIwindow *workWindow = 0;
-	//EPCAST(Ed->elWorkWindow, workWindow) else return;
-	//GUIbase *mEl = workWindow->getMouseoverElement();
 	if(stage == GEMT_START){
-		//printf("switch subject\n");
-		subject = mouseover_element;//mEl;
+		subject = mouseover_element;
 	}
 	if(subject){
 		vec2 mpos = getMousePos();
 		vec2 gpos = snapToGrid(subject, mpos, gridStep);
-		if(/*mEl*/mouseover_element == subject){
+		if(mouseover_element == subject){
 			gposCursor = gpos;
 		}
 		drawVertCursor = true;
@@ -47,7 +43,6 @@ void gui_editor_tool_place::lup(){
 						case GEMS_FRAME:	nEl = new GUIframe();	break;
 						case GEMS_WINDOW:	nEl = new GUIwindow();	break;
 						case GEMS_BUTTON:	nEl = new GUIbutton();	break;
-						//case GEMS_CHECKBOX:	subject = new GUIcheckbox();break; checkbox gui widget not implemented?
 						case GEMS_IMAGE:{auto img = new GUIimage(); img->setImage(getTexture("other/crate32"));	nEl = img;}	break;
 						case GEMS_LABEL:	nEl = new GUIlabel();	break;
 						case GEMS_TEXTENTRY:nEl = new GUItextEntry();break;
@@ -55,7 +50,6 @@ void gui_editor_tool_place::lup(){
 						case GEMS_SELECTIONGROUP:nEl = new GUIselectionGroup(); break;
 						case GEMS_SELECTABLE:nEl = new GUIselectable(); break;
 						case GEMS_GRID:		nEl = new GUIgrid();	break;
-						//case GEMS_TABS:		subject = new GUItab(); break; tabs also not implemented.
 					}
 					if(nEl){
 						printf("has nEl\n");
@@ -72,8 +66,6 @@ void gui_editor_tool_place::lup(){
 				}else{
 					printf("no subject\n");
 				}
-			//drawVert1 = false;
-			//mode = GEM_IDLE;
 			Ed->tool_finished();
 		}
 	}
@@ -92,41 +84,39 @@ void gui_editor_tool_place::draw(){
 		rect R = subject->thisToWorld(subject->clientArea);
 		vec2 gridCorner = R.start;
 	
-		//if((mode == GEM_PLACE_START) || (mode == GEM_PLACE_END)){
-			//snap grid for the client area
-			drawGrid(subject, gridStep);
+		//snap grid for the client area
+		drawGrid(subject, gridStep);
 			
-			//red outline for the client area
-			if(subject && (subject != workWindow)){
-				setColor(vec3(255,0,0));
-				setLineWidth(3.f);
-				drawRectOutline(R);
-				setLineWidth(1.f);
-			}
-			//cursor reticle
-			if(drawVertCursor){
-				vec2 wpos = gridCorner + gposCursor;	
-				setColor(vec3(0,0,68));
-				drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
-			}
-			//first selected point reticle
-			if(drawVert1){
-				vec2 wpos = gridCorner + gpos1;
-				setColor(vec3(0,0,68));
-				drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
-			}
+		//red outline for the client area
+		if(subject && (subject != workWindow)){
+			setColor(vec3(255,0,0));
+			setLineWidth(3.f);
+			drawRectOutline(R);
+			setLineWidth(1.f);
+		}
+		//cursor reticle
+		if(drawVertCursor){
+			vec2 wpos = gridCorner + gposCursor;	
+			setColor(vec3(0,0,68));
+			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
+		}
+		//first selected point reticle
+		if(drawVert1){
+			vec2 wpos = gridCorner + gpos1;
+			setColor(vec3(0,0,68));
+			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
+		}
 			
-			//green two-point rectangle for the new widget 
-			if(stage == GEMT_END){
-				vec2 wpos1 = gridCorner + gpos1;
-				vec2 wpos2 = gridCorner + gposCursor;
+		//green two-point rectangle for the new widget 
+		if(stage == GEMT_END){
+			vec2 wpos1 = gridCorner + gpos1;
+			vec2 wpos2 = gridCorner + gposCursor;
 				
-				setLineWidth(3.f);
-				setColor(vec3(0,255,0));
-				drawRectOutline(rect(wpos1,wpos2));
-				setLineWidth(1.f);
-			}
-		//}
+			setLineWidth(3.f);
+			setColor(vec3(0,255,0));
+			drawRectOutline(rect(wpos1,wpos2));
+			setLineWidth(1.f);
+		}
 	}
 }
 

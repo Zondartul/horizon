@@ -26,22 +26,14 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 		
 		string name = I->first;
 		string val = I->second;
-		//grid->configureRow(row,32,32,1.0);
-		
-		//GUItableEntry e = *I;
 		GUIlabel *l = new GUIlabel(name);
-		//l->sizeToContents();
 		l->setSize(lblSize);
-		//l->moveTo(vec2(0,y));
-		//bar->addChild(l);
 		grid->addChild(l);
 		grid->grid(l,row,0);
 		
 		GUItextEntry *te = new GUItextEntry();
 		te->setText(val);
 		te->setSize(teSize);
-		//te->sizeToContents();
-		//te->moveTo(vec2(128,y));
 		te->setFunction([=](){
 			printf("GUItextEntry: onEnter: calling..\n");
 			if(!this){printf("no this\n");}else{printf("has this(%p)\n",this);}
@@ -52,7 +44,6 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 			printf("calling this->f(%s,%s)\n",key.c_str(),val.c_str());
 			this->f_entryChanged(key,val);
 		});
-		//bar->addChild(te);
 		grid->addChild(te);
 		grid->grid(te,row++,1);
 		
@@ -61,8 +52,6 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 		y+= 32;
 	}
 	bar->setInnerSize(vec2(lblSize.x+teSize.x,y));
-	//grid->sizeToContents();
-	//bar->sizeToContents();
 	return *this;
 }
 

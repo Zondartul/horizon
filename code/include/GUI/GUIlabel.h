@@ -1,6 +1,5 @@
 #ifndef GUILABEL_GUARD
 #define GUILABEL_GUARD
-//#include "GUIbase.h"
 
 class GUIlabel:public virtual GUIbase{
 	public:
@@ -21,7 +20,6 @@ class GUIlabel:public virtual GUIbase{
 	rect getTextRect(string text);
 	rect getTextRect();
 	virtual GUIbase *sizeToContents();
-	//virtual void render();
 	
 	//property table
 	virtual GUIpropertyTable getDefaultPropertyTable();

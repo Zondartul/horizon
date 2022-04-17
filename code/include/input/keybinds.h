@@ -13,8 +13,6 @@ using std::string;
 
 
 struct bind{
-	//function<void(eventKind event)> keyDown;
-	//function<void(eventKind event)> keyUp;
 	string cmd;
 };
 

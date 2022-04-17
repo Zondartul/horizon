@@ -1,6 +1,5 @@
 #ifndef GUIGRID_GUARD
 #define GUIGRID_GUARD
-//#include "GUIbase.h"
 
 struct gridcell{
 	int spanx;
@@ -44,8 +43,6 @@ struct linespan{
   
 */
 
-//GUIgrid. to use, 
-//grid->addChild(child) and then grid->grid(child)
 class GUIgrid:public virtual GUIbase{
 	public:
 	GUIgrid();
@@ -62,7 +59,7 @@ class GUIgrid:public virtual GUIbase{
 	vector<gridline> colsettings;
 	vector<linespan> rowspans; //linespans are for elements that span
 	vector<linespan> colspans; //several cells, like "merge cells" in a word table
-	//virtual void render();
+
 	void shrinkChildren();
 	void sizeToGrid(); // set size to total grid size as configured
 	virtual void invalidate();

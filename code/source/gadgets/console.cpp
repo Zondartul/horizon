@@ -10,15 +10,8 @@
 #include <string>
 using std::vector;
 using std::string;
-
-//bool consoleOn = false;
-//string consoleInputString;
-//renderLayer *consoleLayer;
-
 extern eventChannel *inputChannel;
 extern eventChannel *globalChannel;
-//#include "inputController.h"
-//#include "camera.h"
 #include "stringUtils.h"
 
 //------------------ dropDownTerminal ------------------------
@@ -57,7 +50,6 @@ void dropDownTerminal::print(string text){
 void dropDownTerminal::onEvent(eventKind event){
 	if(event.type == EVENT_KEY_DOWN){
 		const char *K = event.keyboard.key;
-		//char C = event.keyboard.keycode;
 		if(terminalOn){
 			if(string("`") == K){
 				event.maskEvent();
@@ -93,34 +85,17 @@ void dropDownTerminal::onEvent(eventKind event){
 		if(terminalOn){
 			setLayer(layer);
 			setTransparency(true);
-			// camera.go2D();
-			// setProjection(camera.mProjection*camera.mView);
-			// setPosition(vec3(0,0,0));
-			// setScale(vec3(1,1,1));
-			// setColoring(false);
-			// setTransparency(false);
-			// setTexturing(false);
-			// setScissoring(false);
-			// vec2 scr = getScreenSize();
-			// setScissor(rect(vec2(0,0),scr));
-			// setDepthTest(false);
-			// setLighting(false);
-
-			//setPosition(vec3(0,0,0));
 			setColor(vec3(64,128,64));
 			setAlpha(196.f);
 
 			vec2 end = getScreenSize();
-			//setScissor(rect(vec2(0,0),end));
 			end.y = end.y*1/3;
 			rect R = rect(vec2(0,0),end);
-			//printf("R = %s\n",toString(R).c_str());
 			drawRect(R);
 
 			setColor(vec3(128,255,128));
 			setAlpha(255.f);
 			setFont(getFont("cour 14"));
-			//printText("Hello World!");
 			int numstr = terminalStrings.size();
 			setTextPos(vec2(0,end.y-0*14));
 			printText(inputText);
@@ -159,7 +134,6 @@ void consoleKind::run(string text){
 	printf("parsing [%s]\n",text.c_str());
 	char **argv = explode(text.c_str(),' ');
 	int argc = countargs(argv);
-	//argcargvtest(argc,argv);
 
 	if(!argc){return;}
 	auto cmd = getCommand(argv[0]);

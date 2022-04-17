@@ -23,7 +23,6 @@ struct e_selection{
 	vector<e_triangle*>	tris;
 	vector<e_face*>		faces;
 	e_model *EM=0;
-	//rmodel *rm[3] = {0,0,0};
 	rmpack rms;
 	vec3 colorVerts = {1.f,0,0};
 	float alphaVerts = 255.f;
@@ -53,8 +52,6 @@ struct e_selection{
 									//runs faster if no verts explicitly selected.
 	e_selection getImplicitTris();	//returns all the impleid triangles (those that share <verts> + those that share <edges> + <triangles>)
 									//runs faster if no verts or edges explicitly selected.
-	//e_selection getNeighborsEssential();
-	//e_selection getNeighborsDirect();
 
 	//returns [0]: minimal set: selected tris, selected edges not in tris, and selected verts not in tris or edges
 	//returns [1]: maximal set: selected tris, selected edges + those in tris, and selected verts + those in tris + those in edges
@@ -89,46 +86,7 @@ struct e_selection{
 	//returns [0]: newly created elements
 	//returns [1]: elements connecting the existing elements to new elements.
 	vector<e_selection> extrude();
-
-	//collapses all selected elements into a single points
-	//e_selection merge(vec3 pos);
 };
-
-/*
-struct e_vertex{
-	vec3 pos = {0,0,0};
-	float selection_weight = 1.0f;
-	e_selection neighbors_essential;
-	e_selection neighbors_direct;
-	e_vertex() = default;
-	e_vertex(vec3 pos, e_model *EM);
-};
-
-struct e_edge{
-	e_selection neighbors_essential;
-	e_selection neighbors_direct;
-	e_edge() = default;
-	e_edge(e_vertex *A, e_vertex *B, e_model *EM);
-};
-
-struct e_triangle{
-	e_selection neighbors_essential;
-	e_selection neighbors_direct;
-	vector<vec2> uvs;	//uv's are not selectable right now
-	vec3 face_normal;
-	vector<vec3> vert_normals;
-	e_triangle() = default;
-	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
-};
-
-struct e_face{
-	e_selection neighbors_essential;
-	e_selection neighbors_direct;
-	e_face() = default;
-	e_face(vector<e_triangle*> tris, e_model *EM);
-	void recalcEdges();
-};
-*/
 
 class e_element{
 	public:

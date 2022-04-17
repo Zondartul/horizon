@@ -13,7 +13,6 @@ class GUIdropdownMenu:public GUIframe{
 	GUIdropdownMenu *addSubmenu(string text);
 	GUIgrid *grid;
 	virtual void invalidate();
-	//void close();
 	void onEvent(eventKind event);
 	float getMouseDist();
 	virtual string getType();

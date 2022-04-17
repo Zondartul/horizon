@@ -13,27 +13,8 @@ using std::map;
 using std::list;
 using std::vector;
 using std::string;
-//struct rmodel;
-//struct texture;
 struct octree_visitor;
 
-//class component;
-/*
-enum componentType{
-	//ecs_position,
-	//ecs_rmodel,
-	//ecs_texture,
-	//ecs_velocity,
-	//ecs_physics,
-	//ecs_gravity,
-	ecs_collider,
-	//ecs_mass,
-	//ecs_physproperties,
-	//ecs_color,
-	//ecs_octree_visitor,
-	ecs_renderable,
-};
-*/
 class entity;
 
 extern list<entity*> entities;
@@ -42,7 +23,6 @@ class entity:public elastic_ptr_anchor{
 	public:
 	string name;
 	string group; //for multi-entity commands
-	//map<componentType, component*> components;
 	collisionbody *body = 0;
 	renderable *r = 0;
 	entity();
@@ -58,18 +38,6 @@ class entity:public elastic_ptr_anchor{
 void addEntity(entity *E);
 void removeEntity(entity *E);
 entity *lastEntity(); //returns the last created entity
-//class component{
-//	public:
-//	entity *ent;
-//};
-
-//struct physProperties{
-//	float mass;
-//	float bouncyness;
-//	float friction;
-//	physProperties() = default;
-//	physProperties(float mass, float bouncyness, float friction);
-//};
 
 #define decl_component(T,name)						\
 	class component_##name:public component{		\
@@ -99,41 +67,5 @@ entity *lastEntity(); //returns the last created entity
 #define hasComponent(x,y) (x)->components.count(ecs_##y)
 #define getComponent(x,y) ((component_##y*)((x)->components[ecs_##y]))
 #define addComponent(E,x,y) {auto val = (y); (E)->components[ecs_##x] = new component_##x(val,(E));}
-
-
-//decl_component(vec3, position);
-//decl_component(rmodel*, rmodel);
-//decl_component(texture*, texture);
-//decl_component(vec3, velocity);
-//decl_component(bool, physics);
-//decl_component(vec3, gravity);
-//decl_component(collisionbody*, collider);
-//decl_component(float, mass);
-//decl_component(physProperties, physproperties);
-//decl_component(vec3, color);
-//decl_component(octree_visitor*, octree_visitor);
-//decl_component(renderable*, renderable);
-/*
-class component_position{
-	public:
-	vec3 pos;
-	component_position(vec3 pos, entity *ent);
-};
-class component_rmodel{
-	public:
-	rmodel *rm;
-	component_position(rmodel *rm, entity *ent);
-};
-class component_texture{
-	public:
-	texture *t;
-	component_position(texture *t, entity *ent);
-};
-*/
-
-
-
-//collisioninfo *raytrace(vec3 from, vec3 dir);
-//extern ecs_physics_system_kind ecs_physics_system;
 
 #endif

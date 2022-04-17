@@ -41,7 +41,6 @@ class collisionbody{
 	float mass = 1;
 	float restitution = 0;
 	float friction = 0;
-	//AABB aabb; //a bounding box is needed for octree stuff.
 	octree_visitor *ov = 0;
 
 	//CALLBACKS!
@@ -173,19 +172,6 @@ struct collisionpoint{
 						//moving body2 by <vec3 penetration> should separate the bodies.
 	float depth;		//length of penetration
 };
-
-
-/*
-struct collisionParty{
-	collisionbody *body;
-	entity* ent;				//new phone who dis
-	vec3 vel;
-	vec3 pos;
-	float mass;
-	float friction;
-	float restitution;
-};
-*/
 
 //a collisioninfo shall indicate how body1 penetrates body2
 //where body1 is the actor and body2 is acted upon

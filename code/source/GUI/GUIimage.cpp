@@ -19,19 +19,6 @@ GUIbase *GUIimage::sizeToContents(){
 	return this;
 }
 
-/*
-void GUIimage::render(){
-	if(GUIoptions.push){pushRenderOptions();}
-	GUIframe::render();
-	setColor({255,255,255});
-	setTexture(image);
-	//setTexturing(true); drawRect(thisToWorld(rect(area.size)));
-	setTexturing(true);
-	drawRect(worldArea());
-	setTexturing(false);
-	if(GUIoptions.push){popRenderOptions();}
-}
-*/
 
 	//property table
 GUIpropertyTable GUIimage::getDefaultPropertyTable(){
@@ -44,8 +31,6 @@ string GUIimage::getProperty(string key){
 	else{return GUIframe::getProperty(key);}
 }
 void GUIimage::setProperty(string key, string val){
-	//printf("%s::setProperty(%s)=[%s]\n",getType().c_str(),key.c_str(),val.c_str());
-
 	if(key == "image"){setImage(fromString<texture*>(val));}
 	else{GUIframe::setProperty(key,val);}
 }

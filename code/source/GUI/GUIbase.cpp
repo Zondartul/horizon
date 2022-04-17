@@ -16,23 +16,10 @@ GUIbase::GUIbase(){
 	mouseover = false;
 }
 
-//int gbd_indent = 0;
-//#define printind() for(int I = 0; I < gbd_indent; I++){printf(" ");}
-/*
-void stackBreaker(int a){
-	int *x = &a;
-	for(int I = -10; I < 10; I++){
-		x[I] = 123;
-	}
-}
-*/
 GUIbase::~GUIbase(){
 	if(!deletePending){error("GUI widget deleted without close()\n");}
-	//gbd_indent++;
-	//printind(); printf("destructor of (%s): 1. remove from parent\n",getType().c_str());
 	if(parent){parent->removeChild(this);}
-	//printind(); printf("destructor of (%s): 2. delete children\n",getType().c_str());
-	
+
 	//dafuq, children werent being deleted?
 	//make a separate immutable vector because children will remove themselves from the main list
 	
@@ -44,8 +31,6 @@ GUIbase::~GUIbase(){
 	
 	{
 		stackSentinel SS;
-		//printf("testing stack\n");
-		//stackBreaker(5);
 		printf("deleting children\n");
 		vector<GUIbase*> children2 = children;
 		for(auto I = children2.begin(); I != children2.end(); I++){
@@ -53,9 +38,6 @@ GUIbase::~GUIbase(){
 			delete ch;
 		}
 	}
-	
-	//printind(); printf("desturctor of (%s) done\n", getType().c_str());
-	//gbd_indent--;
 }
 
 GUIbase *GUIbase::addChild(GUIbase *child){
@@ -66,9 +48,8 @@ GUIbase *GUIbase::addChild(GUIbase *child){
 //this change may break something in other objects
 GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 	child->parent = this;
-	//children.push_back(child); //somehow, adding them to the front screws everything up
+	//somehow, adding them to the front screws everything up
 	ChI iter2 = children.insert(iter, child);
-	//channel.addListenerFront(child);
 	if(child->isClient){clientChannel.addListenerFront(child);}
 	else{partChannel.addListenerFront(child);}
 	invalidateTree();
@@ -90,13 +71,10 @@ void GUIbase_debugChildren(GUIbase *b){
 
 GUIbase *GUIbase::removeChild(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
-	//printf("removeChild called\n");
-	//GUIbase_debugChildren(this);
 	bool found = false;
 	int i = 0;
 	for(auto I = children.begin(); I != children.end();){ //no I++ here
 		if(*I == child){
-			//printf("erased %p, %d\n",*I,i++);
 			if(!child->isClient){partChannel.removeListener(child);}
 			else{clientChannel.removeListener(child);}
 			I = children.erase(I);
@@ -107,7 +85,6 @@ GUIbase *GUIbase::removeChild(GUIbase *child){
 	}
 	if(!found){printf("couldn't erase %p: not found\n",child);}
 	invalidateTree();
-	//printf("invalidated\n");
 	return this;
 }
 
@@ -149,7 +126,6 @@ GUIbase *GUIbase::setSize(vec2 newSize){
 
 GUIbase *GUIbase::moveTo(vec2 newstart){
 	area = area.moveTo(newstart);
-	//printf("moveTo: new area = %s\n",toString(area).c_str());
 	invalidate();
 	return this;
 }
@@ -196,7 +172,6 @@ void GUIbase::renderLogic(){
 				drawRectOutlineColored(children[I]->visibleArea(),{255,0,0});
 			}else{
 				setScissoring(true);
-				//setScissor(children[I]->visibleArea());
 				setScissor(visibleArea());
 			}
 			children[I]->render();
@@ -204,7 +179,6 @@ void GUIbase::renderLogic(){
 			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
-	//cropScissor(worldClientArea());
 	for(int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
 			if(GUIoptions.push){pushRenderOptions();}
@@ -212,7 +186,6 @@ void GUIbase::renderLogic(){
 				drawRectOutlineColored(children[I]->visibleArea(),{128,0,0});
 			}else{
 				setScissoring(true);
-				//setScissor(children[I]->visibleArea());
 				setScissor(visibleClientArea());
 			}
 			children[I]->render();
@@ -220,7 +193,6 @@ void GUIbase::renderLogic(){
 			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
-	//popRenderOptions();
 }
 
 void GUIbase::render(){ if(renderer){renderer->render(this);} }
@@ -228,11 +200,6 @@ void GUIbase::render(){ if(renderer){renderer->render(this);} }
 
 
 void GUIbase::onEvent(eventKind event){
-	//if(event.type == EVENT_MOUSE_MOVE){
-	//	recalcMouseover();	//this check needs to be already
-	//						//done by the time children start handling events
-	//}
-	//event.maskEvent(channel.publishEventParallelMaskable(event));
 	
 	//root can initiate mouseover events
 	bool transmit = true;
@@ -273,10 +240,6 @@ void GUIbase::onEvent(eventKind event){
 		//1. publish event to children
 		int shouldMask = clientChannel.publishEventParallelMaskable(event);
 		//2. possibly mask it
-		//printf("widget (%s), ", getType().c_str());
-		//printf((parent)? "non-root":"root");
-		//printf((shouldMask)? " masking (%d)":" not masking (%d)", shouldMask);
-		//printf(" event (%s)\n",toCString(event.type));
 		
 		if(event.mask){
 			event.maskEvent(shouldMask);
@@ -284,10 +247,6 @@ void GUIbase::onEvent(eventKind event){
 	}else{
 		//1. do not transmit.
 		//2. event is not captured - do not mask.
-		//printf("widget (%s), ", getType().c_str());
-		//printf((parent)? "non-root":"root");
-		//printf(" blocking ");
-		//printf(" event (%s)\n",toCString(event.type));
 	}
 }
 
@@ -299,13 +258,6 @@ GUIbase *GUIbase::root(){
 	}
 	error("GUIbase::root: recursion detected\n");
 	return 0;
-//	if(parent){
-//		GUIbase *p = parent;
-//		while(p->parent){p = p->parent;}
-//		return p;
-//	}else{
-//		return this;
-//	}
 }
 
 GUIbase *GUIbase::getMouseoverElement(){
@@ -356,8 +308,7 @@ GUIbase *GUIbase::getByType(string type){
 }
 
 void GUIbase::invalidate(){
-	//printf("invalidate %p (%s)\n",this,typeid(this).name());
-	clientArea = rect().setStart({1,1}).setEnd(area.size-vec2{1,1});//rect(newarea.size);
+	clientArea = rect().setStart({1,1}).setEnd(area.size-vec2{1,1});
 }
 
 void GUIbase::invalidateTree(){
@@ -417,7 +368,6 @@ void GUIbase::close(){
 }
 
 void GUIbase::checkCloseTree(){
-	//printf("(%s).checkCloseTree()\n",getType().c_str());
 	vector<GUIbase*> children2 = children; //probably expensive to do it every frame, (or not - the vector is only like 5 entries big)
 											//it's better to update the destructor to not mess with the parent
 	//then the for-loop will need I = vector.erase thingy and such.
@@ -486,7 +436,6 @@ rect GUIbase::visibleArea(){
 	if(hidden){return rect();}
 	if(parent){
 		if(isClient){
-			//return parent->worldClientArea().clamp(worldArea());
 			return parent->visibleClientArea().clamp(worldArea());
 		}else{
 			return parent->visibleArea().clamp(worldArea());
@@ -499,7 +448,6 @@ rect GUIbase::visibleClientArea(){
 	if(hidden){return rect();}
 	if(parent){
 		if(isClient){
-			//return parent->worldClientArea().clamp(worldArea());
 			return parent->visibleClientArea().clamp(worldClientArea());
 		}else{
 			return parent->visibleArea().clamp(worldClientArea());
@@ -568,34 +516,7 @@ GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
 	border.Rctr		= rect(BB,BD);
 	border.Rcbl		= rect(CD,CB);
 	border.Rcbr		= rect(DF,DA);
-	
-/*	//------------------- safety measure----
-	printf("Rtop = %s, Rbtm = %s, Rleft = %s, Rright = %s\n", 
-		toCString(border.Rtop), 
-		toCString(border.Rbottom), 
-		toCString(border.Rleft), 
-		toCString(border.Rright));
-	printf("Rctl = %s, Rctr = %s, Rcbl = %s, Rcbr = %s\n",
-		toCString(border.Rctl),
-		toCString(border.Rctr),
-		toCString(border.Rcbl), 
-		toCString(border.Rcbr));
-	//top half
-	assert(AA.x < AB.x); assert(AB.x < BB.x); assert(BB.x < BA.x);
-	assert(AB.y < AC.y); assert(BB.y < BC.y);
-	assert(AC.x < BC.x);
-	assert(AC.y < AD.y); assert(AC.y < AE.y); assert(AC.y < AF.y);
-	assert(BC.y < BF.y); assert(BC.y < BE.y); assert(BC.y < BD.y);
-	assert(AD.x < AE.x); assert(AE.x < AF.x); assert(AF.x < BF.x); assert(BF.x < BE.x); assert(BE.x < BD.x);
-	//bottom half
-	assert(AD.y < CD.y); assert(AE.y < CE.y); assert(AF.y < CF.y); assert(BF.y < DF.y); assert(BE.y < DE.y); assert(BD.y < DD.y);
-	assert(CD.x < CE.x); assert(CE.x < CF.x); assert(CF.x < DF.x); assert(DF.x < DE.x); assert(DE.x < DD.x);
-	assert(CF.y < CC.y); assert(DF.y < DC.y);
-	assert(CC.x < DC.x);
-	assert(CC.y < CA.y); assert(CC.y < CB.y); assert(DC.y < DB.y); assert(DC.y < DA.y);
-	assert(CA.x < CB.x); assert(CB.x < DB.x); assert(DB.x < DA.x);
-*/	//---------------------------------------
-	
+
 	
 	return border;
 }
@@ -604,19 +525,17 @@ GUIe_border GUIbase::testBorders(vec2 pos, GUI_border_size borderSize){
 	
 	GUI_border_rects border = getBorders(borderSize);
 	
-	//int condition = 0;
 	GUIe_border condition = GUIb::None;
-	//printf("border condition:\n");
-	if(border.Rctl.contains(pos))	{/*printf("TL|");*/condition |= GUIb::Corner_TL;}
-	if(border.Rtop.contains(pos))	{/*printf("T|");*/condition |= GUIb::Top;}
-	if(border.Rctr.contains(pos))	{/*printf("TR|");*/condition |= GUIb::Corner_TR;}
-	if(border.Rleft.contains(pos))	{/*printf("L|");*/condition |= GUIb::Left;}
-	if(border.Rright.contains(pos))	{/*printf("R|");*/condition |= GUIb::Right;}
-	if(border.Rcbl.contains(pos))	{/*printf("BL|");*/condition |= GUIb::Corner_BL;}
-	if(border.Rbottom.contains(pos)){/*printf("B|");*/condition |= GUIb::Bottom;}
-	if(border.Rcbr.contains(pos))	{/*printf("BR|");*/condition |= GUIb::Corner_BR;}
+	if(border.Rctl.contains(pos))	{condition |= GUIb::Corner_TL;}
+	if(border.Rtop.contains(pos))	{condition |= GUIb::Top;}
+	if(border.Rctr.contains(pos))	{condition |= GUIb::Corner_TR;}
+	if(border.Rleft.contains(pos))	{condition |= GUIb::Left;}
+	if(border.Rright.contains(pos))	{condition |= GUIb::Right;}
+	if(border.Rcbl.contains(pos))	{condition |= GUIb::Corner_BL;}
+	if(border.Rbottom.contains(pos)){condition |= GUIb::Bottom;}
+	if(border.Rcbr.contains(pos))	{condition |= GUIb::Corner_BR;}
 	
-	return condition;//static_cast<GUI_border_type>(condition);
+	return condition;
 }
 
 GUIpropertyTable GUIbase::getDefaultPropertyTable(){
@@ -657,8 +576,6 @@ string GUIbase::getProperty(string key){
 }
 
 void GUIbase::setProperty(string key, string val){
-	//printf("%s::setProperty(%s)=[%s]\n",getType().c_str(),key.c_str(),val.c_str());
-
 		 if(key == "name")		{name		= val;}
 	else if(key == "type")		{if(getType() != val){error("attmpt to change GUI widget type\n");}}
 	else if(key == "isClient")	{isClient 	= fromString<bool>(val);}
@@ -669,14 +586,11 @@ void GUIbase::setProperty(string key, string val){
 string GUIbase::getType(){return "GUIbase";}
 
 GUIcompoundProperty GUIbase::getCompoundProperty(){
-	//GUIcompoundProperty *prop = new GUIcompoundProperty();
 	GUIcompoundProperty prop;
 	prop.name = getType();
 	prop.table = getPropertyTable();
 	for(auto I = children.begin(); I != children.end(); I++){
 		GUIbase *C = *I;
-		//GUIcompoundProperty *prop2 = C->getCompoundProperty();
-		//prop->children.push_back(prop2);
 		prop.children.push_back(C->getCompoundProperty());
 	}
 	return prop;
@@ -685,35 +599,26 @@ GUIcompoundProperty GUIbase::getCompoundProperty(){
 //note: non-client widgets (parts) should
 //be already constructed by the owner before they get properties assigned.
 void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
-	//printf("compound set of (%s) on (%s)\n",prop->name.c_str(), getType().c_str());
 	if(prop.name == getType()){
-		//printf("setting prop table\n");
 		setPropertyTable(prop.table);
 	}
 	auto Ic = children.begin(); 
 	auto Ice = children.end();
 	auto Ip = prop.children.begin(); 
 	auto Ipe = prop.children.end();
-	//printf("setting children tables (%d ch, %d tab)\n",children.size(), prop->children.size());
 	for(;(Ic != Ice) && (Ip != Ipe);){
 		GUIbase *C = *Ic;
 		const GUIcompoundProperty &P = *Ip;
-		//printf("compound name = (%s)\n",P->name.c_str());
 		if(C->getType() == P.name){
-			//printf("using set\n");
 			C->setCompoundProperty(P);
 		}else{
-			//printf("using instant\n");
 			GUIbase *C2 = P.instantiate();
-			if(C2){Ic = addChild(C2,Ic);}//children.insert(Ic,C2);
+			if(C2){Ic = addChild(C2,Ic);}
 		}
 		Ic++; Ip++;
-		//if(Ic == Ice){printf("ran out of children\n");}
-		//if(Ip == Ipe){printf("ran out of tables\n");}
 	}
 	while(Ip != Ipe){
 		const GUIcompoundProperty &P = *Ip;
-		//printf("using instant2\n");
 		GUIbase *C2 = P.instantiate();
 		if(C2){Ic = addChild(C2,Ic);}
 		Ip++;

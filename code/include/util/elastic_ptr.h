@@ -31,11 +31,9 @@
 //- constructable from raw pointers
 
 #include <typeinfo>
-//#include "debug.h"
 #include "globals.h"
 #include <string>
 using std::string;
-//#include "stringUtils.h"
 
 class elastic_ptr_anchor_proxy;
 

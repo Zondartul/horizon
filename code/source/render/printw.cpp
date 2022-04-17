@@ -59,6 +59,7 @@ void drawRectImmediate(rect R){
 //void setTextPos(vec2 pos){textPos = pos;}
 //todo: switch texture only once / actually, texture refers to a rectangle on a bitmap, so switch texture != switch bitmap
 //todo: make a model and stuff
+
 void printText2D(const char *text, font *F, vec2 &textPos){
 	renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);

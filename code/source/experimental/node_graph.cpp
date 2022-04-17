@@ -22,9 +22,9 @@ void generateNodegraph(){
     vec3 origin = col->c_to_c.pos+vec3(0,0,0.2f);
 
 
-    float sidelen = 1.5f;//1.0f;//0.5f;
-    nodegraph.numX = 12;//10;
-    nodegraph.numY = 12;//10;
+    float sidelen = 1.5f;
+    nodegraph.numX = 12;
+    nodegraph.numY = 12;
     nodegraph.layer = new renderLayer("layerNodegraph", true, false);
     addLayer(layer3D, nodegraph.layer); //i cba set up the layers properly
     vec3 corner = origin+vec3(-(nodegraph.numX-1)/2.f,-(nodegraph.numY-1)/2.f,0)*sidelen;
@@ -59,25 +59,17 @@ LOSresult hasLineOfSight(entity *E1, entity *E2){
     vec3 p2 = E2->body->pos;
     collisioninfo *col = raytrace(p1,p2-p1,{E1});
     if(!col){
-    //    printf("LOS: NOTHING\n");
         return LOS_NOTHING;
     }
     if(col->body2->E == E2){
-     //   printf("LOS: YES\n");
         return LOS_DIRECT;
     }else{
         vec3 p3 = col->c_to_c.pos;
         if(length(p2-p1) < length(p3-p1)){
-            //pretend the trace is of finite length
-       //     printf("LOS: NOTHING\n");
             return LOS_NOTHING;
         }
         //else we hit something, but it wasn't what we're looking for
     }
-   // printf("E1 = %s, E2 = %s\n", E1->name.c_str(), E2->name.c_str());
-   // printf("body1 = %s, body2 = %s\n",col->body1->name().c_str(), col->body2->name().c_str());
-   // printf("cE1 = %s, cE2 = %s\n", col->body1->E? col->body1->E->name.c_str() : "<null>", col->body2->E? col->body2->E->name.c_str() : "<null>");
-   // printf("LOS: NO\n");
     return LOS_OBSTACLE;
 }
 
@@ -142,16 +134,6 @@ void nav_node::drawLines(){
 
             vec3 p1 = E->body->pos;
             vec3 p2 = e.node->E->body->pos;
-            /*
-            setLayer(nodegraph.layer);
-            setPosition(vec3(0,0,0));
-            setScale(vec3(0,0,0));
-            setRotation(vec3(0,0,0));
-            setTexturing(false);
-            setLighting(false);
-            setColor(vec3(0,255,0));
-            drawLine(p1,p2);
-            */
             nodegraph.rm->vertices->push_back(p1);
             nodegraph.rm->vertices->push_back(p2);
         }
@@ -166,22 +148,16 @@ nav_node *putNode(vec3 pos, string name){
     N->E = E;
 
     float r = 0.1f;
-    collisionbody *body = new collisionbodyAABB(AABB(-vec3(r,r,r),vec3(r,r,r)));//collisionbodyPoint();
-    //body->setAABB(AABB(0,0,0));
+    collisionbody *body = new collisionbodyAABB(AABB(-vec3(r,r,r),vec3(r,r,r)));
+
     body->type = BODY_TRIGGER;
     body->E = E;
     body->onCollision = [=](collisioninfo *col)
     {
-        //printf("%s.onCollision:\n",E->name.c_str());
-        //printf("body1 = %s, body2 = %s\n",col->body1->name().c_str(), col->body2->name().c_str());
-        //printf("cE1 = %s, cE2 = %s\n", col->body1->E? col->body1->E->name.c_str() : "<null>", col->body2->E? col->body2->E->name.c_str() : "<null>");
         if(col->body1->type == BODY_STATIC){
-            //E->body->type = BODY_NOCOLLIDE;
-            //printf("invalid\n");
             N->valid = false;
             N->E->r->color = vec3(255,0,0);
         }else{
-            //printf("ignore\n");
         }
     };
     E->body = body;
@@ -238,7 +214,6 @@ void pathfinding_test(vec3 pos){
     srcNode->E->r->color = vec3(0,0,255);
 
     AStarInit(&pathTask, srcNode, flagNode);
-    //AStarIterative(&pathTask);
 
 
     if(pathfinding_test_timer){delete pathfinding_test_timer; pathfinding_test_timer = 0;}
@@ -248,10 +223,6 @@ void pathfinding_test(vec3 pos){
         AStarIterative(&pathTask);
         if(pathTask.done){
             printf("A* DONE\n");
-            //printf("A* T = %p\n",T);
-            //printf("A* T sd = %d\n",T->selfdestruct);
-            //T->selfdestruct = true;
-            //printf("A* T sd = %d\n",T->selfdestruct);
             delete T;
             pathfinding_test_timer = 0;
         }
@@ -281,19 +252,12 @@ void AStarInit(pathTaskKind *task, nav_node *srcNode, nav_node *flagNode){
 }
 
 void AStarIterative(pathTaskKind *task){
-    //printf("A* iter;\n");
-    //printf("task = %p\n",task);
     if(task->openSet.size() == 0){task->done = true; return;}
     //for every node in the open set
     int loopCount = task->openSet.size();
     for(auto I = task->openSet.begin(); I != task->openSet.end();){
         if(!loopCount--){return;}
-        //printf("--------- loop --------\n");
         nav_node *n_open = *I;
-        //printf("n_open = %p\n",n_open);
-        //printf("node_data contents:\n");for(auto I = task->node_data.begin(); I != task->node_data.end(); I++){printf("%p:{%d,%p}\n",I->first, I->second.cost, I->second.parent);}
-        //printf("openset contents:\n");  for(auto T = task->openSet.begin(); T != task->openSet.end(); T++){printf("%p\n",*T);}
-
         if(!task->node_data.count(n_open)){error("node_data doesn't contain the open node\n");}
         float cost = task->node_data[n_open].cost;
 
@@ -309,8 +273,6 @@ void AStarIterative(pathTaskKind *task){
                 if(task->node_data.count(n_neigh)){//node already open
                     if(task->node_data[n_neigh].cost <= cost+1){continue;} //at same or better cost
                 }
-                //expand into node
-                //nav_node *n_neigh = n_open;
                 task->node_data[n_neigh] = {cost+1,n_open};
                 task->openSet.push_back(n_neigh);
 

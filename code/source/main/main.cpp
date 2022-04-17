@@ -110,16 +110,16 @@ void my_audio_callback(void *userdata, uint8_t *stream, int len){
 
 int main(int argc, char **argv){
 	printf("Hello World!\n");
-	{
-		FILE* f = fopen("dirmarker.beep", "w");
-		if (f) {
-			printf("maked dirmaker.beep\n");
-			fclose(f);
-		}
-		else {
-			printf("can't place a dirmaker\n");
-		}
-	}
+	//{
+	//	FILE* f = fopen("dirmarker.beep", "w");
+	//	if (f) {
+	//		printf("maked dirmaker.beep\n");
+	//		fclose(f);
+	//	}
+	//	else {
+	//		printf("can't place a dirmaker\n");
+	//	}
+	//}
 
 	debuginit();
 

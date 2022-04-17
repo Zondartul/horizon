@@ -17,26 +17,6 @@ GUIframe *GUIframe::setBorderColor(vec3 color){
 	return this;
 }
 
-/*
-void GUIframe::render(){
-	if(!noframe){
-		renderComment(fstring("frame %p begin\n",this));
-		if(GUIoptions.push){pushRenderOptions();}
-		//GUIbase::render();
-		setColor(bgColor);
-		setAlpha(128);
-		//drawRect(thisToWorld(rect(area.size)));
-		drawRect(worldArea());
-		setAlpha(255);
-		setColor(borderColor);
-		//drawRectOutline(thisToWorld(rect(area.size)));
-		drawRectOutline(worldArea());
-		if(GUIoptions.push){popRenderOptions();}
-		renderComment(fstring("frame %p end\n",this));
-	}
-}
-*/
-
 GUIpropertyTable GUIframe::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIbase::getDefaultPropertyTable();
 	table.table["bgColor"] = toString(vec3(defaultbgcolor));
@@ -53,8 +33,6 @@ string GUIframe::getProperty(string key){
 }
 
 void GUIframe::setProperty(string key, string val){
-	//printf("%s::setProperty(%s)=[%s]\n",getType().c_str(),key.c_str(),val.c_str());
-
 	if(key == "bgColor"){setBgColor(fromString<vec3>(val));}
 	else if(key == "borderColor"){setBorderColor(fromString<vec3>(val));}
 	else if(key == "noframe"){noframe = fromString<bool>(val);}

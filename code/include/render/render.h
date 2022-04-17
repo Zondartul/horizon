@@ -134,12 +134,6 @@ class renderablePlane:public renderable{
 	virtual ~renderablePlane() = default;
 };
 
-//struct renderable{
-//	vec3 color;
-//	rmodel *rm;
-//	texture *t;
-//	void upload();
-//};
 
 void renderInit();
 void renderTick();

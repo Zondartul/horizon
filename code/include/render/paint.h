@@ -1,7 +1,6 @@
 #ifndef PAINT_GUARD
 #define PAINT_GUARD
 #include "printw.h"
-//#include "renderLayer.h"
 class renderLayer;
 struct font;
 struct texture;
@@ -14,7 +13,6 @@ class model;
 #include <vector>
 using std::string;
 using std::vector;
-//class renderLayer;
 extern renderLayer *currentLayer;
 //core functions
 void setLayer(renderLayer *L);			//chooses the renderlayer to which drawing is done
@@ -100,8 +98,6 @@ void drawRectOutlineColored(rect R, vec3 col); //disables scissor, sets color, d
 void drawImage(texture *t, rect R);
 
 void debugFloatingText(vec3 p, string S);
-//void drawTexturedRect(rect R);
-//void drawTexturedRectUV(rect R, rectf UV);
 
 void drawModel(vec3 pos, vec3 rot, vec3 scale, model *m);
 
@@ -124,7 +120,6 @@ void drawSphere(vec3 pos, vec3 rot, float r);
 
 //util
 void renderComment(string str);
-
 
 extern renderLayer *loadLayer;		//data load commands go here
 extern renderLayer *layer3D;		//3D drawing commands go here

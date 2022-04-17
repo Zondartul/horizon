@@ -161,8 +161,6 @@ map_editor_kind::map_editor_kind(){
 	btnTexture->moveTo(vec2(0,32*7));
 	btnTexture->setFunction([=](){
 		printf("activated texture browser");
-		//GUItextureBrowser *TB = new GUItextureBrowser();
-		//GUI->addChild(TB);
 	});
 	mainWindow->addChild(btnTexture);
 	//---------
@@ -175,15 +173,11 @@ map_editor_kind::map_editor_kind(){
 	layerMap3D->resetLayer = lm3d_reset;
 
 	setLayer(lm3d_reset);
-	//setColoring(false);
 	setTexturing(false);
 	setLighting(false);
 	setPosition(vec3(0,0,0));
 	drawLine(vec3(0,0,0),vec3(0,0,2));
-	//setRenderMode(2);
-	//setColor(vec3(0,0,0));
 	setAlpha(255);
-	//resetLayer(layerMap3D);
     //----------- 2D render -----------------
     setLayer(layer2D);
     layerMap2D = addNewLayer("map2d");
@@ -306,36 +300,7 @@ void map_editor_kind::onEvent(eventKind event){
 
 					has_ent = true;
 					assert(col != 0);
-					/*
-					printf("body1 = %s\n",toCString(col->body1));
-					if(col->body1){
-						collisionbodyAABB* baabb = dynamic_cast<collisionbodyAABB*>(col->body1);
-						if(baabb){printf("is collisionBodyAABB\n");}
-
-						collisionbodyRay* bray = dynamic_cast<collisionbodyRay*>(col->body1);
-						if(bray){printf("is collisionBodyRay\n");}
-
-						printf("body1->E = %s\n",toCString(col->body1->E));
-						if(col->body1->E){printf("E->name = %s\n",col->body1->E->name.c_str());}
-					}
-					*/
-					/*
-					printf("body2 = %s\n",toCString(col->body2));
-					if(col->body2){
-						collisionbodyAABB* baabb = dynamic_cast<collisionbodyAABB*>(col->body2);
-						if(baabb){printf("is collisionBodyAABB\n");}
-
-						collisionbodyRay* bray = dynamic_cast<collisionbodyRay*>(col->body2);
-						if(bray){printf("is collisionBodyRay\n");}
-
-						printf("body2->E = %s\n",toCString(col->body2->E));
-						if(col->body2->E){printf("E->name = %s\n",col->body2->E->name.c_str());}
-					}
-					*/
-
-
-
-
+					
 					mouseover_ent = col->body2->E;
 				}
 
@@ -347,14 +312,12 @@ void map_editor_kind::onEvent(eventKind event){
 					}
 					setLayer(templayer);
 					setColor(vec3(64,0,0));
-					//drawPoint(p1);
 
 
 					static int once = 1;
 					if(once){
 
 						setColor(vec3(64,64,64));
-						//drawTriangle(vec3(0,0,1),vec3(1,0,1),vec3(0,1,1));
 						if(col){
 							collisionbodyTerrain *body = dynamic_cast<collisionbodyTerrain*>(col->body2);
 							if(body){
@@ -371,38 +334,25 @@ void map_editor_kind::onEvent(eventKind event){
 									vec3 &A = vertA.pos;
 									vec3 &B = vertB.pos;
 									vec3 &C = vertC.pos;
-									//drawPoint(A+pos);
-									//drawPoint(B+pos);
-									//drawPoint(C+pos);
 								}
 
 							}
 						}
 					}
 
-
-					//p1 = col->c_to_c.pos;
-					//printf("hit at %s\n",toCString(p1));
 					has_mouseover = true;
 					mouseover_pos = p1;
 					float x = p1.x;
 					float y = p1.y;
 					float z = p1.z;
 					z = floorf(z+gridsize*0.5f,gridsize);
-					//x -= 0.05f;
-					//y -= 0.05f;
-					//printf("x: fmodf(%f,0.1f) = %f\n",x,fmodf(x,0.1f));
-					//printf("y: fmodf(%f,0.1f) = %f\n",y,fmodf(y,0.1f));
 
-					x = floorf(x,/*0.1f*/gridsize);
-					y = floorf(y,/*0.1f*/gridsize);
+					x = floorf(x,gridsize);
+					y = floorf(y,gridsize);
 
 					mouseover_square = vec3(x,y,z);
-
-					//printf("\n");
 				}else{
 					has_mouseover = false;
-					//printf("no hit\n");
 				}
 			}
 			if(event.type == EVENT_MOUSE_BUTTON_DOWN){
@@ -422,7 +372,6 @@ void map_editor_kind::onEvent(eventKind event){
 						is_selecting = true;
 						selectmode = 1;
 						printf("RMB down\n");
-						//printf("mouseover_ent = %s\n",toCString(mouseover_ent));
 					}
 				}
 			}
@@ -441,23 +390,11 @@ void map_editor_kind::onEvent(eventKind event){
 					C += vec3(gridsize,gridsize,z1);
 					D += vec3(0,gridsize,z1);
 
-					//sel_pos2.z = 1.f;
 					vec3 startCorner = A;
 					vec3 endCorner = C;
 					startCorner.z = z1;
 					endCorner.z = z1+2.f;
 					if(mode == ME_MODE_BLOCK_PLACEMENT){
-
-						//TEMPORARY RAY SHOTGUN
-						//setLayer(templayer);
-						//setColor(vec3(64,0,0));
-						//rmodel *rm = ray_shotgun(128,128);
-						//setRenderMode(1);
-						//setPosition(vec3(0,0,0));
-						//setScale(vec3(1,1,1));
-						//drawRmodel(rm);
-						//return;
-
 						wall(startCorner, endCorner);
 					}
 					if(mode == ME_MODE_TERRAIN){makeSheet(startCorner, endCorner);}
@@ -480,9 +417,9 @@ void map_editor_kind::onEvent(eventKind event){
 					float y = mouseover_square.y;
 					float z1 = mouseover_square.z;
 					vec3 A = vec3(x,y,z1);
-					vec3 B = vec3(x+/*0.1f*/gridsize,y,z1);
-					vec3 C = vec3(x+/*0.1f*/gridsize,y+/*0.1f*/gridsize,z1);
-					vec3 D = vec3(x,y+/*0.1f*/gridsize,z1);
+					vec3 B = vec3(x+gridsize,y,z1);
+					vec3 C = vec3(x+gridsize,y+gridsize,z1);
+					vec3 D = vec3(x,y+gridsize,z1);
 					setLayer(layerMap3D);
 					setLineWidth(2);
 					setColor(vec3(0,255,0));
@@ -499,9 +436,9 @@ void map_editor_kind::onEvent(eventKind event){
 					vec3 A,B,C,D;
 					getMinMaxCoords(sel_pos1,mouseover_square,&A,&B,&C,&D);
 					A += vec3(0,0,0);
-					B += vec3(/*0.1f*/gridsize,0,0);
-					C += vec3(/*0.1f*/gridsize,/*0.1f*/gridsize,0);
-					D += vec3(0,/*0.1f*/gridsize,0);
+					B += vec3(gridsize,0,0);
+					C += vec3(gridsize,gridsize,0);
+					D += vec3(0,gridsize,0);
 					setLineWidth(3);
 					setColor(vec3(0,128,0));
 					drawLine(A,B);
@@ -519,24 +456,13 @@ void map_editor_kind::onEvent(eventKind event){
 		break;
         case ME_MODE_SELECT:
             if(event.type == EVENT_MOUSE_MOVE){
-                //printf("evnt\n");
                 collisioninfo *col = 0;
                 vec3 pos;
                 if(mouseray(&pos,&col)){
-                    //printf("col\n");
                     entity *E = col->body2->E;
                     if(E != mouseover_ent){/* un-select entity */}
                     mouseover_ent = E;
                 }
-                /*
-                switch(submode){
-                    //case ME_SUBMODE_MOVE:
-                        printf("move event\n");
-                        //hold on, this event is out of sync with frames. we may need to recalculate point offsets.
-
-                    break;
-                }
-                */
             }
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
                 switch(submode){
@@ -556,37 +482,28 @@ void map_editor_kind::onEvent(eventKind event){
                              if((distU = length(mousePos-setZ(sdata.ptUp2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_UP;
                                 sdata.initialOffset = dot((mousePos-sdata.ptUp2D),sdata.dirAwayUp);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else if((distD = length(mousePos-setZ(sdata.ptDn2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_DN;
                                 sdata.initialOffset = dot((mousePos-sdata.ptDn2D),sdata.dirAwayDn);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else if((distL = length(mousePos-setZ(sdata.ptLeft2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_LEFT;
                                 sdata.initialOffset = dot((mousePos-sdata.ptLeft2D),sdata.dirAwayLeft);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else if((distR = length(mousePos-setZ(sdata.ptRight2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_RIGHT;
                                 sdata.initialOffset = dot((mousePos-sdata.ptRight2D),sdata.dirAwayRight);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else if((distF = length(mousePos-setZ(sdata.ptFwd2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_FWD;
                                 sdata.initialOffset = dot((mousePos-sdata.ptFwd2D),sdata.dirAwayFwd);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else if((distB = length(mousePos-setZ(sdata.ptBack2D,0))) < seldist){
                                 sdata.dragging = true; sdata.dir = DIR::DIR_BACK;
                                 sdata.initialOffset = dot((mousePos-sdata.ptBack2D),sdata.dirAwayBack);
-                                //printf("initialOffset = %s\n",toCString(sdata.initialOffset));
                              }
                         else {submode = ME_SUBMODE_DEFAULT; sdata.dragging = false; sdata.dir = DIR::DIR_NONE;}
-                        //printf("dragging = %d, dir = %s\n",sdata.dragging, toCString(sdata.dir));
-                        //printf("distU = %f, distD = %f, distL = %f, distR = %f, distF = %f, distB = %f\n",
-                          //      distU,distD,distL,distR,distF,distB);
                     }
                     break;
                 }
@@ -621,7 +538,6 @@ void map_editor_kind::onEvent(eventKind event){
                 setTexture(t);
                 setPosition(pt2D);
                 setScale(vec3(1,1,1)*2.f);
-                //setRotation(vec3(0,0,90.f)*d2r);
                 setRotation(vec3(0,0,1)*(angle+90*d2r));
                 drawRect(R);
                 //end test stuff
@@ -634,7 +550,6 @@ void map_editor_kind::onEvent(eventKind event){
 
                         setLayer(layerMap3D);
                         setDepthTest(true);
-                        //setColoring(true);
                         setColor(vec3(0,128,0));
                         setLineWidth(2.f);
                         drawBoxWireframe(aabb);
@@ -648,7 +563,6 @@ void map_editor_kind::onEvent(eventKind event){
 
                         setLayer(layerMap3D);
                         setDepthTest(false);
-                        //setColoring(true);
                         setColor(vec3(0,255,0));
                         setLineWidth(2.f);
                         drawBoxWireframe(aabb);
@@ -656,9 +570,8 @@ void map_editor_kind::onEvent(eventKind event){
                         switch(submode){
                             case(ME_SUBMODE_MOVE):
                                 //draw some arrows (2d)
-                                float sepr = 1.f;//1.5f;
+                                float sepr = 1.f;
                                 vec3 size = aabb.end-aabb.start;
-                                //printf("size = %s\n",toCString(size));
                                 sdata.ptUp = pos+vec3(0,0,sepr/2.f)*size.z;
                                 sdata.ptDn = pos+vec3(0,0,-sepr/2.f)*size.z;
                                 sdata.ptLeft = pos+vec3(sepr/2.f,0,0)*size.x;
@@ -666,19 +579,19 @@ void map_editor_kind::onEvent(eventKind event){
                                 sdata.ptFwd = pos+vec3(0,sepr/2.f,0)*size.y;
                                 sdata.ptBack = pos+vec3(0,-sepr/2.f,0)*size.y;
 
-                                sdata.ptUp2D = camera.worldToScreen(sdata.ptUp);// sdata.ptUp2D.z = 0;
-                                sdata.ptDn2D = camera.worldToScreen(sdata.ptDn); //sdata.ptDn2D.z = 0;
-                                sdata.ptLeft2D = camera.worldToScreen(sdata.ptLeft); //sdata.ptLeft2D.z = 0;
-                                sdata.ptRight2D = camera.worldToScreen(sdata.ptRight); //sdata.ptRight2D.z = 0;
-                                sdata.ptFwd2D = camera.worldToScreen(sdata.ptFwd); //sdata.ptFwd2D.z = 0;
-                                sdata.ptBack2D = camera.worldToScreen(sdata.ptBack); //sdata.ptBack2D.z = 0;
+                                sdata.ptUp2D = camera.worldToScreen(sdata.ptUp);
+                                sdata.ptDn2D = camera.worldToScreen(sdata.ptDn);
+                                sdata.ptLeft2D = camera.worldToScreen(sdata.ptLeft);
+                                sdata.ptRight2D = camera.worldToScreen(sdata.ptRight);
+                                sdata.ptFwd2D = camera.worldToScreen(sdata.ptFwd);
+                                sdata.ptBack2D = camera.worldToScreen(sdata.ptBack);
 
-                                sdata.dirAwayUp = camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;// sdata.dirAwayUp.z = 0;
-                                sdata.dirAwayDn = camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D; //sdata.dirAwayDn.z = 0;
-                                sdata.dirAwayLeft = camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D; //sdata.dirAwayLeft.z = 0;
-                                sdata.dirAwayRight = camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D; //sdata.dirAwayRight.z = 0;
-                                sdata.dirAwayFwd = camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D; //sdata.dirAwayFwd.z = 0;
-                                sdata.dirAwayBack = camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D; //sdata.dirAwayBack.z = 0;
+                                sdata.dirAwayUp = camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;
+                                sdata.dirAwayDn = camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D;
+                                sdata.dirAwayLeft = camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D;
+                                sdata.dirAwayRight = camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D;
+                                sdata.dirAwayFwd = camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D;
+                                sdata.dirAwayBack = camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D;
 
                                 sdata.rotUp = atan2(sdata.dirAwayUp.y,sdata.dirAwayUp.x);
                                 sdata.rotDn = atan2(sdata.dirAwayDn.y,sdata.dirAwayDn.x);
@@ -703,9 +616,7 @@ void map_editor_kind::onEvent(eventKind event){
                                 //oving this here to ensure synchronisation
                                 //drag distance calculation
                                 if(selected_ent && selected_ent->body){
-                                    //printf("sel & body\n");
                                     if(sdata.dragging){
-                                        //printf("dragging\n");
                                         collisionbody &body = *selected_ent->body;
                                         vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
                                         float offset;
@@ -713,7 +624,6 @@ void map_editor_kind::onEvent(eventKind event){
                                         float dist3D;
                                         switch(sdata.dir){
                                             case(DIR::DIR_UP):{
-                                                //printf("dir_up\n");
                                                 float axisOffset = dot((mousePos-sdata.ptUp2D),sdata.dirAwayUp);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                                 //we don't just take mousepos because we need to
@@ -721,11 +631,6 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptUp2D+normalizeSafe(sdata.dirAwayUp)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptUp),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                             case(DIR::DIR_DN):{
                                                 float axisOffset = dot((mousePos-sdata.ptDn2D),sdata.dirAwayDn);
@@ -733,11 +638,6 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptDn2D+normalizeSafe(sdata.dirAwayDn)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptDn),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                             case(DIR::DIR_LEFT):{
                                                 float axisOffset = dot((mousePos-sdata.ptLeft2D),sdata.dirAwayLeft);
@@ -745,11 +645,6 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptLeft2D+normalizeSafe(sdata.dirAwayLeft)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptLeft),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                             case(DIR::DIR_RIGHT):{
                                                 float axisOffset = dot((mousePos-sdata.ptRight2D),sdata.dirAwayRight);
@@ -757,11 +652,6 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptRight2D+normalizeSafe(sdata.dirAwayRight)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptRight),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                             case(DIR::DIR_FWD):{
                                                 float axisOffset = dot((mousePos-sdata.ptFwd2D),sdata.dirAwayFwd);
@@ -769,11 +659,6 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptFwd2D+normalizeSafe(sdata.dirAwayFwd)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptFwd),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                             case(DIR::DIR_BACK):{
                                                 float axisOffset = dot((mousePos-sdata.ptBack2D),sdata.dirAwayBack);
@@ -781,17 +666,11 @@ void map_editor_kind::onEvent(eventKind event){
                                                 vec3 finalPt2D = sdata.ptBack2D+normalizeSafe(sdata.dirAwayBack)*pixelsMoved;
                                                 vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptBack),toVec3(sdata.dir));
-                                                //printf("initialOffset = %f\n",sdata.initialOffset);
-                                                //printf("axisOffset = %f\n",axisOffset);
-                                                //printf("pixelsMoved = %f\n",pixelsMoved);
-                                                //printf("finalPt2D = %s\n",toCString(finalPt2D));
-                                                //printf("finalPt3D = %s\n",toCString(finalPt3D));
                                             }break;
                                         }
-                                        float smoothCoeff = 0.9f;//1.f/2.f;
+                                        float smoothCoeff = 0.9f;
                                         dv3d = toVec3(sdata.dir)*dist3D*smoothCoeff;
                                         body.pos += dv3d;
-                                        //printf("dir = %s, dist = %f, dv3d = %s\n",toCString(toVec3(sdata.dir)), dist3D, toCString(dv3d));
                                     }
                                 }
 
@@ -801,7 +680,7 @@ void map_editor_kind::onEvent(eventKind event){
                                 setTransparency(true);
                                 setDepthTest(false);
                                 vec2 iconSize = t->size();
-                                rect R = rect(-iconSize/2.f,iconSize/2.f);//.moveBy(vec2(0,-iconSize.y/2.f));
+                                rect R = rect(-iconSize/2.f,iconSize/2.f);
                                 setScale(vec3(1,1,1));
 
                                 setRotation(vec3(0,0,1)*(sdata.rotUp+90.f*d2r));
@@ -956,14 +835,11 @@ void map_editor_kind::onEvent(eventKind event){
                     setLayer(layerMap3D);
                     drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
 					setColor(vec3(0,255,0));
-										
-					//vec3 O1 = body1->pos;//col->c_to_c.pos;
-					//vec3 O2 = body2->pos;
+
 					vec3 C = col->c_to_c.pos;
 					vec3 N = col->c_to_c.normal;
 					vec3 P = col->c_to_c.penetration;
 					printf("col.pos = %s, col.normal = %s\n",toCString(C), toCString(N));
-					//vec3 P = dv;//col->c_to_c.penetration;
 					drawArrow(C,C+N,vec3(0,255,0));
 					drawArrow(C,C+P,vec3(0,0,255));
 					if(cb){delete cb;}
@@ -1011,9 +887,7 @@ void map_editor_kind::onEvent(eventKind event){
 					setPointSize(4.f);
 					auto drawPt = [&](vec3 pt, vec3 prevPt){
 						drawPoint(pt);
-						//if(pt != prevPt){
-							drawLine(prevPt,pt);
-						//}
+						drawLine(prevPt,pt);
 					};
 					
 					if(points.size() < 3){drawPt(points[0],points[0]);}

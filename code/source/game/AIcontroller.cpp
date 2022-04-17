@@ -67,7 +67,6 @@ void AIcontroller::think(){
 	player = inputController->character;
 	if(!E){return;}
 	vec3 pos = E->body->pos;
-	//printf("[AI]: sleep %d\n",sleepTime);
 	//every frame, draw debug stuff
 
     //render some debug stuff
@@ -90,21 +89,13 @@ void AIcontroller::think(){
             setLayer(layerDebug);
 
             string text = fstring("node %d",j);
-            //font *fnt = getFont("calibri 18");
-            //rect R = preprintw(fnt,"%s",text.c_str());
-
-            //setColor(vec3(0,0,0));
             debugFloatingText(p, text);
-            //drawRect(R);
-            //setColor(vec3(255,255,255));
-            //printText(text);
         }
 	}
     debugFloatingText(pos+vec3(0,0,2),debugString);
 
 	if(sleepTime){sleepTime--; return;}
     sleepTime = 10;
-    //printf("[AI]: state %s\tsubstate %s\n",toCString(state),toCString(substate));
 
     debugString = fstring("[AI]: state [%s]\nsubstate [%s]\ntaskTime: %d\n",toCString(state),toCString(substate),taskTime);
 	switch(state){
@@ -115,11 +106,10 @@ void AIcontroller::think(){
         break;
         case AI_STATE_IDLE:
             taskTime++;
-            //sleepTime = 10;
             if(taskTime > 10){
                 taskTime = 0;
                 if(player){
-                    if(1){//if(randint(0,1)){
+                    if(1){
                         state = AI_STATE_FOLLOW;
                         substate = AI_SUBSTATE_THINK;
                         break;
@@ -152,7 +142,6 @@ void AIcontroller::think(){
                         walkdata.src = pos;
                         walkdata.dest = dest;
                         walkdata.path.clear();
-                        //sleepTime = 10;
                     }else{
                         if(length(walkdata.dest-dest) > 2.f){ //change path if the destination changed significantly since last pathfind.
                             walkdata.src = pos;
@@ -195,16 +184,13 @@ void AIcontroller::think(){
                             taskTime = 0;
                             substate = AI_SUBSTATE_THINK;
                             sleepTime = 0;
-                            //character->targetVelocity = vec3(0,0,0);
                        }else{  //we arrived at destination
                             printf("arrived at destination\n");
                             character->targetVelocity = vec3(0,0,0);
                             taskTime = 0;
-                            //state = AI_STATE_IDLE; //or maybe previous state for stack-based FSM?
                             substate = AI_SUBSTATE_THINK;
                         }
                     }else{
-                        //sleepTime = nextSleep;
                     }
                 }
                 break;
@@ -245,7 +231,6 @@ void AIcontroller::think(){
                         }
                         printf("--------------------\n");
                         walkdata.path = path;
-                        //walkdata.path = AStar(pos,dest);
                         if(walkdata.path.size()){break;}
                     }
                     if(walkdata.path.size()){ substate = AI_SUBSTATE_TURN; }
@@ -267,7 +252,6 @@ void AIcontroller::think(){
                     }
                     debugTargetPos = dest;
                     vec3 destDir = toVec3Angle(setZ(dest-pos,0));
-                    //printf("dir = %s, destDir = %s\n",toCString(character->targetDir), toCString(destDir));
                     character->targetDir = toVec3Angle(slerpAngle(toQuat(character->targetDir), toQuat(destDir), turnSpeed));//mix(character->targetDir, destDir, 0.3f);
 
                     if(length(character->targetDir - destDir) < 0.02f){
@@ -325,72 +309,4 @@ void AIcontroller::think(){
             }
         break;
 	}
-	/*
-	//printf("AIc 4--------------\n");
-	//mid-level reasoning
-	if(sleepTime){sleepTime--;}else{
-		player = inputController->character;
-		if(player){
-			auto pE = player->E;
-			if(!pE){return;}
-			vec3 playerPos = pE->body->pos;
-            vec3 playerDir = normalize(playerPos - pos);
-			//if there is player, climb on top of him
-			//targetPos = playerPos+vec3(0,0,1.f);
-
-			//if there is a player, approach him
-			targetPos = playerPos - playerDir*1.f;
-			quat Q = glm::angleAxis((float)atan2(playerDir.y,playerDir.x),vec3(0,0,1));//glm::angleAxis(atan2(playerDir.y,playerDir.x),vec3(0,0,1));
-			targetDir = axis(Q)*angle(Q);
-			sleepTime = 10;
-			printf("[AI]:> follow\n");
-			//printf("[AI %p]: \"chase player to %s\"\n",this,toCString(targetPos));
-		}else{
-			//else pick a random position
-			float r = 2.f; //wander radius
-			targetPos = pos+vec3(random(-r,r),random(-r,r),0);
-			//and make sure it's on the ground
-			collisioninfo *CI;
-			//vector<entity*> ignore;
-			//ignore.push_back(character->E);
-			CI = raytrace(pos, vec3(0,0,-1),{(entity*)E});//&ignore);
-			if(CI){
-				//this drops targetpos to ground, but pos is our center above the ground
-				//float dist = CI->c_to_c.depth;
-				//targetPos += vec3(0,0,-dist);
-				quat Q2 = glm::rotation(vec3(1,0,0),normalize(targetPos-pos));
-				targetDir = axis(Q2)*angle(Q2);
-			}else{
-				//on no, the abyss. let's not go there.
-				targetPos = pos;
-			}
-			//printf("[AI %p]: \"wander from %s to %s, dist = %f\"\n",this,toCString(pos),toCString(targetPos),length(targetPos-pos));
-			printf("[AI]:> wander\n");
-			sleepTime = random(60,120);
-		}
-	}
-	//-------------low-level reasoning
-	//go-to-target-pos code.
-	float dist = length(targetPos-pos);
-	*/
-
-    /*
-
-	//if close enough and target above, start jumping.
-
-	//if(dist < 2.f){
-	//	if(targetPos.z > pos.z){character->jump = true;}
-	//	else{character->jump = false;}
-	//}else{
-	//	character->jump = false;
-	//}
-
-	//set target velocity to speed times direction
-	float speed = 0.03f;//0.1f;
-	vec3 dir = normalizeSafe(targetPos-pos);
-	if(speed > dist){speed = dist;}
-	vec3 targetVelocity = dir*speed;
-	character->targetVelocity = targetVelocity;
-	character->targetDir = targetDir;
-	*/
 }

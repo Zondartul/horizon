@@ -13,17 +13,14 @@ class GUIwindow:public virtual GUIframe{
 	GUIbutton *btnClose;
 	//grab support
 	bool pressed;
-	//bool mouseover;
 	bool mouseovertitle;
 	vec2 offset;
 	GUIwindow();
 	GUIwindow *setCloseButton(bool hasbtn);
 	GUIwindow *setMoveable(bool newmoveable);
 	GUIwindow *setTitle(string title);
-	//void close();
 	
 	//standard functions
-	//virtual void render();
 	virtual void onEvent(eventKind event);
 	virtual void invalidate();
 	

@@ -37,10 +37,9 @@ class AIcontroller:public eventListener{
 	int taskTime = 0;
 	int sleepTime = 0;
 	SubstateWalkData walkdata;
-	//
+
 	vec3 debugTargetPos = vec3(0,0,0);
 	string debugString = "";
-	//vec3 targetDir = vec3(0,1,0);
 	float walkSpeed = 0.05f;
 	float turnSpeed = 45*d2r;
 

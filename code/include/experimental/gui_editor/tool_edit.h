@@ -1,6 +1,5 @@
 #ifndef GUI_EDITOR_TOOL_EDIT_GUARD
 #define GUI_EDITOR_TOOL_EDIT_GUARD
-//#include "gui_editor.h"
 
 class gui_editor_tool_edit:public gui_editor_tool{
 	public:
@@ -11,7 +10,6 @@ class gui_editor_tool_edit:public gui_editor_tool{
 	virtual void ldown();
 	virtual void rup();
 	virtual void rdown();
-	//virtual void cleanup(); //reset the tool to initial state
 	gui_editor_tool_edit(gui_editor_kind *Ed);
 	
 	GUIbase *copyBuffer = 0;

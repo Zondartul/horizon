@@ -14,23 +14,6 @@ render(GUIbase *el, string type){
 	if(type == ""){type = el->getType();}
 	rect R = el->worldArea();
 	
-	/* //outline around the selected
-	if(el->mouseover){
-		setColor(vec3(255,255,0));
-		rect R1 = R.setStart(R.start-vec2(1,1)).
-					 setEnd(R.end+vec2(1,1));
-		drawRectOutline(R1);
-		R1 = R.setStart(R1.start-vec2(1,1)).
-					 setEnd(R.end+vec2(1,1));
-		drawRectOutline(R1);
-		R1 = R.setStart(R1.start-vec2(1,1)).
-					 setEnd(R1.end+vec2(1,1));
-		drawRectOutline(R1);
-		setColor(vec3(0,0,0));
-	}
-	*/
-	
-	//setColor(vec3(0,0,0));
 	if(type == "GUbase"){}
 	else if(type == "GUIbutton"){
 		GUIbutton *elBtn = dynamic_cast<GUIbutton*>(el); if(!elBtn){return;}
@@ -68,52 +51,6 @@ render(GUIbase *el, string type){
 			setColor(vec3(0,0,0));
 			drawRectOutline(R);
 		}
-		/*
-		setScissoring(false);
-		GUIgrid *elGD = dynamic_cast<GUIgrid*>(el); if(!elGD){return;}
-		if(!elGD->bSizeToParent){
-			rect R = el->worldArea();
-			R = R.setStart(R.start-vec2(1,1)).setEnd(R.end+vec2(1,1));
-			setColor(vec3(255,255,0));
-			drawRectOutline(R);
-			R = R.setStart(R.start-vec2(1,1)).setEnd(R.end+vec2(1,1));
-			setColor(vec3(0,0,0));
-			drawRectOutline(R);
-		}
-		//1. measure total size
-		float Ytotal = 0;
-		float Xtotal = 0;
-		for(auto R = elGD->rowsettings.begin(); R != elGD->rowsettings.end(); R++){
-			Ytotal += R->cur;
-		}
-		for(auto C = elGD->colsettings.begin(); C != elGD->colsettings.end(); C++){
-			Xtotal += C->cur;
-		}
-		//2. draw grid lines
-		setColor(vec3(255,0,0));
-		setPointSize(3.0f);
-		vec2 O = elGD->worldArea().start;
-		float Ycur = 0;
-		for(auto R = elGD->rowsettings.begin(); R != elGD->rowsettings.end(); R++){
-			Ycur += R->cur;
-			vec3 pt1 = toVec3(O+vec2(0,Ycur));
-			vec3 pt2 = toVec3(O+vec2(Xtotal,Ycur));
-			drawPoint(pt1);
-			drawPoint(pt2);
-			drawLine(pt1,pt2);
-		}
-		setColor(vec3(128,0,128));
-		float Xcur = 0;
-		for(auto C = elGD->colsettings.begin(); C != elGD->colsettings.end(); C++){
-			Xcur += C->cur;
-			vec3 pt1 = toVec3(O+vec2(Xcur,0));
-			vec3 pt2 = toVec3(O+vec2(Xcur,Ytotal));
-			drawPoint(pt1);
-			drawPoint(pt2);
-			drawLine(pt1,pt2);
-		}
-		setScissoring(true);
-		*/
 	}
 	else if(type == "GUIimage"){
 		GUIimage *elImg = dynamic_cast<GUIimage*>(el); if(!elImg){return;}
@@ -131,7 +68,7 @@ render(GUIbase *el, string type){
 		GUIlabel *elLbl = dynamic_cast<GUIlabel*>(el); if(!elLbl){return;}
 		setColor(elLbl->textColor);
 		setFont(elLbl->textfont);
-		rect tRect = elLbl->getTextRect();//preprintw(textfont,"%s",text.c_str());
+		rect tRect = elLbl->getTextRect();
 		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);//-tRect.start;
 		setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
 		setScissor(el->visibleArea());
@@ -181,8 +118,7 @@ render(GUIbase *el, string type){
 		render(el, "GUIbutton");
 		if(elTE->hasfocus){
 			rect TR;
-			rect AR = elTE->worldArea();	
-			//textOffset = vec2(0,0);
+			rect AR = elTE->worldArea();
 		textScrollLoop:
 			if(elTE->cursorPos){
 				TR = elTE->getTextRect(elTE->text.substr(0,elTE->cursorPos));
@@ -198,7 +134,6 @@ render(GUIbase *el, string type){
 			float diffLeft = AR.start.x+12.f-caretPos.x;
 			if(diffLeft > 0){
 				elTE->textOffset.x += diffLeft;
-				//caretPos += textOffset;
 			}
 			if(elTE->textOffset.x > 0){elTE->textOffset.x = 0;}
 			rect CR = elTE->tcaret->getRect();
@@ -208,8 +143,6 @@ render(GUIbase *el, string type){
 			setColor(vec3(255,255,255));
 			drawImage(elTE->tcaret,IR);
 			setTexturing(false);
-			//setColor(vec3(255,0,0));
-			//drawRectOutline(IR);
 		}else{
 			elTE->textOffset = vec2(0,0);
 		}
@@ -221,8 +154,6 @@ render(GUIbase *el, string type){
 		GUIwindow *elWin = dynamic_cast<GUIwindow*>(el); if(!elWin){return;}
 		if(GUIoptions.push){pushRenderOptions();}
 		vec2 pos = getMousePos();
-		//mouseover = visibleArea().clamp(thisToWorld(rect(area.size.x-23,23))).contains(pos);
-
 		setColor(elWin->borderColor);
 		drawRect(elWin->thisToWorld(rect(el->area.size.x,23)));
 		render(el, "GUIframe");
@@ -254,8 +185,6 @@ render(GUIbase *el, string type){
 		setColor(vec3(255,0,0));
 		drawRectOutline(R);
 	}
-	
-	//drawRectOutline(R);	
 }
 
 GUIrenderer_default GUIR_default;

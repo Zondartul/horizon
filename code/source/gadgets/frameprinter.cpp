@@ -25,14 +25,6 @@ void frameprinter::print(string S){strings.push_back(S);}
 void frameprinter::onEvent(eventKind event){if(event.type == EVENT_FRAME){render();}}
 
 void frameprinter::render(){
-	//static renderLayer *layerFP=0;	//warning: shared among all instances of base class.
-	// if(layerFP){
-		// setLayer(layerFP);
-	// }else{
-		// layerFP = new renderLayer();
-		// setLayer(layer2D);
-		// addLayer(layerFP);
-	// }
 	setLayer(layerFP);
 	layerFP->clear();
 	layerFP->reset();

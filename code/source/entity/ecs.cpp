@@ -60,28 +60,9 @@ void ecs_render_system_kind::onEvent(eventKind event){
 	setLayer(ecs_render_layer);
 	for(auto I = entities.begin(); I != entities.end(); I++){
 		entity *E = *I;
-		if(E->r /*&& E->body*/){
-			/* setColor(E->r->color);
-			//if we end up with renderables that don't have a position,
-			//then this func will change.
-			setPosition(E->body->pos);
-			setScale(vec3(1,1,1));
-			setRotation(vec3(0,0,0));
-			setRenderMode(3);
-			setLighting(true);
-			if(texturingOn && E->r->t){
-				setTexturing(true);
-				setTexture(E->r->t);
-			}else{
-				setTexturing(false);
-			}
-			drawRmodel(E->r->rm); */
-			//setLayer(ecs_render_layer);
+		if(E->r){
+
 			E->r->render(&options);
-			//setLayer(layerDebug);
-			//vec3 P = E->body->pos;
-			//vec3 V = E->body->vel;
-			//drawArrow(P, P+V, vec3(255,255,255));
 		}
 	}
 
@@ -153,13 +134,10 @@ void ecs_collision_system_kind::onEvent(eventKind event){
 	if(!collisionOn){return;}
 	if(event.type != EVENT_FRAME){return;}
 	extern octree_node* octree_root;
-	//printf("\nBROADPHASE\n");
 	broadphaseinfo *bp = checkCollisionBroadphase(octree_root);
-	//printf("END BP\n");
 	for(auto I = bp->pairs.begin(); I != bp->pairs.end(); I++){
 		pairwiseCollisionCheck(I->first,I->second,options);
 	}
-	//frameprint(fstring("bp: %p",bp));
 	int nbodies, npairs, efficiency;
 	nbodies = bp->bodies.size();
 	npairs = bp->pairs.size();
@@ -169,6 +147,5 @@ void ecs_collision_system_kind::onEvent(eventKind event){
 		efficiency = 0;
 	}
 	if(bp){frameprint(fstring("%d bodies, %d pairs (%d%% of N^2)",nbodies,npairs,efficiency));}
-	//broadphaseRender(bp);
 	delete bp;
 }

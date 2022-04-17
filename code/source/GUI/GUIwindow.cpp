@@ -32,7 +32,6 @@ GUIwindow::GUIwindow(){
 GUIwindow *GUIwindow::setCloseButton(bool hasbtn){
 	btnClose->setHidden(!hasbtn);
 	hasCloseButton = hasbtn;
-	//children[0]->setHidden(!hasbtn);
 	return this;
 }
 
@@ -42,43 +41,12 @@ GUIwindow *GUIwindow::setMoveable(bool newmoveable){
 }
 
 GUIwindow *GUIwindow::setTitle(string title){
-//	((GUIlabel*)children[1])->setText(title);
-//	((GUIlabel*)children[1])->sizeToContents();
-	//dynamic_cast<GUIlabel*>(children[1])->setText(title);
-	//dynamic_cast<GUIlabel*>(children[1])->sizeToContents();
 	lblTitle->setText(title);
 	lblTitle->sizeToContents();
 	this->title = title;
 	return this;
 }
 
-/*
-void GUIwindow::close(){
-	delete this; //hello?
-	// if(parent){
-		// auto &pc = parent->children;
-		// for(int I = 0; I < pc.size(); I++){
-			// if(pc[I] == this){
-				// pc.erase(pc.begin()+I);
-				// I--;
-			// }
-		// }
-	// }
-}
-*/
-
-/*
-void GUIwindow::render(){
-	if(GUIoptions.push){pushRenderOptions();}
-	vec2 pos = getMousePos();
-	//mouseover = visibleArea().clamp(thisToWorld(rect(area.size.x-23,23))).contains(pos);
-
-	setColor(borderColor);
-	drawRect(thisToWorld(rect(area.size.x,23)));
-	GUIframe::render();
-	if(GUIoptions.push){popRenderOptions();}
-}
-*/
 
 void GUIwindow::onEvent(eventKind event){
 	GUIbase::onEvent(event);
@@ -131,7 +99,6 @@ string GUIwindow::getProperty(string key){
 	else return GUIframe::getProperty(key);
 }
 void GUIwindow::setProperty(string key, string val){
-	//printf("%s::setProperty(%s)=[%s]\n",getType().c_str(),key.c_str(),val.c_str());
 	if(key == "hasCloseButton"){setCloseButton(fromString<bool>(val));}
 	else if(key == "moveable"){moveable = fromString<bool>(val);}
 	else if(key == "title"){setTitle(val);}

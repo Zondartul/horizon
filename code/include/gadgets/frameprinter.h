@@ -17,7 +17,6 @@ class frameprinter:public eventListener{
 	virtual void onEvent(eventKind event);	//checks for frame events
 };
 
-//select a frameprinter that frameprint() prints to.
 void setFramePrinter(frameprinter *printer);
 
 #endif

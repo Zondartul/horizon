@@ -1,8 +1,5 @@
 #ifndef GUIBUTTON_GUARD
 #define GUIBUTTON_GUARD
-//#include "GUIframe.h"
-//#include "GUIimage.h"
-//#include "GUIlabel.h"
 
 class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual GUIlabel{
 	public:
@@ -17,7 +14,6 @@ class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual
 	function<void()> F;
 	GUIbutton *setFunction(function<void()> f);
 	virtual GUIbase *sizeToContents();
-	//virtual void render();
 	virtual void onEvent(eventKind event);
 	
 	//property table

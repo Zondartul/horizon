@@ -20,7 +20,7 @@ GUIfileDialog::GUIfileDialog(){
 	
 	btn_up->setFunction([=](){
 		string dir = this->address_field->text;
-		dir += getOSdirSeparator()+".."+getOSdirSeparator(); //"//..//";
+		dir += getOSdirSeparator()+".."+getOSdirSeparator();
 		dir = toCanonicalPath(dir);
 		setDirectory(dir);
 		});
@@ -28,12 +28,8 @@ GUIfileDialog::GUIfileDialog(){
 	scroll = new GUIscrollbar();
 	scroll->moveTo(vec2(0,24));
 	scroll->setSize(vec2(300-0,200-24-24));
-	//scroll->setInnerSize(vec2(300,600));
-	//scroll->sizeToParent(true);
 	scroll->setHorizontal(false);
 	scroll->setVertical(true);
-	//scroll->setInnerSize(vec2(300-30,500));
-	//scroll->setHorizontal(true);
 	addChild(scroll);
 	
 	select_field = new GUItextEntry();
@@ -48,7 +44,7 @@ GUIfileDialog::GUIfileDialog(){
 	btn_select->setFunction([=](){
 		string S = select_field->text;
 		string dir = address_field->text;
-		string fullname = dir + getOSdirSeparator() + S;//dir + "\\" + S;
+		string fullname = dir + getOSdirSeparator() + S;
 		switch(mode){
 			case GUIf::Save:
 				if(S == ""){return;}
@@ -80,8 +76,8 @@ GUIfileDialog::GUIfileDialog(){
 				return;
 			break;
 			case GUIf::Folder:
-				if((S != "") && (isFolder(dir+/*"\\"*/ getOSdirSeparator()+S))){
-					fullname = dir+/*"\\"*/ getOSdirSeparator()+S;
+				if((S != "") && (isFolder(dir+ getOSdirSeparator()+S))){
+					fullname = dir+ getOSdirSeparator()+S;
 				}else{fullname = dir;}
 				func(fullname);
 				this->close();
@@ -96,22 +92,17 @@ GUIfileDialog::GUIfileDialog(){
 GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 	address_field->setText(dir);
 	
-	//for(auto &g : elements){
-	//	delete g;
-	//}
 	scroll->setScrollRatio(vec2(0,0));
 	for(int I = 0; I < elements.size(); I++){
 		GUIbase *b = elements[I];
 		delete b;
 	}
 	elements.clear();
-	//scroll->setScrollOffset(vec2(0,0));
 	
 	vector<string> ls = getDirectoryList(dir);
 	int y = 0;
-	//for(auto I = ls.begin()/*; I != ls.end(); I++*/){
 	for(auto S : ls){
-		string fullname = dir+/*"\\"*/getOSdirSeparator()+S;
+		string fullname = dir+getOSdirSeparator()+S;
 		texture *t = getFileIcon(fullname);
 		
 		GUIimage *img = new GUIimage();
@@ -121,13 +112,6 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 		scroll->addChild(img);
 		elements.push_back(img);
 		
-		//GUIlabel *lbl = new GUIlabel();
-		//lbl->setText(S);
-		//lbl->moveTo(vec2(16,y));
-		//y += 24;
-		//lbl->sizeToContents();
-		//scroll->addChild(lbl);
-		//elements.push_back(lbl);
 		GUIbutton *btn = new GUIbutton();
 		btn->setText(S);
 		btn->moveTo(vec2(18,y));
@@ -142,12 +126,10 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 			float dt = t2-t1;
 			printf("dt = %f\n",dt);
 			if(dt<0.3f){
-				//doubleclick
-				//btn_select->F();
 				string S = select_field->text;
 				string dir = address_field->text;
 				if(S == ""){return;}
-				string fullname = dir + /*"\\"*/getOSdirSeparator() + S;
+				string fullname = dir + getOSdirSeparator() + S;
 				if(isFolder(fullname)){
 					setDirectory(fullname);
 					return;
@@ -165,7 +147,6 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 	insize.y = y;
 	scroll->setInnerSize(insize);
 	scroll->setScrollRatio(vec2(0,0));
-	//scroll->setScrollRatio(vec2(10,10));
 	return *this;
 }
 

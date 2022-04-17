@@ -25,19 +25,15 @@ gui_editor_kind::gui_editor_kind(){
 	
 	GUIbutton *btn1 = new GUIbutton();
 	btn1->setText("File");
-	//btn1->sizeToContents(); //too small, should add borders
 	btn1->setSize(vec2(40,20));
 	btn1->setFunction([=](){
 		GUIfileDialog *dialog = new GUIfileDialog();
 		dialog->setDirectory(getDataDirectory());
 		dialog->setMode(GUIf::Save);
 		dialog->setFunction([=](string filepath){
-			//FILE *fp = fopen(filepath.c_str(),"r");
-			//if(fp){printf("file already exists: [%s]\n",filepath.c_str());}
-			//else{
 			FILE *fp = fopen(filepath.c_str(),"a");
 			fprintf(fp,"Hello World!\n");
-			//}
+			
 			fclose(fp);
 		});
 		GUI->addChild(dialog);
@@ -50,7 +46,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnFrame->setImage(getTexture("gui/iconframe"));
 	btnFrame->moveTo(vec2(0,32*1));
 	btnFrame->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_FRAME);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_FRAME));
 	});
 	mainWindow->addChild(btnFrame);
@@ -61,7 +56,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnWindow->setImage(getTexture("gui/iconwindow"));
 	btnWindow->moveTo(vec2(0,32*2));
 	btnWindow->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_WINDOW);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_WINDOW));
 	});
 	mainWindow->addChild(btnWindow);
@@ -72,7 +66,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnBtn->setImage(getTexture("gui/iconbutton"));
 	btnBtn->moveTo(vec2(0,32*3));
 	btnBtn->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_BUTTON);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_BUTTON));
 	});
 	mainWindow->addChild(btnBtn);
@@ -83,8 +76,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnCheckbox->setImage(getTexture("gui/iconcheckbox"));
 	btnCheckbox->moveTo(vec2(0,32*4));
 	btnCheckbox->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_CHECKBOX);
-		//tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_CHECKBOX));
 	});
 	mainWindow->addChild(btnCheckbox);
 	
@@ -94,7 +85,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnLabel->setImage(getTexture("gui/iconlabel"));
 	btnLabel->moveTo(vec2(0,32*5));
 	btnLabel->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_LABEL);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_LABEL));
 	});
 	mainWindow->addChild(btnLabel);
@@ -105,7 +95,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnTextEntry->setImage(getTexture("gui/icontextentry"));
 	btnTextEntry->moveTo(vec2(0,32*6));
 	btnTextEntry->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_TEXTENTRY);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TEXTENTRY));
 	});
 	mainWindow->addChild(btnTextEntry);
@@ -116,7 +105,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnImage->setImage(getTexture("gui/iconimage"));
 	btnImage->moveTo(vec2(0,32*7));
 	btnImage->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_IMAGE);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_IMAGE));
 	});
 	mainWindow->addChild(btnImage);
@@ -127,7 +115,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnScrollbar->setImage(getTexture("gui/iconscrollbar"));
 	btnScrollbar->moveTo(vec2(0,32*8));
 	btnScrollbar->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_SCROLLBAR);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SCROLLBAR));
 	});
 	mainWindow->addChild(btnScrollbar);
@@ -138,7 +125,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnTabs->setImage(getTexture("gui/icontabs"));
 	btnTabs->moveTo(vec2(0,32*9));
 	btnTabs->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_TABS);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TABS));
 	});
 	mainWindow->addChild(btnTabs);
@@ -150,7 +136,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnCursor->setImage(getTexture("gui/cursor"));
 	btnCursor->moveTo(vec2(32,32*1));
 	btnCursor->setFunction([=](){
-		//tool_start(GEM_EDIT, GEMS_IDLE);
 		tool_none();
 	});
 	mainWindow->addChild(btnCursor);
@@ -196,7 +181,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnSG->setImage(getTexture("gui/iconselectiongroup"));
 	btnSG->moveTo(vec2(32,32*4));
 	btnSG->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_SELECTIONGROUP);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTIONGROUP));
 	});
 	mainWindow->addChild(btnSG);
@@ -207,7 +191,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnSel->setImage(getTexture("gui/iconselectable2"));
 	btnSel->moveTo(vec2(32,32*5));
 	btnSel->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_SELECTABLE);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTABLE));
 	});
 	mainWindow->addChild(btnSel);
@@ -218,7 +201,6 @@ gui_editor_kind::gui_editor_kind(){
 	btnGrid->setImage(getTexture("gui/icongrid"));
 	btnGrid->moveTo(vec2(32,32*6));
 	btnGrid->setFunction([=](){
-		//tool_start(GEM_PLACE, GEMS_GRID);
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_GRID));
 	});
 	mainWindow->addChild(btnGrid);
@@ -244,9 +226,6 @@ gui_editor_kind::gui_editor_kind(){
 	setAlpha(255.0f);
 	setColor(vec3(0,0,0));
 	
-	//setTexturing(false);
-	//setLighting(false);
-	
 	helper.editor = this;
 	
 	inputChannel->addListener(this);
@@ -268,16 +247,9 @@ void gui_editor_kind::close(){
 		GUIbase *B = elMainWindow;
 		delete B;
 	}
-	//remember to delete the tools...
-	//if(elDDM){
-	//	printf("deleting dropdownMenu\n");
-	//	GUIbase *B = elDDM;
-	//	delete B;
-	//}
 }
 
 void openGuiEditor(){
-	//if(!gui_editor){gui_editor = new gui_editor_kind();}
 	if(gui_editor){
 		printf("closing gui editor\n");
 		gui_editor->close();
@@ -308,7 +280,7 @@ void gui_editor_kind::paste(string filepath){
 	GUIwindow *workWindow; 
 	EPCAST(elWorkWindow, workWindow) else return;
 	printf("gui_editor_kind::paste()\n");
-	XMLDocument doc;//doc(filepath.c_str());
+	XMLDocument doc;
 	if(!fileReadable(filepath)){error("can't read file [%s]\n",filepath.c_str());}
 	doc.LoadFile(filepath.c_str());
 	XMLElement *el = doc.RootElement();
@@ -317,7 +289,6 @@ void gui_editor_kind::paste(string filepath){
 		const GUIcompoundProperty &P2 = *I;
 		if(P2.table.table.at("isClient") == "1"){
 			GUIbase *B = P2.instantiate();
-			//B->moveTo(B->area.start+vec2(100,100));
 			workWindow->addChild(B);
 		}
 	}
@@ -327,18 +298,6 @@ void gui_editor_kind::paste(string filepath){
 
 void gui_editor_kind::tool_cleanup(){  //to be called after every application of a tool
 	if(tool){tool->cleanup();}
-	/*
-	switch(mode){
-		case GEM_PLACE:
-			subject = 0;
-			drawVert1 = false;
-			drawVertCursor = false;
-		break;
-		case GEM_EDIT:
-			subject = 0;
-		break;
-	}
-	*/
 }
 
 void gui_editor_kind::tool_start(gui_editor_tool *newtool){   //select a tool
@@ -346,38 +305,24 @@ void gui_editor_kind::tool_start(gui_editor_tool *newtool){   //select a tool
 	lastTool = tool;
 	tool = newtool;
 	elWorkWindow->blockChildInput = true;
-	//lastMode = mode;
-	//mode = tool;
-	//submode = setting;
-	//stage = GEMT_START;
-	//elWorkWindow->blockChildInput =  true;
 }
 void gui_editor_kind::tool_cancel(){   //de-select the tool
 	tool_cleanup();
-	//lastMode = mode;
-	//mode = GEM_IDLE;
-	//stage = GEMT_IDLE;
 	tool_default();
 }
 void gui_editor_kind::tool_restart(){  //re-select the previous tool
-	//tool_cancel();
-	//mode = lastMode;
 	tool_cleanup();
-	//stage = GEMT_START;
 }
 void gui_editor_kind::tool_finished(){ //tool signals that it is done.
 	tool_restart();
 }
 
 void gui_editor_kind::tool_default(){
-	//tool_start(GEM_EDIT, GEMS_IDLE);
 	tool_start(new gui_editor_tool_edit(this));
 }
 
 void gui_editor_kind::tool_none(){
 	tool_cancel();
-	//mode = GEM_IDLE;
-	//stage = GEMT_IDLE;
 	if(tool){delete tool; tool = 0;}
 	elWorkWindow->blockChildInput =  false;
 }
@@ -420,50 +365,6 @@ void gui_editor_kind::onEvent(eventKind event){
 		break;
 		case EVENT_FRAME: if(tool){tool->draw();} break;
 	}
-	/*
-    switch(mode){
-		case GEM_PLACE:
-			switch(event.type){
-				case EVENT_MOUSE_MOVE: place_tool_scan(); break;
-				case EVENT_MOUSE_BUTTON_UP: 
-					if(!isFrontEvent){break;}
-						 if(event.mousebutton.button == MOUSE_LEFT) {place_tool_lclick();}
-					else if(event.mousebutton.button == MOUSE_RIGHT){place_tool_rclick();}
-				break;
-				case EVENT_FRAME: place_tool_draw();
-			}
-		break;
-		case GEM_EDIT:
-			switch(event.type){
-				case EVENT_MOUSE_MOVE: edit_tool_mousemove(); break;
-				case EVENT_MOUSE_BUTTON_DOWN:
-					if(!isFrontEvent){break;}
-						 if(event.mousebutton.button == MOUSE_LEFT) {edit_tool_ldown();}
-					else if(event.mousebutton.button == MOUSE_RIGHT){}
-				break;
-				case EVENT_MOUSE_BUTTON_UP:
-					if(!isFrontEvent){break;}
-						 if(event.mousebutton.button == MOUSE_LEFT) {edit_tool_lup();}
-					else if(event.mousebutton.button == MOUSE_RIGHT){edit_tool_rclick();}
-				break;
-				case EVENT_FRAME: edit_tool_draw();
-			}
-		break;
-	}
-	*/
-	//while a tool is active, hide all clicks in the work area.
-	//this is now done through the GUIBase::blockChildInput flag.
-	/*
-	if(workWindow->mouseover && 
-		((event.type == EVENT_MOUSE_BUTTON_DOWN) || 
-		(event.type == EVENT_MOUSE_BUTTON_UP)) &&
-		(mode != GEM_IDLE) && 
-		(mouseover_element != workWindow)
-		)
-		{
-			event.maskEvent();
-		}
-	*/
 }
 
 void gui_editor_event_helper::onEvent(eventKind event){

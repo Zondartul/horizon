@@ -1,5 +1,4 @@
 #include "gui_editor.h"
-//#include "paint.h"
 
 
 void drawBorders(GUIbase *B){

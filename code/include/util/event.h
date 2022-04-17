@@ -73,7 +73,6 @@ typedef eventListenerList eventChannel;
 
 class eventListener{
 	public:
-    //virtual ~eventListener() = default;
 	//let's make it unsubscribe automatically
 	vector<eventChannel*> channels;
 	virtual ~eventListener();

@@ -24,7 +24,6 @@ entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider,bo
 	renderableModel *r = new renderableModel();
 	e_model *em = generateBox(end-start,texscale);
 	rmpack rms = em->getRmpack();
-	//rmodel *rm = em->getRmodel();
 	r->rm_default = rms.rm_tris;
 	r->rm_wireframe = rms.rm_wire;
 	r->color = vec3(255,255,255);
@@ -37,12 +36,6 @@ entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider,bo
 	body->E = E;
 	E->body = body;
 
-
-	//body->gravity = vec3(0,0,0);
-	//body->mass = 1.0f;
-	//body->restitution = 1.0f;
-	//body->friction = 1.0f;
-
 	E->setPosition((start+end)/2.0f);
 	E->setVelocity(vec3(0,0,0));
 	E->setGravity(vec3(0,0,0));
@@ -50,12 +43,6 @@ entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider,bo
 	E->setBouncyness(1.0f);
 	E->setFriction(0.5f);
 	addEntity(E);
-	//if(hascollider){
-	//	body->type = BODY_STATIC;
-	//}else{
-	//	body->type = BODY_NOCOLLIDE;
-	//}
-
 	return E;
 }
 
@@ -82,7 +69,6 @@ entity *physplane(vec3 A, vec3 B, vec3 C, texture *t, float texscale){
 }
 
 void wall(vec3 start, vec3 end,float scale){
-	//box(start,end,getTexture("materials/brick2"),1.0f/2.0f);
 	entity *E = box(start,end,getTexture("materials/brick2"),scale);
 	E->name = string()+"wall_"+(int)entities.size();
 }
@@ -119,12 +105,6 @@ entity *physbox(string tex, float size, float mass, float bouncyness, float fric
 	body->type = BODY_DYNAMIC;
 	addEntity(E);
 	return E;
-	//ov is handled automatically by collisionbody
-	//body->ov = new octree_visitor(octree_root,body,body->pos);
-	//ov->curNode = octree_root;
-	//ov->body = body;
-	//octree_root->addVisitor(ov);
-	//ov->moveTo(body->pos);
 }
 
 
@@ -132,15 +112,11 @@ renderableMultimodel* comboToRenderable(vector<physprim> combo){
     renderableMultimodel *rmm = new renderableMultimodel();
 	int j = 0;
 	renderableModel *r;
-	//for(auto I = combo.begin(); I != combo.end(); I++){
 	for(unsigned int I = 0; I < combo.size(); I++){
-		//printf("j = %d\n",j++);
 		r = new renderableModel();
 
 		rmpack rms;
-		//printf("deref\n");
 		physprim p = combo[I];
-		//printf("switch\n");
 		switch(p.type){
 			case(PRIM_BOX):
 				rms = generateBox(vec3(p.args[0],p.args[1],p.args[2]),p.args[3])
@@ -190,7 +166,6 @@ void physcombo(vector<physprim> combo){
 	renderableMultimodel *rmm = new renderableMultimodel();
 	int j = 0;
 	renderableModel *r;
-	//for(auto I = combo.begin(); I != combo.end(); I++){
 	for(unsigned int I = 0; I < combo.size(); I++){
 		printf("j = %d\n",j++);
 		r = new renderableModel();
@@ -249,7 +224,7 @@ void physcombo(vector<physprim> combo){
 	}
 	printf("aabb final = %s\n",toCString(aabb));
 	//-----
-	collisionbody *body = new collisionbodyAABB(aabb);//rm->toModel()->getAABB());
+	collisionbody *body = new collisionbodyAABB(aabb);
 	E->body = body;
 	body->E = E;
 	body->pos = camera.pos-vec3(0.5,0.5,0.5)+camera.forward()*2.f;
@@ -300,12 +275,6 @@ void phystree(float mass, float bouncyness, float friction){
 
 	rmm->upload();
 
-	//r1->color = vec3(255,255,255);
-	//r1->t = getTexture(tex);
-	//r1->upload();
-
-
-
 	E->r = rmm;
 
 
@@ -323,11 +292,6 @@ void phystree(float mass, float bouncyness, float friction){
 	body->type = BODY_DYNAMIC;
 	addEntity(E);
 	//ov is handled automatically by collisionbody
-	//body->ov = new octree_visitor(octree_root,body,body->pos);
-	//ov->curNode = octree_root;
-	//ov->body = body;
-	//octree_root->addVisitor(ov);
-	//ov->moveTo(body->pos);
 }
 
 e_selection selectVertsCircle(vec3 pos, float dist, e_model *M,float hardness){
@@ -338,30 +302,17 @@ e_selection selectVertsCircle(vec3 pos, float dist, e_model *M,float hardness){
 
 		vec3 pos2 = (*I)->pos;
 		float dist2 = length(pos2-pos);
-		//printf("dist2 = %f, pos2 = %s\n",dist2,toCString(pos2));
 		float distCoeff = dist2/dist;
 		float x = distCoeff;
-		//if(j == 0){printf("at(0,0) dist = %f, dist2 = %f, distCoeff = %f\n",dist,dist2,distCoeff);}
 		if(dist2 < dist){k++;}
-		/*
-		if(distCoeff < 1.0f){
-			sel.verts.push_back(*I);
-			(*I)->selection_weight = pow(1.0f-distCoeff,hardness);
-		}
-		*/
-
+		
 		sel.verts.push_back(*I);
 		float weight = 0.f;
 		float e = 2.718f;
 
-		//bell curve (always pointy)
-		//weight = pow(e,-hardness*x);
-
 		weight = pow(e,((1-2*x)*6)*hardness)/(pow(e,((1-2*x)*6)*hardness)+1);
 
-		//printf("weight = %f\n",weight);
 		(*I)->selection_weight = weight;
-		//if((weight > 0.45f) && (weight < 0.55f)){printf("w 0.5 at (%d,%d)\n",j%16,(j-j%16)/16);}
 	}
 	printf("num inside verts = %d\n",k);
 	return sel;
@@ -380,32 +331,24 @@ void makeSheet(vec3 start, vec3 end){
 
 	vec3 center = (start+end)/2.f;
 	//model manipulation here
-	vec3 selPos = center-start;//vec3(1,0.5,0);
+	vec3 selPos = center-start;
 	selPos += vec3(0,0.5,0);
 	selPos.z = 0;
-	float selSize = scale.x*0.5f;//length(vec3(scale.x,scale.y,0))*0.75f;
-	//printf("selSize = %f\n",selSize);
-	float selHardness = 0.75f;//1/3.14f;
-	//e_selection sel = selectVertsCircle(vec3(1,0.5,0),0.4,em_sheet,0.5);
+	float selSize = scale.x*0.5f;
+	float selHardness = 0.75f;
 	printf("selectVertsCircle(\n\tselPos = %s,\n\tselSize = %s\n\tscale = %s\n\tselHardness = %f\n",
 		toCString(selPos),toCString(selSize),toCString(scale),selHardness);
 	e_selection sel = selectVertsCircle(selPos,selSize,em_sheet,selHardness);
-	//sel.move(vec3(0,0,0.2));
 	sel.move(vec3(0,0,scale.z));
 	sel = em_sheet->selectAll();
 	sel.recalculateNormalsSmooth();
 	//end model manip
 
 	rmpack rm_sheet = em_sheet->getRmpack();
-	//model *m = rm_sheet->toModel();
-	//m->recalculateNormals();
-	//delete rm_sheet;
-	//rm_sheet = new rmodel(m);
 	renderableModel *RM = new renderableModel();
 	RM->rm_default = rm_sheet.rm_tris;
 	RM->rm_wireframe = rm_sheet.rm_wire;
 	RM->t = getTexture("materials/grass2");
-	//RM->pos = offset;
 	RM->upload();
 	E->r = RM;
 
@@ -414,26 +357,10 @@ void makeSheet(vec3 start, vec3 end){
 	body->pos = offset;
 	body->em = em_sheet;
 	body->generateGridFromModel(numx,numy);
-	//body->updateGridFromModel();
 	E->body = body;
 
 
 	addEntity(E);
-
-	/*
-	hookAdd(globalChannel, EVENT_FRAME, "showSheet",[=](eventKind event){
-		setLayer(layerDebug);
-		setColor(vec3(0,255,0));
-		vec3 A = offset;
-		vec3 B = offset+vec3(1,0,0)*scale;
-		vec3 C = offset+vec3(1,1,0)*scale;
-		vec3 D = offset+vec3(0,1,0)*scale;
-		drawLine(A,B);
-		drawLine(B,C);
-		drawLine(C,D);
-		drawLine(D,A);
-	});
-	*/
 
 	printf("end makesheet------\n");
 }
@@ -457,11 +384,6 @@ void makeScene1(vec3 offset){
 }
 
 void makeScene2helper(vec3 start, vec3 size){
-	// for(int x = 0; x < 20; x++){
-		// for(int y = 0; y < 20; y++){
-			// wall(p1+vec3(5*x,5*y,1),p1+vec3(5*x+3,5*y+3,1+random(0,10)));
-		// }
-	// }
 	bool xdiv;	//split across x
 	bool ydiv;	//split across y
 
@@ -476,7 +398,6 @@ void makeScene2helper(vec3 start, vec3 size){
 	bool too_small_y = size.y < 16;
 	float Ra = random(-1,1); //desired aspect
 	float aspect = (size.x-size.y)/(size.x+size.y); //actual aspect (-1..1)
-	//printf("aspect: desired: %f, actual: %f, diff: %f\n",Ra,aspect,fabs(Ra-aspect));
 	if(fabs(Ra-aspect) < 0.3f){	//kinda squarish
 		xdiv = too_big && ! too_small_x;
 		ydiv = too_big && ! too_small_y;
@@ -490,14 +411,6 @@ void makeScene2helper(vec3 start, vec3 size){
 		xdiv = false;
 		ydiv = false;
 	}
-
-	//bool x_aspect_split = (Rx > 0.5f);//(R > size.y/size.x);
-	//bool y_aspect_split = (Ry > 0.5f);//false;//(R > size.x/size.y);
-	//bool too_small = (size.x < 8) or (size.y < 8);
-	//bool too_big = (size.x > 40) or (size.y > 40);// or (R > 0.5f);
-
-	//bool xdiv = (size.x > 8) and ((size.x > 80) or (Rx > 0.5f));//not too_small and (x_aspect_split or too_big);
-	//bool ydiv = (size.y > 8) and ((size.y > 80) or (Ry > 0.5f));//not too_small and (y_aspect_split or too_big);
 
 	vec3 halfw = vec3(size.x/2,size.y,size.z);
 	vec3 halfh = vec3(size.x,size.y/2,size.z);
@@ -519,7 +432,6 @@ void makeScene2helper(vec3 start, vec3 size){
 	}else{
 		vec3 p1 = vec3(start.x,start.y,start.z);
 		vec3 p2 = vec3(start.x+size.x-4,start.y+size.y-4,start.z+height);
-		//printf("p1 = %s, p2 = %s\n",toCString(p1),toCString(p2));
 		if(floor){
 			entity *E = box(p1,p2,getTexture("materials/grass1"),1.f);
 			E->name = string()+"grass_"+(int)entities.size();
@@ -534,10 +446,8 @@ void makeScene2helper(vec3 start, vec3 size){
 void makeScene2(vec3 offset){
 	vec3 start = offset+vec3(10,10,0);
 	vec3 size = vec3(200,200,1);
-	//vec3 p1 = offset+vec3(start.x,start.y,-2);
-	//vec3 p2 = offset+vec3(start.x+size.x,start.y+size.y,-1);
 	vec3 floorheight = vec3(0,0,1);
-	entity *E = box(start-floorheight,start+size-floorheight,/*p1,p2,*/getTexture("materials/asphalt"),0.3f);
+	entity *E = box(start-floorheight,start+size-floorheight, getTexture("materials/asphalt"),0.3f);
 	lastEntity()->group = "scene2";
 	E->name = string()+"asphalt_"+(int)entities.size();
 	makeScene2helper(start,size);
@@ -588,29 +498,17 @@ void makeScene3(vec3 offset){
     for(int Ix = 0; Ix < tilesx; Ix++){
         for(int Iy = 0; Iy < tilesy; Iy++){
             bool Nside = randint(0,1);
-            bool Sside = 0;//randint(0,1);
+            bool Sside = 0;
             bool Eside = randint(0,1);
-            bool Wside = 0;//randint(0,1);
+            bool Wside = 0;
             makeTile(offset+vec3(Ix,Iy,0)*sidelen, sidelen, Nside,Sside,Eside,Wside);
         }
     }
 }
 
 void obelisk(){
-
-	//entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider)
 	entity *E = box(vec3(0,0,3),vec3(1,1,8),getTexture("materials/brick2"),0.5f);
-	//entity *E = new entity();
-	//addComponent(E,position,vec3(0,0,3));
-	//addComponent(E,texture,getTexture("materials/brick2"));
-	//rmodel *rm = generateBox(vec3(1,1,5))->getRmodel();
-	//addComponent(E,rmodel,rm);
-	//collisionbody *body = new collisionbodyAABB(rm->toModel()->getAABB());
-	//addComponent(E,collider,body);
-	//octree_visitor *ov = new octree_visitor();
-	//ov->curNode = octree_root;
-	//ov->body = body;
-	//addComponent(E,octree_visitor,ov);
+
 	setLayer(layer3D);
 	renderLayer *pylonLayer = addNewLayer("pylon");
 	hookAdd(globalChannel, EVENT_FRAME, "movePylon",[=](eventKind event){
@@ -642,14 +540,6 @@ void spawnFlag(vec3 pos){
     E->body->pos = pos;
     E->body->E = E;
 
-    /* tree:
-    		{PRIM_CYL,	"materials/log_wall",
-			vec3(0,0,0),
-			{0.075f,0.375,16,2.0f}},
-		{PRIM_CONE,	"materials/leaves_fir",
-			vec3(0,0,0.375),
-			{0.25f,0.75,16,-4.0f}},
-    */
     float scale = 0.3f;
     int numsegments = 16;
     float sidelen = 3.0f*scale/numsegments;
@@ -688,11 +578,8 @@ void spawnFlag(vec3 pos){
     timer_flag = T;
     T->F = [=](timer *T)
     {
-        //if(E){ todo: figure out if the ent is alive, use elastic_ptr?
-            //printf("tick\n");
             int t = getGameTicks();
             renderableMultimodel *rmdl = static_cast<renderableMultimodel*>(E->r);
-            //printf("pos00 = %s\n", toCString(td->initialPos[0]));
             float dx = 0; float dy = 0;
             int n = td->offsets.size();
             for(unsigned int I = 1; I < td->offsets.size(); I++){
@@ -704,24 +591,19 @@ void spawnFlag(vec3 pos){
                 //forward wave
                 float ang1 = 30*d2r*sin(k*I-omega*t);
                 //backward wave (commented out cause then it looks springy)
-                float ang2 = 0;//30*d2r*sin(k*I+omega*t);
+                float ang2 = 0;
                 //interference pattern
                 float ang = ang1+ang2;
 
                 dx += -td->len*sin(ang)/2.f;
                 dy += td->len*cos(ang)/2.f;
-                //printf("ang %d = %f\n",I,ang);
                 r->rot = toVec3Angle(glm::angleAxis(ang,vec3(0,0,1)));
                 vec3 pos = td->offsets[I];
-                //printf("pos0 = %s, ", toCString(pos));
 
                 rmdl->offsets[I] = vec3(dx,dy,pos.z);
                 dx += -td->len*sin(ang)/2.f;
                 dy += td->len*cos(ang)/2.f;
-                //printf("pos1 = %s\n", toCString(r->pos));
             }
-            //printf("dx = %f, dy = %f\n",dx,dy);
-        //}else{delete T;}
     };
     T->run = true;
 }

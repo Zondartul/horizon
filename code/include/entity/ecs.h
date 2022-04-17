@@ -24,7 +24,6 @@ extern renderLayer *ecs_render_layer_2d;
 
 class ecs_render_system_kind:public eventListener{
 	public:
-	//renderLayer *ecs_render_layer;
 	ecs_render_system_kind();
 	void onEvent(eventKind event);
 	//options

@@ -10,20 +10,6 @@ GUIscrollbarBar::GUIscrollbarBar(){
 	pressedColor = bgColor*0.8;
 }
 
-/*
-void GUIscrollbarBar::render(){
-	if(GUIoptions.push){pushRenderOptions();}
-	vec2 pos = getMousePos();
-	
-	vec3 oldColor = bgColor;
-	if(mouseover){setAlpha(196); bgColor = hoverColor;}
-	if(pressed){setAlpha(255); bgColor = pressedColor;}
-	GUIframe::render();
-	bgColor = oldColor;
-	if(GUIoptions.push){popRenderOptions();}
-}
-*/
-
 void GUIscrollbarBar::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
@@ -34,7 +20,6 @@ void GUIscrollbarBar::onEvent(eventKind event){
 			pressed = true;
 			event.maskEvent();
 			offset = area.start-pos;
-			//scroll->saveOffsets();
 		}
 	}
 	if(event.type == EVENT_MOUSE_BUTTON_UP){
@@ -81,13 +66,11 @@ GUIscrollbar::GUIscrollbar(){
 	btnDown->isClient = false;
 	btnDown->setText("v");
 	btnDown->setSize({20,20});
-	//btnDown->moveTo({0,20});
 	addChild(btnDown);
 
 	vbar = new GUIscrollbarBar();
 	vbar->scroll = this;
 	vbar->isClient = false;
-	//vbar->setSize({20,30});
 	addChild(vbar);
 
 	btnLeft = new GUIbutton();
@@ -111,20 +94,6 @@ GUIscrollbar::GUIscrollbar(){
 	btnDown->setFunction([=](){vbar->area = vbar->area.moveBy({0,max(vbar->area.size.y/4,1)}); invalidate();});
 	btnLeft->setFunction([=](){hbar->area = hbar->area.moveBy({-max(hbar->area.size.x/4,1),0}); invalidate();});
 	btnRight->setFunction([=](){hbar->area = hbar->area.moveBy({max(hbar->area.size.x/4,1),0}); invalidate();});
-	/*
-	GUIbutton *btnV = new GUIbutton();
-	btnV->setText("vert");
-	btnV->sizeToContents();
-	btnV->moveTo({0,0});
-	btnV->setFunction([this](){this->setVertical(!this->vertical);});
-	addChild(*btnV);
-
-	GUIbutton *btnH = new GUIbutton();
-	btnH->setText("horiz");
-	btnH->sizeToContents();
-	btnH->moveTo({0,20});
-	btnH->setFunction([this](){this->setHorizontal(!this->horizontal);});
-	addChild(*btnH); */
 
 	setVertical(vertical);
 	setHorizontal(horizontal);
@@ -132,16 +101,6 @@ GUIscrollbar::GUIscrollbar(){
 	invalidate();
 }
 
-/*
-GUIbase* GUIscrollbar::addChild(GUIbase* child){
-    bool oldSE = scrollingEnabled;
-    if(scrollingEnabled){disableScrolling();}
-    GUIframe::addChild(child);
-	initialOffsets[child] = child->area.start;
-    if(oldSE){enableScrolling();}
-    return this;
-}
-*/
 
 GUIbase* GUIscrollbar::addChild(GUIbase *child){
 	if(child->isClient){
@@ -165,11 +124,6 @@ void GUIscrollbar::onEvent(eventKind event){
 		}else if(horizontal){
 			setScrollOffset(vec2(offset.x+y,offset.y));
 		}
-		//if(mouseover){
-		//	pressed = true;
-		//	event.maskEvent();
-		//	offset = area.start-pos;
-		//}
 	}
 }
 
@@ -207,36 +161,23 @@ GUIscrollbar *GUIscrollbar::sizeToContents(){
 }
 
 GUIscrollbar *GUIscrollbar::setScrollOffset(vec2 newScrollOffset){
-	//printf("======setScrollOffset %s\n",toString(newScrollOffset).c_str());
 	invalidate();
 	float x =  (float)newScrollOffset.x / (innerSize.x-clientArea.size.x);
 	float y =  (float)newScrollOffset.y / (innerSize.y-clientArea.size.y);
 	setScrollRatio({x,y});
 	invalidate();
-	//printf("======new offset %s\n",toString(scrollOffset()).c_str());
 	return this;
 }
 
-// vec2 GUIscrollbar::scrollRatio(){
-	// rect vtrack = vtrackRect();
-	// rect htrack = htrackRect();
-	// float xoffset = /*children[5]*/hbar->area.start.x - htrack.start.x;
-	// float x = (float)xoffset / (htrack.size.x-/*children[5]*/hbar->area.size.x);
-	// float yoffset = /*children[2]*/vbar->area.start.y - vtrack.start.y;
-	// float y = (float)yoffset / (vtrack.size.y-/*children[2]*/vbar->area.size.y);
-	// return {x,y};
-// }
 GUIscrollbar *GUIscrollbar::setScrollRatio(vec2 newScrollRatio){
-	//printf("======setScrollRatio %s\n",toString(newScrollRatio).c_str());
 	invalidate();
 	rect vtrack = vtrackRect();
 	rect htrack = htrackRect();
-	float xoffset = newScrollRatio.x * (htrack.size.x-/*children[5]*/hbar->area.size.x);
-	/*children[5]*/hbar->area = /*children[5]*/hbar->area.moveTo({xoffset + htrack.start.x,/*children[5]*/hbar->area.start.y});
-	float yoffset = newScrollRatio.y * (vtrack.size.y-/*children[2]*/vbar->area.size.y);
-	/*children[2]*/vbar->area = /*children[2]*/vbar->area.moveTo({/*children[2]*/vbar->area.start.x,yoffset + vtrack.start.y});
+	float xoffset = newScrollRatio.x * (htrack.size.x-hbar->area.size.x);
+	hbar->area = hbar->area.moveTo({xoffset + htrack.start.x,hbar->area.start.y});
+	float yoffset = newScrollRatio.y * (vtrack.size.y-vbar->area.size.y);
+	vbar->area = vbar->area.moveTo({vbar->area.start.x,yoffset + vtrack.start.y});
 	invalidate();
-	//printf("======new ratio: %s\n",toString(scrollRatio()).c_str());
 	return this;
 }
 
@@ -249,9 +190,9 @@ GUIscrollbar *GUIscrollbar::setVertical(bool newVertical){
 	vec2 offset = scrollOffset();
 	vertical = newVertical;
 	if(children.size() >= 6){
-		/*children[0]*/btnUp->setHidden(!vertical);
-		/*children[1]*/btnDown->setHidden(!vertical);
-		/*children[2]*/vbar->setHidden(!vertical);
+		btnUp->setHidden(!vertical);
+		btnDown->setHidden(!vertical);
+		vbar->setHidden(!vertical);
 	}
 	invalidate();
 	setScrollOffset(offset);
@@ -262,9 +203,9 @@ GUIscrollbar *GUIscrollbar::setHorizontal(bool newHorizontal){
 	vec2 offset = scrollOffset();
 	horizontal = newHorizontal;
 	if(children.size() >= 6){
-		/*children[3]*/btnLeft->setHidden(!horizontal);
-		/*children[4]*/btnRight->setHidden(!horizontal);
-		/*children[5]*/hbar->setHidden(!horizontal);
+		btnLeft->setHidden(!horizontal);
+		btnRight->setHidden(!horizontal);
+		hbar->setHidden(!horizontal);
 	}
 	invalidate();
 	setScrollOffset(offset);
@@ -272,45 +213,19 @@ GUIscrollbar *GUIscrollbar::setHorizontal(bool newHorizontal){
 }
 
 GUIscrollbar *GUIscrollbar::enableScrolling(){
-    //if(scrollingEnabled){disableScrolling();}
-    //for(int I = 6; I < children.size(); I++){
-    //    GUIbase *child = children[I];
-    //    initialOffsets[child] = child->area.start;
-    //}
     scrollingEnabled = true;
     invalidate();
     return this;
 }
 
 GUIscrollbar *GUIscrollbar::disableScrolling(){
-    //if(scrollingEnabled){
-    //    for(int I = 6; I < children.size(); I++){
-    //        GUIbase *child = children[I];
-    //        if(initialOffsets.count(child)){
-    //            child->area = child->area.moveTo(initialOffsets[child]);
-    //        }
-    //    }
-    //}
     scrollingEnabled = false;
     invalidate();
     return this;
 }
 
-/*
-void GUIscrollbar::saveOffsets(){
-	for(auto I = children.begin(); I != children.end(); I++){
-		GUIbase *child = *I;
-		initialOffsets[child] = child->area.start;
-	}
-}
-*/
-
 void GUIscrollbar::renderLogic(){
 
-	//vec2 offset = {0,0};
-	//if(children.size() >= 6){
-	//	offset = scrollOffset();
-	//}
 	for(int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
 			if(GUIoptions.push){pushRenderOptions();}
@@ -318,7 +233,6 @@ void GUIscrollbar::renderLogic(){
 				drawRectOutlineColored(children[I]->visibleArea(),{255,0,0});
 			}else{
 				setScissoring(true);
-				//setScissor(children[I]->visibleArea());
 				setScissor(visibleArea());
 			}
 			children[I]->render();
@@ -327,126 +241,59 @@ void GUIscrollbar::renderLogic(){
 		}
 	}
 
-	//setColor({255,0,0});
-	//drawRectOutline(visibleClientArea());
-	//setScissoring(true);
-	//setScissor(visibleClientArea());
 	for(int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
 			if(GUIoptions.push){pushRenderOptions();}
-		//	children[I]->area=children[I]->area.moveBy(-offset);
-			//setScissoring(true);
-			//setScissor(children[I]->visibleArea());
-            //drawRectOutline(children[I]->visibleArea());
 			setScissoring(true);
 			setScissor(visibleClientArea());
 			
 			children[I]->render();
 			children[I]->renderLogic();
-		//	children[I]->area=children[I]->area.moveBy(offset);
 			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
-	//popRenderOptions();
-
 }
 
-/*
-void GUIscrollbar::render(){
-	if(GUIoptions.push){pushRenderOptions();}
-	GUIframe::render();
-	setAlpha(128);
-	setColor(bgColor*0.9);
-	
-	if(vertical){
-		rect R = vtrackRect().setStart(vtrackRect().start-(vec2){0,21})\
-					.setEnd(vtrackRect().end+(vec2){0,21});
-		drawRect(thisToWorld(R));
-	}
-	if(horizontal){
-		rect R = htrackRect().setStart(htrackRect().start-(vec2){21,0})\
-					.setEnd(htrackRect().end+(vec2){21,0});
-		drawRect(thisToWorld(R));
-	}
-	if(GUIoptions.push){popRenderOptions();}
-}
-*/
 
 void GUIscrollbar::invalidate(){
-	//printf("scrollbar invalidate");
 	if(parent && bSizeToParent){
-		//printf("+parent\n");
 		area = area.setStart(vec2(0,0)).setSize(parent->clientArea.size);
 	}else{
-		//printf(", no parent\n");
 	}
 	clientArea = clientArea.setStart({1,1}).setEnd(area.size-vec2{vertical? 22: 0, horizontal? 22:0});
-	if(/*children.size() >= 6*/ constructed){
+	if(constructed){
 		rect vtrack = vtrackRect();
 		rect htrack = htrackRect();
 
 		//put the up-button in it's place
-		/*children[0]*/btnUp->moveTo(vtrack.start-vec2{0,21});
+		btnUp->moveTo(vtrack.start-vec2{0,21});
 
 		//put the down-button in it's place
-		/*children[1]*/btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
+		btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
 
 		//put the vertical scrollbar bar in it's place
-		rect Vr = /*children[2]*/vbar->area;
+		rect Vr = vbar->area;
 		Vr.size = {20,trackDimensions().y * areaRatio().y};
 		Vr.size = clamp(Vr.size,{0,0},vtrack.size);
 		Vr = Vr.moveTo(vtrack.clamp(Vr.end)-Vr.size);
 		Vr = Vr.moveTo(vtrack.clamp(Vr.start));
-		/*children[2]*/vbar->area = Vr;
+		vbar->area = Vr;
 
 		//put the left-button in it's place
-		/*children[3]*/btnLeft->moveTo(htrack.start-vec2{21,0});
+		btnLeft->moveTo(htrack.start-vec2{21,0});
 
 		//put the right-button in it's place
-		/*children[4]*/btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
+		btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
 
 		//put the horizontal scrollbar bar in it's place
-		rect Hr = /*children[5]*/hbar->area;
+		rect Hr = hbar->area;
 		Hr.size = {trackDimensions().x * areaRatio().x,20};
 		Hr.size = clamp(Hr.size,{0,0},htrack.size);
 		Hr = Hr.moveTo(htrack.clamp(Hr.end)-Hr.size);
 		Hr = Hr.moveTo(htrack.clamp(Hr.start));
-		/*children[5]*/hbar->area = Hr;
-
-		// printf("--------------\n");
-		// printf("vtrackRect: %s\n",toString(vtrackRect()).c_str());
-		// printf("htrackRect: %s\n",toString(htrackRect()).c_str());
-		// printf("trackDimensions: %s\n",toString(trackDimensions()).c_str());
-		 //printf("areaRatio: %s\n",toString(areaRatio()).c_str());
-		 //printf("normalizedAreaRatio: %s\n",toString(normalizedAreaRatio()).c_str());
-		 //printf("scrollRatio: %s\n",toString(scrollRatio()).c_str());
-		// printf("scrollOffset: %s\n",toString(scrollOffset()).c_str());
-
+		hbar->area = Hr;
 	}
 	//displace children by offset
-	/* //old (uses children on scrollbar)
-	if(children.size() >= 6){ //aka if all is constructed
-        if(scrollingEnabled){
-            offset = scrollOffset();
-            //printf("offset = %s, prevoffset = %s\n",toCString(offset),toCString(prevoffset));
-            vec2 dv = offset-prevoffset;
-            //printf("--------------\n");
-            for(int I = 6; I < children.size(); I++){
-                //if(children[I]->isClient && !children[I]->hidden){
-                    //children[I]->area=children[I]->area.moveBy(-dv);
-                    GUIbase *child = children[I];
-                    if(!initialOffsets.count(child)){initialOffsets[child] = child->area.start;}
-                    //vec2 vinit = initialOffsets[child];
-                    //vec2 vfin = vinit + offset;
-                    //printf("ch[%d], vini = %s, vfin = %s\n",I,toCString(vinit),toCString(vfin));
-                    child->area = child->area.moveTo(initialOffsets[child]-offset);
-                //}
-            }
-            //printf("---------------\n");
-            prevoffset = offset;
-        }
-	}
-	*/
 	//new (uses children on an inner frame)
 	if(constructed){
 		if(scrollingEnabled){ inner->moveTo( -scrollOffset() ); }
@@ -473,23 +320,15 @@ vec2 GUIscrollbar::areaRatio(){
 	return {innerSize.x ? (float)clientArea.size.x/innerSize.x : 1.0,
 			innerSize.y ? (float)clientArea.size.y/innerSize.y : 1.0};
 }
-/*
-//nobody uses this?
-vec2 GUIscrollbar::normalizedAreaRatio(){
-	vec2 ar = areaRatio();
-	ar.x = min(ar.x,1.0);
-	ar.y = min(ar.y,1.0);
-	return ar;
-}
-*/
+
 
 vec2 GUIscrollbar::scrollRatio(){
 	rect vtrack = vtrackRect();
 	rect htrack = htrackRect();
-	float xoffset = /*children[5]*/hbar->area.start.x - htrack.start.x;
-	float x = (float)xoffset / (htrack.size.x-/*children[5]*/hbar->area.size.x);
-	float yoffset = /*children[2]*/vbar->area.start.y - vtrack.start.y;
-	float y = (float)yoffset / (vtrack.size.y-/*children[2]*/vbar->area.size.y);
+	float xoffset = hbar->area.start.x - htrack.start.x;
+	float x = (float)xoffset / (htrack.size.x-hbar->area.size.x);
+	float yoffset = vbar->area.start.y - vtrack.start.y;
+	float y = (float)yoffset / (vtrack.size.y-vbar->area.size.y);
 	return {x,y};
 }
 //float -> integer round down causes x,y to drift towards 0
@@ -520,8 +359,6 @@ string GUIscrollbar::getProperty(string key){
 }
 
 void GUIscrollbar::setProperty(string key, string val){
-	//printf("%s::setProperty(%s)=[%s]\n",getType().c_str(),key.c_str(),val.c_str());
-
 	if(key == "innerSize"){setInnerSize(fromString<vec2>(val));}
 	else if(key == "bSizeToParent"){bSizeToParent = fromString<bool>(val);}
 	else if(key == "vertical"){setVertical(fromString<bool>(val));}

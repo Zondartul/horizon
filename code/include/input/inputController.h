@@ -1,10 +1,7 @@
 #ifndef INPUTCONTROLLER_GUARD
 #define INPUTCONTROLLER_GUARD
 #include "vec.h"
-//#include "globals.h"
-//#include <SDL2/SDL.h> //for event
 #include "event.h"
-//#include "physCharacter.h"
 #include "characterController.h"
 
 class inputControllerKind:public eventListener{ //if there is a user (not headless), this does his thing.
@@ -35,7 +32,6 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 	void enableMouseCapture();
 	void disableMouseCapture();
 	void onEvent(eventKind event);
-	//physCharacter *character;
 	elastic_ptr<characterController> character;
 };
 

@@ -58,10 +58,6 @@ e_model *generateBox(vec3 scale, float texscale){
 	e_triangle *front2 = new e_triangle(F,D,H,EM);
 	e_face *front = new e_face({front1,front2},EM);
 	
-	//e_triangle *back1 = new e_triangle(E,G,A,&EM); //this is how you rotate a face
-	//e_triangle *back2 = new e_triangle(C,G,A,&EM);
-	//e_triangle *back1 = new e_triangle(A,E,C,&EM);
-	//e_triangle *back2 = new e_triangle(G,E,C,&EM);
 	e_triangle *back1 = new e_triangle(G,A,E,EM);
 	e_triangle *back2 = new e_triangle(C,A,G,EM);
 	e_face *back = new e_face({back1,back2},EM);
@@ -69,16 +65,13 @@ e_model *generateBox(vec3 scale, float texscale){
 	EM->recalculateNeighbors();
 	e_selection selAll = EM->selectAll();
 	selAll.move(vec3(-0.5,-0.5,-0.5));
-	//selAll.scale(vec3(0.5,0.5,0.5),scale);
 	selAll.scale(vec3(0,0,0),scale);
 	vec3 center = selAll.center();
 	vec3 dv = scale/2.f;
 	dv.y *= -1;
 	vec3 corner = center+dv;
 	selAll.recalculateNormalsFlat();
-	selAll.uv_project_box(corner,texscale);//-scale);
-	//selAll.rebuildRmodel();
-	//return selAll.rm[2];
+	selAll.uv_project_box(corner,texscale);
 	return EM;
 }
 
@@ -86,7 +79,6 @@ e_model *generateCyllinder(float r, float h, int numsides, float texscale){
 	printf("generateCyllinder(r = %f, h = %f, numsides = %d, texscale = %f\n",r,h,numsides,texscale);
 	assert(numsides != 0);
 	e_model *EM = new e_model();
-	//int numsides = 16;
 	vector<e_vertex*> verts;
 	vector<e_triangle*> toptris;
 	vector<e_triangle*> bottomtris;
@@ -106,10 +98,10 @@ e_model *generateCyllinder(float r, float h, int numsides, float texscale){
 		e_vertex *B1 = verts[idx1*2+1];
 		e_vertex *A2 = verts[idx2*2];
 		e_vertex *B2 = verts[idx2*2+1];
-		e_triangle *top = new e_triangle(T,A2,A1,EM);//(T,A1,A2,EM);
-		e_triangle *bottom = new e_triangle(B2,B1,O,EM);//(O,B1,B2,EM);
-		e_triangle *side1 = new e_triangle(A2,A1,B1,EM);//(A1,B1,A2,EM);
-		e_triangle *side2 = new e_triangle(B1,B2,A2,EM);//(B1,A2,B2,EM);
+		e_triangle *top = new e_triangle(T,A2,A1,EM);
+		e_triangle *bottom = new e_triangle(B2,B1,O,EM);
+		e_triangle *side1 = new e_triangle(A2,A1,B1,EM);
+		e_triangle *side2 = new e_triangle(B1,B2,A2,EM);
 		new e_face({side1,side2},EM);
 		toptris.push_back(top);
 		bottomtris.push_back(bottom);
@@ -140,9 +132,7 @@ e_model *generateCyllinder(float r, float h, int numsides, float texscale){
 e_model *generateCone(float r, float h, int numsides, float texscale){
 	assert(numsides != 0);
 	e_model *EM = new e_model();
-	//int numsides = 16;
 	vector<e_vertex*> verts;
-	//vector<e_triangle*> toptris;
 	vector<e_triangle*> bottomtris;
 	for(int I = 0; I < numsides; I++){
 		float dt = 360.0*d2r/numsides;
@@ -156,8 +146,8 @@ e_model *generateCone(float r, float h, int numsides, float texscale){
 		int idx2 = (I+1)%numsides;
 		e_vertex *A1 = verts[idx1];
 		e_vertex *A2 = verts[idx2];
-		e_triangle *top = new e_triangle(A1,A2,T,EM);//(T,A1,A2,EM);
-		e_triangle *bottom = new e_triangle(A2,A1,O,EM);//(O,A1,A2,EM);
+		e_triangle *top = new e_triangle(A1,A2,T,EM);
+		e_triangle *bottom = new e_triangle(A2,A1,O,EM);
 		new e_face({top},EM);
 		bottomtris.push_back(bottom);
 	}
@@ -179,9 +169,6 @@ e_model *generateSphere(float r, int numsides, int numslices, float texscale){
 	assert(numsides != 0);
 	assert(numslices != 0);
 	e_model *EM = new e_model();
-	//int numsides = 16;
-	//int numslices = 8;
-	//float r = scale.x;
 	vector<vector<e_vertex*>> slices;
 	vector<e_triangle*> toptris;
 	vector<e_triangle*> bottomtris;
@@ -196,7 +183,6 @@ e_model *generateSphere(float r, int numsides, int numslices, float texscale){
 			e_vertex *A = new e_vertex(pos,EM);
 			verts.push_back(A);
 		}
-		//printf("slices[%d]: %d verts\n",slices.size(),verts.size());
 		slices.push_back(verts);
 	}
 	e_vertex *BT = new e_vertex(vec3(0,0,-r),EM); //bottom
@@ -241,7 +227,6 @@ e_model *generateSphere(float r, int numsides, int numslices, float texscale){
 			new e_face({side1,side2},EM);
 		}
 	}
-	//printf("result e_model: %s\n",toCString(EM));
 	
 	EM->recalculateNeighbors();
 	e_selection selAll = EM->selectAll();
@@ -268,20 +253,16 @@ e_model *generateSheet(int numx, int numy, vec3 scale, float texscale){
 			vec3 pos = vec3(xstep*I,ystep*J,0);
 			e_vertex *V = new e_vertex(pos,EM);
 			verts.push_back(V);
-			//printf("vert(%d,%d) = %s\n",I,J, toCString(pos));
 		}
 	}
 	for(int I = 0; I < numx; I++){
 		for(int J = 0; J < numy; J++){
 			e_vertex *A = verts[(I+0)*(numy+1)+(J+0)];
 			e_vertex *B = verts[(I+1)*(numy+1)+(J+0)];
-			//e_vertex *C = verts[(I+1)*(numy+1)+(J+1)];
-			//e_vertex *D = verts[(I+0)*(numy+1)+(J+1)];
 			e_vertex *C = verts[(I+0)*(numy+1)+(J+1)];
 			e_vertex *D = verts[(I+1)*(numy+1)+(J+1)];
 			
 			e_triangle *T1 = new e_triangle(A,B,C,EM);
-			//e_triangle *T2 = new e_triangle(C,D,A,EM);
 			e_triangle *T2 = new e_triangle(D,C,B,EM);
 		}
 	}

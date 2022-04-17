@@ -86,13 +86,6 @@ void openTestWindow3(){
 	window->sizeToContents();
 	printf("---- window sized\n");
 	GUI->invalidateTree();
-		//->addChild((new GUIscrollbar())\
-			->sizeToParent(true)\
-			->setInnerSize({300,600})\
-			->setHorizontal(false)\
-			->addChild(grid)\
-		)\
-	);
 	printf("------------ GUI setup done\n");
 }
 
@@ -286,53 +279,6 @@ void openTestWindow4(){
 	gridobj->grid(L_ ## x,row,1);
 
 void openTestWindow5(){
-	/*
-	auto GB = new GUIbutton();
-	std::function<void(int)> funcToggleWireframe =
-	[=](int b){
-		printf("toggleWireframe = %d\n",b);
-		//ecs.render->texturing = b;
-		ecs.render->options.wireframe = b;
-		ecs.render->applyRenderOptions();
-	};
-	if(ecs.render->options.wireframe){
-		GB->setText("v");
-	}else{
-		GB->setText("");
-	}
-	GB->setFunction([=](){
-		string text = GB->text;
-		if(text != "v"){
-			GB->setText("v");
-			func(1);
-		}else{
-			GB->setText("");
-			func(0);
-		}
-	});
-	GB->setFunction(CHECKBOX_FUNC(GB,funcToggleWireframe));
-	GB->setSize({25,25});
-
-	auto L1 = new GUIlabel();
-	L1->setText("wireframe");
-	L1->sizeToContents();
-
-	std::function<void(int)> funcToggleBoundingBox =
-	[=](int b){
-		printf("toggleBoundingBox = %d\n",b);
-		ecs.render->options.boundingBoxes = b;
-		ecs.render->applyRenderOptions();
-	};
-
-	auto GB2 = new GUIbutton();
-	GB2->setText("");
-	GB2->setFunction(CHECKBOX_FUNC(GB2,funcToggleBoundingBox));
-	GB2->setSize({25,25});
-
-	auto L2 = new GUIlabel();
-	L2->setText("bounding boxes");
-	L2->sizeToContents();
-	*/
 	auto grid1 = new GUIgrid();
 
 	auto L1 = new GUIlabel();
@@ -365,22 +311,7 @@ void openTestWindow5(){
 
 	MAKE_CHECKBOX2(separate,ecs.collision,grid1,11);
 	MAKE_CHECKBOX2(resolve,ecs.collision,grid1,12);
-	/*
-	auto grid1 = new GUIgrid();
-	grid1->addChild(CB_wireframe);
-	grid1->addChild(L_wireframe);
-	grid1->addChild(CB_boundingBoxes);
-	grid1->addChild(L_boundingBoxes);
-	grid1->addChild(CB_lighting);
-	grid1->addChild(L_lighting);
-	grid1->grid(GB,0,0);
-	grid1->grid(L1,0,1);
-	grid1->grid(GB2,1,0);
-	grid1->grid(L2,1,1);
-	grid1->grid(CB_lighting,2,0);
-	grid1->grid(L_lighting,2,1);
-	*/
-
+	
 	GUI->addChild((new GUIwindow())\
 	->setSize({200,300})\
 	->moveTo({100,20})\
@@ -441,44 +372,6 @@ void openTestWindow6(){
 		label1->setText(S);
 		label1->sizeToContents();
 		win->invalidate();
-        //win->sizeToContents();
 	});
 };
-
-/*
-
-auto scroll1 = new GUIscrollbar([]{
-	sizeToParent = true;
-	innerSize = {300,600};
-	horizontal = false;
-});
-
-auto frame1 = new GUIframe([]{
-		size = {200,300};
-		pos = {100,20};
-		addChild(scroll1);
-	});
-
-auto label1 = new GUIlabel(text = "Hello World"; sizeToContents = true; pos = {20,20});
-
-GUI->add({
-	{frame1,{
-		{scroll1, {
-			label1,
-			image1,
-			button1
-		}}
-		{vertical,{
-			{horizontal,{label1,image1,button1}},
-			{horizontal,{label1,image1,button1}}
-		}}
-	}}
-});
-
-GUI->addChild(frame1);
-
-
-auto label = new GUIlabel({"text","Hello World"},{"sizeToContents","true"},{"pos","[20,20]"});
-
-*/
 

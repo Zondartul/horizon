@@ -19,9 +19,7 @@ class gui_editor_tool_place:public gui_editor_tool{
 	virtual void scan();	//called on mousemove events
 	virtual void draw();	//called on mouse move
 	virtual void lup();		//called on mouse click
-	//virtual void ldown();
 	virtual void rup();
-	//virtual void rdown();
 	virtual void cleanup(); //reset the tool to initial state
 	
 	int gridStep = 8;

@@ -54,9 +54,6 @@ class editor2Kind:public eventListener{
 };
 editor2Kind *editor2;
 
-//renderLayer *editorLayer;
-//renderLayer *editorLayerImmediate3D;
-
 void editor2Kind::setupLayers(){
 	printf("editor.setupLayers()\n");
 	layers.l3D 			= new renderLayer("editor.l3D");
@@ -74,7 +71,6 @@ void editor2Kind::setupLayers(){
 #define if_not_first() static int first = 1; if(!(first-- > 0))
 
 void editor2Kind::resetLayer(renderLayer *L){
-	//if_not_first(){error("too many resets\n");}
 	if(L == layers.l3D){
 		printf("editor.resetLayer(l3D)\n");
 		layers.l3D->clear();
@@ -85,7 +81,6 @@ void editor2Kind::resetLayer(renderLayer *L){
 		setPointSize(3);
 	}
 	if(L == layers.l3Dimmediate){
-		//printf("editor.resetLayer(l3Dimmediate)\n");
 		layers.l3Dimmediate->clear();
 		setLayer(layers.l3Dimmediate);
 		setColoring(true);
@@ -97,7 +92,6 @@ void editor2Kind::resetLayer(renderLayer *L){
 		layers.l2D->clear();
 	}
 	if(L == layers.l2Dimmediate){
-		//printf("editor.resetLayer(l2Dimmediate)\n");
 		layers.l2Dimmediate->clear();
 	}
 
@@ -168,18 +162,6 @@ void editor2Kind::constructTestModel(){
 
 void openEditor2(){
 	editor2 = new editor2Kind();
-
-	//editorLayerImmediate3D = new renderLayer();
-	//editorLayer = new renderLayer();
-	//setLayer(layer3D);
-	//addLayer(editorLayer);
-	//addLayer(editorLayerImmediate3D);
-	//resetEditorLayer();
-	//resetEditorLayerImmediate3D();
-
-	//plane1[0] = vec3(0,0,0);
-	//plane1[1] = vec3(1,0,0);
-	//plane1[2] = vec3(0,1,0);
 }
 
 //constructor
@@ -193,25 +175,18 @@ editor2Kind::editor2Kind():sel(&EM){
 	redraw();
 }
 
-//extern vector<renderLayer*> layers; why tf is this here?
-
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 	printf("editor.boxSelect()\n");
 	sel.clear();
 	camera.go3D();
 	string S1 = string("boxStart: ")+toString(boxStart)+"boxEnd: "+toString(boxEnd);
-	//printf("%s\n",S1.c_str());
 	for(auto I = EM.verts.begin(); I != EM.verts.end(); I++){
 		vec3 vw = (*I)->pos;
 		vec3 vs = camera.worldToScreen(vw);
 		vec2 vsi = {vs.x,vs.y};
-		//bool contains = false;
 		if(rect(boxStart,boxEnd).repair().contains(vsi)){
 			sel.verts.push_back(*I);
-			//contains = true;
 		}
-		//string S = string("vw: ")+toString(vw)+", vs: "+toString(vs)+", contains: "+toString(contains);
-		//printf("%s\n",S.c_str());
 	}
 	redraw();
 	printselection();
@@ -219,8 +194,6 @@ void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 
 void editor2Kind::redraw(){
 	printf("editor.redraw()\n");
-	//resetLayer(layers.l3D);
-	//setLayer(layers.l3D);
 	e_selection selAll = EM.selectAll();
 	selAll.removeElements(sel);
 	sel.colorVerts	= {0,1.f,1.f};
@@ -232,17 +205,13 @@ void editor2Kind::redraw(){
 	sel.rebuildRmodel();
 	selAll.rebuildRmodel();
 
-	//setDepthTest(false);
 	resetLayer(layers.l3D);
 	setLayer(layers.l3D);
 	setPointSize(3);
 	selAll.render();
 
-
-	//clearDepthBuffer();
 	setPointSize(5);
 	sel.render();
-	//setDepthTest(true);
 }
 
 
@@ -266,7 +235,6 @@ void editor2Kind::think(){
 	//redraw immediate layers
 	resetLayer(layers.l3Dimmediate);
 	resetLayer(layers.l2Dimmediate);
-	//resetEditorLayerImmediate3D();
 	if(hasLastPoint){
 		setLayer(layers.l3Dimmediate);
 		vec3 lastPointColor;
@@ -377,13 +345,6 @@ void editor2Kind::onEvent(eventKind event){
 			}
 			if(K == "1"){
 				event.maskEvent();
-				//printf("drawing ORTHODOX umbrella\n");
-				//drawFrustumbrella(Z_IS_ORTHODOX);
-				//e_selection sel2 = EM.selectAll();
-				//sel = e_selection();
-				//sel.EM = &EM;
-				//sel.verts.push_back(sel2.verts.back());
-				//printf("selected last vertex\n");
 				sel = sel.getImplicitVerts();
 				printselection();
 				redraw();
@@ -391,14 +352,6 @@ void editor2Kind::onEvent(eventKind event){
 			}
 			if(K == "2"){
 				event.maskEvent();
-				//printf("drawing DISTANCE umbrella\n");
-				//drawFrustumbrella(Z_IS_DISTANCE);
-
-				//e_selection sel2 = EM.selectAll();
-				//sel = e_selection();
-				//sel.EM = &EM;
-				//sel.edges.push_back(sel2.edges.back());
-				//printf("selected last edge\n");
 				sel = sel.getImplicitEdges();
 				printselection();
 				redraw();
@@ -407,13 +360,6 @@ void editor2Kind::onEvent(eventKind event){
 			}
 			if(K == "3"){
 				event.maskEvent();
-				//printf("drawing PLANE umbrella\n");
-				//drawFrustumbrella(Z_IS_PLANE);
-				//e_selection sel2 = EM.selectAll();
-				//sel = e_selection();
-				//sel.EM = &EM;
-				//sel.tris.push_back(sel2.tris.back());
-				//printf("selected last triangle\n");
 				sel = sel.getImplicitTris();
 				printselection();
 				redraw();
@@ -422,16 +368,7 @@ void editor2Kind::onEvent(eventKind event){
 			}
 			if(K == "4"){
 				event.maskEvent();
-				//drawCurvyPoint();
-
-				//e_selection sel;
-				//e_selection sel2 = EM.selectAll();
-				//sel.EM = &EM;
-				//sel.verts.push_back(sel2.verts[3]);
-				//sel.verts.push_back(sel2.verts[4]);
 				sel.rotate({0,0,0},{1,0,0},15);
-
-				//resetEditorLayer();
 				redraw();
 				printf("\nrotated by 15 degrees around Y\n");
 			}
@@ -444,29 +381,14 @@ void editor2Kind::onEvent(eventKind event){
 			}
 			if(K == "6"){
 				event.maskEvent();
-				//sel = sel.getNeighborsEssential();
-				//printselection();
-				//redraw();
-				//printf("\nprinted essential neighbors\n");
 				printf("\nkey 6 not in use\n");
 			}
 			if(K == "7"){
 				event.maskEvent();
-				//sel = sel.getNeighborsDirect();
-				//printselection();
-				//redraw();
-				//printf("\nselected direct neighbors\n");
 				printf("\nkey 7 not in use\n");
 			}
 			if(K == "8"){
 				event.maskEvent();
-				//e_selection sel2(&EM);
-				//sel2.addElements(sel.getNeighborsDirect());
-				//sel2.addElements(sel.getNeighborsEssential());
-				//sel = sel2;
-				//printselection();
-				//redraw();
-				//printf("\nadded direct and essential neighbors to selection\n");
 				printf("\nkey 8 not in use\n");
 			}
 			if(K == "9"){
@@ -487,140 +409,3 @@ void editor2Kind::onEvent(eventKind event){
         break;
 	}
 }
-
-
-
-
-
-
-
-
-/*
-
-void drawWorldRay(vec3 start, vec3 end, vec3 color){
-	drawLine(toVec3(start),toVec3(end),color);
-}
-void drawWorldRay2(vec3 start, vec3 end, vec3 color={0,0,0}){
-	drawWorldRay(tovec3(start),tovec3(end),color);
-}
-void drawCamRay(vec3 dir,vec3 color){
-	drawLine(toVec3(camera.pos),toVec3(camera.pos+dir),color);
-}
-
-void drawScreenRay(vec2 screenpos,vec3 color,float len=1.0f,z_meaning zm=Z_IS_DISTANCE){
-	vec3 worldpos;
-	worldpos = camera.screenToWorld(vec3(screenpos.x,screenpos.y,len),zm);
-	drawWorldRay(camera.pos,tovec3(worldpos),color);
-}
-
-void drawSomeRays(){
-	setLayer(editorLayer);
-	vec2 scr = toVec2((vec2)getScreenSize());
-	printf("\ndrawing len = 1.f\n");
-	drawScreenRay(scr/2.f,{255,0,0},1.0f);
-	printf("\ndrawing len = 0.f\n");
-	drawScreenRay(scr/2.f,{0,0,0},0.f);
-	printf("\ndrawing len = -1.f\n");
-	drawScreenRay(scr/2.f,{0,0,0},-1.f);
-	printf("drawing len = 1.f at 0,0\n");
-	drawScreenRay({0,0},{0,0,255},1.f);
-
-	printf("\ndrawing len = 2.f\n");
-	drawScreenRay(scr/2.f,{255,255,0},2.0f);
-	printf("\ndrawing len = 2f at 0,0\n");
-	drawScreenRay({0,0},{0,255,0},2.0f);
-
-	printf("\ndrawing len = 0.1f\n");
-	drawScreenRay(scr/2.f,{255,255,255},0.1f);
-	printf("\ndrawing len = 100.f\n");
-	drawScreenRay(scr/2.f,{0,0,0},100.f);
-	printf("\ndrawing len = 10.f\n");
-	drawScreenRay(scr/2.f,{0,0,0},10.f);
-	printf("\ndrawing len = 10.f at (0,h)\n");
-	drawScreenRay({0,scr.y-1},{0,0,0},10.f);
-	printf("\ndrawing len = 10.f at (w,0)\n");
-	drawScreenRay({scr.x-1,0},{0,0,0},10.f);
-}
-
-void drawFrustumbrella(z_meaning zm){
-	for(int x = 0; x < width; x += 10){
-		drawScreenRay({x,0},{255,0,0},1,zm);
-	}
-	for(int y = 0; y < height; y += 10){
-		drawScreenRay({width,y},{255,255,0},1,zm);
-	}
-	for(int x = 0; x < width; x += 10){
-		drawScreenRay({x,height},{0,255,0},1,zm);
-	}
-	for(int y = 0; y < height; y += 10){
-		drawScreenRay({0,y},{0,0,255},1,zm);
-	}
-	float len = 1.f;
-	vec3 p1 = camera.screenToWorld(vec3(0,0,len),zm);
-	vec3 p2 = camera.screenToWorld(vec3(width,0,len),zm);
-	vec3 p3 = camera.screenToWorld(vec3(width,height,len),zm);
-	vec3 p4 = camera.screenToWorld(vec3(0,height,len),zm);
-	setLayer(editorLayer);
-	drawWorldRay(tovec3(p1),tovec3(p2),{255,0,0});
-	drawWorldRay(tovec3(p2),tovec3(p3),{255,255,0});
-	drawWorldRay(tovec3(p3),tovec3(p4),{0,255,0});
-	drawWorldRay(tovec3(p4),tovec3(p1),{0,0,255});
-	drawWorldRay(tovec3(p1),tovec3(p3),{0,0,0});
-	drawWorldRay(tovec3(p2),tovec3(p4),{0,0,0});
-	drawWorldRay(camera.pos,camera.pos+camera.forward(),{255,0,255});
-}
-
-void drawFrustum(){
-	camera.go3D();
-	vec3 p1 = camera.deviceToWorld({1,1,1});
-	vec3 p2 = camera.deviceToWorld({1,1,-1});
-	vec3 p3 = camera.deviceToWorld({1,-1,1});
-	vec3 p4 = camera.deviceToWorld({1,-1,-1});
-	vec3 p5 = camera.deviceToWorld({-1,1,1});
-	vec3 p6 = camera.deviceToWorld({-1,1,-1});
-	vec3 p7 = camera.deviceToWorld({-1,-1,1});
-	vec3 p8 = camera.deviceToWorld({-1,-1,-1});
-
-	setLayer(editorLayer);
-	drawWorldRay2(p1,p2); //right
-	drawWorldRay2(p2,p4);
-	drawWorldRay2(p3,p4);
-	drawWorldRay2(p3,p1);
-
-	drawWorldRay2(p5,p6); //left
-	drawWorldRay2(p6,p8);
-	drawWorldRay2(p7,p8);
-	drawWorldRay2(p7,p5);
-
-	drawWorldRay2(p1,p5); //top+bottom
-	drawWorldRay2(p2,p6);
-	drawWorldRay2(p3,p7);
-	drawWorldRay2(p4,p8);
-
-	drawWorldRay2(p4,p6,{255,255,255}); //near cross
-	drawWorldRay2(p2,p8,{255,255,255});
-
-	drawWorldRay2(p1,p7); //far cross
-	drawWorldRay2(p3,p5);
-
-	drawPoint(toVec3(camera.pos),{255,255,255});
-}
-
-void drawFlatPoint(){
-	vec2 screenpos = getMousePos();
-	vec3 p1 = camera.screenToWorld(vec3(screenpos.x,screenpos.y,1.f),Z_IS_PLANE);
-	vec3 p2 = camera.screenToWorld(camera.worldToScreen(p1,Z_IS_PLANE),Z_IS_PLANE);
-	drawWorldRay(tovec3(p1),tovec3(p2),{0,0,0});
-	drawPoint(p1,{0,255,0});
-	drawPoint(p2,{255,0,0});
-}
-
-void drawCurvyPoint(){
-	vec2 screenpos = getMousePos();
-	vec3 p1 = camera.screenToWorld(vec3(screenpos.x,screenpos.y,1.f),Z_IS_DISTANCE);
-	vec3 p2 = camera.screenToWorld(camera.worldToScreen(p1,Z_IS_DISTANCE),Z_IS_DISTANCE);
-	drawWorldRay(tovec3(p1),tovec3(p2),{0,0,0});
-	drawPoint(p1,{0,255,0});
-	drawPoint(p2,{255,0,0});
-}
-*/

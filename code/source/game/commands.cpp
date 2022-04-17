@@ -249,21 +249,6 @@ int cmd_physbox(int argc,char**argv){
 	return 0;
 }
 
-
-//int cmd_character(int argc, char **argv){
-//	spawnCharacter(argc,argv);
-//	return 0;
-//}
-
-//int cmd_npc(int argc, char **argv){
-//	spawnNPC(argc,argv);
-//	return 0;
-//}
-
-//int cmd_pause(int argc, char **argv){
-//	pauseGame(argc,argv);
-//}
-
 int cmd_camera(int argc, char **argv){
 	if(argc!=1){printf("invalid syntax\n"); return 1;}
 	if(!strcmp(argv[0],"ortho")){
@@ -338,8 +323,6 @@ int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
 int cmd_nodegraph(int argc, char **argv){generateNodegraph(); return 0;}
 int cmd_printf(int argc, char **argv){printf_enabled = !printf_enabled; return 0;}
 
-
-//typedef map<int,struct_alloc_line> struct_alloc_file
 map<const char*, struct_alloc_file> prev_allocation_map;
 int memreport_last_frame = 0;
 int prev_total_size = 0;
@@ -468,7 +451,7 @@ int cmd_genterrain(int argc, char **argv){
 	vec3 center = vec3(0,0,10); //dafuq? why vec3, why 0,0,10?
 	for(ix = -numx/2; ix < numx/2; ix++){
 		for(iy = -numy/2; iy < numy/2; iy++){
-			vec2 corner = vec2(ix,iy)*size + vec2(center.x,center.y);//vec3(ix*size, iy*size,0) + center;
+			vec2 corner = vec2(ix,iy)*size + vec2(center.x,center.y);
 			
 			gridKind g(slices, slices, size, size);
 			for(int jx = 0; jx < slices; jx++){
@@ -543,14 +526,6 @@ void addConsoleCommands(){
 	console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
 	console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
     console->addCommand({"nodegraph","generate a navigation node graph",cmd_nodegraph});
-	//console->addCommand({"deleteDynamicBodies","",cmd_deleteDynamicBodies});
-	//console->addCommand({"spawnPhysbox1","",cmd_spawnPhysbox1});
-	//console->addCommand({"spawnFancyPhysbox","",cmd_spawnFancyPhysbox});
-	//console->addCommand({"spawnPhysbox2","",cmd_spawnPhysbox2});
-	//console->addCommand({"spawnTree","",cmd_spawnTree});
-	//console->addCommand({"spawnCharacter","",cmd_spawnCharacter});
-	//console->addCommand({"spawnNPC","",cmd_spawnNPC});
-	//console->addCommand({"pause","",cmd_pause});
 	console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
 	console->addCommand({"memreport","report the memory usage to a file\n"
 		"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});

@@ -66,8 +66,6 @@ GUIcompoundProperty::GUIcompoundProperty(XMLElement *el){
 	table = GUIpropertyTable(el);
 	XMLElement *el2 = el->FirstChildElement();
 	while(el2){
-		//GUIcompoundProperty *p2 = new GUIcompoundProperty(el2);
-		//children.push_back(p2);
 		children.push_back(GUIcompoundProperty(el2));
 		el2 = el2->NextSiblingElement();
 	}
@@ -86,9 +84,5 @@ XMLElement *GUIcompoundProperty::toXML(XMLDocument *doc) const{
 }
 
 GUIcompoundProperty::~GUIcompoundProperty(){
-	//for(auto I = children.begin(); I != children.end(); I++){
-	//	GUIcompoundProperty *P = &*I;
-	//	delete P;
-	//}
 }
 
