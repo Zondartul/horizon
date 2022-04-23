@@ -31,7 +31,7 @@ class renderLayer{
 	void print();
     string report3();   //same but with rcmd3 queue
 	void push(renderCommand3* cmd);
-    const renderCommand3* get(int num);
+    const renderCommand3* get(unsigned int num);
 	renderLayer *duplicate();
 	private:
 	renderQueue3 queue3;

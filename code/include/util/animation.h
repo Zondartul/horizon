@@ -14,7 +14,7 @@ using std::string;
 //keyframe animation
 //abstract system for key-framed interpolation between values.
 
-enum animationInterpType{INT_NEAREST,INT_LINEAR,INT_CUBIC};//interpolation
+enum class animationInterpType{INT_NEAREST,INT_LINEAR,INT_CUBIC};//interpolation
 
 
 typedef pair<vec3,float> animationKey;

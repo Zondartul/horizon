@@ -65,14 +65,14 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
 
         case(RC3T::LAYER):                  layer = va_arg(args,renderLayer*); break;
         case(RC3T::COLOR):                  v3 = va_arg(args,vec3); break;
-        case(RC3T::ALPHA):                  f = va_arg(args,double); break;
+        case(RC3T::ALPHA):                  f = (float)va_arg(args,double); break;
         case(RC3T::TEXTURE_SELECT):         t = va_arg(args,texture*); break;
         case(RC3T::FONT_SELECT):            fnt = va_arg(args,font*); break;
         case(RC3T::MODE_SELECT):            i = va_arg(args,int); break;
         case(RC3T::TEXT_POS):               v2 = va_arg(args,vec2); break;
         case(RC3T::SCISSOR):                r = va_arg(args,rect); break;
-        case(RC3T::POINTSIZE):              f = va_arg(args,double); break;
-        case(RC3T::LINEWIDTH):              f = va_arg(args,double); break;
+        case(RC3T::POINTSIZE):              f = (float)va_arg(args,double); break;
+        case(RC3T::LINEWIDTH):              f = (float)va_arg(args,double); break;
         case(RC3T::SUN_POS):                v3 = va_arg(args,vec3); break;
         case(RC3T::SUN_LIGHT_COLOR):        v3 = va_arg(args,vec3); break;
         case(RC3T::AMBIENT_LIGHT_COLOR):    v3 = va_arg(args,vec3); break;

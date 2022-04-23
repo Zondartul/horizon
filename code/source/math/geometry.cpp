@@ -6,7 +6,7 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *
 	//Moller-Trumbore intersection algorythm
 	vec3 e1, e2;
 	vec3 P, Q, T;
-	double det, inv_det, u, v;
+	double det, inv_det;// , u, v;
 	float t;
 	
 	e1 = B-A;

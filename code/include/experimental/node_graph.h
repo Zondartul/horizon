@@ -5,7 +5,7 @@
 class entity;
 
 void generateNodegraph();
-struct nav_node;
+class nav_node;
 struct nav_edge{
     nav_node *node;
     bool accessible;

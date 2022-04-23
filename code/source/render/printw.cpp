@@ -74,7 +74,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 			drawRect((t->getRect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y+yoffset}));
 
 
-			x+=G.advance*scale;
+			x+=int(float(G.advance)*scale);
 		}else{
 			if(C == '\n'){
 				y+=F->maxrect.size.y;
@@ -118,12 +118,12 @@ rect preprintText2D(const char *text, font *F){
 				minx = (int)R.start.x;
 				miny = (int)R.start.y;
 			}else{
-				maxx = max(maxx,(int)R.end.x);
-				maxy = max(maxy,(int)R.end.y);
-				minx = min(minx,(int)R.start.x);
-				miny = min(miny,(int)R.start.y);
+				maxx = (int)max(maxx,(int)R.end.x);
+				maxy = (int)max(maxy,(int)R.end.y);
+				minx = (int)min(minx,(int)R.start.x);
+				miny = (int)min(miny,(int)R.start.y);
 			}
-			x+=(int)G.advance*scale;
+			x+=int(float(G.advance)*scale);
 		}else{
 			if(C == '\n'){
 				y+=(int)F->maxrect.size.y;
@@ -146,9 +146,12 @@ void printw(const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
 
-	char buff[100001];
-	vsnprintf(buff,100000,format,ap);
+	size_t fuckhuge = 100000;
+		//char buff[];
+	char *buff = (char*)malloc(fuckhuge + 1);
+	vsnprintf(buff,fuckhuge,format,ap);
 	printText(buff);
+	free(buff);
 }
 rect preprintw(font *F, const char *format, ...){
 	va_list ap;

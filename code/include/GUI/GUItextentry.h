@@ -15,7 +15,7 @@ class GUItextEntry:public virtual GUIbutton{
 	texture *tcaret;
 	//internal vars
 	bool hasfocus;
-	int cursorPos;
+	unsigned int cursorPos;
 	GUItextEntry();
 	GUItextEntry *setText(string newtext);
 	GUItextEntry *setFunction(function<void()> f);

@@ -64,12 +64,12 @@ void GUIselectable::select(){
 			if(shift){
 				int firstSelected = -1;
 				int lastSelected = -1;
-				for(int I = 0; I < SG->children.size(); I++){
+				for(int I = 0; I < (int)SG->children.size(); I++){
 					GUIselectable *elSel = dynamic_cast<GUIselectable*>(SG->children[I]);
 					if(elSel && elSel->selected && (firstSelected < 0)){firstSelected = I;} 
 					if(elSel && elSel->selected && (firstSelected >= 0)){lastSelected = I;}
 				}
-				for(int I = 0; I < SG->children.size(); I++){
+				for(int I = 0; I < (int)SG->children.size(); I++){
 					GUIselectable *elSel = dynamic_cast<GUIselectable*>(SG->children[I]);
 					if((I >= firstSelected) && (I <= lastSelected)){
 						elSel->selected = true;
@@ -78,7 +78,7 @@ void GUIselectable::select(){
 					}
 				}
 			}else{
-				for(int I = 0; I < SG->children.size(); I++){
+				for(unsigned int I = 0; I < SG->children.size(); I++){
 					GUIselectable *elSel = dynamic_cast<GUIselectable*>(SG->children[I]);
 					if(elSel && (elSel != this)){elSel->selected = false;}
 				}

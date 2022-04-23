@@ -120,13 +120,13 @@ void cameraKind::go3D(){
 	setViewport(0, 0, g_width, g_height);
 #endif
 
-	float znear = 0.1;
-	float zfar = 10000;
+	float znear = 0.1f;
+	float zfar = 10000.f;
 	if(perspective){
 		float aspect = ((float)g_width)/((float)g_height);
-		float left = -znear*tan(fov*d2r/2.0)*scalePersp;
+		float left = -(float)znear*tan(fov*d2r/2.0)*scalePersp;
 		float right = -left;
-		float bottom = -znear*tan(fov*d2r/2.0)*scalePersp/aspect;
+		float bottom = -(float)znear*tan(fov*d2r/2.0)*scalePersp/aspect;
 		float top = -bottom;
 		mProjection = glm::frustum(left,right,bottom,top,znear,zfar);
 	}else{
@@ -244,8 +244,8 @@ struct task_screenshot {
 
 void cameraKind::screenshot(){
 	vec2 scr = getScreenSize();
-	int width = scr.x;
-	int height = scr.y;
+	int width = (int)scr.x;
+	int height = (int)scr.y;
 	task_screenshot* task = new task_screenshot(width, height, 0);
 	task->run();
 }
@@ -315,7 +315,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	float z = devpos.z;
 	vec2 scr = getScreenSize();
 	float zfar = 100.f;
-	float zfar_true,zratio;
+	//float zfar_true,zratio;
 	vec3 dtw,dts;
 	switch(zm){
 		case(Z_IS_ORTHODOX):

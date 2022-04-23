@@ -7,8 +7,12 @@
 #include "file.h"
 #include <string>
 using std::string;
+
+#pragma warning(push, 0)
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#pragma warning(pop)
+
 FT_Library  freetype;
 FT_Face		face;
 
@@ -125,18 +129,18 @@ font *loadFont(const char *fontpath, int size){
 			
 			F->charmap[I] = G;
 			
-			int ysize = AUV.size.y;
-			int xsize = AUV.size.x;
+			int ysize = (int)AUV.size.y;
+			int xsize = (int)AUV.size.x;
 			
 			if(!first){
 				first = true;
-				start.x = G.bearingX; 
-				end.x = start.x+xsize;
-				start.y = G.bearingY;
-				end.y = start.y+ysize;
+				start.x = (float)G.bearingX;
+				end.x = (float)start.x+xsize;
+				start.y = (float)G.bearingY;
+				end.y = (float)start.y+ysize;
 			}
-			start.x = min(start.x,G.bearingX);
-			start.y = min(start.y,G.bearingY);
+			start.x = min(start.x, (float)G.bearingX);
+			start.y = min(start.y, (float)G.bearingY);
 			end.x = max(end.x,start.x+xsize);
 			end.y = max(end.y,start.y+ysize);
 		}

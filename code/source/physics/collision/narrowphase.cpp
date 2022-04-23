@@ -225,7 +225,7 @@ void debugDrawLine(vec3 p1, vec3 p2, vec3 col){
 	drawLine(p1,p2);
 }
 
-string truncateString(string S, int n){
+string truncateString(string S, unsigned int n){
 	if(S.length() > n){
 		return (S.substr(0,n-3)+"...");
 	}else{

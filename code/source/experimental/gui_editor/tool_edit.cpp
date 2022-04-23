@@ -102,7 +102,7 @@ void gui_editor_tool_edit::ldown(){
 			oldArea = subject->area;
 			
 			//vec2 corner = subject->parent->thisToWorld(subject->parent->clientArea).start;
-			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, gridStep);//+corner;
+			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);//+corner;
 			
 			grabPos = gpos;//mousePos;
 			grabState = borderState;
@@ -248,7 +248,7 @@ void gui_editor_tool_edit::scan(){
 			printf("stage=end\n");
 			vec2 mousePos = getMousePos();
 			vec2 corner = subject->parent->thisToWorld(subject->parent->clientArea).start;
-			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, gridStep);//+corner;
+			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);//+corner;
 			//printf("\n-----------------\n"
 			//"mousePos = %s, gpos = %s\n"
 			//"gpos+corn = %s, gr\n"
@@ -299,7 +299,7 @@ void gui_editor_tool_edit::scan(){
 			}
 			rect sar = subject->area;
 			rect cl_sar = subject->parent->clientToWorld(sar);
-			subject->area = snapToGrid(subject->parent, cl_sar, gridStep);
+			subject->area = snapToGrid(subject->parent, cl_sar, (float)gridStep);
 			//subject->area = rect(snapToGrid(subject->parent, subject->area.start+corner, gridStep),
 			//					 snapToGrid(subject->parent, subject->area.end+corner, gridStep));
 			subject->invalidate();

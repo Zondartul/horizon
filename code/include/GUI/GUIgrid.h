@@ -51,7 +51,7 @@ class GUIgrid:public virtual GUIbase{
 	virtual void configureColumn(int col, float min, float max, float weight);
 	int getNumRows();
 	int getNumCols();
-	void resize(int numrows, int numcols);
+	void resize(unsigned int numrows, unsigned int numcols);
 	void clear();
 	bool bSizeToParent = false;
 	gridkind rows;

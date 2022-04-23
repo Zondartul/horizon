@@ -2,13 +2,13 @@
 
 vec3 animationChannel::getFrame(float t){
 	switch(interpolation){
-		case(INT_NEAREST):
+	case(animationInterpType::INT_NEAREST):
 			return interpolate_nearest(keys,t);
 		break;
-		case(INT_LINEAR):
+		case(animationInterpType::INT_LINEAR):
 			return interpolate_linear(keys,t);
 		break;
-		case(INT_CUBIC):
+		case(animationInterpType::INT_CUBIC):
 			return interpolate_cubic(keys,t);
 		break;
 		default:

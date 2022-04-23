@@ -1,9 +1,9 @@
 d:\stride\shared\horizon\vs\horizon\debug\vc143.pdb
 d:\stride\shared\horizon\vs\horizon\debug\vc143.idb
+d:\stride\shared\horizon\vs\horizon\debug\guiwindows.obj
 d:\stride\shared\horizon\vs\horizon\debug\commands.obj
 d:\stride\shared\horizon\vs\horizon\debug\aicontroller.obj
 d:\stride\shared\horizon\vs\horizon\debug\picker.obj
-d:\stride\shared\horizon\vs\horizon\debug\notificationbox.obj
 d:\stride\shared\horizon\vs\horizon\debug\gui_texturebrowser.obj
 d:\stride\shared\horizon\vs\horizon\debug\gui_table.obj
 d:\stride\shared\horizon\vs\horizon\debug\gui_filedialog.obj
@@ -20,6 +20,7 @@ d:\stride\shared\horizon\vs\horizon\debug\entity.obj
 d:\stride\shared\horizon\vs\horizon\debug\ecs.obj
 d:\stride\shared\horizon\vs\horizon\debug\tinyxml2.obj
 d:\stride\shared\horizon\vs\horizon\debug\glm.obj
+d:\stride\shared\horizon\vs\horizon\debug\gui_property.obj
 d:\stride\shared\horizon\vs\horizon\debug\gui_internal.obj
 d:\stride\shared\horizon\vs\horizon\debug\guiwindow.obj
 d:\stride\shared\horizon\vs\horizon\debug\guitextentry.obj
@@ -39,7 +40,7 @@ d:\stride\shared\horizon\vs\horizon\debug\physbox.obj
 d:\stride\shared\horizon\vs\horizon\debug\modelprimitives.obj
 d:\stride\shared\horizon\vs\horizon\debug\modelcomposite.obj
 d:\stride\shared\horizon\vs\horizon\debug\editmodel.obj
-d:\stride\shared\horizon\vs\horizon\debug\guiwindows.obj
+d:\stride\shared\horizon\vs\horizon\debug\octree.obj
 d:\stride\shared\horizon\vs\horizon\debug\resolution.obj
 d:\stride\shared\horizon\vs\horizon\debug\narrowphase.obj
 d:\stride\shared\horizon\vs\horizon\debug\broadphase.obj
@@ -59,7 +60,7 @@ d:\stride\shared\horizon\vs\horizon\debug\keybinds.obj
 d:\stride\shared\horizon\vs\horizon\debug\inputcontroller.obj
 d:\stride\shared\horizon\vs\horizon\debug\input.obj
 d:\stride\shared\horizon\vs\horizon\debug\gui_types.obj
-d:\stride\shared\horizon\vs\horizon\debug\gui_property.obj
+d:\stride\shared\horizon\vs\horizon\debug\debug.obj
 d:\stride\shared\horizon\vs\horizon\debug\animation.obj
 d:\stride\shared\horizon\vs\horizon\debug\threads.obj
 d:\stride\shared\horizon\vs\horizon\debug\texture.obj
@@ -79,7 +80,6 @@ d:\stride\shared\horizon\vs\horizon\debug\camera.obj
 d:\stride\shared\horizon\vs\horizon\debug\window.obj
 d:\stride\shared\horizon\vs\horizon\debug\pipe.obj
 d:\stride\shared\horizon\vs\horizon\debug\file.obj
-d:\stride\shared\horizon\vs\horizon\debug\octree.obj
 d:\stride\shared\horizon\vs\horizon\debug\util.obj
 d:\stride\shared\horizon\vs\horizon\debug\timer.obj
 d:\stride\shared\horizon\vs\horizon\debug\stringutils.obj
@@ -87,7 +87,6 @@ d:\stride\shared\horizon\vs\horizon\debug\paramlist.obj
 d:\stride\shared\horizon\vs\horizon\debug\hook.obj
 d:\stride\shared\horizon\vs\horizon\debug\event.obj
 d:\stride\shared\horizon\vs\horizon\debug\elastic_ptr.obj
-d:\stride\shared\horizon\vs\horizon\debug\debug.obj
 d:\stride\shared\horizon\bin\horizon.exe
 d:\stride\shared\horizon\bin\horizon.pdb
 d:\stride\shared\horizon\vs\horizon\debug\..\..\..\bin\horizon.pdb

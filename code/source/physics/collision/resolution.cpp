@@ -166,7 +166,7 @@ void separateCollision(collisioninfo *col){
 	v1 = body1->vel;
 	v2 = body2->vel;
 	pen = col->c_to_c.penetration;
-	float dvpen,lpen,t;
+	float dvpen,/*lpen,*/t;
 	if(velocitySeparation){
 		//experimental velocity-based separation.
 		//assuming constant velocity, calculate where the bodies were
@@ -222,7 +222,7 @@ void separateCollision(collisioninfo *col){
 	drawArrow(O1,O1+N,vec3(0,255,0));
 	drawArrow(O1,O1+P,vec3(0,0,255));
 	drawArrow(O1,O1+D,vec3(0,255,255));
-	for(int I = 0; I < col->cpts.size(); I++){
+	for(unsigned int I = 0; I < col->cpts.size(); I++){
 		collisionpoint cp = col->cpts[I];
 		drawPoint(cp.pos,vec3(128,0,128));
 	}

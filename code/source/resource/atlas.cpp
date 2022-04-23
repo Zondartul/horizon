@@ -10,13 +10,13 @@ atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
 	vector<int> packed;
 	int heightNeeded;
 	vector<rect> rects;
-	for(int I = 0; I < BMPs.size(); I++){
+	for(unsigned int I = 0; I < BMPs.size(); I++){
 		vec2 size = vec2(BMPs[I].width,BMPs[I].height);
 		sizes.push_back(size);
 	}
 	binsize = {background.width,background.height};
 	pack2D(sizes,binsize,sort,&results,&packed,&heightNeeded);
-	for(int I = 0; I < results.size(); I++){
+	for(unsigned int I = 0; I < results.size(); I++){
 		background.insert(BMPs[I],results[I]);
 		rects.push_back(rect(sizes[I]).moveTo(results[I]));
 	}
@@ -30,14 +30,14 @@ atlas makeAtlasPOT(vector<bitmap> BMPs, bool sort){
 	vector<int> packed;
 	int heightNeeded;
 	vector<rect> rects;
-	for(int I = 0; I < BMPs.size(); I++){
+	for(unsigned int I = 0; I < BMPs.size(); I++){
 		vec2 size = vec2(BMPs[I].width,BMPs[I].height);
 		sizes.push_back(size);
 	}
 	binsize = pack2DfindClosestPOT(sizes, sort);	
 	bitmap background = blankBitmap(binsize.y,binsize.x,TL_RGBA);
 	pack2D(sizes,binsize,sort,&results,&packed,&heightNeeded);
-	for(int I = 0; I < results.size(); I++){
+	for(unsigned int I = 0; I < results.size(); I++){
 		background.insert(BMPs[I],results[I]);
 		rect R = rect(sizes[I]).moveTo(results[I]);
 		rects.push_back(R);

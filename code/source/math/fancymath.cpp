@@ -6,7 +6,7 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 	results->clear();
 	packed->clear();
 	*heightNeeded = 0;
-	for(int I = 0; I < sizes.size(); I++){
+	for(unsigned int I = 0; I < sizes.size(); I++){
 		sorted.push_back(I);
 		results->push_back({0,0});
 	}
@@ -23,11 +23,12 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 		);
 		
 	}
-	int x=0,y=0,I=0,lineHeight=0,widthleft=0,selected=0,overflow=0;
+	int x=0,y=0,lineHeight=0,widthleft=0,selected=0,overflow=0;
+	unsigned int I = 0;
 	pack2D_oneLine:
 pack2D_oneRect:
 			if (sorted.size() == 0) { goto pack2D_done; }
-			lineHeight = max(lineHeight,sizes[sorted[0]].y);
+			lineHeight = (int)max(lineHeight,sizes[sorted[0]].y);
 			if(*heightNeeded+lineHeight > binsize.y){overflow = 1;}
 			widthleft = binsize.x-x;
 			if(widthleft < sizes[sorted[0]].x){
@@ -47,9 +48,9 @@ pack2D_oneRect:
 			sorted.erase(sorted.begin());
 			if(!overflow){packed->push_back(selected);}
 			pack2D_plopDown:
-				(*results)[selected].x = x;
-				(*results)[selected].y = y;
-				x = x+sizes[selected].x;
+				(*results)[selected].x = (float)x;
+				(*results)[selected].y = (float)y;
+				x = x+ (int)sizes[selected].x;
 				goto pack2D_oneRect;
 		pack2D_nextLine:
 			x = 0;
@@ -61,7 +62,8 @@ pack2D_oneRect:
 		*heightNeeded = *heightNeeded + lineHeight;
 		printf("2D packing complete: %d/%d items packed\n"
 			"width = %d, height = %d / %d needed\n",
-			packed->size(),sizes.size(),binsize.x,binsize.y,*heightNeeded);
+			packed->size(),sizes.size(),
+			(int)binsize.x,	(int)binsize.y,*heightNeeded);
 		return;
 }
 
@@ -69,8 +71,8 @@ vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort){
 	//obviously, the POT can't have a smaller area
 	//than all the rectangles put together.
 	int area = 0;
-	for(int I = 0; I < sizes.size(); I++){
-		area += sizes[I].x*sizes[I].y;
+	for(unsigned int I = 0; I < sizes.size(); I++){
+		area += int(sizes[I].x*float(int(sizes[I].y)));
 	}
 	int side = ceil(sqrt(area));
 	int n = log2ceil(side);

@@ -182,7 +182,7 @@ nav_node *findClosestNode(vec3 pos){
     auto &n = nodegraph.nodes;
     nav_node *bestNode = n[0];
     float bestDist = nodeDist(n[0],pos);
-    for(int I = 0; I < n.size(); I++){
+    for(unsigned int I = 0; I < n.size(); I++){
         float dist = nodeDist(n[I],pos);
         if(dist < bestDist){bestDist = dist; bestNode = n[I];}
     }
@@ -198,7 +198,7 @@ void pathfinding_test(vec3 pos){
     if(!nodegraph.nodes.size()){printf("no node graph\n"); return;}
     if(!g_ent_flag){printf("no flag\n"); return;}
     //reset color
-    for(int I = 0; I < nodegraph.nodes.size(); I++){
+    for(unsigned int I = 0; I < nodegraph.nodes.size(); I++){
         nodegraph.nodes[I]->E->r->color = vec3(255,255,255);
     }
 
@@ -245,10 +245,10 @@ void AStarInit(pathTaskKind *task, nav_node *srcNode, nav_node *flagNode){
     task->openSet.push_back(srcNode);
     printf("srcNode = %p\n",srcNode);
     printf("node_data contents before:\n");
-    for(auto I = task->node_data.begin(); I != task->node_data.end(); I++){printf("%p:{%d,%p}\n",I->first, I->second.cost, I->second.parent);}
+    for(auto I = task->node_data.begin(); I != task->node_data.end(); I++){printf("%p:{%d,%p}\n",I->first, (int)I->second.cost, I->second.parent);}
     task->node_data[srcNode] = {0, 0};
     printf("node_data contents after:\n");
-    for(auto I = task->node_data.begin(); I != task->node_data.end(); I++){printf("%p:{%d,%p}\n",I->first, I->second.cost, I->second.parent);}
+    for(auto I = task->node_data.begin(); I != task->node_data.end(); I++){printf("%p:{%d,%p}\n",I->first, (int)I->second.cost, I->second.parent);}
 }
 
 void AStarIterative(pathTaskKind *task){
@@ -306,7 +306,7 @@ void AStarIterative(pathTaskKind *task){
 nav_path AStar(vec3 src, vec3 dest){
     if(!nodegraph.nodes.size()){printf("no node graph\n"); return empty_path();}
     //reset color
-    for(int I = 0; I < nodegraph.nodes.size(); I++){
+    for(unsigned int I = 0; I < nodegraph.nodes.size(); I++){
         nodegraph.nodes[I]->E->r->color = vec3(255,255,255);
     }
 

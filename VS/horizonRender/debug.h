@@ -1,8 +1,11 @@
 #ifndef DEBUG_GUARD
 #define DEBUG_GUARD
+#include <vector>
+#include <map>
 #include "config.h"
 #include "stdio.h"
-
+using std::vector; //for struct_alloc_line
+using std::map;		//for struct alloc something
 
 #define checkNaN(x) if(x != x){printf(#x " is nan at %d\n",__LINE__);}
 #define print1(x) printf(#x " = %s\n", toString(x))
@@ -38,10 +41,15 @@ extern bool g_printf_enabled;
 
 #else
 
-	#define info(...) printf(__VA_ARGS__)
-	#define warning(...) printf(__VA_ARGS__)
-	#define error(...) printf(__VA_ARGS__);exit(1);
-	#define frame(...) printf(__VA_ARGS__)
+	//#define info(...) printf(__VA_ARGS__)
+	//#define warning(...) printf(__VA_ARGS__)
+	//#define error(...) printf(__VA_ARGS__);exit(1);
+	//#define frame(...) printf(__VA_ARGS__)
+
+void info(const char* fmt, ...);
+void warning(const char* fmt, ...);
+void error(const char* fmt, ...);
+void frame(const char* fmt, ...);
 
 #endif
 int set_alloc_pos(const char *file, int line);

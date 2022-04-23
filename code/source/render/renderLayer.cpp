@@ -106,7 +106,7 @@ string renderLayer::report3(){
 	return ss.str();
 }
 
-const renderCommand3 *renderLayer::get(int num){
+const renderCommand3 *renderLayer::get(unsigned int num){
     if(queue3.size() > num){
         return queue3[num];
     }else{

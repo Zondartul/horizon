@@ -6,8 +6,8 @@ GUIbutton::GUIbutton(){
 	mouseover = false;
 	lastPressTime = 0;
 	textColor = defaulttextColor;
-	hoverColor = defaultbgcolor*0.9;
-	pressedColor = defaultbgcolor*0.8;
+	hoverColor = defaultbgcolor*0.9f;
+	pressedColor = defaultbgcolor*0.8f;
 	textfont = defaulttextfont;
 	F = [](){return;};
 	text = defaulttext;
@@ -59,7 +59,7 @@ GUIpropertyTable GUIbutton::getDefaultPropertyTable(){
 
 	table = table1+table2+table3;	
 	table.table["hoverColor"] = toString(vec3(defaulttextColor));
-	table.table["pressedColor"] = toString(vec3(defaultbgcolor*0.9));
+	table.table["pressedColor"] = toString(vec3(defaultbgcolor*0.9f));
 	return table;
 }
 

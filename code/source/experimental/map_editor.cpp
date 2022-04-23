@@ -619,7 +619,7 @@ void map_editor_kind::onEvent(eventKind event){
                                     if(sdata.dragging){
                                         collisionbody &body = *selected_ent->body;
                                         vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
-                                        float offset;
+                                        //float offset;
                                         vec3 dv3d;
                                         float dist3D;
                                         switch(sdata.dir){
@@ -862,7 +862,7 @@ void map_editor_kind::onEvent(eventKind event){
 					if(points.size()){
 						points.clear();
 					}else{
-						for(int i = 0; i < g_planes.size(); i++){
+						for(unsigned int i = 0; i < g_planes.size(); i++){
 							removeEntity(g_planes[i]);
 						}
 						g_planes.clear();

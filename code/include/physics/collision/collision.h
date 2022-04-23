@@ -131,9 +131,9 @@ struct tile{
 struct gridKind{
 	map<int,vec3> debugVerts;
 	vector<float> height_grid;
-	float x_step, y_step;
-	int x_point_count, y_point_count;
-	int x_tile_count, y_tile_count;
+	float x_step = 0, y_step = 0;
+	int x_point_count = 0, y_point_count = 0;
+	int x_tile_count = 0, y_tile_count = 0;
 	row_acessor operator[](int Ix);
 	vec3 point(int Ix, int Iy);
 	

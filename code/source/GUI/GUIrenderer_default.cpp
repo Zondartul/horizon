@@ -91,7 +91,7 @@ render(GUIbase *el, string type){
 		if(g_GUIoptions.push){pushRenderOptions();}
 		render(el, "GUIframe");
 		setAlpha(128);
-		setColor(elScb->bgColor*0.9);
+		setColor(elScb->bgColor*0.9f);
 		
 		if(elScb->vertical){
 			rect R = elScb->vtrackRect().setStart(elScb->vtrackRect().start-vec2{0,21})\
@@ -119,7 +119,7 @@ render(GUIbase *el, string type){
 		if(elTE->hasfocus){
 			rect TR;
 			rect AR = elTE->worldArea();
-		textScrollLoop:
+		//textScrollLoop:
 			if(elTE->cursorPos){
 				TR = elTE->getTextRect(elTE->text.substr(0,elTE->cursorPos));
 			}else{

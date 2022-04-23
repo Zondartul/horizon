@@ -1,10 +1,12 @@
+//#include "stdio.h"
+//#include "stdlib.h"
+#include <cstdio>
+#include <cstdlib>
+#include <vector>
+#include "dirent/dirent.h"
+using std::vector;
 #include "file.h"
 #include "globals.h"
-#include "stdio.h"
-#include "stdlib.h"
-#include <vector>
-using std::vector;
-#include "dirent/dirent.h"
 
 string fileToString(const char *filepath){
 	FILE *fp;

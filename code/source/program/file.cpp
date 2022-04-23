@@ -103,7 +103,7 @@ string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
 	string S;
-	for(int I = 0; I < dir.length(); I++){
+	for(unsigned int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){
 			if(S == ".."){

@@ -1,10 +1,10 @@
+#include <sstream>
 #include "GPUdriver.h"
 #include "globals.h"
 #include "file.h"
 #include "texture.h"
 #include "printw.h"
 #include "util.h"
-#include <sstream>
 using std::stringstream;
 
 
@@ -532,7 +532,7 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(VIEWPORT):
                 //printf("glViewport: %d %d %d %d\n", rcmd.r.start.x, rcmd.r.start.y, rcmd.r.size.x, rcmd.r.size.y);
-                glViewport(rcmd.r.start.x, rcmd.r.start.y, rcmd.r.size.x, rcmd.r.size.y);
+                glViewport((GLint)rcmd.r.start.x, (GLint)rcmd.r.start.y, (GLsizei)rcmd.r.size.x, (GLsizei)rcmd.r.size.y);
             break;
 
             case(FACE_CULLING):

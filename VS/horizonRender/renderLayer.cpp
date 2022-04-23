@@ -1,19 +1,19 @@
+#include <sstream>
+#include <string>
+#include <cstdio>
+#include "window.h"
+//#include "stdio.h"
 #include "renderLayer.h"
 #include "renderLow.h"
-#include "stdio.h"
-#include <sstream>
-using std::stringstream;
-#include <string>
-using std::string;
 #include "renderCommand.h"
-
 #include "paint.h"
+using std::stringstream;
+using std::string;
 
 #ifndef NO_GLEW
 #include "GL/glew.h"
 #endif
 
-#include "window.h"
 
 
 vector<renderLayer*> g_all_layers;
@@ -109,7 +109,7 @@ string renderLayer::report3(){
 	return ss.str();
 }
 
-const renderCommand3 *renderLayer::get(int num){
+const renderCommand3 *renderLayer::get(unsigned int num){
     if(queue3.size() > num){
         return queue3[num];
     }else{

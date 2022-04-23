@@ -59,8 +59,8 @@ void openTextureBrowser(){g_GUI->addChild(new GUItextureBrowser());}
 
 void GUItextureBrowser::addTile(string imgpath, string label){
 	GUIselectable *sel = dynamic_cast<GUIselectable*>(Ptile.instantiate());
-	int Sx = sel->area.size.x;
-	int Sy = sel->area.size.y;
+	int Sx = (int)sel->area.size.x;
+	int Sy = (int)sel->area.size.y;
 	int TPR = 4; //tiles per row
 	sel->moveTo(vec2(Sx*(numTiles%TPR),Sy*(numTiles/TPR)));
 	sel->moveable = false;

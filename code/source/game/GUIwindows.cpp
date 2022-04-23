@@ -155,9 +155,9 @@ void openTestWindow4(){
 	g_GUI->addChild(win);
 
 	btn_box->F = [=](){
-		float numx = te_x->getNumber();
-		float numy = te_y->getNumber();
-		float numz = te_z->getNumber();
+		float numx = (float)te_x->getNumber();
+		float numy = (float)te_y->getNumber();
+		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make box %s\n",toString(size).c_str());
 		rmodel *rm = generateBox(size)->getRmodel(1);
@@ -168,9 +168,9 @@ void openTestWindow4(){
 		printf("wut\n");
 	};
 	btn_cyl->F = [=](){
-		float numx = te_x->getNumber();
-		float numy = te_y->getNumber();
-		float numz = te_z->getNumber();
+		float numx = (float)te_x->getNumber();
+		float numy = (float)te_y->getNumber();
+		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cyllinder %s\n",toString(size).c_str());
 		rmodel *rm = generateCyllinder(size.x,size.z)->getRmodel(1);
@@ -181,9 +181,9 @@ void openTestWindow4(){
 		printf("wut\n");
 	};
 	btn_sph->F = [=](){
-		float numx = te_x->getNumber();
-		float numy = te_y->getNumber();
-		float numz = te_z->getNumber();
+		float numx = (float)te_x->getNumber();
+		float numy = (float)te_y->getNumber();
+		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make sphere %s\n",toString(size).c_str());
 		rmodel *rm = generateSphere(size.x)->getRmodel(1);
@@ -194,9 +194,9 @@ void openTestWindow4(){
 		printf("wut\n");
 	};
 	btn_con->F = [=](){
-		float numx = te_x->getNumber();
-		float numy = te_y->getNumber();
-		float numz = te_z->getNumber();
+		float numx = (float)te_x->getNumber();
+		float numy = (float)te_y->getNumber();
+		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cone %s\n",toString(size).c_str());
 		rmodel *rm = generateCone(size.x,size.z)->getRmodel(1);

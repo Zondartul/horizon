@@ -1,5 +1,6 @@
+#include <cstdio>
 #include "stringUtils.h"
-#include "stdio.h"
+//#include "stdio.h"
 #include "globals.h"
 #include "vec.h"
 #include "string.h"

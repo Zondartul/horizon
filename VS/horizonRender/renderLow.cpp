@@ -1,30 +1,31 @@
-#include "renderLow.h"
-#include "globals.h"
-#include "vec.h"
-#include "stdio.h"
-#include "stdlib.h"
-
-#ifndef NO_GLEW
-#include "GL/glew.h"
-#endif
-#include "file.h"
-#include "window.h"
-#include "camera.h"
-#include "glm/glm.hpp"
-#include "printw.h"
-#include "GPUdriver.h"
-using glm::mat4;
-using glm::vec3;
-using glm::vec2;
-#include "model.h"
-extern model *g_mBox;
-#include "bitmap.h"
+#include <cstdio>
+#include <cstdlib>
 #include <map>
-using std::map;
-
+#include "glm/glm.hpp"
+#include "renderLow.h"
+#include "vec.h"
 #include "fonts.h"
 #include "util.h"
 #include "paint.h"
+#include "globals.h"
+//#include "stdio.h"
+//#include "stdlib.h"
+#include "file.h"
+#include "window.h"
+#include "camera.h"
+#include "printw.h"
+#include "GPUdriver.h"
+#include "bitmap.h"
+#include "model.h"
+#ifndef NO_GLEW
+#include "GL/glew.h"
+#endif
+using glm::mat4;
+using glm::vec3;
+using glm::vec2;
+using std::map;
+extern model* g_mBox;
+
 
 renderLowKind *g_renderLow;
 renderLowKind::renderLowKind(){

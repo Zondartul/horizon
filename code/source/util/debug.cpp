@@ -130,7 +130,7 @@ int set_alloc_pos(const char *file, int line){
 int getGameTicks();
 
 typedef vector<void*> delayedDeleteList;
-delayedDeleteList g_deleteBuffer[2];
+delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
 int g_activeDeleteBuffer = 0;
 bool g_delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
 
@@ -301,7 +301,7 @@ void clearDeleteBuffer(){
     if(g_activeDeleteBuffer == 0){inactiveDeleteBuffer = 1;}
     delayedDeleteList &dellist = g_deleteBuffer[inactiveDeleteBuffer];
     int total = 0;
-    for(int I = 0; I < dellist.size(); I++){
+    for(unsigned int I = 0; I < dellist.size(); I++){
         void *ptr = dellist[I];
         mapped_alloc_key key = g_deallocation_map[ptr];
         struct_alloc_file &f = g_allocation_map[key.alloc_file];
@@ -538,6 +538,12 @@ void debugSetStackCanary(){
 }
 int debugCheckStackCanary(){
 	char s[STACK_CANARY_SIZE];
+
+#ifdef __INTELLISENSE__
+	//don't warn about unitialized variable
+	//because we are doing stack magic
+#pragma diag_suppress 6001
+#endif
 	for(int I = 0; I < STACK_CANARY_SIZE; I++){
 		if(s[I] == CANARY){return I;}
 	}
@@ -606,7 +612,7 @@ vector<void*> getTrace(){
     return v;
 }
 
-#define error(format,...)	debugprint(__FILE__,__LINE__,"error",format , ##__VA_ARGS__);crash();
+//#define error(format,...)	debugprint(__FILE__,__LINE__,"error",format , ##__VA_ARGS__);crash();
 
 #define SSnumvals 1024
 #define SSbaseval 1266184225
@@ -624,14 +630,46 @@ stackSentinel::stackSentinel(){
 	printf("SS constructed\n");
 }
 
+
+
+#ifndef DEBUG_PRINT
+
+void info(const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+}
+void warning(const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+}
+void error(const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+	exit(0);
+}
+void frame(const char* fmt, ...) {
+	va_list ap;
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	va_end(ap);
+}
+
+#endif
+
 stackSentinel::~stackSentinel(){
 	int cor_first = SSnumvals;
 	int cor_last = 0;
 	bool corrupted = false;
 	for(int I = 0; I < SSnumvals; I++){
 		if(vals[I] != SSbaseval+I){
-			cor_first = min(cor_first, I);
-			cor_last = max(cor_last, I);
+			cor_first = (int)min(cor_first, I);
+			cor_last = (int)max(cor_last, I);
 			corrupted = true;
 		}
 	}

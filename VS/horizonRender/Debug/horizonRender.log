@@ -1,182 +1,19 @@
-﻿D:\VS\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+﻿  debug.cpp
+  dllmain.cpp
+  file.cpp
+  GPUdriver.cpp
+  paint.cpp
+  printw.cpp
+  render.cpp
+  renderCommand.cpp
   renderLayer.cpp
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27,24): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\iterator(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\iterator(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\iterator(1746,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_system_error_abi.hpp(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_system_error_abi.hpp(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_system_error_abi.hpp(37,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdexcept(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdexcept(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdexcept(171,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xcall_once.h(13,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xcall_once.h(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xcall_once.h(49,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xerrc.h(13,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xerrc.h(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xerrc.h(105,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\time.h(15,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\time.h(16,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\time.h(589,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ctime(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ctime(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ctime(43,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xtimec.h(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xtimec.h(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xtimec.h(41,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xthreads.h(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xthreads.h(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xthreads.h(139,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(26,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(27,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(172,5): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(179,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(180,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(183,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(194,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(278,5): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(280,12): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(292,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(649,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(736): message : see reference to class template instantiation 'std::_Atomic_storage<_Ty,1>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(667,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(770,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(856): message : see reference to class template instantiation 'std::_Atomic_storage<_Ty,2>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(788,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(888,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(974): message : see reference to class template instantiation 'std::_Atomic_storage<_Ty,4>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(906,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(992,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(1121): message : see reference to class template instantiation 'std::_Atomic_storage<_Ty,8>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(1012,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(1035,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\atomic(3036,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\system_error(26,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\system_error(27,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\system_error(662,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xfacet(13,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xfacet(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xfacet(45,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_xlocinfo_types.hpp(13,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_xlocinfo_types.hpp(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\__msvc_xlocinfo_types.hpp(44,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\locale.h(14,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\locale.h(15,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\locale.h(183,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\clocale(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\clocale(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\clocale(29,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocinfo(21,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocinfo(22,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocinfo(457,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(19,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(20,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(726,9): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(774): message : see reference to class template instantiation 'std::codecvt<_Elem,_Byte,_Statype>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(745,9): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(794,5): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(796,5): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(808,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(810,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(887,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(889,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(1185,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(1187,13): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocale(3274,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xiosbase(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xiosbase(17,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xiosbase(560,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\streambuf(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\streambuf(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\streambuf(413,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(19,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(20,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(1283,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(1284,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(1368,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xlocnum(1631,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ios(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ios(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ios(314,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(107,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(131): message : see reference to class template instantiation 'std::basic_ostream<_Elem,_Traits>::sentry' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(613): message : see reference to class template instantiation 'std::basic_ostream<_Elem,_Traits>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(121,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\ostream(1067,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\istream(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\istream(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\istream(933,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\sstream(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\sstream(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\sstream(93,13): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\sstream(531): message : see reference to class template instantiation 'std::basic_stringbuf<_Elem,_Traits,_Alloc>' being compiled
-D:\VS\VC\Tools\MSVC\14.31.31103\include\sstream(904,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(87,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(247,9): warning C4068: unknown pragma 'printf'
-D:\Stride\shared\horizon\VS\horizonRender\renderLayer.cpp(113,22): warning C4018: '>': signed/unsigned mismatch
   renderLow.cpp
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27,24): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(87,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(247,9): warning C4068: unknown pragma 'printf'
   rmodel.cpp
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27,24): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+  simplemath.cpp
+  stringUtils.cpp
+  texture.cpp
+  vec.cpp
   window.cpp
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(30,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(31,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(574,5): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(576,12): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(586,5): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(588,12): warning C4984: 'if constexpr' is a C++17 language extension
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cmath(1332,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(14,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(15,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(50,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(14,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(15,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(50,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xmmintrin.h(389,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xmmintrin.h(390,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\xmmintrin.h(503,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(14,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(15,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\assert.h(50,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\intrin.h(19,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\intrin.h(20,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\setjmp.h(21,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\setjmp.h(22,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\setjmp.h(179,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\mm3dnow.h(52,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\mm3dnow.h(53,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\mm3dnow.h(98,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\intrin.h(970,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(20,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(21,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winpackagefamily.h(87,9): warning C4068: unknown pragma 'printf'
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\winapifamily.h(247,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdarg.h(13,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdarg.h(14,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\stdarg.h(29,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cstdarg(15,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cstdarg(16,9): warning C4068: unknown pragma 'printf'
-D:\VS\VC\Tools\MSVC\14.31.31103\include\cstdarg(27,9): warning C4068: unknown pragma 'printf'
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27,24): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
-D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(27): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
   Generating Code...
      Creating library ..\..\bin\horizonRender.lib and object ..\..\bin\horizonRender.exp
   horizonRender.vcxproj -> D:\Stride\shared\horizon\bin\horizonRender.dll

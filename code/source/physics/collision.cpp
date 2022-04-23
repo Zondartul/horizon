@@ -118,7 +118,7 @@ vec3 tile::getDiagPointOnLine(vec2 p1, vec2 p2){
 	float p2h = height(vec2(p2.x,p2.y));
 	if(p1h < p2h){p12 = vec3(p2.x,p2.y,p2h);}else{p12 = vec3(p1.x,p1.y,p1h);}
 
-	float u,t;
+	//float u;// , t;
 	vec2 diagStart, diagDir, diagEnd, segStart, segDir, segEnd,res;
 	switch(shape){
 		case TILE_DIAG:
@@ -179,7 +179,7 @@ float diagonalTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = f
 	pos.y = (pos.y-A.y)/size.y;
 
 	float zA, zB, zC, zD;
-	bool tri1;
+	//bool tri1;
 	float dz_dx, dz_dy;
 	if(!flip){
 		//now we have coords:
@@ -255,7 +255,7 @@ vec2 diagonalTileGradient(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = 
 	A.x = 0; A.y = 0;
 
 	float zA, zB, zC, zD;
-	bool tri1;
+	//bool tri1;
 	float dz_dx, dz_dy;
 	if(!flip){
 		//now we have coords:

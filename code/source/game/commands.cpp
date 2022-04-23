@@ -456,8 +456,8 @@ int cmd_genterrain(int argc, char **argv){
 			gridKind g(slices, slices, size, size);
 			for(int jx = 0; jx < slices; jx++){
 				for(int jy = 0; jy < slices; jy++){
-					int tilewidth = size/slices;
-					vec2 pt = corner+vec2(jx,jy)*tilewidth;
+					int tilewidth = (int)(size/slices);
+					vec2 pt = corner+vec2(jx,jy)*(float)tilewidth;
 					float height = noiseFunc(pt);
 					g[jx][jy] = height;
 				}

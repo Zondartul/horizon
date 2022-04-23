@@ -1,10 +1,12 @@
 #ifndef VEC_GUARD
 #define VEC_GUARD
+#pragma warning(push, 0)
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/rotate_vector.hpp"
 #include "glm/gtx/vector_angle.hpp"
 #include "glm/gtc/quaternion.hpp"
+#pragma warning(pop)
 #include <string>
 using std::string;
 using glm::mat4;

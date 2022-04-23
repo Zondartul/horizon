@@ -1,3 +1,4 @@
+#include <tuple> //for std::ignore
 #include "stringUtils.h"
 #include "stdio.h"
 #include "globals.h"
@@ -33,7 +34,7 @@ string toString(vec3 V){
 
 template<> vec3 fromString<vec3>(const string S){
 	vec3 v;
-	sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
+	std::ignore = sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
 	return v;
 }
 
@@ -46,7 +47,7 @@ string toString(vec2 V){
 
 template<> vec2 fromString<vec2>(const string S){
 	vec2 v;
-	sscanf(S.c_str(),"(%f,%f)",&v.x,&v.y);
+	std::ignore = sscanf(S.c_str(),"(%f,%f)",&v.x,&v.y);
 	return v;
 }
 //----------------------------------------------- rect
@@ -59,7 +60,7 @@ string toString(rect R){
 template<> rect fromString<rect>(const string S){
 	vec2 start;
 	vec2 size;
-	sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
+	std::ignore = sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
 	vec2 end = start+size;
 	return rect(start,end);
 }
@@ -71,7 +72,7 @@ string toString(AABB aabb){
 template<>  AABB fromString<AABB>(const string S){
 	vec3 start;
 	vec3 size;
-	sscanf(S.c_str(),"(%f,%f,%f + %f,%f,%f)",&start.x,&start.y,&start.z,&size.x,&size.y,&size.z);
+	std::ignore = sscanf(S.c_str(),"(%f,%f,%f + %f,%f,%f)",&start.x,&start.y,&start.z,&size.x,&size.y,&size.z);
 	vec3 end = start+size;
 	return AABB(start,end);
 }
@@ -111,7 +112,7 @@ string toString(void *p){
 
 template<> void *fromString<void*>(const string S){
 	void *p;
-	sscanf(S.c_str(),"0x%p",&p);
+	std::ignore = sscanf(S.c_str(),"0x%p",&p);
 	return p;
 }
 //----------------------------------------------- bool
@@ -130,7 +131,7 @@ string toString(int I){
 template<> int fromString<int>(const string S){
 	//printf("fromString<int>(%s)\n",S.c_str());
 	int n;
-	sscanf(S.c_str(),"%d",&n);
+	std::ignore = sscanf(S.c_str(),"%d",&n);
 	return n;
 }
 //----------------------------------------------- float
@@ -140,7 +141,7 @@ string toString(float f){
 
 template<> float fromString<float>(const string S){
 	float f;
-	sscanf(S.c_str(),"%f",&f);
+	std::ignore = sscanf(S.c_str(),"%f",&f);
 	return f;
 }
 //----------------------------------------------- string
@@ -164,9 +165,10 @@ string toString(texture *t){
 template<> texture* fromString<texture*>(const string S){
 	if(S == "tex:[null]"){return 0;}
 	char buff[80];
-	sscanf(S.c_str(),"tex:[%[^]]]",buff);
+	std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
 	printf("fromString<texture*>: S = [%s]\n",S.c_str());
 	printf("fromString<texture*>: buff = [%s]\n",buff);
+	buff[79] = 0;
 	string name(buff);
 	return getTexture(name);
 }
@@ -181,9 +183,10 @@ string toString(font *f){
 template<> font* fromString<font*>(const string S){
 	if(S == "font:[null]"){return 0;}
 	char buff[80];
-	sscanf(S.c_str(),"font:[%[^]]]",buff);
+	std::ignore = sscanf(S.c_str(),"font:[%[^]]]",buff);
 	printf("fromString<font*>: S = [%s]\n",S.c_str());
 	printf("fromString<font*>: buff = [%s]\n",buff);
+	buff[79] = 0;
 	string name(buff);
 	return getFont(name);
 }
@@ -246,9 +249,11 @@ vector<string> explode(string S, char del){
 
 char **explode(const char *str, char del){
 	char *str2 = (char *)malloc(strlen(str)+1);
-	strcpy(str2,str);
+	if (str2) { strcpy(str2, str); }
+	if (!str2) {return 0;}
 
 	char **arr = (char **)malloc(80);
+	if (!arr) {return 0;}
 	int arrI = 0;
 
 	while(*str2){
@@ -333,8 +338,8 @@ string unescapeString(string S){
 char *stralloc(const char *str){
     int len = strlen(str);
     char *ptr = (char*)malloc(len+1);
-    strcpy(ptr,str);
-    return ptr;
+	if (ptr) {strcpy(ptr, str);}
+	return ptr;
 }
 
 void printString(string S){

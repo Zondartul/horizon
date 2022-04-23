@@ -57,9 +57,9 @@ GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 }
 
 void GUIbase_debugChildren(GUIbase *b){
-	if(!b){error("'this' is null");}
+	if (!b) { error("'this' is null"); }
 	printf("printing %p's %d children:\n",b,b->children.size());
-	if(!b->children.size()){printf("%p has no children\n");return;}
+	if(!b->children.size()){printf("%p has no children\n", b);return;}
 	int i = 0;
 	for(auto I = b->children.begin(); I != b->children.end(); I++){
 		GUIbase *b2 = *I;
@@ -143,7 +143,7 @@ GUIbase *GUIbase::setHidden(bool newHidden){
 GUIbase *GUIbase::sizeToContents(){
 	float maxx = 0;
 	float maxy = 0;
-	for(int I = 0; I < children.size(); I++){
+	for(unsigned int I = 0; I < children.size(); I++){
 		maxx = max(maxx, children[I]->area.end.x);
 		maxy = max(maxy, children[I]->area.end.y);
 	}
@@ -165,7 +165,7 @@ void GUIbase::tick(){}
 
 void GUIbase::renderLogic(){
 	if(!parent){GUIsetFavoriteRenderOptions();}
-	for(int I = 0; I < children.size(); I++){
+	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
 			if(g_GUIoptions.push){pushRenderOptions();}
 			if(g_GUIoptions.debug){
@@ -179,7 +179,7 @@ void GUIbase::renderLogic(){
 			if(g_GUIoptions.push){popRenderOptions();}
 		}
 	}
-	for(int I = 0; I < children.size(); I++){
+	for(unsigned int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
 			if(g_GUIoptions.push){pushRenderOptions();}
 			if(g_GUIoptions.debug){

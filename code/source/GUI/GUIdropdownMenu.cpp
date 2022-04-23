@@ -102,7 +102,7 @@ void GUIdropdownMenu::onEvent(eventKind event){
 		if(!hidden){
 			float dist = getMouseDist();
 			if(dist == 0){hideCounter = 0;}
-			else{hideCounter += dist;}
+			else{hideCounter += (int)dist;}
 			if(hideCounter > 100*10){
 				hideCounter = 0;
 				hidden = true;

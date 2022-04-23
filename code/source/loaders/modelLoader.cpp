@@ -10,8 +10,12 @@ using std::string;
 using std::vector;
 #include <map>
 using std::map;
+
+#pragma warning(push, 0)
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
+#pragma warning(pop)
+
 #include "simplemath.h"
 #include "model.h"
 

@@ -13,7 +13,7 @@
 	uint64_t freq = SDL_GetPerformanceFrequency();\
 	{x;};\
 	uint64_t t2 = SDL_GetPerformanceCounter();\
-	y = t2-t1;\
+	y = (float)t2-t1;\
 	y = y / freq;\
 	}
 #else
@@ -38,10 +38,14 @@ extern bool g_printf_enabled;
 
 #else
 
-	#define info(...) printf(__VA_ARGS__)
-	#define warning(...) printf(__VA_ARGS__)
-	#define error(...) printf(__VA_ARGS__);crash();
-	#define frame(...) printf(__VA_ARGS__)
+	//#define info(...) printf(__VA_ARGS__)
+	//#define warning(...) printf(__VA_ARGS__)
+	//#define error(...) printf(__VA_ARGS__);crash();
+	//#define frame(...) printf(__VA_ARGS__)
+void info(const char *fmt, ...);
+void warning(const char *fmt, ...);
+void error(const char *fmt, ...);
+void frame(const char *fmt, ...);
 
 #endif
 int set_alloc_pos(const char *file, int line);

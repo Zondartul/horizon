@@ -93,7 +93,7 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 	address_field->setText(dir);
 	
 	scroll->setScrollRatio(vec2(0,0));
-	for(int I = 0; I < elements.size(); I++){
+	for(unsigned int I = 0; I < elements.size(); I++){
 		GUIbase *b = elements[I];
 		delete b;
 	}
@@ -144,7 +144,7 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 		elements.push_back(btn);
 	}
 	vec2 insize = scroll->innerSize;
-	insize.y = y;
+	insize.y = (float)y;
 	scroll->setInnerSize(insize);
 	scroll->setScrollRatio(vec2(0,0));
 	return *this;

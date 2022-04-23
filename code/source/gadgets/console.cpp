@@ -36,11 +36,11 @@ dropDownTerminal::~dropDownTerminal(){
 void dropDownTerminal::print(string text){
 	if(!terminalStrings.size()){terminalStrings.push_back("");}
 	vector<string> strs = explode(text,'\n');
-	for(int I = 0; I < strs.size(); I++){
+	for(unsigned int I = 0; I < strs.size(); I++){
 		printf(" strs[%d] = [%s]\n",I,strs[I].c_str());
 	}
 	printf("\n");
-	for(int I = 0; I < strs.size(); I++){
+	for(unsigned int I = 0; I < strs.size(); I++){
 		if(I != 0){terminalStrings.push_back("");}
 		string &S = terminalStrings.back();
 		S += strs[I];

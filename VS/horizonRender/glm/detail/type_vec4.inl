@@ -1,6 +1,11 @@
 /// @ref core
 /// @file glm/detail/type_tvec4.inl
-
+#pragma warning(push, 0)
+#ifdef __INTELLISENSE__
+#pragma diag_suppress 26812
+#pragma diag_suppress 26495
+#endif
+//23.04.2022 - VS, stfu, this file is not my problem
 namespace glm{
 namespace detail
 {
@@ -967,3 +972,5 @@ namespace detail
 #if GLM_ARCH != GLM_ARCH_PURE && GLM_HAS_ALIGNED_TYPE
 #	include "type_vec4_simd.inl"
 #endif
+
+#pragma warning(pop)

@@ -1,11 +1,11 @@
+#include <cstdio>
+//#include "stdio.h"
 #include "globals.h"
 #include "window.h"
 
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
-
-#include "stdio.h"
 
 #ifndef NO_GLEW
 #include "GL/glew.h"

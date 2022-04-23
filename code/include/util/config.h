@@ -1,6 +1,8 @@
 //this file contains the defines and switches that enable or disable various features.
 
-#define DEBUG_PRINT
+//debug_print defines "warning()" macro which is used as a pragma by VS
+//#define DEBUG_PRINT
+
 //#define DEBUG_MALLOC
 //#define DEBUG_NEW	//-- just... dont.//actually it's ok just slow
 #define DEBUG_ANALYZER

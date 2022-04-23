@@ -1,13 +1,14 @@
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <cstdio>
+//#include "stdio.h"
 #include "paint.h"
-#include "stdio.h"
-#include "globals.h"
 #include "renderLayer.h"
 #include "rmodel.h"
-#include <vector>
+#include "globals.h"
 using std::vector;
-#include <fstream>
 using std::ofstream;
-#include <sstream>
 using std::stringstream;
 
 

@@ -100,7 +100,7 @@ uint8_t *g_audio_pos = 0;
 void my_audio_callback(void *userdata, uint8_t *stream, int len){
     if(g_audio_len == 0){return;}
 
-    len = min(g_audio_len, len);
+    len = (int)min((float)g_audio_len, len);
 #ifndef NO_SDL
     SDL_memcpy(stream, g_audio_pos, len);
 #endif

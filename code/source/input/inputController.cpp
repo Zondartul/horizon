@@ -33,14 +33,14 @@ using std::string;
 
 inputControllerKind::inputControllerKind(){
 	mousecapture=forward=backward=left=right=up=down=false;
-	speeds.fly_fast			= 0.25;
-	speeds.fly_normal		= 0.05;
-	speeds.fly_slow			= 0.01;
-	speeds.fly_acceleration	= 0.01;
-	speeds.walk_fast		= 0.01;
-	speeds.walk_normal		= 0.003;
-	speeds.walk_slow		= 0.001;
-    speeds.jump             = 0.1;
+	speeds.fly_fast			= 0.25f;
+	speeds.fly_normal		= 0.05f;
+	speeds.fly_slow			= 0.01f;
+	speeds.fly_acceleration	= 0.01f;
+	speeds.walk_fast		= 0.01f;
+	speeds.walk_normal		= 0.003f;
+	speeds.walk_slow		= 0.001f;
+    speeds.jump             = 0.1f;
 
 	velocity = {0,0,0};
 	targetspeed = speeds.fly_normal;
@@ -112,7 +112,7 @@ void inputControllerKind::setPos(vec3 pos){
 	g_camera.setPos(pos);
 }
 void inputControllerKind::aimRelative(vec3 aim){
-	float aimspeed = 0.2;
+	float aimspeed = 0.2f;
 	g_camera.setRot(g_camera.rot + aim*aimspeed);
 }
 void inputControllerKind::aim(vec3 aim){
@@ -184,8 +184,8 @@ void inputControllerKind::onEvent(eventKind event){
 	if (event.type == EVENT_MOUSE_MOVE){
 		if(mousecapture){
 			event.maskEvent();
-			int xrel = event.mousemove.diff.x;
-			int yrel = event.mousemove.diff.y;
+			int xrel = (int)event.mousemove.diff.x;
+			int yrel = (int)event.mousemove.diff.y;
 			aimRelative({0,-yrel,xrel});
 		}
 		return;

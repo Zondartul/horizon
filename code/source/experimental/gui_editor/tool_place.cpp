@@ -11,7 +11,7 @@ void gui_editor_tool_place::scan(){
 	}
 	if(subject){
 		vec2 mpos = getMousePos();
-		vec2 gpos = snapToGrid(subject, mpos, gridStep);
+		vec2 gpos = snapToGrid(subject, mpos, (float)gridStep);
 		if(mouseover_element == subject){
 			gposCursor = gpos;
 		}
@@ -85,7 +85,7 @@ void gui_editor_tool_place::draw(){
 		vec2 gridCorner = R.start;
 	
 		//snap grid for the client area
-		drawGrid(subject, gridStep);
+		drawGrid(subject, (float)gridStep);
 			
 		//red outline for the client area
 		if(subject && (subject != workWindow)){

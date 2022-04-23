@@ -24,6 +24,7 @@ public:
 
 	GPUdriverKind* GPUdriver;
 	renderOptions options;
+#pragma warning(disable: 4251) //don't say vector<> needs a dll-interface
 	vector<renderOptions> optionStack;
 };
 extern DLLAPI renderLowKind *g_renderLow;

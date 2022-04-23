@@ -7,8 +7,8 @@ GUIgrid::GUIgrid(){}
 void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	printf("grid(%p, row %d, col %d, spanx %d, spany %d)\n",child,row,col,spanx,spany);
 	//row = -1 means "new row"
-	spanx = max(spanx,1);
-	spany = max(spany,1);
+	spanx = (int)max(spanx,1);
+	spany = (int)max(spany,1);
 	int extra_cells_x = spanx-1;
 	int extra_cells_y = spany-1;
 	bool nextRow = (row == -1);
@@ -17,8 +17,8 @@ void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	int min_size_y = max(row + extra_cells_y + 1, 1);
 	int min_size_x = max(col + extra_cells_x + 1, 1);
 	printf("min_size_y 1 = %d, min_size_x 1 = %d\n",min_size_y, min_size_x);
-	min_size_y = max(min_size_y, getNumRows());
-	min_size_x = max(min_size_x, getNumCols());
+	min_size_y = (int)max(min_size_y, getNumRows());
+	min_size_x = (int)max(min_size_x, getNumCols());
 	printf("min_size_y 2 = %d, min_size_x 2 = %d\n",min_size_y, min_size_x);
 	printf("numRows = %d, numCols = %d\n",getNumRows(),getNumCols());
 	
@@ -48,7 +48,7 @@ void GUIgrid::configureColumn(int col, float min, float max, float weight){
 int GUIgrid::getNumRows(){return rows.size();}
 int GUIgrid::getNumCols(){if(rows.size()){return rows[0].size();}else return 0;}
 
-void GUIgrid::resize(int numrows, int numcols){
+void GUIgrid::resize(unsigned int numrows, unsigned int numcols){
 	printf("resize(%d,%d)\n",numrows,numcols);
 
 	//does every row have settings?
@@ -65,7 +65,7 @@ void GUIgrid::resize(int numrows, int numcols){
 		rows.push_back(gridrow());
 	}
 	//does every row have enough columns?
-	for(int R = 0; R < rows.size(); R++){
+	for(unsigned int R = 0; R < rows.size(); R++){
 		while(rows[R].size() < colsettings.size()){
 			rows[R].push_back(gridcell{1,1,0});
 		}
@@ -73,8 +73,8 @@ void GUIgrid::resize(int numrows, int numcols){
 }
 
 void GUIgrid::clear(){
-	for(int R = 0; R < rowsettings.size(); R++){
-		for(int C = 0; C < colsettings.size(); C++){
+	for(unsigned int R = 0; R < rowsettings.size(); R++){
+		for(unsigned int C = 0; C < colsettings.size(); C++){
 			delete rows[R][C].child; //can has suppress-invalidate nao?
 		}
 	}
@@ -87,9 +87,9 @@ void GUIgrid::clear(){
 void GUIgrid::invalidate(){
 //first pass: measure row/column dimensions
 	//measure row height
-	for(int R = 0; R < rowsettings.size(); R++){
+	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		float maxy = 0;
-		for(int C = 0; C < colsettings.size(); C++){
+		for(unsigned int C = 0; C < colsettings.size(); C++){
 			auto &cell = rows[R][C];
 			auto &E = cell.child;
 			float y = 0;
@@ -106,7 +106,7 @@ void GUIgrid::invalidate(){
 		nonnan(maxy);
 	}
 	//distribute span height
-	for(int RS = 0; RS < rowspans.size(); RS++){
+	for(unsigned int RS = 0; RS < rowspans.size(); RS++){
 		int from = rowspans[RS].from;
 		int to = rowspans[RS].to;
 		auto &E = rowspans[RS].cell->child;
@@ -130,9 +130,9 @@ void GUIgrid::invalidate(){
 		}
 	}
 	//measure column width
-	for(int C = 0; C < colsettings.size(); C++){
+	for(unsigned int C = 0; C < colsettings.size(); C++){
 		float maxx = 0;
-		for(int R = 0; R < rowsettings.size(); R++){
+		for(unsigned int R = 0; R < rowsettings.size(); R++){
 			auto &cell = rows[R][C];
 			auto &E = cell.child;
 			float x = 0;
@@ -147,7 +147,7 @@ void GUIgrid::invalidate(){
 	}
 	//distribute span width
 	//distribute span height
-	for(int CS = 0; CS < colspans.size(); CS++){
+	for(unsigned int CS = 0; CS < colspans.size(); CS++){
 		int from = colspans[CS].from;
 		int to = colspans[CS].to;
 		auto &E = colspans[CS].cell->child;
@@ -175,11 +175,11 @@ void GUIgrid::invalidate(){
 	float totalweighty = 0;
 	float totalx = 0;
 	float totalweightx = 0;
-	for(int R = 0; R < rowsettings.size(); R++){
+	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		totaly = totaly + rowsettings[R].cur;
 		totalweighty = totalweighty + rowsettings[R].weight;
 	}
-	for(int C = 0; C < colsettings.size(); C++){
+	for(unsigned int C = 0; C < colsettings.size(); C++){
 		totalx = totalx + colsettings[C].cur;
 		totalweightx = totalweightx + colsettings[C].weight;
 	}
@@ -201,7 +201,7 @@ void GUIgrid::invalidate(){
 //second pass: define row/col dimensions
 	//new row height
 	float posy = 0;
-	for(int R = 0; R < rowsettings.size(); R++){
+	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		auto &L = rowsettings[R];
 		nonnan(L.cur);
 		//row wants <weight>/<totalweight> of the extra dimension
@@ -230,7 +230,7 @@ void GUIgrid::invalidate(){
 	}
 	//new column width
 	float posx = 0;
-	for(int C = 0; C < colsettings.size(); C++){
+	for(unsigned int C = 0; C < colsettings.size(); C++){
 		auto &L = colsettings[C];
 		//row wants <weight>/<totalweight> of the extra dimension
 		float extra_desired = 0;
@@ -257,8 +257,8 @@ void GUIgrid::invalidate(){
 		posx = posx + L.cur;
 	}
 //third pass: set new cell position and size
-	for(int R = 0; R < rowsettings.size(); R++){
-		for(int C = 0; C < colsettings.size(); C++){
+	for(unsigned int R = 0; R < rowsettings.size(); R++){
+		for(unsigned int C = 0; C < colsettings.size(); C++){
 			auto &cell = rows[R][C];
 			if(cell.child){
 				//calc. available y-size

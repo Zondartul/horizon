@@ -6,8 +6,8 @@ GUIscrollbarBar::GUIscrollbarBar(){
 	mouseover = false;
 	pressed = false;
 	offset = {0,0};
-	hoverColor = bgColor*0.9;
-	pressedColor = bgColor*0.8;
+	hoverColor = bgColor*0.9f;
+	pressedColor = bgColor*0.8f;
 }
 
 void GUIscrollbarBar::onEvent(eventKind event){
@@ -226,7 +226,7 @@ GUIscrollbar *GUIscrollbar::disableScrolling(){
 
 void GUIscrollbar::renderLogic(){
 
-	for(int I = 0; I < children.size(); I++){
+	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
 			if(g_GUIoptions.push){pushRenderOptions();}
 			if(g_GUIoptions.debug){
@@ -241,7 +241,7 @@ void GUIscrollbar::renderLogic(){
 		}
 	}
 
-	for(int I = 0; I < children.size(); I++){
+	for(unsigned int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
 			if(g_GUIoptions.push){pushRenderOptions();}
 			setScissoring(true);

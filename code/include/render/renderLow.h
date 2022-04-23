@@ -41,6 +41,8 @@ future stuff:
 
 struct GPUdriverKind;
 
+
+
 class DLLAPI renderLowKind{
 	public:
 	renderLowKind();
@@ -56,7 +58,8 @@ class DLLAPI renderLowKind{
 
 	GPUdriverKind *GPUdriver;
 	renderOptions options;
-    vector<renderOptions> optionStack;
+#pragma warning(disable: 4251) //don't say vector<> needs a dll-interface
+	vector<renderOptions> optionStack;
 };
 
 extern DLLAPI renderLowKind *g_renderLow;

@@ -82,11 +82,11 @@ void bitmap::write_pixel(int I, pixel P){
 			d[4*I+3] = A;
 		break;
 		case(TL_LUMINANCE):
-			L = 0.2126*R + 0.7152*G + 0.0722*B;
+			L = (int)(0.2126*R + 0.7152*G + 0.0722*B);
 			d[I] = L;
 		break;
 		case(TL_LUMINANCE_ALPHA):
-			L = 0.2126*R + 0.7152*G + 0.0722*B;
+			L = (int)(0.2126*R + 0.7152*G + 0.0722*B);
 			d[2*I] = L;
 			d[2*I+1] = A;
 		break;
@@ -95,7 +95,7 @@ void bitmap::write_pixel(int I, pixel P){
 
 bitmap bitmap::changeFormat(pixelFormat format_out){
 	bitmap newBMP = blankBitmap(height, width, format_out);
-	int R,G,B,A;
+	//int R, G, B , A;
 	int n = numPixels();
 	for(int I = 0; I < n; I++){
 		newBMP.write_pixel(I, read_pixel(I));
