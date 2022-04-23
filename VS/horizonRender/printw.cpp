@@ -4,10 +4,8 @@
 #include "stdio.h"
 #include "fonts.h"
 #include "renderLayer.h"
-//vec2 textPos;
-//font *curFont;
 #include "rmodel.h"
-bool printFromTop = false;//true;
+bool printFromTop = false;
 void drawRectImmediate(rect R){
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
@@ -41,9 +39,6 @@ void drawRectImmediate(rect R){
 	rm->colors->push_back(vec3(1,1,1));
 
 	rm->finalize();
-	//rcmd_rmodel_upload(rm).execute();
-	//rcmd_rmodel_render(rm).execute();
-	//rcmd_rmodel_delete(rm).execute();
     renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("drawRectImmediate",false,true);
     setLayer(L);
@@ -55,10 +50,6 @@ void drawRectImmediate(rect R){
     delete L;
     setLayer(oldL);
 }
-//void setFont(font *fnt){curFont = fnt;}
-//void setTextPos(vec2 pos){textPos = pos;}
-//todo: switch texture only once / actually, texture refers to a rectangle on a bitmap, so switch texture != switch bitmap
-//todo: make a model and stuff
 void printText2D(const char *text, font *F, vec2 &textPos){
 	renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);
@@ -67,10 +58,8 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 	char C = *text;
 	int x=(int)textPos.x,y=(int)textPos.y,I=0;
 	setTexturing(true);
-	//rcmd_texturing(true).execute();
 
     setTransparency(true);
-	//rcmd_transparency(true).execute();
 	float yoffset = 0;
 	if(printFromTop){yoffset = F->maxrect.end.y;}
 	float scale = 1;
@@ -79,9 +68,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 			glyph G = F->charmap[C];
 			texture *t = G.t;
 			setTexture(t);
-			//rcmd_texture_select(t).execute();
-			//drawRectImmediate((t->rect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y+yoffset}));
-            drawRect((t->getRect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y+yoffset}));
+			drawRect((t->getRect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y+yoffset}));
 
 
 			x+=(int)(G.advance*scale);
@@ -96,7 +83,6 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 	 }
 	 textPos = vec2(x,y);
 
-	//rcmd_texturing(false).execute();
     setTexturing(false);
     L->render();
     L->clear();
@@ -111,8 +97,7 @@ rect preprintText2D(const char *text, font *F){
 	int x=0,y=0,I=0;
 	if(!text){return rect();}
 	char C = *text;
-	//texture ot = currentRenderOptions.tex;
-	float scale = 1;//textScale;
+	float scale = 1;
 	float yoffset = 0;
 	if(printFromTop){yoffset = F->maxrect.end.y;}
 	while(C != 0){
@@ -141,9 +126,6 @@ rect preprintText2D(const char *text, font *F){
 		I++;
 		C = text[I];
 	}
-	//setTexture(ot);
-	//firstn(10,printf("preprint: %d %d %d %d\n",minx,miny,maxx,maxy));
-	//onceon(10,printf("preprint output suppressed\n"));
 	return rect({minx,miny},{maxx,maxy});
 }
 
@@ -159,16 +141,15 @@ void printw(const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
 
-	char buff[1000]; //was 100001
+	char buff[1000];
 	vsnprintf(buff,1000,format,ap);
-	//printText2D(buff);
 	printText(buff);
 }
 rect preprintw(font *F, const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
 
-	char buff[1000]; //was 100001
+	char buff[1000];
 	vsnprintf(buff,1000,format,ap);
 	return preprintText2D(buff,F);
 }

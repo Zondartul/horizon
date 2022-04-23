@@ -59,5 +59,5 @@ exKind::exKind(logmessage msg_):msg(msg_){
 const char* exKind::what() const noexcept{
     string S = fstring("[%.3f]%s:%d:",msg.time,msg.file.c_str(),msg.line);
     S += msg.msg;
-    return stralloc(S.c_str());//stralloc(toCString(msg));
+    return stralloc(S.c_str());
 }

@@ -13,7 +13,6 @@ using std::string;
 #include "GL/glew.h"
 #endif
 
-//#include "GL/gl.h" //for GL_CULL_FACE / GL_CCW
 #include "window.h"
 
 
@@ -26,20 +25,11 @@ renderLayer::renderLayer(string name,bool persistent, bool special):name(name),p
 }
 
 void renderLayer::render(){
-    //renderLow->renderParseQueue(&queue);
     renderLow->renderParseQueue(&queue3, this);
 }
 
 void renderLayer::clear(){
-	//printf("rlayer clear------\n");
 	int i = 0;
-	//for(auto I = queue.begin(); I != queue.end(); I++){
-	//	//printf("%d:delr %p\n",i++,*I);
-	//	renderCommand2 *cmd = *I;
-	//	delete cmd;
-	//}
-	//printf("rlayer clear end--\n");
-	//queue.clear();
 
     for(auto I = queue3.begin(); I != queue3.end(); I++){
         renderCommand3 *cmd = *I;
@@ -48,24 +38,16 @@ void renderLayer::clear(){
     queue3.clear();
 }
 void renderLayer::reset(){
-	//queue.push_back(new rcmd_layer(resetLayer));
     queue3.push_back(new renderCommand3(RC3T::LAYER, resetLayer));
 }
 void renderLayer::print(){
 	int J = 0;
-	//for(auto I = queue.begin(); I != queue.end(); I++,J++){
-	//	printf("%d: %s\n",J,(*I)->toString().c_str());
-	//}
     J = 0;
     for(auto I = queue3.begin(); I != queue3.end(); I++,J++){
         printf("%d: %s\n",J,toCString(*I));
     }
 }
 
-//void renderLayer::push(renderCommand2 *cmd){
-//	//printf("%d:add %p\n",queue.size(),cmd);
-//	queue.push_back(cmd);
-//}
 
 void renderLayer::push(renderCommand3 *cmd){
     queue3.push_back(cmd);
@@ -73,21 +55,15 @@ void renderLayer::push(renderCommand3 *cmd){
 
 renderLayer *renderLayer::duplicate(){//https://www.youtube.com/watch?v=kJ6flOet6qc
 	renderLayer *L2 = new renderLayer();
-	//for(auto I = queue.begin(); I != queue.end(); I++){
-	//	L2->queue.push_back((*I)->clone());
-	//}
     for(auto I = queue3.begin(); I != queue3.end(); I++){
         renderCommand3 *cmd = (*I)->clone();
-        if(cmd){    //priviliged commands can not be copied
+        if(cmd){
             L2->queue3.push_back(cmd);
         }
     }
 	return L2;
 }
 
-//string toString(renderCommand2 *rcmd){
-//	return rcmd->toString();
-//}
 
 string toString(renderLayer *l){
 	if(!l){return "<null>";}
@@ -105,33 +81,6 @@ void addWithIndent(stringstream &ss1, stringstream &ss2, int num){
 	}
 }
 
-//string renderLayer::report(){
-//	stringstream ss;
-//	ss << "layer \"" << name << "\"";
-//	if(persistent){ss << "+persistent ";}
-//	if(special){ss << "+special ";}
-//	ss << "\n";
-//
-//	int J = 0;
-//	for(auto I = queue.begin(); I != queue.end(); I++,J++){
-//		ss << " " << J << ": " << escapeString(toString(*I)) << "\n";
-//
-//		rcmd_layer *rl = dynamic_cast<rcmd_layer *>(*I);
-//		if(rl){
-//			stringstream ss2;
-//			if(rl->val){
-//				renderLayer *L = (renderLayer*)(rl->val);
-//				ss2 << L->report();
-//			}else{
-//				ss2 << "<null>\n";
-//			}
-//			addWithIndent(ss, ss2, 4);
-//		}
-//
-//	}
-//	return ss.str();
-//}
-
 string renderLayer::report3(){
 	stringstream ss;
 	ss << "layer \"" << name << "\"";
@@ -143,7 +92,6 @@ string renderLayer::report3(){
 	for(auto I = queue3.begin(); I != queue3.end(); I++,J++){
 		ss << " " << J << ": " << escapeString(toString(*I)) << "\n";
         renderCommand3 &rcmd = **I;
-		//rcmd_layer *rl = dynamic_cast<rcmd_layer *>(*I);
 		if(rcmd.type == RC3T::LAYER){
 			stringstream ss2;
 			if(rcmd.layer){
@@ -166,23 +114,10 @@ const renderCommand3 *renderLayer::get(int num){
     }
 }
 
-// rcmd_scissoring::rcmd_scissoring(bool on){b = on;}
-// rcmd_coloring::rcmd_coloring(bool on){b = on;}
-// rcmd_alpha::rcmd_alpha(float a){alpha = a;}
-// rcmd_font_select::rcmd
-
-//execute is implemented in renderLow.cpp
-
-//#include "paint.h"
-//#include "GL/gl.h" //for GL_CULL_FACE / GL_CCW
-//#include "window.h"
-
 void setupLayer3D(){
 	setLayer(layer3D->resetLayer);
 #ifndef NO_GLEW
-	//glEnable(GL_CULL_FACE);
 	setFaceCulling(true);
-	//glFrontFace(GL_CCW);
 	setFaceCullCCW();
 #endif
 
@@ -223,7 +158,6 @@ void setupLayer2D(){
 void setupLayerDebug(){
 	setLayer(layerDebug->resetLayer);
 #ifndef NO_GLEW
-	//glDisable(GL_CULL_FACE);
 	setFaceCulling(false);
 #endif
 	setPosition(vec3(0,0,0));
@@ -265,7 +199,6 @@ void setupLayers(){
 
 renderExKind::renderExKind(logmessage lmsg_, renderLayer* L, int cmdNum):exKind(lmsg_){
     const renderCommand3 *rcmd = 0;
-    //if(L && L->queue3.size() > cmdNum){rcmd = L->queue3[cmdNum];}
     if(L){rcmd = L->get(cmdNum);}
     msg.msg += string()+"\nwhere layer = ["+(L? toString(L) : "<null>")+"], rcmd #"+cmdNum+" = ["+(rcmd? toString(rcmd) : "<null>")+"]";
 }

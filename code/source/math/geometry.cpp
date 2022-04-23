@@ -11,32 +11,18 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *
 	
 	e1 = B-A;
 	e2 = C-A;
-	//e1 = normalizeSafe(B-A);
-	//e2 = normalizeSafe(C-A);
-	P = cross(dir,e2);//dir.cross(e2);
-	det = dot(e1,P);//e1.dot(P);
-	//printf("det = %f\n",det);
+	P = cross(dir,e2);
+	det = dot(e1,P);
 	//this auto-fails if the ray is nearly in the triangle's plane
-	//if(det > -EPSILON && det < EPSILON){return 0;}
 	inv_det = 1.0f / det;
-	//printf("inv_det = %f\n",inv_det);
 	//skipping the inside-outside check
 	T = start-A;
-	//u = T.dot(P) * inv_det;
-	////intersection is outside the triangle
-	//if(u < 0.0f || u > 1.0f){return 0;}
-	Q = cross(T,e1);//Q = T.cross(e1);
-	//v = dir.dot(Q) * inv_det;
-	////intersection is outside the triangle
-	//if(v < 0.0f || u + v > 1.0f){return 0;}
-	t = dot(e2,Q)*inv_det;//e2.dot(Q) * inv_det;
-	//printf("dot(e2,Q) = %f\n",dot(e2,Q));
-	if(t > 0){//if(t > EPSILON)
-		//printf("distance = %f\n", t);
+	Q = cross(T,e1);
+	t = dot(e2,Q)*inv_det;
+	if(t > 0){
 		if(result){*result = start+dir*t;}
 		return 1;
 	}
-	//printf("t = %f\n",t);
 	return 0;
 }
 
@@ -64,8 +50,6 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 normal, float offset, vec
 }
 
 vec3 baricentric_coords(vec3 a, vec3 b, vec3 c, vec3 p){
-	//return vec3(length(A-point),length(B-point),length(C-point));
-	
 	//https://gamedev.stackexchange.com/questions/23743/whats-the-most-efficient-way-to-find-barycentric-coordinates
 	vec3 res;
 	vec3 v0 = b - a;
@@ -99,7 +83,6 @@ bool ray_triangle_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec
 		if(barycentric){*barycentric = bar;}
 		return true;
 	}else{
-		/*printf("outside triangle\n");*/
 		return false;
 	}
 }

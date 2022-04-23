@@ -45,7 +45,6 @@ void paintArrow2D(vec3 from, vec3 to, float size=1.f, float width=1.f){
 		G = tribase + offsetDown*2;
 		
 		rmodel *rm = new rmodel();
-		//rmTri(A,B,D); rmTri(B,C,D);
 		rmQuad(A,B,C,D);
 		rmTri(B,E,F); rmTri(C,B,F); rmTri(G,C,F);
 		rm->finalize();

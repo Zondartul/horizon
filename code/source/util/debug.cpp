@@ -19,7 +19,6 @@ using std::vector;
 #define DEBUG_GUARD
 #include "globals.h"
 #include "timer.h"
-//extern int ticks;
 int ticks = 0;
 FILE *debugFile;
 
@@ -81,7 +80,6 @@ void debugprint(const char *file, int line, const char *mode, const char *format
 
 	char buff[240];
 	vsnprintf(buff, 239, format, ap);
-	//vsprintf(buff,format,ap);
 	if(debugFile){	
 		char buff2[320];
 #ifndef NO_SDL
@@ -123,19 +121,16 @@ typedef map<int,struct_alloc_line> struct_alloc_file;
 
 map<const char*,struct_alloc_file> allocation_map;
 
-//map<mapped_alloc_key,mapped_alloc> allocation_map;
 map<void*, mapped_alloc_key> deallocation_map;
 int set_alloc_pos(const char *file, int line){
 	alloc_file = file;
 	alloc_line = line;
 	return 0;
 }
-//#ifdef DEBUG_NEW
 int getGameTicks();
 
 typedef vector<void*> delayedDeleteList;
 delayedDeleteList deleteBuffer[2];
-//int deleteBufferI = 0;
 int activeDeleteBuffer = 0;
 bool delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
 
@@ -324,8 +319,6 @@ void clearDeleteBuffer(){
         }
     }
     dellist.clear();
-    //printf("cleared %d deletes\n", total);
-    //deleteBufferI = (deleteBufferI+1)%2;
     activeDeleteBuffer = inactiveDeleteBuffer;
 }
 
@@ -551,7 +544,6 @@ int debugCheckStackCanary(){
 	return STACK_CANARY_SIZE;
 }
 void profileStart(){
-	//debugSetStackCanary();
 #ifndef NO_SDL
 	currentDebugProfile.time = SDL_GetPerformanceCounter();
 #endif
@@ -566,15 +558,13 @@ debugProfile profileEnd(){
 	uint64_t time = 0;
 	uint64_t freq = 1;
 #endif
-	//int stack = debugCheckStackCanary();
 	int seconds = time/freq;
-	int milliseconds = time/((double)freq/1000) - 1000*seconds; //(1000*(time - freq*seconds))/freq;
-	int microseconds = time/((double)freq/1000000) - 1000000*seconds - 1000*milliseconds; //(1000000*(time - freq*seconds) - 1000*milliseconds)/freq;
+	int milliseconds = time/((double)freq/1000) - 1000*seconds; 
+	int microseconds = time/((double)freq/1000000) - 1000000*seconds - 1000*milliseconds; 
 	currentDebugProfile.time = 1000000*time/freq;
 	currentDebugProfile.seconds = seconds;
 	currentDebugProfile.milliseconds = milliseconds;
 	currentDebugProfile.microseconds = microseconds;
-	//currentDebugProfile.stackused = stack;
 	int prevheap = currentDebugProfile.heapused;
 	currentDebugProfile.heapused = debug_mem_watermark - prevheap;
 	currentDebugProfile.heapleaked = debug_mem_allocated - prevheap;
@@ -583,7 +573,6 @@ debugProfile profileEnd(){
 
 void *mytrace[100];
 int mytraceI;
-//#define F_INSTRUMENT
 #ifdef F_INSTRUMENT
 //add -finstrument-functions to compiler options
 extern "C"{

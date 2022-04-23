@@ -18,7 +18,6 @@ using std::string;
 using std::map;
 using std::set;
 using std::list;
-//using std::function;
 
 //ordinary global stuff
 #define once(x) for(static bool once=true;once;once=false){x;}

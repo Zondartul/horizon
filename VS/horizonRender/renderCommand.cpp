@@ -2,23 +2,7 @@
 #include "util.h"
 #include "globals.h"
 #include "rmodel.h"
-/*
-enum RC3T{
-        ERROR = 0,
-        COLORING,           UVCOLORING,         NORMALCOLORING,
-        TRANSPARENCY,       DEPTHMASK,          TEXTURING,
-        DEBUG,              SCISSORING,         DEPTH_TEST,
-        LIGHTING,           LAYER,              COLOR,
-        ALPHA,              TEXTURE_SELECT,     FONT_SELECT,
-        MODE_SELECT,        TEXT_POS,           SCISSOR,
-        POINTSIZE,          LINEWIDTH,          SUN_POS,
-        SUN_LIGHT_COLOR,    AMBIENT_LIGHT_COLOR,
-        TEXTURE_UPLOAD,     RMODEL_UPLOAD,      RMODEL_DELETE,
-        PROJECTION,         POSITION,           ROTATION,
-        SCALE,              CLEAR_SCREEN,       RMODEL_RENDER,
-        PRINT_TEXT,         COMMENT
-};
-*/
+
 string toString(RC3T type){
     switch(type){
         case(RC3T::COLORING):              return "coloring";
@@ -212,52 +196,3 @@ string toString(renderCommand3 *rcmd){
     }
     return S;
 }
-// rcmd_coloring::rcmd_coloring(bool on){b = on;}
-// rcmd_transparency::rcmd_transparency(bool on){b = on;}
-
-// rcmd_texturing::rcmd_texturing(bool on){b = on;}
-// rcmd_debug_shader::rcmd_debug_shader(bool on){b = on;}
-
-// rcmd_projection::rcmd_projection(mat4 m){this->m = m;}
-// rcmd_texture_upload::rcmd_texture_upload(texture *t){this->t = t;}
-// rcmd_texture_select::rcmd_texture_select(texture *t){this->t = t;}
-
-// rcmd_rmodel_upload::rcmd_rmodel_upload(rmodel *rm){this->rm = rm;}
-// rcmd_rmodel_render::rcmd_rmodel_render(rmodel *rm){this->rm = rm;}
-// rcmd_rmodel_delete::rcmd_rmodel_delete(rmodel *rm){this->rm = rm;}
-//
-//rcmd1_c_impl(coloring,bool);
-//rcmd1_c_impl(uvcoloring,bool);
-//rcmd1_c_impl(normalcoloring,bool);
-//rcmd1_c_impl(transparency,bool);
-//rcmd1_c_impl(depthmask,bool);
-//rcmd1_c_impl(texturing,bool);
-//rcmd1_c_impl(debug,bool);
-//rcmd1_c_impl(scissoring,bool);
-//rcmd1_c_impl(depth_test,bool);
-//rcmd1_c_impl(lighting,bool);
-//
-//rcmd1_c_impl(layer,renderLayer*);
-//rcmd1_c_impl(color,vec3);
-//rcmd1_c_impl(alpha,float);
-//rcmd1_c_impl(texture_select,texture*);
-//rcmd1_c_impl(font_select,font*);
-//rcmd1_c_impl(mode_select,int);
-//rcmd1_c_impl(text_pos,vec2);
-//rcmd1_c_impl(scissor,rect);
-//rcmd1_c_impl(pointsize,float);
-//rcmd1_c_impl(linewidth,float);
-//rcmd1_c_impl(sun_pos,vec3);
-//rcmd1_c_impl(sun_light_color,vec3);
-//rcmd1_c_impl(ambient_light_color,vec3);
-//rcmd1_c_impl(texture_upload,texture*);
-//rcmd1_c_impl(rmodel_upload,rmodel*);
-//rcmd1_c_impl(rmodel_delete,rmodel*);
-//rcmd1_c_impl(projection,camprojection);
-//rcmd1_c_impl(position,vec3);
-//rcmd1_c_impl(rotation,vec3);
-//rcmd1_c_impl(scale,vec3);
-//rcmd0_c_impl(clear_screen);
-//rcmd1_c_impl(rmodel_render,rmodel*);
-//rcmd1_c_impl(print_text,string);
-//rcmd1_c_impl(comment,string);

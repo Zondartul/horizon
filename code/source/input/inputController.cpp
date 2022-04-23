@@ -60,11 +60,11 @@ void inputControllerKind::think(){
 
 
 		vec3 flyDir = rotate(vec3(forward-backward,left-right,0),d2r*camera.rot);
-		vec3 horDir = normalizeSafe(vec3(flyDir.x,flyDir.y,0));//normalizeSafe(flyDir-proj(flyDir,vec3(0,0,1)));
+		vec3 horDir = normalizeSafe(vec3(flyDir.x,flyDir.y,0));
 		velocity = horSpeed*horDir+speeds.jump*vec3(0,0,up-down);
 	}else{
 		vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*camera.rot));
-		if(length(targetvel) && accelerating){warp = 10.f;}//{warp = warp *(1+(0.25f)/60.f);}
+		if(length(targetvel) && accelerating){warp = 10.f;}
 		else{warp = 1.f;}
 		vec3 dv = targetvel - velocity;
 		//weird-ass acceleration formula
@@ -167,9 +167,6 @@ void inputControllerKind::onEvent(eventKind event){
 			return;
 		}
 		if(K == "Left Shift"){event.maskEvent();targetspeed = speeds.fly_fast;accelerating = true; speeds.jump = 0.2f; return;}
-		//if(K == "P"){physics = !physics;return;}
-		//if(K == "G"){toggleGravity();return;}
-		//if(K == "Keypad 7"){experiment1();}
 
 		printf("[%s]",K.c_str());
 	}
@@ -189,46 +186,11 @@ void inputControllerKind::onEvent(eventKind event){
 			event.maskEvent();
 			int xrel = event.mousemove.diff.x;
 			int yrel = event.mousemove.diff.y;
-			//printf("xrel = %d, yrel = %d\n",xrel,yrel);
 			aimRelative({0,-yrel,xrel});
 		}
 		return;
 	}
 }
-/*
-void inputControllerKind::sdl_event(SDL_Event event){
-	if (event.type == SDL_KEYDOWN){
-		string K = SDL_GetKeyName(event.key.keysym.sym);
-		printf("[%s]",K.c_str());
-		if(K == "Escape"){exit(0);}
-		if(K == "E"){toggleMouseCapture();}
-		if(K == "R"){setPos({0,0,0});aim({0,0,0});}
-		if(K == "W"){forward = true;}
-		if(K == "S"){backward = true;}
-		if(K == "A"){left = true;}
-		if(K == "D"){right = true;}
-		if(K == "Space"){up = true;}
-		if(K == "Left Ctrl"){down = true;}
-		if(K == "F7"){camera.screenshot();}
-	}
-	if (event.type == SDL_KEYUP){
-		string K = SDL_GetKeyName(event.key.keysym.sym);
-		if(K == "W"){forward = false;}
-		if(K == "S"){backward = false;}
-		if(K == "A"){left = false;}
-		if(K == "D"){right = false;}
-		if(K == "Space"){up = false;}
-		if(K == "Left Ctrl"){down = false;}
-	}
-	if (event.type == SDL_MOUSEMOTION){
-		if(mousecapture){
-			int xrel = event.motion.xrel;
-			int yrel = event.motion.yrel;
-			aimRelative({0,-yrel,xrel});
-		}
-	}
-} */
-
 inputControllerKind *inputController;
 
 

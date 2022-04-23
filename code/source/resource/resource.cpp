@@ -64,17 +64,14 @@ model *getModel(string name){
 	string filepath = locateResource("model", name.c_str());
 	model *m = loadModel(filepath.c_str());
 	if(!m){error("can't load model %s\n",name.c_str());}
-	m->t = getModelTexture(name);//getTexture(string()+"models/"+name+"/model_"+name);
+	m->t = getModelTexture(name);
 	models.push_back(m);
 	return m;
 }
 font *getFont(string name){
-	//printf("get font [%s]\n",name.c_str());
 	for(unsigned int I = 0; I < fonts.size(); I++){
-		//printf("trying [%s]\n",fonts[I]->name.c_str());
 		if(fonts[I]->name == name){return fonts[I];}
 	}
-	//printf("not found, loading\n");
 	char fontname[80];
 	int size = 0;
 	sscanf(name.c_str(),"%s %d",fontname,&size);
@@ -105,8 +102,7 @@ void loadAssets(){
 	e_selection e_sel = em_box->selectAll();
 	e_sel.removeDuplicates();
 	e_sel.recalculateNormalsSmooth();
-	//uploadModel(mBox);
-	m->rm = em_box->getRmodel();//new rmodel(m);
+	m->rm = em_box->getRmodel();
 	m->rm->finalize();
 	uploadTexture(m->t);
 	uploadRmodel(m->rm);

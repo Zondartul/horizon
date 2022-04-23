@@ -32,7 +32,6 @@ string toString(vec3 V){
 }
 
 template<> vec3 fromString<vec3>(const string S){
-	//printf("fromString<vec3>(%s)\n",S.c_str());
 	vec3 v;
 	sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
 	return v;
@@ -214,11 +213,8 @@ template<> GUIe_alignment fromString<GUIe_alignment>(const string S){
 	printf("fromString<alignmentKind>: unforseen case\n");
 	return GUIa::None;
 }
-//enum alignmentKind{ALIGN_NONE,ALIGN_LEFT,ALIGN_RIGHT,ALIGN_TOP,ALIGN_BOTTOM,ALIGN_CENTER};
 
 //======================= other stuff ====================================
-//string toString(vec2 V){return toString(tovec2(V));}
-//string toString(vec3 V){return toString(tovec3(V));}
 string operator+(const string S, const int N){return S+itoa(N);}
 string operator+(const string S, const double N){return S+ftoa(N);}
 
@@ -255,15 +251,6 @@ char **explode(const char *str, char del){
 	char **arr = (char **)malloc(80);
 	int arrI = 0;
 
-	//char C = *str2++;
-	//int strmax = strlen(str2);
-	//char *state = 0;
-	//const char dels[] = {del,0};
-	//char *res = strtok_s(str2,&strmax,dels,&state);
-	//while(res){
-	//	arr[arrI++] = res;
-	//	res = strtok_s(0,&strmax,dels,&state);
-	//}
 	while(*str2){
 		char *str3 = str2;
 		while((*str3) && (*str3 == del)){str3++;}

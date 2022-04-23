@@ -2,8 +2,6 @@
 #include "broadphase.h"
 #include "paint.h"
 
-
-
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
 
@@ -25,14 +23,6 @@ void broadphaseinfo::addJoin(broadphaseinfo *bp[8]){
 			for(auto J = bp2->bodies.begin(); J != bp2->bodies.end(); J++){
 				if(!canCollide(*I,*J)){continue;}
 				pairs.push_back({*I,*J});
-				//string ename1 = (*I)->E->name;
-				//string ename2 = (*J)->E->name;
-				//string nname1 = (*I)->ov->curNode->getName();
-				//string nname2 = (*J)->ov->curNode->getName();
-				//printf("pair %s (@ %s) - %s (@ %s)\n",
-				//	ename1.c_str(),nname1.c_str(),
-				//	ename2.c_str(), nname2.c_str()
-				//);
 			}
 		}
 	}
@@ -71,20 +61,14 @@ broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
 	if(!node){return bp1;}
 	if(!node->visitors.size()){return bp1;}
 	for(auto I = node->visitors.begin(); I != node->visitors.end(); I++){
-	//	string ename = (*I)->body->E->name;
-	//	indent(bprecs+1,' '); printf("entity %s\n",ename.c_str());
 		bp1->bodies.push_back((*I)->body);
 	}
 	//and make pairwise pairs of wise
 	for(auto I = bp1->bodies.begin(); I != bp1->bodies.end(); I++){
-		//if((*I)->type == BODY_NOCOLLIDE){continue;}
 		for(auto J = I+1; J != bp1->bodies.end(); J++){
 			if(!canCollide(*I,*J)){continue;}
 			//S-D, D-D, T-S, T-D collisions only
 			bp1->pairs.push_back({*I,*J});
-			//string ename1 = (*I)->E->name;
-			//string ename2 = (*J)->E->name;
-			//printf("pair %s - %s\n",ename1.c_str(),ename2.c_str());
 		}
 	}
 	return bp1;
@@ -95,18 +79,11 @@ broadphaseinfo *checkCollisionBroadphase(octree_node *node){
 	rec_counter rc(&bprecs);
 	//first, add bodies from this node
 	string nname = node->getName();
-	//if(!node->isLeaf){
-	//	indent(bprecs,'_'); printf("node %s:\n",nname.c_str());
-	//}
 	broadphaseinfo *bp1 = getBroadphaseNodeOnly(node);
 	//then, add the bodies from sub-nodes
 	if(!node->isLeaf){
-		//indent(bprecs,' '); printf("subnodes of %s:\n",nname.c_str());
 		broadphaseinfo *bp2[8];
 		for(int I = 0; I < 8; I++){
-			//if(node->children[I] && !node->children[I]->isLeaf){
-			//	indent(bprecs+1,' '); printf("s.n %d:\n",I);
-			//}
 			bp2[I] = checkCollisionBroadphase(node->children[I]);
 		}
 		bp1->addJoin(bp2);
@@ -116,7 +93,6 @@ broadphaseinfo *checkCollisionBroadphase(octree_node *node){
 }
 
 void broadphaseRender(broadphaseinfo *bp){
-	//setDepthTest(false);
 	setColor(vec3(0,0,255));
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
@@ -127,15 +103,12 @@ void broadphaseRender(broadphaseinfo *bp){
 	int j = 0;
 	for(auto I = bp->bodies.begin(); I != bp->bodies.end(); I++){
 		vec3 pos = (*I)->ov->pos;
-		//printf("body %d pos = %s\n", j, toCString(pos));
 		drawPoint(pos);
 		j++;
 	}
 	for(auto I = bp->pairs.begin(); I != bp->pairs.end(); I++){
 		drawLine((*I).first->ov->pos,(*I).second->ov->pos);
 	}
-	//setDepthTest(true);
-	//printf("\n");
 }
 
 

@@ -12,7 +12,6 @@
 #endif
 
 //the "correct way to glew" says we don't use gl.h any more.
-//#include "GL/gl.h" 
 #include "stdlib.h"
 #include "inputController.h"
 #include "GUI.h"
@@ -37,7 +36,7 @@ void OpenGL_printVersion(){
 
 void OpenGL_getVersion(const unsigned char **version, const char **profile){
 #ifndef NO_GLEW
-	* version = 0;//glGetString(GL_VERSION);
+	* version = 0;
 
 	*profile = 0;
 	int profileID;
@@ -60,20 +59,15 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 }
 
 void OpenGL_init(){
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	//one wonders if this actually does what it claims
 #ifndef NO_SDL
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 #endif
-    //if(DEF_OS == "Windows"){
 #ifdef WIN32
-		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-#else//   }else if(DEF_OS == "Linux"){
+#else
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); 
- //   }
+ 
 #endif
 #ifndef NO_SDL
     mainContext = SDL_GL_CreateContext(mainWindow);
@@ -81,8 +75,6 @@ void OpenGL_init(){
 	SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
 #endif
 #ifndef NO_GLEW
-	//glClearColor(0.0,1.0,1.0,1.0);
-	//glClear(GL_COLOR_BUFFER_BIT);
 #endif
 }
 
@@ -106,8 +98,6 @@ void window_init(int h, int w){
 		SDL_WINDOWPOS_CENTERED,
 		h,w,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-
-	//SDL_EnableUNICODE(1);
 
 	OpenGL_init();
 
@@ -151,9 +141,9 @@ eventKind keyboardTranslate(eventKind event){
 		if(shift){
 			if(keyboardMap.count(key)){
 				event.keyboard.printchar = keyboardMap[key];
-			}//else{printf("ktrans: no has (%c)\n",key);}
-		}//else{printf("ktrans: unshifted\n");}
-	}//else{printf("ktrans: not a keydown\n");}
+			}
+		}
+	}
 	return event;
 }
 
@@ -171,7 +161,6 @@ void sysMessageTick(){
 			exit(0);
 			break;
 		case(SDL_KEYDOWN):
-			//printf("keydown begin\n");
 			event.type = EVENT_KEY_DOWN;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
@@ -186,16 +175,6 @@ void sysMessageTick(){
 			if(!isprintSafe(event.keyboard.keycode)){
 				event.keyboard.printchar = 0;
 			}
-			//printf("keydown end\n");
-			//if(isprint((char)event.keyboard.keycode)){
-			//	if(event.keyboard.mod & MOD_SHIFT){
-			//		event.keyboard.printchar = toupper((char)event.keyboard.keycode);
-			//	}else{
-			//		event.keyboard.printchar = (char)event.keyboard.keycode;
-			//	}
-			//}else{
-			//	event.keyboard.printchar = 0;
-			//}
 			goto dispatchEvent;
 			break;
 		case(SDL_KEYUP):
@@ -220,7 +199,6 @@ void sysMessageTick(){
 				case(SDL_BUTTON_X1):event.mousebutton.button = MOUSE_X1;break;
 				case(SDL_BUTTON_X2):event.mousebutton.button = MOUSE_X2;break;
 			}
-			//event.mousebutton.button = sdl_event.button.button;
 			goto dispatchEvent;
 			break;
 		case(SDL_MOUSEBUTTONUP):
@@ -260,15 +238,11 @@ void sysMessageTick(){
 		continue;
 		dispatchEvent:
 		inputChannel->publishEventSequentialMaskable(event);
-		//inputController.onEvent(event);
-		//if(GUI){GUI->onEvent(event);}
 	}
 #endif
 }
 
 vec2 getScreenSize(){
-	//int h;
-	//int w;
 #ifndef NO_SDL
 	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif

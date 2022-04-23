@@ -110,17 +110,6 @@ void my_audio_callback(void *userdata, uint8_t *stream, int len){
 
 int main(int argc, char **argv){
 	printf("Hello World!\n");
-	//{
-	//	FILE* f = fopen("dirmarker.beep", "w");
-	//	if (f) {
-	//		printf("maked dirmaker.beep\n");
-	//		fclose(f);
-	//	}
-	//	else {
-	//		printf("can't place a dirmaker\n");
-	//	}
-	//}
-
 	debuginit();
 
 	initUtil();
@@ -130,57 +119,21 @@ int main(int argc, char **argv){
 	renderInit();
 	loadAssets();
 
-
-
-	//openEditor2();
-
-
 	octree_root = new octree_node();
 	float worldsize = 500;
 	octree_root->volume = AABB(-vec3(0.5,0.5,0.5)*worldsize,vec3(0.5,0.5,0.5)*worldsize);
-	//renderTest1();
 	camera.setPos({-0.5,0,0});
 	
-	//renderTest();
 	setbuf(stdout,0);
 
 	setupLayers();
 	addKeybinds();
 
-
-	//initConsole();
 	console = new consoleKind();
 	addConsoleCommands();
-	//cprint("Hello World!\n");
-	//cprint("I am uberpone\n");
-	//cprint("test test test\n");
-	//cprint("beep boop\n");
-	//string str = fstring("Hello, %d pi = %f mcguffins, %s\n", 2, 2*3.14f, "brah");
-	//cprint(str.c_str());
 
 	openGUI();
 	setFramePrinter(new frameprinter()); //it's annoying
-
-	//initPicker();
-
-	//openTestWindow1(); //have these registered through console?
-	//openTestWindow2();
-	//openTestWindow3();
-	//openTestWindow4();
-
-	//rm2 = generateBox(vec3(1,1,10));
-	//rm2t = getTexture("materials/brick2");
-	//uploadTexture(rm2t);
-	//uploadRmodel(rm2);
-	//obelisk();
-
-	//makeScene1();
-	//makeScene1(vec3(-50,-50,-50));
-	//makeScene2();
-	//makeSheet(vec3(0,0,-0.5));
-
-
-
 
 	ecs.physics = new ecs_physics_system_kind();
 	ecs.collision = new ecs_collision_system_kind();
@@ -190,25 +143,12 @@ int main(int argc, char **argv){
 	texturingOn = true;
 
 	printf("initializing sound\n");
-	//if(Mix_OpenAudio( 22050, /*MIX_DEFAULT_FORMAT*/0, 2, 4096) == -1){
-    //    printf("SDL MIXER ERROR\n");
-    //    return 0;
-	//}
-	//Mix_Music *music = 0;
-	//Mix_Chunk *step = 0;
-
-	//step = Mix_LoadWAV("D:\Stride\horizon\horizon\resource\sound\footstep_rock_1.wav");
-	//if(step){printf(".wav loaded!\n");}else{printf("ERROR: couldn't load wav\n"); return;}
-	//also call Mix_FreeChunk(step) on exit
-	//and then Mix_CloseAudio()
-	//if(Mix_PlayChannel(-1, step, 0);){printf("played ok\n");}else{printf("not played\n");}
 
 #ifndef NO_SDL
 	uint32_t wav_length;
 	uint8_t *wav_buffer;
 	SDL_AudioSpec wav_spec;
-	const char *wavpath = //"D:\\Stride\\horizon\\horizon\\resource\\sound\\footstep_rock_1.wav";
-		"footstep_rock_1.wav";	
+	const char *wavpath = "footstep_rock_1.wav";	
 	if(!SDL_LoadWAV(wavpath, &wav_spec, &wav_buffer, &wav_length)){
         	printf("SDL wav LOAD ERROR\n"); return 0;
 	}
@@ -226,17 +166,7 @@ int main(int argc, char **argv){
 	}
 	SDL_PauseAudio(0);
 	printf("play\n");
-	/*
-	for(int I = 0; I < 10; I++){
-        while(audio_len > 0){
-            SDL_Delay(100);
-        }
-        SDL_PauseAudio(1);
-        audio_pos = wav_buffer;
-        audio_len = wav_length;
-        SDL_PauseAudio(0);
-	}
-	*/
+
 	SDL_CloseAudio();
 	SDL_FreeWAV(wav_buffer);
 #endif
@@ -253,11 +183,6 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-//extern int num_rmodels;
-//extern int num_textures;
-//extern long bytes_rmodels;
-//extern long bytes_textures;
-
 float eventTime;
 float renderTime;
 float sysmsgTime;
@@ -267,8 +192,6 @@ float renderTimeFlt = 0;
 float sysmsgTimeFlt = 0;
 float frametimeFlt = 1.f;
 void tick(){
-	//printf("\n-------------FRAME-----------\n\n");
-	//if(!gamePaused){
 		eventKind e1; e1.type = EVENT_TICK;
 		globalChannel->publishEvent(e1);
 		
@@ -279,14 +202,8 @@ void tick(){
 		globalChannel->publishEvent(e3);
 	
 		frameprint(string()+"entities: "+(int)entities.size());
-		//frameprint(string()+"rmodels: "+num_rmodels+", "+((double)bytes_rmodels)/1024.f/1024.f+" MB");
-		//frameprint(string()+"textures: "+num_textures+", "+((double)bytes_textures)/1024.f/1024.f+" MB");
-	//}
 	profile(renderTick(),renderTime);
-	//renderTest1Tick();
-	//inputController.think();
 	profile(sysMessageTick(),sysmsgTime);
-	//SDL_Delay(1);
     static int i = 0;
     i++;
     if(i == 20){i = 0; eventTimeFlt = eventTime; renderTimeFlt = renderTime; sysmsgTimeFlt = sysmsgTime; frametimeFlt = frametime;}
@@ -308,44 +225,4 @@ void openGUI(){
 	GUI = new GUIbase();
 	inputChannel->addListenerFront(GUI);
 	globalChannel->addListenerFront(GUI);
-	//openTestWindow3();
-	//openTestWindow4();
 }
-
-
-
-/* #include "globals.h"
-#include "stdio.h"
-#include "window.h"
-#include "renderLow.h"
-#include <SDL2/SDL.h>
-#include "modelLoader.h"
-#include "fontLoader.h"
-#include "inputController.h"
-#include "camera.h"
-#include "fonts.h"
-#include "printw.h"
-#include "model.h"
-#include "resource.h"
-#include "gl/gl.h"
-#include "paint.h"
-#include "GUI.h"
-#include "stringUtils.h"
-#include "simplemath.h"
-#include "editor2.h"
-#include "timer.h"
-#include "frameprinter.h"
-#include "modelprimitives.h"
-#include "entity.h"
-#include "ecs.h"
-#include "keybinds.h"
-#include "octree.h"
-#include "mouse.h"
-#include "hook.h"
-#include "console.h"
-#include "picker.h"
-#include "physbox.h"
-#include "editmodel.h"
-#include "input.h"
-#include "paramList.h"
-#include "operators.h" */

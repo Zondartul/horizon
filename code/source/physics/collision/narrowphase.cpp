@@ -8,8 +8,6 @@
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
 
-//#define INFINITY (1.f/0.f)
-
 string sideNames[] = {
 	"right",
 	"left",
@@ -54,7 +52,6 @@ int nearestSide(AABB aabb, vec3 p, float *res_dist=0){
 		}
 	}
 	if(res_dist){*res_dist = bestDist;}
-	//printf("side = %s, bestDist = %f\n",sideNames[bestI].c_str(), bestDist);
 	return bestI;
 	
 }
@@ -62,8 +59,6 @@ int nearestSide(AABB aabb, vec3 p, float *res_dist=0){
 
 
 collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAABB *bodyAABB){
-	//collisionbodyRay *bodyRay = dynamic_cast<collisionbodyRay*>(cpRay.body);
-	//collisionbodyAABB *bodyAABB = dynamic_cast<collisionbodyAABB*>(cpAABB.body);
 	vec3 from = bodyRay->from;
 	vec3 dir = bodyRay->dir;
 	AABB aabb = bodyAABB->getAABB().moveBy(bodyAABB->pos);
@@ -119,62 +114,11 @@ collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAA
 		cpt1.pos = from+dir*tenter;
 		cpt1.depth = length(dir)*tenter;
 		cpt1.normal = sideNormals[nearestSide(aabb, cpt1.pos)];
-		//printf("ccRay_AABB: from = %s, dir = %s, tenter = %s, length(dir) = %s\n",
-		//		toCString(from),
-		//		toCString(dir),
-		//		toCString(tenter),
-		//		toCString(length(dir)));
 		col->c_to_c = cpt1;
 		return col;
 	}else{
 		return 0;
 	}
-	/*
-	float t1,t2,tmin,tmax;
-	tmin = -1.f/0.f; //-inf
-	tmax = 1.f/0.f;  //+inf
-	if(dir.x != 0){
-		float t1 = (aabb.start.x - from.x)/dir.x;
-		float t2 = (aabb.end.x - from.x)/dir.x;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-	if(dir.y != 0){
-		float t1 = (aabb.start.y - from.y)/dir.y;
-		float t2 = (aabb.end.y - from.y)/dir.y;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-	if(dir.z != 0){
-		float t1 = (aabb.start.z - from.z)/dir.z;
-		float t2 = (aabb.end.z - from.z)/dir.z;
-		tmin = max(tmin, min(t1,t2));
-		tmax = min(tmax, max(t1,t2));
-	}
-
-	if((tmax >= 0) && (tmax >= tmin)){
-		collisioninfo *col = new collisioninfo();
-		col->body1 = bodyRay;
-		col->body2 = bodyAABB;
-		collisionpoint cpt1;
-		cpt1.pos = from+dir*tmin;
-		cpt1.depth = length(dir)*tmin;
-
-		if(tmin >= 0){
-			collisionpoint cpt2;
-			cpt2.pos = from+dir*tmax;
-			cpt2.depth = length(dir)*tmax;
-			col->cpts.push_back(cpt2);
-		}else{
-			cpt1.pos = from+dir*tmax;
-			cpt1.depth = length(dir)*tmax;
-		}
-		col->c_to_c = cpt1;
-		return col;
-	}else{
-		return 0;
-	}
-	*/
 }
 
 #define setcandidate(x,n,z)	{		    \
@@ -187,16 +131,13 @@ collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAA
 collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyAABB *body2){
 	if(!body1){printf("ccAA: no body1\n"); return 0;}
 	if(!body2){printf("ccAA: no body2\n"); return 0;}
-	AABB aabbA = body1->getAABB();//dynamic_cast<collisionbodyAABB*>(cpAABB1.body)->aabb;
-	vec3 posA = body1->pos;//cpAABB1.pos;
-	vec3 velA = body1->vel;//cpAABB1.vel;
+	AABB aabbA = body1->getAABB();
+	vec3 posA = body1->pos;
+	vec3 velA = body1->vel;
 
-	AABB aabbB = body2->getAABB();//dynamic_cast<collisionbodyAABB*>(cpAABB2.body)->aabb;
-	vec3 posB = body2->pos;//cpAABB2.pos;
-	vec3 velB = body2->vel;//cpAABB2.vel;
-	//AABB *aabbA = A->aabb;//dynamic_cast<AABB*>(A);
-	//AABB *aabbB = B->aabb;//dynamic_cast<AABB*>(B);
-	//if(!aabbA || !aabbB){return 0;}
+	AABB aabbB = body2->getAABB();
+	vec3 posB = body2->pos;
+	vec3 velB = body2->vel;
 
 	vec3 centerA = posA+(aabbA.start+aabbA.end)/2.f;
 
@@ -225,12 +166,6 @@ collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyA
 		(dist_bottom >0)
 	){return 0;}
 
-	//print2(aabbA.start);
-	// print2(aabbA.end);
-	// print2(aabbA.size);
-	//print2(aabbB.start);
-	// print2(aabbB.end);
-	// print2(aabbB.size);
 	if(false){
 	print(dist_right);
 	print(dist_left);
@@ -262,11 +197,8 @@ collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyA
 	cinfo->body1 = body1;
 	cinfo->body2 = body2;
 	cinfo->c_to_c = resolutions[bestI];
-	//printf("collision: side %d, dist %f\n",bestI,resolutions[bestI].depth);
 	return cinfo;
 }
-
-
 
 #include "paint.h"
 void debugDrawAABB(AABB aabb, vec3 col){
@@ -315,17 +247,9 @@ collisioninfo *pointToPointPenetration(vec3 p1, collisionbody *body1, vec3 p2, c
 	ci->body2 = body2;
 	ci->c_to_c.pos = p1;
 	ci->c_to_c.depth = depth;
-	ci->c_to_c.penetration = -normal * depth;//-dv_dir * depth;
+	ci->c_to_c.penetration = -normal * depth;
 	ci->c_to_c.normal = normal;
 	
-	//printf("ptpPen: pos = %s, depth = %f, pen = %s, normal = %s\n", toCString(ci->c_to_c.pos),
-	//																ci->c_to_c.depth,
-	//																toCString(ci->c_to_c.penetration),
-	//																toCString(ci->c_to_c.normal));
-	//printf("b1vel = %s, b2vel = %s, dv = %s, dv_dir = %s\n", toCString(body1->vel),
-	//															toCString(body2->vel),
-	//															toCString(dv),
-	//															toCString(dv_dir));
 	return ci;
 }
 
@@ -334,22 +258,17 @@ collisioninfo *checkCollisionPoint_Terrain( collisionbodyPoint *body1, collision
 	vec3 p_rel = p - body2->pos;
 	vec2 p_rel2 = vec2(p_rel.x, p_rel.y);
 	vec2 t_end = body2->grid.getEnd();
-	//printf("________________________________\nccPT: input (%s)\n",toCString(p));
 	if((p_rel2.x < 0) || (p_rel2.y < 0) ||
 		(p_rel2.x > t_end.x) || (p_rel2.y > t_end.y)){
-			//printf("ccPT: false / pt %s is outside (max = %s)\n",toCString(p_rel2), toCString(t_end));
 			return 0; //point is outside of terrain horizontally
 		}
 	float tz = body2->grid.height(p_rel2); //get terrain height at a point relative to the beginning of terrain
 	if(tz > p_rel.z){ //if terrain (relative to it's start) is higher then the point (also relative to terrain's start)
 		vec3 p2 = p;
 		p2.z = tz + body2->pos.z;
-		//vec2 gradient = body2->grid.gradient(p_rel2);
-		vec3 normal = body2->grid.normal(p_rel2);//normalizeSafe(vec3(gradient.x, gradient.y, 1.f));
-		//printf("ccPT true / pt %s is below tz %f\n", toCString(p_rel), tz);
+		vec3 normal = body2->grid.normal(p_rel2);
 		return pointToPointPenetration(p, body1, p2, body2, normal);
 	}else{
-		//printf("ccPT false / pt %s is above tz %f\n", toCString(p_rel), tz);
 		return 0;
 	}
 }
@@ -408,699 +327,6 @@ collisioninfo *checkCollisionAABB_Terrain( collisionbodyAABB *body1, collisionbo
 	
 	return 0;
 }
-
-/*
-collisioninfo *checkCollisionAABB_Terrain( collisionbodyAABB *body1, collisionbodyTerrain *body2){
-	//static bool debugStop = false;
-	bool debugStop = (body1->vel == vec3(0,0,0));
-	if(!debugStop)
-	printf("\n\nccAABB_Terrain(%s, %s)\n", toCString(body1->name()), toCString(body2->name()));
-
-	//1. init vars
-	//1.1. result vars
-	collisioninfo *ci = 0;
-	collisioninfo *cray = 0;
-	collisionbodyRay ray;
-	bool RateOnlyHeight = false;
-	int Ix_best = 0;
-	int Iy_best = 0;
-	float bestscore = 0;
-	bool hasCollision = false;
-	vec3 dv = body2->vel - body1->vel;
-	vec3 pendir = normalizeSafe(dv);
-	AABB boxaabb = body1->getAABB().moveBy(body1->pos);
-	debugDrawAABB(boxaabb,vec3(128,0,0));
-	//1.2. box coords
-	float b_z1 = boxaabb.start.z;
-	float b_z2 = boxaabb.end.z;
-	float b_x1 = boxaabb.start.x;
-	float b_x2 = boxaabb.end.x;
-	float b_y1 = boxaabb.start.y;
-	float b_y2 = boxaabb.end.y;
-
-	//
-	//add to class:
-	//struct {
-	//	vector<float> height_grid;
-	//	float x_step, y_step;
-	//	int x_count, y_count;
-	//  float operator[](int Ix, int Iy){
-	//		return height_grid[Ix+Iy*x_count];
-	//	}
-	//} grid;
-
-	//1.3. grid coords
-	AABB groundaabb = body2->getAABB().moveBy(body2->pos);
-	vec3 offs = body2->pos;
-	float grid_x1 = groundaabb.start.x;
-	float grid_x2 = groundaabb.end.x;
-	float grid_y1 = groundaabb.start.y;
-	float grid_y2 = groundaabb.end.y;
-	float grid_z1 = groundaabb.start.z;
-	float grid_z2 = groundaabb.end.z;
-	debugDrawAABB(groundaabb,vec3(0,0,128));
-
-	auto &grid = body2->grid;
-	//2. early exit if no AABB intersection
-	bool hasAABBcol = true;
-	if(b_x1 > grid_x2){hasAABBcol = false;}
-	if(b_x2 < grid_x1){hasAABBcol = false;}
-	if(b_y1 > grid_y2){hasAABBcol = false;}
-	if(b_y2 < grid_y1){hasAABBcol = false;}
-	if(b_z1 > grid_z2){hasAABBcol = false;}
-	if(b_z2 < grid_z1){hasAABBcol = false;} //comment this out for infinitely deep terrain
-	//if(!debugStop)
-	//printf("hasAABBcol = %d\n",hasAABBcol);
-	if(!hasAABBcol){return 0;}
-
-	rmodel *rm = new rmodel();
-	for(int Ix = 0; Ix < grid.x_point_count; Ix++){
-		for(int Iy = 0; Iy < grid.y_point_count; Iy++){
-			vec3 v = grid.point(Ix,Iy)+offs;
-			rm->vertices->push_back(v);
-		}
-	}
-	rm->finalize();
-
-	setLayer(layerDebug);
-	setPosition(vec3(0,0,0));
-	setScale(vec3(1,1,1));
-	setRenderMode(1);
-	setPointSize(3.f);
-	setColor(vec3(32,32,32));
-	uploadRmodel(rm);
-	drawRmodel(rm);
-	deleteRmodel(rm);
-
-	rm = new rmodel();
-	for(int Ix = 0; Ix < grid.x_point_count-1; Ix++){
-		for(int Iy = 0; Iy < grid.y_point_count-1; Iy++){
-			vec3 vA = grid.point(Ix,Iy)+offs;
-			vec3 vB = grid.point(Ix+1,Iy)+offs;
-			vec3 vC = grid.point(Ix,Iy+1)+offs;
-			vec3 vD = grid.point(Ix+1,Iy+1)+offs;
-
-			rm->vertices->push_back(vA);
-			rm->vertices->push_back(vB);
-
-			rm->vertices->push_back(vB);
-			rm->vertices->push_back(vD);
-
-			rm->vertices->push_back(vD);
-			rm->vertices->push_back(vC);
-
-			rm->vertices->push_back(vC);
-			rm->vertices->push_back(vA);
-
-			rm->vertices->push_back(vB);
-			rm->vertices->push_back(vC);
-		}
-	}
-	rm->finalize();
-
-	setLayer(layerDebug);
-	setPosition(vec3(0,0,0));
-	setScale(vec3(1,1,1));
-	setRenderMode(2);
-	setColor(vec3(0,0,0));
-	uploadRmodel(rm);
-	drawRmodel(rm);
-	deleteRmodel(rm);
-
-	//3. find grid indices
-	float g_dx1 = b_x1 - grid_x1;
-		int g_x1_out_idx = clampi(floori(g_dx1/grid.x_step),  0,grid.x_point_count-1);
-		int g_x1_in_idx  = clampi(floori(g_dx1/grid.x_step)+1,0,grid.x_point_count-1);
-
-	float g_dx2 = b_x2 - grid_x1;
-		int g_x2_out_idx = clampi(floori(g_dx2/grid.x_step)+1,0,grid.x_point_count-1);
-		int g_x2_in_idx  = clampi(floori(g_dx2/grid.x_step),  0,grid.x_point_count-1);
-												//i don't trust int(floor(x))
-	float g_dy1 = b_y1 - grid_y1;
-		int g_y1_out_idx = clampi(floori(g_dy1/grid.y_step),  0,grid.y_point_count-1);
-		int g_y1_in_idx  = clampi(floori(g_dy1/grid.y_step)+1,0,grid.y_point_count-1);
-
-	float g_dy2 = b_y2 - grid_y1;
-		int g_y2_out_idx = clampi(floori(g_dy2/grid.y_step)+1,0,grid.y_point_count-1);
-		int g_y2_in_idx  = clampi(floori(g_dy2/grid.y_step),  0,grid.y_point_count-1);
-
-
-	//4. clip box coords to grid area
-	if(b_x2 > grid_x2){b_x2 = grid_x2;}
-	if(b_x1 < grid_x1){b_x1 = grid_x1;}
-	if(b_y2 > grid_y2){b_y2 = grid_y2;}
-	if(b_y1 < grid_y1){b_y1 = grid_y1;}
-
-	if(!debugStop)
-	printf("g_out_idx: x1 %d, x2 %d, y1 %d, y2 %d\n",g_x1_out_idx, g_x2_out_idx, g_y1_out_idx, g_y2_out_idx);
-	//5. iterate over the grid
-	//5.1 check verts for the tiles that are fully inside
-	vec3 dp1 = grid.point(g_x1_out_idx,g_y1_out_idx);
-	vec3 dp1v = grid.debugVerts[g_x1_out_idx+g_y1_out_idx*grid.x_point_count];
-	debugDrawPoint(dp1+offs,vec3(128,0,128));
-	debugDrawLine(dp1+offs,dp1v+offs,vec3(0,255,0));
-
-	vec3 dp2 = grid.point(g_x2_out_idx,g_y1_out_idx);
-	vec3 dp2v = grid.debugVerts[g_x2_out_idx+g_y1_out_idx*grid.x_point_count];
-	debugDrawPoint(dp2+offs,vec3(255,64,0));
-	debugDrawLine(dp2+offs,dp2v+offs,vec3(0,255,0));
-
-	vec3 dp3 = grid.point(g_x1_out_idx,g_y2_out_idx);
-	vec3 dp3v = grid.debugVerts[g_x1_out_idx+g_y2_out_idx*grid.x_point_count];
-	debugDrawPoint(dp3+offs,vec3(255,64,0));
-	debugDrawLine(dp3+offs,dp3v+offs,vec3(0,255,0));
-
-	vec3 dp4 = grid.point(g_x2_out_idx,g_y2_out_idx);
-	vec3 dp4v = grid.debugVerts[g_x2_out_idx+g_y2_out_idx*grid.x_point_count];
-	debugDrawPoint(dp4+offs,vec3(255,64,0));
-	debugDrawLine(dp4+offs,dp4v+offs,vec3(0,255,0));
-
-
-	int outside_x_count = g_x2_out_idx-g_x1_out_idx;
-	int outside_y_count = g_y2_out_idx-g_y1_out_idx;
-	int inside_x_count = g_x2_in_idx-g_x1_in_idx;
-	int inside_y_count = g_y2_in_idx-g_y1_in_idx;
-
-	if(inside_x_count && inside_y_count){
-		debugDrawPoint(grid.point(g_x1_in_idx,g_y1_in_idx)+offs,vec3(255,0,255));
-		debugDrawPoint(grid.point(g_x2_in_idx,g_y1_in_idx)+offs,vec3(255,255,0));
-		debugDrawPoint(grid.point(g_x1_in_idx,g_y2_in_idx)+offs,vec3(255,255,0));
-		debugDrawPoint(grid.point(g_x2_in_idx,g_y2_in_idx)+offs,vec3(255,255,0));
-	}
-	if(!debugStop)
-	printf("ext. tiles: (%d x %d), int. tiles: (%d x %d)\n",outside_x_count,outside_y_count,inside_x_count,inside_y_count);
-	int inside_point_count = 0;
-
-	//------------------------------------- internal functions --------------------------------------------
-	auto inBox = [&](vec3 p)->bool{
-		bool in=((p.x >= b_x1) && (p.x <= b_x2) &&
-				(p.y >= b_y1) && (p.y <= b_y2) &&
-				(p.z >= b_z1)); //points above the box count as inside (pen. from below)
-		//printf("p %s %s\n",toCString(p), in? "inBox!" : "out");
-		return in;
-	};
-
-	//getTileFromDir() - 	Given ray "pendir" coming into vertex with index [Ix,Iy],
-	//						returns one of the four tiles that share the [Ix,Iy] corner
-	//						that is also the last tile under the ray.
-	//						Used to find the correct face of a spike/pyramid/hill
-	//						for collision normal calculation.
-	auto getTileFromDir = [&](vec3 pendir, int Ix, int Iy)->tile{
-		tile T = {&grid,TILE_DIAG,0,0,0,0};
-		if(pendir.x >= 0){
-			T.Ix_A = Ix; T.Ix_B = Ix+1;
-		}else{
-			T.Ix_A = Ix-1; T.Ix_B = Ix;
-		}
-		if(T.Ix_A < 0){T.Ix_A = 0; T.Ix_B = 1;}
-		if(T.Ix_B > grid.x_point_count-1){T.Ix_B = grid.x_point_count-1; T.Ix_A = T.Ix_B-1;}
-		T.Ix_C = T.Ix_A; T.Ix_D = T.Ix_B;
-
-		if(pendir.y >= 0){
-			T.Iy_A = Iy;
-			T.Iy_C = Iy+1;
-		}else{
-			T.Iy_A = Iy-1;
-			T.Iy_C = Iy;
-		}
-		if(T.Iy_A < 0){T.Iy_A = 0; T.Iy_C = 1;}
-		if(T.Iy_C > grid.y_point_count-1){T.Iy_C = grid.y_point_count-1; T.Iy_A = T.Iy_C-1;}
-		T.Iy_B = T.Iy_A;
-		T.Iy_D = T.Iy_C;
-
-		return T;
-	};
-
-	//getCollisionNormal() - returns the normal at point p by sampling the gradient
-	//						 of the tile T a small distance away from the point.
-	//						 theoretically, should be more stable than just
-	//						 sampling at point, because it's undefined (unstable)
-	//						 whether the point is on the right or left side of the
-	//						 tile diagonal.
-	auto getCollisionNormal = [&](tile T, vec3 p, vec3 pendir)->vec3{
-		//get collision normal; we assume the collision point 'p' is a vertex,
-		//so we move a little bit away from it along the penetration direction 'pendir'
-		//to make sure we are on the right triangle, and then sample the normal there.
-		vec3 small_offset = pendir*(min(grid.x_step,grid.y_step)*0.01f);
-		//float sample_x = grid.x_step/2.f; //idk, this is where using vertices as collision points breaks down
-		//float sample_y = grid.y_step/2.f;
-		vec3 pos = p+small_offset;
-		vec2 gradient = T.gradient({pos.x,pos.y}); //let the tile decide on how to get the gradient
-		//bilinearGradient(T.yA(),T.yB(),T.yC(),T.yD(),dx,dy,sample_x,sample_y);
-		vec3 norm = normalizeSafe(vec3(gradient.x, gradient.y, 1.f));
-		//ci->c_to_c.normal = norm;
-		return norm;
-	};
-
-	//checkCandidatePoint() - rates candidate collision point p. essentially,
-	//						  collisioninfo *ci = best(ci, newci(p)).
-	//						  assumes point p is in the box.
-	auto checkCandidatePoint = [&](vec3 p, tile T)->bool
-	{
-		float height = p.z - b_z1;
-		string CCreport = "\n";
-		if(!ci){ //init CI if we haven't already
-			ci = new collisioninfo();
-			ci->body1 = body1;
-			ci->body2 = body2;
-			ci->c_to_c.pos = p;
-			ci->c_to_c.depth = height;
-			ci->c_to_c.penetration = pendir;
-			ci->c_to_c.normal = -vec3(0,0,1);
-		}
-
-		if(RateOnlyHeight){
-			float updot = pendir.z;
-			float depth = height/updot;	//pen.dot(normal) should be == depth in 'normal' direction
-			if(depth > bestscore){
-				bestscore = depth;
-				ci->c_to_c.pos = p;
-				ci->c_to_c.depth = depth;
-				ci->c_to_c.penetration = pendir*depth;
-				vec3 normal = getCollisionNormal(T,p,pendir);
-				ci->c_to_c.normal = normal;//normal always up;
-				CCreport += fstring("(only height) col OK\ndepth = %f\npen = %s\nnorm = %s\n",depth,toCString(pendir*depth),toCString(normal));
-				debugFloatingText(p, CCreport);
-				return true;
-			}else{
-				CCreport += fstring("not the best (this %f <= best %f)\n",depth,bestscore);
-				debugFloatingText(p, CCreport);
-				return false;
-			}
-		}else{
-			//tile penTile = getTileFromDir(pendir);
-			//vec3 normal = getCollisionNormal(tile);
-			if(cray){delete cray;}
-			ray.from = p;
-			ray.dir = pendir;
-			cray = checkCollisionRay_AABB(&ray, body1);
-			//the ray should always hit the box
-			//unless we are separating... but that shouldn't happen?
-			if(!cray){
-				//error("AABB-Terrain: don't call me on separating collision\n"); return false;
-				//separating collision, let's treat it as a continuation of a previous collision in this direction
-				//printf("warning: separating collision\n");
-				CCreport += "warning: separating collision\n";
-				//note: may be separating for some points, but not others
-				pendir = -pendir;
-				ray.dir = pendir;
-				cray = checkCollisionRay_AABB(&ray,body1);
-				if(!cray){
-					//printf("warning: no collision ray hit\n");
-					CCreport += "warning: no collision ray hit\n";
-					debugFloatingText(p, CCreport);
-					return false;
-				}
-
-			}
-			CCreport += fstring("CRAY = %s\n",toCString(cray));
-			float depth = cray->c_to_c.depth;
-			
-			if(depth > bestscore){
-				bestscore = depth;
-				vec3 normal = getCollisionNormal(T,p,pendir);
-				ci->c_to_c.pos = p;
-				ci->c_to_c.depth = depth;
-				ci->c_to_c.penetration = pendir*depth;
-				ci->c_to_c.normal = normal;
-				CCreport += fstring("col OK\ndepth = %f\npen = %s\nnorm = %s\n",depth,toCString(pendir*depth),toCString(normal));
-				debugFloatingText(p, CCreport);
-				delete cray;
-				return true;
-			}else{
-				//CCreport += fstring("not the best (this %f <= best %f)\n",depth,bestscore);
-				//CCreport += fstring("pos = %s, normal = %s, pen = %s\n", toCString(cray->c_to_c.pos), toCString(cray->c_to_c.normal), toCString(cray->c_to_c.penetration));
-				debugFloatingText(p, CCreport);
-				delete cray;
-				return false;
-			}
-		}
-		assert(false);//return false;
-	};
-	//----------------------------------------- vertex loop------------------------------------------------
-	//--------- inner tiles ------------------
-	for(int Ix = g_x1_in_idx; Ix <= g_x2_in_idx; Ix++){
-		for(int Iy = g_y1_in_idx; Iy <= g_y2_in_idx; Iy++){
-			//it's entirely possible there will be no such tiles. but if there are:
-			float t_z = grid[Ix][Iy]+offs.z;
-			if(t_z > b_z1){
-				hasCollision = true;
-				inside_point_count++;
-				//we got a candidate point!
-				//init CI if we haven't already
-
-				vec3 point = grid.point(Ix,Iy)+offs;//vec3(grid_x1+Ix*grid.y_step, grid_y1+Iy*grid.y_step, t_z);
-
-				debugDrawPoint(point,vec3(0,255,0));
-
-				if(!ci){ //init CI if we haven't already
-					ci = new collisioninfo();
-					ci->body1 = body1;
-					ci->body2 = body2;
-					ci->c_to_c.pos = point;
-					ci->c_to_c.depth = t_z-b_z1;
-					ci->c_to_c.penetration = vec3(0,0,1)*(t_z-b_z1);
-					ci->c_to_c.normal = -vec3(0,0,1);
-				}
-
-				//this chunk of code rates T.v-in-B contact points
-				assert(grid.x_tile_count > 0); //we must have at least one tile
-				assert(grid.y_tile_count > 0);
-
-
-				tile T = getTileFromDir(pendir,Ix,Iy);
-				checkCandidatePoint(point,T);
-			}
-		}
-	}
-	//----- outer tiles ----------
-	printf("\n--------snap-------\n");
-	for(int Ix1 = g_x1_out_idx; Ix1 < g_x2_out_idx; Ix1++){
-		//printf("left\n");
-		//left tiles: y1 < y
-		{
-			int Ix2 = Ix1+1;
-			int Iy1 = g_y1_out_idx;
-			int Iy2 = g_y1_in_idx;
-
-			float x = b_x1-offs.x;
-			float y = b_y1-offs.y;
-			debugDrawPoint(vec3(x,y,b_z1-offs.z)+offs,vec3(255,255,255));
-			tile T;
-			T.grid = &grid;
-			T.Ix_A = Ix1; T.Iy_A = Iy1;
-			T.Ix_B = Ix2; T.Iy_B = Iy1;
-			T.Ix_C = Ix1; T.Iy_C = Iy2;
-			T.Ix_D = Ix2; T.Iy_D = Iy2;
-
-			//point1: x1,y (if inside) //x1_out always outside, but try [x1_in,y] next
-			//point2: xdiag,y (if inside) ... or something
-			//point3: x,y (only for the first/last if inside)
-			vec3 gp1 = grid.point(Ix1,Iy1);
-			vec3 gp2 = grid.point(Ix2,Iy1); //was Ix2,Iy2
-			if(Ix1 != g_x1_out_idx){
-				//middle grid points
-				vec3 p1 = vec3(gp1.x,y,T.height(vec2(gp1.x,y)))+offs;
-				if(inBox(p1)){
-					debugDrawPoint(p1,vec3(0,255,0));
-					checkCandidatePoint(p1,T);
-				}else{
-					debugDrawPoint(p1,vec3(128,128,128));
-				}
-				debugDrawLine(p1,gp1+offs,vec3(255,0,0));
-				debugFloatingText(p1,fstring("p1-%s (%s)",toCString(p1), inBox(p1) ? "in" : "out"));
-			}
-
-			if(Ix1 == g_x1_out_idx){	//yellow
-				//box first corner
-				x = b_x1-offs.x;
-				vec3 p3 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p3)){
-					debugDrawPoint(p3,vec3(0,255,0));
-					checkCandidatePoint(p3,T);
-				}else{
-					debugDrawPoint(p3,vec3(128,128,128));
-				}
-				debugDrawLine(p3,gp1+offs,vec3(255,255,0));
-				debugFloatingText(p3,fstring("p3-%s (%s)",toCString(p3), inBox(p3) ? "in" : "out"));
-
-			}else if(Ix2 == g_x2_out_idx){	//purple
-				//box last corner
-				x = b_x2-offs.x;
-				vec3 p4 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p4)){
-					debugDrawPoint(p4,vec3(0,255,0));
-					checkCandidatePoint(p4,T);
-				}else{
-					debugDrawPoint(p4,vec3(128,128,128));
-				}
-				debugDrawLine(p4,gp2+offs,vec3(255,0,255));
-				debugFloatingText(p4,fstring("p4-%s (%s)",toCString(p4), inBox(p4) ? "in" : "out"));
-			}
-
-			//diagonal (off-grid) points
-			vec2 bp1 = vec2(gp1.x,y);
-			vec2 bp2 = vec2(gp2.x,y);
-			vec3 p5 = T.getDiagPointOnLine(bp1,bp2)+offs;
-			if(inBox(p5)){
-				debugDrawPoint(p5,vec3(0,255,0));
-				checkCandidatePoint(p5,T);
-			}else{
-				debugDrawPoint(p5,vec3(128,128,128));
-			}
-			debugDrawLine(p5,toVec3(bp1,T.height(bp1))+offs,vec3(128,255,128)); //lime
-			debugFloatingText(p5,fstring("p5-%s (%s)",toCString(p5), inBox(p5) ? "in" : "out"));
-		}
-		//------------------------------------------------------------------------------------
-		//printf("right\n");
-		//right tiles: y < y2
-		{
-			int Ix2 = Ix1+1;
-			int Iy1 = g_y2_in_idx;
-			int Iy2 = g_y2_out_idx;
-
-			float x = b_x1-offs.x;
-			float y = b_y2-offs.y;
-			debugDrawPoint(vec3(x,y,b_z1-offs.z)+offs,vec3(255,255,255));
-			tile T;
-			T.grid = &grid;
-			T.Ix_A = Ix1; T.Iy_A = Iy1;
-			T.Ix_B = Ix2; T.Iy_B = Iy1;
-			T.Ix_C = Ix1; T.Iy_C = Iy2;
-			T.Ix_D = Ix2; T.Iy_D = Iy2;
-
-			//point1: x1,y (if inside) //x1_out always outside, but try [x1_in,y] next
-			//point2: xdiag,y (if inside) ... or something
-			//point3: x,y (only for the first/last if inside)
-			vec3 gp1 = grid.point(Ix1,Iy1);
-			vec3 gp2 = grid.point(Ix2,Iy1); //was Ix2,Iy2
-			if(Ix1 != g_x1_out_idx){
-				//middle grid points
-				vec3 p1 = vec3(gp1.x,y,T.height(vec2(gp1.x,y)))+offs;
-				if(inBox(p1)){
-					debugDrawPoint(p1,vec3(0,255,0));
-					checkCandidatePoint(p1,T);
-				}else{
-					debugDrawPoint(p1,vec3(128,128,128));
-				}
-				debugDrawLine(p1,gp1+offs,vec3(255,0,0));
-				debugFloatingText(p1,fstring("p1-%s (%s)",toCString(p1), inBox(p1) ? "in" : "out"));
-			}
-
-			if(Ix1 == g_x1_out_idx){	//yellow
-				//box first corner
-				x = b_x1-offs.x;
-				vec3 p3 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p3)){
-					debugDrawPoint(p3,vec3(0,255,0));
-					checkCandidatePoint(p3,T);
-				}else{
-					debugDrawPoint(p3,vec3(128,128,128));
-				}
-				debugDrawLine(p3,gp1+offs,vec3(255,255,0));
-				debugFloatingText(p3,fstring("p3-%s (%s)",toCString(p3), inBox(p3) ? "in" : "out"));
-
-			}else if(Ix2 == g_x2_out_idx){	//purple
-				//box last corner
-				x = b_x2-offs.x;
-				vec3 p4 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p4)){
-					debugDrawPoint(p4,vec3(0,255,0));
-					checkCandidatePoint(p4,T);
-				}else{
-					debugDrawPoint(p4,vec3(128,128,128));
-				}
-				debugDrawLine(p4,gp2+offs,vec3(255,0,255));
-				debugFloatingText(p4,fstring("p4-%s (%s)",toCString(p4), inBox(p4) ? "in" : "out"));
-			}
-
-			//diagonal (off-grid) points
-			vec2 bp1 = vec2(gp1.x,y);
-			vec2 bp2 = vec2(gp2.x,y);
-			vec3 p5 = T.getDiagPointOnLine(bp1,bp2)+offs;
-			if(inBox(p5)){
-				debugDrawPoint(p5,vec3(0,255,0));
-				checkCandidatePoint(p5,T);
-			}else{
-				debugDrawPoint(p5,vec3(128,128,128));
-			}
-			debugDrawLine(p5,toVec3(bp1,T.height(bp1))+offs,vec3(128,255,128)); //lime
-			debugFloatingText(p5,fstring("p5-%s (%s)",toCString(p5), inBox(p5) ? "in" : "out"));
-		}
-	}
-	//---------------------------------------- other two sides
-	for(int Iy1 = g_y1_out_idx; Iy1 < g_y2_out_idx; Iy1++){
-		//top tiles: x1 > x
-		//printf("top\n");
-		{
-			int Iy2 = Iy1+1;
-			int Ix1 = g_x1_out_idx;
-			int Ix2 = g_x1_in_idx;
-
-			float y = b_y1-offs.y;
-			float x = b_x1-offs.x;
-			debugDrawPoint(vec3(x,y,b_z1-offs.z)+offs,vec3(255,255,255));
-			tile T;
-			T.grid = &grid;
-			T.Ix_A = Ix1; T.Iy_A = Iy1;
-			T.Ix_B = Ix2; T.Iy_B = Iy1;
-			T.Ix_C = Ix1; T.Iy_C = Iy2;
-			T.Ix_D = Ix2; T.Iy_D = Iy2;
-
-			//point1: x1,y (if inside) //x1_out always outside, but try [x1_in,y] next
-			//point2: xdiag,y (if inside) ... or something
-			//point3: x,y (only for the first/last if inside)
-			vec3 gp1 = grid.point(Ix1,Iy1);
-			vec3 gp2 = grid.point(Ix1,Iy2); //was Ix2,Iy2
-			if(Iy1 != g_y1_out_idx){
-				//middle grid points
-				vec3 p1 = vec3(x,gp1.y,T.height(vec2(x,gp1.y)))+offs;
-				if(inBox(p1)){
-					debugDrawPoint(p1,vec3(0,255,0));
-					checkCandidatePoint(p1,T);
-				}else{
-					debugDrawPoint(p1,vec3(128,128,128));
-				}
-				debugDrawLine(p1,gp1+offs,vec3(255,0,0));
-				debugFloatingText(p1,fstring("p1-%s (%s)",toCString(p1), inBox(p1) ? "in" : "out"));
-			}
-
-			if(Iy1 == g_y1_out_idx){	//yellow
-				//box first corner
-				y = b_y1-offs.y;
-				vec3 p3 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p3)){
-					debugDrawPoint(p3,vec3(0,255,0));
-					checkCandidatePoint(p3,T);
-				}else{
-					debugDrawPoint(p3,vec3(128,128,128));
-				}
-				debugDrawLine(p3,gp1+offs,vec3(255,255,0));
-				debugFloatingText(p3,fstring("p3-%s (%s)",toCString(p3), inBox(p3) ? "in" : "out"));
-
-			}else if(Iy2 == g_y2_out_idx){	//purple
-				//box last corner
-				y = b_y2-offs.y;
-				vec3 p4 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p4)){
-					debugDrawPoint(p4,vec3(0,255,0));
-					checkCandidatePoint(p4,T);
-				}else{
-					debugDrawPoint(p4,vec3(128,128,128));
-				}
-				debugDrawLine(p4,gp2+offs,vec3(255,0,255));
-				debugFloatingText(p4,fstring("p4-%s (%s)",toCString(p4), inBox(p4) ? "in" : "out"));
-			}
-
-			//diagonal (off-grid) points
-			vec2 bp1 = vec2(x,gp1.y);
-			vec2 bp2 = vec2(x,gp2.y);
-			vec3 p5 = T.getDiagPointOnLine(bp1,bp2)+offs;
-			if(inBox(p5)){
-				debugDrawPoint(p5,vec3(0,255,0));
-				checkCandidatePoint(p5,T);
-			}else{
-				debugDrawPoint(p5,vec3(128,128,128));
-			}
-			debugDrawLine(p5,toVec3(bp1,T.height(bp1))+offs,vec3(128,255,128)); //lime
-			debugFloatingText(p5,fstring("p5-%s (%s)",toCString(p5), inBox(p5) ? "in" : "out"));
-		}
-		//------------------------------------------------------------------------------------
-		//printf("bottom\n");
-		//bottom tiles: x < x2
-		{
-			int Iy2 = Iy1+1;
-			int Ix1 = g_x2_in_idx;
-			int Ix2 = g_x2_out_idx;
-
-			float y = b_y1-offs.y;
-			float x = b_x2-offs.x;
-			debugDrawPoint(vec3(x,y,b_z1-offs.z)+offs,vec3(255,255,255));
-			tile T;
-			T.grid = &grid;
-			T.Ix_A = Ix1; T.Iy_A = Iy1;
-			T.Ix_B = Ix2; T.Iy_B = Iy1;
-			T.Ix_C = Ix1; T.Iy_C = Iy2;
-			T.Ix_D = Ix2; T.Iy_D = Iy2;
-
-			//point1: x1,y (if inside) //x1_out always outside, but try [x1_in,y] next
-			//point2: xdiag,y (if inside) ... or something
-			//point3: x,y (only for the first/last if inside)
-			vec3 gp1 = grid.point(Ix1,Iy1);
-			vec3 gp2 = grid.point(Ix1,Iy2); //was Ix2,Iy2
-			if(Iy1 != g_y1_out_idx){
-				//middle grid points
-				vec3 p1 = vec3(x,gp1.y,T.height(vec2(x,gp1.y)))+offs;
-				if(inBox(p1)){
-					debugDrawPoint(p1,vec3(0,255,0));
-					checkCandidatePoint(p1,T);
-				}else{
-					debugDrawPoint(p1,vec3(128,128,128));
-				}
-				debugDrawLine(p1,gp1+offs,vec3(255,0,0));
-				debugFloatingText(p1,fstring("p1-%s (%s)",toCString(p1), inBox(p1) ? "in" : "out"));
-			}
-
-			if(Iy1 == g_y1_out_idx){	//yellow
-				//box first corner
-				y = b_y1-offs.y;
-				vec3 p3 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p3)){
-					debugDrawPoint(p3,vec3(0,255,0));
-					checkCandidatePoint(p3,T);
-				}else{
-					debugDrawPoint(p3,vec3(128,128,128));
-				}
-				debugDrawLine(p3,gp1+offs,vec3(255,255,0));
-				debugFloatingText(p3,fstring("p3-%s (%s)",toCString(p3), inBox(p3) ? "in" : "out"));
-
-			}else if(Iy2 == g_y2_out_idx){	//purple
-				//box last corner
-				y = b_y2-offs.y;
-				vec3 p4 = vec3(x,y,T.height(vec2(x,y)))+offs;
-				if(inBox(p4)){
-					debugDrawPoint(p4,vec3(0,255,0));
-					checkCandidatePoint(p4,T);
-				}else{
-					debugDrawPoint(p4,vec3(128,128,128));
-				}
-				debugDrawLine(p4,gp2+offs,vec3(255,0,255));
-				debugFloatingText(p4,fstring("p4-%s (%s)",toCString(p4), inBox(p4) ? "in" : "out"));
-			}
-
-			//diagonal (off-grid) points
-			vec2 bp1 = vec2(x,gp1.y);
-			vec2 bp2 = vec2(x,gp2.y);
-			vec3 p5 = T.getDiagPointOnLine(bp1,bp2)+offs;
-			if(inBox(p5)){
-				debugDrawPoint(p5,vec3(0,255,0));
-				checkCandidatePoint(p5,T);
-			}else{
-				debugDrawPoint(p5,vec3(128,128,128));
-			}
-			debugDrawLine(p5,toVec3(bp1,T.height(bp1))+offs,vec3(128,255,128)); //lime
-			debugFloatingText(p5,fstring("p5-%s (%s)",toCString(p5), inBox(p5) ? "in" : "out"));
-		}
-	}
-
-
-
-
-	if(hasCollision){
-		debugDrawPoint(ci->c_to_c.pos,vec3(0,255,255));
-		if(!debugStop)
-		printf("inside points = %d\n",inside_point_count);
-	}
-	//5.2 check verts for tiles that are on the edge (sample box/grid intersections)
-
-	if(hasCollision){
-		//STOP! Debug time
-		//body1->vel = vec3(0,0,0);
-		//debugStop = true;
-	}
-	return ci;
-};
-*/
 
 /*
 
@@ -1201,7 +427,6 @@ collisioninfo *checkCollisionRay_Terrain( collisionbodyRay *body1, collisionbody
 			}
 		}
 		if(has_intersection){
-			//printf("+");
 			collisioninfo *col = new collisioninfo();
 			col->body1 = body1;
 			col->body2 = body2;
@@ -1211,7 +436,6 @@ collisioninfo *checkCollisionRay_Terrain( collisionbodyRay *body1, collisionbody
 			col->c_to_c.depth = mindist;
 			return col;
 		}else{
-			//printf("-");
 		}
 	}
 	return 0;
@@ -1233,7 +457,6 @@ collisioninfo *checkCollisionPoint_AABB(collisionbody *body1, collisionbody *bod
 collisioninfo *checkCollisionAABB_Plane(collisionbody *body1, collisionbodyPlane *body2){
 	vec3 n = body2->normal;
 	float offset = body2->offset;
-	//printf("ccAPl: n = %s, offs = %f\n", toCString(n), offset);
 	
 	AABB aabb = body1->getAABB().moveBy(body1->pos);
 	float x1 = aabb.start.x; float x2 = aabb.end.x;
@@ -1255,10 +478,8 @@ collisioninfo *checkCollisionAABB_Plane(collisionbody *body1, collisionbodyPlane
 	for(int i = 0; i < 8; i++){
 		vec3 p = pts[i];
 		float depth = -(dot(p,n) - offset);
-		//printf("pt %s, dot = %f, depth = %f\n",toCString(p), (float)(dot(p,n)),depth);
 		if(depth > bestDepth){bestDepth = depth; bestI = i;}
 	}
-	//printf("bestDepth = %f\n",bestDepth);
 	if(bestDepth > 0){
 		vec3 pos = pts[bestI];
 		collisioninfo *col = new collisioninfo();
@@ -1268,10 +489,8 @@ collisioninfo *checkCollisionAABB_Plane(collisionbody *body1, collisionbodyPlane
 		col->c_to_c.normal = n;
 		col->c_to_c.depth = bestDepth;
 		col->c_to_c.penetration = -bestDepth*n;
-		//printf("ccAPl: yes\n");
 		return col;
 	}
-	//printf("ccAPl: no\n");
 	return 0;
 }
 
@@ -1294,10 +513,8 @@ collisioninfo *checkCollisionRay_Plane(collisionbodyRay *body1, collisionbodyPla
 		vec3 dv = pos-start;
 		col->c_to_c.depth = length(dv);
 		col->c_to_c.penetration = dv;
-		//printf("ccRPl: yes\n");
 		return col;
 	}
-	//printf("ccRPl: no\n");
 	return 0;
 }
 
@@ -1314,64 +531,15 @@ collisioninfo *checkCollisionPoint_Plane(collisionbody *body1, collisionbodyPlan
 		col->c_to_c.normal = n;
 		col->c_to_c.depth = depth;
 		col->c_to_c.penetration = -depth*n;
-		//printf("ccPtPl: yes\n");
 		return col;
 	}
-	//printf("ccPtPl: no\n");
 	return 0;
 }
 
-/*
-collisioninfo *checkCollisionPoint_Terrain(collisionbody *body1, collisionbody *body2){
-    collisioninfo *col = checkCollisionPoint_AABB(body1, body2);
-    if(!col){return 0;}
-	vec3 p = body1->pos-body2->pos;
-	collisionbodyTerrain *body2Terrain = static_cast<collisionbodyTerrain*>(body2);
-	if(body2Terrain->grid.height(vec2(p.x,p.y)) >= p.z){
-        return col;
-	}else{
-        return 0;
-	}
-}
-*/
 //The separating axis that realizes the axis of minimum penetration is
 //either a face normal or the cross product between two edges.
 
 collisioninfo *checkCollisionSAT(collisionbody *body1, collisionbody *body2){
-/*	vector<vec3> normals;
-	vector<vec3> points1;
-	vector<vec3> points2;
-	getCollisionbodyNormals(normals,body1);
-	getCollisionbodyNormals(normals,body2);
-	if(normals.size() == 0){return 0;}
-	getCollisionbodyPoints(points1,body1);
-	if(points1.size() == 0){return 0;}
-	getCollisionbodyPoints(points2,body2);
-	if(points2.size() == 0){return 0;}
-
-	float max1=min1=points1[0].dot(normals[0]);
-	float max2=min2=points2[0].dot(normals[0]);
-	for(auto I = normals.begin(); I != normals.end(); I++){
-		float p;	//projected point
-		//float p1;	//point1 of intersection interval
-		//float p2;	//point2 of intersection interval
-		for(auto J = points1.begin(); J != points1.end(); J++){
-			p = (*J).dot(*I);
-			if(p > max1){max1 = p;}
-			if(p < min1){min1 = p;}
-		}
-		for(auto J = points2.begin(); J != points2.end(); J++){
-			p = (*J).dot(*I);
-			if(p > max2){max2 = p;}
-			if(p < min2){min2 = p;}
-		}
-		if((min1 > max2) || (min2 > max1)){
-			return 0;	//separating axis found -> there is no collision
-		}
-
-	}
-	return true; //figure out the collision points and separation, might need dynamic case
-*/
 	return 0;
 }
 
@@ -1466,12 +634,9 @@ void pairwiseCollisionCheck(collisionbody *body1, collisionbody *body2, collisio
 	if(!canCollide(body1,body2)){return;}
 	collisioninfo *col = collisionCheckDispatch(body1,body2);
 	if(!col){
-		//printf("no collision\n\n");
 		return;
 	}else{
-		//printCollision(col);
 	}
-	//printf("collision!\n");
 	if((body1->type != BODY_TRIGGER) && (body2->type != BODY_TRIGGER)){
         if(options.separate){separateCollision(col);}
         if(options.resolve){resolveCollision(col);}

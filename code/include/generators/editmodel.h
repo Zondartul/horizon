@@ -117,7 +117,6 @@ class e_triangle:public e_element{
 	vec3 face_normal;
 	vec3 vert_normals[3];
 	e_triangle() = default;
-	//e_triangle(e_edge *AB, e_edge *BC, e_edge *CA, e_model *EM);
 	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
 };
 
@@ -129,7 +128,6 @@ class e_face:public e_element{
 };
 
 //it bork
-//template<typename T> T& list<T>::operator[](int N){if(N >= size()){error("index out of bounds");} auto I = begin(); while(N--){ I++;} return *I;}
 template<typename T> T& listGet(list<T> &L,int N){if(N >= L.size()){error("index out of bounds");} auto I = L.begin(); while(N--){ I++;} return *I;}
 
 struct e_model{

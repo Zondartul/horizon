@@ -33,10 +33,6 @@ string toString(collisionbodytype type){
 
 collisionbody::collisionbody(){
 	ov = new octree_visitor(octree_root, this, pos);
-	//ov->curNode = octree_root; //todo: make ov a RAII object
-	//ov->body = this;
-	//octree_root->addVisitor(ov);
-	//ov->moveTo(pos);
 }
 collisionbody::~collisionbody(){
 	delete ov;
@@ -72,11 +68,11 @@ void collisionbody::setAABB(AABB aabb){
 
 AABB collisionbody::getAABB(){return aabb;}
 
-collisionbodyAABB::collisionbodyAABB(AABB aabb){setAABB(aabb);}//{this->aabb = aabb; rm = generateBox(aabb.size)->getRmodel(1);}
+collisionbodyAABB::collisionbodyAABB(AABB aabb){setAABB(aabb);}
 collisionbodyRay::collisionbodyRay(vec3 from, vec3 dir){this->from = from; this->dir = dir;}
 
 float& row_acessor::operator[](int Iy){return (*grid)[column+Iy*row_size];}
-row_acessor gridKind::operator[](int Ix){return {&height_grid,Ix,x_point_count};}//height_grid[Ix+Iy*x_count];}
+row_acessor gridKind::operator[](int Ix){return {&height_grid,Ix,x_point_count};}
 vec3 gridKind::point(int Ix, int Iy){return vec3(Ix*x_step,Iy*y_step,(*this)[Ix][Iy]);}
 
 
@@ -97,12 +93,11 @@ char get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y,
     float s1_x, s1_y, s2_x, s2_y;
     s1_x = p1_x - p0_x;     s1_y = p1_y - p0_y;
     s2_x = p3_x - p2_x;     s2_y = p3_y - p2_y;
-	//printf("s1: %s, s2: %s\n",toCString(vec2(s1_x,s1_y)),toCString(vec2(s2_x,s2_y)));
 
     float s, t;
     s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
     t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
-	//printf("s = %f, t = %f\n",s,t);
+
     if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
     {
         // Collision detected
@@ -122,13 +117,7 @@ vec3 tile::getDiagPointOnLine(vec2 p1, vec2 p2){
 	float p1h = height(vec2(p1.x,p1.y));
 	float p2h = height(vec2(p2.x,p2.y));
 	if(p1h < p2h){p12 = vec3(p2.x,p2.y,p2h);}else{p12 = vec3(p1.x,p1.y,p1h);}
-	//float x; float y;
-	//float dh_dx;
-	//float dh_dy;
-	//float dy_dx;
-	//float dx; float dy;
-	//float y0;
-	//float z;
+
 	float u,t;
 	vec2 diagStart, diagDir, diagEnd, segStart, segDir, segEnd,res;
 	switch(shape){
@@ -143,43 +132,9 @@ TILE_DIAG_LABEL:
 					diagEnd.x,diagEnd.y,
 					&res.x,&res.y)){
 					p3 = toVec3(res,height(res));
-					//if(p3.z > p12.z){return p3;}
-					//else{return p12;}
+
 					return p3; //for debug
 				}
-				/*
-				//another fuck-it
-				diagStart = vB();//toVec2(vB());
-				diagDir = toVec2(vC())-diagStart; //non-normalized
-				//float diagLen = length(diagDir);
-				//diagDir = normalizeSafe(diagDir);
-
-				segStart = p1;
-				segDir = p2-p1; //non-normalized
-				if(dot(segDir,diagDir) < 0){//if(dot(diagDir,segDir) < 0){
-					segStart = segStart+segDir;
-					segDir = -segDir;
-
-					//diagStart = diagStart+diagDir;
-					//diagDir = -diagDir;
-
-
-					printf("dot flip\n");
-				}
-				//float segLen = length(segDir);
-				//segDir = normalizeSafe(segDir);
-
-				t = cross((diagStart-segStart),segDir)/cross(diagDir,segDir);
-				u = cross((segStart-diagStart),diagDir)/cross(segDir,diagDir);
-				printf("p1 = %s, p2 = %s\n",toCString(p1),toCString(p2));
-				printf("diag = %s -> %s\n",toCString(diagStart),toCString(diagDir));
-				printf("seg  = %s -> %s\n",toCString(segStart), toCString(segDir));
-				printf("t = %f, u = %f\n",t,u);
-				if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
-					p3 = vB()+(vB()-vC())*t;
-					return p3;
-				}
-				*/
 			break;
 		case TILE_ALTERNATING_DIAG:
 			if(((Ix_A+Iy_A) % 2) == 0){
@@ -194,29 +149,8 @@ TILE_DIAG_LABEL:
 					diagEnd.x,diagEnd.y,
 					&res.x,&res.y)){
 					p3 = toVec3(res,height(res));
-					//if(p3.z > p12.z){return p3;}
-					//else{return p12;}
 					return p3; //for debug
 				}
-					/*
-					diagStart = toVec2(vA());
-					diagDir = toVec2(vD())-diagStart; //non-normalized
-					//float diagLen = length(diagDir);
-					//diagDir = normalizeSafe(diagDir);
-
-					segStart = p1;
-					segDir = p2-p1; //non-normalized
-					if(cross(diagDir,segDir) < 0){segDir = p1-p2;}
-					//float segLen = length(segDir);
-					//segDir = normalizeSafe(segDir);
-
-					t = cross((diagStart-segStart),segDir)/cross(diagDir,segDir);
-					u = cross((segStart-diagStart),diagDir)/cross(segDir,diagDir);
-					if((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)){
-						p3 = vA()-(vA()-vD())*t;
-						return p3;
-					}
-					*/
 			}
 			break;
 		case TILE_BILINEAR:
@@ -225,43 +159,6 @@ TILE_DIAG_LABEL:
 			//x = (pos.x-A.x)/(B.x-A.x);
 			//y = (pos.y-A.y)/(C.y-A.y);
 			//FUCK IT
-			/*
-			dx = p2.x-p1.x;
-			dy = p2.y-p1.y;
-			if(dx != 0){dy_dx = dy/dx;}else{dy_dx = 0;}
-			float y0 = height(vec2(p1.x,p1.y));
-
-
-			//y = y0+x*dy_dx
-			//float dh_dx = -A.z+C.z+A.z*x - B.z*x - C.z*x + D.z*x;
-			//float dh_dy = -A.z+B.z+A.z*y - B.z*y - C.z*y + D.z*y;
-
-			//dh_dx = -A.z+B.z+A.z*(y0+x*dy_dx) -B.z*(y0+x*dy_dx) -C.z*(y0+x*dy_dx) +D.z*(y0+x*dy_dx)
-			//dh_dx = 0
-			//A.z-B.z = (A.z-B.z-C.z+D.z)*(y0+x*dy_dx)
-			if(dy_dx != 0){
-				x = (A.z-B.z-y0*(A.z-B.z-C.z+D.z))/dy_dx;
-				y = y0+x*dy_dx;
-			}else{
-				if(dx == 0){
-					if(dy == 0){return p1;}
-					else{
-						x = p1.x;
-						//dh_dy = -A.z+C.z+A.z*x - B.z*x - C.z*x + D.z*x;
-						//dh_dy = 0
-						//A.z-C.z = (A.z-B.z-C.z+D.z)*x
-						//x = (A.z-C.z)/(A.z-B.z-C.z+D.z)
-						float DD = A.z-B.z-C.z+D.z;
-						if(DD != 0){
-							x = (A.z-C.z) / DD;
-						}else{
-							return p12;
-						}
-					}
-				}
-			}
-			break;
-			*/
 		break;
 	};
 	printf("fallback 1/2\n");
@@ -270,9 +167,7 @@ TILE_DIAG_LABEL:
 //struct v_tri{vec3 A,B,C};
 
 float diagonalTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = false){
-	//printf("diagTileHeight\n");
 	//normalize to a square tile
-	//printf("dTH: A(%s) B(%s) C(%s) D(%s) pos(%s) flip(%d)\n",toCString(A),toCString(B),toCString(C),toCString(D),toCString(pos),(int)flip);
 	vec2 size = vec2(B.x-A.x,C.y-A.y);
 	B.x = (B.x-A.x)/size.x;
 	B.y = (B.y-A.y)/size.y;
@@ -304,16 +199,12 @@ float diagonalTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = f
 			zB = B.z;
 			zC = C.z;
 			dz_dx = (zB-zA);
-			//float dz_dy = (zC-zA);
-			//zD = zA + dz_dx + dz_dy;
 			zD = zC + dz_dx; //equivalent
 		}else{	//plane of triangle 2 (B,D,C)
 			zB = B.z;
 			zC = C.z;
 			zD = D.z;
-			//float dz_dx = (zD-zC);
 			dz_dy = (zD-zB);
-			//zA = zD - dz_dx - dz_dy;
 			zA = zC - dz_dy; //equivalent
 		}
 	}else{
@@ -333,17 +224,13 @@ float diagonalTileHeight(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = f
 			zA = A.z;
 			zB = B.z;
 			zD = D.z;
-			//dz_dx = (zB-zA);
 			dz_dy = (zD-zB);
-			//zC = zB - dz_dx + dz_dy;
 			zC = zA + dz_dy; //equivalent
 		}else{	//plane of triangle 2 (A,D,C)
 			zA = A.z;
 			zC = C.z;
 			zD = D.z;
 			dz_dx = (zD-zC);
-			//dz_dy = (zC-zA);
-			//zB = zC + dz_dx - dz_dy;
 			zB = zA+dz_dx; // equivalent
 		}
 	}
@@ -389,18 +276,12 @@ vec2 diagonalTileGradient(vec3 A, vec3 B, vec3 C, vec3 D, vec2 pos, bool flip = 
 			zC = C.z;
 			dz_dx = (zB-zA);
 			dz_dy = (zC-zA);
-			//debugDrawPoint(A, vec3(255,0,0));
-			//debugDrawPoint(B, vec3(196,0,0));
-			//debugDrawPoint(C, vec3(128,0,0));
 		}else{	//plane of triangle 2 (B,D,C)
 			zB = B.z;
 			zC = C.z;
 			zD = D.z;
 			dz_dx = (zD-zC);
 			dz_dy = (zD-zB);
-			//debugDrawPoint(B, vec3(196,0,0));
-			//debugDrawPoint(C, vec3(128,0,0));
-			//debugDrawPoint(D, vec3(64,0,0));
 		}
 	}else{
 		//now we have coords:
@@ -466,11 +347,6 @@ float tile::height(vec2 pos){
 	vec3 B = vB();
 	vec3 C = vC();
 	vec3 D = vD();
-	//float x1 = A.x;
-	//float x2 = B.x;
-	//float y1 = A.y;
-	//float y2 = C.y;
-	//v_tri T1, v_tri T2;
 	switch(shape){
 		case TILE_DIAG:
 			h = diagonalTileHeight(A,B,C,D,pos);
@@ -496,11 +372,6 @@ vec2 tile::gradient(vec2 pos){
 	vec3 B = vB();
 	vec3 C = vC();
 	vec3 D = vD();
-	//float x1 = A.x;
-	//float x2 = B.x;
-	//float y1 = A.y;
-	//float y2 = C.y;
-	//v_tri T1, v_tri T2;
 	switch(shape){
 		case TILE_DIAG:
 			g = diagonalTileGradient(A,B,C,D,pos);
@@ -526,7 +397,6 @@ vec3 tile::normal(vec2 pos){
 	vec3 B(1,0,g.x);
 	vec3 C(0,1,g.y);
 	vec3 n = -triangle_normal(A,B,C);
-	//printf("tile:normal = %s\n",toCString(n));
 	return n;
 }
 
@@ -560,12 +430,10 @@ void collisionbodyTerrain::updateGridFromModel(){
 		if(V == em->verts.begin()){
 			aabb.end = aabb.start;
 		}
-		//aabb.start = vec3_min(aabb.start, v);
 		aabb.end = vec3_max(aabb.end, aabb.start+v);
 	}
 	aabb.size = aabb.end - aabb.start;
 	printf("\tnew aabb = %s\n",toCString(aabb));
-	//printf("updateGrid: new aabb = %s\n",toCString(aabb));
 	float sizex = aabb.size.x;
 	float sizey = aabb.size.y;
 	grid.x_step = sizex / (float) (grid.x_tile_count);
@@ -574,19 +442,14 @@ void collisionbodyTerrain::updateGridFromModel(){
 	for(auto V = em->verts.begin(); V != em->verts.end(); V++){
 		e_vertex &ev = **V;
 		vec3 v = ev.pos;
-		int Ix = roundi(v.x/(float)grid.x_step);//(int)((v.x / (float)grid.x_step) + 0.5f);
-		int Iy = roundi(v.y/(float)grid.y_step);//(int)((v.y / (float)grid.y_step) + 0.5f);
+		int Ix = roundi(v.x/(float)grid.x_step);
+		int Iy = roundi(v.y/(float)grid.y_step);
 		int addr = Ix+Iy*grid.x_point_count;
 		grid.height_grid[addr] = v.z;
 		grid.debugVerts[addr] = v;
 		printf("v %s to [%d,%d]\n",toCString(v),Ix,Iy);
 	}
 }
-
-//AABB infAABB(){
-//	float inf = INFINITY; 
-//	return AABB(vec3(-inf,-inf,-inf),vec3(inf,inf,inf),vec3(inf,inf,inf));
-//}
 
 collisionbodyPlane::collisionbodyPlane(vec3 n, float offset):normal(n),offset(offset){aabb = AABB(vec3(1,1,1),-vec3(1,1,1));}
 collisionbodyPlane::collisionbodyPlane(vec3 A, vec3 B, vec3 C){
@@ -597,8 +460,8 @@ collisionbodyPlane::collisionbodyPlane(vec3 A, vec3 B, vec3 C){
 }
 
 tile gridKind::getTile(vec2 pos){
-	int X1 = floori(pos.x/x_step); //clampi(floori(g_dx1/grid.x_step), 0, grid.x_point_count-1);
-	int Y1 = floori(pos.y/y_step); //clampi(floori(g_dy1/grid.y_step), 0, grid.y_point_count-1);
+	int X1 = floori(pos.x/x_step);
+	int Y1 = floori(pos.y/y_step);
 	int X2 = X1+1;
 	int Y2 = Y1+1;
 	if((X1 < 0) || (X2 > (x_point_count-1))){return {0,TILE_DIAG,0,0,0,0,0,0,0,0};}
@@ -608,41 +471,6 @@ tile gridKind::getTile(vec2 pos){
 }
 
 float gridKind::height(vec2 pos){
-    /*
-    //1.2. box coords
-	float b_z1 = p.z
-	float b_z2 = p.z
-	float b_x1 = p.x;
-	float b_x2 = p.x;
-	float b_y1 = p.y;
-	float b_y2 = p.y;
-
-
-	//1.3. grid coords
-	AABB groundaabb = body2->aabb.moveBy(body2->pos);
-	vec3 offs = body2->pos;
-	float grid_x1 = groundaabb.start.x;
-	float grid_x2 = groundaabb.end.x;
-	float grid_y1 = groundaabb.start.y;
-	float grid_y2 = groundaabb.end.y;
-	float grid_z1 = groundaabb.start.z;
-	float grid_z2 = groundaabb.end.z;
-
-	auto &grid = body2->grid;
-	//2. early exit if no AABB intersection
-	if(b_x1 > grid_x2){hasAABBcol = false;}
-	if(b_x2 < grid_x1){hasAABBcol = false;}
-	if(b_y1 > grid_y2){hasAABBcol = false;}
-	if(b_y2 < grid_y1){hasAABBcol = false;}
-	if(b_z1 > grid_z2){hasAABBcol = false;}
-	if(b_z2 < grid_z1){hasAABBcol = false;} //comment this out for infinitely deep terrain
-	//if(!debugStop)
-	//printf("hasAABBcol = %d\n",hasAABBcol);
-	if(!hasAABBcol){return 0;}
-    */
-	//3. find grid indices
-	//float g_dx1 = point.x - grid_x1;
-	//float g_dy1 = point.y - grid_y1;
 	return getTile(pos).height(pos);
 }
 
@@ -686,8 +514,8 @@ void printCollision(collisioninfo *col){
 	collisionbody *body2 = col->body2;
 	string ename1 = body1->E->name;
 	string ename2 = body2->E->name;
-	string type1 = toString(body1->type);//bodyTypeToString(body1);
-	string type2 = toString(body2->type);//bodyTypeToString(body2);
+	string type1 = toString(body1->type);
+	string type2 = toString(body2->type);
 
 	printf("------------------\n");
 	printf("collision between %s (%s) and %s (%s):\n",
@@ -720,8 +548,6 @@ collisioninfo *reverseCollision(collisioninfo *ci){
 		ci->c_to_c.normal = -(ci->c_to_c.normal);
 		ci->c_to_c.penetration = -(ci->c_to_c.penetration);
 	}
-
-	//collisionPoint cpt = ci->c_to_c;
 	//dunno yet what to do with collision points
 	return ci;
 }
@@ -729,17 +555,11 @@ collisioninfo *reverseCollision(collisioninfo *ci){
 //-----------------------------------------------------------------------------
 
 collisioninfo *raytrace(vec3 from, vec3 dir,const vector<entity *> &ignore){
-	//collisionbodyRay *bodyRay = new collisionbodyRay(from,dir);
 	entity *ERay = new entity();
-	ERay->body = new collisionbodyRay(from,dir);//bodyRay;
+	ERay->body = new collisionbodyRay(from,dir);
 	ERay->body->bodyname = "raytrace";
 	ERay->body->type = BODY_TRIGGER;
 	ERay->name = "raytrace";
-	//collisionParty cp[2];
-	//cp[0].body = bodyRay;
-	//cp[0].ent = 0;
-	//ERay->body->pos = vec3(0,0,0); set by default
-	//ERay->body->vel = vec3(0,0,0);
 	collisioninfo *bestcol = 0;
 	for(auto I = entities.begin(); I != entities.end(); I++){
 
@@ -752,9 +572,6 @@ collisioninfo *raytrace(vec3 from, vec3 dir,const vector<entity *> &ignore){
 		entity *E = *I;
 		if(E->body){
 			collisionbody *body2 = E->body;
-			//cp[1].ent = *I;
-			//cp[1].pos = getPosition(*I);
-			//cp[1].vel = getVelocity(*I);
 			collisioninfo *col = collisionCheckDispatch(ERay->body,body2);
 			if(col){
 				if(bestcol){

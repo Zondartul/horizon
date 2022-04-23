@@ -40,7 +40,6 @@ extern bool printf_enabled;
 
 	#define info(...) printf(__VA_ARGS__)
 	#define warning(...) printf(__VA_ARGS__)
-	//#define error(...) printf(__VA_ARGS__);crash();
 	#define error(...) printf(__VA_ARGS__);exit(1);
 	#define frame(...) printf(__VA_ARGS__)
 

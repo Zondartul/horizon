@@ -3,7 +3,6 @@
 #include "stdio.h"
 #include "globals.h"
 #define STB_IMAGE_IMPLEMENTATION
-//#define STBI_ONLY_JPG
 //lets support EVERYTHING :D
 #include "stb_image.h"
 

@@ -4,11 +4,7 @@
 #include "stdlib.h"
 #include <vector>
 using std::vector;
-//#include <filesystem>
-//#include "boost/filesystem.hpp"
-//using namespace boost::filesystem;
 #include "dirent/dirent.h"
-//#include "resource.h"
 
 string fileToString(const char *filepath){
 	FILE *fp;
@@ -49,8 +45,6 @@ string locateResource(const char *type, const char *name){
 	if(T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".jpg";}
 	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" /*+ name + "/" + name +*/ + namedir + sname + "/"+sname + ".obj";}
 
-
-	//printf("locateResource: attempting [%s]\n",abspath.c_str());
 	FILE *f = fopen(abspath.c_str(),"rb");
 	if(!f && T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".png"; f = fopen(abspath.c_str(),"rb");}
 	if(!f && T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".png";  f = fopen(abspath.c_str(),"rb");}
@@ -92,18 +86,14 @@ string getOSdirSeparator(){
 #else
 	return "/";
 #endif
-	//if(DEF_OS == "Windows"){return "\\";}
-	//else{return "/";}
 }
 
 string getOSdirInitiator(){
-	//if(DEF_OS == "Linux"){return "/";}
 #ifdef WIN32
 	return "";
 #else
 	return "/";
 #endif
-	//return "";
 }
 
 //does this result in an absolute or relative path, or preserve it?
@@ -111,12 +101,10 @@ string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
 	string S;
-	//S = getOSdirInitiator();//"";
 	for(unsigned int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){
 			if(S == ".."){
-				//S = subdirs.back();
 				subdirs.pop_back();
 			}else if(S == ""){
 				//do nothing
@@ -139,7 +127,6 @@ string toCanonicalPath(string dir){
 
 vector<string> getDirectoryList(string dirname){
 	vector<string> res;
-	//path dirpath(dir);
 	printf("direntries begin\n");
 
 	DIR *d = opendir(dirname.c_str());
@@ -152,20 +139,7 @@ vector<string> getDirectoryList(string dirname){
 		res.push_back(S);
 	}
 	closedir(d);
-	//directory_iterator I(dir);
-	//for(directory_entry &E : I){
-	//	string S = E.path().string();
-	//	printf("directory_entry [%s]\n",S.c_str());
-	//	res.push_back(S);
-	//}
 
-
-	//for(directory_iterator I(dirpath); I != end(I); I++){
-		//directory_entry E = *I;
-		//string S = E.path.string();
-	//	printf("directory_entry [%s]\n",S.c_str());
-	//	res.push_back(S);
-	//}
 	printf("direntries end\n");
 	return res;
 }
@@ -202,73 +176,6 @@ bool isFolder(string filename){
 	if(d){printf("yes\n"); closedir(d); return true;}
 	else {printf("no\n");return false;}
 }
-
-/*
-texture *getFileIcon(string filename){
-	string ext = getFileExtension(filename);
-	texture *t = 0;
-	if(isFolder(filename)){
-		t = getTexture("gui/iconfolder");
-	}else
-	if(
-	(ext == "txt")||
-	(ext == "c")||
-	(ext == "cpp")||
-	(ext == "h")||
-	(ext == "hpp")||
-	(ext == "cfg")
-	){
-		t = getTexture("gui/iconfiletxt");
-	}
-	else
-	if(
-	(ext == "bmp")||
-	(ext == "png")||
-	(ext == "jpg")||
-	(ext == "jpeg")||
-	(ext == "img")
-	){
-		t = getTexture("gui/iconpicture");
-	}
-	else
-	if(
-	(ext == "zip")||
-	(ext == "rar")||
-	(ext == "gz")||
-	(ext == "7z")
-	){
-		t = getTexture("gui/iconzipfile");
-	}
-	else
-	if(
-	(ext == "exe")
-	){
-		t = getTexture("gui/iconfileexe");
-	}
-	else
-	if(
-	(ext == "bat")
-	){
-		t = getTexture("gui/iconfilecmd");
-	}
-	else
-	if(
-	(ext == "dll")
-	){
-		t = getTexture("gui/icongear2");
-	}
-	else
-	if(
-	(ext == "a")
-	){
-		t = getTexture("gui/iconfilegear");
-	}
-	else{
-		t = getTexture("gui/iconfile");
-	}
-	return t;
-}
-*/
 
 bool fileExists(string filename){
 	FILE *f = fopen(filename.c_str(),"r");

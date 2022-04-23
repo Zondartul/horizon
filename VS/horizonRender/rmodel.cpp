@@ -31,10 +31,6 @@ rmodel::rmodel(model *m){
 		colors->push_back(vec3(0,1,0));
 		colors->push_back(vec3(0,0,1));
 		
-		//colors->push_back(vec3(1,1,1));
-		//colors->push_back(vec3(1,1,1));
-		//colors->push_back(vec3(1,1,1));
-		
 		normals->push_back(I->v[0].normal);
 		normals->push_back(I->v[1].normal);
 		normals->push_back(I->v[2].normal);
@@ -46,23 +42,6 @@ rmodel::rmodel(model *m){
 }
 rmodel::~rmodel(){
 	//assume we are being deleted by renderLow, who already unloaded us.
-	/*
-	//can't delete buffers immediately, cause this might not have been
-	//drawn yet. so tell the queue to do it.
-	
-	//unloadModel(this); //actually rcmd_rmodel_delete unloads it too.
-	//also can't delete the CPU-side vertex vectors, same reason.
-	//make rmodel sharedly owned or pass rmodel to queue so queue can delete it.
-	if(vertices){
-		rmodel *rm = new rmodel();
-		rm->vertices = vertices;
-		rm->colors = colors;
-		rm->normals = normals;
-		rm->uvs = uvs;
-		//renderCmd(RCMD::RMODEL_DELETE,p=(void*)rm);//lolhax
-		rqueue->push_back(new rcmd_rmodel_delete(this));
-	}
-	*/
 }
 //make sure they're all the same size 
 model *modelFromPoints(vector<vec3> *vertices,

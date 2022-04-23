@@ -28,24 +28,20 @@ timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, b
 }
 
 timer::~timer(){
-    //printf("timer %p destructor...", this);
 	for(auto I = timers.begin(); I != timers.end();){
-		if(*I == this){/*printf("found, cut\n");*/ *I = 0; I++;/*I = timers.erase(I);*/}else{I++;}
+		if(*I == this){ *I = 0; I++;}else{I++;}
 	}
-	//printf("did not find timer in the list\n");
 }
 
 void timer::tick(){     //honestly the most convoluted destructor in all of Horizon
 	if(!run){return;}
 	ticks_left--;
 	if(!ticks_left){
-		//printf("TIMERa %p: sd = %d, dr = %d\n", this, selfdestruct,deleteRequested);
 		if(repeat){ticks_left = ticks_max;}
 		if(selfdestruct){
             F(this);
             delete this;
-		}else{//deleteRequested = true;}
-            //printf("TIMERb %p: sd = %d, dr = %d\n", this, selfdestruct,deleteRequested);
+		}else{
             F(this);
 		}
 	}
@@ -58,20 +54,12 @@ void simpletimer(function<void(timer *T)> F, int ticks_max){
 void timersTick(){
 	for(auto I = timers.begin(); I != timers.end();){
         if(*I){
-            //printf("tick(%p)",*I);
             (*I)->tick();
             I++;
 		}else{
             I = timers.erase(I);
 		}
 	}
-	//printf("timers tick---------\n");
-	//for(auto I = timers.rbegin(); I != timers.rend();){
-    //    timer *T = *I;
-        //printf("T %p, dr = %d\n",T,T->deleteRequested);
-    //    if(T->deleteRequested){delete T;/*invalidates iterators*/ I = timers.rbegin();}
-    //    else{I++;}
-	//}
 }
 
 int t = 0;		//game time in ticks
@@ -100,7 +88,6 @@ string getCalendarTimeStr(){
 	struct tm *tinfo = localtime(&t);
 	stringstream ss;
 	ss << FMT_2DIG << tinfo->tm_hour << "." << FMT_2DIG << tinfo->tm_min << "." << FMT_2DIG << tinfo->tm_sec;
-	//return toString(tinfo->tm_hour)+"."+toString(tinfo->tm_min)+"."+toString(tinfo->tm_sec);
 	return ss.str();
 }
 int getCalendarDate(){
@@ -115,7 +102,6 @@ string getCalendarDateStr(){
 	struct tm *tinfo = localtime(&t);
 	stringstream ss;
 	ss << FMT_2DIG << tinfo->tm_mday << "." << FMT_2DIG << tinfo->tm_mon << "." << FMT_4DIG <<(tinfo->tm_year+1900);
-	//return toString(tinfo->tm_mday)+"."+toString(tinfo->tm_mon)+"."+toString(tinfo->tm_year+1900);
 	return ss.str();
 }
 

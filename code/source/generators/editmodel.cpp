@@ -218,15 +218,15 @@ void e_selection::rebuildRmodel_vertHelper(rmodel *rm){
 	);
 }
 
-void e_selection::rebuildRmodel_edgeHelper(rmodel *rm){
+void e_selection::rebuildRmodel_edgeHelper(rmodel* rm) {
 	int i = 0, j = 0, k = 0;
-	for_all(edges,I,{
+	for_all(edges, I, {
 		j++;
 		rrm_helper(rm,0,colorEdges,vec2(0,0),vec3(0,0,1));
 		rrm_helper(rm,1,colorEdges,vec2(1,0),vec3(0,0,1));
 		}
 	);
-
+}
 //leave this for when face mode is on
 //(in face mode, each face is treated as an approximately flat (smooth) surface.
 

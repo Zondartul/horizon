@@ -6,21 +6,12 @@
 #include "util.h"
 #include <sstream>
 using std::stringstream;
-//extern int num_textures;
-//extern long bytes_textures;
-//extern int num_rmodels;
-//extern long bytes_rmodels;
-//int num_textures;
-//long bytes_textures;
-//int num_rmodels;
-//long bytes_rmodels;
+
 
 
 void GPUdriverKind::renderLowInit(){
 #ifndef NO_GLEW
 
-	//doesn't try newer versions of OpenGL, derp//if(GLEW_VERSION_3_0){error("GLEW v3.0 missing, no VAOs\n");}
-	//if(!(GLEW_ARB_vertex_array_object)){error("GLEW: no arb for VAO\n");}
 	GLenum err = glewInit();
 	if(GLEW_OK != err){
 		error("Error initializing GLEW: %s\n", glewGetErrorString(err));
@@ -71,7 +62,6 @@ void GPUdriverKind::renderLowInit(){
 		I->second = glGetUniformLocation(programHandle,I->first.c_str());
 		printf("uniform '%s' at '%d'\n",I->first.c_str(),I->second);
 	}
-	//rqueue = new renderQueue();
 
 	printf("renderLow: init OK\n");
 #else
@@ -157,42 +147,6 @@ GLuint GPUdriverKind::uploadShaderProgram(const char *filepath_vertex, const cha
 }
 #endif
 
-
-
-//void GPUdriverKind::parseQueue(renderQueue *rqueue){
-//	if(debug){
-//		printf("----render queue:\n");
-//		int i=1;
-//		for(auto I = rqueue->begin(); I != rqueue->end(); I++){
-//			printf("%d: %s\n",i,(*I)->type);
-//			i++;
-//		}
-//	}
-//	for(auto I = rqueue->begin(); I != rqueue->end(); I++){
-//		if(debug){printf("executing %s\n",(*I)->type);}
-//		(*I)->execute();
-//		//delete *I;
-//	}
-//	if(debug){printf("----queue rendered\n");}
-//	//rqueue->clear();
-//}
-
-//    RC3T type;  //type of command
-//    union{
-//        bool b;
-//        renderLayer *layer;
-//        vec3 v3;
-//        texture *t;
-//        font *fnt;
-//        int i;
-//        vec2 v2;
-//        rect r;
-//        float f;
-//        rmodel *rm;
-//        camprojection *cam; //huuuge, 4x4+3 floats = 60 bytes
-//        string *s;          //needs variable length serializing //also, non-POD constructor
-//    };
-
 void GPUdriverKind::reproject(){
 	vec3 mpos = renderState.pos;
 	float mrot_ang = length(renderState.rot);
@@ -221,7 +175,6 @@ void GPUdriverKind::reproject(){
 void GPUdriverKind::parseQueue(renderQueue3 *rqueue){
     for(auto I = rqueue->begin(); I != rqueue->end(); I++){
         renderCommand3 &rcmd = **I;
-        //printf("parsing command [%s]\n",toCString(&rcmd));
         parseCommand(rcmd);
 
     }

@@ -12,7 +12,6 @@ string toString(ParamList PL){
 }
 
 template<> ParamList fromString<ParamList>(string S){
-	//printf("fromString<ParamList>(%s)\n",S.c_str());
 	ParamList PL;
 	while(true){
 		char buff1[80];
@@ -21,7 +20,6 @@ template<> ParamList fromString<ParamList>(string S){
 		int len;
 		int num = sscanf(S.c_str(),"<%[^>]><%[^>]><%[^>]>\n%n",
 			&buff1[0],&buff2[0],&buff3[0],&len);
-		//printf("scanned %d items, %d chars\n",num,len);
 		if(num!=3){break;}
 		string S1(buff1),S2(buff2),S3(buff3);
 		S = string(S.c_str()+len);

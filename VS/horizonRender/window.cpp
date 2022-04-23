@@ -12,13 +12,8 @@
 #endif
 
 //the "correct way to glew" says we don't use gl.h any more.
-//#include "GL/gl.h" 
 #include "stdlib.h"
-//#include "inputController.h"
-//#include "GUI.h"
-//#include "input.h"
 #include "renderLow.h"
-//extern GUIbase *GUI;
 
 int height;
 int width;
@@ -62,17 +57,11 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 }
 
 void OpenGL_init(){
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	//one wonders if this actually does what it claims
 #ifndef NO_SDL
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 #endif
-    //if(DEF_OS == "Windows"){
 #ifdef WIN32
-		//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-#else//   }else if(DEF_OS == "Linux"){
+#else
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); 
  //   }
@@ -129,37 +118,6 @@ void sysMessageBlankTick(){
 #endif
 }
 
-/*
-map<char,char> keyboardMap = {
-	{'`','~'},{'1','!'},{'2','@'},{'3','#'},
-	{'4','$'},{'5','%'},{'6','^'},{'7','&'},
-	{'8','*'},{'9','('},{'0',')'},{'-','_'},
-	{'=','+'},{'\\','|'},{';',':'},{'\'','\"'},
-	{',','<'},{'.','>'},{'/','?'},{'q','Q'},
-	{'w','W'},{'e','E'},{'r','R'},{'t','T'},
-	{'y','Y'},{'u','U'},{'i','I'},{'o','O'},
-	{'p','P'},{'[','{'},{']','}'},{'a','A'},
-	{'s','S'},{'d','D'},{'f','F'},{'g','G'},
-	{'h','H'},{'j','J'},{'k','K'},{'l','L'},
-	{'z','Z'},{'x','X'},{'c','C'},{'v','V'},
-	{'b','B'},{'n','N'},{'m','M'}
-};
-
-map<string,bool> keyboardState;
-
-eventKind keyboardTranslate(eventKind event){
-	if(event.type == EVENT_KEY_DOWN){
-		int key = event.keyboard.printchar;
-		bool shift = event.keyboard.mod & MOD_SHIFT;
-		if(shift){
-			if(keyboardMap.count(key)){
-				event.keyboard.printchar = keyboardMap[key];
-			}//else{printf("ktrans: no has (%c)\n",key);}
-		}//else{printf("ktrans: unshifted\n");}
-	}//else{printf("ktrans: not a keydown\n");}
-	return event;
-}
-*/
 bool isprintSafe(int key){
 	return ((key > 31) && (key < 127));
 }
@@ -270,8 +228,6 @@ void sysMessageTick(){
 }
 
 vec2 getScreenSize(){
-	//int h;
-	//int w;
 #ifndef NO_SDL
 	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif

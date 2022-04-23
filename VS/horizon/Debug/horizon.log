@@ -1,1 +1,75 @@
-﻿
+﻿D:\VS\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  glm.cpp
+  GUIwindows.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(158,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(159,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(160,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(171,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(172,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(173,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(184,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(185,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(186,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(197,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(198,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(199,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  editmodel.cpp
+D:\Stride\shared\horizon\code\source\generators\editmodel.cpp(445,10): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
+  modelcomposite.cpp
+D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(8,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(9,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(13,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GUI_property.cpp
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(63,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(64,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(2362,12): warning C4081: expected 'identifier'; found 'if'
+  GUI_types.cpp
+  octree.cpp
+  file.cpp
+D:\Stride\shared\horizon\code\source\program\file.cpp(106,19): warning C4018: '<': signed/unsigned mismatch
+  paint.cpp
+  paintHelper.cpp
+  debug.cpp
+D:\Stride\shared\horizon\code\source\util\debug.cpp(304,22): warning C4018: '<': signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\util\debug.cpp(561,14): warning C4244: 'initializing': conversion from 'uint64_t' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(562,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(563,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(633,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(633,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(633,19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(634,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(634,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\util\debug.cpp(634,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  util.cpp
+  Generating Code...
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
+glm.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:REF' specification
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+freetype.lib(autofit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(autofit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftbase.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbase.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbitmap.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftinit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftinit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftsystem.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(bdf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(bdf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(cff.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(cff.obj)' or at ''; linking object as if no debug info
+freetype.lib(type1cid.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1cid.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftgzip.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftlzw.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftlzw.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(pcf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pcf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(pfr.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pfr.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(psaux.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psaux.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(pshinter.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pshinter.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(psmodule.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psmodule.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(raster.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(raster.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(sfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(sfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(smooth.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(smooth.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(truetype.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(truetype.obj)' or at ''; linking object as if no debug info
+freetype.lib(type1.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(type42.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type42.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(winfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(winfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftdebug.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftdebug.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+  horizon.vcxproj -> D:\Stride\shared\horizon\bin\horizon.exe

@@ -4,20 +4,6 @@
 keybindList::keybindList(){
 	inputChannel->addListenerFront(this);
 }
-
-//#define checkMB(x,y,z)							\
-//if(event.mousebutton.button == x){				\
-//	if(binds.count(y) && binds[y].z != 0){		\
-//		event.maskEvent();						\
-//		binds[y].z(event);						\
-//	}											\
-//}
-
-//#define checkKB(K,x)							\
-//	if(binds.count(K) && binds[K].x != 0){		\
-//		event.maskEvent();						\
-//		binds[K].x(event);						\
-//	}						
 	
 #define checkMB(x,y)							\
 	if(event.mousebutton.button == x){			\

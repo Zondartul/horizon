@@ -26,7 +26,6 @@ public:
 	vector<triangle> tris;
 	texture* t = 0;
 	rmodel* rm = 0;
-	//int handle[4];
 	void add(model B);
 	void recalculateNormals();
 	e_model *toEmodel();

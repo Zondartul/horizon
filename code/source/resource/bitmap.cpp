@@ -65,7 +65,7 @@ void bitmap::write_pixel(int I, pixel P){
 	int B = P.B;
 	int A = P.A;
 	int L;
-	unsigned char *d = getBuffer();//data->data();//data.get();
+	unsigned char *d = getBuffer();
 	switch(format){
 		case(TL_ALPHA):
 			d[I] = A;
@@ -145,21 +145,14 @@ bitmap bitmap::flipHorizontal(){
 	return BMP;
 }
 void bitmap::insert(bitmap BMP, vec2 pos){
-	//printf("BMP [%d x %d]: insert BMP [%d x %d] at (%d,%d)\n",
-	//		width,height,BMP.width,BMP.height,pos.x,pos.y);
 	int minx = clamp(pos.x,0,width);
 	int maxx = min(pos.x+BMP.width,width);
 	int miny = clamp(pos.y,0,height);
 	int maxy = min(pos.y+BMP.height,height);
-	//printf("minx = %d\n",minx);
-	//printf("maxx = %d\n",maxx);
-	//printf("miny = %d\n",miny);
-	//printf("maxy = %d\n",maxy);
 	for(int y = miny; y < maxy; y++){
 		for(int x = minx; x < maxx; x++){
 			int readx = x-pos.x;
 			int ready = y-pos.y;
-			//printf("pixel read (%d,%d), write (%d,%d)\n",readx,ready,x,y);
 			write_pixel({x,y},BMP.read_pixel({readx,ready}));
 		}
 	}
@@ -174,9 +167,6 @@ void bitmap::forEachPixel(void (*f)(pixel *P)){
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
-
-//int stbi_write_png(char const *filename,
-//		int w, int h, int comp, const void *data, int stride_in_bytes);
 
 void bitmap::saveAs(const char *filename){
 	int comp;
@@ -232,11 +222,8 @@ bitmap blankBitmap(int height, int width, pixelFormat format){
 	BMP.format = format;
 	int size = BMP.numBytes();
 	if(!size){size=1;}
-	//printf("bbmp (%dx%d) BMP = %p, size = %d\n",height,width,&BMP, size);
 	unsigned char *buff = (unsigned char*)calloc(1,size);
 	if(!buff){printf("can't alloc bitmap!\n");exit(0);}
-	//printf("bbmp buff = %p\n",buff);
-	//BMP.data.reset(buff);
 	BMP.setBuffer(buff,size);
 	free(buff);
 	
@@ -250,12 +237,6 @@ bitmap bitmap::clone(){
 	BMP.format = format;
 	int size = BMP.numBytes();
 	if(!size){size=1;}
-	//printf("bbmp (%dx%d) BMP = %p, size = %d\n",height,width,&BMP, size);
-	//unsigned char *buff = (unsigned char*)calloc(1,size);
-	//if(!buff){printf("can't alloc bitmap!\n");exit(0);}
-	//memcpy(buff,data.get(),size);
-	//printf("bbmp buff = %p\n",buff);
-	//BMP.data.reset(buff);
 	BMP.setBuffer(data->data(),size);
 	return BMP;
 }

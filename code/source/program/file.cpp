@@ -4,9 +4,6 @@
 #include "stdlib.h"
 #include <vector>
 using std::vector;
-//#include <filesystem>
-//#include "boost/filesystem.hpp"
-//using namespace boost::filesystem;
 #include "dirent.h"
 #include "resource.h"
 
@@ -47,10 +44,9 @@ string locateResource(const char *type, const char *name){
 	if(T == "font"){abspath = basepath + string()+resourcepath+"fonts/" + name + ".ttf";}
 	if(T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".jpg";}
 	if(T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".jpg";}
-	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" /*+ name + "/" + name +*/ + namedir + sname + "/"+sname + ".obj";}
+	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" + namedir + sname + "/"+sname + ".obj";}
 
 
-	//printf("locateResource: attempting [%s]\n",abspath.c_str());
 	FILE *f = fopen(abspath.c_str(),"rb");
 	if(!f && T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".png"; f = fopen(abspath.c_str(),"rb");}
 	if(!f && T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".png";  f = fopen(abspath.c_str(),"rb");}
@@ -92,18 +88,14 @@ string getOSdirSeparator(){
 #else
 	return "/";
 #endif
-	//if(DEF_OS == "Windows"){return "\\";}
-	//else{return "/";}
 }
 
 string getOSdirInitiator(){
-	//if(DEF_OS == "Linux"){return "/";}
 #ifdef WIN32
 	return "";
 #else
 	return "/";
 #endif
-	//return "";
 }
 
 //does this result in an absolute or relative path, or preserve it?
@@ -111,12 +103,10 @@ string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
 	string S;
-	//S = getOSdirInitiator();//"";
 	for(int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){
 			if(S == ".."){
-				//S = subdirs.back();
 				subdirs.pop_back();
 			}else if(S == ""){
 				//do nothing
@@ -139,7 +129,6 @@ string toCanonicalPath(string dir){
 
 vector<string> getDirectoryList(string dirname){
 	vector<string> res;
-	//path dirpath(dir);
 	printf("direntries begin\n");
 
 	DIR *d = opendir(dirname.c_str());
@@ -152,20 +141,7 @@ vector<string> getDirectoryList(string dirname){
 		res.push_back(S);
 	}
 	closedir(d);
-	//directory_iterator I(dir);
-	//for(directory_entry &E : I){
-	//	string S = E.path().string();
-	//	printf("directory_entry [%s]\n",S.c_str());
-	//	res.push_back(S);
-	//}
 
-
-	//for(directory_iterator I(dirpath); I != end(I); I++){
-		//directory_entry E = *I;
-		//string S = E.path.string();
-	//	printf("directory_entry [%s]\n",S.c_str());
-	//	res.push_back(S);
-	//}
 	printf("direntries end\n");
 	return res;
 }

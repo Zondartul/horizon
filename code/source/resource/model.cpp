@@ -47,15 +47,9 @@ e_model *model::toEmodel(){
 		vec3 vnB = tris[I].v[1].normal;
 		vec3 vnC = tris[I].v[2].normal;
 		e_triangle *T = new e_triangle(A,B,C,EM);
-		//T->uvs.push_back(uvA);
-		//T->uvs.push_back(uvB);
-		//T->uvs.push_back(uvC);
 		T->uvs[0] = uvA;
 		T->uvs[1] = uvB;
 		T->uvs[2] = uvC;
-		//T->vert_normals.push_back(vnA);
-		//T->vert_normals.push_back(vnB);
-		//T->vert_normals.push_back(vnC);
 		T->vert_normals[0] = vnA;
 		T->vert_normals[1] = vnB;
 		T->vert_normals[2] = vnC;

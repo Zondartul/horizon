@@ -14,12 +14,11 @@ void renderOptions::apply(renderLayer *L){
 	setColoring(coloring);
 	setTexturing(texturing);
 	setLighting(lighting);
-	setColor(color);//vec3(255,255,255));
-	setAlpha(alpha);//255);
+	setColor(color);
+	setAlpha(alpha);
 	if(wireframe){
 		setRenderMode(2);
 	}else{
-		//setRenderMode(3);
         setRenderMode(renderMode);
     }
 	setUvColoring(uvColoring);
@@ -61,40 +60,10 @@ vector<renderOptions> renderOptionsStack;
 void renderableSprite::upload(){}
 
 void renderableSprite::render(renderOptions *options){
-    /*
-    //setLayer(layer3D);
-    setColor(color);
-    setAlpha(255);
-    setPointSize(3.f);
-    setColoring(false);
-    //setDebug(false);
-    //setDepthMask(true);
-    //setDepthTest(true);
-    setLighting(false);
-    //setLineWidth(2.f);
-    //setNormalColoring(false);
-    //setScissoring(false);
-    setTexturing(false);
-    //setTransparency(false);
-    //setUvColoring(false);
-    setDepthTest(false);
-    drawPoint(pos);
-    setDepthTest(true);
-    //drawLine(vec3(0,0,0),pos);
-    */
-    //renderLayer *oldL = currentLayer;
-    //setLayer(options->layer_2d);
-    //setTexture(t);
-    //setTexturing(true);
-    //setTransparency(true);
-    //setPosition(setZ(camera.worldToScreen(pos),0));
-    //drawRect(R);
-    //setLayer(oldL);
 
     setTexturing(true);
     setTransparency(true);
     setLighting(false);
-    //setDepthTest(false);
     setPosition(pos);
     vec3 dv = camera.pos - pos;
     float ang = atan2(dv.y,dv.x);
@@ -107,17 +76,8 @@ void renderableSprite::render(renderOptions *options){
     setScale(vec3(1,1,1)*0.01f);
     setTexture(t);
     setColor(color);
-    //osetPosition(pos);
     drawRect(R);
 
-    /*
-    setTexturing(false);
-    setPointSize(3.f);
-    setColor(vec3(255,255,0));
-    setDepthTest(false);
-    drawPoint(pos);
-    setDepthTest(true);
-    */
 }
 
 void renderableModel::upload(){
@@ -130,17 +90,11 @@ void renderableModel::upload(){
 void renderableModel::render(renderOptions *options){
 	setPosition(pos);
 	setScale(vec3(1,1,1));
-	//setRotation(vec3(0,0,0));
 	setRotation(rot);
 	setColor(color);
-	//setRenderMode(3);			//renderable can supply render data but can't
-	//setLighting(true);		//change render options
-	if(/*texturingOn && */t){
-		//setTexturing(true);
+	if(t){
 		setTexture(t);
-	}//else{
-		//setTexturing(false);
-	//}
+	}
 	if(options && options->wireframe){
 		drawRmodel(rm_wireframe);
 	}else{
@@ -194,15 +148,6 @@ void renderablePlane::render(renderOptions *options){
 	
 	vec3 vup = normalizeSafe(cross(normal,vright));
 	if(dot(normal,vec3(1,1,1))<0){vright = -vright;}
-	//if(vright == vec3(1,0,0)){vup = vec3(0,0,1);}
-	//if(vup.z < 0){vup = -vup;}
-	//if(side < 0){vright = -vright;}
-	//if(dist<0){vright = -vright;}
-	
-	//printf("norm %s, right %s, up %s\n",toCString(normal), toCString(vright), toCString(vup));
-	//printf("rplane normal %s, camfwd %s\n",toCString(normal),toCString(camera.forward()));
-	//printf("rplane %p: vright %s, vup %s, dist %.1f\n",this,toCString(vright),toCString(vup),dist);
-	//printf("\n");
 	vec2 texPos = vec2(dot(vh,vright),-dot(vh,vup));
 	
 	setPosition(v);
@@ -234,8 +179,6 @@ void renderablePlane::render(renderOptions *options){
 
 
 void renderTick(){
-	//glClearColor(0.3,0.7,0.9,1.0);
-	//glClearColor(0.1,0.23,0.3,1.0);
 	//========================= 3D ==============================
 
 	setLayer(layer3D);
@@ -251,65 +194,25 @@ void renderTick(){
 	setTexture(m->t);
 	drawRmodel(m->rm);
 	renderComment("comment: layer3D done\n");
-	//octreeRender(octree_root);
-
-	//done in ecs_collision_system now
-	//broadphaseinfo *bp = checkCollisionBroadphase(octree_root);
-	//frameprint(fstring("bp: %p",bp));
-	//if(bp){frameprint(fstring("%d bodies, %d pairs",bp->bodies.size(),bp->pairs.size()));}
-	//broadphaseRender(bp);
-	//delete bp;
-	//test1render();
-	//octreePrint(octree_root);
-
-	//getComponent(E,position)->val = vec3(0,1,3+0.25*sin(t2));
-	//why the fuck is this in render
 
 	//========================= 2D ==============================
-	//setColor({255,255,255});
-	//drawRmodel(m->rm);
-	//printw("Hello World!");
-	//textPos = {0.0f,25.0f};//{100.0f,100.0f};
-	//renderCmd(RCMD::DEBUG,b=true);
-	//setColoring(false);
-	//setTextPos(vec2(0,0));
-	//printText("Hello World [ ijk XYZ o_O ] ");
+
 	debugFloatingText(vec3(0,0,0),"test");
 	setLayer(layer2D);
 	go2D();
 	frameprint("Hello World [ ijk XYZ o_O ] ");
 
-	//setTextPos(vec2(0,20));
 	static float fps_filtered = 60.f;
 	static float frametime_filtered = 0.015f;
 	fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
 	frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
-	//printText(string("FPS: ")+ftoa(fps_filtered,1)+", frametime: "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
 	frameprint(string("FPS (filtered): ")+ftoa(fps_filtered,1)+", frametime (filtered): "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
 	frameprint(string("FPS: ")+ftoa(fps,1)+", frametime: "+ftoa(1000*frametime,3)+"ms");
-	//setTextPos(vec2(0,40));
-	//printText(string("T1: ")+t);
-	//setTextPos(vec2(0,60));
-	//printText(string("cam speed: ")+inputController.velocity.length());
 	frameprint(fstring("T1: %d",getGameTicks()));
 	frameprint(string("cam speed: ")+length(inputController->velocity));
 	if(GUI){GUI->renderLogic();} //should be event-driven
 
-
-	// renderLayer(loadLayer); durrr, renderLayer(renderLayer)
-	// renderLayer(layer3D);
-	// renderLayer(layer2D);
-	// renderLayer(deleteLayer);
-
-	// clearLayer(loadLayer);
-	// clearLayer(layer3D);
-	// clearLayer(layer2D);
-	// clearLayer(deleteLayer);
 	renderAllLayers();
-	//loadLayer->render();
-	//layer3D->render();
-	//layer2D->render();
-	//deleteLayer->render();
 
 	loadLayer->clear();
 	loadLayer->reset();
@@ -334,36 +237,3 @@ void renderInit(){
 	initLayers();
 	printf("-------- render init done -----\n");
 }
-
-//void renderable::upload(){
-//	setLayer(layer3D);
-//	uploadRmodel(rm);
-//	if(t){uploadTexture(t);}
-//}
-
-
-// void renderTriangle(){
-	// rmodel *rm = new rmodel();
-
-	// rm->vertices->push_back(vec3(0,0,0));
-	// rm->vertices->push_back(vec3(0.5,0,0));
-	// rm->vertices->push_back(vec3(0.5,0.5,0));
-	// rm->vertices->push_back(vec3(0.5,0,0));
-	// rm->vertices->push_back(vec3(0.5,0.5,0));
-	// rm->vertices->push_back(vec3(1,0.5,0));
-
-	// rm->colors->push_back(vec3(1,0,0));
-	// rm->colors->push_back(vec3(0,1,0));
-	// rm->colors->push_back(vec3(0,0,1));
-	// rm->colors->push_back(vec3(1,0,0));
-	// rm->colors->push_back(vec3(0,1,0));
-	// rm->colors->push_back(vec3(0,0,1));
-
-	// rm->finalize();
-
-	// loadLayer.uploadRmodel(rm);
-	// layer3D.setColoring(true);
-	// layer3D.setTexturing(false);
-	// layer3D.renderRmodel(rm);
-	// deleteLayer.deleteRmodel(rm);
-// }

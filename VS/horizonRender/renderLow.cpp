@@ -162,8 +162,7 @@ void renderLowKind::parseCommand(const renderCommand3 &rcmd){
 
             case(COMMENT):
                 if(options.debug){printf("%s", rcmd.s->c_str());}
-                //delete rcmd.s; owned by command now
-                  //should have some way of adding/removing commands i.e. stream goes in, different stream comes out
+                 //should have some way of adding/removing commands i.e. stream goes in, different stream comes out
                 passCommand = false;
             break;
 

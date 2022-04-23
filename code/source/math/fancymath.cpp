@@ -11,17 +11,6 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 		results->push_back({0,0});
 	}
 	if(sort){
-		/*
-		std::sort(sorted.begin(),sorted.end(),
-			[&](int A, int B)->bool{
-				if(sizes[A].y > sizes[B].y){return true;}
-				if(sizes[A].y == sizes[B].y){
-					if(sizes[A].x > sizes[B].y){return true;}
-				}
-				return false;
-			}
-		);
-		*/
 		
 		std::sort(sorted.begin(), sorted.end(),
 			[&](int A, int B)->bool {

@@ -68,7 +68,6 @@ public:
 	vec3 forward();
 	vec3 up();
 	vec3 right();
-	//float distToZ(float dist);
 	vec3 worldToDevice(vec3 worldpos);
 	vec3 deviceToWorld(vec3 devpos);
 	vec3 deviceToScreen(vec3 devpos, z_meaning zm = Z_IS_DISTANCE);
@@ -82,7 +81,6 @@ public:
 	void setPos(vec3 newpos);
 	void setRot(vec3 newrot);
 	void setFov(float newfov);
-	//void setScale(float newscale);
 	void go2D();
 	void go3D();
 	void goPerspective();

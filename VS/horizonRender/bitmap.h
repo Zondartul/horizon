@@ -16,14 +16,7 @@ struct pixel{
 	int G;
 	int B;
 	int A;
-	// int getLuminance();
-	// int setLuminance();
-	// int getHue();
-	// int setHue();
-	// int getSaturation();
-	// int setSaturation();
-	// int getValue();
-	// int setValue();
+
 };
 ///Used to store raw image data and manipulate it.
 typedef shared_ptr<vector<unsigned char>> bytebuff;

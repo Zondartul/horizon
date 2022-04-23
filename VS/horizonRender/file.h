@@ -25,8 +25,6 @@ string getFileExtension(string filename);
 string getFilename(string filepath);
 string getFileNameNoExt(string filename);
 bool isFolder(string filename);
-//struct texture;
-//texture *getFileIcon(string S);
 
 bool fileExists(string filename);
 

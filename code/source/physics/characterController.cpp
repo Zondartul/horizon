@@ -11,16 +11,8 @@
 extern eventChannel *inputChannel;
 extern eventChannel *globalChannel;
 
-/*
-characterController::characterController():
-characterController(physbox("materials/APPULS",size,1.f,0.2f,0.0f/60.f))
-{
-	printf("charController %p constructor()\n",this);
-}
-*/
-characterController::characterController(entity *newE):E(newE){
-	//if(!E){E = physbox("materials/APPULS",size,1.f,/*0.2f,0.5f*/0.2f,0.0f);}
 
+characterController::characterController(entity *newE):E(newE){
 	if(!E){
         E = new entity();
 
@@ -37,22 +29,17 @@ characterController::characterController(entity *newE):E(newE){
         //figure out transform to bring the center of AABB to origin
         vec3 mcenter = (aabb.end+aabb.start)/2.f;
         vec3 msize = aabb.size;
-        //printf("model aabb start = %s, end = %s, size = %s\n", toCString(aabb.start), toCString(aabb.end), toCString(aabb.size));
         float targetHeight = 1.8f;
         float sizeRatio = targetHeight/msize.z;
-        //printf("sizeRatio = %f\n",sizeRatio);
         selAll.move(-mcenter);
         selAll.scale(vec3(0,0,0),sizeRatio);
 
         aabb = selAll.getAABB();
-        //aabb = AABB(-msize*sizeRatio/2.f,msize*sizeRatio/2.f);
-        //printf("final aabb start = %s, end = %s, size = %s\n", toCString(aabb.start), toCString(aabb.end), toCString(aabb.size));
         selAll.recalculateNormalsSmooth();
 
         rmpack rms = em->getRmpack();
         rmdl->rm_default = rms.rm_tris;
         rmdl->rm_wireframe = rms.rm_wire;
-        //rmdl->t = getTexture("materials/APPULS");
         rmdl->t = m->t;
         rmdl->upload();
         //------------------ collisionbody ---------------------------
@@ -87,7 +74,6 @@ characterController::~characterController(){
 	globalChannel->removeListener(this);
 }
 void characterController::onEvent(eventKind event){
-	//printf("charController %p onEvent\n",this);
 	if (event.type == EVENT_FRAME){
 		think();
 	}
@@ -96,13 +82,11 @@ void characterController::onEvent(eventKind event){
 void characterController::think(){
 	if(!E){delete this; return;}
 	auto &body = E->body;
-	float mixratio = 0.1f;// 0.5f/60.f;
+	float mixratio = 0.1f;
 
 	bool onGround = false;
 
 	collisioninfo *CI;
-	//vector<entity*> ignore;
-	//ignore.push_back(E);
 	vec3 size = E->body->getAABB().size;
 
 	CI = raytrace(body->pos, vec3(0,0,-1),{E});//&ignore);
@@ -116,27 +100,19 @@ void characterController::think(){
 		if(CI->body2){
 			if(CI->body2->E){
 				E2name = CI->body2->E->name;
-				//printf("char: CI->body2->E->name = [%s] (ok)\n", E2name.c_str());
 			}else{printf("char: no E in CI->body2\n");}
 		}else{printf("char: no body2 in CI\n");}
 		delete CI;
-		//else this should be safe (body2 always has an entity)
-		//string E2name = CI->body2->E->name;
-		
-		//frameprint(fstring("character %p to (%s): %f meters\n",this,E2name.c_str(),dist));
-		//printf("size.z/2.f = %f, dist = %f ",size.z/2.f,dist);
 		if(dist < (size.z/2.f+0.1f)){onGround = true;}
-		//printf("onGround = %d\n",onGround);
 	}else{
-		//frameprint(fstring("character %p to (null): 0 meters\n",this));
 	}
 
-	E->r->rot = toVec3Angle(slerp(toQuat(E->r->rot),toQuat(targetDir),0.1f));//mix(E->r->rot,targetDir,0.1f);
+	E->r->rot = toVec3Angle(slerp(toQuat(E->r->rot),toQuat(targetDir),0.1f));
 	if(fly){body->vel.z = mix(body->vel.z,targetVelocity.z,mixratio);}
 	else{
 		if(onGround){
-			body->vel.x = targetVelocity.x;//mix(body->vel.x,targetVelocity.x,mixratio);
-			body->vel.y = targetVelocity.y;//mix(body->vel.y,targetVelocity.y,mixratio);
+			body->vel.x = targetVelocity.x;
+			body->vel.y = targetVelocity.y;
 			if(jump){body->vel.z = targetVelocity.z;}
 			else{body->vel.z = 0;}
 		}else{
@@ -145,8 +121,4 @@ void characterController::think(){
 			body->vel.y = mix(body->vel.y,targetVelocity.y,airControl);
 		}
 	}
-	//printf("[CC %p]: \"tv = %s, dv = %s\"\n",this,toCString(targetVelocity),toCString(body->vel));
-	//setLayer(layerDebug);
-
-	//drawArrow(vec3(0,0,0),body->pos,vec3(0,0,0));
 }

@@ -10,7 +10,6 @@ class hook:public eventListener{
 	string name;
 	function<void(eventKind event)> handler;
 	void onEvent(eventKind event){
-		//printf("hook [%s] fired\n",name.c_str());
 		if(event.type == type){handler(event);}
 	}
 };

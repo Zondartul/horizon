@@ -5,7 +5,6 @@ elastic_ptr_anchor::elastic_ptr_anchor(){
 	proxy->increment();
 }
 elastic_ptr_anchor::~elastic_ptr_anchor(){
-	//printf("destructor: elastic_ptr_anchor %p with proxy %p\n",this,proxy); 
 	proxy->anchor = 0;
 	proxy->decrement();
 	proxy = 0;

@@ -8,7 +8,6 @@
 #include "GL/glew.h"
 #endif
 
-//#include "GL/gl.h" no gl.h since glew said so.
 #include "rmodel.h"
 #include "renderLayer.h"
 
@@ -24,20 +23,9 @@ struct renderStateKind{
 	vec3 camPos = vec3(0,0,0);
 	int height = 0;
 	int width = 0;
-	//bool lighting = false;
-	//vec3 sun_pos = vec3(1,1,1);
-	//vec3 sun_light_color = 0.9f*vec3(1,1,1);
-	//vec3 ambient_light_color = 0.1f*vec3(1,1,1);
-	/*
-	renderStateKind(){
-		renderMode = 1;
-		f = 0;
-		textPos = vec2(0,0);
-	}*/
 };
 
 struct GPUdriverKind {
-	//renderQueue *rqueue;
 	renderStateKind renderState;
 
 	int numVerts = 0;
@@ -60,7 +48,6 @@ struct GPUdriverKind {
 #endif
 
 	void renderLowInit();
-	//void parseQueue(renderQueue *rqueue);
 	void parseQueue(renderQueue3* rqueue);
 	void parseCommand(const renderCommand3& rcmd);
 	void projectionToCamera();
