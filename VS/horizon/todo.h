@@ -12,8 +12,4 @@ Horizon, HorizonRender, and HorizonOStools todo.
 //5. [todo] rename eventListenerList to eventChannel so it's not just a typedef
 //6. [todo] remove unused includes and lint stuff
 
-
-
-
-
 */

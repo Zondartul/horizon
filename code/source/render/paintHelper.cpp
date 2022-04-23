@@ -141,7 +141,7 @@ void paintCube(vec3 from, vec3 to){
 }
 
 void paint3d2dText(vec3 pos, string text){
-	vec3 scrpos = camera.worldToScreen(pos);
+	vec3 scrpos = g_camera.worldToScreen(pos);
 	setTextPos(vec2(scrpos.x,scrpos.y));
 	printText(text);
 }

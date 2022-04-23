@@ -11,66 +11,66 @@
 #include "paint.h"
 //maybe maps are faster, or maybe it's cold code.
 //keep vectors until next profiling.
-vector<bitmap*> bitmaps;
-vector<texture*> textures;
-vector<model*> models;
-vector<font*> fonts;
+vector<bitmap*> g_bitmaps;
+vector<texture*> g_textures;
+vector<model*> g_models;
+vector<font*> g_fonts;
 
 
 
 bitmap *getBitmap(string name){
-	for(unsigned int I = 0; I < bitmaps.size(); I++){
-		if(bitmaps[I]->name == name){return bitmaps[I];}
+	for(unsigned int I = 0; I < g_bitmaps.size(); I++){
+		if(g_bitmaps[I]->name == name){return g_bitmaps[I];}
 	}
 	string filepath = locateResource("bitmap", name.c_str());
 	bitmap *bmp = loadImage(filepath.c_str());
 	if(!bmp){error("can't load bitmap %s\n",name.c_str());}
 	bmp->name = name;
-	bitmaps.push_back(bmp);
+	g_bitmaps.push_back(bmp);
 	return bmp;
 }
 texture *getTexture(string name){
-	for(unsigned int I = 0; I < textures.size(); I++){
-		if(textures[I]->name == name){return textures[I];}
+	for(unsigned int I = 0; I < g_textures.size(); I++){
+		if(g_textures[I]->name == name){return g_textures[I];}
 	}
 	string filepath = locateResource("texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
 	if(!t){error("can't load texture %s\n",name.c_str());}
 	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
-	setLayer(loadLayer);
+	setLayer(g_loadLayer);
 	uploadTexture(t);
-	textures.push_back(t);
+	g_textures.push_back(t);
 	return t;
 }
 texture *getModelTexture(string name){
-	for(unsigned int I = 0; I < textures.size(); I++){
-		if(textures[I]->name == name){return textures[I];}
+	for(unsigned int I = 0; I < g_textures.size(); I++){
+		if(g_textures[I]->name == name){return g_textures[I];}
 	}
 	string filepath = locateResource("model_texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
 	if(!t){error("can't load texture %s\n",name.c_str());}
 	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
-	setLayer(loadLayer);
+	setLayer(g_loadLayer);
 	uploadTexture(t);
-	textures.push_back(t);
+	g_textures.push_back(t);
 	return t;
 }
 model *getModel(string name){
-	for(unsigned int I = 0; I < models.size(); I++){
-		if(models[I]->name == name){return models[I];}
+	for(unsigned int I = 0; I < g_models.size(); I++){
+		if(g_models[I]->name == name){return g_models[I];}
 	}
 	string filepath = locateResource("model", name.c_str());
 	model *m = loadModel(filepath.c_str());
 	if(!m){error("can't load model %s\n",name.c_str());}
 	m->t = getModelTexture(name);
-	models.push_back(m);
+	g_models.push_back(m);
 	return m;
 }
 font *getFont(string name){
-	for(unsigned int I = 0; I < fonts.size(); I++){
-		if(fonts[I]->name == name){return fonts[I];}
+	for(unsigned int I = 0; I < g_fonts.size(); I++){
+		if(g_fonts[I]->name == name){return g_fonts[I];}
 	}
 	char fontname[80];
 	int size = 0;
@@ -79,14 +79,14 @@ font *getFont(string name){
 	font *f = loadFont(filepath.c_str(),size);
 	f->name = name;
 	if(!f){error("can't load font %s, size %d\n",fontname, size);}
-	fonts.push_back(f);
+	g_fonts.push_back(f);
 	return f;
 }
 
-vector<bitmap*> listBitmaps(){return bitmaps;}
-vector<texture*> listTextures(){return textures;}
-vector<model*> listModels(){return models;}
-vector<font*> listFonts(){return fonts;}
+vector<bitmap*> listBitmaps(){return g_bitmaps;}
+vector<texture*> listTextures(){return g_textures;}
+vector<model*> listModels(){return g_models;}
+vector<font*> listFonts(){return g_fonts;}
 
 #include "paint.h"
 #include "main.h"
@@ -97,13 +97,13 @@ void loadAssets(){
 	getFont("cour 14");
 	setFont(getFont("calibri 18"));
 
-	m = getModel("box");
-	e_model *em_box = m->toEmodel();
+	g_m = getModel("box");
+	e_model *em_box = g_m->toEmodel();
 	e_selection e_sel = em_box->selectAll();
 	e_sel.removeDuplicates();
 	e_sel.recalculateNormalsSmooth();
-	m->rm = em_box->getRmodel();
-	m->rm->finalize();
-	uploadTexture(m->t);
-	uploadRmodel(m->rm);
+	g_m->rm = em_box->getRmodel();
+	g_m->rm->finalize();
+	uploadTexture(g_m->t);
+	uploadRmodel(g_m->rm);
 }

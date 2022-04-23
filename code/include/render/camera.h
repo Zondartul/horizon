@@ -88,7 +88,7 @@ public:
 	void screenRead(rect R, bitmap *Bmp);
 	camprojection getProjection();
 };
-extern cameraKind camera;
+extern cameraKind g_camera;
 
 class rmodel;
 rmodel *ray_shotgun(int x_steps, int y_steps);

@@ -25,15 +25,15 @@ void debuginit();
 void debugprint(const char *file, int line, const char *mode, const char *format, ...);
 extern int debug_mem_allocated;
 extern int debug_mem_watermark;
-extern bool printf_enabled;
+extern bool g_printf_enabled;
 #ifdef DEBUG_PRINT
 
 
-	#define printf(format,...)	if(printf_enabled){debugprint(__FILE__,__LINE__,"printf",format , ##__VA_ARGS__);}
-	#define info(format,...) 	if(printf_enabled){debugprint(__FILE__,__LINE__,"info",format , ##__VA_ARGS__);}
-	#define warning(format,...) if(printf_enabled){debugprint(__FILE__,__LINE__,"warning",format, ##__VA_ARGS__);}
+	#define printf(format,...)	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"printf",format , ##__VA_ARGS__);}
+	#define info(format,...) 	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"info",format , ##__VA_ARGS__);}
+	#define warning(format,...) if(g_printf_enabled){debugprint(__FILE__,__LINE__,"warning",format, ##__VA_ARGS__);}
 	#define error(format,...)	debugprint(__FILE__,__LINE__,"error",format , ##__VA_ARGS__);crash();
-	#define frame(format,...) 	if(printf_enabled){debugprint(__FILE__,__LINE__,"frame",format , ##__VA_ARGS__);}
+	#define frame(format,...) 	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"frame",format , ##__VA_ARGS__);}
 
 
 #else
@@ -64,16 +64,16 @@ struct mapped_alloc{
     bool freed;
 };
 struct mapped_alloc_key{
-	const char *alloc_file;
-	int alloc_line;
+	const char *g_alloc_file;
+	int g_alloc_line;
 	int num;
 };
 typedef vector<mapped_alloc> struct_alloc_line;
 typedef map<int,struct_alloc_line> struct_alloc_file;
-extern map<const char*,struct_alloc_file> allocation_map;
-extern map<void*, mapped_alloc_key> deallocation_map;
+extern map<const char*,struct_alloc_file> g_allocation_map;
+extern map<void*, mapped_alloc_key> g_deallocation_map;
 
-extern int total_size;
+extern int g_total_size;
 
 #ifdef DEBUG_NEW
 	#include <new>

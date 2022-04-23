@@ -14,12 +14,12 @@
 #include "timer.h"
 #include "hook.h"
 #include "geometry.h"
-extern octree_node *octree_root;
+extern octree_node *g_octree_root;
 
 //should really figure out texscale on it's own
 entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider,bool is_static){
 	entity *E = new entity();
-	E->name = string()+"box_"+(int)entities.size();
+	E->name = string()+"box_"+(int)g_entities.size();
 
 	renderableModel *r = new renderableModel();
 	e_model *em = generateBox(end-start,texscale);
@@ -70,18 +70,18 @@ entity *physplane(vec3 A, vec3 B, vec3 C, texture *t, float texscale){
 
 void wall(vec3 start, vec3 end,float scale){
 	entity *E = box(start,end,getTexture("materials/brick2"),scale);
-	E->name = string()+"wall_"+(int)entities.size();
+	E->name = string()+"wall_"+(int)g_entities.size();
 }
 
 void floor(vec3 start, vec3 end){
 	entity *E = box(start,end,getTexture("materials/brick3"),1/2.0f,true);
-	E->name = string()+"floor_"+(int)entities.size();
+	E->name = string()+"floor_"+(int)g_entities.size();
 }
 
 //creates a physbox in front of the camera
 entity *physbox(string tex, float size, float mass, float bouncyness, float friction){
 	entity *E = new entity();
-	E->name = string()+"physbox_"+(int)entities.size();
+	E->name = string()+"physbox_"+(int)g_entities.size();
 
 	renderableModel *r = new renderableModel();
 	rmpack rms = generateBox(size*vec3(1,1,1))->getRmpack();
@@ -95,8 +95,8 @@ entity *physbox(string tex, float size, float mass, float bouncyness, float fric
 	collisionbody *body = new collisionbodyAABB(rms.rm_tris->toModel()->getAABB());
 	E->body = body;
 	body->E = E;
-	body->pos = camera.pos-vec3(0.5,0.5,0.5)+camera.forward()*2.f;
-	body->vel = camera.forward()*0.2f;
+	body->pos = g_camera.pos-vec3(0.5,0.5,0.5)+g_camera.forward()*2.f;
+	body->vel = g_camera.forward()*0.2f;
 	body->gravity = vec3(0,0,-0.25);
 	body->mass = mass;
 	body->restitution = bouncyness;
@@ -161,7 +161,7 @@ void physcombo(vector<physprim> combo){
 	}
 
 	entity *E = new entity();
-	E->name = string()+"combo_"+(int)entities.size();
+	E->name = string()+"combo_"+(int)g_entities.size();
 
 	renderableMultimodel *rmm = new renderableMultimodel();
 	int j = 0;
@@ -227,8 +227,8 @@ void physcombo(vector<physprim> combo){
 	collisionbody *body = new collisionbodyAABB(aabb);
 	E->body = body;
 	body->E = E;
-	body->pos = camera.pos-vec3(0.5,0.5,0.5)+camera.forward()*2.f;
-	body->vel = camera.forward()*0.2f;
+	body->pos = g_camera.pos-vec3(0.5,0.5,0.5)+g_camera.forward()*2.f;
+	body->vel = g_camera.forward()*0.2f;
 	body->gravity = vec3(0,0,-0.25);
 	body->mass = 1.f;
 	body->restitution = 0.1f;
@@ -240,7 +240,7 @@ void physcombo(vector<physprim> combo){
 
 void phystree(float mass, float bouncyness, float friction){
 	entity *E = new entity();
-	E->name = string()+"tree_"+(int)entities.size();
+	E->name = string()+"tree_"+(int)g_entities.size();
 
 	float tr = 3.f*0.1f;
 	float th = 3.f*0.75f;
@@ -282,8 +282,8 @@ void phystree(float mass, float bouncyness, float friction){
 	collisionbody *body = new collisionbodyAABB(rms.rm_tris->toModel()->getAABB());
 	E->body = body;
 	body->E = E;
-	body->pos = camera.pos-vec3(0.5,0.5,0.5)+camera.forward()*2.f;
-	body->vel = camera.forward()*0.2f;
+	body->pos = g_camera.pos-vec3(0.5,0.5,0.5)+g_camera.forward()*2.f;
+	body->vel = g_camera.forward()*0.2f;
 	body->gravity = vec3(0,0,-0.25);
 	body->mass = mass;
 	body->restitution = bouncyness;
@@ -321,7 +321,7 @@ e_selection selectVertsCircle(vec3 pos, float dist, e_model *M,float hardness){
 void makeSheet(vec3 start, vec3 end){
 	printf("makesheet-----------\n");
 	entity *E = new entity();
-	E->name = string("sheet_")+(int)entities.size();
+	E->name = string("sheet_")+(int)g_entities.size();
 	vec3 offset = start;
 	vec3 scale = end-start;
 	printf("scale = %s\n",toCString(scale));
@@ -434,10 +434,10 @@ void makeScene2helper(vec3 start, vec3 size){
 		vec3 p2 = vec3(start.x+size.x-4,start.y+size.y-4,start.z+height);
 		if(floor){
 			entity *E = box(p1,p2,getTexture("materials/grass1"),1.f);
-			E->name = string()+"grass_"+(int)entities.size();
+			E->name = string()+"grass_"+(int)g_entities.size();
 		}else{
 			entity *E = box(p1,p2,getTexture("materials/building2"),0.1f);
-			E->name = string()+"building_"+(int)entities.size();
+			E->name = string()+"building_"+(int)g_entities.size();
 		}
 		lastEntity()->group = "scene2";
 	}
@@ -449,7 +449,7 @@ void makeScene2(vec3 offset){
 	vec3 floorheight = vec3(0,0,1);
 	entity *E = box(start-floorheight,start+size-floorheight, getTexture("materials/asphalt"),0.3f);
 	lastEntity()->group = "scene2";
-	E->name = string()+"asphalt_"+(int)entities.size();
+	E->name = string()+"asphalt_"+(int)g_entities.size();
 	makeScene2helper(start,size);
 }
 
@@ -509,9 +509,9 @@ void makeScene3(vec3 offset){
 void obelisk(){
 	entity *E = box(vec3(0,0,3),vec3(1,1,8),getTexture("materials/brick2"),0.5f);
 
-	setLayer(layer3D);
+	setLayer(g_layer3D);
 	renderLayer *pylonLayer = addNewLayer("pylon");
-	hookAdd(globalChannel, EVENT_FRAME, "movePylon",[=](eventKind event){
+	hookAdd(g_globalChannel, EVENT_FRAME, "movePylon",[=](eventKind event){
 		float t = getGameTime();
 		vec3 pos = vec3(10,10,3+7*sin(t));
 		E->setPosition(pos);
@@ -523,15 +523,15 @@ void obelisk(){
 	});
 }
 
-entity *ent_flag = 0;
-timer *timer_flag = 0;
+entity *g_ent_flag = 0;
+timer *g_timer_flag = 0;
 
 void spawnFlag(vec3 pos){
-    if(ent_flag){
-        delete timer_flag;
-        delete ent_flag;
-        timer_flag = 0;
-        ent_flag = 0;
+    if(g_ent_flag){
+        delete g_timer_flag;
+        delete g_ent_flag;
+        g_timer_flag = 0;
+        g_ent_flag = 0;
     }
 
     entity *E = new entity();
@@ -572,10 +572,10 @@ void spawnFlag(vec3 pos){
         td->offsets.push_back(rmdl->parts[I]->pos);
     }
 
-    ent_flag = E;
+    g_ent_flag = E;
 
     timer *T = new timer(0, 1, 1, 0, 0);
-    timer_flag = T;
+    g_timer_flag = T;
     T->F = [=](timer *T)
     {
             int t = getGameTicks();

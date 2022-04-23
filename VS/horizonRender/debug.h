@@ -23,9 +23,9 @@
 
 void debuginit();
 void debugprint(const char *file, int line, const char *mode, const char *format, ...);
-extern int debug_mem_allocated;
-extern int debug_mem_watermark;
-extern bool printf_enabled;
+extern int g_debug_mem_allocated;
+extern int g_debug_mem_watermark;
+extern bool g_printf_enabled;
 #ifdef DEBUG_PRINT
 
 
@@ -70,10 +70,10 @@ struct mapped_alloc_key{
 };
 typedef vector<mapped_alloc> struct_alloc_line;
 typedef map<int,struct_alloc_line> struct_alloc_file;
-extern map<const char*,struct_alloc_file> allocation_map;
-extern map<void*, mapped_alloc_key> deallocation_map;
+extern map<const char*,struct_alloc_file> g_allocation_map;
+extern map<void*, mapped_alloc_key> g_deallocation_map;
 
-extern int total_size;
+extern int g_total_size;
 
 #ifdef DEBUG_NEW
 	#include <new>

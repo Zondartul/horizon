@@ -5,7 +5,7 @@
 #include "fonts.h"
 #include "renderLayer.h"
 #include "rmodel.h"
-bool printFromTop = false;
+bool g_printFromTop = false;
 void drawRectImmediate(rect R){
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
@@ -39,7 +39,7 @@ void drawRectImmediate(rect R){
 	rm->colors->push_back(vec3(1,1,1));
 
 	rm->finalize();
-    renderLayer *oldL = currentLayer;
+    renderLayer *oldL = g_currentLayer;
     renderLayer *L = new renderLayer("drawRectImmediate",false,true);
     setLayer(L);
     uploadRmodel(rm);
@@ -54,7 +54,7 @@ void drawRectImmediate(rect R){
 //todo: make a model and stuff
 
 void printText2D(const char *text, font *F, vec2 &textPos){
-	renderLayer *oldL = currentLayer;
+	renderLayer *oldL = g_currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);
     setLayer(L);
     if(!text){return;}
@@ -64,7 +64,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 
     setTransparency(true);
 	float yoffset = 0;
-	if(printFromTop){yoffset = F->maxrect.end.y;}
+	if(g_printFromTop){yoffset = F->maxrect.end.y;}
 	float scale = 1;
 	while(C != 0){
 		if(F->charmap.count(C)){
@@ -106,7 +106,7 @@ rect preprintText2D(const char *text, font *F){
 	char C = *text;
 	float scale = 1;
 	float yoffset = 0;
-	if(printFromTop){yoffset = F->maxrect.end.y;}
+	if(g_printFromTop){yoffset = F->maxrect.end.y;}
 	while(C != 0){
 		if(F->charmap.count(C)){
 			glyph G = F->charmap[C];

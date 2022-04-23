@@ -59,7 +59,7 @@ void resolveDynamicStatic(collisioninfo *col){
 	
 	vec3 n = col->c_to_c.normal;			//normal direction
 	vec3 p = normalizeSafe(dv - project(dv,n));
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	drawArrow(body1->pos, body1->pos+p, vec3(128,0,128)); //purple arrow = velocity parralel to collision
 	float dvn = glm::dot(dv,n); 	//delta-v normal
  	float dvp = glm::dot(dv,p);		//delta-v parralel
@@ -211,7 +211,7 @@ void separateCollision(collisioninfo *col){
 	//GREEN ARROW: normal of each body
 	//BLUE ARROW: penetration vector of each body
 	//AQUA ARROW: relative velocity
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	drawPoint(col->c_to_c.pos,vec3(0,0,255));
 	vec3 O1 = body1->pos;//col->c_to_c.pos;
 	vec3 O2 = body2->pos;

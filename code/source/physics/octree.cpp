@@ -331,7 +331,7 @@ void octreeRender(octree_node *N){
 }
 
 #include "GUI.h"
-extern GUIbase* GUI;
+extern GUIbase* g_GUI;
 #include "stringUtils.h"
 
 void octreePrint(octree_node *N){
@@ -344,7 +344,7 @@ void octreePrint(octree_node *N){
 
 		lbl = new GUIlabel();
 		owin->addChild(lbl);
-		GUI->addChild(owin);
+		g_GUI->addChild(owin);
 	}
 	string text;
 	if(!N){

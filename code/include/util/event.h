@@ -80,7 +80,7 @@ class eventListener{
 	virtual void onEvent(eventKind event);
 };
 
-extern eventChannel *globalChannel;
+extern eventChannel *g_globalChannel;
 void initEvents();
 
 #endif

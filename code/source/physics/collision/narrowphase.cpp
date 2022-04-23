@@ -8,7 +8,7 @@
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
 
-string sideNames[] = {
+string g_sideNames[] = {
 	"right",
 	"left",
 	"front",
@@ -17,7 +17,7 @@ string sideNames[] = {
 	"bottom"
 };
 //when the cube is facing north, its right side is to the right (west) of its center.
-vec3 sideNormals[] = {
+vec3 g_sideNormals[] = {
 	{1,0,0},	//1: right
 	{-1,0,0},	//2: left
 	{0,1,0},	//3: front
@@ -113,7 +113,7 @@ collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAA
 		collisionpoint cpt1;
 		cpt1.pos = from+dir*tenter;
 		cpt1.depth = length(dir)*tenter;
-		cpt1.normal = sideNormals[nearestSide(aabb, cpt1.pos)];
+		cpt1.normal = g_sideNormals[nearestSide(aabb, cpt1.pos)];
 		col->c_to_c = cpt1;
 		return col;
 	}else{
@@ -202,14 +202,14 @@ collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyA
 
 #include "paint.h"
 void debugDrawAABB(AABB aabb, vec3 col){
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	setPosition(vec3(0,0,0));
 	setColor(col);
 	drawBoxWireframe(aabb);
 }
 
 void debugDrawPoint(vec3 point, vec3 col){
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	setPointSize(8.f);
 	setPosition(vec3(0,0,0));
 	setColor(col);
@@ -217,7 +217,7 @@ void debugDrawPoint(vec3 point, vec3 col){
 }
 
 void debugDrawLine(vec3 p1, vec3 p2, vec3 col){
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	setPosition(vec3(0,0,0));
 	setRotation(vec3(0,0,0));
 	setScale(vec3(1,1,1));
@@ -448,7 +448,7 @@ collisioninfo *checkCollisionPoint_AABB(collisionbody *body1, collisionbody *bod
         col->body1 = body1;
         col->body2 = body2;
         col->c_to_c.pos = body1->pos;
-		col->c_to_c.normal = sideNormals[nearestSide(aabb, body1->pos - body2->pos)];
+		col->c_to_c.normal = g_sideNormals[nearestSide(aabb, body1->pos - body2->pos)];
         return col;
     }
     return 0;
@@ -626,11 +626,11 @@ collisioninfo *collisionCheckDispatch(collisionbody *body1, collisionbody *body2
 	return 0;
 }
 
-int numCollisionPairs = 0;//entity *I, entity *J,
+int g_numCollisionPairs = 0;//entity *I, entity *J,
 void pairwiseCollisionCheck(collisionbody *body1, collisionbody *body2, collisionOptions &options){
 	if(!body1){printf("pcc: no body1\n"); return;}
 	if(!body2){printf("pcc: no body2\n"); return;}
-	numCollisionPairs++;
+	g_numCollisionPairs++;
 	if(!canCollide(body1,body2)){return;}
 	collisioninfo *col = collisionCheckDispatch(body1,body2);
 	if(!col){

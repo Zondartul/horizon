@@ -327,7 +327,7 @@ void e_selection::rebuildRmodel(){
 
 
 	for(int I = 0; I < 4; I++){rms.rm[I]->finalize();}
-	setLayer(loadLayer);
+	setLayer(g_loadLayer);
 	for(int I = 0; I < 4; I++){uploadRmodel(rms.rm[I]);}
 
 }

@@ -77,7 +77,7 @@ class map_editor_kind:public eventListener{
     }sdata;
 
 };
-extern map_editor_kind *mapeditor;
+extern map_editor_kind *g_mapeditor;
 
 void openMapEditor();
 

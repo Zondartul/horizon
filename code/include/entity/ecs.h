@@ -3,9 +3,9 @@
 #include "event.h"
 #include "render.h"
 #include "collision.h"
-extern bool physicsOn;
-extern bool collisionOn;
-extern bool texturingOn;
+extern bool g_physicsOn;
+extern bool g_collisionOn;
+extern bool g_texturingOn;
 
 class ecs_render_system_kind;
 class ecs_physics_system_kind;
@@ -16,11 +16,11 @@ struct ecs_kind{
 	ecs_physics_system_kind *physics;
 	ecs_collision_system_kind *collision;
 };
-extern ecs_kind ecs;
+extern ecs_kind g_ecs;
 
 class renderLayer;
-extern renderLayer *ecs_render_layer;
-extern renderLayer *ecs_render_layer_2d;
+extern renderLayer *g_ecs_render_layer;
+extern renderLayer *g_ecs_render_layer_2d;
 
 class ecs_render_system_kind:public eventListener{
 	public:

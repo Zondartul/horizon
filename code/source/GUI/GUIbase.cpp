@@ -167,8 +167,8 @@ void GUIbase::renderLogic(){
 	if(!parent){GUIsetFavoriteRenderOptions();}
 	for(int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
-			if(GUIoptions.push){pushRenderOptions();}
-			if(GUIoptions.debug){
+			if(g_GUIoptions.push){pushRenderOptions();}
+			if(g_GUIoptions.debug){
 				drawRectOutlineColored(children[I]->visibleArea(),{255,0,0});
 			}else{
 				setScissoring(true);
@@ -176,13 +176,13 @@ void GUIbase::renderLogic(){
 			}
 			children[I]->render();
 			children[I]->renderLogic();
-			if(GUIoptions.push){popRenderOptions();}
+			if(g_GUIoptions.push){popRenderOptions();}
 		}
 	}
 	for(int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
-			if(GUIoptions.push){pushRenderOptions();}
-			if(GUIoptions.debug){
+			if(g_GUIoptions.push){pushRenderOptions();}
+			if(g_GUIoptions.debug){
 				drawRectOutlineColored(children[I]->visibleArea(),{128,0,0});
 			}else{
 				setScissoring(true);
@@ -190,7 +190,7 @@ void GUIbase::renderLogic(){
 			}
 			children[I]->render();
 			children[I]->renderLogic();
-			if(GUIoptions.push){popRenderOptions();}
+			if(g_GUIoptions.push){popRenderOptions();}
 		}
 	}
 }

@@ -16,7 +16,7 @@
 #include "editmodel.h"
 #include "geometry.h"
 
-extern octree_node *octree_root;
+extern octree_node *g_octree_root;
 
 extern void debugDrawPoint(vec3 point, vec3 col);
 
@@ -32,7 +32,7 @@ string toString(collisionbodytype type){
 }
 
 collisionbody::collisionbody(){
-	ov = new octree_visitor(octree_root, this, pos);
+	ov = new octree_visitor(g_octree_root, this, pos);
 }
 collisionbody::~collisionbody(){
 	delete ov;
@@ -62,7 +62,7 @@ string collisionbody::name(){
 }
 void collisionbody::setAABB(AABB aabb){
     this->aabb = aabb;
-    if(rm){setLayer(deleteLayer); deleteRmodel(rm); rm = 0;}
+    if(rm){setLayer(g_deleteLayer); deleteRmodel(rm); rm = 0;}
     if(aabb.size != vec3(0,0,0)){rm = generateBox(aabb.size)->getRmodel(1);}
 }
 
@@ -561,7 +561,7 @@ collisioninfo *raytrace(vec3 from, vec3 dir,const vector<entity *> &ignore){
 	ERay->body->type = BODY_TRIGGER;
 	ERay->name = "raytrace";
 	collisioninfo *bestcol = 0;
-	for(auto I = entities.begin(); I != entities.end(); I++){
+	for(auto I = g_entities.begin(); I != g_entities.end(); I++){
 
 		bool skip = false;
 		for(auto J = ignore.begin(); J != ignore.end(); J++){

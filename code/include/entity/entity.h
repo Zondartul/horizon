@@ -17,7 +17,7 @@ struct octree_visitor;
 
 class entity;
 
-extern list<entity*> entities;
+extern list<entity*> g_entities;
 
 class entity:public elastic_ptr_anchor{
 	public:

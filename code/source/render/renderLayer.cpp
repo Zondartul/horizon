@@ -16,16 +16,16 @@ using std::string;
 #include "window.h"
 
 
-vector<renderLayer*> all_layers;
-vector<renderLayer*> layers;
+vector<renderLayer*> g_all_layers;
+vector<renderLayer*> g_layers;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
-	all_layers.push_back(this);
+	g_all_layers.push_back(this);
 }
 
 void renderLayer::render(){
-    renderLow->renderParseQueue(&queue3, this);
+    g_renderLow->renderParseQueue(&queue3, this);
 }
 
 void renderLayer::clear(){
@@ -115,7 +115,7 @@ const renderCommand3 *renderLayer::get(int num){
 }
 
 void setupLayer3D(){
-	setLayer(layer3D->resetLayer);
+	setLayer(g_layer3D->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(true);
 	setFaceCullCCW();
@@ -139,7 +139,7 @@ void setupLayer3D(){
 }
 
 void setupLayer2D(){
-	setLayer(layer2D->resetLayer);
+	setLayer(g_layer2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setRotation(vec3(0,0,0));
@@ -156,7 +156,7 @@ void setupLayer2D(){
 
 //layer for untextured lines/points
 void setupLayerDebug(){
-	setLayer(layerDebug->resetLayer);
+	setLayer(g_layerDebug->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(false);
 #endif
@@ -176,7 +176,7 @@ void setupLayerDebug(){
 }
 
 void setupLayerDebug2D(){
-	setLayer(layerDebug2D->resetLayer);
+	setLayer(g_layerDebug2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setColoring(false);

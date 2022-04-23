@@ -7,7 +7,7 @@ GUIdropdownMenu::GUIdropdownMenu(){
 	this->addChild(grid);
 	noframe = true;
 	constructed = true;
-	globalChannel->addListener(this); //for "frame"
+	g_globalChannel->addListener(this); //for "frame"
 }
 
 GUIbutton *GUIdropdownMenu::addItem(string text){

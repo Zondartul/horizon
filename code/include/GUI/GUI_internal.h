@@ -25,7 +25,7 @@ struct GUI_options_kind{
 	bool debug = false;
 	bool push = false;
 };
-extern GUI_options_kind GUIoptions;
+extern GUI_options_kind g_GUIoptions;
 void GUIsetFavoriteRenderOptions();
 
 

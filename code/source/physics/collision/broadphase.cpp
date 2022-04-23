@@ -55,7 +55,7 @@ class rec_counter{
 
 void indent(int num,char C){while(num--){printf("%c",C);}}
 
-int bprecs = 0;
+int g_bprecs = 0;
 broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
 	broadphaseinfo *bp1 = new broadphaseinfo();
 	if(!node){return bp1;}
@@ -76,7 +76,7 @@ broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
 
 broadphaseinfo *checkCollisionBroadphase(octree_node *node){
 	if(!node){return 0;}
-	rec_counter rc(&bprecs);
+	rec_counter rc(&g_bprecs);
 	//first, add bodies from this node
 	string nname = node->getName();
 	broadphaseinfo *bp1 = getBroadphaseNodeOnly(node);

@@ -3,5 +3,5 @@
 #include "renderLayer.h"
 #include "simplemath.h"
 
-bool texturingOn;
-renderLayer *currentLayer;
+bool g_texturingOn;
+renderLayer *g_currentLayer;

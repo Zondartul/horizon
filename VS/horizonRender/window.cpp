@@ -15,8 +15,8 @@
 #include "stdlib.h"
 #include "renderLow.h"
 
-int height;
-int width;
+int g_height;
+int g_width;
 
 #ifndef NO_SDL
 SDL_Window *mainWindow;
@@ -207,7 +207,7 @@ void sysMessageTick(){
 					width =  sdl_event.window.data1;
 					height = sdl_event.window.data2;
 					printf("window resized: %d x %d\n",width,height);
-                    if(renderLow){renderLow->setViewportSize(width, height);}
+                    if(g_renderLow){g_renderLow->setViewportSize(width, height);}
 					break;
 				default:
 					break;
@@ -231,6 +231,6 @@ vec2 getScreenSize(){
 #ifndef NO_SDL
 	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif
-	return {width,height};
+	return {g_width,g_height};
 }
 

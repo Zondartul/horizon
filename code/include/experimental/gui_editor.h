@@ -63,7 +63,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 };
 
 
-extern elastic_ptr<gui_editor_kind> gui_editor;
+extern elastic_ptr<gui_editor_kind> g_gui_editor;
 
 void openGuiEditor();
 

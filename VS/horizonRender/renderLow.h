@@ -26,7 +26,7 @@ public:
 	renderOptions options;
 	vector<renderOptions> optionStack;
 };
-extern DLLAPI renderLowKind *renderLow;
+extern DLLAPI renderLowKind *g_renderLow;
 
 #endif
 

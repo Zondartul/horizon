@@ -17,14 +17,14 @@
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
-extern GUIbase *GUI;
+extern GUIbase *g_GUI;
 
-int height;
-int width;
+int g_height;
+int g_width;
 
 #ifndef NO_SDL
-SDL_Window *mainWindow;
-SDL_GLContext mainContext;
+SDL_Window *g_mainWindow;
+SDL_GLContext g_mainContext;
 #endif
 
 void OpenGL_printVersion(){
@@ -70,7 +70,7 @@ void OpenGL_init(){
  
 #endif
 #ifndef NO_SDL
-    mainContext = SDL_GL_CreateContext(mainWindow);
+    g_mainContext = SDL_GL_CreateContext(g_mainWindow);
 
 	SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
 #endif
@@ -80,20 +80,20 @@ void OpenGL_init(){
 
 void OpenGL_swap(){
 #ifndef NO_SDL
-	SDL_GL_SwapWindow(mainWindow);
+	SDL_GL_SwapWindow(g_mainWindow);
 #endif
 }
 
 void window_init(int h, int w){
 #ifndef NO_SDL
-	height = h;
-	width = w;
+	g_height = h;
+	g_width = w;
 
 	int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	atexit(SDL_Quit);
 	if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
 
-	mainWindow = SDL_CreateWindow("Hai",
+	g_mainWindow = SDL_CreateWindow("Hai",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		h,w,
@@ -117,7 +117,7 @@ void sysMessageBlankTick(){
 #endif
 }
 
-map<char,char> keyboardMap = {
+map<char,char> g_keyboardMap = {
 	{'`','~'},{'1','!'},{'2','@'},{'3','#'},
 	{'4','$'},{'5','%'},{'6','^'},{'7','&'},
 	{'8','*'},{'9','('},{'0',')'},{'-','_'},
@@ -132,15 +132,15 @@ map<char,char> keyboardMap = {
 	{'b','B'},{'n','N'},{'m','M'}
 };
 
-map<string,bool> keyboardState;
+map<string,bool> g_keyboardState;
 
 eventKind keyboardTranslate(eventKind event){
 	if(event.type == EVENT_KEY_DOWN){
 		int key = event.keyboard.printchar;
 		bool shift = event.keyboard.mod & MOD_SHIFT;
 		if(shift){
-			if(keyboardMap.count(key)){
-				event.keyboard.printchar = keyboardMap[key];
+			if(g_keyboardMap.count(key)){
+				event.keyboard.printchar = g_keyboardMap[key];
 			}
 		}
 	}
@@ -164,7 +164,7 @@ void sysMessageTick(){
 			event.type = EVENT_KEY_DOWN;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
-			keyboardState[event.keyboard.key] = true;
+			g_keyboardState[event.keyboard.key] = true;
 			printf("key down: [%s]\n",event.keyboard.key);
 			event.keyboard.mod = MOD_NONE;
 			if(sdl_event.key.keysym.mod & KMOD_SHIFT){event.keyboard.mod = event.keyboard.mod | MOD_SHIFT;}
@@ -181,7 +181,7 @@ void sysMessageTick(){
 			event.type = EVENT_KEY_UP;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
-			keyboardState[event.keyboard.key] = false;
+			g_keyboardState[event.keyboard.key] = false;
 			goto dispatchEvent;
 			break;
 		case(SDL_MOUSEMOTION):
@@ -221,10 +221,10 @@ void sysMessageTick(){
 		case(SDL_WINDOWEVENT):
 			switch(sdl_event.window.event){
 				case(SDL_WINDOWEVENT_RESIZED):
-					width =  sdl_event.window.data1;
-					height = sdl_event.window.data2;
-					printf("window resized: %d x %d\n",width,height);
-                    if(renderLow){renderLow->setViewportSize(width, height);}
+					g_width =  sdl_event.window.data1;
+					g_height = sdl_event.window.data2;
+					printf("window resized: %d x %d\n",g_width,g_height);
+                    if(g_renderLow){g_renderLow->setViewportSize(g_width, g_height);}
 					break;
 				default:
 					break;
@@ -237,15 +237,15 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		inputChannel->publishEventSequentialMaskable(event);
+		g_inputChannel->publishEventSequentialMaskable(event);
 	}
 #endif
 }
 
 vec2 getScreenSize(){
 #ifndef NO_SDL
-	SDL_GetWindowSize(mainWindow, &width, &height);
+	SDL_GetWindowSize(g_mainWindow, &g_width, &g_height);
 #endif
-	return {width,height};
+	return {g_width,g_height};
 }
 

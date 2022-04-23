@@ -39,7 +39,7 @@ struct pathTaskKind{
     bool done;
 };
 
-extern pathTaskKind pathTask;
+extern pathTaskKind g_pathTask;
 
 typedef vector<nav_node*> nav_path;
 typedef nav_path empty_path;

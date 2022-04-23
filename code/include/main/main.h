@@ -3,11 +3,11 @@
 #include "octree.h"
 #include "GUI.h"
 
-extern GUIbase *GUI;
-extern octree_node *octree_root;
-extern float frametime;
-extern float fps;
-extern model *m;
+extern GUIbase *g_GUI;
+extern octree_node *g_octree_root;
+extern float g_frametime;
+extern float g_fps;
+extern model *g_m;
 
 void tick();
 void openGUI();

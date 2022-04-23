@@ -59,7 +59,7 @@ class DLLAPI renderLowKind{
     vector<renderOptions> optionStack;
 };
 
-extern DLLAPI renderLowKind *renderLow;
+extern DLLAPI renderLowKind *g_renderLow;
 
 #endif
 

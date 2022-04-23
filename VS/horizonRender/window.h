@@ -7,8 +7,8 @@ using std::map;
 using std::string;
 
 //assuming single window for now (unless headless)
-extern int width;
-extern int height;
+extern int g_width;
+extern int g_height;
 vec2 getScreenSize();
 
 void OpenGL_printVersion();
@@ -24,7 +24,7 @@ void sysMessageBlankTick();
 //sends messages to inputController
 void sysMessageTick();
 
-extern map<string,bool> keyboardState;
+extern map<string,bool> g_keyboardState;
 
 
 #endif

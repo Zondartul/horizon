@@ -10,26 +10,26 @@
 #include <string>
 using std::vector;
 using std::string;
-extern eventChannel *inputChannel;
-extern eventChannel *globalChannel;
+extern eventChannel *g_inputChannel;
+extern eventChannel *g_globalChannel;
 #include "stringUtils.h"
 
 //------------------ dropDownTerminal ------------------------
 
 dropDownTerminal::dropDownTerminal():terminalOn(false){
 	layer = new renderLayer("console.terminal");
-	layer->resetLayer = duplicateLayer(layer2D->resetLayer);
+	layer->resetLayer = duplicateLayer(g_layer2D->resetLayer);
 	layer->resetLayer->name = "console.terminal.reset";
 	layer->resetLayer->special = true;
-	addLayer(layer2D,layer);
-	inputChannel->addListenerFront(this);
-	globalChannel->addListenerFront(this);
+	addLayer(g_layer2D,layer);
+	g_inputChannel->addListenerFront(this);
+	g_globalChannel->addListenerFront(this);
 }
 
 dropDownTerminal::~dropDownTerminal(){
 	removeLayer(layer);
-	inputChannel->removeListener(this);
-	globalChannel->removeListener(this);
+	g_inputChannel->removeListener(this);
+	g_globalChannel->removeListener(this);
 }
 
 
@@ -74,7 +74,7 @@ void dropDownTerminal::onEvent(eventKind event){
 			if(string("`") == K){
 				event.maskEvent();
 				terminalOn = true;
-				inputController->disableMouseCapture();
+				g_inputController->disableMouseCapture();
 				return;
 			}
 		}
@@ -148,7 +148,7 @@ void consoleKind::print(string text){
 	if(term){term->print(text);}
 }
 
-consoleKind *console;
+consoleKind *g_console;
 
 //--------------------- global --------------------------------------------
 
@@ -156,6 +156,6 @@ void cprint(const char *format, ...){
 	string str;
 	printfify(format,str);
 	printf("cprint([%s])\n",str.c_str());
-	console->print(str);
+	g_console->print(str);
 }
 

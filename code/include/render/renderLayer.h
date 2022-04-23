@@ -38,8 +38,8 @@ class renderLayer{
 };
 string toString(renderLayer *l);
 
-extern vector<renderLayer*> all_layers;		//all layers (even those not in use)
-extern vector<renderLayer*> layers;			//main rendering sequence
+extern vector<renderLayer*> g_all_layers;		//all layers (even those not in use)
+extern vector<renderLayer*> g_layers;			//main rendering sequence
 
 void setupLayer3D();
 void setupLayer2D();

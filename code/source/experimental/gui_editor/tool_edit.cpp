@@ -127,7 +127,7 @@ void gui_editor_tool_edit::lup(){
 }
 
 
-int numDDMs = 0;
+int g_numDDMs = 0;
 
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
@@ -157,7 +157,7 @@ void gui_editor_tool_edit::rup(){
 		GUIdropdownMenu *ddm = new GUIdropdownMenu();
 		elDDM = ddm;
 		
-		ddm->name = string()+"menu"+toString(numDDMs++);
+		ddm->name = string()+"menu"+toString(g_numDDMs++);
 		
 		ddm->addItem("properties",[=](){
 			if(!subject){return;}
@@ -179,7 +179,7 @@ void gui_editor_tool_edit::rup(){
 				if(!subj){printf("no subject\n");}else{printf("has subject(%p)\n",subj);}
 				subj->setProperty(key,val);
 			});
-			GUI->addChild(table);
+			g_GUI->addChild(table);
 			ddm->close();
 		});
 		//ddm->addItem("hello");
@@ -228,7 +228,7 @@ void gui_editor_tool_edit::rup(){
 		//ddm->addItem("test2");
 		
 		ddm->moveTo(mousePos);
-		GUI->addChild(ddm);
+		g_GUI->addChild(ddm);
 		/*
 		vec2 mousePos = getMousePos();
 		
@@ -306,7 +306,3 @@ void gui_editor_tool_edit::scan(){
 		}break;
 	}
 }
-
-//void gui_editor_tool_edit::cleanup(){
-//	
-//}

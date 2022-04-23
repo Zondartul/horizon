@@ -16,16 +16,16 @@ using std::string;
 #include "window.h"
 
 
-vector<renderLayer*> all_layers;
-vector<renderLayer*> layers;
+vector<renderLayer*> g_all_layers;
+vector<renderLayer*> g_layers;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
-	all_layers.push_back(this);
+	g_all_layers.push_back(this);
 }
 
 void renderLayer::render(){
-    renderLow->renderParseQueue(&queue3, this);
+    g_renderLow->renderParseQueue(&queue3, this);
 }
 
 void renderLayer::clear(){

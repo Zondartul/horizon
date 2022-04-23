@@ -52,7 +52,7 @@ class editor2Kind:public eventListener{
 	vec2 boxEnd;
 	void boxSelect(vec2 boxStart, vec2 boxEnd);
 };
-editor2Kind *editor2;
+editor2Kind *g_editor2;
 
 void editor2Kind::setupLayers(){
 	printf("editor.setupLayers()\n");
@@ -60,9 +60,9 @@ void editor2Kind::setupLayers(){
 	layers.l3Dimmediate = new renderLayer("editor.l3Dimmediate");
 	layers.l2D 			= new renderLayer("editor.l2D");
 	layers.l2Dimmediate = new renderLayer("editor.l2Dimmedate");
-	addLayer(layer3D,		layers.l3D);
+	addLayer(g_layer3D,		layers.l3D);
 	addLayer(layers.l3D,	layers.l3Dimmediate);
-	addLayer(layer2D,		layers.l2D);
+	addLayer(g_layer2D,		layers.l2D);
 	addLayer(layers.l2D,	layers.l2Dimmediate);
 }
 
@@ -161,15 +161,15 @@ void editor2Kind::constructTestModel(){
 }
 
 void openEditor2(){
-	editor2 = new editor2Kind();
+	g_editor2 = new editor2Kind();
 }
 
 //constructor
 editor2Kind::editor2Kind():sel(&EM){
 	printf("editor.editorKind()\n");
-	inputChannel->addListener(this);
-	inputChannel->moveListenerToFront(this);
-	globalChannel->addListener(this);
+	g_inputChannel->addListener(this);
+	g_inputChannel->moveListenerToFront(this);
+	g_globalChannel->addListener(this);
 	setupLayers();
 	constructTestModel();
 	redraw();
@@ -178,11 +178,11 @@ editor2Kind::editor2Kind():sel(&EM){
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 	printf("editor.boxSelect()\n");
 	sel.clear();
-	camera.go3D();
+	g_camera.go3D();
 	string S1 = string("boxStart: ")+toString(boxStart)+"boxEnd: "+toString(boxEnd);
 	for(auto I = EM.verts.begin(); I != EM.verts.end(); I++){
 		vec3 vw = (*I)->pos;
-		vec3 vs = camera.worldToScreen(vw);
+		vec3 vs = g_camera.worldToScreen(vw);
 		vec2 vsi = {vs.x,vs.y};
 		if(rect(boxStart,boxEnd).repair().contains(vsi)){
 			sel.verts.push_back(*I);
@@ -215,19 +215,19 @@ void editor2Kind::redraw(){
 }
 
 
-static vec3 plane[3] = {vec3(0,0,0),vec3(1,0,0),vec3(0,1,0)};
+static vec3 g_plane[3] = {vec3(0,0,0),vec3(1,0,0),vec3(0,1,0)};
 
 void editor2Kind::think(){
 	//logic
 		//point at plane the user is pointing at
 		vec3 p1;
-		vec3 dir = camera.getMouseDir();
-		bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1);
+		vec3 dir = g_camera.getMouseDir();
+		bool has_hit = ray_plane_intersection(g_camera.pos,dir,g_plane[0],g_plane[1],g_plane[2],&p1);
 		float dist1 = length(p1-lastPoint);																	//point to last point distance
-		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				//screen ray to last point distance
-		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				//plane to last point distance
+		float dist2 = point_line_distance(g_camera.pos,g_camera.pos+dir,lastPoint);				//screen ray to last point distance
+		float dist3 = point_plane_distance(g_plane[0],g_plane[1],g_plane[2],g_camera.pos);				//plane to last point distance
 		frameprint(has_hit? string("dist: ")+toString(dist1)+", dist2: "+toString(dist2) : "no hit");
-		frameprint(string("cam.z: ")+toString(camera.pos.z)+", dist3: "+toString(dist3));
+		frameprint(string("cam.z: ")+toString(g_camera.pos.z)+", dist3: "+toString(dist3));
 		bool lastPointSelected = (dist2 < 0.05f);															//selected if screen ray within distance (sphere test)
 		//box select stuff
 		if(hasBox){boxEnd = getMousePos();}
@@ -292,12 +292,12 @@ void editor2Kind::onEvent(eventKind event){
 					boxStart = getMousePos();
 				}else{
 					setLayer(layers.l3D);
-					vec3 dir = camera.getMouseDir();
+					vec3 dir = g_camera.getMouseDir();
 					vec3 p1;
-					if(ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1)){
+					if(ray_plane_intersection(g_camera.pos,dir,g_plane[0],g_plane[1],g_plane[2],&p1)){
 						hasLastPoint = true;
 						lastPoint = p1;
-						drawLine(camera.pos,p1,{0,255,0});
+						drawLine(g_camera.pos,p1,{0,255,0});
 						drawPoint(p1,{0,255,0});
 					}else{
 						printf("no hit\n");

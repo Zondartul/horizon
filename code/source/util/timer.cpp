@@ -14,7 +14,7 @@ using std::list; //pointers stay valid
 using std::stringstream;
 #include <iomanip>
 
-list<timer*> timers;
+list<timer*> g_timers;
 
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
 	this->ticks_max = ticks_max;
@@ -24,11 +24,11 @@ timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, b
 	this->selfdestruct = selfdestruct;
 	this->F = F;
 
-	timers.push_back(this);
+	g_timers.push_back(this);
 }
 
 timer::~timer(){
-	for(auto I = timers.begin(); I != timers.end();){
+	for(auto I = g_timers.begin(); I != g_timers.end();){
 		if(*I == this){ *I = 0; I++;}else{I++;}
 	}
 }
@@ -52,21 +52,21 @@ void simpletimer(function<void(timer *T)> F, int ticks_max){
 }
 
 void timersTick(){
-	for(auto I = timers.begin(); I != timers.end();){
+	for(auto I = g_timers.begin(); I != g_timers.end();){
         if(*I){
             (*I)->tick();
             I++;
 		}else{
-            I = timers.erase(I);
+            I = g_timers.erase(I);
 		}
 	}
 }
 
-int t = 0;		//game time in ticks
-float t2 = 0;	//game time in seconds
+int g_t = 0;		//game time in ticks
+float g_t2 = 0;	//game time in seconds
 
-int getGameTicks(){return t;}
-float getGameTime(){return t2;}
+int getGameTicks(){return g_t;}
+float getGameTime(){return g_t2;}
 float getRealTime(){
 #ifndef NO_SDL
 	return 0.001f*SDL_GetTicks();
@@ -106,9 +106,9 @@ string getCalendarDateStr(){
 }
 
 void initTimers(){
-	timer *T1 = new timer([&](timer *T){t++;},1,1);
-	timer *T2 = new timer([&](timer *T){t2+=1/60.f;},1,1);
-	hookAdd(globalChannel,EVENT_FRAME,"timers",
+	timer *T1 = new timer([&](timer *T){g_t++;},1,1);
+	timer *T2 = new timer([&](timer *T){g_t2+=1/60.f;},1,1);
+	hookAdd(g_globalChannel,EVENT_FRAME,"timers",
 		[](eventKind e){
 			timersTick();
 		}

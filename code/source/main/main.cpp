@@ -84,28 +84,28 @@
 
 
 
-model *m;
-GUIbase *GUI = 0;
-octree_node *octree_root;
-float frametime = 0;
-float fps = 0;
-bool gamePaused = false;
-bool printf_enabled = true;
-void *mem1 = 0;
-void *mem2 = 0;
+model *g_m;
+GUIbase *g_GUI = 0;
+octree_node *g_octree_root;
+float g_frametime = 0;
+float g_fps = 0;
+bool g_gamePaused = false;
+bool g_printf_enabled = true;
+void *g_mem1 = 0;
+void *g_mem2 = 0;
 
-uint32_t audio_len = 0;
-uint8_t *audio_pos = 0;
+uint32_t g_audio_len = 0;
+uint8_t *g_audio_pos = 0;
 //Through this function, SDL requests the user to copy "len" bytes of audio data into "stream".
 void my_audio_callback(void *userdata, uint8_t *stream, int len){
-    if(audio_len == 0){return;}
+    if(g_audio_len == 0){return;}
 
-    len = min(audio_len, len);
+    len = min(g_audio_len, len);
 #ifndef NO_SDL
-    SDL_memcpy(stream, audio_pos, len);
+    SDL_memcpy(stream, g_audio_pos, len);
 #endif
-    audio_pos += len;
-    audio_len -= len;
+    g_audio_pos += len;
+    g_audio_len -= len;
 }
 
 int main(int argc, char **argv){
@@ -119,28 +119,28 @@ int main(int argc, char **argv){
 	renderInit();
 	loadAssets();
 
-	octree_root = new octree_node();
+	g_octree_root = new octree_node();
 	float worldsize = 500;
-	octree_root->volume = AABB(-vec3(0.5,0.5,0.5)*worldsize,vec3(0.5,0.5,0.5)*worldsize);
-	camera.setPos({-0.5,0,0});
+	g_octree_root->volume = AABB(-vec3(0.5,0.5,0.5)*worldsize,vec3(0.5,0.5,0.5)*worldsize);
+	g_camera.setPos({-0.5,0,0});
 	
 	setbuf(stdout,0);
 
 	setupLayers();
 	addKeybinds();
 
-	console = new consoleKind();
+	g_console = new consoleKind();
 	addConsoleCommands();
 
 	openGUI();
 	setFramePrinter(new frameprinter()); //it's annoying
 
-	ecs.physics = new ecs_physics_system_kind();
-	ecs.collision = new ecs_collision_system_kind();
-	ecs.render = new ecs_render_system_kind();
-	physicsOn = true;
-	collisionOn = true;
-	texturingOn = true;
+	g_ecs.physics = new ecs_physics_system_kind();
+	g_ecs.collision = new ecs_collision_system_kind();
+	g_ecs.render = new ecs_render_system_kind();
+	g_physicsOn = true;
+	g_collisionOn = true;
+	g_texturingOn = true;
 
 	printf("initializing sound\n");
 
@@ -157,8 +157,8 @@ int main(int argc, char **argv){
 	wav_spec.callback = my_audio_callback;
 	wav_spec.userdata = 0;
 
-	audio_pos = wav_buffer;
-	audio_len = wav_length;
+	g_audio_pos = wav_buffer;
+	g_audio_len = wav_length;
 
 
 	if(SDL_OpenAudio(&wav_spec, 0) < 0){
@@ -174,55 +174,55 @@ int main(int argc, char **argv){
 	printf("-------- frames begin ----------\n");
 
 	printf("\n");
-	mem1 = malloc(1);
+	g_mem1 = malloc(1);
 	while(1){
 
-		profile(tick(),frametime);
-		if(frametime){fps = 1.0f/frametime;}
+		profile(tick(),g_frametime);
+		if(g_frametime){g_fps = 1.0f/g_frametime;}
 	}
 	return 0;
 }
 
-float eventTime;
-float renderTime;
-float sysmsgTime;
+float g_eventTime;
+float g_renderTime;
+float g_sysmsgTime;
 
-float eventTimeFlt = 0;
-float renderTimeFlt = 0;
-float sysmsgTimeFlt = 0;
-float frametimeFlt = 1.f;
+float g_eventTimeFlt = 0;
+float g_renderTimeFlt = 0;
+float g_sysmsgTimeFlt = 0;
+float g_frametimeFlt = 1.f;
 void tick(){
 		eventKind e1; e1.type = EVENT_TICK;
-		globalChannel->publishEvent(e1);
+		g_globalChannel->publishEvent(e1);
 		
 		eventKind e2; e2.type = EVENT_FRAME;
-		profile(globalChannel->publishEvent(e2),eventTime);
+		profile(g_globalChannel->publishEvent(e2),g_eventTime);
 	
 		eventKind e3; e3.type = EVENT_CLEANUP;
-		globalChannel->publishEvent(e3);
+		g_globalChannel->publishEvent(e3);
 	
-		frameprint(string()+"entities: "+(int)entities.size());
-	profile(renderTick(),renderTime);
-	profile(sysMessageTick(),sysmsgTime);
+		frameprint(string()+"entities: "+(int)g_entities.size());
+	profile(renderTick(),g_renderTime);
+	profile(sysMessageTick(),g_sysmsgTime);
     static int i = 0;
     i++;
-    if(i == 20){i = 0; eventTimeFlt = eventTime; renderTimeFlt = renderTime; sysmsgTimeFlt = sysmsgTime; frametimeFlt = frametime;}
+    if(i == 20){i = 0; g_eventTimeFlt = g_eventTime; g_renderTimeFlt = g_renderTime; g_sysmsgTimeFlt = g_sysmsgTime; g_frametimeFlt = g_frametime;}
 
-	frameprint(fstring("time.event: %.1f%%",eventTimeFlt*100.f/frametimeFlt));
-	frameprint(fstring("time.render: %.1f%%",renderTimeFlt*100.f/frametimeFlt));
-	frameprint(fstring("time.sysmsg: %.1f%%",sysmsgTimeFlt*100.f/frametimeFlt));
-	mem2 = malloc(1);
-	uint64_t memdiff = (uint64_t)mem2 - (uint64_t)mem1;
+	frameprint(fstring("time.event: %.1f%%",g_eventTimeFlt*100.f/g_frametimeFlt));
+	frameprint(fstring("time.render: %.1f%%",g_renderTimeFlt*100.f/g_frametimeFlt));
+	frameprint(fstring("time.sysmsg: %.1f%%",g_sysmsgTimeFlt*100.f/g_frametimeFlt));
+	g_mem2 = malloc(1);
+	uint64_t memdiff = (uint64_t)g_mem2 - (uint64_t)g_mem1;
 	frameprint(fstring("total RAM use: %1.6f MB\n",((float)memdiff)/1000000.f));
-	free(mem2);
+	free(g_mem2);
 	
 }
 
-renderLayer *layerGUI;
+renderLayer *g_layerGUI;
 void openGUI(){
-	layerGUI = new renderLayer("GUI.layerGUI");
-	addLayer(layer2D,layerGUI);
-	GUI = new GUIbase();
-	inputChannel->addListenerFront(GUI);
-	globalChannel->addListenerFront(GUI);
+	g_layerGUI = new renderLayer("GUI.layerGUI");
+	addLayer(g_layer2D,g_layerGUI);
+	g_GUI = new GUIbase();
+	g_inputChannel->addListenerFront(g_GUI);
+	g_globalChannel->addListenerFront(g_GUI);
 }

@@ -1,42 +1,161 @@
-[0.510]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:34:		OpenGL version: (null), profile: CORE
-[0.511]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:105:		-------- window init done ---------
-[0.511]:	f0:	D:\Stride\shared\horizon\code\source\input\input.cpp:12:		-------- input init done ----------
-[0.514]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:24:		-------- FreeType init done -------
-[0.875]:	f0:	D:\Stride\shared\horizon\code\source\render\render.cpp:238:		-------- render init done -----
-[0.912]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		font "cour" found
-[0.914]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:40:		font opened: [D:\Stride\shared\horizon\bin\../resource/fonts/cour.ttf]
-[0.924]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
+[0.314]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:34:		OpenGL version: (null), profile: CORE
+[0.315]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:105:		-------- window init done ---------
+[0.317]:	f0:	D:\Stride\shared\horizon\code\source\input\input.cpp:12:		-------- input init done ----------
+[0.319]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:24:		-------- FreeType init done -------
+[0.395]:	f0:	D:\Stride\shared\horizon\code\source\render\render.cpp:238:		-------- render init done -----
+[0.396]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		font "cour" found
+[0.398]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:40:		font opened: [D:\Stride\shared\horizon\bin\../resource/fonts/cour.ttf]
+[0.407]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
 width = 0, height = 1080033280 / 0 needed
-[0.925]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
+[0.409]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
 width = 0, height = 1080033280 / 0 needed
-[0.940]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		font "calibri" found
-[0.942]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:40:		font opened: [D:\Stride\shared\horizon\bin\../resource/fonts/calibri.ttf]
-[0.953]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
+[0.417]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		font "calibri" found
+[0.418]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:40:		font opened: [D:\Stride\shared\horizon\bin\../resource/fonts/calibri.ttf]
+[0.428]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
 width = 0, height = 1080033280 / 0 needed
-[0.955]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
+[0.432]:	f0:	D:\Stride\shared\horizon\code\source\math\fancymath.cpp:64:		2D packing complete: 95/95 items packed
 width = 0, height = 1080033280 / 0 needed
-[1.47]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		model "box" found
-[1.64]:	f0:	D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp:51:		loadModel: error: WARN: Material file [ boxsmall.mtl ] not found. Created a default material.
-[1.65]:	f0:	D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp:73:		model loaded: 252 triangles, 504 vertices (34% reuse)
-[1.142]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		model_texture "box" found
-[1.199]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:53:		texture box loaded
-[1.548]:	f0:	D:\Stride\shared\horizon\code\source\generators\editmodel.cpp:152:		remove duplicates. Before: 756 verts
-[1.556]:	f0:	D:\Stride\shared\horizon\code\source\generators\editmodel.cpp:189:		After: 128 verts
-[1.566]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:145:		initializing sound
-[1.628]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:155:		loaded ok
-[1.644]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:156:		wav_spec:
+[0.442]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		model "box" found
+[0.459]:	f0:	D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp:51:		loadModel: error: WARN: Material file [ boxsmall.mtl ] not found. Created a default material.
+[0.460]:	f0:	D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp:73:		model loaded: 252 triangles, 504 vertices (34% reuse)
+[0.461]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		model_texture "box" found
+[0.469]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:53:		texture box loaded
+[0.780]:	f0:	D:\Stride\shared\horizon\code\source\generators\editmodel.cpp:152:		remove duplicates. Before: 756 verts
+[0.788]:	f0:	D:\Stride\shared\horizon\code\source\generators\editmodel.cpp:189:		After: 128 verts
+[0.800]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:145:		initializing sound
+[0.801]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:155:		loaded ok
+[0.802]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:156:		wav_spec:
 chnnales: 1
 freq: 44100
 padding: 0
 samples: 4096
 silence: 0
 size: 0
-[1.660]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:168:		play
-[1.832]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/brick3" found
-[1.839]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/brick3 loaded
-[1.871]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/brick2" found
-[1.876]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/brick2 loaded
-[2.2]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/grass1" found
-[2.9]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/grass1 loaded
-[2.11]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:174:		-------- frames begin ----------
-[2.12]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:176:		
+[0.830]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:168:		play
+[0.945]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/brick3" found
+[1.62]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/brick3 loaded
+[1.80]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/brick2" found
+[1.90]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/brick2 loaded
+[1.358]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/grass1" found
+[1.378]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/grass1 loaded
+[1.398]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:174:		-------- frames begin ----------
+[1.421]:	f0:	D:\Stride\shared\horizon\code\source\main\main.cpp:176:		
+[2.956]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [E]
+[2.958]:	f0:	D:\Stride\shared\horizon\code\source\input\inputController.cpp:125:		mouse captured
+[3.71]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[3.337]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [Space]
+[3.454]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [A]
+[3.654]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.160]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.160]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.193]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.226]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.266]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.303]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.344]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[4.345]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [F]
+[4.345]:	f0:	D:\Stride\shared\horizon\code\source\input\inputController.cpp:171:		[F][4.346]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:158:		cprint([user:> physbox
+])
+[4.347]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:40:		 strs[0] = [user:> physbox]
+[4.348]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:40:		 strs[1] = []
+[4.349]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:42:		
+[4.349]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:134:		parsing [physbox]
+[5.124]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [G]
+[5.125]:	f0:	D:\Stride\shared\horizon\code\source\input\inputController.cpp:171:		[G][5.125]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:158:		cprint([user:> physbox 1
+])
+[5.126]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:40:		 strs[0] = [user:> physbox 1]
+[5.127]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:40:		 strs[1] = []
+[5.128]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:42:		
+[5.128]:	f0:	D:\Stride\shared\horizon\code\source\gadgets\console.cpp:134:		parsing [physbox 1]
+[5.129]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:153:		combo.size = 9
+[5.130]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[0]:
+[5.130]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.131]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/wood5]
+[5.132]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(0.500,0.500,0.500)]
+[5.133]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {1.100000,1.100000,1.100000,1.000000}
+[5.135]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[1]:
+[5.135]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.136]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.137]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(0.000,0.000,0.000)]
+[5.138]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.140]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[2]:
+[5.140]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.141]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.142]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(1.000,0.000,0.000)]
+[5.144]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.149]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[3]:
+[5.149]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.150]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.151]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(0.000,1.000,0.000)]
+[5.153]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.155]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[4]:
+[5.156]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.156]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.157]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(1.000,1.000,0.000)]
+[5.158]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.160]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[5]:
+[5.161]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.162]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.163]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(0.000,0.000,1.000)]
+[5.164]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.166]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[6]:
+[5.167]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.167]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.168]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(1.000,0.000,1.000)]
+[5.169]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.171]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[7]:
+[5.171]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.172]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.173]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(0.000,1.000,1.000)]
+[5.174]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.176]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:155:		combo[8]:
+[5.176]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:157:			type = 0
+[5.177]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:158:			texname = [materials/steel]
+[5.178]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:159:			pos = [(1.000,1.000,1.000)]
+[5.179]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:160:			args = {0.300000,0.300000,0.300000,1.000000}
+[5.181]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 0
+[5.182]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.183]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.246]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/wood5" found
+[5.269]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/wood5 loaded
+[5.271]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 1
+[5.271]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.272]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.319]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:54:		texture "materials/steel" found
+[5.352]:	f0:	D:\Stride\shared\horizon\code\source\resource\resource.cpp:39:		texture materials/steel loaded
+[5.354]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 2
+[5.354]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.355]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.362]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 3
+[5.363]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.363]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.370]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 4
+[5.371]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.372]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.379]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 5
+[5.379]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.380]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.387]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 6
+[5.387]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.388]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.395]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 7
+[5.395]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.396]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.403]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:170:		j = 8
+[5.403]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:174:		deref
+[5.404]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:176:		switch
+[5.411]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:214:		aabb[0] = (-0.050,-0.050,-0.050 + 1.100,1.100,1.100)
+[5.413]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[1] = (-0.150,-0.150,-0.150 + 0.300,0.300,0.300)
+[5.416]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[2] = (0.850,-0.150,-0.150 + 0.300,0.300,0.300)
+[5.418]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[3] = (-0.150,0.850,0.850 + 0.300,0.300,0.300)
+[5.419]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[4] = (0.850,0.850,0.850 + 0.300,0.300,0.300)
+[5.421]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[5] = (-0.150,-0.150,-0.150 + 0.300,0.300,0.300)
+[5.423]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[6] = (0.850,-0.150,-0.150 + 0.300,0.300,0.300)
+[5.425]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[7] = (-0.150,0.850,0.850 + 0.300,0.300,0.300)
+[5.427]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:220:		aabb[8] = (0.850,0.850,0.850 + 0.300,0.300,0.300)
+[5.429]:	f0:	D:\Stride\shared\horizon\code\source\generators\physbox.cpp:225:		aabb final = (-0.150,-0.150,-0.150 + 1.300,1.300,1.300)
+[6.747]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [T]
+[7.312]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [S]
+[7.495]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [A]
+[7.869]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [Space]
+[8.823]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:168:		key down: [Escape]

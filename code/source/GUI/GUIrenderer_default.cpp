@@ -17,7 +17,7 @@ render(GUIbase *el, string type){
 	if(type == "GUbase"){}
 	else if(type == "GUIbutton"){
 		GUIbutton *elBtn = dynamic_cast<GUIbutton*>(el); if(!elBtn){return;}
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		vec3 oldColor = elBtn->bgColor;
 		if(!el->mouseover){elBtn->pressed = false;}
 		if(el->mouseover){setAlpha(196); elBtn->bgColor = elBtn->hoverColor;}
@@ -27,20 +27,20 @@ render(GUIbase *el, string type){
 		
 		if(elBtn->image){render(el, "GUIimage");}
 		render(el, "GUIlabel");
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIframe"){
 		GUIframe *elFrame = dynamic_cast<GUIframe*>(el); if(!elFrame){return;}
 		if(!elFrame->noframe){
 			renderComment(fstring("frame %p begin\n",this));
-			if(GUIoptions.push){pushRenderOptions();}
+			if(g_GUIoptions.push){pushRenderOptions();}
 			setColor(elFrame->bgColor);
 			setAlpha(128);
 			drawRect(el->worldArea());
 			setAlpha(255);
 			setColor(elFrame->borderColor);
 			drawRectOutline(el->worldArea());
-			if(GUIoptions.push){popRenderOptions();}
+			if(g_GUIoptions.push){popRenderOptions();}
 			renderComment(fstring("frame %p end\n",this));
 		}
 	}
@@ -54,17 +54,17 @@ render(GUIbase *el, string type){
 	}
 	else if(type == "GUIimage"){
 		GUIimage *elImg = dynamic_cast<GUIimage*>(el); if(!elImg){return;}
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		render(el, "GUIframe");
 		setColor({255,255,255});
 		setTexture(elImg->image);
 		setTexturing(true);
 		drawRect(el->worldArea());
 		setTexturing(false);
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIlabel"){
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		GUIlabel *elLbl = dynamic_cast<GUIlabel*>(el); if(!elLbl){return;}
 		setColor(elLbl->textColor);
 		setFont(elLbl->textfont);
@@ -73,10 +73,10 @@ render(GUIbase *el, string type){
 		setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
 		setScissor(el->visibleArea());
 		printw("%s",elLbl->text.c_str());
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIscrollbarBar"){
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		GUIscrollbarBar *elScbb = dynamic_cast<GUIscrollbarBar*>(el); if(!elScbb){return;}
 		vec2 pos = getMousePos();		
 		vec3 oldColor = elScbb->bgColor;
@@ -84,11 +84,11 @@ render(GUIbase *el, string type){
 		if(elScbb->pressed){setAlpha(255); elScbb->bgColor = elScbb->pressedColor;}
 		render(el, "GUIframe");
 		elScbb->bgColor = oldColor;
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIscrollbar"){
 		GUIscrollbar *elScb = dynamic_cast<GUIscrollbar*>(el); if(!elScb){return;}
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		render(el, "GUIframe");
 		setAlpha(128);
 		setColor(elScb->bgColor*0.9);
@@ -107,11 +107,11 @@ render(GUIbase *el, string type){
 			setColor(vec3(0,0,64));
 			drawRectOutline(elScb->worldArea());
 		}
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUItextEntry"){
 		GUItextEntry *elTE = dynamic_cast<GUItextEntry*>(el); if(!elTE){return;}
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		vec3 oldColor1 = elTE->bgColor;
 		vec3 oldColor2 = elTE->hoverColor;
 		if(elTE->hasfocus){elTE->hoverColor = elTE->bgColor = elTE->focusedColor;}
@@ -148,16 +148,16 @@ render(GUIbase *el, string type){
 		}
 		elTE->bgColor = oldColor1;
 		elTE->hoverColor = oldColor2;
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIwindow"){
 		GUIwindow *elWin = dynamic_cast<GUIwindow*>(el); if(!elWin){return;}
-		if(GUIoptions.push){pushRenderOptions();}
+		if(g_GUIoptions.push){pushRenderOptions();}
 		vec2 pos = getMousePos();
 		setColor(elWin->borderColor);
 		drawRect(elWin->thisToWorld(rect(el->area.size.x,23)));
 		render(el, "GUIframe");
-		if(GUIoptions.push){popRenderOptions();}
+		if(g_GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIselectionGroup"){
 		GUIselectionGroup *elSG = dynamic_cast<GUIselectionGroup*>(el); if(!elSG){return;}

@@ -2,16 +2,16 @@
 #include "inputController.h"
 #include "simplemath.h"
 
-extern eventChannel *inputChannel;
-extern eventChannel *globalChannel;
+extern eventChannel *g_inputChannel;
+extern eventChannel *g_globalChannel;
 AIcontroller::AIcontroller(characterController *character):character(character){
 	if(!character){error("AIcontroller needs a character\n");}
-	inputChannel->addListener(this);
-	globalChannel->addListenerFront(this);
+	g_inputChannel->addListener(this);
+	g_globalChannel->addListenerFront(this);
 }
 AIcontroller::~AIcontroller(){
-	inputChannel->removeListener(this);
-	globalChannel->removeListener(this);
+	g_inputChannel->removeListener(this);
+	g_globalChannel->removeListener(this);
 }
 
 void AIcontroller::onEvent(eventKind event){
@@ -39,7 +39,7 @@ string AIcontroller::toString2(){
 	}
 	return S;
 }
-extern bool gamePaused;
+extern bool g_gamePaused;
 
 string toString(AIState state){
     switch(state){
@@ -61,16 +61,16 @@ string toString(AISubstate substate){
 }
 
 void AIcontroller::think(){
-    if(gamePaused){return;}
+    if(g_gamePaused){return;}
 	if(!character){delete this; return;}
 	auto E = character->E;
-	player = inputController->character;
+	player = g_inputController->character;
 	if(!E){return;}
 	vec3 pos = E->body->pos;
 	//every frame, draw debug stuff
 
     //render some debug stuff
-	setLayer(layerDebug);
+	setLayer(g_layerDebug);
 	drawLine(pos,debugTargetPos,vec3(0,0,0));
 	drawPoint(pos,vec3(0,255,0));
 	drawPoint(debugTargetPos,vec3(255,0,0));
@@ -86,7 +86,7 @@ void AIcontroller::think(){
             j++;
             if(!N){continue;}
             vec3 p = N->E->body->pos;
-            setLayer(layerDebug);
+            setLayer(g_layerDebug);
 
             string text = fstring("node %d",j);
             debugFloatingText(p, text);

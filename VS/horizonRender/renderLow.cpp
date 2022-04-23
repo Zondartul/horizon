@@ -17,7 +17,7 @@ using glm::mat4;
 using glm::vec3;
 using glm::vec2;
 #include "model.h"
-extern model *mBox;
+extern model *g_mBox;
 #include "bitmap.h"
 #include <map>
 using std::map;
@@ -26,7 +26,7 @@ using std::map;
 #include "util.h"
 #include "paint.h"
 
-renderLowKind *renderLow;
+renderLowKind *g_renderLow;
 renderLowKind::renderLowKind(){
 	GPUdriver = new GPUdriverKind();
     vec2 size = getScreenSize();
@@ -191,5 +191,5 @@ void renderLowKind::parseCommand(const renderCommand3 &rcmd){
 }
 
 
-bool debug = false;
+bool g_debug = false;
 

@@ -17,7 +17,7 @@ void generateNodegraphFinalize();
 void generateNodegraph(){
     printf("generating node graph\n");
     collisioninfo *col = 0;
-    col = raytrace(camera.pos,vec3(0,0,-1));
+    col = raytrace(g_camera.pos,vec3(0,0,-1));
     if(!col){printf("no ground!\n"); return;}
     vec3 origin = col->c_to_c.pos+vec3(0,0,0.2f);
 
@@ -26,7 +26,7 @@ void generateNodegraph(){
     nodegraph.numX = 12;
     nodegraph.numY = 12;
     nodegraph.layer = new renderLayer("layerNodegraph", true, false);
-    addLayer(layer3D, nodegraph.layer); //i cba set up the layers properly
+    addLayer(g_layer3D, nodegraph.layer); //i cba set up the layers properly
     vec3 corner = origin+vec3(-(nodegraph.numX-1)/2.f,-(nodegraph.numY-1)/2.f,0)*sidelen;
 
     nodegraph.rm = new rmodel();
@@ -110,7 +110,7 @@ void generateNodegraphFinalize(){
     }
     //setLayer(loadLayer);
     nodegraph.rm->finalize();
-    setLayer(loadLayer);
+    setLayer(g_loadLayer);
     uploadRmodel(nodegraph.rm);
     setLayer(nodegraph.layer);
     setRenderMode(2);
@@ -189,14 +189,14 @@ nav_node *findClosestNode(vec3 pos){
     return bestNode;
 }
 
-extern entity *ent_flag;
-timer *pathfinding_test_timer = 0;
+extern entity *g_ent_flag;
+timer *g_pathfinding_test_timer = 0;
 
 
 
 void pathfinding_test(vec3 pos){
     if(!nodegraph.nodes.size()){printf("no node graph\n"); return;}
-    if(!ent_flag){printf("no flag\n"); return;}
+    if(!g_ent_flag){printf("no flag\n"); return;}
     //reset color
     for(int I = 0; I < nodegraph.nodes.size(); I++){
         nodegraph.nodes[I]->E->r->color = vec3(255,255,255);
@@ -204,7 +204,7 @@ void pathfinding_test(vec3 pos){
 
     //begin
 
-    vec3 flagPos = ent_flag->body->pos;
+    vec3 flagPos = g_ent_flag->body->pos;
     nav_node *flagNode = findClosestNode(flagPos);
     if(!flagNode){printf("no dest node\n"); return;}
     flagNode->E->r->color = vec3(0,255,255);
@@ -213,18 +213,18 @@ void pathfinding_test(vec3 pos){
     if(!srcNode){printf("no src node\n"); return;}
     srcNode->E->r->color = vec3(0,0,255);
 
-    AStarInit(&pathTask, srcNode, flagNode);
+    AStarInit(&g_pathTask, srcNode, flagNode);
 
 
-    if(pathfinding_test_timer){delete pathfinding_test_timer; pathfinding_test_timer = 0;}
+    if(g_pathfinding_test_timer){delete g_pathfinding_test_timer; g_pathfinding_test_timer = 0;}
     timer *T = new timer(0,40,1,0,0);
-    pathfinding_test_timer = T;
+    g_pathfinding_test_timer = T;
     T->F = [&](timer *T){
-        AStarIterative(&pathTask);
-        if(pathTask.done){
+        AStarIterative(&g_pathTask);
+        if(g_pathTask.done){
             printf("A* DONE\n");
             delete T;
-            pathfinding_test_timer = 0;
+            g_pathfinding_test_timer = 0;
         }
     };
     T->run = true;
@@ -320,11 +320,11 @@ nav_path AStar(vec3 src, vec3 dest){
     if(!srcNode){printf("no src node\n"); return empty_path();}
     srcNode->E->r->color = vec3(0,0,255);
 
-    pathTaskKind *task = &pathTask;
+    pathTaskKind *task = &g_pathTask;
     AStarInit(task, srcNode, destNode);
     while(!task->done){AStarIterative(task);}
     return task->path;
 }
 
-pathTaskKind pathTask;
+pathTaskKind g_pathTask;
 

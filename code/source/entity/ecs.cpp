@@ -7,14 +7,14 @@
 
 #include "frameprinter.h"
 
-ecs_kind ecs;
-renderLayer *ecs_render_layer;
-renderLayer *ecs_render_layer_2d;
-bool physicsOn = true;
-bool collisionOn = true;
-bool texturingOn = true;
+ecs_kind g_ecs;
+renderLayer *g_ecs_render_layer;
+renderLayer *g_ecs_render_layer_2d;
+bool g_physicsOn = true;
+bool g_collisionOn = true;
+bool g_texturingOn = true;
 
-extern bool gamePaused;
+extern bool g_gamePaused;
 //---------------- RENDER ---------------------------------------
 ecs_render_system_kind::ecs_render_system_kind(){
 	options.wireframe = false;
@@ -27,38 +27,38 @@ ecs_render_system_kind::ecs_render_system_kind(){
 	options.sunLightColor = 0.9f*vec3(1,1,1);
 	options.ambientLightColor = 0.3f*vec3(1,1,1);
 
-	ecs_render_layer = new renderLayer("ecs");
-	ecs_render_layer->resetLayer = new renderLayer("ecs.reset",true,true);
+	g_ecs_render_layer = new renderLayer("ecs");
+	g_ecs_render_layer->resetLayer = new renderLayer("ecs.reset",true,true);
 	applyRenderOptions();
-	addLayer(layer3D, ecs_render_layer);
+	addLayer(g_layer3D, g_ecs_render_layer);
 
-	ecs_render_layer_2d = new renderLayer("ecs2d");
-	ecs_render_layer_2d->resetLayer = new renderLayer("ecs2d.reset",true,true);
-	addLayer(layer2D, ecs_render_layer_2d);
+	g_ecs_render_layer_2d = new renderLayer("ecs2d");
+	g_ecs_render_layer_2d->resetLayer = new renderLayer("ecs2d.reset",true,true);
+	addLayer(g_layer2D, g_ecs_render_layer_2d);
 
-	options.layer_3d = ecs_render_layer;
-	options.layer_2d = ecs_render_layer_2d;
+	options.layer_3d = g_ecs_render_layer;
+	options.layer_2d = g_ecs_render_layer_2d;
 
-	globalChannel->addListener(this);
+	g_globalChannel->addListener(this);
 }
 
 void ecs_render_system_kind::applyRenderOptions(){
-	ecs_render_layer->resetLayer->clear();
-	setLayer(ecs_render_layer->resetLayer);
+	g_ecs_render_layer->resetLayer->clear();
+	setLayer(g_ecs_render_layer->resetLayer);
 	options.apply();
 }
 
 void ecs_render_system_kind::onEvent(eventKind event){
 	if(event.type != EVENT_FRAME){return;}
 
-	ecs_render_layer->clear();
-	ecs_render_layer->reset();
+	g_ecs_render_layer->clear();
+	g_ecs_render_layer->reset();
 
-	ecs_render_layer_2d->clear();
-	ecs_render_layer_2d->reset();
+	g_ecs_render_layer_2d->clear();
+	g_ecs_render_layer_2d->reset();
 
-	setLayer(ecs_render_layer);
-	for(auto I = entities.begin(); I != entities.end(); I++){
+	setLayer(g_ecs_render_layer);
+	for(auto I = g_entities.begin(); I != g_entities.end(); I++){
 		entity *E = *I;
 		if(E->r){
 
@@ -70,7 +70,7 @@ void ecs_render_system_kind::onEvent(eventKind event){
 	if(options.boundingBoxes){
 		setColor({0,255,0});
 		setRenderMode(2);
-		for(auto I = entities.begin(); I != entities.end(); I++){
+		for(auto I = g_entities.begin(); I != g_entities.end(); I++){
 			entity *E = *I;
 			if(E->body){
 				E->body->render(&options);
@@ -82,7 +82,7 @@ void ecs_render_system_kind::onEvent(eventKind event){
 //---------------- PHYSICS --------------------------------------
 ecs_physics_system_kind::ecs_physics_system_kind(){
 	options.gravity = true;
-	globalChannel->addListener(this);
+	g_globalChannel->addListener(this);
 }
 
 void applyGravity(entity *E){
@@ -103,20 +103,20 @@ bool isSane(entity *E){
 }
 
 void ecs_physics_system_kind::onEvent(eventKind event){
-	if(!physicsOn){return;}
+	if(!g_physicsOn){return;}
 	if(event.type != EVENT_FRAME){return;}
-	if(gamePaused){return;}
-	for(auto I = entities.begin(); I != entities.end(); I++){
+	if(g_gamePaused){return;}
+	for(auto I = g_entities.begin(); I != g_entities.end(); I++){
 		entity *E = *I;
 		if(E->body){
 			if(options.gravity){applyGravity(*I);}
 			applyVelocity(*I);
 		}
 	}
-	for(auto I = entities.begin(); I != entities.end();){
+	for(auto I = g_entities.begin(); I != g_entities.end();){
 		if(!isSane(*I)){
 			delete *I;
-			I = entities.erase(I);
+			I = g_entities.erase(I);
 		}else{
 			I++;
 		}
@@ -127,14 +127,14 @@ void ecs_physics_system_kind::onEvent(eventKind event){
 ecs_collision_system_kind::ecs_collision_system_kind(){
 	options.separate = true;
 	options.resolve = true;
-	globalChannel->addListener(this);
+	g_globalChannel->addListener(this);
 }
 
 void ecs_collision_system_kind::onEvent(eventKind event){
-	if(!collisionOn){return;}
+	if(!g_collisionOn){return;}
 	if(event.type != EVENT_FRAME){return;}
-	extern octree_node* octree_root;
-	broadphaseinfo *bp = checkCollisionBroadphase(octree_root);
+	extern octree_node* g_octree_root;
+	broadphaseinfo *bp = checkCollisionBroadphase(g_octree_root);
 	for(auto I = bp->pairs.begin(); I != bp->pairs.end(); I++){
 		pairwiseCollisionCheck(I->first,I->second,options);
 	}

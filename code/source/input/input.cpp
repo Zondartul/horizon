@@ -2,11 +2,11 @@
 #include "inputController.h"
 #include "keybinds.h"
 
-eventChannel *inputChannel;
+eventChannel *g_inputChannel;
 
 void initInput(){
-	inputChannel = new eventChannel();
-	inputController = new inputControllerKind();
+	g_inputChannel = new eventChannel();
+	g_inputController = new inputControllerKind();
 	
 	initKeybinds();
 	printf("-------- input init done ----------\n");

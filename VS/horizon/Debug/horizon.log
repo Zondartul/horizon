@@ -1,5 +1,81 @@
 ﻿D:\VS\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  glm.cpp
+  gui_editor.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(63,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(64,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(2362,12): warning C4081: expected 'identifier'; found 'if'
+  tool.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+  tool_edit.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\experimental\gui_editor\tool_edit.cpp(105,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\experimental\gui_editor\tool_edit.cpp(251,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\experimental\gui_editor\tool_edit.cpp(302,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  tool_place.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\experimental\gui_editor\tool_place.cpp(14,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\experimental\gui_editor\tool_place.cpp(88,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  map_editor.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(865,24): warning C4018: '<': signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(622,47): warning C4101: 'offset': unreferenced local variable
+  node_graph.cpp
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\source\experimental\node_graph.cpp(185,22): warning C4018: '<': signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\experimental\node_graph.cpp(201,22): warning C4018: '<': signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\experimental\node_graph.cpp(309,22): warning C4018: '<': signed/unsigned mismatch
+  gui_filedialog.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(96,19): warning C4018: '<': signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(147,13): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  gui_texturebrowser.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(63,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(64,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(2362,12): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\code\source\gadgets\gui_texturebrowser.cpp(62,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\gadgets\gui_texturebrowser.cpp(63,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  AIcontroller.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
   GUIwindows.cpp
 D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
 D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
@@ -17,34 +93,174 @@ D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(186,14): warning C4244:
 D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(197,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(198,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(199,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  editmodel.cpp
-D:\Stride\shared\horizon\code\source\generators\editmodel.cpp(445,10): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
-  modelcomposite.cpp
-D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(8,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(9,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\generators\modelcomposite.cpp(13,33): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  GUI_property.cpp
-D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(63,12): warning C4081: expected 'identifier'; found 'if'
-D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(64,12): warning C4081: expected 'identifier'; found 'if'
-D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2\tinyxml2.h(2362,12): warning C4081: expected 'identifier'; found 'if'
-  GUI_types.cpp
-  octree.cpp
-  file.cpp
-D:\Stride\shared\horizon\code\source\program\file.cpp(106,19): warning C4018: '<': signed/unsigned mismatch
-  paint.cpp
-  paintHelper.cpp
-  debug.cpp
-D:\Stride\shared\horizon\code\source\util\debug.cpp(304,22): warning C4018: '<': signed/unsigned mismatch
-D:\Stride\shared\horizon\code\source\util\debug.cpp(561,14): warning C4244: 'initializing': conversion from 'uint64_t' to 'int', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(562,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(563,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(633,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(633,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(633,19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(634,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(634,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\Stride\shared\horizon\code\source\util\debug.cpp(634,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  util.cpp
+  commands.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\game\commands.cpp(459,20): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\game\commands.cpp(460,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  fontLoader.cpp
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(162,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(177,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(295,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(523,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_main.h(113,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_main.h(157,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(27,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(285,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_atomic.h(65,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_atomic.h(264,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_error.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_error.h(72,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(59,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(235,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_mutex.h(34,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_mutex.h(247,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_thread.h(38,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_thread.h(283,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rwops.h(35,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rwops.h(227,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_audio.h(38,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_audio.h(601,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_clipboard.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_clipboard.h(67,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_cpuinfo.h(66,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_cpuinfo.h(157,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_pixels.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_pixels.h(450,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(36,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(144,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_blendmode.h(31,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_blendmode.h(59,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_surface.h(37,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_surface.h(499,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_video.h(36,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_video.h(1099,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(36,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(213,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_mouse.h(35,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_mouse.h(296,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_joystick.h(45,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_joystick.h(269,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_gamecontroller.h(36,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_gamecontroller.h(319,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_touch.h(35,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_touch.h(82,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_gesture.h(38,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_gesture.h(83,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_events.h(42,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_events.h(746,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_filesystem.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_filesystem.h(132,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(1219,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_hints.h(44,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_hints.h(707,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_loadso.h(47,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_loadso.h(77,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_log.h(42,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_log.h(207,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_messagebox.h(28,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_messagebox.h(140,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_power.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_power.h(71,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_render.h(55,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_render.h(876,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_system.h(36,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_system.h(212,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_timer.h(34,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_timer.h(111,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_version.h(33,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_version.h(158,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(95,9): warning C4081: expected 'identifier'; found 'if'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL.h(60,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL.h(128,1): warning C4103: alignment changed after including header, may be due to missing #pragma pack(pop)
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(128,14): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(129,14): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(133,16): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(135,16): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(138,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(139,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16,15): warning C4099: 'nav_node': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(16): message : see declaration of 'nav_node'
+D:\Stride\shared\horizon\code\source\main\main.cpp(103,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(103,15): warning C4244: 'argument': conversion from 'uint32_t' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(103,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(180,3): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(199,3): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(205,2): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\main\main.cpp(206,2): warning C4244: '=': conversion from 'uint64_t' to 'float', possible loss of data
+  window.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+  render.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\source\render\render.cpp(58): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+  renderLayer.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(110,22): warning C4018: '>': signed/unsigned mismatch
+  rmodel.cpp
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59,27): warning C4251: 'renderLowKind::optionStack': class 'std::vector<renderOptions,std::allocator<renderOptions>>' needs to have dll-interface to be used by clients of class 'renderLowKind'
+D:\Stride\shared\horizon\code\include\render\renderLow.h(59): message : see declaration of 'std::vector<renderOptions,std::allocator<renderOptions>>'
   Generating Code...
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
 glm.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:REF' specification
@@ -55,7 +271,7 @@ freetype.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype.pdb' was not found w
 freetype.lib(ftinit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftinit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftsystem.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(bdf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(bdf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(cff.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(cff.obj)' or at ''; linking object as if no debug info
+freetype.lib(cff.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(cff.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(type1cid.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1cid.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftgzip.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftlzw.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftlzw.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
@@ -71,5 +287,5 @@ freetype.lib(truetype.obj) : warning LNK4099: PDB '' was not found with 'freetyp
 freetype.lib(type1.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(type42.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type42.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(winfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(winfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftdebug.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftdebug.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftdebug.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftdebug.obj)' or at ''; linking object as if no debug info
   horizon.vcxproj -> D:\Stride\shared\horizon\bin\horizon.exe

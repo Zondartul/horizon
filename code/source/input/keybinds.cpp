@@ -2,21 +2,21 @@
 #include "input.h"
 #include "console.h"
 keybindList::keybindList(){
-	inputChannel->addListenerFront(this);
+	g_inputChannel->addListenerFront(this);
 }
 	
 #define checkMB(x,y)							\
 	if(event.mousebutton.button == x){			\
 		if(binds.count(y)){						\
 			event.maskEvent();					\
-			console->run(binds[y].cmd);			\
+			g_console->run(binds[y].cmd);			\
 		}										\
 	}
 	
 #define checkKB(K)								\
 	if(binds.count(K)){							\
 		event.maskEvent();						\
-		console->run(binds[K].cmd);				\
+		g_console->run(binds[K].cmd);				\
 	}
 	
 void keybindList::onEvent(eventKind event){
@@ -43,8 +43,8 @@ void keybindList::onEvent(eventKind event){
 	}
 }
 
-keybindList *keybinds;
+keybindList *g_keybinds;
 void initKeybinds(){
-	keybinds = new keybindList();
+	g_keybinds = new keybindList();
 }
 

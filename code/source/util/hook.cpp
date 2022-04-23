@@ -14,7 +14,7 @@ class hook:public eventListener{
 	}
 };
 
-vector<hook*> hooks;
+vector<hook*> g_hooks;
 
 void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventKind event)> handler){
 	hook *h = new hook();
@@ -23,14 +23,14 @@ void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventK
 	h->name = name;
 	h->handler = handler;
 	ch->addListener(h);
-	hooks.push_back(h);
+	g_hooks.push_back(h);
 }
 
 void hookRemove(eventChannel *ch, string name){
-	for(auto I = hooks.begin(); I != hooks.end(); I++){
+	for(auto I = g_hooks.begin(); I != g_hooks.end(); I++){
 		if(((*I)->ch == ch) && ((*I)->name == name)){
 			delete *I;
-			I = hooks.erase(I);
+			I = g_hooks.erase(I);
 		}
 	}
 }

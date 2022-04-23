@@ -9,15 +9,15 @@
 using std::ofstream;
 #include <sstream>
 using std::stringstream;
-extern bool gamePaused;
+extern bool g_gamePaused;
 
 int cmd_pauseGame(int argc, char **argv){
-	gamePaused = !gamePaused;
+	g_gamePaused = !g_gamePaused;
     return 0;
 }
 
 int cmd_spawnCharacter(int argc, char **argv){
-	inputController->character = new characterController();
+	g_inputController->character = new characterController();
     return 0;
 }
 
@@ -27,10 +27,10 @@ int cmd_spawnNPC(int argc, char **argv){
 }
 
 void deleteDynamicBodies(){
-	for(auto I = entities.begin(); I != entities.end();){
+	for(auto I = g_entities.begin(); I != g_entities.end();){
 		if((*I)->body && (*I)->body->type == BODY_DYNAMIC){
 			delete *I;
-			I = entities.erase(I);
+			I = g_entities.erase(I);
 		}else{
 			I++;
 		}
@@ -96,17 +96,17 @@ void spawnTree(){
 }
 
 int cmd_listKeybinds(int argc, char **argv){
-	for(auto I = keybinds->binds.begin(); I != keybinds->binds.end(); I++){
+	for(auto I = g_keybinds->binds.begin(); I != g_keybinds->binds.end(); I++){
 		string key = I->first;
 		bind b = I->second;
-		console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
+		g_console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
 	}
 	return 0;
 }
 
 void test1render(){
-	setLayer(layer3D);
-	resetLayer(layer3D);
+	setLayer(g_layer3D);
+	resetLayer(g_layer3D);
 	setLighting(false);
 	setPosition(vec3(0,0,0));
 	setPointSize(3);
@@ -147,7 +147,7 @@ void test1render(){
 	scale = vec3(2,2,2);
 	pos = start+scale/2.f;
 	static rmodel *rm = 0;
-	setLayer(loadLayer);
+	setLayer(g_loadLayer);
 	if(!rm){
 		e_model *em = generateBox(scale,1.f);
 		rm = em->getRmodel();
@@ -158,8 +158,8 @@ void test1render(){
 		t = getTexture("materials/brick3");
 		uploadTexture(t);
 	}
-	setLayer(layer3D);
-	resetLayer(layer3D);
+	setLayer(g_layer3D);
+	resetLayer(g_layer3D);
 	setTexture(t);
 	setRenderMode(3);
 	setColoring(false);
@@ -173,13 +173,13 @@ void test1render(){
 int cmd_help(int argc, char **argv){
 	if(argc==0){
 		cprint("commands: ");
-		for(auto I = console->commands.begin(); I != console->commands.end(); I++){
+		for(auto I = g_console->commands.begin(); I != g_console->commands.end(); I++){
 			cprint("%s ",I->name.c_str());
 		}
 		return 0;
 	}
 	if(argc==1){
-		auto cmd = console->getCommand(argv[0]);
+		auto cmd = g_console->getCommand(argv[0]);
 		if(cmd){
 			if(cmd->help != ""){
 				cprint("%s",cmd->help.c_str());
@@ -196,10 +196,10 @@ int cmd_help(int argc, char **argv){
 }
 
 int cmd_whereami(int argc, char **argv){
-	auto C = inputController->character;
+	auto C = g_inputController->character;
 	entity *E = 0;
 	if(!C || !C->E){
-		vec3 pos = camera.pos;
+		vec3 pos = g_camera.pos;
 		cprint("%s\n",toCString(pos));
 	}else{
 		E = C->E;
@@ -216,9 +216,9 @@ int cmd_teleport(int argc, char **argv){
 	if(argc>2){word3 = argv[2];}
 	vec3 pos = vec3(atoi(word1.c_str()),atoi(word2.c_str()),atoi(word3.c_str()));
 	cprint("teleporting to %s\n",toCString(pos));
-	auto C = inputController->character;
+	auto C = g_inputController->character;
 	if(!C || !C->E){
-		camera.setPos(pos);
+		g_camera.setPos(pos);
 	}else{
 		C->E->body->pos = pos;
 	}
@@ -252,11 +252,11 @@ int cmd_physbox(int argc,char**argv){
 int cmd_camera(int argc, char **argv){
 	if(argc!=1){printf("invalid syntax\n"); return 1;}
 	if(!strcmp(argv[0],"ortho")){
-		camera.perspective = false;
-		camera.scaleOrtho = 1.f/10.f;
+		g_camera.perspective = false;
+		g_camera.scaleOrtho = 1.f/10.f;
 	}else if(!strcmp(argv[0],"perspective")){
-		camera.perspective = true;
-		camera.scaleOrtho = 1.f;
+		g_camera.perspective = true;
+		g_camera.scaleOrtho = 1.f;
 	}
 	return 0;
 }
@@ -276,18 +276,18 @@ int cmd_scene(int argc, char **argv){
             makeScene3();
             break;
 		case -1:
-			for(auto I = entities.begin(); I != entities.end();){
-				if((*I)->group == "scene1"){delete *I; I = entities.erase(I);}else{I++;}
+			for(auto I = g_entities.begin(); I != g_entities.end();){
+				if((*I)->group == "scene1"){delete *I; I = g_entities.erase(I);}else{I++;}
 			}
 			break;
 		case -2:
-			for(auto I = entities.begin(); I != entities.end();){
-				if((*I)->group == "scene2"){delete *I; I = entities.erase(I);}else{I++;}
+			for(auto I = g_entities.begin(); I != g_entities.end();){
+				if((*I)->group == "scene2"){delete *I; I = g_entities.erase(I);}else{I++;}
 			}
 			break;
         case -3:
-			for(auto I = entities.begin(); I != entities.end();){
-				if((*I)->group == "scene3"){delete *I; I = entities.erase(I);}else{I++;}
+			for(auto I = g_entities.begin(); I != g_entities.end();){
+				if((*I)->group == "scene3"){delete *I; I = g_entities.erase(I);}else{I++;}
 			}
 			break;
 
@@ -321,38 +321,38 @@ int cmd_dirs(int argc, char **argv){
 int cmd_mapeditor(int argc, char **argv){openMapEditor(); return 0;}
 int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
 int cmd_nodegraph(int argc, char **argv){generateNodegraph(); return 0;}
-int cmd_printf(int argc, char **argv){printf_enabled = !printf_enabled; return 0;}
+int cmd_printf(int argc, char **argv){g_printf_enabled = !g_printf_enabled; return 0;}
 
-map<const char*, struct_alloc_file> prev_allocation_map;
-int memreport_last_frame = 0;
-int prev_total_size = 0;
-bool has_prev_alloc_map = 0;
+map<const char*, struct_alloc_file> g_prev_allocation_map;
+int g_memreport_last_frame = 0;
+int g_prev_total_size = 0;
+bool g_has_prev_alloc_map = 0;
 
 int cmd_memreport(int argc, char **argv){
 	
 	
 	if(argc && (strcmp(argv[0], "-i")==0)){
 		//INCREMENTAL REPORT. only reports used memory ADDED since last report.
-		if(has_prev_alloc_map){
+		if(g_has_prev_alloc_map){
 			string filename = "logs/memreport_inc";
 			filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
 			ofstream fs(filename);
 			if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
 			stringstream ss;
 			int J = 0;
-			int tf1 = memreport_last_frame;
+			int tf1 = g_memreport_last_frame;
 			int tf2 = getGameTicks();
 			int dtf = tf2-tf1;
 			ss << fstring("Incremental memory report for frames %d .. %d (%d frames)\n", tf1, tf2, dtf);
 			
 			int supertotal = 0;
-			for(auto F2 = allocation_map.begin(); F2 != allocation_map.end(); F2++){
+			for(auto F2 = g_allocation_map.begin(); F2 != g_allocation_map.end(); F2++){
 				stringstream ss_file;
 				const char *key = F2->first;
 				string alloc_file = F2->first;
 				ss_file << alloc_file + ":\n";//":\t\t";
 				auto &r_file2 = F2->second;
-				auto &r_file1 = prev_allocation_map[key];
+				auto &r_file1 = g_prev_allocation_map[key];
 				int filetotal = 0;
 				
 				//we want all the lines of current version that also exist in the previous version
@@ -374,7 +374,7 @@ int cmd_memreport(int argc, char **argv){
 				if(filetotal){ss << ss_file.str();}
 			}
 			ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-			ss << fstring("sys  total: %.3f kb\n",(float)(total_size-prev_total_size)/1024.f);
+			ss << fstring("sys  total: %.3f kb\n",(float)(g_total_size-g_prev_total_size)/1024.f);
 			
 			fs << ss.str();
 			fs.close();
@@ -390,7 +390,7 @@ int cmd_memreport(int argc, char **argv){
 		ss << fstring("Memory report for frame %d\n",getGameTicks());
 		
 		int supertotal = 0;
-		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
+		for(auto F = g_allocation_map.begin(); F != g_allocation_map.end(); F++){
 			string alloc_file = F->first;
 			ss << alloc_file + ":\n";//":\t\t";
 			auto &r_file = F->second;
@@ -409,7 +409,7 @@ int cmd_memreport(int argc, char **argv){
 			ss << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
 		}
 		ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-		ss << fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
+		ss << fstring("sys  total: %.3f kb\n",(float)g_total_size/1024.f);
 		
 		fs << ss.str();
 		fs.close();
@@ -417,10 +417,10 @@ int cmd_memreport(int argc, char **argv){
 	}
 	
 	//save the current allocation map
-	prev_allocation_map = allocation_map;
-	has_prev_alloc_map = true;
-	memreport_last_frame = getGameTicks();
-	prev_total_size = total_size;
+	g_prev_allocation_map = g_allocation_map;
+	g_has_prev_alloc_map = true;
+	g_memreport_last_frame = getGameTicks();
+	g_prev_total_size = g_total_size;
 	printf("allocation map saved\n");
 	return 0;
 }
@@ -474,28 +474,28 @@ int cmd_texture_browser(int argc, char** argv){
 }
 
 void addKeybinds(){
-	keybinds->binds["+R"].cmd = "reset";
-	keybinds->binds["+F"].cmd = "physbox";
-	keybinds->binds["+G"].cmd = "physbox 1";
-	keybinds->binds["+H"].cmd = "physbox 2";
-	keybinds->binds["+J"].cmd = "physbox 3";
-	keybinds->binds["+C"].cmd = "character";
-	keybinds->binds["+V"].cmd = "npc";
-	keybinds->binds["+Pause"].cmd = "pause";
-	keybinds->binds["+F8"].cmd = "framereport";
-	keybinds->binds["+F3"].cmd = "printf";
-	keybinds->binds["+F9"].cmd = "memreport";
-	keybinds->binds["+F10"].cmd = "memreport -i";
+	g_keybinds->binds["+R"].cmd = "reset";
+	g_keybinds->binds["+F"].cmd = "physbox";
+	g_keybinds->binds["+G"].cmd = "physbox 1";
+	g_keybinds->binds["+H"].cmd = "physbox 2";
+	g_keybinds->binds["+J"].cmd = "physbox 3";
+	g_keybinds->binds["+C"].cmd = "character";
+	g_keybinds->binds["+V"].cmd = "npc";
+	g_keybinds->binds["+Pause"].cmd = "pause";
+	g_keybinds->binds["+F8"].cmd = "framereport";
+	g_keybinds->binds["+F3"].cmd = "printf";
+	g_keybinds->binds["+F9"].cmd = "memreport";
+	g_keybinds->binds["+F10"].cmd = "memreport -i";
 }
 
 
 
 void addConsoleCommands(){
-	console->addCommand({"help","prints information about installed commands\n",cmd_help});
-	console->addCommand({"whereami","tells your current coords\n",cmd_whereami});
-	console->addCommand({"teleport","args: <x> <y> <z>\nteleports you to given coords\n",cmd_teleport});
-	console->addCommand({"reset","reset scene (delete all dynamic bodies)\n",cmd_reset});
-	console->addCommand({"physbox",
+	g_console->addCommand({"help","prints information about installed commands\n",cmd_help});
+	g_console->addCommand({"whereami","tells your current coords\n",cmd_whereami});
+	g_console->addCommand({"teleport","args: <x> <y> <z>\nteleports you to given coords\n",cmd_teleport});
+	g_console->addCommand({"reset","reset scene (delete all dynamic bodies)\n",cmd_reset});
+	g_console->addCommand({"physbox",
 		"spawn a physbox\n"
 		"args: <n>\n"
 		"n: 1 - plain physbox\n"
@@ -503,34 +503,34 @@ void addConsoleCommands(){
 		"n: 3 - bouncy physbox\n"
 		"n: 4 - tree\n",
 		cmd_physbox});
-	console->addCommand({"character","spawn a player-controlled character\n",cmd_spawnCharacter});
-	console->addCommand({"npc","spawn an NPC\n",cmd_spawnNPC});
-	console->addCommand({"pause","pause the game\n",cmd_pauseGame});
-	console->addCommand({"camera","args:ortho|perspective\nsets camera mode\n",cmd_camera});
-	console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
-	console->addCommand({"makescene",
+	g_console->addCommand({"character","spawn a player-controlled character\n",cmd_spawnCharacter});
+	g_console->addCommand({"npc","spawn an NPC\n",cmd_spawnNPC});
+	g_console->addCommand({"pause","pause the game\n",cmd_pauseGame});
+	g_console->addCommand({"camera","args:ortho|perspective\nsets camera mode\n",cmd_camera});
+	g_console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
+	g_console->addCommand({"makescene",
 		"make a scene:\n"
 		"1 - small walls\n"
 		"2 - city\n"
         "3 - maze;\n"
 		"-number to remove a scene\n",
 		cmd_scene});
-	console->addCommand({"opengui",
+	g_console->addCommand({"opengui",
 		"open a GUI window. args: 1-5\n",
 		cmd_opengui});
-	console->addCommand({"editor",
+	g_console->addCommand({"editor",
 		"open a 3D model editor\n",
 		cmd_editor});
-	console->addCommand({"guieditor","open a graphical editor of the GUI\n", cmd_guieditor});
-	console->addCommand({"dirs","show path settings\n",cmd_dirs});
-	console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
-	console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
-    console->addCommand({"nodegraph","generate a navigation node graph",cmd_nodegraph});
-	console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
-	console->addCommand({"memreport","report the memory usage to a file\n"
+	g_console->addCommand({"guieditor","open a graphical editor of the GUI\n", cmd_guieditor});
+	g_console->addCommand({"dirs","show path settings\n",cmd_dirs});
+	g_console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
+	g_console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
+    g_console->addCommand({"nodegraph","generate a navigation node graph",cmd_nodegraph});
+	g_console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
+	g_console->addCommand({"memreport","report the memory usage to a file\n"
 		"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});
-	console->addCommand({"genterrain","generate some land\n",cmd_genterrain});
-	console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
+	g_console->addCommand({"genterrain","generate some land\n",cmd_genterrain});
+	g_console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
 }
 
 
