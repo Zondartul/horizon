@@ -1,123 +1,847 @@
-﻿  glm.cpp
-  tinyxml2.cpp
-  ecs.cpp
+﻿  ecs.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   entity.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   editor2.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(9,18): warning C4099: 'renderLayer': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(20,18): warning C4099: 'renderLayer': type name first seen using 'struct' now seen using 'class'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(20): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(63,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(65,11): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(164,2): error C2065: 'g_editor2': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(170,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(171,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(172,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(181,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(185,13): error C2065: 'g_camera': undeclared identifier
   gui_editor.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\experimental\gui_editor.cpp(237,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\gui_editor.cpp(238,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\gui_editor.cpp(239,2): error C2065: 'g_globalChannel': undeclared identifier
   tool.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
   tool_edit.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
   tool_place.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
   map_editor.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(170,2): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(172,11): error C2065: 'g_ecs_render_layer': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(184,14): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(196,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(197,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(219,13): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(224,40): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(229,9): error C2065: 'g_camera': undeclared identifier
   node_graph.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\entity\ecs.h(22): message : see declaration of 'renderLayer'
   console.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(84,5): error C2065: 'g_inputController': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(166,2): error C2065: 'g_console': undeclared identifier
   frameprinter.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   gui_filedialog.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
   gui_table.cpp
   gui_texturebrowser.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\gadgets\gui_texturebrowser.cpp(58,27): error C2065: 'g_GUI': undeclared identifier
   picker.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(23,5): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(23,25): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(23,36): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(23,38): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(28,2): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(29,2): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(30,2): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(38,2): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(56,3): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(66,5): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(66,12): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(66,28): error C2065: 'g_entWindow': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(83,11): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(88,17): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(89,36): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(91,32): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(100,6): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(100,37): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(101,3): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(111,6): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(111,37): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(112,3): error C2065: 'g_pickedEntity': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(119,11): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(129,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(130,28): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(131,34): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(142,11): error C2065: 'g_loadLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(145,11): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(155,2): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(156,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(156,21): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(157,11): error C2065: 'g_pickerLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(165,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(166,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(168,2): error C2065: 'g_keybinds': undeclared identifier
+D:\Stride\shared\horizon\code\source\gadgets\picker.cpp(169,2): error C2065: 'g_keybinds': undeclared identifier
   AIcontroller.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\entity\ecs.h(22): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(9,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(10,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(13,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(14,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(64,8): error C2065: 'g_gamePaused': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(67,11): error C2065: 'g_inputController': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(73,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\AIcontroller.cpp(89,22): error C2065: 'g_layerDebug': undeclared identifier
   commands.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\game\commands.cpp(22,29): error C2039: 'gs_inputController': is not a member of 'Globals'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(33): message : see declaration of 'Globals'
+D:\Stride\shared\horizon\code\source\game\commands.cpp(22,24): error C2530: 'inputController': references must be initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(24,17): error C3536: 'inputController': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(105,15): error C2065: 'g_keybinds': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(105,44): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(105,47): error C2065: 'g_keybinds': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(108,3): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(185,16): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(185,47): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(185,50): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(191,14): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(192,9): error C3536: 'cmd': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(208,29): error C2039: 'gs_inputController': is not a member of 'Globals'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(33): message : see declaration of 'Globals'
+D:\Stride\shared\horizon\code\source\game\commands.cpp(208,24): error C2530: 'inputController': references must be initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(211,26): error C3536: 'inputController': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(213,4): error C3536: 'C': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(231,11): error C2065: 'g_inputController': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(232,4): error C3536: 'C': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(233,3): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(267,3): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(268,3): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(270,3): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(271,3): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(291,17): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(291,39): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(291,42): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(292,9): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(292,40): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(292,42): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\game\commands.cpp(292,48): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(296,17): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(296,39): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(296,42): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(297,9): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(297,40): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(297,42): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\game\commands.cpp(297,48): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(301,17): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(301,39): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\game\commands.cpp(301,42): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(302,9): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(302,40): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\game\commands.cpp(302,42): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\game\commands.cpp(302,48): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(516,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(517,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(518,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(519,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(520,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(528,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(529,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(530,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(531,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(532,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(533,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(540,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(543,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(546,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(547,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(548,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(549,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(550,5): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(551,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(552,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(554,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\commands.cpp(555,2): error C2065: 'g_console': undeclared identifier
   GUIwindows.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(304,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(305,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(306,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(307,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(308,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(309,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(310,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(326,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(327,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\game\GUIwindows.cpp(370,46): error C2065: 'g_allocation_map': undeclared identifier
+  editmodel.cpp
+D:\Stride\shared\horizon\code\source\generators\editmodel.cpp(330,11): error C2065: 'g_loadLayer': undeclared identifier
+  modelcomposite.cpp
   Generating Code...
   Compiling...
-  editmodel.cpp
-  modelcomposite.cpp
   modelprimitives.cpp
   physbox.cpp
-  GUI.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(22,33): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(73,34): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(78,35): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(84,37): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(98,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(98,45): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(99,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(164,35): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(230,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(230,45): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(231,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(243,34): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(285,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(285,45): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(286,14): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(324,34): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(437,37): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(440,40): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(452,37): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(512,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(514,10): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(530,8): error C2065: 'g_ent_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(531,16): error C2065: 'g_timer_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(531,28): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(532,16): error C2065: 'g_ent_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(532,26): error C2541: 'delete': cannot delete objects that are not pointers
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(533,9): error C2065: 'g_timer_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(534,9): error C2065: 'g_ent_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(575,5): error C2065: 'g_ent_flag': undeclared identifier
+D:\Stride\shared\horizon\code\source\generators\physbox.cpp(578,5): error C2065: 'g_timer_flag': undeclared identifier
   GUIbase.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIbutton.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIdropdownMenu.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIframe.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIgrid.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIimage.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIlabel.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIrenderer.cpp
   GUIrenderer_default.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIscrollbar.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIselectable.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUItextentry.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUIwindow.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUI_internal.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   GUI_property.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+  GUI_types.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+  input.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\input\input.cpp(8,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\input.cpp(9,2): error C2065: 'g_inputController': undeclared identifier
+  inputController.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(49,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(50,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(62,64): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(62,76): error C2660: 'rotate': function does not take 1 arguments
+D:\Stride\shared\horizon\code\include\math\vec.h(58,6): message : see declaration of 'rotate'
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(66,91): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(66,103): error C2660: 'rotate': function does not take 1 arguments
+D:\Stride\shared\horizon\code\include\math\vec.h(58,6): message : see declaration of 'rotate'
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(85,13): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(86,13): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(87,13): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(88,43): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(102,4): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(105,4): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(108,10): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(112,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(116,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(116,18): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(119,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(127,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(133,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(142,5): error C2065: 'g_keyboardCaptured': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(153,35): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(159,16): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(160,10): error C3536: 'ci': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(165,12): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(165,25): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(197,40): error C2065: 'g_keyboardCaptured': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\inputController.cpp(198,24): error C2065: 'g_keyboardCaptured': undeclared identifier
   Generating Code...
   Compiling...
-  GUI_types.cpp
-  input.cpp
-  inputController.cpp
   keybinds.cpp
-  mouse.cpp
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(5,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(25,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(26,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(27,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(30,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(31,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(32,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(35,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(38,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(41,4): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(48,2): error C2065: 'g_keybinds': undeclared identifier
   fontLoader.cpp
   imageLoader.cpp
   modelLoader.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(93,25): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(94,40): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(94,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(94,11): message : placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(94,11): message : the missing variadic argument 2 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(95,51): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(95,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(95,11): message : placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(95,11): message : the missing variadic argument 2 is required by format string '%ld'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(96,56): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(96,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(96,11): message : placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(96,11): message : the missing variadic argument 2 is required by format string '%ld'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(97,4): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(98,27): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,55): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,88): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,121): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,154): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,10): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,10): message : placeholders and their parameters expect 5 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(99,10): message : the missing variadic argument 2 is required by format string '%d'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(102,44): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(102,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(102,11): message : placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(102,11): message : the missing variadic argument 2 is required by format string '%ld'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(103,4): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(104,27): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(106,5): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(107,5): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(108,5): error C2065: 'g_shapes': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(105,10): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(105,10): message : placeholders and their parameters expect 4 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(105,10): message : the missing variadic argument 2 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(112,25): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(113,43): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(113,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(113,11): message : placeholders and their parameters expect 2 variadic arguments, but 1 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(113,11): message : the missing variadic argument 2 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,45): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,72): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,99): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,11): message : placeholders and their parameters expect 3 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(114,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,45): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,72): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,99): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,11): message : placeholders and their parameters expect 3 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(115,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,45): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,73): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,101): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,11): message : placeholders and their parameters expect 3 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(116,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,45): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,78): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,111): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,11): message : placeholders and their parameters expect 3 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(117,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,45): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,73): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,101): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,11): message : placeholders and their parameters expect 3 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(118,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(119,35): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(119,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(119,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(119,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(120,35): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(120,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(120,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(120,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(121,41): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(121,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(121,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(121,11): message : the missing variadic argument 1 is required by format string '%f'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(122,38): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(122,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(122,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(122,11): message : the missing variadic argument 1 is required by format string '%d'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(123,39): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(123,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(123,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(123,11): message : the missing variadic argument 1 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(124,39): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(124,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(124,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(124,11): message : the missing variadic argument 1 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(125,39): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(125,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(125,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(125,11): message : the missing variadic argument 1 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(126,39): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(126,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(126,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(126,11): message : the missing variadic argument 1 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(127,58): error C2065: 'g_materials': undeclared identifier
+D:\Stride\shared\horizon\code\source\loaders\modelLoader.cpp(128,61): error C2065: 'g_materials': undeclared identifier
   textureLoader.cpp
+  global_vars.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\GUI\GUI_types.h(41,43): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\GUI\GUI_types.h(47,53): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\include\GUI\GUIrenderer_default.h(8,26): error C2011: 'GUIrenderer_default': 'class' type redefinition
+D:\Stride\shared\horizon\code\include\GUI\GUIrenderer_default.h(8): message : see declaration of 'GUIrenderer_default'
+D:\Stride\shared\horizon\code\include\GUI\GUIrenderer_default.h(17,35): error C2011: 'gs_GUIrenderer_defaultKind': 'struct' type redefinition
+D:\Stride\shared\horizon\code\include\GUI\GUIrenderer_default.h(17): message : see declaration of 'gs_GUIrenderer_defaultKind'
+D:\Stride\shared\horizon\code\source\main\global_vars.cpp(56,59): error C2027: use of undefined type 'gs_GUIrenderer_defaultKind'
+D:\Stride\shared\horizon\code\include\GUI\GUIrenderer_default.h(17): message : see declaration of 'gs_GUIrenderer_defaultKind'
+D:\Stride\shared\horizon\code\source\main\global_vars.cpp(60,2): error C2065: 'gs_inputController': undeclared identifier
   main.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(7,19): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\code\include\experimental\node_graph.h(8): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\code\source\main\main.cpp(101,8): error C2065: 'g_audio_len': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(103,27): error C2065: 'g_audio_len': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(105,24): error C2065: 'g_audio_pos': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(107,5): error C2065: 'g_audio_pos': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(108,5): error C2065: 'g_audio_len': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(122,2): error C2065: 'g_octree_root': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(124,2): error C2065: 'g_octree_root': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(125,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(132,2): error C2065: 'g_console': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(138,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(139,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(140,2): error C2065: 'g_ecs': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(141,2): error C2065: 'g_physicsOn': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(142,2): error C2065: 'g_collisionOn': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(143,2): error C2065: 'g_texturingOn': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(160,2): error C2065: 'g_audio_pos': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(161,2): error C2065: 'g_audio_len': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(177,2): error C2065: 'g_mem1': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(180,3): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(181,6): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(181,19): error C2065: 'g_fps': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(181,32): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(196,3): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(199,3): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(199,3): error C2065: 'g_eventTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(202,3): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(204,41): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(205,2): error C2065: 'g_renderTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(206,2): error C2065: 'g_sysmsgTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,24): error C2065: 'g_eventTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,41): error C2065: 'g_eventTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,54): error C2065: 'g_renderTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,72): error C2065: 'g_renderTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,86): error C2065: 'g_sysmsgTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,104): error C2065: 'g_sysmsgTime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,118): error C2065: 'g_frametimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(209,135): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(211,42): error C2065: 'g_eventTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(211,63): error C2065: 'g_frametimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(212,43): error C2065: 'g_renderTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(212,65): error C2065: 'g_frametimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(213,43): error C2065: 'g_sysmsgTimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(213,65): error C2065: 'g_frametimeFlt': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(214,2): error C2065: 'g_mem2': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(215,31): error C2065: 'g_mem2': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(215,50): error C2065: 'g_mem1': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(217,7): error C2065: 'g_mem2': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(223,2): error C2065: 'g_layerGUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(224,11): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(224,21): error C2065: 'g_layerGUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(225,2): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(226,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(226,35): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(227,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\main\main.cpp(227,36): error C2065: 'g_GUI': undeclared identifier
   fancymath.cpp
-  geometry.cpp
-  simplemath.cpp
   vec.cpp
   characterController.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(56,24): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(56,55): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(57,24): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(68,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(69,2): error C2065: 'g_globalChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(73,2): error C2065: 'g_inputChannel': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\characterController.cpp(74,2): error C2065: 'g_globalChannel': undeclared identifier
   collision.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(35,26): error C2065: 'g_octree_root': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(65,21): error C2065: 'g_deleteLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(564,15): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(564,37): error C3536: 'I': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(564,40): error C2065: 'g_entities': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(568,7): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(568,15): error C2446: '==': no conversion from 'entity *const ' to 'int'
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(568,13): message : There is no context in which this conversion is possible
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(572,15): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(572,17): error C2440: 'initializing': cannot convert from 'int' to 'entity *'
+D:\Stride\shared\horizon\code\source\physics\collision.cpp(572,13): message : Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or parenthesized function-style cast
   broadphase.cpp
+D:\Stride\shared\horizon\code\source\physics\collision\broadphase.cpp(79,18): error C2065: 'g_bprecs': undeclared identifier
   narrowphase.cpp
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(44,22): error C2065: 'G': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(44,20): error C2530: 'sideNormals': references must be initialized
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(100,28): error C3536: 'sideNormals': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(100,56): error C2109: subscript requires array or pointer type
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(189,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(196,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(204,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(435,24): error C2065: 'g_sideNormals': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\narrowphase.cpp(617,2): error C2065: 'g_numCollisionPairs': undeclared identifier
   resolution.cpp
+D:\Stride\shared\horizon\code\source\physics\collision\resolution.cpp(62,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\physics\collision\resolution.cpp(214,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   octree.cpp
-  Generating Code...
-  Compiling...
-  file.cpp
+D:\Stride\shared\horizon\code\source\physics\octree.cpp(347,3): error C2065: 'g_GUI': undeclared identifier
   pipe.cpp
   window.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   camera.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\render\camera.cpp(115,20): error C2065: 'g_width': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(115,29): error C2065: 'g_height': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(122,16): error C2065: 'g_width': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(123,17): error C2065: 'g_height': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(208,12): error C2065: 'g_deleteLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(211,7): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(212,33): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(212,11): warning C4473: 'printf' : not enough arguments passed for format string
+D:\Stride\shared\horizon\code\source\render\camera.cpp(212,11): message : placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+D:\Stride\shared\horizon\code\source\render\camera.cpp(212,11): message : the missing variadic argument 1 is required by format string '%s'
+D:\Stride\shared\horizon\code\source\render\camera.cpp(213,4): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(313,24): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(313,37): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(319,28): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(319,16): error C3861: 'length': identifier not found
+D:\Stride\shared\horizon\code\source\render\camera.cpp(321,24): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(321,37): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(369,9): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(415,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(416,16): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(420,2): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\camera.cpp(421,16): error C2065: 'g_camera': undeclared identifier
   paint.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   paintHelper.cpp
+D:\Stride\shared\horizon\code\source\render\paintHelper.cpp(144,16): error C2065: 'g_camera': undeclared identifier
+  Generating Code...
+  Compiling...
   printw.cpp
+D:\Stride\shared\horizon\code\source\render\printw.cpp(42,25): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\printw.cpp(57,22): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\printw.cpp(67,5): error C2065: 'g_printFromTop': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\printw.cpp(109,5): error C2065: 'g_printFromTop': undeclared identifier
   render.cpp
+D:\Stride\shared\horizon\code\source\render\render.cpp(10,16): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(11,29): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(12,5): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(48,5): error C2065: 'g_currentLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(68,15): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(84,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(124,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(139,19): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(139,15): error C2672: 'dot': no matching overloaded function found
+D:\Stride\shared\horizon\code\source\render\render.cpp(141,11): error C2065: 'g_camera': undeclared identifier
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\render\render.cpp(184,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(194,13): error C2065: 'g_m': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(195,13): error C2065: 'g_m': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(201,11): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(207,17): error C2065: 'g_fps': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(208,23): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(210,34): error C2065: 'g_fps': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(210,69): error C2065: 'g_frametime': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(212,42): error C2065: 'g_inputController': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(212,35): error C3861: 'length': identifier not found
+D:\Stride\shared\horizon\code\source\render\render.cpp(213,5): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(213,12): error C2065: 'g_GUI': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(217,2): error C2065: 'g_loadLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(218,2): error C2065: 'g_loadLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(219,2): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(220,2): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(221,2): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(222,2): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(223,2): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(224,2): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(225,2): error C2065: 'g_layerDebug2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(226,2): error C2065: 'g_layerDebug2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(227,2): error C2065: 'g_deleteLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(228,2): error C2065: 'g_deleteLayer': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(236,31): error C2065: 'g_width': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\render.cpp(236,40): error C2065: 'g_height': undeclared identifier
   renderCommand.cpp
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(180,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(184,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(193,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(194,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(195,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(196,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(201,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(202,51): error C3861: 'wasRecentlyDeleted': identifier not found
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(203,51): error C3861: 'wasRecentlyDeleted': identifier not found
   renderLayer.cpp
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(24,2): error C2065: 'g_all_layers': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(118,11): error C2065: 'g_layer3D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(142,11): error C2065: 'g_layer2D': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(159,11): error C2065: 'g_layerDebug': undeclared identifier
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(179,11): error C2065: 'g_layerDebug2D': undeclared identifier
   rmodel.cpp
   atlas.cpp
   bitmap.cpp
-  fonts.cpp
   model.cpp
   resource.cpp
-  texture.cpp
-  threads.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   animation.cpp
   debug.cpp
-  Generating Code...
-  Compiling...
+D:\Stride\shared\horizon\code\include\util\debug.h(132,15): error C2143: syntax error: missing ';' before '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(132,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\util\debug.h(133,12): error C2143: syntax error: missing ';' before '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(133,12): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\util\debug.h(134,15): error C2059: syntax error: '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(164,20): error C3646: 'g_deleteBuffer': unknown override specifier
+D:\Stride\shared\horizon\code\include\util\debug.h(164,34): error C2143: syntax error: missing ',' before '['
+D:\Stride\shared\horizon\code\include\util\debug.h(164,40): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+D:\Stride\shared\horizon\code\include\util\debug.h(167,5): error C2059: syntax error: '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(167,54): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\util\debug.h(168,5): error C2059: syntax error: '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(168,49): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\util\debug.h(175,8): error C2059: syntax error: '<'
+D:\Stride\shared\horizon\code\include\util\debug.h(175,42): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(81,20): error C2011: 'mapped_alloc': 'struct' type redefinition
+D:\Stride\shared\horizon\code\include\util\debug.h(64): message : see declaration of 'mapped_alloc'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(87,24): error C2011: 'mapped_alloc_key': 'struct' type redefinition
+D:\Stride\shared\horizon\code\include\util\debug.h(70): message : see declaration of 'mapped_alloc_key'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(278,36): error C2039: 'g_deleteBuffer': is not a member of 'gs_debugKind'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(9): message : see declaration of 'gs_debugKind'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(278,21): error C2530: 'deleteBuffer': references must be initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(279,40): error C2039: 'g_deallocation_map': is not a member of 'gs_debugKind'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(9): message : see declaration of 'gs_debugKind'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(279,25): error C2530: 'deallocation_map': references must be initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(280,38): error C2039: 'g_allocation_map': is not a member of 'gs_debugKind'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(9): message : see declaration of 'gs_debugKind'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(280,23): error C2530: 'allocation_map': references must be initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(285,5): error C2065: 'delayedDeleteList': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(285,24): error C2065: 'dellist': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(285,46): error C3536: 'deleteBuffer': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(285,67): error C2109: subscript requires array or pointer type
+D:\Stride\shared\horizon\code\source\util\debug.cpp(287,33): error C2065: 'dellist': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(288,21): error C2065: 'dellist': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(289,26): error C2079: 'key' uses undefined struct 'mapped_alloc_key'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(289,48): error C3536: 'deallocation_map': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(289,53): error C2440: 'initializing': cannot convert from 'void' to 'int'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(289,30): message : Expressions of type void cannot be converted to other types
+D:\Stride\shared\horizon\code\source\util\debug.cpp(290,9): error C2065: 'struct_alloc_file': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(290,28): error C2065: 'f': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(290,46): error C3536: 'allocation_map': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(291,9): error C2065: 'struct_alloc_line': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(291,28): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(291,32): error C2065: 'f': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(292,22): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(292,35): error C3536: 'J': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(292,38): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(293,32): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\util\debug.cpp(293,34): error C2440: 'initializing': cannot convert from 'int' to 'mapped_alloc &'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(294,15): error C2027: use of undefined type 'mapped_alloc'
+D:\Stride\shared\horizon\code\include\util\debug.h(64): message : see declaration of 'mapped_alloc'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(295,21): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(304,5): error C2065: 'dellist': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(309,40): error C2039: 'g_deallocation_map': is not a member of 'gs_debugKind'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(9): message : see declaration of 'gs_debugKind'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(309,25): error C2530: 'deallocation_map': references must be initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(310,38): error C2039: 'g_allocation_map': is not a member of 'gs_debugKind'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(9): message : see declaration of 'gs_debugKind'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(310,23): error C2530: 'allocation_map': references must be initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(312,7): error C3536: 'deallocation_map': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(313,26): error C2079: 'key' uses undefined struct 'mapped_alloc_key'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(313,53): error C2440: 'initializing': cannot convert from 'void' to 'int'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(313,30): message : Expressions of type void cannot be converted to other types
+D:\Stride\shared\horizon\code\source\util\debug.cpp(314,9): error C2065: 'struct_alloc_file': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(314,28): error C2065: 'f': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(314,46): error C3536: 'allocation_map': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(315,9): error C2065: 'struct_alloc_line': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(315,28): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(315,32): error C2065: 'f': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(316,22): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(316,35): error C3536: 'J': cannot be used before it is initialized
+D:\Stride\shared\horizon\code\source\util\debug.cpp(316,38): error C2065: 'l': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(317,32): error C2100: illegal indirection
+D:\Stride\shared\horizon\code\source\util\debug.cpp(317,34): error C2440: 'initializing': cannot convert from 'int' to 'mapped_alloc &'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(318,15): error C2027: use of undefined type 'mapped_alloc'
+D:\Stride\shared\horizon\code\include\util\debug.h(64): message : see declaration of 'mapped_alloc'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(319,26): error C2027: use of undefined type 'mapped_alloc'
+D:\Stride\shared\horizon\code\include\util\debug.h(64): message : see declaration of 'mapped_alloc'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(605,20): error C2011: 'stackSentinel': 'class' type redefinition
+D:\Stride\shared\horizon\code\include\util\debug.h(125): message : see declaration of 'stackSentinel'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(612,16): error C2027: use of undefined type 'stackSentinel'
+D:\Stride\shared\horizon\code\include\util\debug.h(125): message : see declaration of 'stackSentinel'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(612,31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\source\util\debug.cpp(614,3): error C2065: 'vals': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(617,1): warning C4508: '{ctor}': function should return a value; 'void' return type assumed
+D:\Stride\shared\horizon\code\source\util\debug.cpp(651,17): error C2027: use of undefined type 'stackSentinel'
+D:\Stride\shared\horizon\code\include\util\debug.h(125): message : see declaration of 'stackSentinel'
+D:\Stride\shared\horizon\code\source\util\debug.cpp(651,32): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\source\util\debug.cpp(656,6): error C2065: 'vals': undeclared identifier
+D:\Stride\shared\horizon\code\source\util\debug.cpp(668,1): warning C4508: '{dtor}': function should return a value; 'void' return type assumed
   elastic_ptr.cpp
   event.cpp
+D:\Stride\shared\horizon\code\source\util\event.cpp(110,2): error C2065: 'g_globalChannel': undeclared identifier
   hook.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   paramList.cpp
   stringUtils.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   timer.cpp
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C2143: syntax error: missing ';' before '*'
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Stride\shared\horizon\code\include\main\global_vars.h(65,44): error C2238: unexpected token(s) preceding ';'
   util.cpp
   Generating Code...
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
-glm.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:REF' specification
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-freetype.lib(autofit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(autofit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftbase.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbase.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbitmap.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftinit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftinit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftsystem.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(bdf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(bdf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(cff.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(cff.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(type1cid.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1cid.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftgzip.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftlzw.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftlzw.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(pcf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pcf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(pfr.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pfr.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(psaux.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psaux.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(pshinter.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pshinter.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(psmodule.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psmodule.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(raster.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(raster.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(sfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(sfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(smooth.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(smooth.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(truetype.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(truetype.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(type1.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(type42.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type42.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(winfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(winfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(ftdebug.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftdebug.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-  horizon.vcxproj -> D:\Stride\shared\horizon\bin\horizon.exe

@@ -11,12 +11,12 @@
 #include "window.h"
 #include "console.h"
 
-GUIwindow *g_entWindow = 0;
-extern GUIbase *g_GUI;
-extern cameraKind g_camera;
+//GUIwindow *g_entWindow = 0;
+//extern GUIbase *g_GUI;
+//extern cameraKind g_camera;
 
-entity *g_pickedEntity = 0;
-renderLayer *g_pickerLayer = 0;
+//entity *g_pickedEntity = 0;
+//renderLayer *g_pickerLayer = 0;
 
 void closeEntityOptionsWindow(){
 	//if(entWindow){entWindow->close(); delete entWindow; entWindow = 0;}

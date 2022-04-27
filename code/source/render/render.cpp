@@ -3,8 +3,8 @@
 #include "renderLayer.h"
 #include "simplemath.h"
 
-extern bool g_texturingOn;
-extern renderLayer *g_currentLayer;
+//extern bool g_texturingOn;
+//extern renderLayer *g_currentLayer;
 
 void renderOptions::apply(renderLayer *L){
     if(!L){L = g_currentLayer;}
@@ -55,7 +55,7 @@ void renderOptions::applyImmediate(){
     delete tempLayer;
 }
 
-vector<renderOptions> renderOptionsStack;
+//vector<renderOptions> g_renderOptionsStack;
 
 void renderableSprite::upload(){}
 

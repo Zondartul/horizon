@@ -88,12 +88,16 @@ public:
 	void screenRead(rect R, bitmap *Bmp);
 	camprojection getProjection();
 };
-extern cameraKind g_camera;
+//extern cameraKind g_camera;
 
 class rmodel;
 rmodel *ray_shotgun(int x_steps, int y_steps);
 
 void go3D();
 void go2D();
+
+struct gs_cameraKind {
+	cameraKind g_camera;
+};
 
 #endif

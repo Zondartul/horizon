@@ -18,4 +18,8 @@ broadphaseinfo *getBroadphaseNodeOnly(octree_node *node);
 broadphaseinfo *checkCollisionBroadphase(octree_node *node);
 void broadphaseRender(broadphaseinfo *bp);
 
+struct gs_broadphaseKind {
+	int g_bprecs = 0;
+};
+
 #endif

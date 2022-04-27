@@ -53,8 +53,12 @@ class consoleKind{
 	void print(string text);
 };
 
-extern consoleKind *g_console;
+//extern consoleKind *g_console;
 void initConsole();
 void cprint(const char *format, ...);
+
+struct gs_consoleKind {
+	consoleKind* g_console;
+};
 
 #endif

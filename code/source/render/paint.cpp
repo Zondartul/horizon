@@ -1,3 +1,6 @@
+#include <vector>
+#include <fstream>
+#include <sstream>
 #include "paint.h"
 #include "stdio.h"
 #include "globals.h"
@@ -7,33 +10,40 @@
 #include "model.h"
 #include "timer.h"
 #include "util.h"
-#include <vector>
-using std::vector;
-#include <fstream>
-using std::ofstream;
-#include <sstream>
-using std::stringstream;
 #include "renderCommand.h"
-renderLayer *g_currentLayer = 0;
-//core functions
+#include "global_vars.h"
+#include "modelprimitives.h"
+#include "editmodel.h"
+using std::vector;
+using std::ofstream;
+using std::stringstream;
 
-void setLayer(renderLayer *L){g_currentLayer = L;}
+void setLayer(renderLayer *L){
+	auto &currentLayer = G->gs_paint->g_currentLayer;
+
+	currentLayer = L;
+}
 void addLayer(renderLayer *L){
-	if(g_currentLayer){
-		for(auto I = g_layers.begin(); I!= g_layers.end(); I++){
-			if(*I == g_currentLayer){
-				g_layers.insert(I+1,L);
+	auto &currentLayer = G->gs_paint->g_currentLayer;
+	auto &layers = G->gs_renderLayer->g_layers;
+
+	if(currentLayer){
+		for(auto I = layers.begin(); I!= layers.end(); I++){
+			if(*I == currentLayer){
+				layers.insert(I+1,L);
 				return;
 			}
 		}
 	}else{
-		g_layers.push_back(L);
+		layers.push_back(L);
 	}
 }
 void addLayer(renderLayer *L1, renderLayer *L2){
-	for(auto I = g_layers.begin(); I!= g_layers.end(); I++){
+	auto &layers = G->gs_renderLayer->g_layers;
+
+	for(auto I = layers.begin(); I!= layers.end(); I++){
 			if(*I == L1){
-				g_layers.insert(I+1,L2);
+				layers.insert(I+1,L2);
 				return;
 			}
 	}
@@ -61,31 +71,39 @@ void clearLayer(renderLayer *L){L->clear();}
 void resetLayer(renderLayer *L){L->reset();}
 
 void removeLayer(renderLayer *L){
-	for(auto I = g_layers.begin(); I!= g_layers.end(); I++){
+	auto &layers = G->gs_renderLayer->g_layers;
+
+	for(auto I = layers.begin(); I!= layers.end(); I++){
 		if(*I == L){
-			I = g_layers.erase(I);
+			I = layers.erase(I);
 		}
 	}
 }
-bool g_printAllPending = false;
-bool g_frameReportPending = false;
+
 void renderAllLayers(){
-	if(g_printAllPending){g_printAllPending = false; printAllLayers();}
-	if(g_frameReportPending){g_frameReportPending = false; frameReport();}
-	for(auto I = g_layers.begin(); I!= g_layers.end(); I++){
+	auto &printAllPending = G->gs_paint->g_printAllPending;
+	auto &frameReportPending = G->gs_paint->g_frameReportPending;
+	auto &layers = G->gs_renderLayer->g_layers;
+
+	if(printAllPending){printAllPending = false; printAllLayers();}
+	if(frameReportPending){frameReportPending = false; frameReport();}
+	for(auto I = layers.begin(); I!= layers.end(); I++){
         renderLayer *L = *I;
 		if(!L->special){(*I)->render();}
 		if(!L->persistent){(*I)->clear();}
 	}
 }
 void printAllLayers(){
+	auto &layers = G->gs_renderLayer->g_layers;
+
 	int J = 0;
-	for(auto I = g_layers.begin(); I != g_layers.end(); I++, J++){
+	for(auto I = layers.begin(); I != layers.end(); I++, J++){
 		printf("layer %d: \"%s\"\n",J, (*I)->name.c_str());
 		(*I)->print();
 	}
 }
 void frameReport(){
+	auto &layers = G->gs_renderLayer->g_layers;
 
 	string filename = "logs/framereport";
 	filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
@@ -94,7 +112,7 @@ void frameReport(){
 	stringstream ss;
 	int J = 0;
     ss << "\nmain sequence (RC3):\n";
-	for(auto I = g_layers.begin(); I != g_layers.end(); I++, J++){
+	for(auto I = layers.begin(); I != layers.end(); I++, J++){
 		ss << (*I)->report3();
 	}
 	fs << ss.str();
@@ -102,75 +120,237 @@ void frameReport(){
 	printf("frame report saved to %s\n",filename.c_str());
 }
 
-void printAllLayersNextRender()	{g_printAllPending = true;}
-void frameReportNextRender()	{g_frameReportPending = true;}
-void drawLayer(renderLayer *L)  {g_currentLayer->push(new renderCommand3(RC3T::LAYER,             L));}
+void printAllLayersNextRender()	{
+	auto &printAllPending = G->gs_paint->g_printAllPending;
+	printAllPending = true;
+}
+void frameReportNextRender()	{
+	auto& frameReportPending = G->gs_paint->g_frameReportPending;
+	frameReportPending = true;
+}
 
-void setColoring(bool b)        {g_currentLayer->push(new renderCommand3(RC3T::COLORING,          b));}		//enables per-vertex coloring (no color = white)
-void setUvColoring(bool b)      {g_currentLayer->push(new renderCommand3(RC3T::UVCOLORING,        b));}		//(debug) add color based on UV-coordinates
-void setNormalColoring(bool b)  {g_currentLayer->push(new renderCommand3(RC3T::NORMALCOLORING,    b));}	//(debug) add color based on the normal vector
-void setTransparency(bool b)    {g_currentLayer->push(new renderCommand3(RC3T::TRANSPARENCY,      b));}	//enables transparency (no transparency = alpha 1)
-void setDepthMask(bool b)       {g_currentLayer->push(new renderCommand3(RC3T::DEPTHMASK,         b));}	//enables or disables depth buffer writing
-void setTexturing(bool b)       {g_currentLayer->push(new renderCommand3(RC3T::TEXTURING,         b));}	//enables texturing (no texture = colors only)
-void setDebug(bool b)           {g_currentLayer->push(new renderCommand3(RC3T::DEBUG,             b));}		//enables debug rendering mode
-void setScissoring(bool b)      {g_currentLayer->push(new renderCommand3(RC3T::SCISSORING,        b));}		//enable scissor test
+void drawLayer(renderLayer *L)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::LAYER,             L));
+}
 
-void setColor(vec3 col)			{g_currentLayer->push(new renderCommand3(RC3T::COLOR,				col));}		//sets global color (default = 1,1,1)
-void setAlpha(float a)          {g_currentLayer->push(new renderCommand3(RC3T::ALPHA,             a));}		//sets global alpha (default = 1), needs transparency
-void setTexture(texture *t)     {g_currentLayer->push(new renderCommand3(RC3T::TEXTURE_SELECT,    t));}		//selects current texture, needs upload
-void setFont(font *f)           {g_currentLayer->push(new renderCommand3(RC3T::FONT_SELECT,       f));}		//selects current font, needs upload
-void setRenderMode(int mode)    {g_currentLayer->push(new renderCommand3(RC3T::MODE_SELECT,       mode));}//{c/0 - points, 1 - lines, 3 - triangles, 4 - triangles (wireframe)
-void setTextPos(vec2 textPos)   {g_currentLayer->push(new renderCommand3(RC3T::TEXT_POS,          textPos));} 	//textPos is advanced automatically after each print
-void setScissor(rect S)         {g_currentLayer->push(new renderCommand3(RC3T::SCISSOR,           S));}	//limits the drawn-to area
-void setPointSize(float size)   {g_currentLayer->push(new renderCommand3(RC3T::POINTSIZE,         size));}	//sets size of single points (not lines)
-void setLineWidth(float width)  {g_currentLayer->push(new renderCommand3(RC3T::LINEWIDTH,         width));}//sets the width of lines
+void setColoring(bool b)        {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::COLORING,          b));
+}		//enables per-vertex coloring (no color = white)
 
-void uploadTexture(texture *t)  {g_currentLayer->push(new renderCommand3(RC3T::TEXTURE_UPLOAD,        t));}	//uploads texture to GPU
-void uploadRmodel(rmodel *rm)   {g_currentLayer->push(new renderCommand3(RC3T::RMODEL_UPLOAD,         rm));}	//uploads rmodel to GPU
-void deleteRmodel(rmodel *rm)   {g_currentLayer->push(new renderCommand3(RC3T::RMODEL_DELETE,         rm));}	//deletes rmodel from GPU
+void setUvColoring(bool b)      {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::UVCOLORING,        b));
+}		//(debug) add color based on UV-coordinates
 
-void setProjection(camprojection cpj)
-                                {g_currentLayer->push(new renderCommand3(RC3T::PROJECTION,            copyToHeap(cpj)));}//changes current projection matrix
-void setProjectionToCamera(cameraKind *camera)  {setProjection(camera->getProjection());}
-void setPosition(vec3 pos)      {g_currentLayer->push(new renderCommand3(RC3T::POSITION,              pos));}//changes current world pos
-void setRotation(vec3 rot)      {g_currentLayer->push(new renderCommand3(RC3T::ROTATION,              rot));}//changes current rotation
-void setScale(vec3 scale)       {g_currentLayer->push(new renderCommand3(RC3T::SCALE,                 scale));}//changes current object scale
+void setNormalColoring(bool b)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::NORMALCOLORING,    b));
+}	//(debug) add color based on the normal vector
 
-void setTexturePosition(vec2 pos){g_currentLayer->push(new renderCommand3(RC3T::TEXTURE_POS,			pos));}//changes global texture shift
-void setTextureScale(vec2 scale){g_currentLayer->push(new renderCommand3(RC3T::TEXTURE_SCALE,			scale));}//changes global texture scale
+void setTransparency(bool b)    {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TRANSPARENCY,      b));
+}	//enables transparency (no transparency = alpha 1)
 
-void clearScreen()              {g_currentLayer->push(new renderCommand3(RC3T::CLEAR_SCREEN           ));}//clears screen with current color
-void drawRmodel(rmodel *rm)     {g_currentLayer->push(new renderCommand3(RC3T::RMODEL_RENDER,         rm));}//draws rendermodel
-void printText(string text)     {g_currentLayer->push(new renderCommand3(RC3T::PRINT_TEXT,            copyToHeap(text)));}//draws text at current textPos
-void renderComment(string str)  {g_currentLayer->push(new renderCommand3(RC3T::COMMENT,               copyToHeap(str)));}
-void setDepthTest(bool b)       {g_currentLayer->push(new renderCommand3(RC3T::DEPTH_TEST,            b));}
-void setLighting(bool b)        {g_currentLayer->push(new renderCommand3(RC3T::LIGHTING,              b));}
-void setSunPos(vec3 pos)        {g_currentLayer->push(new renderCommand3(RC3T::SUN_POS,               pos));}//sets the directional light position
-void setSunColor(vec3 val)      {g_currentLayer->push(new renderCommand3(RC3T::SUN_LIGHT_COLOR,       val));}//sets the directional light brightness
-void setAmbientColor(vec3 val)  {g_currentLayer->push(new renderCommand3(RC3T::AMBIENT_LIGHT_COLOR,   val));}//sets the ambient light brightness
-void pushRenderOptions()        {g_currentLayer->push(new renderCommand3(RC3T::PUSH_OPTIONS              ));}
-void popRenderOptions()         {g_currentLayer->push(new renderCommand3(RC3T::POP_OPTIONS               ));}
+void setDepthMask(bool b)       {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::DEPTHMASK,         b));
+}	//enables or disables depth buffer writing
 
+void setTexturing(bool b)       {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXTURING,         b));
+}	//enables texturing (no texture = colors only)
+
+void setDebug(bool b)           {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::DEBUG,             b));
+}		//enables debug rendering mode
+
+void setScissoring(bool b)      {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::SCISSORING,        b));
+}		//enable scissor test
+
+void setColor(vec3 col)			{
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::COLOR,				col));
+}		//sets global color (default = 1,1,1)
+
+void setAlpha(float a)          {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::ALPHA,             a));
+}		//sets global alpha (default = 1), needs transparency
+
+void setTexture(texture *t)     {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXTURE_SELECT,    t));
+}		//selects current texture, needs upload
+
+void setFont(font *f)           {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::FONT_SELECT,       f));
+}		//selects current font, needs upload
+
+void setRenderMode(int mode)    {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::MODE_SELECT,       mode));
+}//{c/0 - points, 1 - lines, 3 - triangles, 4 - triangles (wireframe)
+
+void setTextPos(vec2 textPos)   {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXT_POS,          textPos));
+} 	//textPos is advanced automatically after each print
+
+void setScissor(rect S)         {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::SCISSOR,           S));
+}	//limits the drawn-to area
+
+void setPointSize(float size)   {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::POINTSIZE,         size));
+}	//sets size of single points (not lines)
+
+void setLineWidth(float width)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::LINEWIDTH,         width));
+}//sets the width of lines
+
+void uploadTexture(texture *t)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXTURE_UPLOAD,        t));
+}	//uploads texture to GPU
+
+void uploadRmodel(rmodel *rm)   {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::RMODEL_UPLOAD,         rm));
+}	//uploads rmodel to GPU
+
+void deleteRmodel(rmodel *rm)   {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::RMODEL_DELETE,         rm));
+}	//deletes rmodel from GPU
+
+void setProjection(camprojection cpj){
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::PROJECTION,            copyToHeap(cpj)));
+}//changes current projection matrix
+
+void setProjectionToCamera(cameraKind *camera){
+	setProjection(camera->getProjection());
+}
+void setPosition(vec3 pos){
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::POSITION,              pos));
+}//changes current world pos
+
+void setRotation(vec3 rot){
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::ROTATION,              rot));
+}//changes current rotation
+
+void setScale(vec3 scale)       {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::SCALE,                 scale));
+}//changes current object scale
+
+void setTexturePosition(vec2 pos){
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXTURE_POS,			pos));
+}//changes global texture shift
+
+void setTextureScale(vec2 scale){
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::TEXTURE_SCALE,			scale));
+}//changes global texture scale
+
+void clearScreen(){
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::CLEAR_SCREEN           ));
+}//clears screen with current color
+
+void drawRmodel(rmodel *rm)     {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::RMODEL_RENDER,         rm));
+}//draws rendermodel
+
+void printText(string text)     {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::PRINT_TEXT,            copyToHeap(text)));
+}//draws text at current textPos
+
+void renderComment(string str)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::COMMENT,               copyToHeap(str)));
+}
+
+void setDepthTest(bool b)       {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::DEPTH_TEST,            b));
+}
+
+void setLighting(bool b)        {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::LIGHTING,              b));
+}
+
+void setSunPos(vec3 pos)        {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::SUN_POS,               pos));
+}//sets the directional light position
+
+void setSunColor(vec3 val)      {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::SUN_LIGHT_COLOR,       val));
+}//sets the directional light brightness
+
+void setAmbientColor(vec3 val)  {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::AMBIENT_LIGHT_COLOR,   val));
+}//sets the ambient light brightness
+
+void pushRenderOptions()        {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::PUSH_OPTIONS              ));
+}
+
+void popRenderOptions()         {
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::POP_OPTIONS               ));
+}
 
 //more support stuff for the horizon -> horizonRender move
-void setFaceCulling(bool b)		{g_currentLayer->push(new renderCommand3(RC3T::FACE_CULLING, b));}
+void setFaceCulling(bool b)		{
+	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	currentLayer->push(new renderCommand3(RC3T::FACE_CULLING, b));
+}
 void setFaceCullCCW() {
-	g_currentLayer->push(new renderCommand3(RC3T::FACE_CULL_CCW));
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::FACE_CULL_CCW));
 }
 void readPixels(int x, int y, int w, int h, void* buff) {
-	g_currentLayer->push(new renderCommand3(RC3T::READ_PIXELS, buff));
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::READ_PIXELS, buff));
 }
 void setViewport(int x, int y, int w, int h) {
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
 	rect R;
 	R = R.setStart(vec2(x, y)).setSize(vec2(w, h));
-	g_currentLayer->push(new renderCommand3(RC3T::VIEWPORT, R));
+	currentLayer->push(new renderCommand3(RC3T::VIEWPORT, R));
 }
 
 void debugFloatingText(vec3 p, string S){
-	setLayer(g_layerDebug2D);
+	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
+	auto& camera = G->gs_camera->g_camera;
+
+	setLayer(layerDebug2D);
 	setColor(vec3(0,0,0));
-	if(dot(p-g_camera.pos,g_camera.forward()) > 0){
-		vec3 tp = g_camera.worldToScreen(p);
+	if(dot(p-camera.pos,camera.forward()) > 0){
+		vec3 tp = camera.worldToScreen(p);
 		setTextPos(vec2(tp.x,tp.y));
 		printText(S);
 	}
@@ -385,17 +565,6 @@ void drawModel(vec3 pos, vec3 rot, vec3 scale, model *m){
 	}
 }
 
-#include "modelprimitives.h"
-#include "editmodel.h"
-rmodel *g_rm_unitboxWF = 0;
-rmodel *g_rm_unitcyllinderWF = 0;
-rmodel *g_rm_unitconeWF = 0;
-rmodel *g_rm_unitsphereWF = 0;
-
-rmodel *g_rm_unitbox = 0;
-rmodel *g_rm_unitcyllinder = 0;
-rmodel *g_rm_unitcone = 0;
-rmodel *g_rm_unitsphere = 0;
 
 #define getPosRotScale(aabb)				\
 	vec3 pos = (aabb.start+aabb.end)/2.f;	\
@@ -420,122 +589,154 @@ void drawSphereWireframe(AABB aabb){
 }
 
 void drawBoxWireframe(vec3 pos, vec3 rot, vec3 scale){
-	if(!g_rm_unitboxWF){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitboxWF = generateBox(vec3(1,1,1))->getRmodel(1);
-		g_currentLayer = oldLayer;
+	auto& rm_unitboxWF = G->gs_paint->g_rm_unitboxWF;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitboxWF){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitboxWF = generateBox(vec3(1,1,1))->getRmodel(1);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(scale);
-	drawRmodel(g_rm_unitboxWF);
+	drawRmodel(rm_unitboxWF);
 }
 
 void drawCyllinderWireframe(vec3 pos, vec3 rot, float r, float h){
-	if(!g_rm_unitcyllinderWF){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitcyllinderWF = generateCyllinder(1,1,16)->getRmodel(1);
-		g_currentLayer = oldLayer;
+	auto& rm_unitcyllinderWF = G->gs_paint->g_rm_unitcyllinderWF;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitcyllinderWF){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitcyllinderWF = generateCyllinder(1,1,16)->getRmodel(1);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,h));
-	drawRmodel(g_rm_unitcyllinderWF);
+	drawRmodel(rm_unitcyllinderWF);
 }
 void drawConeWireframe(vec3 pos, vec3 rot, float r, float h){
-	if(!g_rm_unitconeWF){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitconeWF = generateCone(1,1,16)->getRmodel(1);
-		g_currentLayer = oldLayer;
+	auto& rm_unitconeWF = G->gs_paint->g_rm_unitconeWF;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitconeWF){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitconeWF = generateCone(1,1,16)->getRmodel(1);
+		currentLayer = oldLayer;
 	}
 
 	setRenderMode(2);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,h));
-	drawRmodel(g_rm_unitconeWF);
+	drawRmodel(rm_unitconeWF);
 }
+
 void drawSphereWireframe(vec3 pos, vec3 rot, float r){
-	if(!g_rm_unitsphereWF){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitsphereWF = generateSphere(1,16,8)->getRmodel(1);
-		g_currentLayer = oldLayer;
+	auto& rm_unitsphereWF = G->gs_paint->g_rm_unitsphereWF;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitsphereWF){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitsphereWF = generateSphere(1,16,8)->getRmodel(1);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,r));
-	drawRmodel(g_rm_unitsphereWF);
+	drawRmodel(rm_unitsphereWF);
 }
 
 void drawBox(vec3 pos, vec3 rot,  vec3 scale){
-	if(!g_rm_unitbox){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitbox = generateBox(vec3(1,1,1))->getRmodel(2);
-		g_currentLayer = oldLayer;
+	auto& rm_unitbox = G->gs_paint->g_rm_unitbox;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitbox){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitbox = generateBox(vec3(1,1,1))->getRmodel(2);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(scale);
-	drawRmodel(g_rm_unitbox);
+	drawRmodel(rm_unitbox);
 }
 void drawCyllinder(vec3 pos, vec3 rot, float r, float h){
-	if(!g_rm_unitcyllinder){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitcyllinder = generateCyllinder(1,1,16)->getRmodel(2);
-		g_currentLayer = oldLayer;
+	auto& rm_unitcyllinder = G->gs_paint->g_rm_unitcyllinder;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitcyllinder){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitcyllinder = generateCyllinder(1,1,16)->getRmodel(2);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,h));
-	drawRmodel(g_rm_unitcyllinder);
+	drawRmodel(rm_unitcyllinder);
 }
 void drawCone(vec3 pos, vec3 rot, float r, float h){
-	if(!g_rm_unitcone){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitcone = generateCone(1,1,16)->getRmodel(2);
-		g_currentLayer = oldLayer;
+	auto& rm_unitcone = G->gs_paint->g_rm_unitcone;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitcone){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitcone = generateCone(1,1,16)->getRmodel(2);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,h));
-	drawRmodel(g_rm_unitcone);
+	drawRmodel(rm_unitcone);
 }
 void drawSphere(vec3 pos, vec3 rot, float r){
-	if(!g_rm_unitsphere){
-		renderLayer *oldLayer = g_currentLayer;
-		g_rm_unitsphere = generateSphere(1,16,8)->getRmodel(2);
-		g_currentLayer = oldLayer;
+	auto& rm_unitsphere = G->gs_paint->g_rm_unitsphere;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
+	if(!rm_unitsphere){
+		renderLayer *oldLayer = currentLayer;
+		rm_unitsphere = generateSphere(1,16,8)->getRmodel(2);
+		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
 	setPosition(pos);
 	setRotation(rot);
 	setScale(vec3(r,r,r));
-	drawRmodel(g_rm_unitsphere);
+	drawRmodel(rm_unitsphere);
 }
 
-renderLayer *g_loadLayer;		//data load commands go here
-renderLayer *g_layer3D;		//3D drawing commands go here
-renderLayer *g_layerDebug;	//3D debug indication goes here
-renderLayer *g_layer2D;		//2D drawing commands go here
-renderLayer *g_layerDebug2D;	//2D debug indication goes here
-renderLayer *g_deleteLayer;	//data delete commands go here
+//renderLayer *g_loadLayer;		//data load commands go here
+//renderLayer *g_layer3D;		//3D drawing commands go here
+//renderLayer *g_layerDebug;	//3D debug indication goes here
+//renderLayer *g_layer2D;		//2D drawing commands go here
+//renderLayer *g_layerDebug2D;	//2D debug indication goes here
+//renderLayer *g_deleteLayer;	//data delete commands go here
 
 void initLayers(){
-	g_loadLayer 			= addNewLayer("main.loadLayer"); //data is uploaded to GPU here
-	g_layer3D 			= addNewLayer("main.layer3D"); //3d stuff goes here
-	g_layer3D->resetLayer	= addNewLayer("main.layer3D.reset",true,true); //3d perspective is setup
-	g_layerDebug			= addNewLayer("main.layerDebug"); //3d debug points/lines go here
-	g_layerDebug->resetLayer = addNewLayer("main.layerDebug.reset",true,true); //3d debug is set up
-	g_layer2D 			= addNewLayer("main.layer2D"); //2d stuff goes here
-	g_layer2D->resetLayer = addNewLayer("main.layer2D.reset",true,true); //2d projection is setup
-	g_layerDebug2D		= addNewLayer("main.layerDebug2D"); //2d debug text goes here
-	g_layerDebug2D->resetLayer = addNewLayer("main.layerDebug2D.reset",true,true);
-	g_deleteLayer 		= addNewLayer("main.deleteLayer"); //data is deleted from GPU here
-	setLayer(g_loadLayer);	//always set layer before any render commands
+	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
+	auto& deleteLayer = G->gs_paint->g_deleteLayer;
+
+	loadLayer 			= addNewLayer("main.loadLayer"); //data is uploaded to GPU here
+	layer3D 			= addNewLayer("main.layer3D"); //3d stuff goes here
+	layer3D->resetLayer	= addNewLayer("main.layer3D.reset",true,true); //3d perspective is setup
+	layerDebug			= addNewLayer("main.layerDebug"); //3d debug points/lines go here
+	layerDebug->resetLayer = addNewLayer("main.layerDebug.reset",true,true); //3d debug is set up
+	layer2D 			= addNewLayer("main.layer2D"); //2d stuff goes here
+	layer2D->resetLayer = addNewLayer("main.layer2D.reset",true,true); //2d projection is setup
+	layerDebug2D		= addNewLayer("main.layerDebug2D"); //2d debug text goes here
+	layerDebug2D->resetLayer = addNewLayer("main.layerDebug2D.reset",true,true);
+	deleteLayer 		= addNewLayer("main.deleteLayer"); //data is deleted from GPU here
+	setLayer(loadLayer);	//always set layer before any render commands
 }

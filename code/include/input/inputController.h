@@ -38,6 +38,11 @@ class inputControllerKind:public eventListener{ //if there is a user (not headle
 void captureKeyboard(eventListener *L);
 void releaseKeyboard();
 
-extern inputControllerKind *g_inputController;
+//extern inputControllerKind *g_inputController;
+
+struct gs_inputControllerKind {
+	bool g_keyboardCaptured;
+	inputControllerKind* g_inputController;
+};
 
 #endif

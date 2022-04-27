@@ -17,15 +17,15 @@
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
-extern GUIbase *g_GUI;
+//extern GUIbase *g_GUI;
 
-int g_height;
-int g_width;
-
-#ifndef NO_SDL
-SDL_Window *g_mainWindow;
-SDL_GLContext g_mainContext;
-#endif
+//int g_height;
+//int g_width;
+//
+//#ifndef NO_SDL
+//SDL_Window *g_mainWindow;
+//SDL_GLContext g_mainContext;
+//#endif
 
 void OpenGL_printVersion(){
 	const unsigned char *version;
@@ -59,51 +59,56 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 }
 
 void OpenGL_init(){
+	auto& mainWindow = G->gs_window->g_mainWindow;
+	auto& mainContext = G->gs_window->g_mainContext;
 	//one wonders if this actually does what it claims
-#ifndef NO_SDL
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-#endif
-#ifdef WIN32
-#else
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); 
- 
-#endif
-#ifndef NO_SDL
-    g_mainContext = SDL_GL_CreateContext(g_mainWindow);
+	#ifndef NO_SDL
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	#endif
+	#ifdef WIN32
+	#else
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); 
+	#endif
+	#ifndef NO_SDL
+		mainContext = SDL_GL_CreateContext(mainWindow);
 
-	SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
-#endif
-#ifndef NO_GLEW
-#endif
+		SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
+	#endif
+	#ifndef NO_GLEW
+	#endif
 }
 
 void OpenGL_swap(){
-#ifndef NO_SDL
-	SDL_GL_SwapWindow(g_mainWindow);
-#endif
+	auto& mainWindow = G->gs_window->g_mainWindow;
+	#ifndef NO_SDL
+		SDL_GL_SwapWindow(mainWindow);
+	#endif
 }
 
 void window_init(int h, int w){
-#ifndef NO_SDL
-	g_height = h;
-	g_width = w;
+	auto& height = G->gs_window->g_height;
+	auto& width = G->gs_window->g_width;
+	auto& mainWindow = G->gs_window->g_mainWindow;
+	#ifndef NO_SDL
+		height = h;
+		width = w;
 
-	int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	atexit(SDL_Quit);
-	if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
+		int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+		atexit(SDL_Quit);
+		if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
 
-	g_mainWindow = SDL_CreateWindow("Hai",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		h,w,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		mainWindow = SDL_CreateWindow("Hai",
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
+			h,w,
+			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-	OpenGL_init();
+		OpenGL_init();
 
-	OpenGL_printVersion();
-	printf("-------- window init done ---------\n");
-#endif
+		OpenGL_printVersion();
+		printf("-------- window init done ---------\n");
+	#endif
 }
 
 void sysMessageBlankTick(){
@@ -116,31 +121,32 @@ void sysMessageBlankTick(){
 	}
 #endif
 }
-
-map<char,char> g_keyboardMap = {
-	{'`','~'},{'1','!'},{'2','@'},{'3','#'},
-	{'4','$'},{'5','%'},{'6','^'},{'7','&'},
-	{'8','*'},{'9','('},{'0',')'},{'-','_'},
-	{'=','+'},{'\\','|'},{';',':'},{'\'','\"'},
-	{',','<'},{'.','>'},{'/','?'},{'q','Q'},
-	{'w','W'},{'e','E'},{'r','R'},{'t','T'},
-	{'y','Y'},{'u','U'},{'i','I'},{'o','O'},
-	{'p','P'},{'[','{'},{']','}'},{'a','A'},
-	{'s','S'},{'d','D'},{'f','F'},{'g','G'},
-	{'h','H'},{'j','J'},{'k','K'},{'l','L'},
-	{'z','Z'},{'x','X'},{'c','C'},{'v','V'},
-	{'b','B'},{'n','N'},{'m','M'}
-};
-
-map<string,bool> g_keyboardState;
+//
+//map<char,char> g_keyboardMap = {
+//	{'`','~'},{'1','!'},{'2','@'},{'3','#'},
+//	{'4','$'},{'5','%'},{'6','^'},{'7','&'},
+//	{'8','*'},{'9','('},{'0',')'},{'-','_'},
+//	{'=','+'},{'\\','|'},{';',':'},{'\'','\"'},
+//	{',','<'},{'.','>'},{'/','?'},{'q','Q'},
+//	{'w','W'},{'e','E'},{'r','R'},{'t','T'},
+//	{'y','Y'},{'u','U'},{'i','I'},{'o','O'},
+//	{'p','P'},{'[','{'},{']','}'},{'a','A'},
+//	{'s','S'},{'d','D'},{'f','F'},{'g','G'},
+//	{'h','H'},{'j','J'},{'k','K'},{'l','L'},
+//	{'z','Z'},{'x','X'},{'c','C'},{'v','V'},
+//	{'b','B'},{'n','N'},{'m','M'}
+//};
+//
+//map<string,bool> g_keyboardState;
 
 eventKind keyboardTranslate(eventKind event){
+	auto& keyboardMap = G->gs_window->g_keyboardMap;
 	if(event.type == EVENT_KEY_DOWN){
 		int key = event.keyboard.printchar;
 		bool shift = event.keyboard.mod & MOD_SHIFT;
 		if(shift){
-			if(g_keyboardMap.count(key)){
-				event.keyboard.printchar = g_keyboardMap[key];
+			if(keyboardMap.count(key)){
+				event.keyboard.printchar = keyboardMap[key];
 			}
 		}
 	}
@@ -152,6 +158,11 @@ bool isprintSafe(int key){
 }
 
 void sysMessageTick(){
+	auto& keyboardState = G->gs_window->g_keyboardState;
+	auto& height = G->gs_window->g_height;
+	auto& width = G->gs_window->g_width;
+	auto& inputChannel = G->gs_input->g_inputChannel;
+
 #ifndef NO_SDL
 	SDL_Event sdl_event;
 	while(SDL_PollEvent(&sdl_event)){
@@ -164,7 +175,7 @@ void sysMessageTick(){
 			event.type = EVENT_KEY_DOWN;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
-			g_keyboardState[event.keyboard.key] = true;
+			keyboardState[event.keyboard.key] = true;
 			printf("key down: [%s]\n",event.keyboard.key);
 			event.keyboard.mod = MOD_NONE;
 			if(sdl_event.key.keysym.mod & KMOD_SHIFT){event.keyboard.mod = event.keyboard.mod | MOD_SHIFT;}
@@ -181,7 +192,7 @@ void sysMessageTick(){
 			event.type = EVENT_KEY_UP;
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
-			g_keyboardState[event.keyboard.key] = false;
+			keyboardState[event.keyboard.key] = false;
 			goto dispatchEvent;
 			break;
 		case(SDL_MOUSEMOTION):
@@ -221,10 +232,10 @@ void sysMessageTick(){
 		case(SDL_WINDOWEVENT):
 			switch(sdl_event.window.event){
 				case(SDL_WINDOWEVENT_RESIZED):
-					g_width =  sdl_event.window.data1;
-					g_height = sdl_event.window.data2;
-					printf("window resized: %d x %d\n",g_width,g_height);
-                    if(g_renderLow){g_renderLow->setViewportSize(g_width, g_height);}
+					width =  sdl_event.window.data1;
+					height = sdl_event.window.data2;
+					printf("window resized: %d x %d\n",width,height);
+                    if(g_renderLow){g_renderLow->setViewportSize(width, height);}
 					break;
 				default:
 					break;
@@ -237,15 +248,18 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		g_inputChannel->publishEventSequentialMaskable(event);
+		inputChannel->publishEventSequentialMaskable(event);
 	}
 #endif
 }
 
 vec2 getScreenSize(){
+	auto& mainWindow = G->gs_window->g_mainWindow;
+	auto& height = G->gs_window->g_height;
+	auto& width = G->gs_window->g_width;
 #ifndef NO_SDL
-	SDL_GetWindowSize(g_mainWindow, &g_width, &g_height);
+	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif
-	return {g_width,g_height};
+	return {width,height};
 }
 

@@ -3,9 +3,10 @@
 #include "event.h"
 #include "render.h"
 #include "collision.h"
-extern bool g_physicsOn;
-extern bool g_collisionOn;
-extern bool g_texturingOn;
+#include "global_vars.h"
+//extern bool g_physicsOn;
+//extern bool g_collisionOn;
+//extern bool g_texturingOn;
 
 class ecs_render_system_kind;
 class ecs_physics_system_kind;
@@ -16,11 +17,11 @@ struct ecs_kind{
 	ecs_physics_system_kind *physics;
 	ecs_collision_system_kind *collision;
 };
-extern ecs_kind g_ecs;
+//extern ecs_kind g_ecs;
 
 class renderLayer;
-extern renderLayer *g_ecs_render_layer;
-extern renderLayer *g_ecs_render_layer_2d;
+//extern renderLayer *g_ecs_render_layer;
+//extern renderLayer *g_ecs_render_layer_2d;
 
 class ecs_render_system_kind:public eventListener{
 	public:
@@ -55,5 +56,16 @@ class entity;
 void applyGravity(entity *E);
 void applyVelocity(entity *E);
 bool isSane(entity *E);
+
+struct gs_ecsKind {
+	bool g_physicsOn = true;
+	bool g_collisionOn = true;
+	bool g_texturingOn = true;
+
+	ecs_kind g_ecs;
+	renderLayer* g_ecs_render_layer;
+	renderLayer* g_ecs_render_layer_2d;
+};
+//extern gs_ecsKind gs_ecs;
 
 #endif

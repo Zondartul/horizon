@@ -1,23 +1,27 @@
 #ifndef ENTITY_GUARD
 #define ENTITY_GUARD
-#include "vec.h"
-#include "event.h"
-#include "collision.h"
-#include "render.h"
 #include <map>
 #include <list>
 #include <vector>
 #include <string>
+#include "vec.h"
+#include "event.h"
+#include "collision.h"
+#include "render.h"
 #include "elastic_ptr.h"
+#include "global_vars.h"
 using std::map;
 using std::list;
 using std::vector;
 using std::string;
 struct octree_visitor;
-
 class entity;
 
-extern list<entity*> g_entities;
+struct gs_entityKind {
+	list<entity*> g_entities;
+};
+
+//extern list<entity*> g_entities;
 
 class entity:public elastic_ptr_anchor{
 	public:

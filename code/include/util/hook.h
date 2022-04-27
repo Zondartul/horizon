@@ -9,4 +9,10 @@ using std::function;
 void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventKind event)> handler);
 void hookRemove(eventChannel *ch, string name);
 
+class hook;
+
+struct gs_hookKind {
+	vector<hook*> g_hooks;
+};
+
 #endif

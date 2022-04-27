@@ -55,4 +55,11 @@ vector<font*> listFonts();
 //
 void loadAssets();
 
+struct gs_resourceKind {
+	vector<bitmap*> g_bitmaps;
+	vector<texture*> g_textures;
+	vector<model*> g_models;
+	vector<font*> g_fonts;
+};
+
 #endif

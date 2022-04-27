@@ -127,7 +127,7 @@ void gui_editor_tool_edit::lup(){
 }
 
 
-int g_numDDMs = 0;
+//int g_numDDMs = 0;
 
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
@@ -144,6 +144,9 @@ void gui_editor_tool_edit::rdown(){
 }
 
 void gui_editor_tool_edit::rup(){
+	auto &numDDMs = G->gs_tool_edit->g_numDDMs;
+	auto& GUI = G->gs_main->g_GUI;
+
 	gui_editor_tool::rup();
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
@@ -152,22 +155,15 @@ void gui_editor_tool_edit::rup(){
 	if(subject && (subject != workWindow)){
 		vec2 mousePos = getMousePos();
 		
-		//if(elDDM){delete (GUIbase*)(elDDM);}
 		if(elDDM){elDDM->close(); elDDM = 0;}
 		GUIdropdownMenu *ddm = new GUIdropdownMenu();
 		elDDM = ddm;
 		
-		ddm->name = string()+"menu"+toString(g_numDDMs++);
+		ddm->name = string()+"menu"+toString(numDDMs++);
 		
 		ddm->addItem("properties",[=](){
 			if(!subject){return;}
 			GUIpropertyTable tab = subject->getPropertyTable();
-			//printf("properties:\n");
-			//for(auto I = tab.table.begin(); I != tab.table.end(); I++){
-			//	auto k = I->first;
-			//	auto v = I->second;
-			//	printf(" [%s]:[%s]\n",k.c_str(),v.c_str());
-			//}
 			
 			GUItable *table = new GUItable(tab);
 			table->moveTo(mousePos);
@@ -179,11 +175,9 @@ void gui_editor_tool_edit::rup(){
 				if(!subj){printf("no subject\n");}else{printf("has subject(%p)\n",subj);}
 				subj->setProperty(key,val);
 			});
-			g_GUI->addChild(table);
+			GUI->addChild(table);
 			ddm->close();
 		});
-		//ddm->addItem("hello");
-		//ddm->addItem("test");
 		GUIdropdownMenu *ddm_edit = ddm->addSubmenu("edit");
 		  ddm_edit->addItem("cut", [=](){
 			if(subject && subject->parent){
@@ -199,7 +193,6 @@ void gui_editor_tool_edit::rup(){
 			if(subject){this->copyBuffer = subject;}
 			ddm->close();
 		  });
-		  //ddm_edit->addItem("hai");
 		  ddm_edit->addItem("paste",[=](){
 			if(subject && copyBuffer){
 				rect R = subject->worldClientArea();
@@ -225,14 +218,10 @@ void gui_editor_tool_edit::rup(){
 			ddm->close();
 		  });
 		
-		//ddm->addItem("test2");
 		
 		ddm->moveTo(mousePos);
-		g_GUI->addChild(ddm);
-		/*
-		vec2 mousePos = getMousePos();
-		
-		*/
+		GUI->addChild(ddm);
+
 	}else{Ed->tool_cancel();}
 }
 

@@ -85,15 +85,15 @@ extern int g_total_size;
 
 #ifdef DEBUG_NEW
 	#include <new>
-	extern const char *debug_file;
-	extern int debug_line;
+	extern const char *g_debug_file;
+	extern int g_debug_line;
 
 	//extern const char *alloc_file;
 	//extern int alloc_line;
 	//void *operator new(size_t size);
 	//void operator delete(void *ptr);
-	//#define new (debug_file=__FILE__,debug_line=__LINE__) && 0 ? NULL : new
-	//#define delete (debug_file=__FILE__,debug_line=__LINE__) && 0 ? NULL : delete
+	//#define new (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : new
+	//#define delete (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : delete
 	//void debugnew(const char *file, int line, size_t size);
 	//void debugdelete(const char *file, int line, void *ptr);
 	//#define new set_alloc_pos(__FILE__,__LINE__), new

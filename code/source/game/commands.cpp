@@ -9,15 +9,19 @@
 using std::ofstream;
 #include <sstream>
 using std::stringstream;
-extern bool g_gamePaused;
+//extern bool g_gamePaused;
 
 int cmd_pauseGame(int argc, char **argv){
-	g_gamePaused = !g_gamePaused;
+	auto& gamePaused = G->gs_main->g_gamePaused;
+
+	gamePaused = !gamePaused;
     return 0;
 }
 
 int cmd_spawnCharacter(int argc, char **argv){
-	g_inputController->character = new characterController();
+	auto& inputController = G->gs_inputController->g_inputController;
+	
+	inputController->character = new characterController();
     return 0;
 }
 
@@ -27,10 +31,12 @@ int cmd_spawnNPC(int argc, char **argv){
 }
 
 void deleteDynamicBodies(){
-	for(auto I = g_entities.begin(); I != g_entities.end();){
+	auto& entities = G->gs_entity->g_entities;
+
+	for(auto I = entities.begin(); I != entities.end();){
 		if((*I)->body && (*I)->body->type == BODY_DYNAMIC){
 			delete *I;
-			I = g_entities.erase(I);
+			I = entities.erase(I);
 		}else{
 			I++;
 		}
@@ -105,8 +111,11 @@ int cmd_listKeybinds(int argc, char **argv){
 }
 
 void test1render(){
-	setLayer(g_layer3D);
-	resetLayer(g_layer3D);
+	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& loadLayer = G->gs_paint->g_loadLayer;
+
+	setLayer(layer3D);
+	resetLayer(layer3D);
 	setLighting(false);
 	setPosition(vec3(0,0,0));
 	setPointSize(3);
@@ -147,7 +156,7 @@ void test1render(){
 	scale = vec3(2,2,2);
 	pos = start+scale/2.f;
 	static rmodel *rm = 0;
-	setLayer(g_loadLayer);
+	setLayer(loadLayer);
 	if(!rm){
 		e_model *em = generateBox(scale,1.f);
 		rm = em->getRmodel();
@@ -158,8 +167,8 @@ void test1render(){
 		t = getTexture("materials/brick3");
 		uploadTexture(t);
 	}
-	setLayer(g_layer3D);
-	resetLayer(g_layer3D);
+	setLayer(layer3D);
+	resetLayer(layer3D);
 	setTexture(t);
 	setRenderMode(3);
 	setColoring(false);
@@ -196,10 +205,13 @@ int cmd_help(int argc, char **argv){
 }
 
 int cmd_whereami(int argc, char **argv){
-	auto C = g_inputController->character;
+	auto& inputController = G->gs_inputController->g_inputController;
+	auto& camera = G->gs_camera->g_camera;
+
+	auto C = inputController->character;
 	entity *E = 0;
 	if(!C || !C->E){
-		vec3 pos = g_camera.pos;
+		vec3 pos = camera.pos;
 		cprint("%s\n",toCString(pos));
 	}else{
 		E = C->E;
@@ -321,38 +333,47 @@ int cmd_dirs(int argc, char **argv){
 int cmd_mapeditor(int argc, char **argv){openMapEditor(); return 0;}
 int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
 int cmd_nodegraph(int argc, char **argv){generateNodegraph(); return 0;}
-int cmd_printf(int argc, char **argv){g_printf_enabled = !g_printf_enabled; return 0;}
+int cmd_printf(int argc, char **argv){
+	auto& printf_enabled = G->gs_main->g_printf_enabled;
+	printf_enabled = !printf_enabled; 
+	return 0;
+}
 
-map<const char*, struct_alloc_file> g_prev_allocation_map;
-int g_memreport_last_frame = 0;
-int g_prev_total_size = 0;
-bool g_has_prev_alloc_map = 0;
+//map<const char*, struct_alloc_file> g_prev_allocation_map;
+//int g_memreport_last_frame = 0;
+//int g_prev_total_size = 0;
+//bool g_has_prev_alloc_map = 0;
 
 int cmd_memreport(int argc, char **argv){
-	
-	
+	auto& allocation_map = G->gs_debug->g_allocation_map;
+	auto& total_size = G->gs_debug->g_total_size;
+	auto& has_prev_alloc_map = G->gs_commands->g_has_prev_alloc_map;
+	auto& prev_allocation_map = G->gs_commands->g_prev_allocation_map;
+	auto& prev_total_size = G->gs_commands->g_prev_total_size;
+	auto& memreport_last_frame = G->gs_commands->g_memreport_last_frame;
+
 	if(argc && (strcmp(argv[0], "-i")==0)){
 		//INCREMENTAL REPORT. only reports used memory ADDED since last report.
-		if(g_has_prev_alloc_map){
+		if(has_prev_alloc_map){
 			string filename = "logs/memreport_inc";
 			filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
 			ofstream fs(filename);
 			if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
 			stringstream ss;
 			int J = 0;
-			int tf1 = g_memreport_last_frame;
+			int tf1 = memreport_last_frame;
 			int tf2 = getGameTicks();
 			int dtf = tf2-tf1;
 			ss << fstring("Incremental memory report for frames %d .. %d (%d frames)\n", tf1, tf2, dtf);
 			
 			int supertotal = 0;
-			for(auto F2 = g_allocation_map.begin(); F2 != g_allocation_map.end(); F2++){
+			for(auto F2 = allocation_map.begin(); F2 != allocation_map.end(); F2++){
 				stringstream ss_file;
 				const char *key = F2->first;
 				string alloc_file = F2->first;
 				ss_file << alloc_file + ":\n";//":\t\t";
 				auto &r_file2 = F2->second;
-				auto &r_file1 = g_prev_allocation_map[key];
+				auto &r_file1 = prev_allocation_map[key];
 				int filetotal = 0;
 				
 				//we want all the lines of current version that also exist in the previous version
@@ -374,7 +395,7 @@ int cmd_memreport(int argc, char **argv){
 				if(filetotal){ss << ss_file.str();}
 			}
 			ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-			ss << fstring("sys  total: %.3f kb\n",(float)(g_total_size-g_prev_total_size)/1024.f);
+			ss << fstring("sys  total: %.3f kb\n",(float)(total_size-prev_total_size)/1024.f);
 			
 			fs << ss.str();
 			fs.close();
@@ -390,7 +411,7 @@ int cmd_memreport(int argc, char **argv){
 		ss << fstring("Memory report for frame %d\n",getGameTicks());
 		
 		int supertotal = 0;
-		for(auto F = g_allocation_map.begin(); F != g_allocation_map.end(); F++){
+		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
 			string alloc_file = F->first;
 			ss << alloc_file + ":\n";//":\t\t";
 			auto &r_file = F->second;
@@ -409,7 +430,7 @@ int cmd_memreport(int argc, char **argv){
 			ss << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
 		}
 		ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-		ss << fstring("sys  total: %.3f kb\n",(float)g_total_size/1024.f);
+		ss << fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
 		
 		fs << ss.str();
 		fs.close();
@@ -417,10 +438,10 @@ int cmd_memreport(int argc, char **argv){
 	}
 	
 	//save the current allocation map
-	g_prev_allocation_map = g_allocation_map;
-	g_has_prev_alloc_map = true;
-	g_memreport_last_frame = getGameTicks();
-	g_prev_total_size = g_total_size;
+	prev_allocation_map = allocation_map;
+	has_prev_alloc_map = true;
+	memreport_last_frame = getGameTicks();
+	prev_total_size = total_size;
 	printf("allocation map saved\n");
 	return 0;
 }
@@ -474,18 +495,19 @@ int cmd_texture_browser(int argc, char** argv){
 }
 
 void addKeybinds(){
-	g_keybinds->binds["+R"].cmd = "reset";
-	g_keybinds->binds["+F"].cmd = "physbox";
-	g_keybinds->binds["+G"].cmd = "physbox 1";
-	g_keybinds->binds["+H"].cmd = "physbox 2";
-	g_keybinds->binds["+J"].cmd = "physbox 3";
-	g_keybinds->binds["+C"].cmd = "character";
-	g_keybinds->binds["+V"].cmd = "npc";
-	g_keybinds->binds["+Pause"].cmd = "pause";
-	g_keybinds->binds["+F8"].cmd = "framereport";
-	g_keybinds->binds["+F3"].cmd = "printf";
-	g_keybinds->binds["+F9"].cmd = "memreport";
-	g_keybinds->binds["+F10"].cmd = "memreport -i";
+	auto& keybinds = G->gs_keybinds->g_keybinds;
+	keybinds->binds["+R"].cmd = "reset";
+	keybinds->binds["+F"].cmd = "physbox";
+	keybinds->binds["+G"].cmd = "physbox 1";
+	keybinds->binds["+H"].cmd = "physbox 2";
+	keybinds->binds["+J"].cmd = "physbox 3";
+	keybinds->binds["+C"].cmd = "character";
+	keybinds->binds["+V"].cmd = "npc";
+	keybinds->binds["+Pause"].cmd = "pause";
+	keybinds->binds["+F8"].cmd = "framereport";
+	keybinds->binds["+F3"].cmd = "printf";
+	keybinds->binds["+F9"].cmd = "memreport";
+	keybinds->binds["+F10"].cmd = "memreport -i";
 }
 
 

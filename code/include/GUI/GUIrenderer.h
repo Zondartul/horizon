@@ -1,5 +1,7 @@
 #ifndef GUIRENDERER_GUARD
 #define GUIRENDERER_GUARD
+#include <string>
+using std::string;
 
 // The GUIrenderer class is an abstract interface for various renderers (skins)
 // of the GUI elements.

@@ -80,7 +80,11 @@ class eventListener{
 	virtual void onEvent(eventKind event);
 };
 
-extern eventChannel *g_globalChannel;
+//extern eventChannel *g_globalChannel;
 void initEvents();
+
+struct gs_eventKind {
+	eventChannel* g_globalChannel;
+};
 
 #endif

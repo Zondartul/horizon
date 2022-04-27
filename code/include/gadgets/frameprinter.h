@@ -1,8 +1,11 @@
 #ifndef FRAMEPRINTER_GUARD
 #define FRAMEPRINTER_GUARD
-#include "event.h"
 #include <string>
+#include "event.h"
+#include "global_vars.h"
 using std::string;
+class renderLayer;
+
 //add the string to the currently selected frameprinter.
 //it will be printed during the next frame only.
 void frameprint(string S);
@@ -18,5 +21,11 @@ class frameprinter:public eventListener{
 };
 
 void setFramePrinter(frameprinter *printer);
+
+
+struct gs_frameprinterKind {
+	frameprinter* g_P;
+	renderLayer* g_layerFP;
+};
 
 #endif

@@ -14,7 +14,7 @@
 #include "timer.h"
 #include "hook.h"
 #include "geometry.h"
-extern octree_node *g_octree_root;
+//extern octree_node *g_octree_root;
 
 //should really figure out texscale on it's own
 entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider,bool is_static){
@@ -523,8 +523,8 @@ void obelisk(){
 	});
 }
 
-entity *g_ent_flag = 0;
-timer *g_timer_flag = 0;
+//entity *g_ent_flag = 0;
+//timer *g_timer_flag = 0;
 
 void spawnFlag(vec3 pos){
     if(g_ent_flag){

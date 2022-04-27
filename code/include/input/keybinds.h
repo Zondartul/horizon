@@ -24,7 +24,11 @@ class keybindList:public eventListener{
 	void onEvent(eventKind event);
 };
 
-extern keybindList *g_keybinds;
+//extern keybindList *g_keybinds;
 void initKeybinds();
+
+struct gs_keybindsKind {
+	keybindList* g_keybinds;
+};
 
 #endif

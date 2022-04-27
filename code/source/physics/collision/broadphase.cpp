@@ -55,7 +55,7 @@ class rec_counter{
 
 void indent(int num,char C){while(num--){printf("%c",C);}}
 
-int g_bprecs = 0;
+//int g_bprecs = 0;
 broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
 	broadphaseinfo *bp1 = new broadphaseinfo();
 	if(!node){return bp1;}

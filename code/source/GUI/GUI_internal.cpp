@@ -1,12 +1,14 @@
 #include "GUI_internal.h"
+#include "main.h"
 
-extern renderLayer *g_layerGUI;
+//extern renderLayer *g_layerGUI;
 //utility functions for GUI
-GUI_options_kind g_GUIoptions;
+//GUI_options_kind g_GUIoptions;
 
 void GUIsetFavoriteRenderOptions(){
-	setLayer(g_layerGUI);
-	g_layerGUI->clear();
+	auto& layerGUI = G->gs_main->g_layerGUI;
+	setLayer(layerGUI);
+	layerGUI->clear();
 	setColoring(false);
 	setTexturing(false);
 	setColor(defaultbgcolor);

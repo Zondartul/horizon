@@ -13,10 +13,16 @@ using namespace tinyxml2;
 // v - 4. fix second object placement
 // v - 5. make a "poke" tool
 
-elastic_ptr<gui_editor_kind> g_gui_editor;
-extern renderLayer *g_layerGUI;
+//elastic_ptr<gui_editor_kind> g_gui_editor;
+//extern renderLayer *g_layerGUI;
 
 gui_editor_kind::gui_editor_kind(){
+	auto& GUI = G->gs_main->g_GUI;
+	auto& layerGUI = G->gs_main->g_layerGUI;
+	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	GUIwindow *mainWindow = new GUIwindow();
 	elMainWindow = mainWindow;
 	
@@ -36,7 +42,7 @@ gui_editor_kind::gui_editor_kind(){
 			
 			fclose(fp);
 		});
-		g_GUI->addChild(dialog);
+		GUI->addChild(dialog);
 	});
 	mainWindow->addChild(btn1);
 	
@@ -140,7 +146,7 @@ gui_editor_kind::gui_editor_kind(){
 	});
 	mainWindow->addChild(btnCursor);
 	
-	g_GUI->addChild(mainWindow);
+	GUI->addChild(mainWindow);
 	
 	GUIbutton *btnSave = new GUIbutton();
 	btnSave->setText("");
@@ -154,7 +160,7 @@ gui_editor_kind::gui_editor_kind(){
 		dialog->setFunction([=](string filepath){
 			save(filepath);
 		});
-		g_GUI->addChild(dialog);
+		GUI->addChild(dialog);
 		//save();
 	});
 	mainWindow->addChild(btnSave);
@@ -171,7 +177,7 @@ gui_editor_kind::gui_editor_kind(){
 		dialog->setFunction([=](string filepath){
 			paste(filepath);
 		});
-		g_GUI->addChild(dialog);	
+		GUI->addChild(dialog);	
 	});
 	mainWindow->addChild(btnPaste);
 	
@@ -212,11 +218,11 @@ gui_editor_kind::gui_editor_kind(){
 	workWindow->setSize(vec2(500,500));
 	workWindow->moveTo(vec2(150,100));
 	
-	g_GUI->addChild(workWindow);
+	GUI->addChild(workWindow);
 	//---- events
-	setLayer(g_layer2D);
+	setLayer(layer2D);
 	ge_layer_back = addNewLayer("gui_editor_layer_back",false);
-	setLayer(g_layerGUI);
+	setLayer(layerGUI);
 	ge_layer_front = addNewLayer("gui_editor_layer_front",false);
 	ge_layer_front->resetLayer = addNewLayer("gui_editor_layer_front.reset",true,true);
 	
@@ -250,13 +256,15 @@ void gui_editor_kind::close(){
 }
 
 void openGuiEditor(){
-	if(g_gui_editor){
+	auto& gui_editor = G->gs_gui_editor->g_gui_editor;
+
+	if(gui_editor){
 		printf("closing gui editor\n");
-		g_gui_editor->close();
+		gui_editor->close();
 		printf("deleting gui editor\n");
-		delete g_gui_editor;
+		delete gui_editor;
 	}
-	g_gui_editor = new gui_editor_kind();
+	gui_editor = new gui_editor_kind();
 	printf("opened gui editor\n");
 }
 

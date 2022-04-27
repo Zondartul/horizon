@@ -52,10 +52,11 @@ void GUIselectable::onEvent(eventKind event){
 }
 
 void GUIselectable::select(){
+	auto& keyboardState = G->gs_window->g_keyboardState;
 	selected = true;
 	
-	bool shift = g_keyboardState["Left Shift"];
-	bool ctrl = g_keyboardState["Left Ctrl"];
+	bool shift = keyboardState["Left Shift"];
+	bool ctrl = keyboardState["Left Ctrl"];
 	printf("shift = %d, ctrl = %d\n",shift,ctrl);
 	if(parent){
 		//1. selecting this item should deselect other items

@@ -1,13 +1,14 @@
 #include "GUI_internal.h"
 
 GUIdropdownMenu::GUIdropdownMenu(){
+	auto& globalChannel = G->gs_event->g_globalChannel;
 	setSize(vec2(10,10));
 	grid = new GUIgrid();
 	grid->setSize(vec2(10,10));
 	this->addChild(grid);
 	noframe = true;
 	constructed = true;
-	g_globalChannel->addListener(this); //for "frame"
+	globalChannel->addListener(this); //for "frame"
 }
 
 GUIbutton *GUIdropdownMenu::addItem(string text){

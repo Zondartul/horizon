@@ -1,19 +1,12 @@
-﻿  debug.cpp
-  dllmain.cpp
-  file.cpp
-  GPUdriver.cpp
-  paint.cpp
-  printw.cpp
-  render.cpp
-  renderCommand.cpp
+﻿  render.cpp
   renderLayer.cpp
-  renderLow.cpp
-  rmodel.cpp
-  simplemath.cpp
-  stringUtils.cpp
-  texture.cpp
-  vec.cpp
   window.cpp
   Generating Code...
      Creating library ..\..\bin\horizonRender.lib and object ..\..\bin\horizonRender.exp
-  horizonRender.vcxproj -> D:\Stride\shared\horizon\bin\horizonRender.dll
+paint.obj : error LNK2001: unresolved external symbol "class renderLayer * g_currentLayer" (?g_currentLayer@@3PAVrenderLayer@@A)
+printw.obj : error LNK2001: unresolved external symbol "class renderLayer * g_currentLayer" (?g_currentLayer@@3PAVrenderLayer@@A)
+paint.obj : error LNK2001: unresolved external symbol "class std::vector<class renderLayer *,class std::allocator<class renderLayer *> > g_layers" (?g_layers@@3V?$vector@PAVrenderLayer@@V?$allocator@PAVrenderLayer@@@std@@@std@@A)
+renderLayer.obj : error LNK2001: unresolved external symbol "class std::vector<class renderLayer *,class std::allocator<class renderLayer *> > g_all_layers" (?g_all_layers@@3V?$vector@PAVrenderLayer@@V?$allocator@PAVrenderLayer@@@std@@@std@@A)
+window.obj : error LNK2001: unresolved external symbol "int g_width" (?g_width@@3HA)
+window.obj : error LNK2001: unresolved external symbol "int g_height" (?g_height@@3HA)
+..\..\bin\horizonRender.dll : fatal error LNK1120: 5 unresolved externals

@@ -1,22 +1,26 @@
+//system includes
+#include <string>
+//external includes
+#ifndef NO_GLEW
+	#include "GL/glew.h"
+#endif
+#include "glm/gtc/matrix_transform.hpp"
+//project includes
 #include "camera.h"
 #include "math.h"
-
-#ifndef NO_GLEW
-#include "GL/glew.h"
-#endif
 #include "simplemath.h"
 #include "window.h" //for screen size
 #include "stdlib.h"
 #include "bitmap.h"
-#include <string>
-using std::string;
 #include "stringUtils.h"
 #include "globals.h"
-#include "glm/gtc/matrix_transform.hpp"
-using glm::mat4;
-using glm::vec3;
 #include "mouse.h"
 #include "collision.h"
+#include "global_vars.h"
+//#include "geometry.h"
+using glm::mat4;
+using glm::vec3;
+using std::string;
 
 cameraKind::cameraKind(){
 	pos = {0,0,0};
@@ -29,20 +33,24 @@ cameraKind::cameraKind(){
 	mode3D = true;
 }
 vec3 cameraKind::forward(){
-	return rotate(vec3{1,0,0},d2r*g_camera.rot);
+	auto& camera = G->gs_camera->g_camera;
+	return rotate(vec3{1,0,0},d2r*camera.rot);
 }
 vec3 cameraKind::up(){
-	return rotate(vec3{0,0,1},d2r*g_camera.rot);
+	auto& camera = G->gs_camera->g_camera;
+	return rotate(vec3{0,0,1},d2r*camera.rot);
 }
 vec3 cameraKind::right(){
-	return rotate(vec3{0,1,0},d2r*g_camera.rot);
+	auto& camera = G->gs_camera->g_camera;
+	return rotate(vec3{0,1,0},d2r*camera.rot);
 }
 collisioninfo *cameraKind::eyetrace(bool useCursor){
+	auto& camera = G->gs_camera->g_camera;
 	vec3 dv;
 	if(useCursor){
 		vec2 mousepos = getMousePos();
 		vec3 mousedv = screenToWorld(vec3(mousepos.x,mousepos.y,1));
-		dv = normalizeSafe(mousedv - g_camera.pos);
+		dv = normalizeSafe(mousedv - camera.pos);
 	}else{
 		dv = forward();
 	}
@@ -52,18 +60,22 @@ collisioninfo *cameraKind::eyetrace(bool useCursor){
 #include "paint.h"
 
 rmodel *ray_shotgun(int x_steps, int y_steps){
+	auto& camera = G->gs_camera->g_camera;
+	auto& width = G->gs_window->g_width;
+	auto& height = G->gs_window->g_height;
+
 	rmodel *rm = new rmodel();
 	float x = 0;
 	float y = 0;
-	float dx = g_width/(float)x_steps;
-	float dy = g_height/(float)y_steps;
+	float dx = width/(float)x_steps;
+	float dy = height/(float)y_steps;
 	for(int Ix = 0; Ix < x_steps; Ix++){
 		for(int Iy = 0; Iy < y_steps; Iy++){
 			vec3 screenCoords(dx*Ix,dy*Iy,1.0f);
-			vec3 worldCoords = g_camera.screenToWorld(screenCoords);
-			vec3 dv = normalizeSafe(worldCoords - g_camera.pos);
+			vec3 worldCoords = camera.screenToWorld(screenCoords);
+			vec3 dv = normalizeSafe(worldCoords - camera.pos);
 
-			collisioninfo *col = raytrace(g_camera.pos,dv);
+			collisioninfo *col = raytrace(camera.pos,dv);
 			if(col){
 				vec3 p = col->c_to_c.pos;
 				rm->vertices->push_back(p);
@@ -114,25 +126,29 @@ void cameraKind::go2D(){
 	reposition();
 }
 void cameraKind::go3D(){
+	auto& camera = G->gs_camera->g_camera;
+	auto& width = G->gs_window->g_width;
+	auto& height = G->gs_window->g_height;
+
 	mode3D = true;
 	vec2 scr = getScreenSize();
 #ifndef NO_GLEW
-	setViewport(0, 0, g_width, g_height);
+	setViewport(0, 0, width, height);
 #endif
 
 	float znear = 0.1f;
 	float zfar = 10000.f;
 	if(perspective){
-		float aspect = ((float)g_width)/((float)g_height);
+		float aspect = ((float)width)/((float)height);
 		float left = -(float)znear*tan(fov*d2r/2.0)*scalePersp;
 		float right = -left;
 		float bottom = -(float)znear*tan(fov*d2r/2.0)*scalePersp/aspect;
 		float top = -bottom;
 		mProjection = glm::frustum(left,right,bottom,top,znear,zfar);
 	}else{
-		float left = -g_width*scaleOrtho/2;
+		float left = -width*scaleOrtho/2;
 		float right = -left;
-		float bottom = -g_height*scaleOrtho/2;
+		float bottom = -height*scaleOrtho/2;
 		float top = -bottom;
 		mProjection = glm::ortho(left,right,bottom,top,znear,zfar);
 	}
@@ -310,6 +326,8 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
+	auto& camera = G->gs_camera->g_camera;
+
 	float x = devpos.x;
 	float y = devpos.y;
 	float z = devpos.z;
@@ -332,13 +350,13 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 		case(Z_IS_DISTANCE):
 			dtw = deviceToWorld(devpos);
 			dts = deviceToScreen({devpos.x,devpos.y,1},Z_IS_ORTHODOX);
-			dts.z = length(g_camera.pos-dtw);
+			dts.z = length(camera.pos-dtw);
 			return dts;
 		break;
 		case(Z_IS_PLANE):
 			dtw = deviceToWorld({0,0,devpos.z});
 			dts = deviceToScreen(devpos,Z_IS_ORTHODOX);
-			dts.z = length(g_camera.pos-dtw);
+			dts.z = length(camera.pos-dtw);
 			return dts;
 		break;
 	}
@@ -390,7 +408,7 @@ camprojection cameraKind::getProjection(){
 	return cpj;
 }
 
-cameraKind g_camera;
+//cameraKind g_camera;
 
 #include "paint.h"
 void go3D(){

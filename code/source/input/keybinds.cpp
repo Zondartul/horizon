@@ -43,7 +43,7 @@ void keybindList::onEvent(eventKind event){
 	}
 }
 
-keybindList *g_keybinds;
+//keybindList *g_keybinds;
 void initKeybinds(){
 	g_keybinds = new keybindList();
 }

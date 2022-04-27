@@ -6,7 +6,10 @@
 using std::string;
 using std::vector;
 class entity;
-struct texture;
+struct texture; 
+class entity;
+class timer;
+
 
 entity *box(vec3 start, vec3 end, texture *t, float texscale,bool hascollider=true,bool is_static=true);
 entity *physplane(vec3 A, vec3 B, vec3 C, texture *t, float texscale = 1.f);
@@ -27,5 +30,11 @@ enum mptype {PRIM_BOX, PRIM_CYL, PRIM_CONE, PRIM_SPHERE};
 struct physprim {mptype type; string texname; vec3 pos; float args[4];};
 
 void physcombo(vector<physprim> combo);
+
+
+struct gs_physboxKind {
+	entity* g_ent_flag = 0;
+	timer* g_timer_flag = 0;
+};
 
 #endif

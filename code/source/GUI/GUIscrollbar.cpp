@@ -225,11 +225,12 @@ GUIscrollbar *GUIscrollbar::disableScrolling(){
 }
 
 void GUIscrollbar::renderLogic(){
+	auto& GUIoptions = G->gs_GUI_internal->g_GUIoptions;
 
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
-			if(g_GUIoptions.push){pushRenderOptions();}
-			if(g_GUIoptions.debug){
+			if(GUIoptions.push){pushRenderOptions();}
+			if(GUIoptions.debug){
 				drawRectOutlineColored(children[I]->visibleArea(),{255,0,0});
 			}else{
 				setScissoring(true);
@@ -237,19 +238,19 @@ void GUIscrollbar::renderLogic(){
 			}
 			children[I]->render();
 			children[I]->renderLogic();
-			if(g_GUIoptions.push){popRenderOptions();}
+			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
 
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
-			if(g_GUIoptions.push){pushRenderOptions();}
+			if(GUIoptions.push){pushRenderOptions();}
 			setScissoring(true);
 			setScissor(visibleClientArea());
 			
 			children[I]->render();
 			children[I]->renderLogic();
-			if(g_GUIoptions.push){popRenderOptions();}
+			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
 }

@@ -77,7 +77,13 @@ class map_editor_kind:public eventListener{
     }sdata;
 
 };
-extern map_editor_kind *g_mapeditor;
+//extern map_editor_kind *g_mapeditor;
+
+struct gs_map_editorKind {
+    map_editor_kind* g_mapeditor;
+    vector<entity*> g_planes;
+    renderLayer* g_templayer = 0;
+};
 
 void openMapEditor();
 

@@ -16,7 +16,7 @@
 #include "editmodel.h"
 #include "geometry.h"
 
-extern octree_node *g_octree_root;
+//extern octree_node *g_octree_root;
 
 extern void debugDrawPoint(vec3 point, vec3 col);
 

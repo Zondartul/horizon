@@ -381,6 +381,7 @@
     <ClInclude Include="..\..\code\include\loaders\stb_image_write.h" />
     <ClInclude Include="..\..\code\include\loaders\textureLoader.h" />
     <ClInclude Include="..\..\code\include\loaders\tiny_obj_loader.h" />
+    <ClInclude Include="..\..\code\include\main\global_vars.h" />
     <ClInclude Include="..\..\code\include\main\main.h" />
     <ClInclude Include="..\..\code\include\math\fancymath.h" />
     <ClInclude Include="..\..\code\include\math\geometry.h" />
@@ -478,6 +479,7 @@
     <ClCompile Include="..\..\code\source\loaders\imageLoader.cpp" />
     <ClCompile Include="..\..\code\source\loaders\modelLoader.cpp" />
     <ClCompile Include="..\..\code\source\loaders\textureLoader.cpp" />
+    <ClCompile Include="..\..\code\source\main\global_vars.cpp" />
     <ClCompile Include="..\..\code\source\main\main.cpp" />
     <ClCompile Include="..\..\code\source\math\fancymath.cpp" />
     <ClCompile Include="..\..\code\source\math\geometry.cpp" />

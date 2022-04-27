@@ -83,19 +83,19 @@
 //#warning TODO: make it so friction resolution uses actual normal force and not normal velocity
 
 
-
-model *g_m;
-GUIbase *g_GUI = 0;
-octree_node *g_octree_root;
-float g_frametime = 0;
-float g_fps = 0;
-bool g_gamePaused = false;
-bool g_printf_enabled = true;
-void *g_mem1 = 0;
-void *g_mem2 = 0;
-
-uint32_t g_audio_len = 0;
-uint8_t *g_audio_pos = 0;
+//
+//model *g_m;
+//GUIbase *g_GUI = 0;
+//octree_node *g_octree_root;
+//float g_frametime = 0;
+//float g_fps = 0;
+//bool g_gamePaused = false;
+//bool g_printf_enabled = true;
+//void *g_mem1 = 0;
+//void *g_mem2 = 0;
+//
+//uint32_t g_audio_len = 0;
+//uint8_t *g_audio_pos = 0;
 //Through this function, SDL requests the user to copy "len" bytes of audio data into "stream".
 void my_audio_callback(void *userdata, uint8_t *stream, int len){
     if(g_audio_len == 0){return;}
@@ -183,14 +183,14 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-float g_eventTime;
-float g_renderTime;
-float g_sysmsgTime;
-
-float g_eventTimeFlt = 0;
-float g_renderTimeFlt = 0;
-float g_sysmsgTimeFlt = 0;
-float g_frametimeFlt = 1.f;
+//float g_eventTime;
+//float g_renderTime;
+//float g_sysmsgTime;
+//
+//float g_eventTimeFlt = 0;
+//float g_renderTimeFlt = 0;
+//float g_sysmsgTimeFlt = 0;
+//float g_frametimeFlt = 1.f;
 void tick(){
 		eventKind e1; e1.type = EVENT_TICK;
 		g_globalChannel->publishEvent(e1);
@@ -218,7 +218,7 @@ void tick(){
 	
 }
 
-renderLayer *g_layerGUI;
+//renderLayer *g_layerGUI;
 void openGUI(){
 	g_layerGUI = new renderLayer("GUI.layerGUI");
 	addLayer(g_layer2D,g_layerGUI);

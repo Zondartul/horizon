@@ -134,7 +134,7 @@ void inputControllerKind::disableMouseCapture(){
 	setMouseRelativeMode(false);
 }
 
-bool g_keyboardCaptured;
+//bool g_keyboardCaptured;
 void inputControllerKind::onEvent(eventKind event){
 	if (event.type == EVENT_FRAME){
 		think();
@@ -191,7 +191,7 @@ void inputControllerKind::onEvent(eventKind event){
 		return;
 	}
 }
-inputControllerKind *g_inputController;
+//inputControllerKind *g_inputController;
 
 
 void captureKeyboard(eventListener *L){g_keyboardCaptured = true;}

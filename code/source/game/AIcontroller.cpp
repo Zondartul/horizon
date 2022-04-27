@@ -2,8 +2,8 @@
 #include "inputController.h"
 #include "simplemath.h"
 
-extern eventChannel *g_inputChannel;
-extern eventChannel *g_globalChannel;
+//extern eventChannel *g_inputChannel;
+//extern eventChannel *g_globalChannel;
 AIcontroller::AIcontroller(characterController *character):character(character){
 	if(!character){error("AIcontroller needs a character\n");}
 	g_inputChannel->addListener(this);
@@ -39,7 +39,7 @@ string AIcontroller::toString2(){
 	}
 	return S;
 }
-extern bool g_gamePaused;
+//extern bool g_gamePaused;
 
 string toString(AIState state){
     switch(state){

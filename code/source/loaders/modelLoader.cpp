@@ -1,23 +1,32 @@
-#include "modelLoader.h"
-#include "globals.h"
-//#include "selfaware.h"
-#include "file.h"
+//system includes
 #include <map>
-using std::map;
 #include <string>
-using std::string;
 #include <vector>
-using std::vector;
 #include <map>
-using std::map;
-
+//external includes
 #pragma warning(push, 0)
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 #pragma warning(pop)
-
+//project includes
+#include "modelLoader.h"
+#include "globals.h"
+#include "file.h"
 #include "simplemath.h"
 #include "model.h"
+#include "global_vars.h"
+using std::map;
+using std::string;
+using std::vector;
+using std::map;
+
+struct gs_modelLoaderKind {
+	vector<tinyobj::shape_t> g_shapes;
+	vector<tinyobj::material_t> g_materials;
+};
+gs_modelLoaderKind *new_gs_modelLoaderKind() {
+	return new gs_modelLoaderKind();
+}
 
 void printCurrentModel();
 
@@ -37,10 +46,6 @@ triangle readTriangle(tinyobj::mesh_t& S, int I){
 	return T;
 }
 
-
-vector<tinyobj::shape_t> g_shapes;
-vector<tinyobj::material_t> g_materials;
-
 void assert_equals(int A, int B, string msg){
     if(A != B){error("%s: got %d, expected %d\n",msg.c_str(),A,B);}
 }
@@ -50,14 +55,17 @@ void assert_greater_equals(int A, int B, string msg){
 }
 
 model *loadModel(const char *filepath){
+	auto& shapes = G->gs_modelLoader->g_shapes;
+	auto& materials = G->gs_modelLoader->g_materials;
+
 	string err;
-	bool ret = tinyobj::LoadObj(g_shapes, g_materials, err, filepath); //value-copy? wat
+	bool ret = tinyobj::LoadObj(shapes, materials, err, filepath); //value-copy? wat
 	if(!err.empty()){warning("loadModel: error: %s\n",err.c_str());}
 	if(!ret){error("loadModel: LoadObj failed\n");}
-	if(!g_shapes.size()){error("loadModel: empty obj file\n");}
+	if(!shapes.size()){error("loadModel: empty obj file\n");}
 
 	model *M = new model();
-	tinyobj::mesh_t &S = g_shapes[0].mesh;
+	tinyobj::mesh_t &S = shapes[0].mesh;
 
     int numIndices = S.indices.size();
     int numPositions = S.positions.size();

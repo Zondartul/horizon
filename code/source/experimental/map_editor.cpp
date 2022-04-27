@@ -3,12 +3,14 @@
 #include "simplemath.h"
 #include "node_graph.h"
 
-map_editor_kind *g_mapeditor;
-extern renderLayer *g_ecs_render_layer;
+//map_editor_kind *g_mapeditor;
+//extern renderLayer *g_ecs_render_layer;
 
 void openMapEditor(){
-	if(g_mapeditor){delete g_mapeditor;}
-	g_mapeditor = new map_editor_kind();
+	auto& mapeditor = G->gs_map_editor->g_mapeditor;
+
+	if(mapeditor){delete mapeditor;}
+	mapeditor = new map_editor_kind();
 }
 
 map_editor_kind::map_editor_kind(){
@@ -232,7 +234,7 @@ bool mouseray(vec3 *pos, collisioninfo **col){
 	return false;
 }
 
-renderLayer *g_templayer = 0;
+//renderLayer *g_templayer = 0;
 
 typedef map_editor_kind::selectDataKind::dirKind DIR;
 string toString(DIR d){
@@ -261,9 +263,14 @@ vec3 toVec3(DIR d){
 
 }
 
-vector<entity*> g_planes;
+//vector<entity*> g_planes;
 
 void map_editor_kind::onEvent(eventKind event){
+	auto& camera = G->gs_camera->g_camera;
+	auto& planes = G->gs_map_editor->g_planes;
+	auto& templayer = G->gs_map_editor->g_templayer;
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
 	switch(mode){
 		case ME_MODE_BLOCK_PLACEMENT:
 		case ME_MODE_TERRAIN:
@@ -306,11 +313,11 @@ void map_editor_kind::onEvent(eventKind event){
 
 				if(has_hit){
 
-					if(g_templayer == 0){
-						g_templayer = new renderLayer("black_dots_layer");
-						addLayer(g_layerDebug, g_templayer);
+					if(templayer == 0){
+						templayer = new renderLayer("black_dots_layer");
+						addLayer(layerDebug, templayer);
 					}
-					setLayer(g_templayer);
+					setLayer(templayer);
 					setColor(vec3(64,0,0));
 
 
@@ -525,7 +532,7 @@ void map_editor_kind::onEvent(eventKind event){
                 //generic test stuff
                 texture *t = getTexture("gui/arrow3");
                 vec3 pt = vec3(0,0,0);
-                vec3 pt2D = g_camera.worldToScreen(pt); pt2D.z = 0;
+                vec3 pt2D = camera.worldToScreen(pt); pt2D.z = 0;
                 vec2 iconSize = t->size();
                 rect R = rect(-iconSize/2.f, iconSize/2.f);
 
@@ -579,19 +586,19 @@ void map_editor_kind::onEvent(eventKind event){
                                 sdata.ptFwd = pos+vec3(0,sepr/2.f,0)*size.y;
                                 sdata.ptBack = pos+vec3(0,-sepr/2.f,0)*size.y;
 
-                                sdata.ptUp2D = g_camera.worldToScreen(sdata.ptUp);
-                                sdata.ptDn2D = g_camera.worldToScreen(sdata.ptDn);
-                                sdata.ptLeft2D = g_camera.worldToScreen(sdata.ptLeft);
-                                sdata.ptRight2D = g_camera.worldToScreen(sdata.ptRight);
-                                sdata.ptFwd2D = g_camera.worldToScreen(sdata.ptFwd);
-                                sdata.ptBack2D = g_camera.worldToScreen(sdata.ptBack);
+                                sdata.ptUp2D = camera.worldToScreen(sdata.ptUp);
+                                sdata.ptDn2D = camera.worldToScreen(sdata.ptDn);
+                                sdata.ptLeft2D = camera.worldToScreen(sdata.ptLeft);
+                                sdata.ptRight2D = camera.worldToScreen(sdata.ptRight);
+                                sdata.ptFwd2D = camera.worldToScreen(sdata.ptFwd);
+                                sdata.ptBack2D = camera.worldToScreen(sdata.ptBack);
 
-                                sdata.dirAwayUp = g_camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;
-                                sdata.dirAwayDn = g_camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D;
-                                sdata.dirAwayLeft = g_camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D;
-                                sdata.dirAwayRight = g_camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D;
-                                sdata.dirAwayFwd = g_camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D;
-                                sdata.dirAwayBack = g_camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D;
+                                sdata.dirAwayUp = camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;
+                                sdata.dirAwayDn = camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D;
+                                sdata.dirAwayLeft = camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D;
+                                sdata.dirAwayRight = camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D;
+                                sdata.dirAwayFwd = camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D;
+                                sdata.dirAwayBack = camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D;
 
                                 sdata.rotUp = atan2(sdata.dirAwayUp.y,sdata.dirAwayUp.x);
                                 sdata.rotDn = atan2(sdata.dirAwayDn.y,sdata.dirAwayDn.x);
@@ -629,42 +636,42 @@ void map_editor_kind::onEvent(eventKind event){
                                                                 //we don't just take mousepos because we need to
                                                                 //re-align the axes in 2D and then in 3D too
                                                 vec3 finalPt2D = sdata.ptUp2D+normalizeSafe(sdata.dirAwayUp)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptUp),toVec3(sdata.dir));
                                             }break;
                                             case(DIR::DIR_DN):{
                                                 float axisOffset = dot((mousePos-sdata.ptDn2D),sdata.dirAwayDn);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                 vec3 finalPt2D = sdata.ptDn2D+normalizeSafe(sdata.dirAwayDn)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptDn),toVec3(sdata.dir));
                                             }break;
                                             case(DIR::DIR_LEFT):{
                                                 float axisOffset = dot((mousePos-sdata.ptLeft2D),sdata.dirAwayLeft);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                 vec3 finalPt2D = sdata.ptLeft2D+normalizeSafe(sdata.dirAwayLeft)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptLeft),toVec3(sdata.dir));
                                             }break;
                                             case(DIR::DIR_RIGHT):{
                                                 float axisOffset = dot((mousePos-sdata.ptRight2D),sdata.dirAwayRight);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                 vec3 finalPt2D = sdata.ptRight2D+normalizeSafe(sdata.dirAwayRight)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptRight),toVec3(sdata.dir));
                                             }break;
                                             case(DIR::DIR_FWD):{
                                                 float axisOffset = dot((mousePos-sdata.ptFwd2D),sdata.dirAwayFwd);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                 vec3 finalPt2D = sdata.ptFwd2D+normalizeSafe(sdata.dirAwayFwd)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptFwd),toVec3(sdata.dir));
                                             }break;
                                             case(DIR::DIR_BACK):{
                                                 float axisOffset = dot((mousePos-sdata.ptBack2D),sdata.dirAwayBack);
                                                 float pixelsMoved = axisOffset-sdata.initialOffset;
                                                 vec3 finalPt2D = sdata.ptBack2D+normalizeSafe(sdata.dirAwayBack)*pixelsMoved;
-                                                vec3 finalPt3D = g_camera.screenToWorld(finalPt2D);
+                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
                                                 dist3D = dot((finalPt3D-sdata.ptBack),toVec3(sdata.dir));
                                             }break;
                                         }
@@ -780,7 +787,7 @@ void map_editor_kind::onEvent(eventKind event){
                 resetLayer(layerMap2D);
 
                 if(mouseray(&mouseover_pos, &col)){
-					vec3 dir = g_camera.getMouseDir();
+					vec3 dir = camera.getMouseDir();
 					vec3 probe_pos = mouseover_pos+dir*0.05f;
                     setLayer(layerMap3D);
                     setColor(vec3(255,255,0));
@@ -854,7 +861,7 @@ void map_editor_kind::onEvent(eventKind event){
 					if(points.size() < 3){points.push_back(mouseover_pos);}
 					else{
 						entity *E = physplane(points[0],points[1],points[2], getTexture("materials/grass1"));
-						g_planes.push_back(E);
+						planes.push_back(E);
 						points.clear();
 					}
 				}
@@ -862,10 +869,10 @@ void map_editor_kind::onEvent(eventKind event){
 					if(points.size()){
 						points.clear();
 					}else{
-						for(unsigned int i = 0; i < g_planes.size(); i++){
-							removeEntity(g_planes[i]);
+						for(unsigned int i = 0; i < planes.size(); i++){
+							removeEntity(planes[i]);
 						}
-						g_planes.clear();
+						planes.clear();
 					}
 				}
 			}

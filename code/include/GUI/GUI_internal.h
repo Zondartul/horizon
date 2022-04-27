@@ -7,6 +7,7 @@
 // Clients: to use GUI in your project,
 // #include "GUI.h" instead.
 //=======================================================
+#include <cmath>
 #include "GUI.h"
 #include "renderLayer.h"
 #include "paint.h"		 
@@ -18,17 +19,19 @@
 #include "texture.h"
 #include "fonts.h"
 #include "timer.h" //for getRealTime()
-#include <cmath>
+#include "global_vars.h"
 using std::isnan;
 
 struct GUI_options_kind{
 	bool debug = false;
 	bool push = false;
 };
-extern GUI_options_kind g_GUIoptions;
+//extern GUI_options_kind g_GUIoptions;
 void GUIsetFavoriteRenderOptions();
 
-
+struct gs_GUI_internalKind {
+	GUI_options_kind g_GUIoptions;
+};
 
 
 

@@ -2,7 +2,7 @@
 #include "inputController.h"
 #include "keybinds.h"
 
-eventChannel *g_inputChannel;
+//eventChannel *g_inputChannel;
 
 void initInput(){
 	g_inputChannel = new eventChannel();

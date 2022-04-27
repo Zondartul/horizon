@@ -1,5 +1,8 @@
 #ifndef GUI_EDITOR_TOOL_EDIT_GUARD
 #define GUI_EDITOR_TOOL_EDIT_GUARD
+#include "tool.h"
+#include "GUI_types.h"
+class GUIbase;
 
 class gui_editor_tool_edit:public gui_editor_tool{
 	public:
@@ -21,6 +24,10 @@ class gui_editor_tool_edit:public gui_editor_tool{
 	GUIe_border grabState;
 	rect oldArea;
 	vec2 grabPos;
+};
+
+struct gs_tool_editKind {
+	int g_numDDMs = 0;
 };
 
 #endif

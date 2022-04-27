@@ -104,7 +104,7 @@ eventListener::~eventListener(){
 	}
 }
 
-eventChannel *g_globalChannel;
+//eventChannel *g_globalChannel;
 
 void initEvents(){
 	g_globalChannel = new eventChannel();

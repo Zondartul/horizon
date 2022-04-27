@@ -3,21 +3,25 @@
 #include "timer.h"
 nav_node *putNode(vec3 pos, string name = "nav_node");
 
-struct nodegraphKind{
-    int numX;
-    int numY;
-    vector<nav_node*> nodes;
-    renderLayer *layer;
-    rmodel *rm;
-} nodegraph;
+//struct nodegraphKind {
+//    int numX;
+//    int numY;
+//    vector<nav_node*> nodes;
+//    renderLayer* layer;
+//    rmodel* rm;
+//} g_nodegraph;
 
 void generateNodegraphFinalize();
 
 
 void generateNodegraph(){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
+    auto& camera = G->gs_camera->g_camera;
+    auto& layer3D = G->gs_paint->g_layer3D;
+
     printf("generating node graph\n");
     collisioninfo *col = 0;
-    col = raytrace(g_camera.pos,vec3(0,0,-1));
+    col = raytrace(camera.pos,vec3(0,0,-1));
     if(!col){printf("no ground!\n"); return;}
     vec3 origin = col->c_to_c.pos+vec3(0,0,0.2f);
 
@@ -26,7 +30,7 @@ void generateNodegraph(){
     nodegraph.numX = 12;
     nodegraph.numY = 12;
     nodegraph.layer = new renderLayer("layerNodegraph", true, false);
-    addLayer(g_layer3D, nodegraph.layer); //i cba set up the layers properly
+    addLayer(layer3D, nodegraph.layer); //i cba set up the layers properly
     vec3 corner = origin+vec3(-(nodegraph.numX-1)/2.f,-(nodegraph.numY-1)/2.f,0)*sidelen;
 
     nodegraph.rm = new rmodel();
@@ -74,6 +78,9 @@ LOSresult hasLineOfSight(entity *E1, entity *E2){
 }
 
 void generateNodegraphFinalize(){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
+    auto& loadLayer = G->gs_paint->g_loadLayer;
+
     for(int Ix = 0; Ix < nodegraph.numX; Ix++){
         for(int Iy = 0; Iy < nodegraph.numY; Iy++){
             nav_node *O = nodegraph.nodes[Ix+Iy*nodegraph.numX];
@@ -110,7 +117,7 @@ void generateNodegraphFinalize(){
     }
     //setLayer(loadLayer);
     nodegraph.rm->finalize();
-    setLayer(g_loadLayer);
+    setLayer(loadLayer);
     uploadRmodel(nodegraph.rm);
     setLayer(nodegraph.layer);
     setRenderMode(2);
@@ -127,6 +134,8 @@ void generateNodegraphFinalize(){
 }
 
 void nav_node::drawLines(){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
+
     if(!valid){return;}
     for(int i = 0; i < 8; i++){
         nav_edge e = neighbors[i];
@@ -178,6 +187,7 @@ float nodeDist(nav_node *n, vec3 pos){return length(n->E->body->pos - pos);}
 float nodeDist(nav_node *n1, nav_node *n2){return length(n1->E->body->pos-n2->E->body->pos);}
 
 nav_node *findClosestNode(vec3 pos){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
     if(!nodegraph.nodes.size()){return 0;}
     auto &n = nodegraph.nodes;
     nav_node *bestNode = n[0];
@@ -189,14 +199,19 @@ nav_node *findClosestNode(vec3 pos){
     return bestNode;
 }
 
-extern entity *g_ent_flag;
-timer *g_pathfinding_test_timer = 0;
+//extern entity *g_ent_flag;
+//timer *g_pathfinding_test_timer = 0;
 
 
 
 void pathfinding_test(vec3 pos){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
+    auto& ent_flag = G->gs_physbox->g_ent_flag;
+    auto& pathTask = G->gs_node_graph->g_pathTask;
+    auto& pathfinding_test_timer = G->gs_node_graph->g_pathfinding_test_timer;
+
     if(!nodegraph.nodes.size()){printf("no node graph\n"); return;}
-    if(!g_ent_flag){printf("no flag\n"); return;}
+    if(!ent_flag){printf("no flag\n"); return;}
     //reset color
     for(unsigned int I = 0; I < nodegraph.nodes.size(); I++){
         nodegraph.nodes[I]->E->r->color = vec3(255,255,255);
@@ -204,7 +219,7 @@ void pathfinding_test(vec3 pos){
 
     //begin
 
-    vec3 flagPos = g_ent_flag->body->pos;
+    vec3 flagPos = ent_flag->body->pos;
     nav_node *flagNode = findClosestNode(flagPos);
     if(!flagNode){printf("no dest node\n"); return;}
     flagNode->E->r->color = vec3(0,255,255);
@@ -213,23 +228,21 @@ void pathfinding_test(vec3 pos){
     if(!srcNode){printf("no src node\n"); return;}
     srcNode->E->r->color = vec3(0,0,255);
 
-    AStarInit(&g_pathTask, srcNode, flagNode);
+    AStarInit(&pathTask, srcNode, flagNode);
 
 
-    if(g_pathfinding_test_timer){delete g_pathfinding_test_timer; g_pathfinding_test_timer = 0;}
+    if(pathfinding_test_timer){delete pathfinding_test_timer; pathfinding_test_timer = 0;}
     timer *T = new timer(0,40,1,0,0);
-    g_pathfinding_test_timer = T;
+    pathfinding_test_timer = T;
     T->F = [&](timer *T){
-        AStarIterative(&g_pathTask);
-        if(g_pathTask.done){
+        AStarIterative(&pathTask);
+        if(pathTask.done){
             printf("A* DONE\n");
             delete T;
-            g_pathfinding_test_timer = 0;
+            pathfinding_test_timer = 0;
         }
     };
     T->run = true;
-
-
 }
 
 void AStarInit(pathTaskKind *task, nav_node *srcNode, nav_node *flagNode){
@@ -304,6 +317,9 @@ void AStarIterative(pathTaskKind *task){
 
 
 nav_path AStar(vec3 src, vec3 dest){
+    auto& nodegraph = G->gs_node_graph->g_nodegraph;
+    auto& pathTask = G->gs_node_graph->g_pathTask;
+
     if(!nodegraph.nodes.size()){printf("no node graph\n"); return empty_path();}
     //reset color
     for(unsigned int I = 0; I < nodegraph.nodes.size(); I++){
@@ -320,11 +336,11 @@ nav_path AStar(vec3 src, vec3 dest){
     if(!srcNode){printf("no src node\n"); return empty_path();}
     srcNode->E->r->color = vec3(0,0,255);
 
-    pathTaskKind *task = &g_pathTask;
+    pathTaskKind *task = &pathTask;
     AStarInit(task, srcNode, destNode);
     while(!task->done){AStarIterative(task);}
     return task->path;
 }
 
-pathTaskKind g_pathTask;
+//pathTaskKind g_pathTask;
 

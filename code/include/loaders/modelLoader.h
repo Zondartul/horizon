@@ -10,4 +10,7 @@ using std::vector;
 class model;
 model *loadModel(const char *filepath);
 
+struct gs_modelLoaderKind; //in cpp due to opaque type
+gs_modelLoaderKind *new_gs_modelLoaderKind();
+
 #endif

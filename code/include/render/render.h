@@ -138,4 +138,10 @@ class renderablePlane:public renderable{
 void renderInit();
 void renderTick();
 
+struct gs_renderKind {
+	vector<renderOptions> g_renderOptionsStack;
+};
+
+
+
 #endif

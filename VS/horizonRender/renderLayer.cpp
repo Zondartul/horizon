@@ -16,8 +16,8 @@ using std::string;
 
 
 
-vector<renderLayer*> g_all_layers;
-vector<renderLayer*> g_layers;
+//vector<renderLayer*> g_all_layers;
+//vector<renderLayer*> g_layers;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){

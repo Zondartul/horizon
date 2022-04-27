@@ -3,7 +3,7 @@
 #include "gadgets/frameprinter.h"
 #include "physics/octree.h"
 
-list<entity*> g_entities;
+//list<entity*> g_entities;
 
 entity::entity(){
 }
@@ -39,21 +39,26 @@ vec3 entity::getColor(){return r ? r->color: vec3(255,255,255);}
 void entity::setColor(vec3 color){r->color = color;}
 
 void addEntity(entity *E){
-	g_entities.push_back(E);
+	auto& entities = G->gs_entity->g_entities;
+	entities.push_back(E);
 }
 void removeEntity(entity *E){
+	auto& entities = G->gs_entity->g_entities;
+
 	if(!E){return;}
 	if(E->body){
 		delete E->body;
 	}
 	
-	for(auto I = g_entities.begin(); I != g_entities.end();){
-		if(*I==E){I = g_entities.erase(I);}else{I++;}
+	for(auto I = entities.begin(); I != entities.end();){
+		if(*I==E){I = entities.erase(I);}else{I++;}
 	}
 }
 
 entity *lastEntity(){
-	return g_entities.back();
+	auto& entities = G->gs_entity->g_entities;
+
+	return entities.back();
 }
 //future ecs stuff:
 //overal "dispatch" system that handles lists of similar components

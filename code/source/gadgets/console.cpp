@@ -1,3 +1,5 @@
+#include <vector>
+#include <string>
 #include "console.h"
 #include "renderLayer.h"
 #include "paint.h"
@@ -6,30 +8,35 @@
 #include "window.h"
 #include "resource.h"
 #include "inputController.h"
-#include <vector>
-#include <string>
+#include "stringUtils.h"
+#include "input.h"
 using std::vector;
 using std::string;
-extern eventChannel *g_inputChannel;
-extern eventChannel *g_globalChannel;
-#include "stringUtils.h"
-
+//extern eventChannel *g_inputChannel;
+//extern eventChannel *g_globalChannel;
 //------------------ dropDownTerminal ------------------------
 
 dropDownTerminal::dropDownTerminal():terminalOn(false){
+	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	layer = new renderLayer("console.terminal");
-	layer->resetLayer = duplicateLayer(g_layer2D->resetLayer);
+	layer->resetLayer = duplicateLayer(layer2D->resetLayer);
 	layer->resetLayer->name = "console.terminal.reset";
 	layer->resetLayer->special = true;
-	addLayer(g_layer2D,layer);
-	g_inputChannel->addListenerFront(this);
-	g_globalChannel->addListenerFront(this);
+	addLayer(layer2D,layer);
+	inputChannel->addListenerFront(this);
+	globalChannel->addListenerFront(this);
 }
 
 dropDownTerminal::~dropDownTerminal(){
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	removeLayer(layer);
-	g_inputChannel->removeListener(this);
-	g_globalChannel->removeListener(this);
+	inputChannel->removeListener(this);
+	globalChannel->removeListener(this);
 }
 
 
@@ -148,7 +155,7 @@ void consoleKind::print(string text){
 	if(term){term->print(text);}
 }
 
-consoleKind *g_console;
+//consoleKind *g_console;
 
 //--------------------- global --------------------------------------------
 

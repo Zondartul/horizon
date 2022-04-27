@@ -15,8 +15,8 @@
 #include "stdlib.h"
 #include "renderLow.h"
 
-int g_height;
-int g_width;
+//int g_height;
+//int g_width;
 
 #ifndef NO_SDL
 SDL_Window *mainWindow;

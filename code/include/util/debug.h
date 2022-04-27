@@ -23,9 +23,9 @@
 
 void debuginit();
 void debugprint(const char *file, int line, const char *mode, const char *format, ...);
-extern int debug_mem_allocated;
-extern int debug_mem_watermark;
-extern bool g_printf_enabled;
+//extern int g_debug_mem_allocated;
+//extern int g_debug_mem_watermark;
+//extern bool g_printf_enabled;
 #ifdef DEBUG_PRINT
 
 
@@ -72,24 +72,24 @@ struct mapped_alloc_key{
 	int g_alloc_line;
 	int num;
 };
-typedef vector<mapped_alloc> struct_alloc_line;
-typedef map<int,struct_alloc_line> struct_alloc_file;
-extern map<const char*,struct_alloc_file> g_allocation_map;
-extern map<void*, mapped_alloc_key> g_deallocation_map;
+//typedef vector<mapped_alloc> struct_alloc_line;
+//typedef map<int,struct_alloc_line> struct_alloc_file;
+//extern map<const char*,struct_alloc_file> g_allocation_map;
+//extern map<void*, mapped_alloc_key> g_deallocation_map;
 
-extern int g_total_size;
+//extern int g_total_size;
 
 #ifdef DEBUG_NEW
 	#include <new>
-	extern const char *debug_file;
-	extern int debug_line;
+	//extern const char *g_debug_file;
+	//extern int g_debug_line;
 
 	//extern const char *alloc_file;
 	//extern int alloc_line;
 	//void *operator new(size_t size);
 	//void operator delete(void *ptr);
-	//#define new (debug_file=__FILE__,debug_line=__LINE__) && 0 ? NULL : new
-	//#define delete (debug_file=__FILE__,debug_line=__LINE__) && 0 ? NULL : delete
+	//#define new (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : new
+	//#define delete (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : delete
 	//void debugnew(const char *file, int line, size_t size);
 	//void debugdelete(const char *file, int line, void *ptr);
 	//#define new set_alloc_pos(__FILE__,__LINE__), new
@@ -98,7 +98,7 @@ extern int g_total_size;
     //Returns true if the memory block was freed recently.
     bool wasRecentlyDeleted(void *p);
 #else
-    #define wasRecentlyDeleted(x) (false)
+    //#define wasRecentlyDeleted(x) (false)
 #endif
 
 
@@ -127,6 +127,72 @@ class stackSentinel{
 	volatile int vals[SSnumvals];
 	stackSentinel();
 	~stackSentinel();
+};
+
+typedef vector<mapped_alloc> struct_alloc_line;
+typedef map<int, struct_alloc_line> struct_alloc_file;
+typedef vector<void*> delayedDeleteList;
+
+
+//struct debugProfile {
+//	uint64_t time;
+//	uint32_t seconds;
+//	uint32_t milliseconds;
+//	uint32_t microseconds;
+//	uint32_t stackused;
+//	uint32_t heapused;
+//	uint32_t heapleaked;
+//}; 
+
+struct debugAllocation {
+	void* reported;
+	void* actual;
+	size_t oldsizereported;
+	size_t sizereported;
+	size_t sizeactual;
+	const char* file;
+	int line;
+	const char* type;
+	uint32_t seconds;
+	uint32_t milliseconds;
+	int frame;
+	int op_index;
+	bool freed;
+};
+
+struct gs_debugKind {
+	delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
+	int g_activeDeleteBuffer = 0;
+	bool g_delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
+	map<const char*, struct_alloc_file> g_allocation_map;
+	map<void*, mapped_alloc_key> g_deallocation_map;
+
+#ifdef DEBUG_NEW
+#define debugAllocListSize 10000
+	int g_debugAllocListI = 0;
+	debugAllocation g_debugAllocList[debugAllocListSize];
+#else
+	vector<debugAllocation> g_debugAllocList;
+#endif
+
+	const char* g_alloc_file = 0;
+	int g_alloc_line = 0;
+	int g_total_size = 0;
+	int g_ticks = 0;
+	FILE* g_debugFile;
+
+	int g_debug_mem_allocated = 0;
+	int g_debug_mem_watermark = 0;
+	int g_debug_mem_op_index = 0;
+	bool g_redirect_new = 1;
+	bool g_redirect_delete = 1;
+	const char* g_debug_file = "unknown";
+	int g_debug_line = 0;
+	debugProfile g_currentDebugProfile;
+
+	void* g_mytrace[100];
+	int g_mytraceI;
+
 };
 
 #endif

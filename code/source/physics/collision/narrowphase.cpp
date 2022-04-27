@@ -8,24 +8,6 @@
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
 
-string g_sideNames[] = {
-	"right",
-	"left",
-	"front",
-	"back",
-	"top",
-	"bottom"
-};
-//when the cube is facing north, its right side is to the right (west) of its center.
-vec3 g_sideNormals[] = {
-	{1,0,0},	//1: right
-	{-1,0,0},	//2: left
-	{0,1,0},	//3: front
-	{0,-1,0},	//4: back
-	{0,0,1},	//5: top
-	{0,0,-1}	//6: bottom
-};
-//returns the index of the side closest to the point
 int nearestSide(AABB aabb, vec3 p, float *res_dist=0){
 	union{
 		float dists[6];
@@ -59,6 +41,8 @@ int nearestSide(AABB aabb, vec3 p, float *res_dist=0){
 
 
 collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAABB *bodyAABB){
+	auto& sideNormals = G->gs_narrowphase->g_sideNormals;
+
 	vec3 from = bodyRay->from;
 	vec3 dir = bodyRay->dir;
 	AABB aabb = bodyAABB->getAABB().moveBy(bodyAABB->pos);
@@ -113,7 +97,7 @@ collisioninfo *checkCollisionRay_AABB(collisionbodyRay *bodyRay, collisionbodyAA
 		collisionpoint cpt1;
 		cpt1.pos = from+dir*tenter;
 		cpt1.depth = length(dir)*tenter;
-		cpt1.normal = g_sideNormals[nearestSide(aabb, cpt1.pos)];
+		cpt1.normal = sideNormals[nearestSide(aabb, cpt1.pos)];
 		col->c_to_c = cpt1;
 		return col;
 	}else{
@@ -625,8 +609,8 @@ collisioninfo *collisionCheckDispatch(collisionbody *body1, collisionbody *body2
 	}
 	return 0;
 }
-
-int g_numCollisionPairs = 0;//entity *I, entity *J,
+//
+//int g_numCollisionPairs = 0;//entity *I, entity *J,
 void pairwiseCollisionCheck(collisionbody *body1, collisionbody *body2, collisionOptions &options){
 	if(!body1){printf("pcc: no body1\n"); return;}
 	if(!body2){printf("pcc: no body2\n"); return;}

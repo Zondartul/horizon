@@ -2,6 +2,8 @@
 
 //GUIbase
 GUIbase::GUIbase(){
+	auto& GUIR_default = G->gs_GUIrenderer_default->GUIR_default;
+
 	parent = NULL;
 	isClient = true;
 	hidden = false;
@@ -164,11 +166,12 @@ void GUIbase::tickLogic(){
 void GUIbase::tick(){}
 
 void GUIbase::renderLogic(){
+	auto& GUIoptions = G->gs_GUI_internal->g_GUIoptions;
 	if(!parent){GUIsetFavoriteRenderOptions();}
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){
-			if(g_GUIoptions.push){pushRenderOptions();}
-			if(g_GUIoptions.debug){
+			if(GUIoptions.push){pushRenderOptions();}
+			if(GUIoptions.debug){
 				drawRectOutlineColored(children[I]->visibleArea(),{255,0,0});
 			}else{
 				setScissoring(true);
@@ -176,13 +179,13 @@ void GUIbase::renderLogic(){
 			}
 			children[I]->render();
 			children[I]->renderLogic();
-			if(g_GUIoptions.push){popRenderOptions();}
+			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(children[I]->isClient && !children[I]->hidden){
-			if(g_GUIoptions.push){pushRenderOptions();}
-			if(g_GUIoptions.debug){
+			if(GUIoptions.push){pushRenderOptions();}
+			if(GUIoptions.debug){
 				drawRectOutlineColored(children[I]->visibleArea(),{128,0,0});
 			}else{
 				setScissoring(true);
@@ -190,7 +193,7 @@ void GUIbase::renderLogic(){
 			}
 			children[I]->render();
 			children[I]->renderLogic();
-			if(g_GUIoptions.push){popRenderOptions();}
+			if(GUIoptions.push){popRenderOptions();}
 		}
 	}
 }

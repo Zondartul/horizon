@@ -1395,6 +1395,9 @@
     <ClInclude Include="todo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\code\include\main\global_vars.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\code\source\entity\ecs.cpp">
@@ -1657,6 +1660,9 @@
     </ClCompile>
     <ClCompile Include="..\..\code\source\program\pipe.cpp">
       <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\source\main\global_vars.cpp">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

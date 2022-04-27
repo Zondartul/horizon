@@ -38,8 +38,8 @@ class renderLayer{
 };
 string toString(renderLayer *l);
 
-extern vector<renderLayer*> g_all_layers;		//all layers (even those not in use)
-extern vector<renderLayer*> g_layers;			//main rendering sequence
+//extern vector<renderLayer*> g_all_layers;		//all layers (even those not in use)
+//extern vector<renderLayer*> g_layers;			//main rendering sequence
 
 void setupLayer3D();
 void setupLayer2D();
@@ -51,5 +51,10 @@ class renderExKind: public exKind{
 };
 
 #define renderEx(L,N,...) renderExKind(logmessage(fstring( __VA_ARGS__ ), __FILE__, __LINE__ ),L,N)
+
+struct gs_renderLayerKind {
+	vector<renderLayer*> g_all_layers;
+	vector<renderLayer*> g_layers;
+};
 
 #endif

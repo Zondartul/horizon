@@ -1,22 +1,21 @@
-#include "timer.h"
-#include "event.h"
-#include "hook.h"
 #include <list>
-
+#include <sstream>
+#include <iomanip>
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
-
+#include "timer.h"
+#include "event.h"
+#include "hook.h"
 #include "time.h"
 #include "stringUtils.h"
-using std::list; //pointers stay valid
-#include <sstream>
+#include "global_vars.h"
+using std::list;
 using std::stringstream;
-#include <iomanip>
-
-list<timer*> g_timers;
 
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
+	auto& timers = G->gs_timer->g_timers;
+
 	this->ticks_max = ticks_max;
 	this->ticks_left = ticks_max;
 	this->repeat = repeat;
@@ -24,11 +23,13 @@ timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, b
 	this->selfdestruct = selfdestruct;
 	this->F = F;
 
-	g_timers.push_back(this);
+	timers.push_back(this);
 }
 
 timer::~timer(){
-	for(auto I = g_timers.begin(); I != g_timers.end();){
+	auto& timers = G->gs_timer->g_timers;
+
+	for(auto I = timers.begin(); I != timers.end();){
 		if(*I == this){ *I = 0; I++;}else{I++;}
 	}
 }
@@ -52,27 +53,35 @@ void simpletimer(function<void(timer *T)> F, int ticks_max){
 }
 
 void timersTick(){
-	for(auto I = g_timers.begin(); I != g_timers.end();){
+	auto& timers = G->gs_timer->g_timers;
+
+	for(auto I = timers.begin(); I != timers.end();){
         if(*I){
             (*I)->tick();
             I++;
 		}else{
-            I = g_timers.erase(I);
+            I = timers.erase(I);
 		}
 	}
 }
 
-int g_t = 0;		//game time in ticks
-float g_t2 = 0;	//game time in seconds
+//int g_t = 0;		//game time in ticks
+//float g_t2 = 0;	//game time in seconds
 
-int getGameTicks(){return g_t;}
-float getGameTime(){return g_t2;}
+int getGameTicks(){
+	auto& t = G->gs_timer->g_t;
+	return t;
+}
+float getGameTime(){
+	auto& t2 = G->gs_timer->g_t2;
+	return t2;
+}
 float getRealTime(){
-#ifndef NO_SDL
-	return 0.001f*SDL_GetTicks();
-#else
-	return 0;
-#endif
+	#ifndef NO_SDL
+		return 0.001f*SDL_GetTicks();
+	#else
+		return 0;
+	#endif
 }
 int getCalendarTime(){
 	time_t t = time(0);
@@ -106,9 +115,13 @@ string getCalendarDateStr(){
 }
 
 void initTimers(){
-	timer *T1 = new timer([&](timer *T){g_t++;},1,1);
-	timer *T2 = new timer([&](timer *T){g_t2+=1/60.f;},1,1);
-	hookAdd(g_globalChannel,EVENT_FRAME,"timers",
+	auto& t = G->gs_timer->g_t;
+	auto& t2 = G->gs_timer->g_t2;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
+	timer *T1 = new timer([&](timer *T){t++;},1,1);
+	timer *T2 = new timer([&](timer *T){t2+=1/60.f;},1,1);
+	hookAdd(globalChannel,EVENT_FRAME,"timers",
 		[](eventKind e){
 			timersTick();
 		}

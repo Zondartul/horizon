@@ -331,7 +331,7 @@ void octreeRender(octree_node *N){
 }
 
 #include "GUI.h"
-extern GUIbase* g_GUI;
+//extern GUIbase* g_GUI;
 #include "stringUtils.h"
 
 void octreePrint(octree_node *N){

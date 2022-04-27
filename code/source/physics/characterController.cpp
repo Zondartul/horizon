@@ -8,8 +8,8 @@
 #include "resource.h"
 #include "model.h"
 
-extern eventChannel *g_inputChannel;
-extern eventChannel *g_globalChannel;
+//extern eventChannel *g_inputChannel;
+//extern eventChannel *g_globalChannel;
 
 
 characterController::characterController(entity *newE):E(newE){

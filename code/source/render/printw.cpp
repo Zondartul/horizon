@@ -5,7 +5,7 @@
 #include "fonts.h"
 #include "renderLayer.h"
 #include "rmodel.h"
-bool g_printFromTop = false;
+//bool g_printFromTop = false;
 void drawRectImmediate(rect R){
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
