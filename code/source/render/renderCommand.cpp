@@ -161,7 +161,11 @@ renderCommand3::~renderCommand3(){
     }
 }
 
-#define isValid(x) (x && !wasRecentlyDeleted(x))
+//#define isValid(x) (x && !wasRecentlyDeleted(x))
+bool isValid(void* x) {
+    //return (x && !wasRecentlyDeleted(x));
+    return (x != 0);
+}
 
 string toString(renderCommand3 *rcmd){
     string S = toString(rcmd->type)+" ";

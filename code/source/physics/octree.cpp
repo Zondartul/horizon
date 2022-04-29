@@ -2,6 +2,10 @@
 #include "collision.h"
 #include "globals.h"
 #include "stringUtils.h"
+#include "global_vars.h"
+#include "GUI.h"
+#include "stringUtils.h"
+#include "main.h" //for g_GUI
 
 octree_node::octree_node(){}
 
@@ -330,11 +334,10 @@ void octreeRender(octree_node *N){
 	}
 }
 
-#include "GUI.h"
-//extern GUIbase* g_GUI;
-#include "stringUtils.h"
 
 void octreePrint(octree_node *N){
+	auto& GUI = G->gs_main->g_GUI;
+
 	static GUIbase* owin = 0;
 	static GUIlabel* lbl = 0;
 	if(!owin){
@@ -344,7 +347,7 @@ void octreePrint(octree_node *N){
 
 		lbl = new GUIlabel();
 		owin->addChild(lbl);
-		g_GUI->addChild(owin);
+		GUI->addChild(owin);
 	}
 	string text;
 	if(!N){

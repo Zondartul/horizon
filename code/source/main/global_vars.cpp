@@ -25,6 +25,7 @@
 #include "GUIrenderer_default.h" //gs_GUIrenderer_defaultKind
 #include "camera.h" //gs_cameraKind
 #include "map_editor.h" //gs_map_editorKind
+#include "console.h"
 
 Globals* G = 0;
 
@@ -44,12 +45,14 @@ Globals::Globals() {
 	gs_resource = new gs_resourceKind();
 	gs_main = new gs_mainKind();
 	gs_narrowphase = new gs_narrowphaseKind();
+	gs_broadphase = new gs_broadphaseKind();
 	gs_modelLoader = new_gs_modelLoaderKind();
 	gs_render = new gs_renderKind();
 	gs_printw = new gs_printwKind();
 	gs_commands = new gs_commandsKind();
 	gs_editor2 = new gs_editor2Kind();
 	gs_keybinds = new gs_keybindsKind();
+	gs_input = new gs_inputKind();
 	gs_hook = new gs_hookKind();
 	gs_GUI_internal = new gs_GUI_internalKind();
 	gs_event = new gs_eventKind();
@@ -58,4 +61,5 @@ Globals::Globals() {
 	gs_map_editor = new gs_map_editorKind();
 	gs_frameprinter = new gs_frameprinterKind();
 	gs_inputController = new gs_inputControllerKind();
+	gs_console = new gs_consoleKind();
 }

@@ -4,7 +4,7 @@
 #include "editmodel.h"
 #include "global_vars.h"
 #include "event.h"
-struct renderLayer;
+class renderLayer;
 
 void openEditor2();
 class editor2Kind :public eventListener {

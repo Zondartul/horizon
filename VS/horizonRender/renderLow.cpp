@@ -2,14 +2,15 @@
 #include <cstdlib>
 #include <map>
 #include "glm/glm.hpp"
+#ifndef NO_GLEW
+#include "GL/glew.h"
+#endif
 #include "renderLow.h"
 #include "vec.h"
 #include "fonts.h"
 #include "util.h"
 #include "paint.h"
 #include "globals.h"
-//#include "stdio.h"
-//#include "stdlib.h"
 #include "file.h"
 #include "window.h"
 #include "camera.h"
@@ -17,23 +18,22 @@
 #include "GPUdriver.h"
 #include "bitmap.h"
 #include "model.h"
-#ifndef NO_GLEW
-#include "GL/glew.h"
-#endif
+#include "global_vars.h"
+
 using glm::mat4;
 using glm::vec3;
 using glm::vec2;
 using std::map;
+
 extern model* g_mBox;
 
-
-renderLowKind *g_renderLow;
 renderLowKind::renderLowKind(){
+    G = new GlobalsRender();
+
 	GPUdriver = new GPUdriverKind();
     vec2 size = getScreenSize();
     setViewportSize((int)size.x,(int)size.y);
 }
-
 
 void renderLowKind::renderLowInit(){
     GPUdriver->renderLowInit();
@@ -43,7 +43,6 @@ void renderLowKind::setViewportSize(int width, int height){
     GPUdriver->renderState.width = width;
     GPUdriver->renderState.height = height;
 }
-
 
 void renderLowKind::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L){
 
@@ -191,6 +190,4 @@ void renderLowKind::parseCommand(const renderCommand3 &rcmd){
         }
 }
 
-
-bool g_debug = false;
 

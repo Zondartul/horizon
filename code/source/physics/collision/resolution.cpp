@@ -6,10 +6,10 @@
 #include "globals.h"
 #include "stringUtils.h"
 #include "geometry.h"
+#include "paint.h" //for debug drawing
+#include "entity/entity.h" //for e->name
 
 
-//for debug drawing
-#include "paint.h"
 
 //compute friction for a pair of bodies.
 float frictionFormula(float f1, float f2){
@@ -38,6 +38,8 @@ bool bodiesSeparating(collisioninfo *col){
 
 //resolve collision by putting a force on the dynbody
 void resolveDynamicStatic(collisioninfo *col){
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
 	bool separating = bodiesSeparating(col);
 	
 	collisionbody *body1 = col->body1;
@@ -59,7 +61,7 @@ void resolveDynamicStatic(collisioninfo *col){
 	
 	vec3 n = col->c_to_c.normal;			//normal direction
 	vec3 p = normalizeSafe(dv - project(dv,n));
-	setLayer(g_layerDebug);
+	setLayer(layerDebug);
 	drawArrow(body1->pos, body1->pos+p, vec3(128,0,128)); //purple arrow = velocity parralel to collision
 	float dvn = glm::dot(dv,n); 	//delta-v normal
  	float dvp = glm::dot(dv,p);		//delta-v parralel
@@ -152,6 +154,8 @@ void resolveDynamicDynamic(collisioninfo *col){
 }
 
 void separateCollision(collisioninfo *col){
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
 	if(bodiesSeparating(col)){return;}
 	float bias = 1.01f; //extra separation
 	bool velocitySeparation = false;//true;
@@ -211,7 +215,7 @@ void separateCollision(collisioninfo *col){
 	//GREEN ARROW: normal of each body
 	//BLUE ARROW: penetration vector of each body
 	//AQUA ARROW: relative velocity
-	setLayer(g_layerDebug);
+	setLayer(layerDebug);
 	drawPoint(col->c_to_c.pos,vec3(0,0,255));
 	vec3 O1 = body1->pos;//col->c_to_c.pos;
 	vec3 O2 = body2->pos;
@@ -227,8 +231,8 @@ void separateCollision(collisioninfo *col){
 		drawPoint(cp.pos,vec3(128,0,128));
 	}
 }
-//for e->name
-#include "entity/entity.h"
+
+
 
 void resolveCollision(collisioninfo *col){
 	if(!col){error("no collision info\n");}

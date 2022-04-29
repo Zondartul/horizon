@@ -1,12 +1,80 @@
-﻿  render.cpp
+﻿  global_vars.cpp
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(122,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(124,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(125,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(126,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(127,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(128,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(129,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\global_vars.cpp(7,21): warning C4099: 'renderLowKind': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\renderLow.h(12): message : see declaration of 'renderLowKind'
+  paint.cpp
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(122,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(124,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(125,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(126,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(127,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(128,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(129,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+  printw.cpp
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(122,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(124,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(125,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(126,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(127,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(128,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(129,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
   renderLayer.cpp
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(122,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(124,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(125,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(126,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(127,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(128,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(129,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+  renderLow.cpp
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(122,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(124,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(125,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(126,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(127,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(128,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(129,20): warning C4099: 'renderLayer': type name first seen using 'class' now seen using 'struct'
+D:\Stride\shared\horizon\VS\horizonRender\paint.h(4): message : see declaration of 'renderLayer'
   window.cpp
   Generating Code...
-     Creating library ..\..\bin\horizonRender.lib and object ..\..\bin\horizonRender.exp
-paint.obj : error LNK2001: unresolved external symbol "class renderLayer * g_currentLayer" (?g_currentLayer@@3PAVrenderLayer@@A)
-printw.obj : error LNK2001: unresolved external symbol "class renderLayer * g_currentLayer" (?g_currentLayer@@3PAVrenderLayer@@A)
-paint.obj : error LNK2001: unresolved external symbol "class std::vector<class renderLayer *,class std::allocator<class renderLayer *> > g_layers" (?g_layers@@3V?$vector@PAVrenderLayer@@V?$allocator@PAVrenderLayer@@@std@@@std@@A)
-renderLayer.obj : error LNK2001: unresolved external symbol "class std::vector<class renderLayer *,class std::allocator<class renderLayer *> > g_all_layers" (?g_all_layers@@3V?$vector@PAVrenderLayer@@V?$allocator@PAVrenderLayer@@@std@@@std@@A)
-window.obj : error LNK2001: unresolved external symbol "int g_width" (?g_width@@3HA)
-window.obj : error LNK2001: unresolved external symbol "int g_height" (?g_height@@3HA)
-..\..\bin\horizonRender.dll : fatal error LNK1120: 5 unresolved externals
+  horizonRender.vcxproj -> D:\Stride\shared\horizon\bin\horizonRender.dll

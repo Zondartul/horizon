@@ -1,12 +1,18 @@
+#include <cstdarg>
+#include <cstdio>
 #include "printw.h"
 #include "textureLoader.h"
 #include "paint.h"
-#include "stdio.h"
 #include "fonts.h"
 #include "renderLayer.h"
 #include "rmodel.h"
+#include "simplemath.h"
+#include "global_vars.h"
+
 //bool g_printFromTop = false;
 void drawRectImmediate(rect R){
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
 	vec3 B = vec3(R.start.x,R.end.y,0.0f);
@@ -39,7 +45,7 @@ void drawRectImmediate(rect R){
 	rm->colors->push_back(vec3(1,1,1));
 
 	rm->finalize();
-    renderLayer *oldL = g_currentLayer;
+    renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("drawRectImmediate",false,true);
     setLayer(L);
     uploadRmodel(rm);
@@ -54,7 +60,10 @@ void drawRectImmediate(rect R){
 //todo: make a model and stuff
 
 void printText2D(const char *text, font *F, vec2 &textPos){
-	renderLayer *oldL = g_currentLayer;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& printFromTop = G->gs_printw->g_printFromTop;
+
+	renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);
     setLayer(L);
     if(!text){return;}
@@ -64,7 +73,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 
     setTransparency(true);
 	float yoffset = 0;
-	if(g_printFromTop){yoffset = F->maxrect.end.y;}
+	if(printFromTop){yoffset = F->maxrect.end.y;}
 	float scale = 1;
 	while(C != 0){
 		if(F->charmap.count(C)){
@@ -93,9 +102,9 @@ void printText2D(const char *text, font *F, vec2 &textPos){
     setLayer(oldL);
 }
 
-#include "simplemath.h"
-
 rect preprintText2D(const char *text, font *F){
+	auto& printFromTop = G->gs_printw->g_printFromTop;
+
 	int maxx,maxy,minx,miny;
 	maxx = 0;
 	maxy = 0;
@@ -106,7 +115,7 @@ rect preprintText2D(const char *text, font *F){
 	char C = *text;
 	float scale = 1;
 	float yoffset = 0;
-	if(g_printFromTop){yoffset = F->maxrect.end.y;}
+	if(printFromTop){yoffset = F->maxrect.end.y;}
 	while(C != 0){
 		if(F->charmap.count(C)){
 			glyph G = F->charmap[C];
@@ -136,7 +145,6 @@ rect preprintText2D(const char *text, font *F){
 	return rect({minx,miny},{maxx,maxy});
 }
 
-#include "stdarg.h"
 //only up to 1k characters are supported
 //because it's really hard to calculate the length of
 //a printf'ed string without printing it.

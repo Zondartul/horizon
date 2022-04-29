@@ -1,27 +1,23 @@
-#include "renderLayer.h"
-#include "renderLow.h"
-#include "stdio.h"
+#include <cstdio>
 #include <sstream>
-using std::stringstream;
 #include <string>
-using std::string;
-#include "renderCommand.h"
-
-#include "paint.h"
-
 #ifndef NO_GLEW
 #include "GL/glew.h"
 #endif
-
+#include "renderLayer.h"
+#include "renderLow.h"
+#include "renderCommand.h"
+#include "paint.h"
 #include "window.h"
-
-
-//vector<renderLayer*> g_all_layers;
-//vector<renderLayer*> g_layers;
+#include "global_vars.h"
+using std::stringstream;
+using std::string;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
-	g_all_layers.push_back(this);
+	auto& all_layers = G->gs_renderLayer->g_all_layers;
+
+	all_layers.push_back(this);
 }
 
 void renderLayer::render(){
@@ -115,7 +111,9 @@ const renderCommand3 *renderLayer::get(unsigned int num){
 }
 
 void setupLayer3D(){
-	setLayer(g_layer3D->resetLayer);
+	auto& layer3D = G->gs_paint->g_layer3D;
+
+	setLayer(layer3D->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(true);
 	setFaceCullCCW();
@@ -139,7 +137,9 @@ void setupLayer3D(){
 }
 
 void setupLayer2D(){
-	setLayer(g_layer2D->resetLayer);
+	auto& layer2D = G->gs_paint->g_layer2D;
+
+	setLayer(layer2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setRotation(vec3(0,0,0));
@@ -156,7 +156,9 @@ void setupLayer2D(){
 
 //layer for untextured lines/points
 void setupLayerDebug(){
-	setLayer(g_layerDebug->resetLayer);
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
+	setLayer(layerDebug->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(false);
 #endif
@@ -176,7 +178,9 @@ void setupLayerDebug(){
 }
 
 void setupLayerDebug2D(){
-	setLayer(g_layerDebug2D->resetLayer);
+	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
+
+	setLayer(layerDebug2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setColoring(false);

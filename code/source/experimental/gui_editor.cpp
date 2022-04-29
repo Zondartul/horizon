@@ -234,9 +234,9 @@ gui_editor_kind::gui_editor_kind(){
 	
 	helper.editor = this;
 	
-	g_inputChannel->addListener(this);
-	g_inputChannel->addListenerFront(&helper);
-	g_globalChannel->addListener(this);
+	inputChannel->addListener(this);
+	inputChannel->addListenerFront(&helper);
+	globalChannel->addListener(this);
 	
 	tool_default();
 }

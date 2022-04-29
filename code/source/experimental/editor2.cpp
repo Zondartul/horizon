@@ -55,14 +55,17 @@
 //editor2Kind *g_editor2;
 
 void editor2Kind::setupLayers(){
+	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layer2D = G->gs_paint->g_layer2D;
+
 	printf("editor.setupLayers()\n");
 	layers.l3D 			= new renderLayer("editor.l3D");
 	layers.l3Dimmediate = new renderLayer("editor.l3Dimmediate");
 	layers.l2D 			= new renderLayer("editor.l2D");
 	layers.l2Dimmediate = new renderLayer("editor.l2Dimmedate");
-	addLayer(g_layer3D,		layers.l3D);
+	addLayer(layer3D,		layers.l3D);
 	addLayer(layers.l3D,	layers.l3Dimmediate);
-	addLayer(g_layer2D,		layers.l2D);
+	addLayer(layer2D,		layers.l2D);
 	addLayer(layers.l2D,	layers.l2Dimmediate);
 }
 
@@ -161,28 +164,34 @@ void editor2Kind::constructTestModel(){
 }
 
 void openEditor2(){
-	g_editor2 = new editor2Kind();
+	auto& editor2 = G->gs_editor2->g_editor2;
+	editor2 = new editor2Kind();
 }
 
 //constructor
 editor2Kind::editor2Kind():sel(&EM){
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+	
 	printf("editor.editorKind()\n");
-	g_inputChannel->addListener(this);
-	g_inputChannel->moveListenerToFront(this);
-	g_globalChannel->addListener(this);
+	inputChannel->addListener(this);
+	inputChannel->moveListenerToFront(this);
+	globalChannel->addListener(this);
 	setupLayers();
 	constructTestModel();
 	redraw();
 }
 
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
+	auto& camera = G->gs_camera->g_camera;
+
 	printf("editor.boxSelect()\n");
 	sel.clear();
-	g_camera.go3D();
+	camera.go3D();
 	string S1 = string("boxStart: ")+toString(boxStart)+"boxEnd: "+toString(boxEnd);
 	for(auto I = EM.verts.begin(); I != EM.verts.end(); I++){
 		vec3 vw = (*I)->pos;
-		vec3 vs = g_camera.worldToScreen(vw);
+		vec3 vs = camera.worldToScreen(vw);
 		vec2 vsi = {vs.x,vs.y};
 		if(rect(boxStart,boxEnd).repair().contains(vsi)){
 			sel.verts.push_back(*I);

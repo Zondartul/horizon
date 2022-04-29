@@ -1,7 +1,7 @@
+#include <string>
+#include "glm/gtx/projection.hpp"
 #include "inputController.h"
 #include "camera.h"
-#include <string>
-using std::string;
 #include "mouse.h"
 #include "globals.h"
 #include "stdlib.h"
@@ -9,6 +9,7 @@ using std::string;
 #include "stringUtils.h"
 #include "entity.h"
 #include "input.h"
+using std::string;
 /*
 //mousecapture:
 
@@ -32,6 +33,9 @@ using std::string;
 */
 
 inputControllerKind::inputControllerKind(){
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	mousecapture=forward=backward=left=right=up=down=false;
 	speeds.fly_fast			= 0.25f;
 	speeds.fly_normal		= 0.05f;
@@ -46,24 +50,25 @@ inputControllerKind::inputControllerKind(){
 	targetspeed = speeds.fly_normal;
 	accelerating = false;
 	warp = 1;
-	g_inputChannel->addListener(this);
-	g_globalChannel->addListener(this);
+	inputChannel->addListener(this);
+	globalChannel->addListener(this);
 	character = 0;
 }
-inputControllerKind::~inputControllerKind(){}
-#include "glm/gtx/projection.hpp"
-void inputControllerKind::think(){
 
+inputControllerKind::~inputControllerKind(){}
+
+void inputControllerKind::think(){
+	auto& camera = G->gs_camera->g_camera;
 
 	if(character && character->E){
 		float horSpeed = targetspeed;
 
 
-		vec3 flyDir = rotate(vec3(forward-backward,left-right,0),d2r*g_camera.rot);
+		vec3 flyDir = rotate(vec3(forward-backward,left-right,0),d2r*camera.rot);
 		vec3 horDir = normalizeSafe(vec3(flyDir.x,flyDir.y,0));
 		velocity = horSpeed*horDir+speeds.jump*vec3(0,0,up-down);
 	}else{
-		vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*g_camera.rot));
+		vec3 targetvel = warp*targetspeed*(rotate(vec3(forward-backward,left-right,up-down),d2r*camera.rot));
 		if(length(targetvel) && accelerating){warp = 10.f;}
 		else{warp = 1.f;}
 		vec3 dv = targetvel - velocity;
@@ -82,10 +87,10 @@ void inputControllerKind::think(){
 		character->jump = up;
 		auto E = character->E;
 
-		vec3 cp = g_camera.pos;
-		vec3 cf = g_camera.forward();
-		vec3 cu = g_camera.up();
-		character->targetDir = toVec3Angle(setZ(g_camera.forward(),0));
+		vec3 cp = camera.pos;
+		vec3 cf = camera.forward();
+		vec3 cu = camera.up();
+		character->targetDir = toVec3Angle(setZ(camera.forward(),0));
 		vec3 bp = E->body->pos;
 		//first-person camera
 		//third-person camera
@@ -99,47 +104,55 @@ void inputControllerKind::think(){
 		
 		bool thirdperson = false;
 		if(thirdperson){
-			g_camera.setPos(shoulder);
+			camera.setPos(shoulder);
 		}else{
 			float hh = 0.7f; //head height
-			g_camera.setPos(bp+vec3(0,0,hh));
+			camera.setPos(bp+vec3(0,0,hh));
 		}
 	}else{
-		setPos(g_camera.pos+velocity);
+		setPos(camera.pos+velocity);
 	}
 }
 void inputControllerKind::setPos(vec3 pos){
-	g_camera.setPos(pos);
+	auto& camera = G->gs_camera->g_camera;
+	camera.setPos(pos);
 }
 void inputControllerKind::aimRelative(vec3 aim){
+	auto& camera = G->gs_camera->g_camera;
 	float aimspeed = 0.2f;
-	g_camera.setRot(g_camera.rot + aim*aimspeed);
+	camera.setRot(camera.rot + aim*aimspeed);
 }
 void inputControllerKind::aim(vec3 aim){
-	g_camera.setRot(aim);
+	auto& camera = G->gs_camera->g_camera;
+	camera.setRot(aim);
 }
 void inputControllerKind::toggleMouseCapture(){
 	mousecapture? disableMouseCapture() : enableMouseCapture();
 }
 void inputControllerKind::enableMouseCapture(){
+	auto& inputChannel = G->gs_input->g_inputChannel;
 	printf("mouse captured\n");
 	mousecapture = true;
-	g_inputChannel->moveListenerToFront(this);
+	inputChannel->moveListenerToFront(this);
 	setMouseRelativeMode(true);
 }
 void inputControllerKind::disableMouseCapture(){
+	auto& inputChannel = G->gs_input->g_inputChannel;
 	printf("mouse released\n");
 	mousecapture = false;
-	g_inputChannel->moveListenerToBack(this);
+	inputChannel->moveListenerToBack(this);
 	setMouseRelativeMode(false);
 }
 
 //bool g_keyboardCaptured;
 void inputControllerKind::onEvent(eventKind event){
+	auto& camera = G->gs_camera->g_camera;
+	auto& keyboardCaptured = G->gs_inputController->g_keyboardCaptured;
+
 	if (event.type == EVENT_FRAME){
 		think();
 	}
-	if(g_keyboardCaptured){return;}
+	if(keyboardCaptured){return;}
 	if (event.type == EVENT_KEY_DOWN){
 		string K = event.keyboard.key;
 		if(K == "Escape"){event.maskEvent();exit(0);}
@@ -150,19 +163,19 @@ void inputControllerKind::onEvent(eventKind event){
 		if(K == "D"){event.maskEvent();right = true;return;}
 		if(K == "Space"){event.maskEvent();up = true;return;}
 		if(K == "Left Ctrl"){event.maskEvent();down = true;return;}
-		if(K == "F7"){event.maskEvent();g_camera.screenshot();return;}
+		if(K == "F7"){event.maskEvent();camera.screenshot();return;}
 		if(K == "C"){if(character){event.maskEvent(); character = 0;}}
 		if(K == "T"){
 			event.maskEvent();
 			if(!character){
 				float dist = 100;
-				auto *ci = g_camera.eyetrace(false);
+				auto *ci = camera.eyetrace(false);
 				if(ci){
 					float dist2 = ci->c_to_c.depth;
 					if(dist2 < dist){dist = dist2;}
 				}
 				dist -= 0.3f;
-				setPos(g_camera.pos+g_camera.forward()*dist);
+				setPos(camera.pos+camera.forward()*dist);
 			}
 			return;
 		}
@@ -194,5 +207,12 @@ void inputControllerKind::onEvent(eventKind event){
 //inputControllerKind *g_inputController;
 
 
-void captureKeyboard(eventListener *L){g_keyboardCaptured = true;}
-void releaseKeyboard(){g_keyboardCaptured = false;}
+void captureKeyboard(eventListener *L){
+	auto& keyboardCaptured = G->gs_inputController->g_keyboardCaptured; 
+	keyboardCaptured = true;
+}
+
+void releaseKeyboard(){
+	auto& keyboardCaptured = G->gs_inputController->g_keyboardCaptured; 
+	keyboardCaptured = false;
+}

@@ -55,6 +55,8 @@ void dropDownTerminal::print(string text){
 }
 
 void dropDownTerminal::onEvent(eventKind event){
+	auto& inputController = G->gs_inputController->g_inputController;
+
 	if(event.type == EVENT_KEY_DOWN){
 		const char *K = event.keyboard.key;
 		if(terminalOn){
@@ -81,7 +83,7 @@ void dropDownTerminal::onEvent(eventKind event){
 			if(string("`") == K){
 				event.maskEvent();
 				terminalOn = true;
-				g_inputController->disableMouseCapture();
+				inputController->disableMouseCapture();
 				return;
 			}
 		}
@@ -160,9 +162,11 @@ void consoleKind::print(string text){
 //--------------------- global --------------------------------------------
 
 void cprint(const char *format, ...){
+	auto& console = G->gs_console->g_console;
+
 	string str;
 	printfify(format,str);
 	printf("cprint([%s])\n",str.c_str());
-	g_console->print(str);
+	console->print(str);
 }
 

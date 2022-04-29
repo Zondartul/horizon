@@ -10,6 +10,7 @@
 #include "rmodel.h"
 #include "window.h"
 #include "console.h"
+#include "main.h" //for g_GUI
 
 //GUIwindow *g_entWindow = 0;
 //extern GUIbase *g_GUI;
@@ -19,15 +20,19 @@
 //renderLayer *g_pickerLayer = 0;
 
 void closeEntityOptionsWindow(){
+	auto& entWindow = G->gs_picker->g_entWindow;
 	//if(entWindow){entWindow->close(); delete entWindow; entWindow = 0;}
-	if(g_entWindow){delete g_entWindow; g_entWindow = 0;}
+	if(entWindow){delete entWindow; entWindow = 0;}
 }
 
 void openEntityOptionsWindow(entity *E){
+	auto& entWindow = G->gs_picker->g_entWindow;
+	auto& GUI = G->gs_main->g_GUI;
+
 	closeEntityOptionsWindow();
-	g_entWindow = new GUIwindow();
-	g_entWindow->setSize({200,300});
-	g_entWindow->moveTo({100,20});
+	entWindow = new GUIwindow();
+	entWindow->setSize({200,300});
+	entWindow->moveTo({100,20});
 
 	float windY = 10;
 
@@ -35,7 +40,7 @@ void openEntityOptionsWindow(entity *E){
 	entName->setText(E->name);
 	entName->sizeToContents();
 	entName->moveTo({0,windY});
-	g_entWindow->addChild(entName);
+	entWindow->addChild(entName);
 
 	windY += entName->area.size.y;
 
@@ -53,7 +58,7 @@ void openEntityOptionsWindow(entity *E){
 		lblProp->setText(text);//"pos");
 		lblProp->sizeToContents();
 		lblProp->moveTo({0,windY});
-		g_entWindow->addChild(lblProp);
+		entWindow->addChild(lblProp);
 
 		//GUIlabel *lblVal = new GUIlabel();
 		//lblVal->setText(toString(pos));
@@ -63,7 +68,7 @@ void openEntityOptionsWindow(entity *E){
 
 		windY += lblProp->area.size.y;
 	}
-	if(g_GUI){g_GUI->addChild(g_entWindow);}else{printf("no gui\n");}
+	if(GUI){GUI->addChild(entWindow);}else{printf("no gui\n");}
 }
 
 void pickerSelect(entity *E){
@@ -80,15 +85,19 @@ void pickerDeselect(entity *E){
 }
 
 int cmd_pick(int argc, char **argv){
-	setLayer(g_pickerLayer);
+	auto& pickedEntity = G->gs_picker->g_pickedEntity;
+	auto& pickerLayer = G->gs_picker->g_pickerLayer;
+	auto& camera = G->gs_camera->g_camera;
+
+	setLayer(pickerLayer);
 	setColor(vec3(0,255,0));
 	setPointSize(3);
 
 	vec2 mousepos = getMousePos();
-	vec3 mousedv = g_camera.screenToWorld(vec3(mousepos.x,mousepos.y,1));
-	vec3 dv = normalizeSafe(mousedv - g_camera.pos);
+	vec3 mousedv = camera.screenToWorld(vec3(mousepos.x,mousepos.y,1));
+	vec3 dv = normalizeSafe(mousedv - camera.pos);
 	printf("LMB: %s, dv: %s\n",toString(mousepos).c_str(),toString(dv).c_str());
-	collisioninfo *col = raytrace(g_camera.pos,dv);
+	collisioninfo *col = raytrace(camera.pos,dv);
 	if(col){
 		float depth = col->c_to_c.depth;
 		vec3 hitpos = col->c_to_c.pos;
@@ -97,8 +106,8 @@ int cmd_pick(int argc, char **argv){
 		printf("hit: dist = %f, pt = %s\n",depth,toString(hitpos).c_str());
 		printf("entity: [%s]\n",E2->name.c_str());
 
-		if(g_pickedEntity){pickerDeselect(g_pickedEntity);}
-		g_pickedEntity = E2;
+		if(pickedEntity){pickerDeselect(pickedEntity);}
+		pickedEntity = E2;
 		pickerSelect(E2);
 		openEntityOptionsWindow(E2);
 
@@ -108,15 +117,19 @@ int cmd_pick(int argc, char **argv){
 		//drawLine(camera.pos,hitpos);
 	}else{
 		printf("no hit\n");
-		if(g_pickedEntity){pickerDeselect(g_pickedEntity);}
-		g_pickedEntity = 0;
+		if(pickedEntity){pickerDeselect(pickedEntity);}
+		pickedEntity = 0;
 		closeEntityOptionsWindow();
 	}
 	return 0;
 }
 
 int cmd_pick2(int argc, char **argv){
-	setLayer(g_pickerLayer);
+	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& pickerLayer = G->gs_picker->g_pickerLayer;
+	auto& camera = G->gs_camera->g_camera;
+
+	setLayer(pickerLayer);
 	setPointSize(1);
 	rmodel *rm1 = new rmodel();
 	//rmodel *rm2 = new rmodel();
@@ -126,9 +139,9 @@ int cmd_pick2(int argc, char **argv){
 	int div = 50;
 	for(int I = 0; div*I < scr.x; I++){
 		for(int J = 0; div*J < scr.y; J++){
-			vec3 dv = g_camera.screenToWorld(vec3(div*I,div*J,1));
-			dv = normalizeSafe(dv - g_camera.pos);
-			collisioninfo *col = raytrace(g_camera.pos,dv);
+			vec3 dv = camera.screenToWorld(vec3(div*I,div*J,1));
+			dv = normalizeSafe(dv - camera.pos);
+			collisioninfo *col = raytrace(camera.pos,dv);
 			if(col){
 				vec3 hitpos = col->c_to_c.pos;
 				rm1->vertices->push_back(hitpos);
@@ -139,10 +152,10 @@ int cmd_pick2(int argc, char **argv){
 	}
 	rm1->finalize();
 	//rm2->finalize();
-	setLayer(g_loadLayer);
+	setLayer(loadLayer);
 	uploadRmodel(rm1);
 	//uploadRmodel(rm2);
-	setLayer(g_pickerLayer);
+	setLayer(pickerLayer);
 	setRenderMode(1);
 	setColor(vec3(255,0,0));
 	drawRmodelStd(rm1);
@@ -152,9 +165,14 @@ int cmd_pick2(int argc, char **argv){
 }
 
 void initPicker(){
-	g_pickerLayer = new renderLayer("picker");
-	addLayer(g_layer3D,g_pickerLayer);
-	setLayer(g_pickerLayer);
+	auto& pickerLayer = G->gs_picker->g_pickerLayer;
+	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& console = G->gs_console->g_console;
+	auto& keybinds = G->gs_keybinds->g_keybinds;
+
+	pickerLayer = new renderLayer("picker");
+	addLayer(layer3D,pickerLayer);
+	setLayer(pickerLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setColoring(false);
@@ -162,9 +180,9 @@ void initPicker(){
 	setLighting(false);
 	setPointSize(3);
 
-	g_console->addCommand({"pick","picker function 1\n",cmd_pick});
-	g_console->addCommand({"pick2","picker function 2\n",cmd_pick2});
+	console->addCommand({"pick","picker function 1\n",cmd_pick});
+	console->addCommand({"pick2","picker function 2\n",cmd_pick2});
 
-	g_keybinds->binds["+LMB"].cmd = "pick";
-	g_keybinds->binds["+RMB"].cmd = "pick2";
+	keybinds->binds["+LMB"].cmd = "pick";
+	keybinds->binds["+RMB"].cmd = "pick2";
 }

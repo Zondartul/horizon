@@ -1,5 +1,8 @@
+#include <iostream>
 #include "game.h"
-
+#include "util/hook.h"
+#include "ecs.h"
+using namespace std;
 
 void openTestWindow1(){
 	auto& loadLayer = G->gs_paint->g_loadLayer;
@@ -221,73 +224,150 @@ void openTestWindow4(){
 		clearLayer(test4layer);
 	};
 }
-#include "ecs.h"
 
 //-------------------- render options -----------------------------
 
-#define CHECKBOX_FUNC(button, func) \
-[=](){\
-		string text = button->text;\
-		if(text != "v"){			\
-			button->setText("v");	\
-			func(1);				\
-		}else{						\
-			button->setText("");	\
-			func(0);				\
-		}							\
+//#define CHECKBOX_FUNC(button, func) \
+//[=](){\
+//		string text = button->text;\
+//		if(text != "v"){			\
+//			button->setText("v");	\
+//			func(1);				\
+//		}else{						\
+//			button->setText("");	\
+//			func(0);				\
+//		}							\
+//	}
+
+std::function<void(void)> checkbox_func(GUIbutton* button, std::function<void(int)> func) {
+	return [=]() {
+		if (button->text != "v") {
+			button->setText("v");
+			func(1);
+		}
+		else {
+			button->setText("");
+			func(0);
+		}
+	};
+}
+
+//#define SET_RENDER_OPT(x,b) g_ecs.render->options.x = b; g_ecs.render->applyRenderOptions();
+
+void set_render_opt(bool* opt, bool val) {
+	auto& ecs = G->gs_ecs->g_ecs;
+
+	*opt = val; 
+	ecs.render->applyRenderOptions();
+}
+
+//#define FUNC_FOR_CHECKBOX(x) std::function<void(int)> funcToggle_ ## x = \
+//	[=](int b){printf("toggle" #x " = %d\n", b); SET_RENDER_OPT(x, b);};
+
+std::function<void(int)> func_for_checkbox(bool* opt, string name) {
+	return [=](int val) {
+		cout << "toggle " << name << " = " << val << endl;
+		set_render_opt(opt, val);
+	};
+}
+
+//
+//#define MAKE_CHECKBOX(x,gridobj,row) FUNC_FOR_CHECKBOX(x); auto CB_ ## x = new GUIbutton(); \
+//	CB_ ## x->setText("");\
+//	CB_ ## x->setFunction(CHECKBOX_FUNC(CB_ ## x, funcToggle_ ## x));\
+//	CB_ ## x->setSize({25,25});\
+//	if(ecs.render->options.x){\
+//		CB_ ## x->setText("v");\
+//	}else{\
+//		CB_ ## x->setText("");\
+//	}\
+//	\
+//	auto L_ ## x = new GUIlabel();\
+//	L_ ## x->setText(#x);\
+//	L_ ## x->sizeToContents();\
+//	\
+//	gridobj->addChild(CB_ ## x);\
+//	gridobj->addChild(L_ ## x);\
+//	gridobj->grid(CB_ ## x,row,0);\
+//	gridobj->grid(L_ ## x,row,1);
+
+
+void make_checkbox(bool* val, string name, GUIgrid* gridobj, int row) {
+	auto CB = new GUIbutton();
+	CB->setText("");
+	CB->setFunction(checkbox_func(CB, func_for_checkbox(val, name)));
+	CB->setSize({ 25,25 });
+	if (*val) {
+		CB->setText("v");
+	}
+	else {
+		CB->setText("");
 	}
 
+	auto L = new GUIlabel();
+	L->setText(name);
+	L->sizeToContents();
 
-#define SET_RENDER_OPT(x,b) g_ecs.render->options.x = b; g_ecs.render->applyRenderOptions();
-
-#define FUNC_FOR_CHECKBOX(x) std::function<void(int)> funcToggle_ ## x = \
-	[=](int b){printf("toggle" #x " = %d\n", b); SET_RENDER_OPT(x, b);};
-
-#define MAKE_CHECKBOX(x,gridobj,row) FUNC_FOR_CHECKBOX(x); auto CB_ ## x = new GUIbutton(); \
-	CB_ ## x->setText("");\
-	CB_ ## x->setFunction(CHECKBOX_FUNC(CB_ ## x, funcToggle_ ## x));\
-	CB_ ## x->setSize({25,25});\
-	if(ecs.render->options.x){\
-		CB_ ## x->setText("v");\
-	}else{\
-		CB_ ## x->setText("");\
-	}\
-	\
-	auto L_ ## x = new GUIlabel();\
-	L_ ## x->setText(#x);\
-	L_ ## x->sizeToContents();\
-	\
-	gridobj->addChild(CB_ ## x);\
-	gridobj->addChild(L_ ## x);\
-	gridobj->grid(CB_ ## x,row,0);\
-	gridobj->grid(L_ ## x,row,1);
+	gridobj->addChild(CB);
+	gridobj->addChild(L);
+	gridobj->grid(CB, row, 0);
+	gridobj->grid(L, row, 1);
+}
 
 //------------ physics options -----------------------------------------------
 
 
-#define SET_SYS_OPT(x,system,b) system->options.x = b;
+//#define SET_SYS_OPT(x,system,b) system->options.x = b;
 
-#define FUNC_FOR_CHECKBOX2(x, system) std::function<void(int)> funcToggle_ ## x = \
-	[=](int b){printf("toggle" #x " = %d\n", b); SET_SYS_OPT(x, system, b);};
+//#define FUNC_FOR_CHECKBOX2(x, system) std::function<void(int)> funcToggle_ ## x = \
+//	[=](int b){printf("toggle" #x " = %d\n", b); SET_SYS_OPT(x, system, b);};
 
-#define MAKE_CHECKBOX2(x,system,gridobj,row) FUNC_FOR_CHECKBOX2(x, system); auto CB_ ## x = new GUIbutton(); \
-	CB_ ## x->setText("");\
-	CB_ ## x->setFunction(CHECKBOX_FUNC(CB_ ## x, funcToggle_ ## x));\
-	CB_ ## x->setSize({25,25});\
-	if(system->options.x){\
-		CB_ ## x->setText("v");\
-	}else{\
-		CB_ ## x->setText("");\
-	}\
-	\
-	auto L_ ## x = new GUIlabel();\
-	L_ ## x->setText(#x);\
-	L_ ## x->sizeToContents();\
-	\
-	gridobj->addChild(CB_ ## x);\
-	gridobj->addChild(L_ ## x);\
-	gridobj->grid(CB_ ## x,row,0);\
-	gridobj->grid(L_ ## x,row,1);
+std::function<void(int)> func_for_checkbox2(bool* val, string name) {
+	return [=](int b) {
+		cout << "toggle " << name << " = " << b << endl;
+		*val = b;
+	};
+}
+
+//#define MAKE_CHECKBOX2(x,system,gridobj,row) FUNC_FOR_CHECKBOX2(x, system); auto CB_ ## x = new GUIbutton(); \
+//	CB_ ## x->setText("");\
+//	CB_ ## x->setFunction(CHECKBOX_FUNC(CB_ ## x, funcToggle_ ## x));\
+//	CB_ ## x->setSize({25,25});\
+//	if(system->options.x){\
+//		CB_ ## x->setText("v");\
+//	}else{\
+//		CB_ ## x->setText("");\
+//	}\
+//	\
+//	auto L_ ## x = new GUIlabel();\
+//	L_ ## x->setText(#x);\
+//	L_ ## x->sizeToContents();\
+//	\
+//	gridobj->addChild(CB_ ## x);\
+//	gridobj->addChild(L_ ## x);\
+//	gridobj->grid(CB_ ## x,row,0);\
+//	gridobj->grid(L_ ## x,row,1);
+
+void make_checkbox2(bool *val, string name, GUIgrid *gridobj, int row) {
+	auto CB = new GUIbutton();
+	CB->setText("");
+	CB->setFunction(checkbox_func(CB, func_for_checkbox2(val, name)));
+	CB->setSize({25,25});
+	if(val){
+		CB->setText("v");
+	}else{
+		CB->setText("");
+	}
+	
+	auto L = new GUIlabel();
+	L->setText(name);
+	L->sizeToContents();
+	
+	gridobj->addChild(CB);
+	gridobj->addChild(L);
+	gridobj->grid(CB,row,0);
+	gridobj->grid(L,row,1);
+}
 
 void openTestWindow5(){
 	auto& GUI = G->gs_main->g_GUI;
@@ -301,13 +381,15 @@ void openTestWindow5(){
 	grid1->addChild(L1);
 	grid1->grid(L1,0,1);
 
-	MAKE_CHECKBOX(wireframe,grid1,1);
-	MAKE_CHECKBOX(texturing,grid1,2);
-	MAKE_CHECKBOX(lighting,grid1,3);
-	MAKE_CHECKBOX(coloring,grid1,4);
-	MAKE_CHECKBOX(boundingBoxes,grid1,5);
-	MAKE_CHECKBOX(uvColoring,grid1,6);
-	MAKE_CHECKBOX(normalColoring,grid1,7);
+	auto& options = ecs.render->options;
+
+	make_checkbox(&options.wireframe, "wireframe", grid1, 1); //MAKE_CHECKBOX(wireframe,grid1,1);
+	make_checkbox(&options.texturing, "texturing", grid1, 2); //MAKE_CHECKBOX(texturing,grid1,2);
+	make_checkbox(&options.lighting, "lighting", grid1, 3); //MAKE_CHECKBOX(lighting,grid1,3);
+	make_checkbox(&options.coloring, "color", grid1, 4); //MAKE_CHECKBOX(coloring,grid1,4);
+	make_checkbox(&options.boundingBoxes, "boundingBoxes", grid1, 5); //MAKE_CHECKBOX(boundingBoxes,grid1,5);
+	make_checkbox(&options.uvColoring, "uvColoring", grid1, 6); //MAKE_CHECKBOX(uvColoring,grid1,6);
+	make_checkbox(&options.normalColoring, "normalColoring", grid1, 7); //MAKE_CHECKBOX(normalColoring,grid1,7);
 
 	auto L2 = new GUIlabel();
 	L2->setText("--- physics options ---");
@@ -315,7 +397,7 @@ void openTestWindow5(){
 	grid1->addChild(L2);
 	grid1->grid(L2,8,1);
 
-	MAKE_CHECKBOX2(gravity,ecs.physics,grid1,9);
+	make_checkbox2(&ecs.physics->options.gravity, "gravity", grid1, 9); //MAKE_CHECKBOX2(gravity,ecs.physics,grid1,9);
 
 	auto L3 = new GUIlabel();
 	L3->setText("--- collision options ---");
@@ -323,8 +405,8 @@ void openTestWindow5(){
 	grid1->addChild(L3);
 	grid1->grid(L3,10,1);
 
-	MAKE_CHECKBOX2(separate,g_ecs.collision,grid1,11);
-	MAKE_CHECKBOX2(resolve,g_ecs.collision,grid1,12);
+	make_checkbox2(&ecs.collision->options.separate, "separate", grid1, 11); //MAKE_CHECKBOX2(separate,ecs.collision,grid1,11);
+	make_checkbox2(&ecs.collision->options.resolve, "resolve", grid1, 12); //MAKE_CHECKBOX2(resolve,ecs.collision,grid1,12);
 	
 	GUI->addChild((new GUIwindow())\
 	->setSize({200,300})\
@@ -332,7 +414,6 @@ void openTestWindow5(){
 	->addChild(grid1)\
 	->sizeToContents());
 }
-#include "util/hook.h"
 void openTestWindow6(){
 	auto& GUI = G->gs_main->g_GUI;
 	auto& globalChannel = G->gs_event->g_globalChannel;
@@ -367,7 +448,7 @@ void openTestWindow6(){
 			S += "operators <new> and <delete> are not replaced in this build\n";
 		}else{
 			int supertotal = 0;
-			for(auto F = allocation_map.begin(); F != g_allocation_map.end(); F++){
+			for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
 				string alloc_file = F->first;
 				S += alloc_file + ":\t\t";//":\n";
 				auto &r_file = F->second;

@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "geometry.h"
 #include "stringUtils.h"
+#include "global_vars.h"
 
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
@@ -186,14 +187,18 @@ collisioninfo *checkCollisionAABB_AABB(	collisionbodyAABB *body1, collisionbodyA
 
 #include "paint.h"
 void debugDrawAABB(AABB aabb, vec3 col){
-	setLayer(g_layerDebug);
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
+	setLayer(layerDebug);
 	setPosition(vec3(0,0,0));
 	setColor(col);
 	drawBoxWireframe(aabb);
 }
 
 void debugDrawPoint(vec3 point, vec3 col){
-	setLayer(g_layerDebug);
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
+	setLayer(layerDebug);
 	setPointSize(8.f);
 	setPosition(vec3(0,0,0));
 	setColor(col);
@@ -201,7 +206,9 @@ void debugDrawPoint(vec3 point, vec3 col){
 }
 
 void debugDrawLine(vec3 p1, vec3 p2, vec3 col){
-	setLayer(g_layerDebug);
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+
+	setLayer(layerDebug);
 	setPosition(vec3(0,0,0));
 	setRotation(vec3(0,0,0));
 	setScale(vec3(1,1,1));
@@ -426,13 +433,15 @@ collisioninfo *checkCollisionRay_Terrain( collisionbodyRay *body1, collisionbody
 };
 
 collisioninfo *checkCollisionPoint_AABB(collisionbody *body1, collisionbody *body2){
+	auto& sideNormals = G->gs_narrowphase->g_sideNormals;
+
     AABB aabb = body2->getAABB();
     if(aabb.contains(body1->pos-body2->pos)){
         collisioninfo *col = new collisioninfo();
         col->body1 = body1;
         col->body2 = body2;
         col->c_to_c.pos = body1->pos;
-		col->c_to_c.normal = g_sideNormals[nearestSide(aabb, body1->pos - body2->pos)];
+		col->c_to_c.normal = sideNormals[nearestSide(aabb, body1->pos - body2->pos)];
         return col;
     }
     return 0;
@@ -612,9 +621,11 @@ collisioninfo *collisionCheckDispatch(collisionbody *body1, collisionbody *body2
 //
 //int g_numCollisionPairs = 0;//entity *I, entity *J,
 void pairwiseCollisionCheck(collisionbody *body1, collisionbody *body2, collisionOptions &options){
+	auto& numCollisionPairs = G->gs_narrowphase->g_numCollisionPairs;
+	
 	if(!body1){printf("pcc: no body1\n"); return;}
 	if(!body2){printf("pcc: no body2\n"); return;}
-	g_numCollisionPairs++;
+	numCollisionPairs++;
 	if(!canCollide(body1,body2)){return;}
 	collisioninfo *col = collisionCheckDispatch(body1,body2);
 	if(!col){

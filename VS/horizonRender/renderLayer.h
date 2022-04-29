@@ -1,19 +1,16 @@
 #ifndef RENDERLAYER_GUARD
 #define RENDERLAYER_GUARD
+#include <string>
 #include <vector>
-using std::vector;
 #include "vec.h"
 #include "stdint.h"
-#include <string>
-using std::string;
 #include "camera.h"
 #include "stringUtils.h"
 #include "renderCommand.h"
 #include "util.h"
-//texture has pimpl: textureRenderHandle *handle;
-//is usually GLuint;
-//rmodel has pimpl: rmodelRenderHandle *handle;
-//is usually GLuint[4];
+using std::vector;
+using std::string;
+
 
 typedef vector<renderCommand3*> renderQueue3;
 
@@ -38,7 +35,9 @@ private:
 };
 string toString(renderLayer *l);
 
-extern vector<renderLayer*> g_all_layers;		//all layers (even those not in use)
-extern vector<renderLayer*> g_layers;			//main rendering sequence
+struct gs_renderLayerKind {
+	vector<renderLayer*> g_all_layers;
+	vector<renderLayer*> g_layers;
+};
 
 #endif

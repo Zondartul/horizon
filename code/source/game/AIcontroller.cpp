@@ -5,13 +5,19 @@
 //extern eventChannel *g_inputChannel;
 //extern eventChannel *g_globalChannel;
 AIcontroller::AIcontroller(characterController *character):character(character){
+    auto& inputChannel = G->gs_input->g_inputChannel;
+    auto& globalChannel = G->gs_event->g_globalChannel;
+
 	if(!character){error("AIcontroller needs a character\n");}
-	g_inputChannel->addListener(this);
-	g_globalChannel->addListenerFront(this);
+	inputChannel->addListener(this);
+    globalChannel->addListenerFront(this);
 }
 AIcontroller::~AIcontroller(){
-	g_inputChannel->removeListener(this);
-	g_globalChannel->removeListener(this);
+    auto& inputChannel = G->gs_input->g_inputChannel;
+    auto& globalChannel = G->gs_event->g_globalChannel;
+
+	inputChannel->removeListener(this);
+	globalChannel->removeListener(this);
 }
 
 void AIcontroller::onEvent(eventKind event){
@@ -61,16 +67,20 @@ string toString(AISubstate substate){
 }
 
 void AIcontroller::think(){
-    if(g_gamePaused){return;}
+    auto& gamePaused = G->gs_main->g_gamePaused;
+    auto& inputController = G->gs_inputController->g_inputController;
+    auto& layerDebug = G->gs_paint->g_layerDebug;
+
+    if(gamePaused){return;}
 	if(!character){delete this; return;}
 	auto E = character->E;
-	player = g_inputController->character;
+	player = inputController->character;
 	if(!E){return;}
 	vec3 pos = E->body->pos;
 	//every frame, draw debug stuff
 
     //render some debug stuff
-	setLayer(g_layerDebug);
+	setLayer(layerDebug);
 	drawLine(pos,debugTargetPos,vec3(0,0,0));
 	drawPoint(pos,vec3(0,255,0));
 	drawPoint(debugTargetPos,vec3(255,0,0));
@@ -86,7 +96,7 @@ void AIcontroller::think(){
             j++;
             if(!N){continue;}
             vec3 p = N->E->body->pos;
-            setLayer(g_layerDebug);
+            setLayer(layerDebug);
 
             string text = fstring("node %d",j);
             debugFloatingText(p, text);

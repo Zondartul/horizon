@@ -5,8 +5,11 @@
 //eventChannel *g_inputChannel;
 
 void initInput(){
-	g_inputChannel = new eventChannel();
-	g_inputController = new inputControllerKind();
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& inputController = G->gs_inputController->g_inputController;
+
+	inputChannel = new eventChannel();
+	inputController = new inputControllerKind();
 	
 	initKeybinds();
 	printf("-------- input init done ----------\n");

@@ -14,6 +14,12 @@ void openMapEditor(){
 }
 
 map_editor_kind::map_editor_kind(){
+	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& GUI = G->gs_main->g_GUI;
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& ecs_render_layer = G->gs_ecs->g_ecs_render_layer;
+
 	//--------- GUI -----------------------
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));
@@ -167,9 +173,9 @@ map_editor_kind::map_editor_kind(){
 	mainWindow->addChild(btnTexture);
 	//---------
 
-	g_GUI->addChild(mainWindow);
+	GUI->addChild(mainWindow);
 	//---------- 3D render -----------------
-	setLayer(g_ecs_render_layer);
+	setLayer(ecs_render_layer);
 	layerMap3D = addNewLayer("map3d");
 	renderLayer *lm3d_reset = addNewLayer("map3d.reset",true,true);
 	layerMap3D->resetLayer = lm3d_reset;
@@ -181,7 +187,7 @@ map_editor_kind::map_editor_kind(){
 	drawLine(vec3(0,0,0),vec3(0,0,2));
 	setAlpha(255);
     //----------- 2D render -----------------
-    setLayer(g_layer2D);
+    setLayer(layer2D);
     layerMap2D = addNewLayer("map2d");
     renderLayer *lm2d_reset = addNewLayer("map2d.reset",true,true);
     layerMap2D->resetLayer = lm2d_reset;
@@ -193,8 +199,8 @@ map_editor_kind::map_editor_kind(){
     setAlpha(255);
     setColor(vec3(255,255,255));
 	//--------- events ----------------------
-	g_inputChannel->addListener(this);
-	g_globalChannel->addListener(this);
+	inputChannel->addListener(this);
+	globalChannel->addListener(this);
 }
 
 float roundf(float x,float prec){return roundf(x/prec)*prec;}
@@ -216,25 +222,27 @@ void getMinMaxCoords(vec3 p1, vec3 p2,
 }
 
 bool mouseray(vec3 *pos, float z){
-	vec3 dir = g_camera.getMouseDir();
+	auto& camera = G->gs_camera->g_camera;
+
+	vec3 dir = camera.getMouseDir();
 	vec3 plane[3];
 	plane[0] = vec3(0,0,z);
 	plane[1] = vec3(1,0,z);
 	plane[2] = vec3(0,1,z);
-	bool has_hit = ray_plane_intersection(g_camera.pos,dir,plane[0],plane[1],plane[2],pos);
+	bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],pos);
 	return has_hit;
 }
 
 bool mouseray(vec3 *pos, collisioninfo **col){
-	*col = g_camera.eyetrace();
+	auto& camera = G->gs_camera->g_camera;
+
+	*col = camera.eyetrace();
 	if(*col){
 		*pos = (*col)->c_to_c.pos;
 		return true;
 	}
 	return false;
 }
-
-//renderLayer *g_templayer = 0;
 
 typedef map_editor_kind::selectDataKind::dirKind DIR;
 string toString(DIR d){
@@ -262,8 +270,6 @@ vec3 toVec3(DIR d){
     return vec3(0,0,0);
 
 }
-
-//vector<entity*> g_planes;
 
 void map_editor_kind::onEvent(eventKind event){
 	auto& camera = G->gs_camera->g_camera;

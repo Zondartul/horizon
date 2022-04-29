@@ -1,6 +1,6 @@
 #ifndef GUI_TYPES_GUARD
 #define GUI_TYPES_GUARD
-
+#include "util.h"
 //data types used by GUI widgets:
 //font, texture - types for opaque pointers
 //GUI_border_rects - rects of border zones for the widget

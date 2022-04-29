@@ -1,50 +1,76 @@
 #include "keybinds.h"
 #include "input.h"
 #include "console.h"
+#include "global_vars.h"
+
 keybindList::keybindList(){
-	g_inputChannel->addListenerFront(this);
+	auto& inputChannel = G->gs_input->g_inputChannel;
+
+	inputChannel->addListenerFront(this);
 }
-	
-#define checkMB(x,y)							\
-	if(event.mousebutton.button == x){			\
-		if(binds.count(y)){						\
-			event.maskEvent();					\
-			g_console->run(binds[y].cmd);			\
-		}										\
+
+void keybindList::checkMB(eventKind &event, int mb, string key) {
+	auto& console = G->gs_console->g_console;
+
+	if (event.mousebutton.button == mb) {
+		if (binds.count(key)) {
+			event.maskEvent();
+			console->run(binds[key].cmd);
+		}
 	}
-	
-#define checkKB(K)								\
-	if(binds.count(K)){							\
-		event.maskEvent();						\
-		g_console->run(binds[K].cmd);				\
+}
+
+//#define checkMB(x,y)							\
+//	if(event.mousebutton.button == x){			\
+//		if(binds.count(y)){						\
+//			event.maskEvent();					\
+//			g_console->run(binds[y].cmd);			\
+//		}										\
+//	}
+//	
+void keybindList::checkKB(eventKind& event, string key) {
+	auto& console = G->gs_console->g_console;
+
+	if (binds.count(key)) {
+		event.maskEvent();
+		console->run(binds[key].cmd);
 	}
+}
+
+//#define checkKB(K)								\
+//	if(binds.count(K)){							\
+//		event.maskEvent();						\
+//		g_console->run(binds[K].cmd);				\
+//	}
 	
 void keybindList::onEvent(eventKind event){
 	switch(event.type){
 		case(EVENT_MOUSE_BUTTON_DOWN):
-			checkMB(MOUSE_LEFT,		"+LMB");
-			checkMB(MOUSE_RIGHT,	"+RMB");
-			checkMB(MOUSE_MIDDLE,	"+MMB");
+			checkMB(event, MOUSE_LEFT,		"+LMB");
+			checkMB(event, MOUSE_RIGHT,	"+RMB");
+			checkMB(event, MOUSE_MIDDLE,	"+MMB");
 		break;
 		case(EVENT_MOUSE_BUTTON_UP):
-			checkMB(MOUSE_LEFT,		"-LMB");
-			checkMB(MOUSE_RIGHT,	"-RMB");
-			checkMB(MOUSE_MIDDLE,	"-MMB");
+			checkMB(event, MOUSE_LEFT,		"-LMB");
+			checkMB(event, MOUSE_RIGHT,	"-RMB");
+			checkMB(event, MOUSE_MIDDLE,	"-MMB");
 		break;
 		case(EVENT_KEY_DOWN):
-			checkKB(string("+")+event.keyboard.key);
+			checkKB(event, string("+")+event.keyboard.key);
 		break;
 		case(EVENT_KEY_UP):
-			checkKB(string("-")+event.keyboard.key);
+			checkKB(event, string("-")+event.keyboard.key);
 		break;
 		case(EVENT_MOUSE_MOVE):
-			checkKB("MouseMove");
+			checkKB(event, "MouseMove");
 		break;
 	}
 }
 
 //keybindList *g_keybinds;
 void initKeybinds(){
-	g_keybinds = new keybindList();
+	auto& keybinds = G->gs_keybinds->g_keybinds;
+
+	keybinds = new keybindList();
 }
 

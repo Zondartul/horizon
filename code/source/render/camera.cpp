@@ -17,6 +17,8 @@
 #include "mouse.h"
 #include "collision.h"
 #include "global_vars.h"
+#include "timer.h"
+#include "renderLayer.h"
 //#include "geometry.h"
 using glm::mat4;
 using glm::vec3;
@@ -110,17 +112,20 @@ void cameraKind::setRot(vec3 newrot){rot = newrot; }
 void cameraKind::setFov(float newfov){fov = newfov;}
 
 void cameraKind::go2D(){
+	auto& width = G->gs_window->g_width;
+	auto& height = G->gs_window->g_height;
+
 	mode3D = false;
-#ifndef NO_GLEW
-	setViewport(0, 0, g_width, g_height);
-#endif
+	#ifndef NO_GLEW
+		setViewport(0, 0, width, height);
+	#endif
 
 	vec2 vpixel = vec2(0.f,0.f); //center-of-pixel shift.
 	float znear = -1;
 	float zfar = 1;
 	float left = 0-vpixel.x;
-	float right = g_width*scale2D+vpixel.x;
-	float bottom = g_height*scale2D+vpixel.y;
+	float right = width*scale2D+vpixel.x;
+	float bottom = height*scale2D+vpixel.y;
 	float top = 0-vpixel.y;
 	mProjection = glm::ortho(left,right,bottom,top,znear,zfar);
 	reposition();
@@ -163,8 +168,6 @@ void cameraKind::goOrtho(){
 	perspective = false;
 	go3D();
 }
-#include "timer.h"
-#include "renderLayer.h"
 
 struct task_screenshot {
 	enum { ERROR, SAVE_TO_BMP, SAVE_TO_FILE } mode = task_screenshot::ERROR;
@@ -173,7 +176,8 @@ struct task_screenshot {
 	int width;
 	int height;
 	task_screenshot(int width, int height, bitmap *BMP):
-		width(width), height(height), BMP(BMP), mode(mode){
+		width(width), height(height), BMP(BMP), mode(mode)
+	{
 		if (BMP) {
 			this->BMP = BMP;
 			mode = SAVE_TO_BMP;
@@ -191,7 +195,8 @@ struct task_screenshot {
 		buff = (unsigned char*)malloc(size);//(sizeof(unsigned char)*width*height*3);
 		printf("init take_screenshot, buff is %p size %d\n", buff, size);
 	}
-	~task_screenshot() {
+	~task_screenshot() 
+	{
 		printf("deconstructing take_screenshot...");
 		if (mode != SAVE_TO_BMP) {
 			printf("deleting BMP...");
@@ -204,18 +209,20 @@ struct task_screenshot {
 		printf("\n");
 	}
 	void run() {
-#ifndef NO_GLEW
-		setLayer(g_deleteLayer);
-		readPixels(0, 0, width, height, buff);
-		printf("readPixels sent for (w %d, h %d, b %p)\n", width, height, buff);
-		if (g_currentLayer) {
-			printf("currentLayer: %s\n", toCString(g_currentLayer));
-			g_currentLayer->print();
-		}
-		else {
-			printf("!!NO CURRENT LAYER!!\n");
-		}
-#endif
+		auto& deleteLayer = G->gs_paint->g_deleteLayer;
+		auto& currentLayer = G->gs_paint->g_currentLayer;
+		#ifndef NO_GLEW
+			setLayer(deleteLayer);
+			readPixels(0, 0, width, height, buff);
+			printf("readPixels sent for (w %d, h %d, b %p)\n", width, height, buff);
+			if (currentLayer) {
+				printf("currentLayer: %s\n", toCString(currentLayer));
+				currentLayer->print();
+			}
+			else {
+				printf("!!NO CURRENT LAYER!!\n");
+			}
+		#endif
 
 		auto func_continue = [&](timer* T) {run_continue();};
 		int num_ticks = 10;
@@ -289,6 +296,8 @@ vec3 cameraKind::deviceToWorld(vec3 devpos){
 	return V3;
 }
 vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
+	auto& camera = G->gs_camera->g_camera;
+
 	float x = scrpos.x;
 	float y = scrpos.y;
 	float z = scrpos.z;
@@ -310,15 +319,15 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 		break;
 		case(Z_IS_DISTANCE):
 			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
-			wtd = worldToDevice(g_camera.pos+normalize(osdw-g_camera.pos)*scrpos.z);
+			wtd = worldToDevice(camera.pos+normalize(osdw-camera.pos)*scrpos.z);
 			return wtd;
 		break;
 		case(Z_IS_PLANE):
 			osdw = deviceToWorld(screenToDevice({scrpos.x,scrpos.y,1},Z_IS_ORTHODOX));
 
-			zfar_true = length(osdw-g_camera.pos);
+			zfar_true = length(osdw-camera.pos);
 			zratio = zfar_true/zfar;
-			wtd = worldToDevice(g_camera.pos+normalize(osdw-g_camera.pos)*scrpos.z*zratio);
+			wtd = worldToDevice(camera.pos+normalize(osdw-camera.pos)*scrpos.z*zratio);
 			return wtd;
 		break;
 	}
@@ -364,9 +373,11 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::getMouseDir(){
+	auto& camera = G->gs_camera->g_camera;
+
 	vec2 mouse = getMousePos();
 	vec3 wp = screenToWorld({mouse.x,mouse.y,1},Z_IS_ORTHODOX);
-	return normalize(wp-g_camera.pos);
+	return normalize(wp-camera.pos);
 }
 #define printval(x) printf(#x ": %f\n", x)
 #define zToWorld(z) (znear/(1.f+znear/zfar-z))
@@ -412,12 +423,16 @@ camprojection cameraKind::getProjection(){
 
 #include "paint.h"
 void go3D(){
-	g_camera.go3D();
-	setProjection(g_camera.getProjection());
+	auto& camera = G->gs_camera->g_camera;
+	
+	camera.go3D();
+	setProjection(camera.getProjection());
 }
 
 void go2D(){
-	g_camera.go2D();
-	setProjection(g_camera.getProjection());
+	auto& camera = G->gs_camera->g_camera;
+	
+	camera.go2D();
+	setProjection(camera.getProjection());
 }
 

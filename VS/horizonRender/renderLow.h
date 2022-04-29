@@ -29,6 +29,10 @@ public:
 };
 extern DLLAPI renderLowKind *g_renderLow;
 
+struct gs_renderLowKind {
+	bool g_debug = false;
+};
+
 #endif
 
 

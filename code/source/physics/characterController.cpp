@@ -7,12 +7,15 @@
 #include "camera.h"
 #include "resource.h"
 #include "model.h"
-
-//extern eventChannel *g_inputChannel;
-//extern eventChannel *g_globalChannel;
+#include "input.h" //for inputChannel
+#include "paint.h"
 
 
 characterController::characterController(entity *newE):E(newE){
+	auto& camera = G->gs_camera->g_camera;
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	if(!E){
         E = new entity();
 
@@ -53,8 +56,8 @@ characterController::characterController(entity *newE):E(newE){
         E->body->restitution = 0.2f;
         E->body->type = BODY_DYNAMIC;
         //to spawn him from camera
-        E->body->pos = g_camera.pos-vec3(0.5,0.5,0.5)+g_camera.forward()*2.f;
-        E->body->vel = g_camera.forward()*0.2f;
+        E->body->pos = camera.pos-vec3(0.5,0.5,0.5)+camera.forward()*2.f;
+        E->body->vel = camera.forward()*0.2f;
         E->body->gravity = vec3(0,0,-0.25);
         E->body->E = E;
 
@@ -65,20 +68,25 @@ characterController::characterController(entity *newE):E(newE){
 	if(!E->body){error("can't assign a char controller to an entity without a body\n");}
 	E->name = string("char_")+toString((void*)this);
 	printf("charController %p constructor(E = %p)\n",this,newE);
-	g_inputChannel->addListener(this);
-	g_globalChannel->addListenerFront(this);
+	inputChannel->addListener(this);
+	globalChannel->addListenerFront(this);
 }
+
 characterController::~characterController(){
+	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
 	printf("charController %p destructor\n",this);
-	g_inputChannel->removeListener(this);
-	g_globalChannel->removeListener(this);
+	inputChannel->removeListener(this);
+	globalChannel->removeListener(this);
 }
+
 void characterController::onEvent(eventKind event){
 	if (event.type == EVENT_FRAME){
 		think();
 	}
 }
-#include "paint.h"
+
 void characterController::think(){
 	if(!E){delete this; return;}
 	auto &body = E->body;

@@ -102,10 +102,13 @@ void spawnTree(){
 }
 
 int cmd_listKeybinds(int argc, char **argv){
-	for(auto I = g_keybinds->binds.begin(); I != g_keybinds->binds.end(); I++){
+	auto& console = G->gs_console->g_console;
+	auto& keybinds = G->gs_keybinds->g_keybinds;
+
+	for(auto I = keybinds->binds.begin(); I != keybinds->binds.end(); I++){
 		string key = I->first;
 		bind b = I->second;
-		g_console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
+		console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
 	}
 	return 0;
 }
@@ -180,15 +183,17 @@ void test1render(){
 
 
 int cmd_help(int argc, char **argv){
+	auto& console = G->gs_console->g_console;
+
 	if(argc==0){
 		cprint("commands: ");
-		for(auto I = g_console->commands.begin(); I != g_console->commands.end(); I++){
+		for(auto I = console->commands.begin(); I != console->commands.end(); I++){
 			cprint("%s ",I->name.c_str());
 		}
 		return 0;
 	}
 	if(argc==1){
-		auto cmd = g_console->getCommand(argv[0]);
+		auto cmd = console->getCommand(argv[0]);
 		if(cmd){
 			if(cmd->help != ""){
 				cprint("%s",cmd->help.c_str());
@@ -222,15 +227,18 @@ int cmd_whereami(int argc, char **argv){
 }
 
 int cmd_teleport(int argc, char **argv){
+	auto& camera = G->gs_camera->g_camera;
+	auto& inputController = G->gs_inputController->g_inputController;
+
 	string word1,word2,word3;
 	if(argc>0){word1 = argv[0];}
 	if(argc>1){word2 = argv[1];}
 	if(argc>2){word3 = argv[2];}
 	vec3 pos = vec3(atoi(word1.c_str()),atoi(word2.c_str()),atoi(word3.c_str()));
 	cprint("teleporting to %s\n",toCString(pos));
-	auto C = g_inputController->character;
+	auto C = inputController->character;
 	if(!C || !C->E){
-		g_camera.setPos(pos);
+		camera.setPos(pos);
 	}else{
 		C->E->body->pos = pos;
 	}
@@ -262,18 +270,22 @@ int cmd_physbox(int argc,char**argv){
 }
 
 int cmd_camera(int argc, char **argv){
+	auto& camera = G->gs_camera->g_camera;
+
 	if(argc!=1){printf("invalid syntax\n"); return 1;}
 	if(!strcmp(argv[0],"ortho")){
-		g_camera.perspective = false;
-		g_camera.scaleOrtho = 1.f/10.f;
+		camera.perspective = false;
+		camera.scaleOrtho = 1.f/10.f;
 	}else if(!strcmp(argv[0],"perspective")){
-		g_camera.perspective = true;
-		g_camera.scaleOrtho = 1.f;
+		camera.perspective = true;
+		camera.scaleOrtho = 1.f;
 	}
 	return 0;
 }
 
 int cmd_scene(int argc, char **argv){
+	auto& entities = G->gs_entity->g_entities;
+
 	if(argc!=1){printf("invalid syntax\n"); return 1;}
 	int num = atoi(argv[0]);
 	switch(num){
@@ -288,18 +300,18 @@ int cmd_scene(int argc, char **argv){
             makeScene3();
             break;
 		case -1:
-			for(auto I = g_entities.begin(); I != g_entities.end();){
-				if((*I)->group == "scene1"){delete *I; I = g_entities.erase(I);}else{I++;}
+			for(auto I = entities.begin(); I != entities.end();){
+				if((*I)->group == "scene1"){delete *I; I = entities.erase(I);}else{I++;}
 			}
 			break;
 		case -2:
-			for(auto I = g_entities.begin(); I != g_entities.end();){
-				if((*I)->group == "scene2"){delete *I; I = g_entities.erase(I);}else{I++;}
+			for(auto I = entities.begin(); I != entities.end();){
+				if((*I)->group == "scene2"){delete *I; I = entities.erase(I);}else{I++;}
 			}
 			break;
         case -3:
-			for(auto I = g_entities.begin(); I != g_entities.end();){
-				if((*I)->group == "scene3"){delete *I; I = g_entities.erase(I);}else{I++;}
+			for(auto I = entities.begin(); I != entities.end();){
+				if((*I)->group == "scene3"){delete *I; I = entities.erase(I);}else{I++;}
 			}
 			break;
 
@@ -513,11 +525,13 @@ void addKeybinds(){
 
 
 void addConsoleCommands(){
-	g_console->addCommand({"help","prints information about installed commands\n",cmd_help});
-	g_console->addCommand({"whereami","tells your current coords\n",cmd_whereami});
-	g_console->addCommand({"teleport","args: <x> <y> <z>\nteleports you to given coords\n",cmd_teleport});
-	g_console->addCommand({"reset","reset scene (delete all dynamic bodies)\n",cmd_reset});
-	g_console->addCommand({"physbox",
+	auto& console = G->gs_console->g_console;
+
+	console->addCommand({"help","prints information about installed commands\n",cmd_help});
+	console->addCommand({"whereami","tells your current coords\n",cmd_whereami});
+	console->addCommand({"teleport","args: <x> <y> <z>\nteleports you to given coords\n",cmd_teleport});
+	console->addCommand({"reset","reset scene (delete all dynamic bodies)\n",cmd_reset});
+	console->addCommand({"physbox",
 		"spawn a physbox\n"
 		"args: <n>\n"
 		"n: 1 - plain physbox\n"
@@ -525,34 +539,34 @@ void addConsoleCommands(){
 		"n: 3 - bouncy physbox\n"
 		"n: 4 - tree\n",
 		cmd_physbox});
-	g_console->addCommand({"character","spawn a player-controlled character\n",cmd_spawnCharacter});
-	g_console->addCommand({"npc","spawn an NPC\n",cmd_spawnNPC});
-	g_console->addCommand({"pause","pause the game\n",cmd_pauseGame});
-	g_console->addCommand({"camera","args:ortho|perspective\nsets camera mode\n",cmd_camera});
-	g_console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
-	g_console->addCommand({"makescene",
+	console->addCommand({"character","spawn a player-controlled character\n",cmd_spawnCharacter});
+	console->addCommand({"npc","spawn an NPC\n",cmd_spawnNPC});
+	console->addCommand({"pause","pause the game\n",cmd_pauseGame});
+	console->addCommand({"camera","args:ortho|perspective\nsets camera mode\n",cmd_camera});
+	console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
+	console->addCommand({"makescene",
 		"make a scene:\n"
 		"1 - small walls\n"
 		"2 - city\n"
         "3 - maze;\n"
 		"-number to remove a scene\n",
 		cmd_scene});
-	g_console->addCommand({"opengui",
+	console->addCommand({"opengui",
 		"open a GUI window. args: 1-5\n",
 		cmd_opengui});
-	g_console->addCommand({"editor",
+	console->addCommand({"editor",
 		"open a 3D model editor\n",
 		cmd_editor});
-	g_console->addCommand({"guieditor","open a graphical editor of the GUI\n", cmd_guieditor});
-	g_console->addCommand({"dirs","show path settings\n",cmd_dirs});
-	g_console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
-	g_console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
-    g_console->addCommand({"nodegraph","generate a navigation node graph",cmd_nodegraph});
-	g_console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
-	g_console->addCommand({"memreport","report the memory usage to a file\n"
+	console->addCommand({"guieditor","open a graphical editor of the GUI\n", cmd_guieditor});
+	console->addCommand({"dirs","show path settings\n",cmd_dirs});
+	console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
+	console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
+    console->addCommand({"nodegraph","generate a navigation node graph",cmd_nodegraph});
+	console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
+	console->addCommand({"memreport","report the memory usage to a file\n"
 		"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});
-	g_console->addCommand({"genterrain","generate some land\n",cmd_genterrain});
-	g_console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
+	console->addCommand({"genterrain","generate some land\n",cmd_genterrain});
+	console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
 }
 
 

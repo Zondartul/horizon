@@ -1,9 +1,9 @@
-#include "collision.h"
-#include "math.h"
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include "glm/gtx/projection.hpp"
-#include "stdio.h"
+#include "collision.h"
 #include "stringUtils.h"
-#include "stdlib.h"
 #include "simplemath.h"
 #include "paint.h"
 #include "globals.h"
@@ -15,6 +15,7 @@
 #include "modelprimitives.h"	//for debug drawing
 #include "editmodel.h"
 #include "geometry.h"
+#include "main.h"
 
 //extern octree_node *g_octree_root;
 
@@ -32,7 +33,8 @@ string toString(collisionbodytype type){
 }
 
 collisionbody::collisionbody(){
-	ov = new octree_visitor(g_octree_root, this, pos);
+	auto& octree_root = G->gs_main->g_octree_root;
+	ov = new octree_visitor(octree_root, this, pos);
 }
 collisionbody::~collisionbody(){
 	delete ov;
@@ -61,8 +63,10 @@ string collisionbody::name(){
 	return S;
 }
 void collisionbody::setAABB(AABB aabb){
+	auto& deleteLayer = G->gs_paint->g_deleteLayer;
+
     this->aabb = aabb;
-    if(rm){setLayer(g_deleteLayer); deleteRmodel(rm); rm = 0;}
+    if(rm){setLayer(deleteLayer); deleteRmodel(rm); rm = 0;}
     if(aabb.size != vec3(0,0,0)){rm = generateBox(aabb.size)->getRmodel(1);}
 }
 
@@ -555,13 +559,15 @@ collisioninfo *reverseCollision(collisioninfo *ci){
 //-----------------------------------------------------------------------------
 
 collisioninfo *raytrace(vec3 from, vec3 dir,const vector<entity *> &ignore){
+	auto& entities = G->gs_entity->g_entities;
+
 	entity *ERay = new entity();
 	ERay->body = new collisionbodyRay(from,dir);
 	ERay->body->bodyname = "raytrace";
 	ERay->body->type = BODY_TRIGGER;
 	ERay->name = "raytrace";
 	collisioninfo *bestcol = 0;
-	for(auto I = g_entities.begin(); I != g_entities.end(); I++){
+	for(auto I = entities.begin(); I != entities.end(); I++){
 
 		bool skip = false;
 		for(auto J = ignore.begin(); J != ignore.end(); J++){

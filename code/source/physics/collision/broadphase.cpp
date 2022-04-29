@@ -1,6 +1,7 @@
 #include "collision.h"
 #include "broadphase.h"
 #include "paint.h"
+#include "global_vars.h"
 
 #define print(x) printf(#x ": %f\n", x)
 #define print2(x) printf(#x ": %s\n", toString(x).c_str())
@@ -75,8 +76,10 @@ broadphaseinfo *getBroadphaseNodeOnly(octree_node *node){
 }
 
 broadphaseinfo *checkCollisionBroadphase(octree_node *node){
+	auto& bprecs = G->gs_broadphase->g_bprecs;
+
 	if(!node){return 0;}
-	rec_counter rc(&g_bprecs);
+	rec_counter rc(&bprecs);
 	//first, add bodies from this node
 	string nname = node->getName();
 	broadphaseinfo *bp1 = getBroadphaseNodeOnly(node);

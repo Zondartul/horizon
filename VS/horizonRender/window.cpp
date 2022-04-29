@@ -1,22 +1,19 @@
+//system includes
 #include <cstdio>
-//#include "stdio.h"
-#include "globals.h"
-#include "window.h"
-
+#include <cstdlib>
+//external includes
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
-
 #ifndef NO_GLEW
 #include "GL/glew.h"
 #endif
-
 //the "correct way to glew" says we don't use gl.h any more.
-#include "stdlib.h"
+//project includes
+#include "globals.h"
+#include "window.h"
 #include "renderLow.h"
-
-//int g_height;
-//int g_width;
+#include "global_vars.h"
 
 #ifndef NO_SDL
 SDL_Window *mainWindow;
@@ -228,9 +225,11 @@ void sysMessageTick(){
 }
 
 vec2 getScreenSize(){
+	auto& width = G->gs_window->g_width;
+	auto& height = G->gs_window->g_height;
 #ifndef NO_SDL
 	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif
-	return {g_width,g_height};
+	return {width,height};
 }
 

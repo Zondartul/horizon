@@ -13,7 +13,7 @@ class model;
 #include <vector>
 using std::string;
 using std::vector;
-extern renderLayer *g_currentLayer;
+//extern renderLayer *g_currentLayer;
 //core functions
 void setLayer(renderLayer *L);			//chooses the renderlayer to which drawing is done
 void addLayer(renderLayer *L);			//adds the specified renderlayer after the current one
@@ -116,13 +116,17 @@ void drawSphere(vec3 pos, vec3 rot, float r);
 void renderComment(string str);
 
 
-extern renderLayer *g_loadLayer;		//data load commands go here
-extern renderLayer *g_layer3D;		//3D drawing commands go here
-extern renderLayer *g_layerDebug;			//3D debug indication goes here
-extern renderLayer *g_layer2D;		//2D drawing commands go here
-extern renderLayer *g_layerDebug2D;	//2D debug indication goes here
-extern renderLayer *g_deleteLayer;	//data delete commands go here
 void initLayers();
 
+struct gs_paintKind {
+	struct renderLayer* g_currentLayer;
+
+	struct renderLayer* g_loadLayer;	//data load commands go here
+	struct renderLayer* g_layer3D;		//3D drawing commands go here
+	struct renderLayer* g_layerDebug;	//3D debug indication goes here
+	struct renderLayer* g_layer2D;		//2D drawing commands go here
+	struct renderLayer* g_layerDebug2D;	//2D debug indication goes here
+	struct renderLayer* g_deleteLayer;	//data delete commands go here
+};
 
 #endif

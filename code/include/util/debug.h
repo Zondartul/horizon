@@ -1,8 +1,10 @@
 #ifndef DEBUG_GUARD
 #define DEBUG_GUARD
+#include <cstdio>
+#include <cstdint>
+#include <vector>
+#include <map>
 #include "config.h"
-#include "stdio.h"
-
 
 #define checkNaN(x) if(x != x){printf(#x " is nan at %d\n",__LINE__);}
 #define print1(x) printf(#x " = %s\n", toString(x))
@@ -68,8 +70,8 @@ struct mapped_alloc{
     bool freed;
 };
 struct mapped_alloc_key{
-	const char *g_alloc_file;
-	int g_alloc_line;
+	const char *alloc_file;
+	int alloc_line;
 	int num;
 };
 //typedef vector<mapped_alloc> struct_alloc_line;
@@ -104,7 +106,6 @@ struct mapped_alloc_key{
 
 
 #ifdef DEBUG_ANALYZER
-#include "stdint.h"
 
 struct debugProfile{
 	uint64_t time;
@@ -122,6 +123,7 @@ debugProfile profileEnd();
 void crash();
 
 #define SSnumvals 1024
+#define SSbaseval 1266184225
 class stackSentinel{
 	public:
 	volatile int vals[SSnumvals];
@@ -129,9 +131,9 @@ class stackSentinel{
 	~stackSentinel();
 };
 
-typedef vector<mapped_alloc> struct_alloc_line;
-typedef map<int, struct_alloc_line> struct_alloc_file;
-typedef vector<void*> delayedDeleteList;
+typedef std::vector<mapped_alloc> struct_alloc_line;
+typedef std::map<int, struct_alloc_line> struct_alloc_file;
+typedef std::vector<void*> delayedDeleteList;
 
 
 //struct debugProfile {
@@ -164,15 +166,15 @@ struct gs_debugKind {
 	delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
 	int g_activeDeleteBuffer = 0;
 	bool g_delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
-	map<const char*, struct_alloc_file> g_allocation_map;
-	map<void*, mapped_alloc_key> g_deallocation_map;
+	std::map<const char*, struct_alloc_file> g_allocation_map;
+	std::map<void*, mapped_alloc_key> g_deallocation_map;
 
 #ifdef DEBUG_NEW
 #define debugAllocListSize 10000
 	int g_debugAllocListI = 0;
 	debugAllocation g_debugAllocList[debugAllocListSize];
 #else
-	vector<debugAllocation> g_debugAllocList;
+	std::vector<debugAllocation> g_debugAllocList;
 #endif
 
 	const char* g_alloc_file = 0;

@@ -1,6 +1,6 @@
 #include "event.h"
 #include "globals.h"
-
+#include "global_vars.h"
 //todo: add event queuing capability
 
 eventKind::eventKind(){mask = 0;} //so that it isn't implicitly deleted (probably cause of vec2 in a union)
@@ -107,5 +107,7 @@ eventListener::~eventListener(){
 //eventChannel *g_globalChannel;
 
 void initEvents(){
-	g_globalChannel = new eventChannel();
+	auto& globalChannel = G->gs_event->g_globalChannel;
+
+	globalChannel = new eventChannel();
 }

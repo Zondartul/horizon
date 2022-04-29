@@ -169,6 +169,7 @@
     <ClInclude Include="fonts.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="globals.h" />
+    <ClInclude Include="global_vars.h" />
     <ClInclude Include="GPUdriver.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modelLoader.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="file.cpp" />
+    <ClCompile Include="global_vars.cpp" />
     <ClCompile Include="GPUdriver.cpp" />
     <ClCompile Include="paint.cpp" />
     <ClCompile Include="printw.cpp" />

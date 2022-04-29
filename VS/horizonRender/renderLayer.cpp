@@ -1,18 +1,21 @@
+//system includes
 #include <sstream>
 #include <string>
 #include <cstdio>
+//external includes
+#ifndef NO_GLEW
+#include "GL/glew.h"
+#endif
+//project includes
 #include "window.h"
-//#include "stdio.h"
 #include "renderLayer.h"
 #include "renderLow.h"
 #include "renderCommand.h"
 #include "paint.h"
+#include "global_vars.h"
 using std::stringstream;
 using std::string;
 
-#ifndef NO_GLEW
-#include "GL/glew.h"
-#endif
 
 
 
@@ -21,7 +24,8 @@ using std::string;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
-	g_all_layers.push_back(this);
+	auto& all_layers = G->gs_renderLayer->g_all_layers;
+	all_layers.push_back(this);
 }
 
 void renderLayer::render(){

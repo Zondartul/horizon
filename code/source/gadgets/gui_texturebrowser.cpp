@@ -55,7 +55,11 @@ GUItextureBrowser::GUItextureBrowser(){
 }
 
 
-void openTextureBrowser(){g_GUI->addChild(new GUItextureBrowser());}
+void openTextureBrowser(){
+	auto& GUI = G->gs_main->g_GUI;
+
+	GUI->addChild(new GUItextureBrowser());
+}
 
 void GUItextureBrowser::addTile(string imgpath, string label){
 	GUIselectable *sel = dynamic_cast<GUIselectable*>(Ptile.instantiate());

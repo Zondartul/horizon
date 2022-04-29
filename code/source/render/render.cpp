@@ -2,14 +2,28 @@
 #include "paint.h"
 #include "renderLayer.h"
 #include "simplemath.h"
+#include "modelprimitives.h"
+#include "editmodel.h"
+#include "main.h"
+#include "model.h"
+#include "frameprinter.h"
+#include "simplemath.h"
+#include "stringUtils.h"
+#include "timer.h"
+#include "inputController.h"
+#include "renderLayer.h"
+#include "window.h"
+#include "renderLow.h"
 
 //extern bool g_texturingOn;
 //extern renderLayer *g_currentLayer;
 
 void renderOptions::apply(renderLayer *L){
-    if(!L){L = g_currentLayer;}
-    renderLayer *oldLayer = g_currentLayer;
-    g_currentLayer = L;
+	auto& currentLayer = G->gs_paint->g_currentLayer;
+    
+	if(!L){L = currentLayer;}
+    renderLayer *oldLayer = currentLayer;
+    currentLayer = L;
 	//-----------
 	setColoring(coloring);
 	setTexturing(texturing);
@@ -45,7 +59,7 @@ void renderOptions::apply(renderLayer *L){
 	setTexturePosition(texturePos);
 	setTextureScale(textureScale);
     //---------------------
-    g_currentLayer = oldLayer;
+    currentLayer = oldLayer;
 }
 
 void renderOptions::applyImmediate(){
@@ -60,12 +74,13 @@ void renderOptions::applyImmediate(){
 void renderableSprite::upload(){}
 
 void renderableSprite::render(renderOptions *options){
+	auto& camera = G->gs_camera->g_camera;
 
     setTexturing(true);
     setTransparency(true);
     setLighting(false);
     setPosition(pos);
-    vec3 dv = g_camera.pos - pos;
+    vec3 dv = camera.pos - pos;
     float ang = atan2(dv.y,dv.x);
 
     quat q1 = glm::angleAxis(-90*d2r,vec3(1,0,0));
@@ -77,11 +92,12 @@ void renderableSprite::render(renderOptions *options){
     setTexture(t);
     setColor(color);
     drawRect(R);
-
 }
 
 void renderableModel::upload(){
-	setLayer(g_layer3D);
+	auto& layer3D = G->gs_paint->g_layer3D;
+
+	setLayer(layer3D);
 	uploadRmodel(rm_default);
 	uploadRmodel(rm_wireframe);
 	if(t){uploadTexture(t);}
@@ -118,11 +134,10 @@ void renderableMultimodel::render(renderOptions *options){
 		i++;
 	}
 }
-#include "modelprimitives.h"
-#include "editmodel.h"
 void renderablePlane::upload(){
-	setLayer(g_layer3D);
+	auto& layer3D = G->gs_paint->g_layer3D;
 	
+	setLayer(layer3D);
 	if(!rm){
 		e_model *em = generatePlane(normal, 0.f, 1000.f*vec2(1.f,1.f), texscale);
 		rmpack rms = em->getRmpack();
@@ -135,16 +150,16 @@ void renderablePlane::upload(){
 }
 
 void renderablePlane::render(renderOptions *options){
+	auto& camera = G->gs_camera->g_camera;
+
+	float dist = dot(camera.pos,normal)-offset;
 	
-	float dist = dot(g_camera.pos,normal)-offset;
-	
-	vec3 v = g_camera.pos-normal*dist;
+	vec3 v = camera.pos-normal*dist;
 	
 	vec3 vh = v-dot(v,normal);
 	vec3 vright = normalizeSafe(cross(normal, vec3(0,0,1)));
 	if(normal == vec3(0,0,1)){vright = vec3(1,0,0);}
 	if(normal == vec3(0,0,-1)){vright = vec3(-1,0,0);}
-	
 	
 	vec3 vup = normalizeSafe(cross(normal,vright));
 	if(dot(normal,vec3(1,1,1))<0){vright = -vright;}
@@ -166,22 +181,25 @@ void renderablePlane::render(renderOptions *options){
 	setTextureScale(vec2(1,1));
 }
 
-#include "main.h"
-#include "model.h"
-#include "frameprinter.h"
-#include "simplemath.h"
-#include "stringUtils.h"
-#include "timer.h"
-#include "inputController.h"
-#include "renderLayer.h"
-#include "window.h"
-#include "renderLow.h"
+
 
 
 void renderTick(){
+	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& layerDebug = G->gs_paint->g_layerDebug;
+	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
+	auto& deleteLayer = G->gs_paint->g_deleteLayer;
+
+	auto& m = G->gs_main->g_m;
+	auto& GUI = G->gs_main->g_GUI;
+	auto& inputController = G->gs_inputController->g_inputController;
+	auto& fps = G->gs_main->g_fps;
+	auto& frametime = G->gs_main->g_frametime;
 	//========================= 3D ==============================
 
-	setLayer(g_layer3D);
+	setLayer(layer3D);
 	go3D();
 	clearScreen();
 	drawTriangle(vec3(0,-0.67,-0.5),vec3(0,0,0.5),vec3(0,0.67,-0.5));
@@ -191,49 +209,52 @@ void renderTick(){
 
 	setColoring(false);
 	setTexturing(true);
-	setTexture(g_m->t);
-	drawRmodel(g_m->rm);
+	setTexture(m->t);
+	drawRmodel(m->rm);
 	renderComment("comment: layer3D done\n");
 
 	//========================= 2D ==============================
 
 	debugFloatingText(vec3(0,0,0),"test");
-	setLayer(g_layer2D);
+	setLayer(layer2D);
 	go2D();
 	frameprint("Hello World [ ijk XYZ o_O ] ");
 
 	static float fps_filtered = 60.f;
 	static float frametime_filtered = 0.015f;
-	fps_filtered = mix2(fps_filtered,g_fps,1.0f/200.0f);
-	frametime_filtered = mix2(frametime_filtered,g_frametime,1.0f/200.0f);
+	fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
+	frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
 	frameprint(string("FPS (filtered): ")+ftoa(fps_filtered,1)+", frametime (filtered): "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
-	frameprint(string("FPS: ")+ftoa(g_fps,1)+", frametime: "+ftoa(1000*g_frametime,3)+"ms");
+	frameprint(string("FPS: ")+ftoa(fps,1)+", frametime: "+ftoa(1000*frametime,3)+"ms");
 	frameprint(fstring("T1: %d",getGameTicks()));
-	frameprint(string("cam speed: ")+length(g_inputController->velocity));
-	if(g_GUI){g_GUI->renderLogic();} //should be event-driven
+	frameprint(string("cam speed: ")+length(inputController->velocity));
+	if(GUI){GUI->renderLogic();} //should be event-driven
 
 	renderAllLayers();
 
-	g_loadLayer->clear();
-	g_loadLayer->reset();
-	g_layer3D->clear();
-	g_layer3D->reset();
-	g_layerDebug->clear();
-	g_layerDebug->reset();
-	g_layer2D->clear();
-	g_layer2D->reset();
-	g_layerDebug2D->clear();
-	g_layerDebug2D->reset();
-	g_deleteLayer->clear();	//this should be either in paint or a layer's option
-	g_deleteLayer->reset();
+	loadLayer->clear();
+	loadLayer->reset();
+	layer3D->clear();
+	layer3D->reset();
+	layerDebug->clear();
+	layerDebug->reset();
+	layer2D->clear();
+	layer2D->reset();
+	layerDebug2D->clear();
+	layerDebug2D->reset();
+	deleteLayer->clear();	//this should be either in paint or a layer's option
+	deleteLayer->reset();
 
 	OpenGL_swap();	//this should be moved to renderLow
 }
 
 void renderInit(){
+	auto& width = G->gs_window->g_width;
+	auto& height = G->gs_window->g_height;
+
 	g_renderLow = new renderLowKind();
 	g_renderLow->renderLowInit();
-	g_renderLow->setViewportSize(g_width, g_height);
+	g_renderLow->setViewportSize(width, height);
 	initLayers();
 	printf("-------- render init done -----\n");
 }

@@ -1,10 +1,11 @@
+#include <algorithm>
+#include <map>
 #include "editmodel.h"
 #include "globals.h"
 #include "paint.h"
 #include "simplemath.h"
-#include <algorithm>
-#include <map>
 #include "stringUtils.h"
+#include "global_vars.h"
 using std::map;
 //MACROS
 
@@ -310,6 +311,8 @@ void e_selection::rebuildRmodel_wireHelper(rmodel *rm){
 //rm[2] <- direct selected triangles
 //rm[3] <- implicit edges (for wireframe)
 void e_selection::rebuildRmodel(){
+	auto& loadLayer = G->gs_paint->g_loadLayer;
+
 	for(int I = 0; I < 4; I++){
 		if(!rms.rm[I]){
 			rms.rm[I] = new rmodel();
@@ -327,7 +330,7 @@ void e_selection::rebuildRmodel(){
 
 
 	for(int I = 0; I < 4; I++){rms.rm[I]->finalize();}
-	setLayer(g_loadLayer);
+	setLayer(loadLayer);
 	for(int I = 0; I < 4; I++){uploadRmodel(rms.rm[I]);}
 
 }

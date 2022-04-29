@@ -22,6 +22,8 @@ class keybindList:public eventListener{
 	map<string,bind> binds; //eventKind arg?
 	keybindList();
 	void onEvent(eventKind event);
+	void checkMB(eventKind &event, int mb, string key);
+	void checkKB(eventKind &event, string key);
 };
 
 //extern keybindList *g_keybinds;

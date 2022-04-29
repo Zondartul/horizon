@@ -2,6 +2,7 @@
 #include "rmodel.h"
 #include "paint.h"
 #include "camera.h"
+#include "global_vars.h"
 
 #define rmTri(A,B,C) \
 	rm->vertices->push_back(A); rm->uvs->push_back(vec2(0,0)); rm->colors->push_back(vec3(1,0,0));	\
@@ -141,7 +142,9 @@ void paintCube(vec3 from, vec3 to){
 }
 
 void paint3d2dText(vec3 pos, string text){
-	vec3 scrpos = g_camera.worldToScreen(pos);
+	auto& camera = G->gs_camera->g_camera;
+
+	vec3 scrpos = camera.worldToScreen(pos);
 	setTextPos(vec2(scrpos.x,scrpos.y));
 	printText(text);
 }
