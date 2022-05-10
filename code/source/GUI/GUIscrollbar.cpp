@@ -128,7 +128,6 @@ void GUIscrollbar::onEvent(eventKind event){
 }
 
 void GUIscrollbar::clampInnerSizeToOuter(){
-	printf("scroll:clampInnerSizeToOuter()\n");
 	int max_x = max(area.size.x, inner->area.size.x);
 	int max_y = max(area.size.y, inner->area.size.y);
 	inner->setSize(vec2(max_x,max_y));
@@ -136,7 +135,6 @@ void GUIscrollbar::clampInnerSizeToOuter(){
 }
 
 GUIscrollbar *GUIscrollbar::setSize(vec2 newSize){
-	printf("scroll:setSize()\n");
 	GUIframe::setSize(newSize);
 	clampInnerSizeToOuter();
 	invalidate();
@@ -144,7 +142,6 @@ GUIscrollbar *GUIscrollbar::setSize(vec2 newSize){
 }
 
 GUIscrollbar *GUIscrollbar::setInnerSize(vec2 newInnerSize){
-	printf("scroll:setInnerSize()\n");
 	inner->setSize(newInnerSize);
 	clampInnerSizeToOuter();
 	innerSize = inner->area.size;
@@ -153,7 +150,6 @@ GUIscrollbar *GUIscrollbar::setInnerSize(vec2 newInnerSize){
 }
 
 GUIscrollbar *GUIscrollbar::sizeToContents(){
-	printf("scroll::sizeToContents()\n");
 	inner->sizeToContents();
 	clampInnerSizeToOuter();
 	invalidate();
@@ -257,49 +253,52 @@ void GUIscrollbar::renderLogic(){
 
 
 void GUIscrollbar::invalidate(){
+	if (!constructed) { return; }
 	if(parent && bSizeToParent){
 		area = area.setStart(vec2(0,0)).setSize(parent->clientArea.size);
 	}else{
 	}
 	clientArea = clientArea.setStart({1,1}).setEnd(area.size-vec2{vertical? 22: 0, horizontal? 22:0});
-	if(constructed){
-		rect vtrack = vtrackRect();
-		rect htrack = htrackRect();
+	
+	rect vtrack = vtrackRect();
+	rect htrack = htrackRect();
 
-		//put the up-button in it's place
-		btnUp->moveTo(vtrack.start-vec2{0,21});
+	//put the up-button in it's place
+	btnUp->moveTo(vtrack.start-vec2{0,21});
 
-		//put the down-button in it's place
-		btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
+	//put the down-button in it's place
+	btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
 
-		//put the vertical scrollbar bar in it's place
-		rect Vr = vbar->area;
-		Vr.size = {20,trackDimensions().y * areaRatio().y};
-		Vr.size = clamp(Vr.size,{0,0},vtrack.size);
-		Vr = Vr.moveTo(vtrack.clamp(Vr.end)-Vr.size);
-		Vr = Vr.moveTo(vtrack.clamp(Vr.start));
-		vbar->area = Vr;
+	//put the vertical scrollbar bar in it's place
+	rect Vr = vbar->area;
+	Vr.size = {20,trackDimensions().y * areaRatio().y};
+	Vr.size = clamp(Vr.size,{0,0},vtrack.size);
+	Vr = Vr.moveTo(vtrack.clamp(Vr.end)-Vr.size);
+	Vr = Vr.moveTo(vtrack.clamp(Vr.start));
+	vbar->area = Vr;
 
-		//put the left-button in it's place
-		btnLeft->moveTo(htrack.start-vec2{21,0});
+	//put the left-button in it's place
+	btnLeft->moveTo(htrack.start-vec2{21,0});
 
-		//put the right-button in it's place
-		btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
+	//put the right-button in it's place
+	btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
 
-		//put the horizontal scrollbar bar in it's place
-		rect Hr = hbar->area;
-		Hr.size = {trackDimensions().x * areaRatio().x,20};
-		Hr.size = clamp(Hr.size,{0,0},htrack.size);
-		Hr = Hr.moveTo(htrack.clamp(Hr.end)-Hr.size);
-		Hr = Hr.moveTo(htrack.clamp(Hr.start));
-		hbar->area = Hr;
-	}
+	//put the horizontal scrollbar bar in it's place
+	rect Hr = hbar->area;
+	Hr.size = {trackDimensions().x * areaRatio().x,20};
+	Hr.size = clamp(Hr.size,{0,0},htrack.size);
+	Hr = Hr.moveTo(htrack.clamp(Hr.end)-Hr.size);
+	Hr = Hr.moveTo(htrack.clamp(Hr.start));
+	hbar->area = Hr;
+	
 	//displace children by offset
 	//new (uses children on an inner frame)
-	if(constructed){
+	
 		if(scrollingEnabled){ inner->moveTo( -scrollOffset() ); }
 					    else{ inner->moveTo( vec2(0,0) ); }
-	}
+	
+	//10.05.2022: wheel scrolling is bork, probably because offset.y is never set
+	offset = scrollOffset();
 }
 
 rect GUIscrollbar::vtrackRect(){

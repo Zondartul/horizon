@@ -151,7 +151,7 @@ int main(int argc, char **argv){
 	addConsoleCommands();
 
 	openGUI();
-	setFramePrinter(new frameprinter()); //it's annoying
+	//setFramePrinter(new frameprinter()); //it's annoying
 
 	ecs.physics = new ecs_physics_system_kind();
 	ecs.collision = new ecs_collision_system_kind();

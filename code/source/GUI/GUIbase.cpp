@@ -605,11 +605,10 @@ void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 	if(prop.name == getType()){
 		setPropertyTable(prop.table);
 	}
-	auto Ic = children.begin(); 
-	auto Ice = children.end();
-	auto Ip = prop.children.begin(); 
-	auto Ipe = prop.children.end();
-	for(;(Ic != Ice) && (Ip != Ipe);){
+	auto Ic = children.begin();
+	auto Ip = prop.children.begin();
+	for(;
+		(Ic != children.end()) && (Ip != prop.children.end());){
 		GUIbase *C = *Ic;
 		const GUIcompoundProperty &P = *Ip;
 		if(C->getType() == P.name){
@@ -620,7 +619,7 @@ void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 		}
 		Ic++; Ip++;
 	}
-	while(Ip != Ipe){
+	while(Ip != prop.children.end()){
 		const GUIcompoundProperty &P = *Ip;
 		GUIbase *C2 = P.instantiate();
 		if(C2){Ic = addChild(C2,Ic);}

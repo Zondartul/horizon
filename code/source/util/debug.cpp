@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdexcept>
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
@@ -637,8 +638,10 @@ void error(const char* fmt, ...) {
 	va_start(ap, fmt);
 	vprintf(fmt, ap);
 	va_end(ap);
-	exit(0);
+	//exit(0);
+	throw std::runtime_error(string(fmt));
 }
+
 void frame(const char* fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);

@@ -99,7 +99,7 @@ void GUIdropdownMenu::onEvent(eventKind event){
 	if(event.isMasked()){return;}
 
 	if(event.type == EVENT_FRAME){
-		printf("ddm[%s]:frame, hh = %d\n",name.c_str(),hideCounter);
+		//printf("ddm[%s]:frame, hh = %d\n",name.c_str(),hideCounter);
 		if(!hidden){
 			float dist = getMouseDist();
 			if(dist == 0){hideCounter = 0;}

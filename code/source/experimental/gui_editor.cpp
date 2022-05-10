@@ -3,7 +3,9 @@
 #include "file.h"
 #include "resource/bitmap.h"
 #include "tinyxml2.h"
+#include <iostream>
 using namespace tinyxml2;
+using namespace std;
 
 // V-SWEET --0. make gui editor not crash when closing
 // v - 1. object selection
@@ -32,18 +34,16 @@ gui_editor_kind::gui_editor_kind(){
 	GUIbutton *btn1 = new GUIbutton();
 	btn1->setText("File");
 	btn1->setSize(vec2(40,20));
-	btn1->setFunction([=](){
-		GUIfileDialog *dialog = new GUIfileDialog();
+	btn1->setFunction([=]() {
+		GUIfileDialog* dialog = new GUIfileDialog();
 		dialog->setDirectory(getDataDirectory());
-		dialog->setMode(GUIf::Save);
-		dialog->setFunction([=](string filepath){
-			FILE *fp = fopen(filepath.c_str(),"a");
-			fprintf(fp,"Hello World!\n");
-			
-			fclose(fp);
-		});
+		dialog->setMode(GUIf::Open);
+		dialog->setFunction([=](string filepath) {
+			paste(filepath);
+			});
 		GUI->addChild(dialog);
-	});
+		}
+	);
 	mainWindow->addChild(btn1);
 	
 	GUIbutton *btnFrame = new GUIbutton();
@@ -285,22 +285,28 @@ void gui_editor_kind::save(string filepath){
 }
 
 void gui_editor_kind::paste(string filepath){
-	GUIwindow *workWindow; 
-	EPCAST(elWorkWindow, workWindow) else return;
-	printf("gui_editor_kind::paste()\n");
-	XMLDocument doc;
-	if(!fileReadable(filepath)){error("can't read file [%s]\n",filepath.c_str());}
-	doc.LoadFile(filepath.c_str());
-	XMLElement *el = doc.RootElement();
-	GUIcompoundProperty *P = new GUIcompoundProperty(el);
-	for(auto I = P->children.begin(); I != P->children.end(); I++){
-		const GUIcompoundProperty &P2 = *I;
-		if(P2.table.table.at("isClient") == "1"){
-			GUIbase *B = P2.instantiate();
-			workWindow->addChild(B);
+	try {
+		GUIwindow* workWindow;
+		EPCAST(elWorkWindow, workWindow) else return;
+		printf("gui_editor_kind::paste()\n");
+		XMLDocument doc;
+		if (!fileReadable(filepath)) { error("can't read file [%s]\n", filepath.c_str()); }
+		doc.LoadFile(filepath.c_str());
+		XMLElement* el = doc.RootElement();
+		GUIcompoundProperty* P = new GUIcompoundProperty(el);
+		for (auto I = P->children.begin(); I != P->children.end(); I++) {
+			const GUIcompoundProperty& P2 = *I;
+			if (P2.table.table.at("isClient") == "1") {
+				GUIbase* B = P2.instantiate();
+				workWindow->addChild(B);
+			}
 		}
+		delete P;
 	}
-	delete P;
+	catch (...) { 
+		//error("gui_editor::paste: some error"); 
+		cout << "gui_editor: could not paste" << endl;
+	}
 }
 
 
