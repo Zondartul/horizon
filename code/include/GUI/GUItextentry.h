@@ -3,7 +3,7 @@
 
 class GUItextEntry:public virtual GUIbutton{
 	public:
-	//properties
+	
 	vec3 focusedColor;
 	bool callOnEdit;
 	bool callOnEnter;
@@ -13,7 +13,7 @@ class GUItextEntry:public virtual GUIbutton{
 	bool multiline;
 	bool numeric;
 	texture *tcaret;
-	//internal vars
+	
 	bool hasfocus;
 	unsigned int cursorPos;
 	GUItextEntry();
@@ -22,12 +22,12 @@ class GUItextEntry:public virtual GUIbutton{
 	double getNumber();
 	virtual void onEvent(eventKind event);
 	
-	//property table
+	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
 
-	virtual string getType(); //returns the most-derived-class of the widget.
+	virtual string getType(); 
 };
 
 #endif

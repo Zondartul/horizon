@@ -15,7 +15,7 @@ class hook:public eventListener{
 	}
 };
 
-//vector<hook*> g_hooks;
+
 
 void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventKind event)> handler){
 	auto& hooks = G->gs_hook->g_hooks;

@@ -11,12 +11,12 @@ class GUIframe:public virtual GUIbase{
 	GUIframe *setBgColor(vec3 color);
 	GUIframe *setBorderColor(vec3 color);
 	
-	//property table
+	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
 
-	virtual string getType(); //returns the most-derived-class of the widget.
+	virtual string getType(); 
 };
 
 #endif

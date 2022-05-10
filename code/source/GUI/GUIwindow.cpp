@@ -1,7 +1,7 @@
 #include "GUI_internal.h"
 
 
-//GUIwindow
+
 GUIwindow::GUIwindow(){
 	hasCloseButton = true;
 	moveable = true;
@@ -22,7 +22,7 @@ GUIwindow::GUIwindow(){
 	lblTitle = new GUIlabel();
 	lblTitle->isClient = false;
 	lblTitle->moveTo({5,5});
-	//lblTitle->setText({"Title"});
+	
 	lblTitle->sizeToContents();
 	addChild(lblTitle);
 	setTitle("Title");
@@ -73,7 +73,7 @@ void GUIwindow::onEvent(eventKind event){
 	if(event.type == EVENT_MOUSE_MOVE){
 		vec2 pos = getMousePos();
 		mouseovertitle = visibleArea().clamp(thisToWorld(rect(area.size.x-23,23))).contains(pos);
-		if(pressed && moveable){moveTo(pos+offset);} //this shouldn't happen on render
+		if(pressed && moveable){moveTo(pos+offset);} 
 	}
 }
 

@@ -8,15 +8,15 @@ using std::pair;
 #include "vec.h"
 #include "globals.h"
 #include "math.h"
-//packs 2D rectangles inside another 2D rectangle.
-//inputs:
-//	sizes - an unsorted list of rectangle sizes.
-//  binsize - the dimensions of the big rectangle into which to fit the smaller ones.
-//	sort - if true, Uses FFDH strip sort. if false, elements go in the same order as they arrive.
-//outputs:
-//	results - new positions for all rectangles given.
-//	packed - list of indices of only those rectangles that could actually fit here.
-//	heightNeeded - given the bin's width, this is the height necessary and sufficient to fit all items.
+
+
+
+
+
+
+
+
+
 void pack2D(vector<vec2> sizes,
 			vec2 binsize,
 			bool sort,
@@ -24,12 +24,12 @@ void pack2D(vector<vec2> sizes,
 			vector<int> *packed,
 			int *heightNeeded);
 
-//returns the smallest power-of-two square that can
-//fit all the rectangles.
+
+
 vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
 
 
-//'nearest' interpolation between multiple values. values must be sorted.
+
 template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
@@ -42,15 +42,15 @@ template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, flo
 	error("unreachable code");
 	return scatter.front().first;
 }
-//'linear' interpolation between multiple values. values must be sorted.
+
 template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
 	if (pos > scatter.back().second){return scatter.back().first;}
 	for(auto I = scatter.begin(); I != scatter.end()-1; I++){
-		if(pos > (I+1)->second){continue;}	//1. find the two nearest values
-		VT val1 = I->first;					//2. interpolate
+		if(pos > (I+1)->second){continue;}	
+		VT val1 = I->first;					
 		VT val2 = (I+1)->first;
 		float pos1 = I->second;
 		float pos2 = (I+1)->second;
@@ -60,8 +60,8 @@ template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, floa
 	error("unreachable code");
 	return scatter.front().first;
 }
-//'cubic hermite spline' interpolation between multiple values. values must be sorted.
-//idk what this code does
+
+
 template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}

@@ -1,6 +1,6 @@
 #include "GUI_internal.h"
 
-//see util.h for macro DEFINE_
+
 DEFINE_enum_class_bitwise_operators(GUIe_border);
 DEFINE_enum_class_bitwise_operators(GUIe_alignment);
 

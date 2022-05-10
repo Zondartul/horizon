@@ -1,7 +1,7 @@
 #include "GUI_internal.h"
 
 
-//GUIimage
+
 GUIimage::GUIimage(){
 	image = defaultimage;
 	noframe = true;
@@ -20,7 +20,7 @@ GUIbase *GUIimage::sizeToContents(){
 }
 
 
-	//property table
+	
 GUIpropertyTable GUIimage::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIframe::getDefaultPropertyTable();
 	table.table["image"] = toString((texture*)defaultimage);

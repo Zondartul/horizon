@@ -32,19 +32,19 @@ enum RC3T{
         VIEWPORT
 };
 string toString(RC3T);
-//takes up 20 bytes (so an average frame is 40 kb)
+
 struct renderCommand3{
     renderCommand3();
-    renderCommand3(const renderCommand3 &other) = delete; //may own stuff, so can't be copied.
+    renderCommand3(const renderCommand3 &other) = delete; 
     renderCommand3(RC3T type, ...);
-    renderCommand3 *clone(); //allowed for non-privileged commands.
-                            //priviliged commands are those that own big objects (like rmodels)
-                            //but in less BS terms it's just to prevent access-after-delete.
+    renderCommand3 *clone(); 
+                            
+                            
     ~renderCommand3();
-    //types
+    
 
-    //data
-    RC3T type;  //type of command
+    
+    RC3T type;  
     union{
         bool b;
         renderLayer *layer;
@@ -56,11 +56,11 @@ struct renderCommand3{
         rect r;
         float f;
         rmodel *rm;
-        camprojection *cam; //huuuge, 4x4+3 floats = 60 bytes
-        string *s;          //needs variable length serializing //also, non-POD constructor
+        camprojection *cam; 
+        string *s;          
         void* buff;
     };
 };
 string toString(renderCommand3 *rcmd);
 
-#endif // RENDERCOMMAND_H_INCLUDED
+#endif 

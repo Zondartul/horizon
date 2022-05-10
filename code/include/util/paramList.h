@@ -24,7 +24,7 @@ string toString(ParamList PL);
 template<> ParamList fromString<ParamList>(string S);
 
 template<typename T> bool readParam(ParamList &PL, string pname, T& val){
-	//printf("readParam(...,%s,...)\n",pname.c_str());
+	
 	if(PL.count(pname)){
 		param P = PL[pname];
 		string type = typeid(T).name();
@@ -38,7 +38,7 @@ template<typename T> bool readParam(ParamList &PL, string pname, T& val){
 	else{return false;}
 }
 template<typename T> void writeParam(ParamList &PL, string pname, const T& val){
-	//printf("writeParam(...,%s,...)\n",pname.c_str());
+	
 	param P;
 	P.name = pname;
 	P.type = typeid(T).name();

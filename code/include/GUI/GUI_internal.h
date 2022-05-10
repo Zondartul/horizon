@@ -1,24 +1,24 @@
 #ifndef GUI_INTERNAL_GUARD
 #define GUI_INTERNAL_GUARD
 
-//=======================================================
-// Used internally by GUI files as base include.
-//
-// Clients: to use GUI in your project,
-// #include "GUI.h" instead.
-//=======================================================
+
+
+
+
+
+
 #include <cmath>
 #include "GUI.h"
 #include "renderLayer.h"
 #include "paint.h"		 
 #include "resource.h" 
-#include "globals.h"  //for error()
-#include "simplemath.h" //for max()
+#include "globals.h"  
+#include "simplemath.h" 
 #include "mouse.h"
 #include "window.h"
 #include "texture.h"
 #include "fonts.h"
-#include "timer.h" //for getRealTime()
+#include "timer.h" 
 #include "global_vars.h"
 using std::isnan;
 
@@ -26,7 +26,7 @@ struct GUI_options_kind{
 	bool debug = false;
 	bool push = false;
 };
-//extern GUI_options_kind g_GUIoptions;
+
 void GUIsetFavoriteRenderOptions();
 
 struct gs_GUI_internalKind {
@@ -41,7 +41,7 @@ struct gs_GUI_internalKind {
 
 
 class GUIbase;
-//creates a gui widget by class name
+
 GUIbase *GUI_constructor_dispatch(string S);
 
 
@@ -55,4 +55,4 @@ GUIbase *GUI_constructor_dispatch(string S);
 #define defaultimage 0
 
 
-#endif // GUI_INTERNAL_GUARD
+#endif 

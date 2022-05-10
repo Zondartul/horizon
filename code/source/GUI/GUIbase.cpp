@@ -1,6 +1,6 @@
 #include "GUI_internal.h"
 
-//GUIbase
+
 GUIbase::GUIbase(){
 	auto& GUIR_default = G->gs_GUIrenderer_default->GUIR_default;
 
@@ -22,14 +22,14 @@ GUIbase::~GUIbase(){
 	if(!deletePending){error("GUI widget deleted without close()\n");}
 	if(parent){parent->removeChild(this);}
 
-	//dafuq, children werent being deleted?
-	//make a separate immutable vector because children will remove themselves from the main list
 	
-	// ah shit, this causes a weird segfault later for no reason
-	// it worked before tho, wtf? and we can't leave it commented or we leak memory & other bad things
-	// happen like double event stuff
-	// update: apparrently it's not the culprit but it's the fastest way to poke at the bug
-	// the bug happens without it too. WHAT THE FUCK IS HAPPENING.
+	
+	
+	
+	
+	
+	
+	
 	
 	{
 		stackSentinel SS;
@@ -47,10 +47,10 @@ GUIbase *GUIbase::addChild(GUIbase *child){
 	return this;
 }
 
-//this change may break something in other objects
+
 GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 	child->parent = this;
-	//somehow, adding them to the front screws everything up
+	
 	ChI iter2 = children.insert(iter, child);
 	if(child->isClient){clientChannel.addListenerFront(child);}
 	else{partChannel.addListenerFront(child);}
@@ -75,7 +75,7 @@ GUIbase *GUIbase::removeChild(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	bool found = false;
 	int i = 0;
-	for(auto I = children.begin(); I != children.end();){ //no I++ here
+	for(auto I = children.begin(); I != children.end();){ 
 		if(*I == child){
 			if(!child->isClient){partChannel.removeListener(child);}
 			else{clientChannel.removeListener(child);}
@@ -204,7 +204,7 @@ void GUIbase::render(){ if(renderer){renderer->render(this);} }
 
 void GUIbase::onEvent(eventKind event){
 	
-	//root can initiate mouseover events
+	
 	bool transmit = true;
 	if(!parent){
 		if(event.type == EVENT_MOUSE_MOVE){
@@ -214,7 +214,7 @@ void GUIbase::onEvent(eventKind event){
 			tickLogic();
 		}
 		if(event.type == EVENT_CLEANUP){
-			//printf("event_cleanup\n");
+			
 			checkCloseTree();
 		}
 	}
@@ -232,24 +232,24 @@ void GUIbase::onEvent(eventKind event){
 			case EVENT_CLEANUP:
 			case EVENT_MOUSE_MOVE: 			
 			default:
-				//do nothing
+				
 			break;
 		}
 	}
-	//1. publish to parts
+	
 	partChannel.publishEventParallelMaskable(event);
-	//2. publish to clients
+	
 	if(transmit){
-		//1. publish event to children
+		
 		int shouldMask = clientChannel.publishEventParallelMaskable(event);
-		//2. possibly mask it
+		
 		
 		if(event.mask){
 			event.maskEvent(shouldMask);
 		}
 	}else{
-		//1. do not transmit.
-		//2. event is not captured - do not mask.
+		
+		
 	}
 }
 
@@ -296,7 +296,7 @@ GUIbase *GUIbase::getByHelper(string askname, string asktype){
 }
 
 GUIbase *GUIbase::getByName(string name){
-	//depth first search, because it's harder to do breadth first
+	
 	GUIbase *B = getByHelper(name,"");
 	if(!B){printf("can't find widget by name: [%s]\n",name.c_str());}
 	else{printf("found widget by name: [%s]\n", name.c_str());}
@@ -316,9 +316,9 @@ void GUIbase::invalidate(){
 
 void GUIbase::invalidateTree(){
 	if(suppressInvalidate){return;}
-	//set invalidateSupress and invalidate children (inv downwards)
-	//btw, when an external change is done to an element, it probably supresses invalidations and invalidates upwards and downwards...
-	//or invalidates from top.
+	
+	
+	
 	if(parent){
 		root()->invalidateTree();
 	}else{
@@ -336,16 +336,16 @@ void GUIbase::invalidateDown(){
 	suppressInvalidate = prevsuppress;
 }
 
-//in the future, this could be used to classify mouse
-//as "over border/title/other parts"
+
+
 void GUIbase::recalcMouseover(){
 	vec2 pos = getMousePos();
-	//not mouseover if mouse is somewhere else entirely
+	
 	if(!visibleArea().contains(pos)){mouseover = false; return;}
 	if(parent){
-		//not mouseover if parent doesn't have mouseover
+		
 		if(!parent->mouseover){mouseover = false; return;}
-		//not mouseover if any of higher siblings have mouseover
+		
 		auto I = parent->children.begin();
 		while(*I != this){I++;}
 		I++;
@@ -371,9 +371,9 @@ void GUIbase::close(){
 }
 
 void GUIbase::checkCloseTree(){
-	vector<GUIbase*> children2 = children; //probably expensive to do it every frame, (or not - the vector is only like 5 entries big)
-											//it's better to update the destructor to not mess with the parent
-	//then the for-loop will need I = vector.erase thingy and such.
+	vector<GUIbase*> children2 = children; 
+											
+	
 	for(auto I = children2.begin(); I != children2.end(); I++){
 		GUIbase *el = *I;
 		if(el->deletePending){delete el;}
@@ -381,9 +381,9 @@ void GUIbase::checkCloseTree(){
 	}
 }
 
-//if something has coordinates L within
-//the Area of this element,
-//it was coordinates W in the world.
+
+
+
 vec2 GUIbase::thisToWorld(vec2 L){
 	if(parent){
 		if(isClient){
@@ -400,9 +400,9 @@ rect GUIbase::thisToWorld(rect L){
 	return L.setStart(thisToWorld(L.start)).setEnd(thisToWorld(L.end));
 }
 
-//if something has coordinates L within
-//the clientArea of this element,
-//it was coordinates W in the world.
+
+
+
 vec2 GUIbase::clientToWorld(vec2 L){
 	if(parent){
 		if(isClient){
@@ -599,8 +599,8 @@ GUIcompoundProperty GUIbase::getCompoundProperty(){
 	return prop;
 }
 
-//note: non-client widgets (parts) should
-//be already constructed by the owner before they get properties assigned.
+
+
 void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 	if(prop.name == getType()){
 		setPropertyTable(prop.table);

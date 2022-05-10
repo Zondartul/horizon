@@ -2,7 +2,7 @@
 
 
 
-//GUIlabel
+
 GUIlabel::GUIlabel(){
 	textColor = defaulttextColor;
 	textfont = defaulttextfont;
@@ -44,14 +44,14 @@ GUIbase *GUIlabel::sizeToContents(){
 }
 
 
-//area is arbitrary world rect in which the alignment happens
-//rect text should be the rect returned by preprintw
+
+
 vec2 getTextCentering(rect area, rect text,
 	GUIe_alignment alignment_vertical, 
 	GUIe_alignment alignment_horizontal, 
 	bool const_height, font *F){
 	rect R;
-	int yborder = 2; //if it was 0, letters would be printed over the actual border-border.
+	int yborder = 2; 
 	if(const_height){
 		text = text.setEnd({text.size.x,F->maxrect.size.y+yborder});
 	}
@@ -86,7 +86,7 @@ vec2 getTextCentering(rect area, rect text,
 	return vec2{x,y};
 }
 
-//property table
+
 GUIpropertyTable GUIlabel::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIbase::getDefaultPropertyTable();
 	table.table["textColor"] = toString(vec3(defaulttextColor));

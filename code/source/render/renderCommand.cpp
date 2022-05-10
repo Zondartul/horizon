@@ -146,7 +146,7 @@ renderCommand3 *renderCommand3::clone(){
         case(RC3T::FACE_CULL_CCW):          break;
         case(RC3T::VIEWPORT):               rcmd->r = r; break;
 
-        case(RC3T::RMODEL_DELETE):          return 0; //copying of this command is forbidden
+        case(RC3T::RMODEL_DELETE):          return 0; 
     }
     return rcmd;
 }
@@ -161,9 +161,9 @@ renderCommand3::~renderCommand3(){
     }
 }
 
-//#define isValid(x) (x && !wasRecentlyDeleted(x))
+
 bool isValid(void* x) {
-    //return (x && !wasRecentlyDeleted(x));
+    
     return (x != 0);
 }
 

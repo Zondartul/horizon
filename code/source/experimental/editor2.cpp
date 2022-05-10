@@ -8,7 +8,7 @@
 #include "paint.h"
 #include "window.h"
 #include "geometry.h"
-//#include "frameprinter.h"
+
 #include "editmodel.h"
 #include "simplemath.h"
 #include "input.h"
@@ -20,39 +20,39 @@
 	3) only clear when closing editor
 */
 
-//class editor2Kind:public eventListener{
-//	public:
-//	editor2Kind();
-//
-//	struct{
-//		renderLayer *l3D;
-//		renderLayer *l3Dimmediate;
-//		renderLayer *l2D;
-//		renderLayer *l2Dimmediate;
-//	} layers;
-//	void setupLayers();
-//	void resetLayer(renderLayer *L);
-//
-//	e_model EM;
-//	void constructTestModel();
-//	e_selection sel;
-//	void redraw();
-//	void printselection();
-//
-//	void think();
-//	void onEvent(eventKind event);
-//
-//	bool hasLastPoint = false;
-//	bool showLine = false;
-//	vec3 lastPoint;
-//
-//	bool boxSelectOn = false;
-//	bool hasBox = false;
-//	vec2 boxStart;
-//	vec2 boxEnd;
-//	void boxSelect(vec2 boxStart, vec2 boxEnd);
-//};
-//editor2Kind *g_editor2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void editor2Kind::setupLayers(){
 	auto& layer3D = G->gs_paint->g_layer3D;
@@ -168,7 +168,7 @@ void openEditor2(){
 	editor2 = new editor2Kind();
 }
 
-//constructor
+
 editor2Kind::editor2Kind():sel(&EM){
 	auto& inputChannel = G->gs_input->g_inputChannel;
 	auto& globalChannel = G->gs_event->g_globalChannel;
@@ -224,26 +224,26 @@ void editor2Kind::redraw(){
 }
 
 
-//static vec3 g_plane[3] = {vec3(0,0,0),vec3(1,0,0),vec3(0,1,0)};
+
 
 void editor2Kind::think(){
 	auto& camera = G->gs_camera->g_camera;
 	auto& plane = G->gs_editor2->g_plane;
-	//logic
-		//point at plane the user is pointing at
+	
+		
 		vec3 p1;
 		vec3 dir = camera.getMouseDir();
 		bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1);
-		float dist1 = length(p1-lastPoint);																	//point to last point distance
-		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				//screen ray to last point distance
-		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				//plane to last point distance
-		//frameprint(has_hit? string("dist: ")+toString(dist1)+", dist2: "+toString(dist2) : "no hit");
-		//frameprint(string("cam.z: ")+toString(camera.pos.z)+", dist3: "+toString(dist3));
-		bool lastPointSelected = (dist2 < 0.05f);															//selected if screen ray within distance (sphere test)
-		//box select stuff
+		float dist1 = length(p1-lastPoint);																	
+		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				
+		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				
+		
+		
+		bool lastPointSelected = (dist2 < 0.05f);															
+		
 		if(hasBox){boxEnd = getMousePos();}
-		//frameprint(string("hasBox: ")+toString(hasBox));
-	//redraw immediate layers
+		
+	
 	resetLayer(layers.l3Dimmediate);
 	resetLayer(layers.l2Dimmediate);
 	if(hasLastPoint){

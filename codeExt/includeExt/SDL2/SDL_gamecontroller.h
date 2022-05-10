@@ -111,7 +111,7 @@ typedef struct SDL_GameControllerButtonBind
 
 /**
  *  Load a set of mappings from a seekable SDL data stream (memory or file), filtered by the current SDL_GetPlatform()
- *  A community sourced database of controllers is available at https://raw.github.com/gabomdq/SDL_GameControllerDB/master/gamecontrollerdb.txt
+ *  A community sourced database of controllers is available at https:
  *
  *  If \c freerw is non-zero, the stream will be closed after being read.
  * 

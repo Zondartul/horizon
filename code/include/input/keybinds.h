@@ -8,8 +8,8 @@ using std::map;
 using std::function;
 using std::string;
 
-//a keybind list is a grouping of keybinds (key->function)
-//that can be collectively turned on/off, or given priority.
+
+
 
 
 struct bind{
@@ -19,14 +19,14 @@ struct bind{
 
 class keybindList:public eventListener{
 	public:
-	map<string,bind> binds; //eventKind arg?
+	map<string,bind> binds; 
 	keybindList();
 	void onEvent(eventKind event);
 	void checkMB(eventKind &event, int mb, string key);
 	void checkKB(eventKind &event, string key);
 };
 
-//extern keybindList *g_keybinds;
+
 void initKeybinds();
 
 struct gs_keybindsKind {

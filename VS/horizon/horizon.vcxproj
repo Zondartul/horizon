@@ -479,7 +479,6 @@
     <ClCompile Include="..\..\code\source\render\rmodel.cpp" />
     <ClCompile Include="..\..\code\source\resource\atlas.cpp" />
     <ClCompile Include="..\..\code\source\resource\bitmap.cpp" />
-    <ClCompile Include="..\..\code\source\resource\fonts.cpp" />
     <ClCompile Include="..\..\code\source\resource\model.cpp" />
     <ClCompile Include="..\..\code\source\resource\resource.cpp" />
     <ClCompile Include="..\..\code\source\resource\texture.cpp" />

@@ -21,10 +21,10 @@ GUIselectable::GUIselectable(){
 
 void GUIselectable::onEvent(eventKind event){
 	if(event.type == EVENT_MOUSE_MOVE){
-		recalcMouseover();	//this check needs to be already
-							//done by the time children start handling events
+		recalcMouseover();	
+							
 	}
-	//we can make the children clickable by uncommenting this line
+	
 	if(event.isMasked()){return;}
 	
 	vec2 pos = getMousePos();
@@ -59,7 +59,7 @@ void GUIselectable::select(){
 	bool ctrl = keyboardState["Left Ctrl"];
 	printf("shift = %d, ctrl = %d\n",shift,ctrl);
 	if(parent){
-		//1. selecting this item should deselect other items
+		
 		GUIselectionGroup *SG = dynamic_cast<GUIselectionGroup*>(parent);
 		if(SG && !ctrl){
 			if(shift){

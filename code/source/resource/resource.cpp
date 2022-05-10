@@ -1,7 +1,7 @@
 #include "resource.h"
 #include "imageLoader.h"
 #include "textureLoader.h"
-//#include "modelLoader.h"
+
 #include "fontLoader.h"
 #include "file.h"
 #include "bitmap.h"
@@ -69,11 +69,11 @@ model *getModel(string name){
 		if(models[I]->name == name){return models[I];}
 	}
 	string filepath = locateResource("model", name.c_str());
-	//model *m = loadModel(filepath.c_str());
-	//if(!m){error("can't load model %s\n",name.c_str());}
-	//m->t = getModelTexture(name);
-	//models.push_back(m);
-	//return m;
+	
+	
+	
+	
+	
 	return 0;
 }
 font *getFont(string name){
@@ -115,18 +115,18 @@ vector<font*> listFonts(){
 
 
 void loadAssets(){
-	auto& m = G->gs_main->g_m; //is this just a temporary?
+	auto& m = G->gs_main->g_m; 
 
 	getFont("cour 14");
 	setFont(getFont("calibri 18"));
 
-	//m = getModel("box");
-	//e_model *em_box = m->toEmodel();
-	//e_selection e_sel = em_box->selectAll();
-	//e_sel.removeDuplicates();
-	//e_sel.recalculateNormalsSmooth();
-	//m->rm = em_box->getRmodel();
-	//m->rm->finalize();
-	//uploadTexture(m->t);
-	//uploadRmodel(m->rm);
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

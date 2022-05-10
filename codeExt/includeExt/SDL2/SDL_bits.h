@@ -52,7 +52,7 @@ SDL_MostSignificantBitIndex32(Uint32 x)
 {
 #if defined(__GNUC__) && __GNUC__ >= 4
     /* Count Leading Zeroes builtin in GCC.
-     * http://gcc.gnu.org/onlinedocs/gcc-4.3.4/gcc/Other-Builtins.html
+     * http:
      */
     if (x == 0) {
         return -1;
@@ -61,7 +61,7 @@ SDL_MostSignificantBitIndex32(Uint32 x)
 #else
     /* Based off of Bit Twiddling Hacks by Sean Eron Anderson
      * <seander@cs.stanford.edu>, released in the public domain.
-     * http://graphics.stanford.edu/~seander/bithacks.html#IntegerLog
+     * http:
      */
     const Uint32 b[] = {0x2, 0xC, 0xF0, 0xFF00, 0xFFFF0000};
     const int    S[] = {1, 2, 4, 8, 16};

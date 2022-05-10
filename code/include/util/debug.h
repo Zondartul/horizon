@@ -25,9 +25,9 @@
 
 void debuginit();
 void debugprint(const char *file, int line, const char *mode, const char *format, ...);
-//extern int g_debug_mem_allocated;
-//extern int g_debug_mem_watermark;
-//extern bool g_printf_enabled;
+
+
+
 #ifdef DEBUG_PRINT
 
 
@@ -40,10 +40,10 @@ void debugprint(const char *file, int line, const char *mode, const char *format
 
 #else
 
-	//#define info(...) printf(__VA_ARGS__)
-	//#define warning(...) printf(__VA_ARGS__)
-	//#define error(...) printf(__VA_ARGS__);crash();
-	//#define frame(...) printf(__VA_ARGS__)
+	
+	
+	
+	
 void info(const char *fmt, ...);
 void warning(const char *fmt, ...);
 void error(const char *fmt, ...);
@@ -74,33 +74,33 @@ struct mapped_alloc_key{
 	int alloc_line;
 	int num;
 };
-//typedef vector<mapped_alloc> struct_alloc_line;
-//typedef map<int,struct_alloc_line> struct_alloc_file;
-//extern map<const char*,struct_alloc_file> g_allocation_map;
-//extern map<void*, mapped_alloc_key> g_deallocation_map;
 
-//extern int g_total_size;
+
+
+
+
+
 
 #ifdef DEBUG_NEW
 	#include <new>
-	//extern const char *g_debug_file;
-	//extern int g_debug_line;
+	
+	
 
-	//extern const char *alloc_file;
-	//extern int alloc_line;
-	//void *operator new(size_t size);
-	//void operator delete(void *ptr);
-	//#define new (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : new
-	//#define delete (g_debug_file=__FILE__,g_debug_line=__LINE__) && 0 ? NULL : delete
-	//void debugnew(const char *file, int line, size_t size);
-	//void debugdelete(const char *file, int line, void *ptr);
-	//#define new set_alloc_pos(__FILE__,__LINE__), new
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	#define new set_alloc_pos(__FILE__,__LINE__) && 0 ? NULL : new
-    //only works when DEBUG_NEW is on.
-    //Returns true if the memory block was freed recently.
+    
+    
     bool wasRecentlyDeleted(void *p);
 #else
-    //#define wasRecentlyDeleted(x) (false)
+    
 #endif
 
 
@@ -136,15 +136,15 @@ typedef std::map<int, struct_alloc_line> struct_alloc_file;
 typedef std::vector<void*> delayedDeleteList;
 
 
-//struct debugProfile {
-//	uint64_t time;
-//	uint32_t seconds;
-//	uint32_t milliseconds;
-//	uint32_t microseconds;
-//	uint32_t stackused;
-//	uint32_t heapused;
-//	uint32_t heapleaked;
-//}; 
+
+
+
+
+
+
+
+
+
 
 struct debugAllocation {
 	void* reported;
@@ -165,7 +165,7 @@ struct debugAllocation {
 struct gs_debugKind {
 	delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
 	int g_activeDeleteBuffer = 0;
-	bool g_delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
+	bool g_delayedDelete = false; 
 	std::map<const char*, struct_alloc_file> g_allocation_map;
 	std::map<void*, mapped_alloc_key> g_deallocation_map;
 

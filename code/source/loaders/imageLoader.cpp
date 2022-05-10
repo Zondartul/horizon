@@ -5,7 +5,7 @@
 
 #pragma warning(push, 0)
 #define STB_IMAGE_IMPLEMENTATION
-//lets support EVERYTHING :D
+
 #include "stb_image.h"
 #pragma warning(pop)
 

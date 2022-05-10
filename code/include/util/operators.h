@@ -1,9 +1,9 @@
 #ifndef OPERATORS_GUARD
 #define OPERATORS_GUARD
 /*
-// can't inherit operator=, since it is always overriden
-// by derived class' copy-constructor.
-// FFFFFFFFfffffuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuck
+
+
+
 */
 template<typename T> class assignmentOperator final{
 	public:
@@ -67,16 +67,16 @@ template<typename K, typename V> class subscriptAssignmentOperator
 	virtual void setIndex(const K &key, const V &value) = 0;
 };
 
-//--------------------- PROPERTY GET/SET EXPERIMENT ----------------------------
+
 
 
 
 /*
 class foo{
 	public:
-	//void seta(int& val);
-	//const int& geta();
-	//property<int> a(this,seta,geta);
+	
+	
+	
 	int b = 0;
 	property(foo, int, a);
 };
@@ -94,10 +94,10 @@ void propertyExperiment(){
 }
 */
 
-//------------------------- END PROPERTY GET/SET EXPERIMENT
 
 
-//--------- subscript operator experiment --------
+
+
 /*
 class barbuz:public subscriptOperator<string,int>{
 	public:
@@ -124,7 +124,7 @@ void subscriptExperiment(){
 	printf("------------- end subscript experiment ---------------\n");
 }
 */
-//----- end subscript operator experiment -------
+
 
 
 #endif

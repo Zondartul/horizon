@@ -4,8 +4,8 @@
 class GUIdropdownMenu:public GUIframe{
 	public:
 	vector<GUIdropdownMenu*> submenus;
-	GUIbutton *btnMenu = 0; //the button that opened this menu
-	int hideCounter = 0; //distance*time away from menu
+	GUIbutton *btnMenu = 0; 
+	int hideCounter = 0; 
 	GUIdropdownMenu();
 	bool constructed = false;
 	GUIbutton *addItem(string text);

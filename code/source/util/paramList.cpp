@@ -1,4 +1,4 @@
-//#include "debug.h"
+
 #include "globals.h"
 #include "paramList.h"
 
@@ -6,7 +6,7 @@ string toString(ParamList PL){
 	string S;
 	for(auto I = PL.begin(); I != PL.end(); I++){
 		param P = I->second;
-		S = S+"<"+P.name+"><"+P.type+"><"+P.value+">\n"; //needs escaping
+		S = S+"<"+P.name+"><"+P.type+"><"+P.value+">\n"; 
 	}
 	return S;
 }
@@ -29,9 +29,9 @@ template<> ParamList fromString<ParamList>(string S){
 }
 
 
-//------------------------- PARAMETER LIST EXPERIMENT --------------------------
-//TODO: move "fromString" to stringUtils, and maybe disambiguate between
-//"pretty printing" and "serialization" versions.
+
+
+
 
 /*
 class bar{
@@ -90,11 +90,11 @@ void parameterExperiment(){
 	printf("after: b.a = [%s], b.dir = [%s], b.text = [%s]\n",
 		toCString(b.a),toCString(b.dir),toCString(b.text));
 
-	//bar2 d;
-	//d.setParamList(PL);
+	
+	
 
 	printf("------------- END PARAMETER LIST EXPERIMENT --------------\n");
 }
 */
-//--------- END PARAMETER LIST EXPERIMENT --------
+
 

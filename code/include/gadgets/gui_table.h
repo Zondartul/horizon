@@ -6,18 +6,18 @@
 */	
 
 struct GUItableInfo{
-	GUIpropertyTable entries;			//variables to edit
-	map<string, GUIbase*> entry_widgets; //widgets that edit the variables
+	GUIpropertyTable entries;			
+	map<string, GUIbase*> entry_widgets; 
 };
 	
 
 class GUItable: public GUIwindow{
 	public:
-	//properties
+	
 	function<void(string, string)> f_entryChanged;
-	//internal properties
+	
 	GUItableInfo table;
-	//parts
+	
 	GUIscrollbar *bar;
 	GUIgrid *grid;
 	

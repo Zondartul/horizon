@@ -33,7 +33,7 @@ pack2D_oneRect:
 			widthleft = binsize.x-x;
 			if(widthleft < sizes[sorted[0]].x){
 				if(!sort){goto pack2D_nextLine;}
-				//find the biggest one that will still fit
+				
 				for(I = 0; I < sorted.size(); I++){
 					if(sizes[sorted[I]].x < widthleft){
 						selected = sorted[I];
@@ -68,8 +68,8 @@ pack2D_oneRect:
 }
 
 vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort){
-	//obviously, the POT can't have a smaller area
-	//than all the rectangles put together.
+	
+	
 	int area = 0;
 	for(unsigned int I = 0; I < sizes.size(); I++){
 		area += int(sizes[I].x*float(int(sizes[I].y)));

@@ -17,19 +17,19 @@
 	rmTri(D,A,B) \
 	rmTri(B,C,D)
 void paintArrow2D(vec3 from, vec3 to, float size=1.f, float width=1.f){
-	//              E
-	//              |\
-	// A------------B \
-	// |(from)      |  F(to)
-	// D------------C /
-	//              |/
-	//              G
 	
-	//(z)-->(x)
-	// |
-	// |
-	// v
-	//(y)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	if(width){
 		vec3 A,B,C,D,E,F,G;
@@ -109,14 +109,14 @@ void paintArrow3D(vec3 from, vec3 to, float size){
 void paintCube(vec3 from, vec3 to){
 	vec3 A,B,C,D,E,F,G,H;
 	
-	//    A------B
-	//   /|     /|
-	//  D-+----C |
-	//  | |    | |
-	//  | E----+-F
-	//  |/     |/
-	//  H------G
-	//
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	vec3 dv = to-from;
 	A = from + dv*vec3(0,0,0);

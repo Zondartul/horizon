@@ -94,7 +94,7 @@ extern DECLSPEC int SDLCALL SDL_UnlockMutex(SDL_mutex * mutex);
  */
 extern DECLSPEC void SDLCALL SDL_DestroyMutex(SDL_mutex * mutex);
 
-/* @} *//* Mutex functions */
+/* @} *
 
 
 /**
@@ -154,7 +154,7 @@ extern DECLSPEC int SDLCALL SDL_SemPost(SDL_sem * sem);
  */
 extern DECLSPEC Uint32 SDLCALL SDL_SemValue(SDL_sem * sem);
 
-/* @} *//* Semaphore functions */
+/* @} *
 
 
 /**
@@ -237,7 +237,7 @@ extern DECLSPEC int SDLCALL SDL_CondWait(SDL_cond * cond, SDL_mutex * mutex);
 extern DECLSPEC int SDLCALL SDL_CondWaitTimeout(SDL_cond * cond,
                                                 SDL_mutex * mutex, Uint32 ms);
 
-/* @} *//* Condition variable functions */
+/* @} *
 
 
 /* Ends C function definitions when using C++ */

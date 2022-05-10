@@ -321,7 +321,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* The canonical source for the Apple assigned Language ID's is at       */
   /*                                                                       */
-  /*   https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6name.html */
+  /*   https:
   /*                                                                       */
 #define TT_MAC_LANGID_ENGLISH                       0
 #define TT_MAC_LANGID_FRENCH                        1
@@ -464,7 +464,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /* The canonical source for the MS assigned LCIDs is                     */
   /*                                                                       */
-  /*   http://www.microsoft.com/globaldev/reference/lcid-all.mspx          */
+  /*   http:
   /*                                                                       */
 
 #define TT_MS_LANGID_ARABIC_GENERAL                    0x0001

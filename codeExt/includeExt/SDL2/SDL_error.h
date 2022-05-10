@@ -63,7 +63,7 @@ typedef enum
 } SDL_errorcode;
 /* SDL_Error() unconditionally returns -1. */
 extern DECLSPEC int SDLCALL SDL_Error(SDL_errorcode code);
-/* @} *//* Internal error functions */
+/* @} *
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

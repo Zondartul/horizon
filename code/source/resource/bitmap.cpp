@@ -33,7 +33,7 @@ pixel bitmap::read_pixel(int I){
 	int *B = &P.B;
 	int *A = &P.A;
 	*R = *G = *B = *A = 0;
-	unsigned char *d = getBuffer();//data->data();//data.get();
+	unsigned char *d = getBuffer();
 	switch(format){
 		case(TL_ALPHA):
 			*A = d[I];
@@ -95,7 +95,7 @@ void bitmap::write_pixel(int I, pixel P){
 
 bitmap bitmap::changeFormat(pixelFormat format_out){
 	bitmap newBMP = blankBitmap(height, width, format_out);
-	//int R, G, B , A;
+	
 	int n = numPixels();
 	for(int I = 0; I < n; I++){
 		newBMP.write_pixel(I, read_pixel(I));

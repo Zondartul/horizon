@@ -7,15 +7,15 @@
 #include "hook.h"
 #include "window.h"
 #include "resource.h"
-//#include "inputController.h"
+
 #include "stringUtils.h"
 #include "input.h"
 #include "global_vars.h"
 using std::vector;
 using std::string;
-//extern eventChannel *g_inputChannel;
-//extern eventChannel *g_globalChannel;
-//------------------ dropDownTerminal ------------------------
+
+
+
 
 dropDownTerminal::dropDownTerminal():terminalOn(false){
 	auto& layer2D = G->gs_paint->g_layer2D;
@@ -56,7 +56,7 @@ void dropDownTerminal::print(string text){
 }
 
 void dropDownTerminal::onEvent(eventKind event){
-	//auto& inputController = G->gs_inputController->g_inputController;
+	
 
 	if(event.type == EVENT_KEY_DOWN){
 		const char *K = event.keyboard.key;
@@ -66,7 +66,7 @@ void dropDownTerminal::onEvent(eventKind event){
 				terminalOn = false;
 				return;
 			}
-			if(string("Backspace") == K){	//backspace
+			if(string("Backspace") == K){	
 				event.maskEvent();
 				if(inputText != ""){inputText.pop_back();}
 			}
@@ -79,12 +79,12 @@ void dropDownTerminal::onEvent(eventKind event){
 				event.maskEvent();
 				inputText += event.keyboard.printchar;
 			}
-			//consoleInputString = text;
+			
 		}else{
 			if(string("`") == K){
 				event.maskEvent();
 				terminalOn = true;
-				//inputController->disableMouseCapture();
+				
 				return;
 			}
 		}
@@ -117,7 +117,7 @@ void dropDownTerminal::onEvent(eventKind event){
 	}
 }
 
-//--------------------------- consoleKind --------------------------------
+
 
 
 consoleKind::consoleKind(){
@@ -158,9 +158,9 @@ void consoleKind::print(string text){
 	if(term){term->print(text);}
 }
 
-//consoleKind *g_console;
 
-//--------------------- global --------------------------------------------
+
+
 
 void cprint(const char *format, ...){
 	auto& console = G->gs_console->g_console;

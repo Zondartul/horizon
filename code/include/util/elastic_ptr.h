@@ -1,34 +1,34 @@
 #ifndef ELASTIC_PTR_GUARD
 #define ELASTIC_PTR_GUARD
 
-//elastic pointer rules:
-//anyone can delete an object.
-//when an object is deleted, all elastic pointers to that object return 0.
-//
-//Elastic pointers can only be constructed from objects that have anchors.
-//assigning one elastic pointer to another increases the refcount.
-//elastic pointers can be used like normal pointers.
-//
-//elastic pointers work by using a proxy that points to the object itself.
-//the proxy is modified by the object when deleted or moved.
-//the proxy is sharedly owned by the object and all elastic pointers to it,
-//
-//elastic pointers behave exactly like normal pointers, except
-//you can check if they are null. In debug mode, they check for null
-//on every access and crash if dereferenced while empty.
 
-//Elastic pointers are intended to lubricate object-lifetime-sensitive code.
-//
-//elastic pointer rules:
-//an elastic pointer is an observer pointer:
-//- non-owning: the pointer doesn't own the object and doesn't prevent it from
-//              being destroyed.
-//- non-threadsafe: the pointer doesn't use thread safety mechanisms for speed reasons
-//                  (otherwise the ptr-to-proxy could be a shared_ptr)
-//- null-checking: the pointer can be used to check if the pointee still exists.
-//				   attempting to dereference with null or freed pointee results
-//                 in an immediate error.
-//- constructable from raw pointers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include <typeinfo>
 #include "globals.h"
@@ -37,11 +37,11 @@ using std::string;
 
 class elastic_ptr_anchor_proxy;
 
-//static_cast: I know what the actual type is, make no run-time checks
-//			   basically reverses an implicit conversion
-//dynamic_cast: I don't know what the actual type is, check if it's really that.
 
-//my little access specifier: friendship is privacy
+
+
+
+
 
 class elastic_ptr_anchor{
 	private:
@@ -122,7 +122,7 @@ template<typename T> class elastic_ptr{
 	T *operator->(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		//was static_cast but doesn't work with polymorphic virtual inheritance
+		
 		result = static_cast<T*>(proxy->anchor);
 		if(debug){printf("->%s = %p\n",toString().c_str(),result);}
 		return result;
@@ -137,7 +137,7 @@ template<typename T> class elastic_ptr{
 	operator T*(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		//was static_cast
+		
 		result = static_cast<T*>(proxy->anchor);
 		if(debug){printf("toRaw(%s) = %p\n",toString().c_str(),result);}
 		return result;

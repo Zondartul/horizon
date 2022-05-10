@@ -8,7 +8,7 @@ GUIdropdownMenu::GUIdropdownMenu(){
 	this->addChild(grid);
 	noframe = true;
 	constructed = true;
-	globalChannel->addListener(this); //for "frame"
+	globalChannel->addListener(this); 
 }
 
 GUIbutton *GUIdropdownMenu::addItem(string text){
@@ -31,11 +31,11 @@ GUIbutton *GUIdropdownMenu::addItem(string text, function<void()> func){
 }
 
 GUIdropdownMenu *GUIdropdownMenu::addSubmenu(string text){
-	//conundrum - the menu is logically subservant to this menu,
-	//but must render outside of it.
-	//can't parent to parent because we are not yet
-	//parented ourselves.
-	//solution: get so big all the submenus are inside.
+	
+	
+	
+	
+	
 	GUIdropdownMenu *ddm = new GUIdropdownMenu();
 	ddm->name = name+"_sub";
 	submenus.push_back(ddm);
@@ -57,7 +57,7 @@ void GUIdropdownMenu::invalidate(){
 	vec2 max_corner = grid->area.end;
 	for(auto I = submenus.begin(); I != submenus.end(); I++){
 		(*I)->invalidate();
-		vec2 corner = (*I)->area.start+(*I)->grid->area.end; //a coordinate chain conversion is more accurate
+		vec2 corner = (*I)->area.start+(*I)->grid->area.end; 
 		max_corner = max(max_corner, corner);
 	}
 	area = area.setSize(max_corner);
@@ -92,14 +92,14 @@ float GUIdropdownMenu::getMouseDist(){
 	return dist;
 }
 
-//guibase needs a "tick" and "ticklogic" for non-render time-dependent logic
+
 
 void GUIdropdownMenu::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
 
 	if(event.type == EVENT_FRAME){
-		//printf("ddm[%s]:frame, hh = %d\n",name.c_str(),hideCounter);
+		
 		if(!hidden){
 			float dist = getMouseDist();
 			if(dist == 0){hideCounter = 0;}

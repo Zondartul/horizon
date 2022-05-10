@@ -13,30 +13,30 @@ class GUIscrollbarBar:public virtual GUIframe{
 	GUIscrollbarBar();
 	virtual void onEvent(eventKind event);
 	
-	virtual string getType(); //returns the most-derived-class of the widget.
+	virtual string getType(); 
 };
 
 class GUIscrollbar:public virtual GUIframe{
 	public:
-	//properties
+	
 	vec2 innerSize;
 	bool bSizeToParent;
 	bool vertical;
 	bool horizontal;
     bool scrollingEnabled;
 	bool constructed = false;
-	//internal vars
+	
 	vec2 offset;
 	vec2 prevoffset;
 
 	GUIscrollbar();
-	GUIbutton *btnUp;		//child 0
-	GUIbutton *btnDown;		//child 1
-	GUIscrollbarBar *vbar;	//child 2
-	GUIbutton *btnLeft;		//child 3
-	GUIbutton *btnRight;	//child 4
-	GUIscrollbarBar *hbar;	//child 5
-	GUIframe *inner;		//child 6
+	GUIbutton *btnUp;		
+	GUIbutton *btnDown;		
+	GUIscrollbarBar *vbar;	
+	GUIbutton *btnLeft;		
+	GUIbutton *btnRight;	
+	GUIscrollbarBar *hbar;	
+	GUIframe *inner;		
 	GUIscrollbar *setSize(vec2 newSize);
 	GUIscrollbar *setInnerSize(vec2 newInnerSize);
 	GUIscrollbar *sizeToContents();
@@ -52,7 +52,7 @@ class GUIscrollbar:public virtual GUIframe{
 	virtual void invalidate();
 	virtual GUIbase *addChild(GUIbase *child);
 
-	void clampInnerSizeToOuter(); //if innerSize < size, innerSize = size
+	void clampInnerSizeToOuter(); 
 	rect vtrackRect();
 	rect htrackRect();
 	vec2 trackDimensions();
@@ -61,14 +61,14 @@ class GUIscrollbar:public virtual GUIframe{
 	vec2 scrollOffset();
 	virtual void onEvent(eventKind event);
 	
-	//property table
+	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
 
-	virtual string getType(); //returns the most-derived-class of the widget.
+	virtual string getType(); 
 	
 };
 
 
-#endif // GUISCROLLBAR_GUARD
+#endif 

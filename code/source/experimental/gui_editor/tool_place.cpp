@@ -84,30 +84,30 @@ void gui_editor_tool_place::draw(){
 		rect R = subject->thisToWorld(subject->clientArea);
 		vec2 gridCorner = R.start;
 	
-		//snap grid for the client area
+		
 		drawGrid(subject, (float)gridStep);
 			
-		//red outline for the client area
+		
 		if(subject && (subject != workWindow)){
 			setColor(vec3(255,0,0));
 			setLineWidth(3.f);
 			drawRectOutline(R);
 			setLineWidth(1.f);
 		}
-		//cursor reticle
+		
 		if(drawVertCursor){
 			vec2 wpos = gridCorner + gposCursor;	
 			setColor(vec3(0,0,68));
 			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
-		//first selected point reticle
+		
 		if(drawVert1){
 			vec2 wpos = gridCorner + gpos1;
 			setColor(vec3(0,0,68));
 			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
 			
-		//green two-point rectangle for the new widget 
+		
 		if(stage == GEMT_END){
 			vec2 wpos1 = gridCorner + gpos1;
 			vec2 wpos2 = gridCorner + gposCursor;

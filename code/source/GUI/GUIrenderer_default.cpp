@@ -70,7 +70,7 @@ render(GUIbase *el, string type){
 		setColor(elLbl->textColor);
 		setFont(elLbl->textfont);
 		rect tRect = elLbl->getTextRect();
-		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);//-tRect.start;
+		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);
 		setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
 		setScissor(el->visibleArea());
 		printw("%s",elLbl->text.c_str());
@@ -120,7 +120,7 @@ render(GUIbase *el, string type){
 		if(elTE->hasfocus){
 			rect TR;
 			rect AR = elTE->worldArea();
-		//textScrollLoop:
+		
 			if(elTE->cursorPos){
 				TR = elTE->getTextRect(elTE->text.substr(0,elTE->cursorPos));
 			}else{
@@ -188,4 +188,4 @@ render(GUIbase *el, string type){
 	}
 }
 
-//GUIrenderer_default GUIR_default;
+;

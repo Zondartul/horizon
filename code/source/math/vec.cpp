@@ -19,13 +19,13 @@ quat toQuat(vec3 angleVec){
 }
 
 quat slerpAngle(quat Q1, quat Q2, float ang){
-    //find diff such that diff * q1 == q2
-    //diff = q2 * inverse(q1)
-    //inverse(q1) = conf(q1)/abs(q1)
-    //for rotations, abs(q1) = 1
+    
+    
+    
+    
     quat diff = Q2*glm::conjugate(Q1);
     float angD = angle(diff);
-    angD = fmodf(angD+180.f,360.f)-180.f; //to go the short way around
+    angD = fmodf(angD+180.f,360.f)-180.f; 
     angD = clamp(angD,-180.f,180.f);
     quat diffClamped = glm::angleAxis(angD,axis(diff));
     return diffClamped*Q1;
@@ -70,7 +70,7 @@ vec3 setZ(vec3 A, float z){return vec3(A.x,A.y,  z);}
 
 float cross(vec2 A, vec2 B){return A.x*B.y-A.y*B.x;}
 
-//rect
+
 rect::rect(){
 	start = {0,0};
 	end = {0,0};
@@ -115,8 +115,8 @@ rect rect::clamp(rect R){
 	R = R.setStart(clamp(R.start)).setEnd(clamp(R.end));
 	return R;
 }
-//a 0 to 32 rect contains pixels 0..31.
-bool rect::contains(vec2 V){return (V.x >= start.x) && (V.x < end.x) && (V.y >= start.y) && (V.y < end.y);}//V == clamp(V);}
+
+bool rect::contains(vec2 V){return (V.x >= start.x) && (V.x < end.x) && (V.y >= start.y) && (V.y < end.y);}
 vec2 rect::topLeftCorner(){return {start.x,start.y};}
 vec2 rect::topRightCorner(){return {end.x,start.y};}
 vec2 rect::bottomLeftCorner(){return {start.x,end.y};}
@@ -131,7 +131,7 @@ bool operator==(rect A, rect B){
 	return (A.start == B.start)&&(A.end == B.end)&&(A.size == B.size);
 }
 
-//AABB
+
 AABB::AABB(){
 	start = vec3(0,0,0);
 	end = vec3(0,0,0);
@@ -178,7 +178,7 @@ vec3 toVec3Angle(vec3 v){
     return toVec3Angle(q_LR*q_UD);
 }
 
-//builds 3x3 rotation matrices for rotating a vec3 by ang RADIANS around basic axes.
+
 mat3 xrotr(float ang){
 	return mat3(1, 0, 0,
 				0, cos(ang), -sin(ang),

@@ -16,11 +16,11 @@ class gui_editor_tool_place:public gui_editor_tool{
 
 	gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mode);
 	
-	virtual void scan();	//called on mousemove events
-	virtual void draw();	//called on mouse move
-	virtual void lup();		//called on mouse click
+	virtual void scan();	
+	virtual void draw();	
+	virtual void lup();		
 	virtual void rup();
-	virtual void cleanup(); //reset the tool to initial state
+	virtual void cleanup(); 
 	
 	int gridStep = 8;
 	vec2 gposCursor; bool drawVertCursor = false;

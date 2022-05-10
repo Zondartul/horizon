@@ -40,21 +40,21 @@
  * \code
  *    SDL_Haptic *haptic;
  *
- *    // Open the device
+ *    
  *    haptic = SDL_HapticOpen( 0 );
  *    if (haptic == NULL)
  *       return -1;
  *
- *    // Initialize simple rumble
+ *    
  *    if (SDL_HapticRumbleInit( haptic ) != 0)
  *       return -1;
  *
- *    // Play effect at 50% strength for 2 seconds
+ *    
  *    if (SDL_HapticRumblePlay( haptic, 0.5, 2000 ) != 0)
  *       return -1;
  *    SDL_Delay( 2000 );
  *
- *    // Clean up
+ *    
  *    SDL_HapticClose( haptic );
  * \endcode
  *
@@ -65,41 +65,41 @@
  *    SDL_HapticEffect effect;
  *    int effect_id;
  *
- *    // Open the device
+ *    
  *    haptic = SDL_HapticOpenFromJoystick( joystick );
- *    if (haptic == NULL) return -1; // Most likely joystick isn't haptic
+ *    if (haptic == NULL) return -1; 
  *
- *    // See if it can do sine waves
+ *    
  *    if ((SDL_HapticQuery(haptic) & SDL_HAPTIC_SINE)==0) {
- *       SDL_HapticClose(haptic); // No sine effect
+ *       SDL_HapticClose(haptic); 
  *       return -1;
  *    }
  *
- *    // Create the effect
- *    memset( &effect, 0, sizeof(SDL_HapticEffect) ); // 0 is safe default
+ *    
+ *    memset( &effect, 0, sizeof(SDL_HapticEffect) ); 
  *    effect.type = SDL_HAPTIC_SINE;
- *    effect.periodic.direction.type = SDL_HAPTIC_POLAR; // Polar coordinates
- *    effect.periodic.direction.dir[0] = 18000; // Force comes from south
- *    effect.periodic.period = 1000; // 1000 ms
- *    effect.periodic.magnitude = 20000; // 20000/32767 strength
- *    effect.periodic.length = 5000; // 5 seconds long
- *    effect.periodic.attack_length = 1000; // Takes 1 second to get max strength
- *    effect.periodic.fade_length = 1000; // Takes 1 second to fade away
+ *    effect.periodic.direction.type = SDL_HAPTIC_POLAR; 
+ *    effect.periodic.direction.dir[0] = 18000; 
+ *    effect.periodic.period = 1000; 
+ *    effect.periodic.magnitude = 20000; 
+ *    effect.periodic.length = 5000; 
+ *    effect.periodic.attack_length = 1000; 
+ *    effect.periodic.fade_length = 1000; 
  *
- *    // Upload the effect
+ *    
  *    effect_id = SDL_HapticNewEffect( haptic, &effect );
  *
- *    // Test the effect
+ *    
  *    SDL_HapticRunEffect( haptic, effect_id, 1 );
- *    SDL_Delay( 5000); // Wait for the effect to finish
+ *    SDL_Delay( 5000); 
  *
- *    // We destroy the effect, although closing the device also does this
+ *    
  *    SDL_HapticDestroyEffect( haptic, effect_id );
  *
- *    // Close the device
+ *    
  *    SDL_HapticClose(haptic);
  *
- *    return 0; // Success
+ *    return 0; 
  * }
  * \endcode
  */
@@ -257,7 +257,7 @@ typedef struct _SDL_Haptic SDL_Haptic;
  */
 #define SDL_HAPTIC_CUSTOM     (1<<11)
 
-/* @} *//* Haptic effects */
+/* @} *
 
 /* These last few are features the device has, not effects */
 
@@ -323,9 +323,9 @@ typedef struct _SDL_Haptic SDL_Haptic;
  */
 #define SDL_HAPTIC_SPHERICAL  2
 
-/* @} *//* Direction encodings */
+/* @} *
 
-/* @} *//* Haptic features */
+/* @} *
 
 /*
  * Misc defines.
@@ -413,19 +413,19 @@ typedef struct _SDL_Haptic SDL_Haptic;
  *  \code
  *  SDL_HapticDirection direction;
  *
- *  // Cartesian directions
- *  direction.type = SDL_HAPTIC_CARTESIAN; // Using cartesian direction encoding.
- *  direction.dir[0] = 0; // X position
- *  direction.dir[1] = 1; // Y position
- *  // Assuming the device has 2 axes, we don't need to specify third parameter.
+ *  
+ *  direction.type = SDL_HAPTIC_CARTESIAN; 
+ *  direction.dir[0] = 0; 
+ *  direction.dir[1] = 1; 
+ *  
  *
- *  // Polar directions
- *  direction.type = SDL_HAPTIC_POLAR; // We'll be using polar direction encoding.
- *  direction.dir[0] = 18000; // Polar only uses first parameter
+ *  
+ *  direction.type = SDL_HAPTIC_POLAR; 
+ *  direction.dir[0] = 18000; 
  *
- *  // Spherical coordinates
- *  direction.type = SDL_HAPTIC_SPHERICAL; // Spherical encoding
- *  direction.dir[0] = 9000; // Since we only have two axes we don't need more parameters.
+ *  
+ *  direction.type = SDL_HAPTIC_SPHERICAL; 
+ *  direction.dir[0] = 9000; 
  *  \endcode
  *
  *  \sa SDL_HAPTIC_POLAR
@@ -735,19 +735,19 @@ typedef struct SDL_HapticCustom
  *
  *  Common parts:
  *  \code
- *  // Replay - All effects have this
- *  Uint32 length;        // Duration of effect (ms).
- *  Uint16 delay;         // Delay before starting effect.
+ *  
+ *  Uint32 length;        
+ *  Uint16 delay;         
  *
- *  // Trigger - All effects have this
- *  Uint16 button;        // Button that triggers effect.
- *  Uint16 interval;      // How soon before effect can be triggered again.
+ *  
+ *  Uint16 button;        
+ *  Uint16 interval;      
  *
- *  // Envelope - All effects except condition effects have this
- *  Uint16 attack_length; // Duration of the attack (ms).
- *  Uint16 attack_level;  // Level at the start of the attack.
- *  Uint16 fade_length;   // Duration of the fade out (ms).
- *  Uint16 fade_level;    // Level at the end of the fade.
+ *  
+ *  Uint16 attack_length; 
+ *  Uint16 attack_level;  
+ *  Uint16 fade_length;   
+ *  Uint16 fade_level;    
  *  \endcode
  *
  *

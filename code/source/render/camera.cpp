@@ -1,25 +1,25 @@
-//system includes
+
 #include <string>
-//external includes
+
 #ifndef NO_GLEW
 	#include "GL/glew.h"
 #endif
 #include "glm/gtc/matrix_transform.hpp"
-//project includes
+
 #include "camera.h"
 #include "math.h"
 #include "simplemath.h"
-#include "window.h" //for screen size
+#include "window.h" 
 #include "stdlib.h"
 #include "bitmap.h"
 #include "stringUtils.h"
 #include "globals.h"
 #include "mouse.h"
-//#include "collision.h"
+
 #include "global_vars.h"
 #include "timer.h"
 #include "renderLayer.h"
-//#include "geometry.h"
+
 using glm::mat4;
 using glm::vec3;
 using std::string;
@@ -46,63 +46,63 @@ vec3 cameraKind::right(){
 	auto& camera = G->gs_camera->g_camera;
 	return rotate(vec3{0,1,0},d2r*camera.rot);
 }
-//collisioninfo *cameraKind::eyetrace(bool useCursor){
-//	//auto& camera = G->gs_camera->g_camera;
-//	//vec3 dv;
-//	//if(useCursor){
-//	//	vec2 mousepos = getMousePos();
-//	//	vec3 mousedv = screenToWorld(vec3(mousepos.x,mousepos.y,1));
-//	//	dv = normalizeSafe(mousedv - camera.pos);
-//	//}else{
-//	//	dv = forward();
-//	//}
-//	//return  raytrace(pos,dv);
-//	return 0;
-//}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #include "paint.h"
-//
-//rmodel *ray_shotgun(int x_steps, int y_steps){
-//	auto& camera = G->gs_camera->g_camera;
-//	auto& width = G->gs_window->g_width;
-//	auto& height = G->gs_window->g_height;
-//
-//	rmodel *rm = new rmodel();
-//	float x = 0;
-//	float y = 0;
-//	float dx = width/(float)x_steps;
-//	float dy = height/(float)y_steps;
-//	for(int Ix = 0; Ix < x_steps; Ix++){
-//		for(int Iy = 0; Iy < y_steps; Iy++){
-//			vec3 screenCoords(dx*Ix,dy*Iy,1.0f);
-//			vec3 worldCoords = camera.screenToWorld(screenCoords);
-//			vec3 dv = normalizeSafe(worldCoords - camera.pos);
-//
-//			//collisioninfo *col = raytrace(camera.pos,dv);
-//			//if(col){
-//			//	vec3 p = col->c_to_c.pos;
-//			//	rm->vertices->push_back(p);
-//			//}
-//		}
-//	}
-//	rm->finalize();
-//	uploadRmodel(rm);
-//	return rm;
-//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void cameraKind::reposition(){
 	if(mode3D){
 		mView = mat4(1.0f);
-		//change from OpenGL coordinate system to mine
-		//OpenGL: x - right, y - up, z - out of screen
-		//Mine: x - into screen, y - left, z - up
+		
+		
+		
 		mView = glm::rotate(mView,90.0f*(float)d2r,vec3(0,1,0));
 		mView = glm::rotate(mView,-90.0f*(float)d2r,vec3(1,0,0));
-		//rotate the world around the camera
+		
 		mView = glm::rotate(mView,rot.x*(float)d2r,vec3(1,0,0));
 		mView = glm::rotate(mView,rot.y*(float)d2r,vec3(0,1,0));
 		mView = glm::rotate(mView,rot.z*(float)d2r,vec3(0,0,1));
-		//move the world away from camera
+		
 		mView = glm::translate(mView,-pos);
 	}else{
 		mView = mat4(1.0f);
@@ -121,7 +121,7 @@ void cameraKind::go2D(){
 		setViewport(0, 0, width, height);
 	#endif
 
-	vec2 vpixel = vec2(0.f,0.f); //center-of-pixel shift.
+	vec2 vpixel = vec2(0.f,0.f); 
 	float znear = -1;
 	float zfar = 1;
 	float left = 0-vpixel.x;
@@ -193,7 +193,7 @@ struct task_screenshot {
 		}
 
 		int size = BMP->numBytes();
-		buff = (unsigned char*)malloc(size);//(sizeof(unsigned char)*width*height*3);
+		buff = (unsigned char*)malloc(size);
 		printf("init take_screenshot, buff is %p size %d\n", buff, size);
 	}
 	~task_screenshot() 
@@ -308,14 +308,14 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 	vec3 osdw,wtd;
 	switch(zm){
 		case(Z_IS_ORTHODOX):
-			x = x/scr.x;		//x normed
-			x = 2.f*x-1.f;		//x shifted
+			x = x/scr.x;		
+			x = 2.f*x-1.f;		
 
-			y = scr.y-y-1.f; 	//y flipped
-			y = y/scr.y;		//y normed
-			y = 2.f*y-1.f;		//y shifted
+			y = scr.y-y-1.f; 	
+			y = y/scr.y;		
+			y = 2.f*y-1.f;		
 
-			z = 2.f*z-1.f;		//z shifted
+			z = 2.f*z-1.f;		
 			return vec3(x,y,z);
 		break;
 		case(Z_IS_DISTANCE):
@@ -343,18 +343,18 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	float z = devpos.z;
 	vec2 scr = getScreenSize();
 	float zfar = 100.f;
-	//float zfar_true,zratio;
+	
 	vec3 dtw,dts;
 	switch(zm){
 		case(Z_IS_ORTHODOX):
-			x = (x+1.f)/2.f; 	//x unshifted
-			x = x*scr.x;		//x unnormed
+			x = (x+1.f)/2.f; 	
+			x = x*scr.x;		
 
-			y = (y+1.f)/2.f;	//y unshifted
-			y = y*scr.y;		//y unnormed
-			y = scr.y-y-1.f;	//y unflipped
+			y = (y+1.f)/2.f;	
+			y = y*scr.y;		
+			y = scr.y-y-1.f;	
 
-			z = (z+1.f)/2.f;	//z unshifted
+			z = (z+1.f)/2.f;	
 			return vec3(x,y,z);
 		break;
 		case(Z_IS_DISTANCE):
@@ -398,8 +398,8 @@ vec3 cameraKind::screenToWorld(vec3 scrpos, z_meaning zm){
 	return res;
 }
 vec3 cameraKind::worldToScreen(vec3 worldpos, z_meaning zm){
-	//we probably should have a camera always be able to project
-	//maybe we need two cameras?
+	
+	
 	vec3 res;
 	auto oldperspective = perspective;
 	auto oldmode3D = mode3D;
@@ -420,7 +420,7 @@ camprojection cameraKind::getProjection(){
 	return cpj;
 }
 
-//cameraKind g_camera;
+
 
 #include "paint.h"
 void go3D(){

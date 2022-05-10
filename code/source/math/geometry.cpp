@@ -3,19 +3,19 @@
 #include "simplemath.h"
 
 bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *result){
-	//Moller-Trumbore intersection algorythm
+	
 	vec3 e1, e2;
 	vec3 P, Q, T;
-	double det, inv_det;// , u, v;
+	double det, inv_det;
 	float t;
 	
 	e1 = B-A;
 	e2 = C-A;
 	P = cross(dir,e2);
 	det = dot(e1,P);
-	//this auto-fails if the ray is nearly in the triangle's plane
+	
 	inv_det = 1.0f / det;
-	//skipping the inside-outside check
+	
 	T = start-A;
 	Q = cross(T,e1);
 	t = dot(e2,Q)*inv_det;
@@ -27,16 +27,16 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *
 }
 
 bool ray_plane_intersection(vec3 start, vec3 dir, vec3 normal, float offset, vec3 *result){
-	//equation of the ray:   p = start + t*dir
-	//equation of the plane: dot(p,normal) = offset
-	//combining: dot(start+t*dir, normal) = offset
-	//p.x*normal.x + p.y*normal.y + p.z*normal.z = offset
-	//(start+t*dir).(x+y+z)*normal.(x+y+z) = offset
-	//start.(x+y+z)*normal.(x+y+z)+t*dir.(x+y+z)*normal.(x+y+z) = offset
-	//dot(start, normal) + dot(t*dir, normal) = offset
-	//t*dot(dir,normal) = offsett - dot(start,normal)
-	//t = (offset-dot(start,normal))/dot(dir,normal)
-	//p = start + (offset-dot(start,normal))/dot(dir,normal) * dir
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	float dirness = dot(dir, normal);
 	if(dirness){
@@ -50,7 +50,7 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 normal, float offset, vec
 }
 
 vec3 baricentric_coords(vec3 a, vec3 b, vec3 c, vec3 p){
-	//https://gamedev.stackexchange.com/questions/23743/whats-the-most-efficient-way-to-find-barycentric-coordinates
+	
 	vec3 res;
 	vec3 v0 = b - a;
 	vec3 v1 = c - a;
@@ -78,7 +78,7 @@ bool ray_triangle_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec
 	if((bar.x > 0.f && bar.x < 1.f)
 	&&(bar.y > 0.f && bar.y < 1.f)
 	&&(bar.z > 0.f && bar.z < 1.f)){
-		//point is in triangle
+		
 		if(result){*result = R1;}
 		if(barycentric){*barycentric = bar;}
 		return true;
@@ -109,7 +109,7 @@ vec3 project(vec3 A, vec3 B){
 }
 
 vec3 point_line_closest(vec3 start, vec3 end, vec3 A, bool clip){
-	//copying GLM's implementation
+	
 	float len = length(end-start);
 	vec3 dir = normalize(end-start);
 	vec3 V = A-start;

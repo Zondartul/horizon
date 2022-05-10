@@ -38,7 +38,7 @@
  *  SDL_Event structure.
  *
  *  The values in this enumeration are based on the USB usage page standard:
- *  http://www.usb.org/developers/devclass_docs/Hut1_12v2.pdf
+ *  http:
  */
 typedef enum
 {
@@ -339,7 +339,7 @@ typedef enum
                                  *   special KMOD_MODE for it I'm adding it here
                                  */
 
-    /* @} *//* Usage page 0x07 */
+    /* @} *
 
     /**
      *  \name Usage page 0x0C
@@ -366,7 +366,7 @@ typedef enum
     SDL_SCANCODE_AC_REFRESH = 273,
     SDL_SCANCODE_AC_BOOKMARKS = 274,
 
-    /* @} *//* Usage page 0x0C */
+    /* @} *
 
     /**
      *  \name Walther keys
@@ -388,7 +388,7 @@ typedef enum
     SDL_SCANCODE_APP1 = 283,
     SDL_SCANCODE_APP2 = 284,
 
-    /* @} *//* Walther keys */
+    /* @} *
 
     /* Add any other keys here. */
 

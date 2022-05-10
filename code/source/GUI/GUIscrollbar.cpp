@@ -1,6 +1,6 @@
 #include "GUI_internal.h"
 
-//GUIscrollbarBar
+
 GUIscrollbarBar::GUIscrollbarBar(){
 	scroll = 0;
 	mouseover = false;
@@ -36,12 +36,12 @@ void GUIscrollbarBar::onEvent(eventKind event){
 
 string GUIscrollbarBar::getType(){return "GUIscrollbarBar";}
 
-//===========================================================================================
 
-//GUIscrollbar
+
+
 GUIscrollbar::GUIscrollbar(){
 	innerSize = area.size;
-	//scrollPos = {0,0};
+	
 	bSizeToParent = false;
 	vertical = true;
 	horizontal = true;
@@ -54,7 +54,7 @@ GUIscrollbar::GUIscrollbar(){
 	inner->isClient = false;
 	inner->setSize(innerSize);
 	addChild(inner);
-	//might also need frames for the tracks
+	
 	
 	btnUp = new GUIbutton();
 	btnUp->isClient = false;
@@ -115,7 +115,7 @@ GUIbase* GUIscrollbar::addChild(GUIbase *child){
 void GUIscrollbar::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
-	//only deal with mouse scrolling here
+	
 	if(event.type == EVENT_MOUSE_WHEEL){
 		event.maskEvent();
 		int y = -20*event.mousewheel.y;
@@ -263,13 +263,13 @@ void GUIscrollbar::invalidate(){
 	rect vtrack = vtrackRect();
 	rect htrack = htrackRect();
 
-	//put the up-button in it's place
+	
 	btnUp->moveTo(vtrack.start-vec2{0,21});
 
-	//put the down-button in it's place
+	
 	btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
 
-	//put the vertical scrollbar bar in it's place
+	
 	rect Vr = vbar->area;
 	Vr.size = {20,trackDimensions().y * areaRatio().y};
 	Vr.size = clamp(Vr.size,{0,0},vtrack.size);
@@ -277,13 +277,13 @@ void GUIscrollbar::invalidate(){
 	Vr = Vr.moveTo(vtrack.clamp(Vr.start));
 	vbar->area = Vr;
 
-	//put the left-button in it's place
+	
 	btnLeft->moveTo(htrack.start-vec2{21,0});
 
-	//put the right-button in it's place
+	
 	btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
 
-	//put the horizontal scrollbar bar in it's place
+	
 	rect Hr = hbar->area;
 	Hr.size = {trackDimensions().x * areaRatio().x,20};
 	Hr.size = clamp(Hr.size,{0,0},htrack.size);
@@ -291,13 +291,13 @@ void GUIscrollbar::invalidate(){
 	Hr = Hr.moveTo(htrack.clamp(Hr.start));
 	hbar->area = Hr;
 	
-	//displace children by offset
-	//new (uses children on an inner frame)
+	
+	
 	
 		if(scrollingEnabled){ inner->moveTo( -scrollOffset() ); }
 					    else{ inner->moveTo( vec2(0,0) ); }
 	
-	//10.05.2022: wheel scrolling is bork, probably because offset.y is never set
+	
 	offset = scrollOffset();
 }
 
@@ -331,14 +331,14 @@ vec2 GUIscrollbar::scrollRatio(){
 	float y = (float)yoffset / (vtrack.size.y-vbar->area.size.y);
 	return {x,y};
 }
-//float -> integer round down causes x,y to drift towards 0
+
 vec2 GUIscrollbar::scrollOffset(){
 	int x = (innerSize.x-clientArea.size.x) * scrollRatio().x;
 	int y = (innerSize.y-clientArea.size.y) * scrollRatio().y;
 	return clamp({x,y},{0,0},innerSize-clientArea.size);
 }
 
-	//property table
+	
 GUIpropertyTable GUIscrollbar::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIframe::getDefaultPropertyTable();
 	table.table["innerSize"] = toString(area.size);

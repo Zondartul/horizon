@@ -1,6 +1,6 @@
 #ifndef FILE_GUARD
 #define FILE_GUARD
-//handles file IO
+
 #ifndef NO_SDL
 #include "SDL2/SDL.h"
 #endif

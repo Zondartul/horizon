@@ -226,10 +226,10 @@ FT_BEGIN_HEADER
    *
    *   {
    *     FT_Library  library;
-   *     FT_Int      darken_params[8] = {  500, 300,   // x1, y1
-   *                                      1000, 200,   // x2, y2
-   *                                      1500, 100,   // x3, y3
-   *                                      2000,   0 }; // x4, y4
+   *     FT_Int      darken_params[8] = {  500, 300,   
+   *                                      1000, 200,   
+   *                                      1500, 100,   
+   *                                      2000,   0 }; 
    *
    *
    *     FT_Init_FreeType( &library );

@@ -9,29 +9,29 @@ using std::vector;
 	How render works:
 	call flow:
 
-	renderLow			//does low-level OpenGL 2.x or 3.x drawing,
-	^					//or maybe even a software rasterizer.
+	renderLow			
+	^					
 	|
-	renderQueue			//queues up render commands from different threads
+	renderQueue			
 	^
 	|
-	renderImmediate		//draws lines, text, triangles for this frame only
+	renderImmediate		
 	^
 	|
-	renderScene			//keeps track of objects that are re-rendered until
-						//until dismissed.
+	renderScene			
+						
 	data flow:
 
 	screen
 	^
 	|
-	renderTarget		//a rendertarget is a handle for a surface onto which
-	^					//stuff is rendered, be it a screen or a RAM buffer.
+	renderTarget		
+	^					
 	|
-	renderLayer			//a layer creates ordering between different
-	^					//render contexts (setting sets)
+	renderLayer			
+	^					
 	|
-	renderScene			//storage of objects that should keep being drawn
+	renderScene			
 
 */
 
@@ -52,7 +52,7 @@ struct renderOptions{
 	float alpha;
 	bool scissoring = false;
 	rect scissor;
-    //----------------------
+    
     bool transparency = true;
     bool depthMask = true;
     bool depthTest = true;
@@ -72,10 +72,10 @@ struct renderOptions{
     vec3 ambientLightColor = vec3(0,0,0);
 	vec2 texturePos = vec2(0,0);
 	vec2 textureScale = vec2(1,1);
-    //--------------------
+    
     renderLayer *layer_3d = 0;
     renderLayer *layer_2d = 0;
-    //--------------------
+    
 	void apply(renderLayer *L = 0);
     void applyImmediate();
 };
@@ -111,7 +111,7 @@ class renderableModel:public renderable{
 	virtual ~renderableModel() = default;
 };
 
-//ehh, time for a scene node instead?
+
 class renderableMultimodel:public renderable{
 	public:
 	vector<vec3> offsets;
@@ -121,7 +121,7 @@ class renderableMultimodel:public renderable{
 	virtual ~renderableMultimodel() = default;
 };
 
-//as big as the screen!
+
 class renderablePlane:public renderable{
 	public:
 	vec3 normal;

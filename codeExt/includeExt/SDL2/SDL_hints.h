@@ -353,7 +353,7 @@ extern "C" {
  *  power and CPU time.  This hint is only used on Windows 7 and earlier.
  *
  *  See this blog post for more information:
- *  http://randomascii.wordpress.com/2013/07/08/windows-timer-resolution-megawatts-wasted/
+ *  http:
  *
  *  If this variable is set to "0", the system timer resolution is not set.
  *
@@ -432,7 +432,7 @@ extern "C" {
  *
  *  To setup a URL to an app's privacy policy, set SDL_HINT_WINRT_PRIVACY_POLICY_URL
  *  before calling any SDL_Init functions.  The contents of the hint should
- *  be a valid URL.  For example, "http://www.example.com".
+ *  be a valid URL.  For example, "http:
  *
  *  The default value is "", which will prevent SDL from adding a privacy policy
  *  link to the Settings charm.  This hint should only be set during app init.
@@ -516,7 +516,7 @@ extern "C" {
  *
  *  More details on back button behavior in Windows Phone apps can be found
  *  at the following page, on Microsoft's developer site:
- *  http://msdn.microsoft.com/en-us/library/windowsphone/develop/jj247550(v=vs.105).aspx
+ *  http:
  */
 #define SDL_HINT_WINRT_HANDLE_BACK_BUTTON "SDL_WINRT_HANDLE_BACK_BUTTON"
 

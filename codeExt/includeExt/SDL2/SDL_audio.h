@@ -143,7 +143,7 @@ typedef Uint16 SDL_AudioFormat;
 #define SDL_AUDIO_ALLOW_ANY_CHANGE          (SDL_AUDIO_ALLOW_FREQUENCY_CHANGE|SDL_AUDIO_ALLOW_FORMAT_CHANGE|SDL_AUDIO_ALLOW_CHANNELS_CHANGE)
 /* @} */
 
-/* @} *//* Audio flags */
+/* @} *
 
 /**
  *  This function is called when the audio device needs more data.
@@ -375,7 +375,7 @@ extern DECLSPEC SDL_AudioStatus SDLCALL SDL_GetAudioStatus(void);
 
 extern DECLSPEC SDL_AudioStatus SDLCALL
 SDL_GetAudioDeviceStatus(SDL_AudioDeviceID dev);
-/* @} *//* Audio State */
+/* @} *
 
 /**
  *  \name Pause audio functions
@@ -390,7 +390,7 @@ SDL_GetAudioDeviceStatus(SDL_AudioDeviceID dev);
 extern DECLSPEC void SDLCALL SDL_PauseAudio(int pause_on);
 extern DECLSPEC void SDLCALL SDL_PauseAudioDevice(SDL_AudioDeviceID dev,
                                                   int pause_on);
-/* @} *//* Pause audio functions */
+/* @} *
 
 /**
  *  This function loads a WAVE from the data source, automatically freeing
@@ -586,7 +586,7 @@ extern DECLSPEC void SDLCALL SDL_LockAudio(void);
 extern DECLSPEC void SDLCALL SDL_LockAudioDevice(SDL_AudioDeviceID dev);
 extern DECLSPEC void SDLCALL SDL_UnlockAudio(void);
 extern DECLSPEC void SDLCALL SDL_UnlockAudioDevice(SDL_AudioDeviceID dev);
-/* @} *//* Audio lock functions */
+/* @} *
 
 /**
  *  This function shuts down audio processing and closes the audio device.

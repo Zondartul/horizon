@@ -1,9 +1,9 @@
 #include "GUI_internal.h"
 #include "main.h"
 
-//extern renderLayer *g_layerGUI;
-//utility functions for GUI
-//GUI_options_kind g_GUIoptions;
+
+
+
 
 void GUIsetFavoriteRenderOptions(){
 	auto& layerGUI = G->gs_main->g_layerGUI;

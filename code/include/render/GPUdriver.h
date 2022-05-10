@@ -13,7 +13,7 @@
 
 struct renderStateKind{
 	public:
-	int renderMode = 0; //1 - points, 2 - edges, 3 - triangles
+	int renderMode = 0; 
 	font *fnt = 0;
 	vec2 textPos = vec2(0,0);
 	vec3 pos = vec3(0,0,0);
@@ -63,4 +63,4 @@ struct GPUdriverKind{
 GLenum pixelFormatToGL(pixelFormat F);
 #endif
 
-#endif // GPU_DRIVER_GUARD
+#endif 

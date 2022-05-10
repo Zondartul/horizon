@@ -1,7 +1,7 @@
 #include "GUI_internal.h"
 
 
-//GUIframe ---------------------------------------------------------------------
+
 GUIframe::GUIframe(){
 	bgColor = defaultbgcolor;
 	borderColor = defaultborderColor;

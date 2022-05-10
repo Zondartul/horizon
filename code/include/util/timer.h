@@ -37,8 +37,8 @@ void initTimers();
 
 struct gs_timerKind {
 	list<timer*> g_timers;
-	int g_t = 0;		//game time in ticks
-	float g_t2 = 0;	//game time in seconds
+	int g_t = 0;		
+	float g_t2 = 0;	
 };
 
 #endif

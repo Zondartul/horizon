@@ -1,16 +1,16 @@
-/// @ref simd
-/// @file glm/simd/platform.h
+
+
 
 #pragma once
 
-///////////////////////////////////////////////////////////////////////////////////
-// Platform
+
+
 
 #define GLM_PLATFORM_UNKNOWN		0x00000000
 #define GLM_PLATFORM_WINDOWS		0x00010000
 #define GLM_PLATFORM_LINUX			0x00020000
 #define GLM_PLATFORM_APPLE			0x00040000
-//#define GLM_PLATFORM_IOS			0x00080000
+
 #define GLM_PLATFORM_ANDROID		0x00100000
 #define GLM_PLATFORM_CHROME_NACL	0x00200000
 #define GLM_PLATFORM_UNIX			0x00400000
@@ -40,15 +40,15 @@
 #	define GLM_PLATFORM GLM_PLATFORM_UNIX
 #else
 #	define GLM_PLATFORM GLM_PLATFORM_UNKNOWN
-#endif//
+#endif
 
-// Report platform detection
+
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_MESSAGE_PLATFORM_DISPLAYED)
 #	define GLM_MESSAGE_PLATFORM_DISPLAYED
 #	if(GLM_PLATFORM & GLM_PLATFORM_QNXNTO)
 #		pragma message("GLM: QNX platform detected")
-//#	elif(GLM_PLATFORM & GLM_PLATFORM_IOS)
-//#		pragma message("GLM: iOS platform detected")
+
+
 #	elif(GLM_PLATFORM & GLM_PLATFORM_APPLE)
 #		pragma message("GLM: Apple platform detected")
 #	elif(GLM_PLATFORM & GLM_PLATFORM_WINCE)
@@ -68,14 +68,14 @@
 #	else
 #		pragma message("GLM: platform not detected")
 #	endif
-#endif//GLM_MESSAGES
+#endif
 
-///////////////////////////////////////////////////////////////////////////////////
-// Compiler
+
+
 
 #define GLM_COMPILER_UNKNOWN		0x00000000
 
-// Intel
+
 #define GLM_COMPILER_INTEL			0x00100000
 #define GLM_COMPILER_INTEL12		0x00100010
 #define GLM_COMPILER_INTEL12_1		0x00100020
@@ -84,7 +84,7 @@
 #define GLM_COMPILER_INTEL15		0x00100050
 #define GLM_COMPILER_INTEL16		0x00100060
 
-// Visual C++ defines
+
 #define GLM_COMPILER_VC				0x01000000
 #define GLM_COMPILER_VC10			0x01000090
 #define GLM_COMPILER_VC11			0x010000A0
@@ -92,7 +92,7 @@
 #define GLM_COMPILER_VC14			0x010000C0
 #define GLM_COMPILER_VC15			0x010000D0
 
-// GCC defines
+
 #define GLM_COMPILER_GCC			0x02000000
 #define GLM_COMPILER_GCC44			0x020000B0
 #define GLM_COMPILER_GCC45			0x020000C0
@@ -113,7 +113,7 @@
 #define GLM_COMPILER_GCC72			0x02000C00
 #define GLM_COMPILER_GCC80			0x02000D00
 
-// CUDA
+
 #define GLM_COMPILER_CUDA			0x10000000
 #define GLM_COMPILER_CUDA40			0x10000040
 #define GLM_COMPILER_CUDA41			0x10000050
@@ -125,7 +125,7 @@
 #define GLM_COMPILER_CUDA75			0x100000B0
 #define GLM_COMPILER_CUDA80			0x100000C0
 
-// Clang
+
 #define GLM_COMPILER_CLANG			0x20000000
 #define GLM_COMPILER_CLANG32		0x20000030
 #define GLM_COMPILER_CLANG33		0x20000040
@@ -139,11 +139,11 @@
 #define GLM_COMPILER_CLANG41		0x200000C0
 #define GLM_COMPILER_CLANG42		0x200000D0
 
-// Build model
+
 #define GLM_MODEL_32				0x00000010
 #define GLM_MODEL_64				0x00000020
 
-// Force generic C++ compiler
+
 #ifdef GLM_FORCE_COMPILER_UNKNOWN
 #	define GLM_COMPILER GLM_COMPILER_UNKNOWN
 
@@ -164,10 +164,10 @@
 #		define GLM_COMPILER GLM_COMPILER_INTEL
 #	endif
 
-// CUDA
+
 #elif defined(__CUDACC__)
 #	if !defined(CUDA_VERSION) && !defined(GLM_FORCE_CUDA)
-#		include <cuda.h>  // make sure version is defined since nvcc does not define it itself!
+#		include <cuda.h>  
 #	endif
 #	if CUDA_VERSION < 3000
 #		error "GLM requires CUDA 3.0 or higher"
@@ -175,7 +175,7 @@
 #		define GLM_COMPILER GLM_COMPILER_CUDA
 #	endif
 
-// Clang
+
 #elif defined(__clang__)
 #	if GLM_PLATFORM & GLM_PLATFORM_APPLE
 #		if __clang_major__ == 5 && __clang_minor__ == 0
@@ -225,7 +225,7 @@
 #		endif
 #	endif
 
-// Visual C++
+
 #elif defined(_MSC_VER)
 #	if _MSC_VER < 1600
 #		error "GLM requires Visual C++ 10 - 2010 or higher"
@@ -239,11 +239,11 @@
 #		define GLM_COMPILER GLM_COMPILER_VC14
 #	elif _MSC_VER >= 1910
 #		define GLM_COMPILER GLM_COMPILER_VC15
-#	else//_MSC_VER
+#	else
 #		define GLM_COMPILER GLM_COMPILER_VC
-#	endif//_MSC_VER
+#	endif
 
-// G++
+
 #elif defined(__GNUC__) || defined(__MINGW32__)
 #	if (__GNUC__ == 4) && (__GNUC_MINOR__ == 2)
 #		define GLM_COMPILER (GLM_COMPILER_GCC42)
@@ -295,12 +295,12 @@
 
 #ifndef GLM_COMPILER
 #	error "GLM_COMPILER undefined, your compiler may not be supported by GLM. Add #define GLM_COMPILER 0 to ignore this message."
-#endif//GLM_COMPILER
+#endif
 
-///////////////////////////////////////////////////////////////////////////////////
-// Instruction sets
 
-// User defines: GLM_FORCE_PURE GLM_FORCE_SSE2 GLM_FORCE_SSE3 GLM_FORCE_AVX GLM_FORCE_AVX2 GLM_FORCE_AVX2
+
+
+
 
 #define GLM_ARCH_X86_BIT		0x00000001
 #define GLM_ARCH_SSE2_BIT		0x00000002
@@ -310,7 +310,7 @@
 #define GLM_ARCH_SSE42_BIT		0x00000020
 #define GLM_ARCH_AVX_BIT		0x00000040
 #define GLM_ARCH_AVX2_BIT		0x00000080
-#define GLM_ARCH_AVX512_BIT		0x00000100 // Skylake subset
+#define GLM_ARCH_AVX512_BIT		0x00000100 
 #define GLM_ARCH_ARM_BIT		0x00000100
 #define GLM_ARCH_NEON_BIT		0x00000200
 #define GLM_ARCH_MIPS_BIT		0x00010000
@@ -325,7 +325,7 @@
 #define GLM_ARCH_SSE42		(GLM_ARCH_SSE42_BIT | GLM_ARCH_SSE41)
 #define GLM_ARCH_AVX		(GLM_ARCH_AVX_BIT | GLM_ARCH_SSE42)
 #define GLM_ARCH_AVX2		(GLM_ARCH_AVX2_BIT | GLM_ARCH_AVX)
-#define GLM_ARCH_AVX512		(GLM_ARCH_AVX512_BIT | GLM_ARCH_AVX2) // Skylake subset
+#define GLM_ARCH_AVX512		(GLM_ARCH_AVX512_BIT | GLM_ARCH_AVX2) 
 #define GLM_ARCH_ARM		(GLM_ARCH_ARM_BIT)
 #define GLM_ARCH_NEON		(GLM_ARCH_NEON_BIT | GLM_ARCH_ARM)
 #define GLM_ARCH_MIPS		(GLM_ARCH_MIPS_BIT)
@@ -356,7 +356,7 @@
 #elif defined(GLM_FORCE_SSE2)
 #	define GLM_ARCH (GLM_ARCH_SSE2)
 #elif (GLM_COMPILER & (GLM_COMPILER_CLANG | GLM_COMPILER_GCC)) || ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_PLATFORM & GLM_PLATFORM_LINUX))
-//	This is Skylake set of instruction set
+
 #	if defined(__AVX512BW__) && defined(__AVX512F__) && defined(__AVX512CD__) && defined(__AVX512VL__) && defined(__AVX512DQ__)
 #		define GLM_ARCH (GLM_ARCH_AVX512)
 #	elif defined(__AVX2__)
@@ -410,9 +410,9 @@
 #	define GLM_ARCH GLM_ARCH_PURE
 #endif
 
-// With MinGW-W64, including intrinsic headers before intrin.h will produce some errors. The problem is
-// that windows.h (and maybe other headers) will silently include intrin.h, which of course causes problems.
-// To fix, we just explicitly include intrin.h here.
+
+
+
 #if defined(__MINGW64__) && (GLM_ARCH != GLM_ARCH_PURE)
 #	include <intrin.h>
 #endif
@@ -431,7 +431,7 @@
 #	include <pmmintrin.h>
 #elif GLM_ARCH & GLM_ARCH_SSE2_BIT
 #	include <emmintrin.h>
-#endif//GLM_ARCH
+#endif
 
 #if GLM_ARCH & GLM_ARCH_SSE2_BIT
 	typedef __m128		glm_vec4;

@@ -4,10 +4,10 @@
 class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual GUIlabel{
 	public:
 	GUIbutton();
-	//properties
+	
 	vec3 hoverColor;
 	vec3 pressedColor;
-	//internal vars
+	
 	bool pressed;
 	float lastPressTime;
 	
@@ -16,13 +16,13 @@ class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual
 	virtual GUIbase *sizeToContents();
 	virtual void onEvent(eventKind event);
 	
-	//property table
+	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
 
-	virtual string getType(); //returns the most-derived-class of the widget.
+	virtual string getType(); 
 	
 };
 
-#endif // GUIBUTTON_GUARD
+#endif 

@@ -98,7 +98,7 @@ string getOSdirInitiator(){
 #endif
 }
 
-//does this result in an absolute or relative path, or preserve it?
+
 string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
@@ -109,7 +109,7 @@ string toCanonicalPath(string dir){
 			if(S == ".."){
 				subdirs.pop_back();
 			}else if(S == ""){
-				//do nothing
+				
 			}else{
 				subdirs.push_back(S);
 			}
@@ -132,7 +132,7 @@ vector<string> getDirectoryList(string dirname){
 	printf("direntries begin\n");
 
 	DIR *d = opendir(dirname.c_str());
-	if(!d){return res;} //no directory
+	if(!d){return res;} 
 	while(1){
 		dirent *de = readdir(d);
 		if(!de){break;}

@@ -594,7 +594,7 @@ FT_BEGIN_HEADER
   /* certain conditions.  This is done in accordance with the guide here,  */
   /* with some minor differences:                                          */
   /*                                                                       */
-  /*  http://www.microsoft.com/typography/cleartype/truetypecleartype.aspx */
+  /*  http:
   /*                                                                       */
   /* By undefining this, you only compile the code necessary to hint       */
   /* TrueType glyphs with native TT hinting.                               */
@@ -618,8 +618,8 @@ FT_BEGIN_HEADER
   /* composite flags array which can be used to disambiguate, but old      */
   /* fonts will not have them.                                             */
   /*                                                                       */
-  /*   http://www.microsoft.com/typography/otspec/glyf.htm                 */
-  /*   https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6glyf.html */
+  /*   http:
+  /*   https:
   /*                                                                       */
 #undef TT_CONFIG_OPTION_COMPONENT_OFFSET_SCALED
 

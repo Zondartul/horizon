@@ -1520,9 +1520,6 @@
     <ClCompile Include="..\..\code\source\resource\bitmap.cpp">
       <Filter>Source Files\resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\resource\fonts.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\resource\model.cpp">
       <Filter>Source Files\resource</Filter>
     </ClCompile>

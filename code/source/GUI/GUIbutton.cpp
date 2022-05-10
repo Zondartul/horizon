@@ -1,6 +1,6 @@
 #include "GUI_internal.h"
 
-//GUIbutton
+
 GUIbutton::GUIbutton(){
 	pressed = false;
 	mouseover = false;
@@ -44,8 +44,8 @@ void GUIbutton::onEvent(eventKind event){
 			pressed = false;
 			event.maskEvent();
 			lastPressTime = getRealTime();
-			F(); //once we call this... we might never return
-			//jk but it might kill us (no member access from now on)
+			F(); 
+			
 			return;
 		}
 	}

@@ -143,7 +143,7 @@
 #endif
 
 /* The NACL compiler defines __native_client__ and __pnacl__
- * Ref: http://www.chromium.org/nativeclient/pnacl/stability-of-the-pnacl-bitcode-abi
+ * Ref: http:
  */
 #if defined(__native_client__)
 #undef __LINUX__

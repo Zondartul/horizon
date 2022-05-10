@@ -60,11 +60,10 @@
   rmodel.cpp
   atlas.cpp
   bitmap.cpp
-  fonts.cpp
   model.cpp
+  resource.cpp
   Generating Code...
   Compiling...
-  resource.cpp
   texture.cpp
   threads.cpp
   debug.cpp
@@ -85,8 +84,8 @@ freetype.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype.pdb' was not found w
 freetype.lib(ftinit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftinit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftsystem.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(bdf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(bdf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(cff.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(cff.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(type1cid.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(type1cid.obj)' or at ''; linking object as if no debug info
+freetype.lib(cff.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(cff.obj)' or at ''; linking object as if no debug info
+freetype.lib(type1cid.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1cid.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftgzip.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(ftlzw.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftlzw.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(pcf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pcf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info

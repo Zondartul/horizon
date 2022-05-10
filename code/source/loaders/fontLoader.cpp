@@ -17,7 +17,7 @@ FT_Library  freetype;
 FT_Face		face;
 
 #include "texture.h"
-#include "renderLow.h" //to submit rendercommand (upload texture)
+#include "renderLow.h" 
 #include "bitmap.h"
 #include "simplemath.h"
 #include "paint.h"
@@ -43,11 +43,11 @@ void loadFont_FT(const char *fontpath, int size){
 	}
 	printf("font opened: [%s]\n",fontpath);
 
-	//alternative:
+	
 	err = FT_Set_Pixel_Sizes(
 		face,
-		0,	//width in pixels (0 means same)
-		size);//height in pixels 
+		0,	
+		size);
 
 	if(err){error("FreeType: some error (fixed size?)\n");}
 }
@@ -79,8 +79,8 @@ bitmap generateGlyphBitmap(char C){
 	if(BMP.numBytes() == 0){BMP.format = TL_RGBA; return BMP;}
 
 	BMP.setBuffer(face->glyph->bitmap.buffer, BMP.numBytes());
-	// wait, is this really ours?
-    //nope, turns out we do not own it.
+	
+    
 	bitmap BMP2 = BMP.changeFormat(TL_RGBA);
 	BMP2.forEachPixel(replaceColor);
 	return BMP2;

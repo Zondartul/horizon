@@ -73,7 +73,7 @@
 #ifdef HAVE_MATH_H
 # if defined(__WINRT__)
 /* Defining _USE_MATH_DEFINES is required to get M_PI to be defined on
-   WinRT.  See http://msdn.microsoft.com/en-us/library/4hwaceh6.aspx
+   WinRT.  See http:
    for more information.
 */
 #  define _USE_MATH_DEFINES
@@ -109,7 +109,7 @@
 #define SDL_static_cast(type, expression) ((type)(expression))
 #define SDL_const_cast(type, expression) ((type)(expression))
 #endif
-/* @} *//* Cast operators */
+/* @} *
 
 /* Define a four character code as a Uint32 */
 #define SDL_FOURCC(A, B, C, D) \
@@ -163,7 +163,7 @@ typedef int64_t Sint64;
  */
 typedef uint64_t Uint64;
 
-/* @} *//* Basic data types */
+/* @} *
 
 /* Make sure we have macros for printing 64 bit values.
  * <stdint.h> should define these but this is not true all platforms.

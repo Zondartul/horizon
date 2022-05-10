@@ -10,11 +10,11 @@ typedef vector<gridcell> gridrow;
 typedef vector<gridrow> gridkind;
 
 struct gridline{
-	float min;		//minimum size
-	float max;		//maximum size
-	float weight;	//how much of the extra space to give this line
-	float cur;		//current size of grid line (set automatically)
-	float pos;		//current position of grid line (set automatically)
+	float min;		
+	float max;		
+	float weight;	
+	float cur;		
+	float pos;		
 };
 
 struct linespan{
@@ -57,15 +57,15 @@ class GUIgrid:public virtual GUIbase{
 	gridkind rows;
 	vector<gridline> rowsettings;
 	vector<gridline> colsettings;
-	vector<linespan> rowspans; //linespans are for elements that span
-	vector<linespan> colspans; //several cells, like "merge cells" in a word table
+	vector<linespan> rowspans; 
+	vector<linespan> colspans; 
 
 	void shrinkChildren();
-	void sizeToGrid(); // set size to total grid size as configured
+	void sizeToGrid(); 
 	virtual void invalidate();
 	
-	//todo: compound properties
-	virtual string getType(); //returns the most-derived-class of the widget.
+	
+	virtual string getType(); 
 };
 
 #endif

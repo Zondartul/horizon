@@ -226,7 +226,7 @@ SDL_SwapFloat(float x)
 #define SDL_SwapBE64(X) (X)
 #define SDL_SwapFloatBE(X)  (X)
 #endif
-/* @} *//* Swap to native */
+/* @} *
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

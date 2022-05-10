@@ -11,23 +11,23 @@
 #include "GL/glew.h"
 #endif
 
-//the "correct way to glew" says we don't use gl.h any more.
+
 #include "stdlib.h"
-//#include "inputController.h"
+
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
 #include "global_vars.h"
 
-//extern GUIbase *g_GUI;
 
-//int g_height;
-//int g_width;
-//
-//#ifndef NO_SDL
-//SDL_Window *g_mainWindow;
-//SDL_GLContext g_mainContext;
-//#endif
+
+
+
+
+
+
+
+
 
 void OpenGL_printVersion(){
 	const unsigned char *version;
@@ -63,7 +63,7 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 void OpenGL_init(){
 	auto& mainWindow = G->gs_window->g_mainWindow;
 	auto& mainContext = G->gs_window->g_mainContext;
-	//one wonders if this actually does what it claims
+	
 	#ifndef NO_SDL
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	#endif
@@ -75,7 +75,7 @@ void OpenGL_init(){
 	#ifndef NO_SDL
 		mainContext = SDL_GL_CreateContext(mainWindow);
 
-		SDL_GL_SetSwapInterval(1); // 1 = updates synchronized to vsync, 0 for immediate (-1=?)
+		SDL_GL_SetSwapInterval(1); 
 	#endif
 	#ifndef NO_GLEW
 	#endif
@@ -123,23 +123,23 @@ void sysMessageBlankTick(){
 	}
 #endif
 }
-//
-//map<char,char> g_keyboardMap = {
-//	{'`','~'},{'1','!'},{'2','@'},{'3','#'},
-//	{'4','$'},{'5','%'},{'6','^'},{'7','&'},
-//	{'8','*'},{'9','('},{'0',')'},{'-','_'},
-//	{'=','+'},{'\\','|'},{';',':'},{'\'','\"'},
-//	{',','<'},{'.','>'},{'/','?'},{'q','Q'},
-//	{'w','W'},{'e','E'},{'r','R'},{'t','T'},
-//	{'y','Y'},{'u','U'},{'i','I'},{'o','O'},
-//	{'p','P'},{'[','{'},{']','}'},{'a','A'},
-//	{'s','S'},{'d','D'},{'f','F'},{'g','G'},
-//	{'h','H'},{'j','J'},{'k','K'},{'l','L'},
-//	{'z','Z'},{'x','X'},{'c','C'},{'v','V'},
-//	{'b','B'},{'n','N'},{'m','M'}
-//};
-//
-//map<string,bool> g_keyboardState;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 eventKind keyboardTranslate(eventKind event){
 	auto& keyboardMap = G->gs_window->g_keyboardMap;
@@ -183,7 +183,7 @@ void sysMessageTick(){
 			if(sdl_event.key.keysym.mod & KMOD_SHIFT){event.keyboard.mod = event.keyboard.mod | MOD_SHIFT;}
 			if(sdl_event.key.keysym.mod & KMOD_CTRL){event.keyboard.mod = event.keyboard.mod | MOD_CTRL;}
 			if(sdl_event.key.keysym.mod & KMOD_ALT){event.keyboard.mod = event.keyboard.mod | MOD_ALT;}
-			event.keyboard.printchar = event.keyboard.keycode;	//sdl_event.key.keysym.unicode;
+			event.keyboard.printchar = event.keyboard.keycode;	
 			event = keyboardTranslate(event);
 			if(!isprintSafe(event.keyboard.keycode)){
 				event.keyboard.printchar = 0;
@@ -244,8 +244,8 @@ void sysMessageTick(){
 			}
 			break;
 		default:
-			//unknown event:
-			//ignore.
+			
+			
 			break;
 		}
 		continue;

@@ -110,7 +110,7 @@ extern DECLSPEC void * SDLCALL SDL_AndroidGetActivity();
 
 /**
    See the official Android developer guide for more information:
-   http://developer.android.com/guide/topics/data/data-storage.html
+   http:
 */
 #define SDL_ANDROID_EXTERNAL_STORAGE_READ   0x01
 #define SDL_ANDROID_EXTERNAL_STORAGE_WRITE  0x02
@@ -174,7 +174,7 @@ typedef enum
  *
  *  \note Documentation on most app-specific path types on WinRT
  *      can be found on MSDN, at the URL:
- *      http://msdn.microsoft.com/en-us/library/windows/apps/hh464917.aspx
+ *      http:
  *
  *  \param pathType The type of path to retrieve.
  *  \return A UCS-2 string (16-bit, wide-char) containing the path, or NULL
@@ -191,7 +191,7 @@ extern DECLSPEC const wchar_t * SDLCALL SDL_WinRTGetFSPathUNICODE(SDL_WinRT_Path
  *
  *  \note Documentation on most app-specific path types on WinRT
  *      can be found on MSDN, at the URL:
- *      http://msdn.microsoft.com/en-us/library/windows/apps/hh464917.aspx
+ *      http:
  *
  *  \param pathType The type of path to retrieve.
  *  \return A UTF-8 string (8-bit, multi-byte) containing the path, or NULL

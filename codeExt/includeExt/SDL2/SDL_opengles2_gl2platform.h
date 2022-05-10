@@ -5,7 +5,7 @@
 
 /*
  * This document is licensed under the SGI Free Software B License Version
- * 2.0. For details, see http://oss.sgi.com/projects/FreeB/ .
+ * 2.0. For details, see http:
  */
 
 /* Platform-specific types and definitions for OpenGL ES 2.X  gl2.h
@@ -13,7 +13,7 @@
  * Adopters may modify khrplatform.h and this file to suit their platform.
  * You are encouraged to submit all modifications to the Khronos group so that
  * they can be included in future versions of this file.  Please submit changes
- * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
+ * by sending them to the public Khronos Bugzilla (http:
  * by filing a bug against product "OpenGL-ES" component "Registry".
  */
 

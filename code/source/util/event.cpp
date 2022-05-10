@@ -1,9 +1,9 @@
 #include "event.h"
 #include "globals.h"
 #include "global_vars.h"
-//todo: add event queuing capability
 
-eventKind::eventKind(){mask = 0;} //so that it isn't implicitly deleted (probably cause of vec2 in a union)
+
+eventKind::eventKind(){mask = 0;} 
 
 void eventKind::maskEvent(int newmask){
 	if(mask){*mask = newmask;}else{error("Event is non-maskable (%s)\n",toString(type).c_str());}
@@ -28,8 +28,8 @@ string toString(eventType et){
 	}
 }
 
-//listeners can't mask events
-//all listeners receive event
+
+
 void eventListenerList::publishEvent(eventKind e){
 	e.mask = 0;
 	for(unsigned int I = 0; I < listeners.size(); I++){
@@ -37,8 +37,8 @@ void eventListenerList::publishEvent(eventKind e){
 	}
 }
 
-//listeners can mask events
-//a listener receives event only if it hasn't been masks
+
+
 int eventListenerList::publishEventSequentialMaskable(eventKind e){
 	int mask = 0;
 	if(!e.mask){e.mask = &mask;}
@@ -48,10 +48,10 @@ int eventListenerList::publishEventSequentialMaskable(eventKind e){
 	return *e.mask;
 }
 
-//listeners can mask events
-//all listeners receive the event even if it is masked
+
+
 int eventListenerList::publishEventParallelMaskable(eventKind e){
-	//this can fail mid-way as listeners[I]->onEvent() may delete us.
+	
 	int mask = 0;
 	if(!e.mask){e.mask = &mask;}
 	for(unsigned int I = 0; I < listeners.size(); I++){
@@ -95,7 +95,7 @@ void eventListenerList::removeListener(eventListener *listener){
 	}
 }
 
-//removing this causes "undefined reference to vtable for <class>" error.
+
 void eventListener::onEvent(eventKind event){}
 
 eventListener::~eventListener(){
@@ -104,7 +104,7 @@ eventListener::~eventListener(){
 	}
 }
 
-//eventChannel *g_globalChannel;
+
 
 void initEvents(){
 	auto& globalChannel = G->gs_event->g_globalChannel;

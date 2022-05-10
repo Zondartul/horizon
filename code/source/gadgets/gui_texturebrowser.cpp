@@ -14,7 +14,7 @@ GUIcompoundProperty loadGUI(string filepath){
 	
 	GUIcompoundProperty P2(el);
 	
-	//this silly construct is used because we still have "workwindow" in the layout file.
+	
 	for(auto I = P2.children.begin(); I != P2.children.end(); I++){
 		const GUIcompoundProperty &P3 = *I;
 		if(P3.table.table.at("isClient") == "1"){
@@ -65,7 +65,7 @@ void GUItextureBrowser::addTile(string imgpath, string label){
 	GUIselectable *sel = dynamic_cast<GUIselectable*>(Ptile.instantiate());
 	int Sx = (int)sel->area.size.x;
 	int Sy = (int)sel->area.size.y;
-	int TPR = 4; //tiles per row
+	int TPR = 4; 
 	sel->moveTo(vec2(Sx*(numTiles%TPR),Sy*(numTiles/TPR)));
 	sel->moveable = false;
 	

@@ -49,7 +49,7 @@ void renderLayer::push(renderCommand3 *cmd){
     queue3.push_back(cmd);
 }
 
-renderLayer *renderLayer::duplicate(){//https://www.youtube.com/watch?v=kJ6flOet6qc
+renderLayer *renderLayer::duplicate(){
 	renderLayer *L2 = new renderLayer();
     for(auto I = queue3.begin(); I != queue3.end(); I++){
         renderCommand3 *cmd = (*I)->clone();
@@ -154,7 +154,7 @@ void setupLayer2D(){
 	setLighting(false);
 }
 
-//layer for untextured lines/points
+
 void setupLayerDebug(){
 	auto& layerDebug = G->gs_paint->g_layerDebug;
 

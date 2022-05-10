@@ -1,4 +1,4 @@
-//i claim temporary insanity while writing this
+
 #include <new>
 #include <vector>
 #include <stdlib.h>
@@ -19,8 +19,8 @@
 using std::vector;
 
 
-//#define DEBUG_GUARD
-//#include "globals.h"
+
+
 
 void clearDeleteBuffer();
 
@@ -31,9 +31,9 @@ void debuginit(){
 	setbuf(debugFile,0);
 	if(!debugFile){printf("ERROR: can't open debug log file!\n");exit(0);}
 	else{printf("opened log file %p\n",debugFile);}
-//#ifdef DEBUG_NEW
+
     new timer([=](timer *T){clearDeleteBuffer();}, 3, true);
-//#endif
+
 	#ifdef DEBUG_MALLOC
 	printf("DEBUG_MALLOC set\n");
 	#endif
@@ -75,27 +75,27 @@ void debugprint(const char *file, int line, const char *mode, const char *format
 	if(!strcmp(mode,"error")){printf("%s",buff);crash();}
 }
 
-//const char *g_alloc_file = 0;
-//int g_alloc_line = 0;
-//int g_total_size = 0;
 
-//struct mapped_alloc{
-//	int size;
-//	void *p;
-//	int frame;
-//    bool freed;
-//};
-//struct mapped_alloc_key{
-//	const char *alloc_file;
-//	int alloc_line;
-//	int num;
-//};
-//typedef vector<mapped_alloc> struct_alloc_line;
-//typedef map<int,struct_alloc_line> struct_alloc_file;
 
-//map<const char*,struct_alloc_file> g_allocation_map;
 
-//map<void*, mapped_alloc_key> g_deallocation_map;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int set_alloc_pos(const char *file, int line){
 	auto& alloc_file = G->gs_debug->g_alloc_file;
@@ -107,14 +107,14 @@ int set_alloc_pos(const char *file, int line){
 }
 int getGameTicks();
 
-//typedef vector<void*> delayedDeleteList;
-//delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
-//int g_activeDeleteBuffer = 0;
-//bool g_delayedDelete = false; //causes some lag because memory new-delete-new memory reuse is blocked
+
+
+
+
 
 #ifdef DEBUG_NEW
-//void *operator new(size_t size) throw(std::bad_alloc){ //but some older C++ requires it
-void *operator new(size_t size){ //GCC on Linux says C++17 forbids throw-specifier
+
+void *operator new(size_t size){ 
 	void *res = 0;
 	static size_t num = 0;
 	if(g_alloc_file != 0){
@@ -129,7 +129,7 @@ void *operator new(size_t size){ //GCC on Linux says C++17 forbids throw-specifi
 		A.p = malloc(size);
 		A.frame = getGameTicks();
         A.freed = false;
-		//allocation_map[key] = A;
+		
 		g_deallocation_map[A.p] = key;
 		r_aline.push_back(A);
 		g_total_size = g_total_size + size;
@@ -148,13 +148,13 @@ void *operator new(size_t size){ //GCC on Linux says C++17 forbids throw-specifi
 			printf("persistent (age %d) @ %s:%d new(%d) (line %d \\ total %dk)\n",frame_age,af,al,size,linesize,total_size/1024);
 		}
 		*/
-		//printf("%s:%d new(%d) (line %d \\ total %dk)\n",af,al,size,linesize,total_size/1024);
+		
 		res = A.p;
 	}else{
 		res = malloc(size);
 	}
 	if(!res){printf("ERROR: OUT OF MEMORY\n"); throw std::bad_alloc();}
-	//printf("new %p @ %d\n",res,getGameTicks());
+	
 	return res;
 	/*
 	if(redirect_new || !g_debug_line){
@@ -202,16 +202,16 @@ void *operator new(size_t size){ //GCC on Linux says C++17 forbids throw-specifi
 void debug_delete(void *ptr){
 	if(!ptr){printf("dbgdel: warning: delete null\n"); return;}
 	static int recurseCounter = 0;
-	//printf("del %p @ %d\n",ptr,getGameTicks());
+	
 	if(!recurseCounter){
 		recurseCounter++;
-		//printf("delete: read alloc map\n\n");
+		
 		/*
 		for(auto I = allocation_map.begin(); I != allocation_map.end(); I++){
-			//printf("\rd:I = %s, L = %d, k = %d",I->first, L->first, k);
+			
 			auto &r_afile = I->second;
 			for(auto L = r_afile.begin(); L != r_afile.end(); L++){
-				//printf("L = %d,",L->first);
+				
 				auto &r_aline = L->second;
 				int k = 0;
 				for(auto K         mapped_alloc_key key = deallocation_map[ptr];
@@ -226,15 +226,15 @@ void debug_delete(void *ptr){
                 J++;
             }
         }= r_aline.begin(); K != r_aline.end();){
-					//printf("k = %d",k);
+					
 					mapped_alloc A = *K;
 					if(A.p == ptr){
-						//del_found:
-						//free(ptr);
+						
+						
 						total_size -= A.size;
-						//printf("%s:%d -- delete\n",I->first,L->first);
+						
 						K = r_aline.erase(K);
-						//return;
+						
 					}else{
 						K++;
 					}
@@ -265,11 +265,11 @@ void debug_delete(void *ptr){
 			}
 		}
 		recurseCounter--;
-		//printf("\n\n");
+		
 	}
-	//printf("warning: delete pointer (%p) not found\n",ptr);
+	
     if(!g_delayedDelete){free(ptr);}
-	//free(ptr);
+	
 }
 #endif
 
@@ -337,7 +337,7 @@ void operator delete(void *ptr) noexcept{
 	/*
 	if(redirect_delete || !g_debug_line){
 		redirect_delete = 0;
-		//debugprint("unknown",0,"memory","[memop:%d] delete(%p)\n",debug_mem_op_index,ptr);
+		
 
 		bool found = false;
 		int I;
@@ -373,7 +373,7 @@ void operator delete(void *ptr) noexcept{
 	}
 	*/
 }
-//#endif
+
 #endif
 
 #ifdef DEBUG_MALLOC
@@ -449,7 +449,7 @@ void *debugrealloc(const char *file, int line, void *ptr, size_t size){
 	debugprint(file,line,"memory","[memop:%d] realloc(%p,%d) = %p\n",debug_mem_op_index,ptr,size,p);
 	if(!p){printf("ERROR: allocation failed!\n");exit(0);}
 
-	//subtract previous size
+	
 	g_debug_mem_allocated += size;
 	g_debug_mem_watermark = max(g_debug_mem_watermark, g_debug_mem_allocated);
 
@@ -479,7 +479,7 @@ void *debugrealloc(const char *file, int line, void *ptr, size_t size){
 }
 
 void debugfree(const char *file, int line, void *ptr){
-	//debugprint(file,line,"memory","[memop:%d] free(%p)\n",debug_mem_op_index,ptr);
+	
 
 	bool found = false;
 	int I;
@@ -517,8 +517,8 @@ int debugCheckStackCanary(){
 	char s[STACK_CANARY_SIZE];
 
 	#ifdef __INTELLISENSE__
-		//don't warn about unitialized variable
-		//because we are doing stack magic
+		
+		
 	#pragma diag_suppress 6001
 	#endif
 	for(int I = 0; I < STACK_CANARY_SIZE; I++){
@@ -564,23 +564,23 @@ debugProfile profileEnd(){
 }
 
 #ifdef F_INSTRUMENT
-//add -finstrument-functions to compiler options
+
 extern "C"{
 void __cyg_profile_func_enter (void *this_fn, void *call_site) __attribute__((no_instrument_function));
 void __cyg_profile_func_exit (void *this_fn, void *call_site) __attribute__((no_instrument_function));
 
 void __cyg_profile_func_enter (void *this_fn, void *call_site) {
-    //printf( "entering %p\n", this_fn );
-//    if(this_fn == (void*)(&debugprint)){
-//        printf("---------- is debugPrint!\n");
-//    }
+    
+
+
+
     if(g_mytraceI < 100){
         g_mytrace[g_mytraceI++] = this_fn;
     }
 }
 
 void __cyg_profile_func_exit (void *this_fn, void *call_site) {
-    //printf( "leaving %p\n", this_fn );
+    
     if(g_mytraceI){
         g_mytrace[--g_mytraceI] = 0;
     }
@@ -601,14 +601,14 @@ vector<void*> getTrace(){
 }
 
 
-//#define SSnumvals 1024
-//#define SSbaseval 1266184225
-//class stackSentinel{
-//	public:
-//	volatile int vals[SSnumvals];
-//	stackSentinel();
-//	~stackSentinel();
-//};
+
+
+
+
+
+
+
+
 
 stackSentinel::stackSentinel(){
 	for(int I = 0; I < SSnumvals; I++){
@@ -638,7 +638,7 @@ void error(const char* fmt, ...) {
 	va_start(ap, fmt);
 	vprintf(fmt, ap);
 	va_end(ap);
-	//exit(0);
+	
 	throw std::runtime_error(string(fmt));
 }
 

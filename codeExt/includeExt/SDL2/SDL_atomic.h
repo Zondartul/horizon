@@ -41,11 +41,11 @@
  *
  * You can find out a little more about lockless programming and the
  * subtle issues that can arise here:
- * http://msdn.microsoft.com/en-us/library/ee418650%28v=vs.85%29.aspx
+ * http:
  *
  * There's also lots of good information here:
- * http://www.1024cores.net/home/lock-free-algorithms
- * http://preshing.com/
+ * http:
+ * http:
  *
  * These operations may or may not actually be implemented using
  * processor specific atomic operations. When possible they are
@@ -111,7 +111,7 @@ extern DECLSPEC void SDLCALL SDL_AtomicLock(SDL_SpinLock *lock);
  */
 extern DECLSPEC void SDLCALL SDL_AtomicUnlock(SDL_SpinLock *lock);
 
-/* @} *//* SDL AtomicLock */
+/* @} *
 
 
 /**
@@ -147,7 +147,7 @@ void _ReadWriteBarrier(void);
  * single flag variable.
  *
  * For more information on these semantics, take a look at the blog post:
- * http://preshing.com/20120913/acquire-and-release-semantics
+ * http:
  */
 #if defined(__GNUC__) && (defined(__powerpc__) || defined(__ppc__))
 #define SDL_MemoryBarrierRelease()   __asm__ __volatile__ ("lwsync" : : : "memory")

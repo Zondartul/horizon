@@ -3,7 +3,7 @@
 #include "globals.h"
 #include "imageLoader.h"
 
-//should get a specific texture loader eventually.
+
 
 texture *loadTexture(const char *filename){
 	bitmap *bmp = loadImage(filename);

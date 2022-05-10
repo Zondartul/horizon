@@ -8,7 +8,7 @@
 #include "simplemath.h"
 #include "stringUtils.h"
 #include "timer.h"
-//#include "inputController.h"
+
 #include "renderLayer.h"
 #include "window.h"
 #include "renderLow.h"

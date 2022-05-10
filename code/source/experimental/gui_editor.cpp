@@ -7,16 +7,16 @@
 using namespace tinyxml2;
 using namespace std;
 
-// X-BROK AGAIN ---- V-SWEET --0. make gui editor not crash when closing
-// v - 1. object selection
-//	v - 1.1 make a click-screen/gate widget OR an object property that stops clickthrough.
-// v - 2. object deletion
-// v - 3. fix selectable selection
-// v - 4. fix second object placement
-// v - 5. make a "poke" tool
 
-//elastic_ptr<gui_editor_kind> g_gui_editor;
-//extern renderLayer *g_layerGUI;
+
+
+
+
+
+
+
+
+
 
 gui_editor_kind::gui_editor_kind(){
 	auto& GUI = G->gs_main->g_GUI;
@@ -134,8 +134,8 @@ gui_editor_kind::gui_editor_kind(){
 		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TABS));
 	});
 	mainWindow->addChild(btnTabs);
-	//------------------------
-	//edit tool buttons
+	
+	
 	GUIbutton *btnCursor = new GUIbutton();
 	btnCursor->setText("");
 	btnCursor->setSize(vec2(32,32));
@@ -161,7 +161,7 @@ gui_editor_kind::gui_editor_kind(){
 			save(filepath);
 		});
 		GUI->addChild(dialog);
-		//save();
+		
 	});
 	mainWindow->addChild(btnSave);
 	
@@ -211,7 +211,7 @@ gui_editor_kind::gui_editor_kind(){
 	});
 	mainWindow->addChild(btnGrid);
 	
-	//----------------------------
+	
 	GUIwindow *workWindow = new GUIwindow();
 	elWorkWindow = workWindow;
 	workWindow->setTitle("GUI workspace");
@@ -219,7 +219,7 @@ gui_editor_kind::gui_editor_kind(){
 	workWindow->moveTo(vec2(150,100));
 	
 	GUI->addChild(workWindow);
-	//---- events
+	
 	setLayer(layer2D);
 	ge_layer_back = addNewLayer("gui_editor_layer_back",false);
 	setLayer(layerGUI);
@@ -304,30 +304,30 @@ void gui_editor_kind::paste(string filepath){
 		delete P;
 	}
 	catch (...) { 
-		//error("gui_editor::paste: some error"); 
+		
 		cout << "gui_editor: could not paste" << endl;
 	}
 }
 
 
-void gui_editor_kind::tool_cleanup(){  //to be called after every application of a tool
+void gui_editor_kind::tool_cleanup(){  
 	if(tool){tool->cleanup();}
 }
 
-void gui_editor_kind::tool_start(gui_editor_tool *newtool){   //select a tool
+void gui_editor_kind::tool_start(gui_editor_tool *newtool){   
 	if(lastTool){delete lastTool; lastTool = 0;}
 	lastTool = tool;
 	tool = newtool;
 	elWorkWindow->blockChildInput = true;
 }
-void gui_editor_kind::tool_cancel(){   //de-select the tool
+void gui_editor_kind::tool_cancel(){   
 	tool_cleanup();
 	tool_default();
 }
-void gui_editor_kind::tool_restart(){  //re-select the previous tool
+void gui_editor_kind::tool_restart(){  
 	tool_cleanup();
 }
-void gui_editor_kind::tool_finished(){ //tool signals that it is done.
+void gui_editor_kind::tool_finished(){ 
 	tool_restart();
 }
 
@@ -341,11 +341,11 @@ void gui_editor_kind::tool_none(){
 	elWorkWindow->blockChildInput =  false;
 }
 
-//=============== edit tool ============================
 
 
 
-//=================== main gui_editor =======================
+
+
 void gui_editor_kind::onEvent(eventKind event){
 	if((!elWorkWindow) || (!elMainWindow)){
 		close();
@@ -368,7 +368,7 @@ void gui_editor_kind::onEvent(eventKind event){
 	switch(event.type){
 		case EVENT_MOUSE_MOVE: if(tool){tool->scan();} break;
 		case EVENT_MOUSE_BUTTON_DOWN:
-			if(!isFrontEvent){break;} //a "front event" is the one we receive before everyone else
+			if(!isFrontEvent){break;} 
 			if(event.mousebutton.button == MOUSE_LEFT) {if(tool){tool->ldown();}}
 			if(event.mousebutton.button == MOUSE_RIGHT){if(tool){tool->rdown();}}
 		break;
@@ -392,7 +392,7 @@ void gui_editor_event_helper::onEvent(eventKind event){
 	}
 }
 
-//================================ random stuff ==================================================================
+
 void drawGrid(GUIbase *element, float gridStep){
 	rect R = element->thisToWorld(element->clientArea);
 	setPointSize(1.f);
@@ -406,10 +406,10 @@ void drawGrid(GUIbase *element, float gridStep){
 	drawPoints(points);
 }
 
-//returns snapped position relative to the start of the grid
-//takes world, outputs client coords
+
+
 vec2 snapToGrid(GUIbase *element, vec2 pos, float gridStep){
-	vec2 corner = element->worldClientArea().start;//element->thisToWorld(element->clientArea.start);
+	vec2 corner = element->worldClientArea().start;
 	pos -= corner;
 	pos += vec2(0.5f*gridStep,0.5f*gridStep);
 	pos.x = pos.x - fmodf(pos.x, gridStep);
@@ -417,14 +417,14 @@ vec2 snapToGrid(GUIbase *element, vec2 pos, float gridStep){
 	return pos;
 }
 
-//same but for rects
+
 rect snapToGrid(GUIbase *element, rect R, float gridStep){
 	return rect(snapToGrid(element, R.start, gridStep),
 				snapToGrid(element, R.end, gridStep));
 }
 
-//returns snapped position in absolute coordinates
-//takes world, outputs world coords
+
+
 vec2 snapToGridToWorld(GUIbase *element, vec2 pos, float gridStep){
 	vec2 corner = element->worldClientArea().start;
 	return snapToGrid(element,pos,gridStep)+corner;
@@ -438,23 +438,23 @@ rect snapToGridToWorld(GUIbase *element, rect R, float gridStep){
 
 /*
 void magnifyingGlass(vec2 pos, vec2 offset, float sizeIn, float sizeOut){
-	//
-	//              sizeOut
-	//             ___________
-	//            |           |
-	//            |           |
-	//            |           |
-	//            |           |
-	//            B___________|
-	//           /
-	//   ______A/ offset
-	//  |      |
-	//	|  pos |
-	//	|______|
-	//	 sizeIn
-	//
 	
-	//MAGNIFYING GLASS
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	vec2 vSi = vec2(1,1)*sizeIn/2.f;
 	vec2 vSiO = vSi + vec2(1,1);
 	rect RglassIn = 	   rect(-vSi,vSi).moveBy(pos);
@@ -472,9 +472,9 @@ void magnifyingGlass(vec2 pos, vec2 offset, float sizeIn, float sizeOut){
 	
 	vec2 vSo = vec2(1,1)*sizeOut/2.f;
 	vec2 vSoO = vSo + vec2(1,1);
-	//add the radius of the circumscribed circles of both outlines
-	//to the length of the offset vector
-	//to guarantee that they do not touch
+	
+	
+	
 	vec2 voffs = offset+normalizeSafe(offset)*((sizeIn+sizeOut)*sqrt(2.f)/2.f);
 	voffs.x = round(voffs.x);
 	voffs.y = round(voffs.y);
@@ -488,7 +488,7 @@ void magnifyingGlass(vec2 pos, vec2 offset, float sizeIn, float sizeOut){
 	drawRect(RglassOut);
 	setTexturing(false);
 	printf("done\n");
-	//deleteTexture(t);
+	
 }
 
 #define COL_RED		vec3(255,	0,		0	)
@@ -532,11 +532,11 @@ void rainbowIndicator(vec2 pos, vector<bool> state){
 	int size = colors.size();
 	if(state.size()-1 < size){size = state.size()-1;}
 	
-	//black rect
+	
 	rect R = rect(pos,pos+vec2(size+2,3));
 	setColor(vec3(0,0,0));
 	
-	//red outline
+	
 	if(state[0]){
 		drawRect(R);
 		setColor(vec3(128,0,0));
@@ -544,7 +544,7 @@ void rainbowIndicator(vec2 pos, vector<bool> state){
 		setPointSize(1.f);
 	}
 	
-	//indicators
+	
 	for(int I = 0; I < size; I++){
 		if(state[I+1]){setColor(colors[I]); drawPoint(toVec3(pos + vec2(1+I,1)));}
 	}

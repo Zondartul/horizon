@@ -21,9 +21,9 @@ struct logmessage{
     string msg;
     string file;
     int line;
-    logmessage(string msg_, const char* file_, int line_); //message and address
-    logmessage(string msg_);   //only message
-    logmessage(const logmessage& lmsg); //copy-constructor
+    logmessage(string msg_, const char* file_, int line_); 
+    logmessage(string msg_);   
+    logmessage(const logmessage& lmsg); 
 };
 string toString(logmessage);
 
@@ -36,16 +36,16 @@ class exKind : public exception {
 
 #define ex(...) exKind(logmessage(fstring( __VA_ARGS__ ), __FILE__, __LINE__ ))
 
-//code generation macro to declare and define the operator functions that
-//perform bitwise operations (|, &, |= etc) on class-enums.
+
+
 #define DECLARE_enum_class_bitwise_operators(T) \
 	bool operator|(T lhs, T rhs); \
 	bool operator&(T lhs, T rhs); \
 	T & operator|=(T & lhs, T rhs); \
 	T & operator&=(T & lhs, T rhs); 
 
-//was T operator op (so T | T = T), now is bool (for testing as a bitfield)
-//because we can't easily make a T to bool implicit
+
+
 #define DEFINE_ecbo_op_helper(T , op) \
 bool operator op (T lhs, T rhs){ \
 	using underlying = typename std::underlying_type< T >::type; \

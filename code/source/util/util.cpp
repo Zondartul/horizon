@@ -42,7 +42,7 @@ string toString(logmessage lmsg){
 
 
 extern vector<void*> getTrace();
-//#undef ex
+
 exKind::exKind(logmessage msg_):msg(msg_){
     try{
 

@@ -22,7 +22,7 @@ GUItextEntry::GUItextEntry(){
 
 	alignment_horizontal = GUIa::Left;
 	alignment_vertical = GUIa::Center;
-	const_height = false;//true; //alignment doesn't work correctly with const_height
+	const_height = false;
 }
 
 GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}
@@ -51,7 +51,7 @@ void GUItextEntry::onEvent(eventKind event){
 			int C = event.keyboard.keycode;
 			char pc = event.keyboard.printchar;
 			int mods = event.keyboard.mod;
-			if(string("Backspace") == K){	//backspace
+			if(string("Backspace") == K){	
 				event.maskEvent();
 				if(text != ""){
 					if(cursorPos){
@@ -61,7 +61,7 @@ void GUItextEntry::onEvent(eventKind event){
 				if(cursorPos){cursorPos--;}
 				edit = true;
 			}
-			if(string("Return") == K){	//enter
+			if(string("Return") == K){	
 				event.maskEvent();
 				enter = true;
 				if(multiline){
@@ -73,11 +73,11 @@ void GUItextEntry::onEvent(eventKind event){
 					edit = true;
 				}
 			}
-			if(string("Left") == K){ // <- arrow
+			if(string("Left") == K){ 
 				if(cursorPos){cursorPos--;}
 				event.maskEvent();
 			}
-			if(string("Right") == K){ // -> arrow
+			if(string("Right") == K){ 
 				if(cursorPos < text.length()){cursorPos++;}
 				event.maskEvent();
 			}
@@ -98,7 +98,7 @@ void GUItextEntry::onEvent(eventKind event){
 	if(call){F();}
 }
 
-//property table
+
 GUIpropertyTable GUItextEntry::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIbutton::getDefaultPropertyTable();
 	table.table["focusedColor"] = toString(vec3({255,255,255}));

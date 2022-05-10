@@ -148,7 +148,7 @@ FT_BEGIN_HEADER
   /* <Fields>                                                              */
   /*    See                                                                */
   /*                                                                       */
-  /*      http://www.w3.org/TR/WOFF/#WOFFHeader                            */
+  /*      http:
   /*                                                                       */
   typedef struct  WOFF_HeaderRec_
   {
@@ -614,7 +614,7 @@ FT_BEGIN_HEADER
   /*                       in use by other platforms (e.g. Newton).        */
   /*                       For details, please see                         */
   /*                                                                       */
-  /*                         https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6bloc.html */
+  /*                         https:
   /*                                                                       */
   /*   hori             :: The line metrics for horizontal layouts.        */
   /*                                                                       */
@@ -634,7 +634,7 @@ FT_BEGIN_HEADER
   /*   flags            :: Is this a vertical or horizontal strike?  For   */
   /*                       details, please see                             */
   /*                                                                       */
-  /*                         https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6bloc.html */
+  /*                         https:
   /*                                                                       */
   typedef struct  TT_SBit_StrikeRec_
   {

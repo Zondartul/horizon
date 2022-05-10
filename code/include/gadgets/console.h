@@ -53,7 +53,7 @@ class consoleKind{
 	void print(string text);
 };
 
-//extern consoleKind *g_console;
+
 void initConsole();
 void cprint(const char *format, ...);
 

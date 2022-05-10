@@ -9,7 +9,7 @@
 #include "simplemath.h"
 #include "global_vars.h"
 
-//bool g_printFromTop = false;
+
 void drawRectImmediate(rect R){
 	auto& currentLayer = G->gs_paint->g_currentLayer;
 
@@ -56,8 +56,8 @@ void drawRectImmediate(rect R){
     delete L;
     setLayer(oldL);
 }
-//todo: switch texture only once / actually, texture refers to a rectangle on a bitmap, so switch texture != switch bitmap
-//todo: make a model and stuff
+
+
 
 void printText2D(const char *text, font *F, vec2 &textPos){
 	auto& currentLayer = G->gs_paint->g_currentLayer;
@@ -145,17 +145,17 @@ rect preprintText2D(const char *text, font *F){
 	return rect({minx,miny},{maxx,maxy});
 }
 
-//only up to 1k characters are supported
-//because it's really hard to calculate the length of
-//a printf'ed string without printing it.
-//MS' version of vsnprintf returns -1 instead of
-//needed num characters when supplied with 0 buffer.
+
+
+
+
+
 void printw(const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
 
 	size_t fuckhuge = 100000;
-		//char buff[];
+		
 	char *buff = (char*)malloc(fuckhuge + 1);
 	vsnprintf(buff,fuckhuge,format,ap);
 	printText(buff);

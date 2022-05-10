@@ -7,7 +7,7 @@ using std::map;
 using std::string;
 #include "SDL2/SDL.h"
 
-//assuming single window for now (unless headless)
+
 vec2 getScreenSize();
 
 void OpenGL_printVersion();
@@ -15,15 +15,15 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile);
 void OpenGL_init();
 void OpenGL_swap();
 
-//creates the main window and calls opengl_init
+
 void window_init(int h, int w);
 
-//pumps system messages, ignores everything buit "quit".
+
 void sysMessageBlankTick();
-//sends messages to inputController
+
 void sysMessageTick();
 
-//extern map<string,bool> g_keyboardState;
+
 
 struct gs_windowKind {
 	int g_height;
@@ -51,7 +51,7 @@ struct gs_windowKind {
 	SDL_GLContext g_mainContext;
 #endif
 };
-//extern int g_width;
-//extern int g_height;
+
+
 
 #endif

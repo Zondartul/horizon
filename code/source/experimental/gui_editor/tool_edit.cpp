@@ -1,8 +1,8 @@
 #include "gui_editor.h"
-//why the fuck does this compile
+
 
 void drawBorders(GUIbase *B){
-	//borders
+	
 	GUI_border_rects border = B->getBorders();
 	setColor(vec3(0,64,0));
 	drawRectOutline(border.Rtop);
@@ -76,7 +76,7 @@ void gui_editor_tool_edit::ldown(){
 			printf("edit ldown 2\n");			
 			oldArea = subject->area;
 			
-			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);//+corner;
+			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);
 			
 			grabPos = gpos;
 			grabState = borderState;
@@ -182,7 +182,7 @@ void gui_editor_tool_edit::rup(){
 			}
 		  });
 		  ddm_edit->addItem("delete",[=](){
-			//delete subject;
+			
 			subject->close();
 			subject = 0;
 			ddm->close();
@@ -197,70 +197,70 @@ void gui_editor_tool_edit::rup(){
 
 void gui_editor_tool_edit::scan(){
 	gui_editor_tool::scan();
-	//GUIwindow *workWindow = 0;
-	//EPCAST(elWorkWindow, workWindow) else return;
-	//printf("edit mm\n");
-	//mouseover_element = workWindow->getMouseoverElement();
+	
+	
+	
+	
 	switch(stage){
 		case GEMT_START: printf("stage=start\n");  break;
 		case GEMT_END:{
 			printf("stage=end\n");
 			vec2 mousePos = getMousePos();
 			vec2 corner = subject->parent->thisToWorld(subject->parent->clientArea).start;
-			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);//+corner;
-			//printf("\n-----------------\n"
-			//"mousePos = %s, gpos = %s\n"
-			//"gpos+corn = %s, gr\n"
-			//"------------------\n",
-			//	toCString(mousePos),
-			//	toCString(gpos-corner),
-			//	toCString(gpos));
+			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);
+			
+			
+			
+			
+			
+			
+			
 			
 			vec2 dpos = gpos-grabPos;
-			//printf("grab = [%s]\n",toCString(grabState));
+			
 			switch(grabState){
 				case GUIb::None: 
-					//printf("grab = none\n"); 
+					
 					subject->area = oldArea.moveBy(dpos); 
 				break;
 				case GUIb::Right: 
-					//printf("grab = right\n"); 
+					
 					subject->area = oldArea.setSize(oldArea.size+vec2(dpos.x,0));
 				break;
 				case GUIb::Bottom: 
-					//printf("grab = bottom\n"); 
+					
 					subject->area = oldArea.setSize(oldArea.size + vec2(0,dpos.y));
 				break;
 				case GUIb::Corner_BR: 
-					//printf("grab = corner bottom right\n");
+					
 					subject->area = oldArea.setSize(oldArea.size+dpos);
 				break;
 				case GUIb::Top:
-					//printf("grab = top\n");
+					
 					subject->area = oldArea.setSize(oldArea.size + vec2(0,-dpos.y)).moveBy(vec2(0,dpos.y));
 				break;
 				case GUIb::Left:
-					//printf("grab = left\n");
+					
 					subject->area = oldArea.setSize(oldArea.size + vec2(-dpos.x,0)).moveBy(vec2(dpos.x,0));
 				break;
 				case GUIb::Corner_TL:
-					//printf("grab = corner top left\n");
+					
 					subject->area = oldArea.setSize(oldArea.size - dpos).moveBy(dpos);
 				break;
 				case GUIb::Corner_TR:
-					//printf("grab = corner top right\n");
+					
 					subject->area = oldArea.setSize(oldArea.size + vec2(dpos.x, -dpos.y)).moveBy(vec2(0,dpos.y));
 				break;
 				case GUIb::Corner_BL:
-					//printf("grab = corner bottom left\n");
+					
 					subject->area = oldArea.setSize(oldArea.size + vec2(-dpos.x, dpos.y)).moveBy(vec2(dpos.x,0));
 				default: printf("grab = xxx\n"); break;
 			}
 			rect sar = subject->area;
 			rect cl_sar = subject->parent->clientToWorld(sar);
 			subject->area = snapToGrid(subject->parent, cl_sar, (float)gridStep);
-			//subject->area = rect(snapToGrid(subject->parent, subject->area.start+corner, gridStep),
-			//					 snapToGrid(subject->parent, subject->area.end+corner, gridStep));
+			
+			
 			subject->invalidate();
 		}break;
 	}

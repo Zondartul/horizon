@@ -1,12 +1,12 @@
 #include "GUI_internal.h"
 
 
-//GUIgrid ----------------------------------------------------------------------
+
 
 GUIgrid::GUIgrid(){}
 void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	printf("grid(%p, row %d, col %d, spanx %d, spany %d)\n",child,row,col,spanx,spany);
-	//row = -1 means "new row"
+	
 	spanx = (int)max(spanx,1);
 	spany = (int)max(spany,1);
 	int extra_cells_x = spanx-1;
@@ -51,20 +51,20 @@ int GUIgrid::getNumCols(){if(rows.size()){return rows[0].size();}else return 0;}
 void GUIgrid::resize(unsigned int numrows, unsigned int numcols){
 	printf("resize(%d,%d)\n",numrows,numcols);
 
-	//does every row have settings?
+	
 	while(rowsettings.size() < numrows){
 		rowsettings.push_back(gridline{-1,-1,0,0,0});
 	}
-	//does every column have settings?
+	
 	while(colsettings.size() < numcols){
 		colsettings.push_back(gridline{-1,-1,0,0,0});
 	}
 
-	//are there enough rows?
+	
 	while(rows.size() < rowsettings.size()){
 		rows.push_back(gridrow());
 	}
-	//does every row have enough columns?
+	
 	for(unsigned int R = 0; R < rows.size(); R++){
 		while(rows[R].size() < colsettings.size()){
 			rows[R].push_back(gridcell{1,1,0});
@@ -75,7 +75,7 @@ void GUIgrid::resize(unsigned int numrows, unsigned int numcols){
 void GUIgrid::clear(){
 	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		for(unsigned int C = 0; C < colsettings.size(); C++){
-			delete rows[R][C].child; //can has suppress-invalidate nao?
+			delete rows[R][C].child; 
 		}
 	}
 	rows.clear();
@@ -85,8 +85,8 @@ void GUIgrid::clear(){
 #define nonnan(x) if(isnan(x)){error("result is NaN: %s\n",#x);}
 
 void GUIgrid::invalidate(){
-//first pass: measure row/column dimensions
-	//measure row height
+
+	
 	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		float maxy = 0;
 		for(unsigned int C = 0; C < colsettings.size(); C++){
@@ -94,18 +94,18 @@ void GUIgrid::invalidate(){
 			auto &E = cell.child;
 			float y = 0;
 			if(E){y = E->area.size.y;}
-			if(cell.spany > 1){y = 0;} //span will be dealt with later
+			if(cell.spany > 1){y = 0;} 
 			nonnan(y);
 			maxy = max(maxy,y);
 		}
-		//preserve max content height for now, we still need to figure
-		//out how much extra space we have.
-		//grid expands when there is extra space.
-		//grid does NOT shrink when there is not enough space.
-		rowsettings[R].cur = maxy; //set row height to maximum height
+		
+		
+		
+		
+		rowsettings[R].cur = maxy; 
 		nonnan(maxy);
 	}
-	//distribute span height
+	
 	for(unsigned int RS = 0; RS < rowspans.size(); RS++){
 		int from = rowspans[RS].from;
 		int to = rowspans[RS].to;
@@ -129,7 +129,7 @@ void GUIgrid::invalidate(){
 			}
 		}
 	}
-	//measure column width
+	
 	for(unsigned int C = 0; C < colsettings.size(); C++){
 		float maxx = 0;
 		for(unsigned int R = 0; R < rowsettings.size(); R++){
@@ -137,16 +137,16 @@ void GUIgrid::invalidate(){
 			auto &E = cell.child;
 			float x = 0;
 			if(E){x = E->area.size.x;}
-			if(cell.spanx > 1){x = 0;} //span will be dealt with later
+			if(cell.spanx > 1){x = 0;} 
 			nonnan(x);
 			maxx = max(maxx,x);
 		}
-		//same here
-		colsettings[C].cur = maxx; //set column width to maximum width
+		
+		colsettings[C].cur = maxx; 
 		nonnan(maxx);
 	}
-	//distribute span width
-	//distribute span height
+	
+	
 	for(unsigned int CS = 0; CS < colspans.size(); CS++){
 		int from = colspans[CS].from;
 		int to = colspans[CS].to;
@@ -170,7 +170,7 @@ void GUIgrid::invalidate(){
 			}
 		}
 	}
-	//measure total height/width and total weight
+	
 	float totaly = 0;
 	float totalweighty = 0;
 	float totalx = 0;
@@ -193,23 +193,23 @@ void GUIgrid::invalidate(){
 		extray = max(parent->clientArea.size.y - totaly,0);
 		extrax = max(parent->clientArea.size.x - totalx,0);
 	}
-	//if too small to fit everything, set area to total area.
+	
 
 	area = rect(vec2(totalx+extrax,totaly+extray));
 	clientArea = area;
 
-//second pass: define row/col dimensions
-	//new row height
+
+	
 	float posy = 0;
 	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		auto &L = rowsettings[R];
 		nonnan(L.cur);
-		//row wants <weight>/<totalweight> of the extra dimension
+		
 		float extra_desired = 0;
 		if(L.weight){
 			extra_desired = extray*L.weight/totalweighty;
 		}
-		//but is constrained by the min/max dimensions
+		
 		float new_plain = L.cur;
 		float new_expanded = L.cur+extra_desired;
 		if(L.min != -1){
@@ -228,16 +228,16 @@ void GUIgrid::invalidate(){
 		nonnan(L.pos);
 		posy = posy + L.cur;
 	}
-	//new column width
+	
 	float posx = 0;
 	for(unsigned int C = 0; C < colsettings.size(); C++){
 		auto &L = colsettings[C];
-		//row wants <weight>/<totalweight> of the extra dimension
+		
 		float extra_desired = 0;
 		if(L.weight){
 			extra_desired = extrax*L.weight/totalweightx;
 		}
-		//but is constrained by the min/max dimensions
+		
 		float new_plain = L.cur;
 		float new_expanded = L.cur+extra_desired;
 		if(L.min != -1){
@@ -256,17 +256,17 @@ void GUIgrid::invalidate(){
 		nonnan(L.pos);
 		posx = posx + L.cur;
 	}
-//third pass: set new cell position and size
+
 	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		for(unsigned int C = 0; C < colsettings.size(); C++){
 			auto &cell = rows[R][C];
 			if(cell.child){
-				//calc. available y-size
+				
 				float ysize = 0;
 				for(int I = 0; I < cell.spany; I++){
 					ysize += rowsettings[R+I].cur;
 				}
-				//calc. available x-cells
+				
 				float xsize = 0;
 				for(int I = 0; I < cell.spanx; I++){
 					xsize += colsettings[C+I].cur;
@@ -289,7 +289,7 @@ void GUIgrid::shrinkChildren(){
 		for(auto C = 0; C != rows[R].size(); C++){
 			gridline col_setting = colsettings[C];
 			gridcell &gc = rows[R][C];
-			//we ignore spans for now, implement later
+			
 			float sizex = col_setting.cur;
 			float sizey = row_setting.cur;
 			if(gc.child){
@@ -300,8 +300,8 @@ void GUIgrid::shrinkChildren(){
 	}
 }
 
-//grid is automatically enlarged to fit all elements,
-//this can automatically shrink it.
+
+
 void GUIgrid::sizeToGrid(){
 	float sizex = 0;
 	float sizey = 0;

@@ -132,7 +132,7 @@ SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data,
  *    string is null-terminated UTF-8, but these guidelines are helpful in
  *    choosing a name:
  *
- *    http://stackoverflow.com/questions/149932/naming-conventions-for-threads
+ *    http:
  *
  *   If a system imposes requirements, SDL will try to munge the string for
  *    it (truncate, etc), but the original string contents will be available

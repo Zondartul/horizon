@@ -7,15 +7,15 @@
 #include "stringUtils.h"
 #include "global_vars.h"
 using std::map;
-//MACROS
 
-//x - e_vertex/edge/triangle *element
-//n - e_selection neighbor
-//v - vector<e_v/e/t *> elements
-//I - for-loop iterator name
-//c - code to run
 
-//generic vector macros
+
+
+
+
+
+
+
 #define contains(_v,_x)					(std::find((_v).begin(), (_v).end(), (_x)) != (_v).end())
 #define push_if_not_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I == (_v).end()){(_v).push_back(_x);}}
 #define remove_if_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I != (_v).end()){(_v).erase(_I);}}
@@ -23,14 +23,14 @@ using std::map;
 
 #define ne(I) (I)->neighbors_essential
 #define nd(I) (I)->neighbors_direct
-//iterate over the elements of *this
+
 #define for_all_elements(_I,c){			\
 	for_all(verts,_I,c);				\
 	for_all(edges,_I,c);				\
 	for_all(tris,_I,c);					\
 }
 
-//iterate over the elements of something else
+
 #define for_all_ne(_x,_I,c){			\
 	auto &x = _x;						\
 	auto &n = (_x)->parts;\
@@ -54,7 +54,7 @@ using std::map;
 
 e_element::e_element(e_model *EM):definition(EM),parts(EM),touching(EM){}
 
-//todo: add equality operator for edges and triangles
+
 e_vertex::e_vertex(vec3 pos, e_model *EM):e_element(EM){
 	this->pos = pos;
 	EM->verts.push_back(this);
@@ -106,8 +106,8 @@ void e_selection::recalculateNormalsFlat(){
 
 void e_selection::recalculateNormalsSmooth(){
 	map<e_vertex*,vec3> vertex_normals;
-	//calculates face normals for each triangle, and adds it to the accumulators of each vertex.
-	//thus, each vertex gets the sum of the face normals of all the triangles that contain it.
+	
+	
 	for_all(tris,T,{
 		e_vertex *A = (*T)->parts.verts[0];
 		e_vertex *B = (*T)->parts.verts[1];
@@ -118,13 +118,13 @@ void e_selection::recalculateNormalsSmooth(){
 		rns_helper_add_normal(B);
 		rns_helper_add_normal(C);
 	});
-	//normalize the normals associated with all the verts.
+	
 	for(auto I = vertex_normals.begin(); I != vertex_normals.end(); I++){
 		vec3 N = I->second;
 		N = normalizeSafe(N);
 		I->second = N;
 	}
-	//assign the normals associated with verts to the vert normals of the triangles.
+	
 	for_all(tris,T,{
 		e_vertex *A = (*T)->parts.verts[0];
 		e_vertex *B = (*T)->parts.verts[1];
@@ -148,12 +148,12 @@ struct vec3orderer{
 		return false;
 	}
 };
-//merge vertices with the same position
+
 void e_selection::removeDuplicates(){
 	printf("remove duplicates. Before: %d verts\n", EM->verts.size());
 	map<vec3,e_vertex*,vec3orderer> vertmap;
 	set<e_vertex*> dupes;
-	// first pass: remap all references
+	
 	for_all(tris,T,{
 		for_all((*T)->definition.verts,I,{
 			vec3 pos = (*I)->pos;
@@ -180,7 +180,7 @@ void e_selection::removeDuplicates(){
 			}
 		});
 	});
-	//second pass: actually delete the duplicates
+	
 	for(auto I = EM->verts.begin(); I != EM->verts.end();){
 		if(dupes.count(*I)){I = EM->verts.erase(I);}else{I++;}
 	}
@@ -191,9 +191,9 @@ void e_selection::removeDuplicates(){
 
 }
 
-//lololol macros
-//pushes the vertex 'v' with color 'color', uv 'uv' and normal vector 'normal'
-//into the rmodel* 'rm'
+
+
+
 #define rrm_helper0(rm, v, color, UV, normal)  {	\
 		vec3 pos = (v)->pos;				\
 		(rm)->vertices->push_back(pos);	\
@@ -202,14 +202,14 @@ void e_selection::removeDuplicates(){
 		(rm)->normals->push_back(normal);\
 	}
 
-//pushes the 'vn'-th vertex from the definition of '*I' into the rmodel* 'rm'.
+
 #define rrm_helper(rm, vn, color,UV,normal)	{										\
 		rrm_helper0((rm), (*I)->definition.verts[(vn)],(color),(UV),(normal));	\
 	}
 
-//direct selection: what's in the verts,edges,tris vectors.
-//selection parts: verts of edges, edges of tris
-//implied selection: any elements whose every vertex was selected
+
+
+
 
 void e_selection::rebuildRmodel_vertHelper(rmodel *rm){
 	int i = 0, j = 0, k = 0;
@@ -228,8 +228,8 @@ void e_selection::rebuildRmodel_edgeHelper(rmodel* rm) {
 		}
 	);
 }
-//leave this for when face mode is on
-//(in face mode, each face is treated as an approximately flat (smooth) surface.
+
+
 
 
 void e_selection::rebuildRmodel_triHelper(rmodel *rm){
@@ -305,11 +305,11 @@ void e_selection::rebuildRmodel_wireHelper(rmodel *rm){
 }
 
 
-//rebuildRmodel:
-//rm[0] <- direct selected verts
-//rm[1] <- direct selected edges
-//rm[2] <- direct selected triangles
-//rm[3] <- implicit edges (for wireframe)
+
+
+
+
+
 void e_selection::rebuildRmodel(){
 	auto& loadLayer = G->gs_paint->g_loadLayer;
 
@@ -319,13 +319,13 @@ void e_selection::rebuildRmodel(){
 		}
 		rms.rm[I]->clear();
 	}
-	//construct RM 0 as points
+	
 	rebuildRmodel_vertHelper(rms.rm_verts);
-	//construct RM 1 as edges
+	
 	rebuildRmodel_edgeHelper(rms.rm_edges);
-	//construct RM 2 as triangles
+	
 	rebuildRmodel_triHelper(rms.rm_tris);
-	//construct RM 3 as implicit edges (wireframe)
+	
 	rebuildRmodel_wireHelper(rms.rm_wire);
 
 
@@ -405,7 +405,7 @@ e_selection e_selection::getImplicitVerts(){
 }
 
 e_selection e_selection::getImplicitEdges(){
-	//if we've selected both verts of an edge, it's implied that we selected the edge.
+	
 	if(!EM){error("no EM\n");}
 	EM->sanityCheck();
 	if(!EM->isElaborate){error("e_model not elaborate\n");}
@@ -425,7 +425,7 @@ e_selection e_selection::getImplicitEdges(){
 }
 
 e_selection e_selection::getImplicitTris(){
-	//if we've selected all the verts of a triangle, it's implied that we've selected the triangle.
+	
 	if(!EM){error("no EM\n");}
 	EM->sanityCheck();
 	if(!EM->isElaborate){error("e_model not elaborate\n");}
@@ -442,7 +442,7 @@ e_selection e_selection::getImplicitTris(){
 	}
 	return sel;
 }
-//inaccurate, see e.g. equilateral vs thin triangle centers
+
 vec3 e_selection::center(){
 	vec3 CR = {0,0,0};
 	float N = verts.size()+edges.size()+tris.size();
@@ -477,13 +477,13 @@ AABB e_selection::getAABB(){
     return AABB(vmin, vmax);
 }
 
-//delete the elements from the model
+
 void e_selection::deleteAll(){
 	if(!EM){error("no EM\n");}
 	for(auto I = verts.begin(); I != verts.end(); I++){EM->verts.remove(*I);}
 	for(auto I = edges.begin(); I != edges.end(); I++){EM->edges.remove(*I);}
 	for(auto I = tris.begin(); I != tris.end(); I++){EM->tris.remove(*I);}
-	verts.clear();	//we shouldn't keep pointers to things that have been deleted
+	verts.clear();	
 	edges.clear();
 	tris.clear();
 	EM->recalculateNeighbors();
@@ -546,7 +546,7 @@ void e_selection::uv_project_box(vec3 origin,float scale){
 		vec3 V1 = (*I)->parts.verts[0]->pos;
 		vec3 V2 = (*I)->parts.verts[1]->pos;
 		vec3 V3 = (*I)->parts.verts[2]->pos;
-		vec3 dV = normalizeSafe(cross(normalizeSafe(V2-V1),normalizeSafe(V3-V1))); //triangle flat normal
+		vec3 dV = normalizeSafe(cross(normalizeSafe(V2-V1),normalizeSafe(V3-V1))); 
 		float dotx = fabs(dot(dV,vec3(1,0,0)));
 		float doty = fabs(dot(dV,vec3(0,1,0)));
 		float dotz = fabs(dot(dV,vec3(0,0,1)));
@@ -585,8 +585,8 @@ void e_selection::uv_scale(float scale){
 
 #define mapcontains(map,x) map.count(x)
 
-//dafuq does this even do
-//used in addTo (add elements from one model to another model)
+
+
 e_vertex *mapVertex(e_vertex *v,
 					map<e_vertex*,e_vertex*> &vmap,
 					e_model *EM){
@@ -667,8 +667,8 @@ e_face *mapFace(e_face *f,
 	}
 	return f2;
 }
-//inserts copies of all selected elements into a different e_model,
-//then returns inserted elements as a new selection.
+
+
 e_selection e_selection::addTo(e_model *EM){
 	map<e_vertex*,e_vertex*> vmap;
 	map<e_edge*,e_edge*> emap;
@@ -694,7 +694,7 @@ e_selection e_selection::addTo(e_model *EM){
 		sel.tris.push_back(t2);
 	}
 	j = 0;
-	 //faces are bork?
+	 
 	for(auto I = faces.begin(); I != faces.end(); I++){
 		e_face *f = *I;
 		e_face *f2 = mapFace(f,fmap,tmap,vmap,EM);
@@ -704,9 +704,9 @@ e_selection e_selection::addTo(e_model *EM){
 	return sel;
 }
 
-//simplifies selection.
-//returns [0]: minimal set: selected tris, selected edges not in tris, and selected verts not in tris or edges
-//returns [1]: maximal set: selected tris, selected edges + those in tris, and selected verts + those in tris + those in edges
+
+
+
 vector<e_selection> e_selection::getNormalized(){
 	e_selection vertsFromTris = getTris().getImplicitVerts();
 	e_selection edgesFromTris = getTris().getImplicitEdges();
@@ -726,12 +726,12 @@ vector<e_selection> e_selection::getNormalized(){
 	maxVerts.addElements(vertsFromTris);
 	maxVerts.addElements(vertsFromEdges);
 
-	e_selection minSel(EM); //minimal selection
+	e_selection minSel(EM); 
 	minSel.tris = minTris.tris;
 	minSel.edges = minEdges.edges;
 	minSel.verts = minVerts.verts;
 
-	e_selection maxSel(EM); //maximal selection
+	e_selection maxSel(EM); 
 	maxSel.tris = maxTris.tris;
 	maxSel.edges = maxEdges.edges;
 	maxSel.verts = maxVerts.verts;
@@ -739,18 +739,18 @@ vector<e_selection> e_selection::getNormalized(){
 	return {minSel, maxSel};
 }
 
-//extrudes <selected>
-//returns [0]: newly created elements
-//returns [1]: elements connecting the existing elements to new elements.
+
+
+
 
 vector<e_selection> e_selection::extrude(){
-	e_selection skirt(EM); //elements in the selection that are connected to anything outside the selection
-	//1) normalize selection into tris, non-tri edges, and non-tri non-edge vertices
+	e_selection skirt(EM); 
+	
 	vector<e_selection> normed = getNormalized();
 	e_selection minimal = normed[0];
 	e_selection maximal = normed[1];
 
-	//2) calculate the skirt
+	
 	for_all(minimal.tris,I,{
 		auto &ne = (*I)->parts;
 		auto &nd = (*I)->touching;
@@ -788,85 +788,85 @@ e_selection e_model::selectAll(){
 	return sel;
 }
 
-//--------------- OLD SETUP
-//a neighbor is any element that needs to be modified if this element is removed/replaced
-//neighbor types:
-//	essential					makes up the definition of this element. subset of direct. Only vertices.
-//	direct			contained	contains or is contained by this element. subset of indirect.
-//  indirect		sharing		shares elements with this one.
-//	remote						indirect neighbors of a neighbor.
-
-//--------------- NEW SETUP
-//				 _______________________________________
-//  			|		face	|  tri	| edge  |vertex |
-//				|_______________|_______|_______|_______|
-//definition	|   	tris  	| verts | verts |   pos	|
-//				|---------------|-------|-------|-------|
-//				|   tris		| edges |		|		|
-//parts			|edges (outside)| verts | verts |		|
-//				|verts (outside)|		|		|		|
-//				|---------------|-------|-------|-------|
-//touching		|	             faces					|
-//				|				 tris					|
-//				|				 edges					|
-//				|			verts (through edges)		|
-//				|_______________________________________|
-//
-//	definition - elements that are necessary and sufficient to define this element
-//  parts - elements that are contained within this element (though likely shared)
-//  touching - elements that touch this one (excluding parts).
-//				of them, verts - verts of touching edges, that are opposite of part verts
-//
-//  tri is made of edges and not verts, because the edges of a tri should always be defined
-//  else it would be possible to make a tri without edges.
-//  edit: actually, edges are super awkward to work with, so ima just require them from the constructor.
 
 
-//  face.definition - triangles
-//  face.parts - triangles, outside edges, outside vertices
-//  triangle.definition - vertices
-//  triangle.parts - edges, vertices
-//  edge.definition - vertices
-//  edge.parts - vertices
-//
 
-//right now lets deal with only the contained elements
-//old:
-//vnv - remote
-//vne - direct
-//vnt - direct
-//env - essential
-//ene - direct
-//ent - indirect
-//tnv - essential
-//new:
-//vnv - contained (empty)
-//vne - contained
-//vnt - contained
-//env - contained (A,B)
-//ene - contained (empty)
-//ent - contained
-//tnv - contained (A,B,C)
-//tne - contained (AB,BC,CA)
-//tnt - contained (empty)
 
-//localized repair:
-//loop:
-//sel1 = all affected points
-//sel2 = sel1+sel1.indirect_neighbors //neighbors of a selection are all the indirect neighbors minus the selection
-// (aka sel2 = sel1.indirect_neighbors_all;) //including the selection
-//if(repair sel1){sel1 = sel2; goto loop;}
-//
-//algo repairs affected area, and if changes were made, expands the area.
-//HOWEVER, funcs should be made such that repair is never necessary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void e_model::removePartsInfo(){
-	//removes redundant information,
-	//such as non-essential (parts+touching connectivity lists)
-	//or cached data.
+	
+	
+	
 	for_all_elements(I,(*I)->parts.clear();)
-	//recover from definintions using "recomputeNeighbors".
+	
 	isElaborate = false;
 }
 
@@ -916,25 +916,25 @@ const char *e_model::checkDuplicates(bool repair){
 	}
 
 const char *e_model::checkDanglingPointers(bool repair){
-	//if repair, repairs the model until there are no dangling pointers.
-	//else, only checks if repair is necessary.
-	//returns true if the model had dangling pointers.
+	
+	
+	
 
-	//safe against dangling neighbor pointers
-	//may create (expose) degenerate elements
-	//removes neighbor refs, does not remove actual elements
+	
+	
+	
 
-	//for each element:
-	//	for each neighbor:
-	//		check if this element is in the model
-	//			if exists, do nothing
-	//			if not exists, remove from neighbors
+	
+	
+	
+	
+	
 	const char *repneeded = 0;
 	for_all_elements(I,{
 		for_all_n(*I,J,
 			if(!contains(v,*J)){
 				repneeded = "dangling pointer";
-				if(repair){J = v.erase(J);}	//v is the vector through which we iterate using J.
+				if(repair){J = v.erase(J);}	
 			}
 		);
 	});
@@ -942,25 +942,25 @@ const char *e_model::checkDanglingPointers(bool repair){
 }
 
 const char *e_model::checkDegenerate(bool repair){
-	//if repair, repairs the model until it is not degenerate.
-	//else, only checks if repair is necessary.
-	//returns true if model was degenerate
-	//should be safe against dangling neighbor pointers
-	//model must be stripped prior to check
+	
+	
+	
+	
+	
 	const char *repneeded = 0;
 	const char *didstuff = 0;
 	cd_loop:
-	//at the start of each run, removeDanglingPointers
-	//	(we may have started with some, or created them last iteration)
+	
+	
 	const char *duplicate = checkDuplicates(repair);
 	if(duplicate && !repair){return duplicate;}
 	const char *dangling = checkDanglingPointers(repair);
 	if(dangling && !repair){return dangling;}
 	for_all_elements(I,
-		//degenerate elements:
-		//element whose neighbor is itself (remove neighbor)
+		
+		
 			for_all_n(*I,_I,
-				if((void*)*_I == (void*)x){	//hax because too lazy for propper typing
+				if((void*)*_I == (void*)x){	
 					repneeded = "degenerate (1.self_neighbor)";
 					if(repair){
 						_I = v.erase(_I);
@@ -969,8 +969,8 @@ const char *e_model::checkDegenerate(bool repair){
 			);
 
 	);
-	//element with too many essential verts (remove extras)
-	//element with not enough essential verts (remove element)
+	
+	
 	#define cd_es_shrink(x,_v,n){					\
 		auto &v = (x)->definition._v;		\
 		if(v.size() > n){	\
@@ -1003,7 +1003,7 @@ const char *e_model::checkDegenerate(bool repair){
 		cd_es_shrink(*I,tris,0);
 		cd_es_min(I,3);
 	);
-	//edge two repeated verts (if not stripped, replace edge with point)(else remove edge, keep points)
+	
 	for_all(edges,I,
 		auto &v2 = (*I)->definition.verts;
 		if(v2[0] == v2[1]){
@@ -1013,10 +1013,10 @@ const char *e_model::checkDegenerate(bool repair){
 			}
 		}
 	);
-	//triangle  (replace tri with point)
-	//triangle whose two endpoitns are the same (replace tri with edge)
-	//triangle implies edges?
-	//meh, just remove the traingle
+	
+	
+	
+	
 	for_all(tris,I,
 		auto &v2 = (*I)->definition.verts;
 		if((v2[0] == v2[1]) ||(v2[1] == v2[2]) ||(v2[2] == v2[0])){
@@ -1026,20 +1026,20 @@ const char *e_model::checkDegenerate(bool repair){
 			}
 		}
 	);
-	//if anything done this time, check again
+	
 	if(repneeded && repair){didstuff = repneeded; repneeded = 0; goto cd_loop;}
 	if(repair){return didstuff;}
 	else{return repneeded;}
-	//error("removeDegenerates not implemented");
+	
 }
 
 #define CHECK2VERTS(x) if((x)->definition.verts.size() != 2 ){error("recalc neighbors: 2 verts expected");}
 #define CHECK3VERTS(x) if((x)->definition.verts.size() != 3 ){error("recalc neighbors: 3 verts expected");}
 
 void e_model::recalculateNeighbors(){
-	//0.1) essential: (env), (tnv)
-	//0.2) strip neighbors
-	//stripNeighbors();
+	
+	
+	
 	removePartsInfo();
 	removeTouchingInfo();
 	checkDegenerate(true);
@@ -1055,7 +1055,7 @@ void e_model::recalculateNeighbors(){
 		this - this element. cannot be in 'touch' or 'part'.
 		touch relation is assymmetric. a vertex may touch a triangle but
 		the triangle may not touch the vertex.
-		//-------
+		
 		t.d.v is known
 		t.d.e = 0
 		t.d.t = 0
@@ -1067,7 +1067,7 @@ void e_model::recalculateNeighbors(){
 		t.t.t = any t with v in t.d.v and in other.t.d.v
 				or, equivalently,
 					  with e in t.p.e and in other.t.p.e
-		//-------
+		
 		e.d.v is known
 		e.d.e = 0
 		e.d.t = 0
@@ -1077,7 +1077,7 @@ void e_model::recalculateNeighbors(){
 		e.t.v = any v in e.t.e and not in e.d.v
 		e.t.e = any e with v in e.d.v
 		e.t.t = any t with v with in e.d.v
-		//-------
+		
 		v.d.v = 0
 		v.d.e = 0
 		v.d.t = 0
@@ -1087,35 +1087,35 @@ void e_model::recalculateNeighbors(){
 		v.t.v = any v in v.t.e
 		v.t.e = any e with this in e.d.v
 		v.t.t = any t with this in t.d.v
-		//-----------------
+		
 
-		//what counts as touching:
+		
 		t.t.t ~~~~~~*~~~~				t.t.e ~~~~~~*~~~~				t.t.v ~~~~~~~*~~~~
 		    ~(1)###/     ~~~~   		    ~      /     ~~~~  			    ~       /     ~~~~
 		  ~#######/this       ~~~~		  ~       /this       ~~~~		  ~        /this       ~~~~
 		~*-------*---------------*		 ~=(1)===*---------------*		 ~(1)-----*---------------*
-		 ~\#####/#\#############~		 ~     // \\              ~		 ~ \     / \              ~
+		 ~\#####/#\#############~		 ~     
 		  ~\(2)/###\###(4)##~			  ~  (2)   (3)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ //     \\  ~				   ~ \ /     \  ~
+		   ~\#/#(3)#\##~				   ~ 
 		    ~*--------*~					~*-------*~						~(2)----(3)~
 
 		e.t.t ~~~~~~*~~~~				e.t.e ~~~~~~*~~~~				e.t.v ~~~~~~(1)~~~
 		    ~(1)###/##(5)~~~~   		    ~     (1)    ~~~~  			    ~       /     ~~~~
-		  ~#######/#########~~~~		  ~       //          ~~~~		  ~        /           ~~~~
+		  ~#######/#########~~~~		  ~       
 		~*-------*---this------*		 ~=(2)===*---this--------*		 ~(2)-----*-----this------*
-		 ~\#####/#\#############~		 ~     // \\              ~		 ~ \     / \              ~
+		 ~\#####/#\#############~		 ~     
 		  ~\(2)/###\###(4)##~			  ~  (3)   (4)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ //     \\  ~				   ~ \ /     \  ~
+		   ~\#/#(3)#\##~				   ~ 
 		    ~*--------*~					~*-------*~						~(2)----(3)~
 
 
 		v.t.t ~~~~~~*~~~~				v.t.e ~~~~~~*~~~~				v.t.v ~~~~~~(1)~~~
 		    ~(1)###/##(5)~~~~   		    ~     (1)    ~~~~  			    ~       /     ~~~~
-		  ~#######/#########~~~~		  ~       //          ~~~~		  ~        /           ~~~~
+		  ~#######/#########~~~~		  ~       
 		~*-----(this)----------*		 ~=(2)=(this)===(5)======*		 ~(2)---(this)-----------(5)
-		 ~\#####/#\#############~		 ~     // \\              ~		 ~ \     / \              ~
+		 ~\#####/#\#############~		 ~     
 		  ~\(2)/###\###(4)##~			  ~  (3)   (4)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ //     \\  ~				   ~ \ /     \  ~
+		   ~\#/#(3)#\##~				   ~ 
 		    ~*--------*~					~*-------*~						~(3)----(4)~
 
 									pass (order of computation):
@@ -1137,14 +1137,14 @@ void e_model::recalculateNeighbors(){
 
 
 	*/
-	//1.1: t.p.v = t.d.v
+	
 	for(auto I = tris.begin(); I != tris.end(); I++){
 		CHECK3VERTS(*I);
 		(*I)->parts.verts.push_back((*I)->definition.verts[0]);
 		(*I)->parts.verts.push_back((*I)->definition.verts[1]);
 		(*I)->parts.verts.push_back((*I)->definition.verts[2]);
 	}
-	//1.2: t.p.e = any e with both v in t.d.v
+	
 	for(auto I = tris.begin(); I != tris.end(); I++){
 		CHECK3VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
@@ -1161,7 +1161,7 @@ void e_model::recalculateNeighbors(){
 				}
 		}
 	}
-	//1.3: t.t.t = any t with v in t.d.v and in other.t.d.v
+	
 	for(auto I = tris.begin(); I != tris.end(); I++){
 		CHECK3VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
@@ -1183,14 +1183,14 @@ void e_model::recalculateNeighbors(){
 				}
 		}
 	}
-	//1.4: e.p.v = e.d.v
+	
 	for(auto I = edges.begin(); I != edges.end(); I++){
 		CHECK2VERTS(*I);
 		(*I)->parts.verts.push_back((*I)->definition.verts[0]);
 		(*I)->parts.verts.push_back((*I)->definition.verts[1]);
-		//(*I)->parts.verts.push_back((*I)->definition.verts[2]);
+		
 	}
-	//1.5: e.t.e = any e with v in e.d.v
+	
 	for(auto I = edges.begin(); I != edges.end(); I++){
 		CHECK2VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
@@ -1205,7 +1205,7 @@ void e_model::recalculateNeighbors(){
 			}
 		}
 	}
-	//1.6: e.t.t = any t with v with in e.d.v
+	
 	for(auto I = edges.begin(); I != edges.end(); I++){
 		CHECK2VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
@@ -1220,7 +1220,7 @@ void e_model::recalculateNeighbors(){
 			}
 		}
 	}
-	//1.7: v.t.e = any e with this in e.d.v
+	
 	for(auto I = verts.begin(); I != verts.end(); I++){
 		for(auto J = edges.begin(); J != edges.end(); J++){
 			CHECK2VERTS(*J);
@@ -1231,7 +1231,7 @@ void e_model::recalculateNeighbors(){
 			}
 		}
 	}
-	//1.8: v.t.t = any t with this in t.d.v
+	
 	for(auto I = verts.begin(); I != verts.end(); I++){
 		for(auto J = tris.begin(); J != tris.end(); J++){
 			CHECK3VERTS(*J);
@@ -1243,8 +1243,8 @@ void e_model::recalculateNeighbors(){
 			}
 		}
 	}
-	//2.1: t.t.e = any e with v in t.d.v and not in t.p.e
-	//					i.e. one v in t.d.v and the other is not.
+	
+	
 	for(auto I = tris.begin(); I != tris.end(); I++){
 		CHECK3VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
@@ -1261,21 +1261,21 @@ void e_model::recalculateNeighbors(){
 				}
 		}
 	}
-	//2.2: e.t.v = any v in e.t.e and not in e.d.v
+	
 	for(auto I = edges.begin(); I != edges.end(); I++){
 		CHECK2VERTS(*I);
 		e_vertex *vA = (*I)->definition.verts[0];
 		e_vertex *vB = (*I)->definition.verts[1];
 		for(auto J = (*I)->touching.edges.begin(); J != (*I)->touching.edges.end(); J++){
 			CHECK2VERTS(*J);
-			//check J != I ?
+			
 			e_vertex *vD = (*J)->definition.verts[0];
 			e_vertex *vE = (*J)->definition.verts[1];
 			if((vA != vD) && (vB != vD)){(*I)->touching.verts.push_back(vD);}
 			if((vA != vE) && (vB != vE)){(*I)->touching.verts.push_back(vE);}
 		}
 	}
-	//2.3: v.t.v = any v in v.t.e
+	
 	for(auto I = verts.begin(); I != verts.end(); I++){
 		for(auto J = (*I)->touching.edges.begin(); J != (*I)->touching.edges.end(); J++){
 			CHECK2VERTS(*J);
@@ -1285,14 +1285,14 @@ void e_model::recalculateNeighbors(){
 			if(vE != *I){(*I)->touching.verts.push_back(vE);}
 		}
 	}
-	// env +-> vne +-> vnv
-	//	   +-------|---^
-	//     |       +-> ene
-	//     +-------|---^
-	//             +-> tne -> tnt
-	// tnv +-------|---^      ^
-	//     +->vnt  +-> ent ---+
-	//     +-----------^
+	
+	
+	
+	
+	
+	
+	
+	
 	isElaborate = true;
 }
 

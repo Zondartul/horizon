@@ -83,7 +83,7 @@ GUIfileDialog::GUIfileDialog(){
 				this->close();
 			break;
 		}
-		//do a file-is-selected here.
+		
 	});
 	addChild(btn_select);
 }

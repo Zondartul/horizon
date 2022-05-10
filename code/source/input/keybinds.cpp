@@ -20,14 +20,14 @@ void keybindList::checkMB(eventKind &event, int mb, string key) {
 	}
 }
 
-//#define checkMB(x,y)							\
-//	if(event.mousebutton.button == x){			\
-//		if(binds.count(y)){						\
-//			event.maskEvent();					\
-//			g_console->run(binds[y].cmd);			\
-//		}										\
-//	}
-//	
+
+
+
+
+
+
+
+
 void keybindList::checkKB(eventKind& event, string key) {
 	auto& console = G->gs_console->g_console;
 
@@ -37,11 +37,11 @@ void keybindList::checkKB(eventKind& event, string key) {
 	}
 }
 
-//#define checkKB(K)								\
-//	if(binds.count(K)){							\
-//		event.maskEvent();						\
-//		g_console->run(binds[K].cmd);				\
-//	}
+
+
+
+
+
 	
 void keybindList::onEvent(eventKind event){
 	switch(event.type){
@@ -67,7 +67,7 @@ void keybindList::onEvent(eventKind event){
 	}
 }
 
-//keybindList *g_keybinds;
+
 void initKeybinds(){
 	auto& keybinds = G->gs_keybinds->g_keybinds;
 

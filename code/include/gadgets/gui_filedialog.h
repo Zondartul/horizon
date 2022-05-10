@@ -5,15 +5,15 @@
 class GUIfileDialog: public GUIwindow{
 	public:
 	
-	//parts
+	
 	GUIbutton *btn_up;
 	GUItextEntry *address_field;
 	GUIscrollbar *scroll;
 	GUItextEntry *select_field;
 	GUIbutton *btn_select;
-	//selection mode
+	
 	GUIe_fileop mode = GUIf::Open;
-	//function to call when a choice is made
+	
 	function<void(string)> func;
 	
 	GUIfileDialog();

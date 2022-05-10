@@ -9,9 +9,9 @@ class GUIbase;
 class gui_editor_tool_edit:public gui_editor_tool{
 	public:
 	enum {GEMT_START, GEMT_SUBJECT, GEMT_END} stage = GEMT_START;
-	virtual void scan();	//called on mousemove events
-	virtual void draw();	//called on mouse move
-	virtual void lup();		//called on mouse click
+	virtual void scan();	
+	virtual void draw();	
+	virtual void lup();		
 	virtual void ldown();
 	virtual void rup();
 	virtual void rdown();

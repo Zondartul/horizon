@@ -13,7 +13,7 @@ GUItable::GUItable(GUIpropertyTable tab):GUItable(){
 }
 
 GUItable &GUItable::setTable(GUIpropertyTable tab){
-	//todo: also clean up before adding entries
+	
 	table.entries = tab;
 	grid->resize(table.entries.table.size(),2);
 	grid->configureColumn(0,32,128,1.0);

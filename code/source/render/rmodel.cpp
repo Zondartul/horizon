@@ -1,5 +1,5 @@
 #include "rmodel.h"
-#include "renderLow.h" //renderLow decides how rendermodel is loaded/unloaded
+#include "renderLow.h" 
 #include "model.h"
 #include <vector>
 using std::vector;
@@ -41,17 +41,17 @@ rmodel::rmodel(model *m){
 	}
 }
 rmodel::~rmodel(){
-	//assume we are being deleted by renderLow, who already unloaded us.
-	/*
-	//can't delete buffers immediately, cause this might not have been
-	//drawn yet. so tell the queue to do it.
 	
-	//unloadModel(this); //actually rcmd_rmodel_delete unloads it too.
-	//also can't delete the CPU-side vertex vectors, same reason.
-	//make rmodel sharedly owned or pass rmodel to queue so queue can delete it.
+	/*
+	
+	
+	
+	
+	
+	
 	*/
 }
-//make sure they're all the same size 
+
 model *modelFromPoints(vector<vec3> *vertices,
 					vector<vec3> *normals,
 					vector<vec2> *uvs){
@@ -88,7 +88,7 @@ model *rmodel::toModel(){
 
 
 void rmodel::finalize(){
-	while(colors->size() < vertices->size()){colors->push_back(vec3(1.0f,1.0f,1.0f));}//default color is white
+	while(colors->size() < vertices->size()){colors->push_back(vec3(1.0f,1.0f,1.0f));}
 	while(normals->size() < vertices->size()){normals->push_back(vec3(0.0f,0.0f,0.0f));}
 	while(uvs->size() < vertices->size()){uvs->push_back(vec2(0.0f,0.0f));}
 }

@@ -1,16 +1,16 @@
 #ifndef GUISELECTABLE_GUARD
 #define GUISELECTABLE_GUARD
 
-// A selectable item can be clicked. Child elements do not receive the clicks.
-// Single click selects the item. Double-click activates the item. 
-// Ctrl-click adds an item to the selection. Shift click selects all items in a range. 
-// Item selection can be dragged.
+
+
+
+
 
 class GUIselectable;
 
-//a selection group is a grouping of selactables
-//within a form, some of which may be selected.
-//acts like a radio-button-group, but for selectables.
+
+
+
 class GUIselectionGroup:public GUIbase{
 	public:
 	bool bSizeToParent = false;

@@ -3,10 +3,10 @@
 #include "globals.h"
 #include "render.h"
 #include "renderLayer.h"
-//#include "modelLoader.h"
+
 #include "rmodel.h"
 
-//renderLow, opengl 3.x version
+
 
 /*
 implicit state:
@@ -58,7 +58,7 @@ class DLLAPI renderLowKind{
 
 	GPUdriverKind *GPUdriver;
 	renderOptions options;
-#pragma warning(disable: 4251) //don't say vector<> needs a dll-interface
+#pragma warning(disable: 4251) 
 	vector<renderOptions> optionStack;
 };
 

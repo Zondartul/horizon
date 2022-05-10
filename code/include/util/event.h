@@ -31,15 +31,15 @@ struct event_mouse_wheel{
 	int y;
 };
 enum eventType{	
-			EVENT_KEY_UP,				//keyboard keys
+			EVENT_KEY_UP,				
 			EVENT_KEY_DOWN,
-			EVENT_MOUSE_BUTTON_UP,		//mouse buttons
+			EVENT_MOUSE_BUTTON_UP,		
 			EVENT_MOUSE_BUTTON_DOWN,
-			EVENT_MOUSE_MOVE,			//mouse movement
-			EVENT_MOUSE_WHEEL,			//mouse axis
-			EVENT_FRAME,				//render frame
-			EVENT_TICK,					//logic tick
-			EVENT_CLEANUP				//garbage collection call, etc
+			EVENT_MOUSE_MOVE,			
+			EVENT_MOUSE_WHEEL,			
+			EVENT_FRAME,				
+			EVENT_TICK,					
+			EVENT_CLEANUP				
 			};
 struct eventKind{
 	eventType type;
@@ -61,7 +61,7 @@ class eventListener;
 struct eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
-	int publishEventSequentialMaskable(eventKind event);	//returns non-zero if the event was handled/masked
+	int publishEventSequentialMaskable(eventKind event);	
 	int publishEventParallelMaskable(eventKind event);
 	void addListener(eventListener *listener);
 	void addListenerFront(eventListener *listener);
@@ -73,14 +73,14 @@ typedef eventListenerList eventChannel;
 
 class eventListener{
 	public:
-	//let's make it unsubscribe automatically
+	
 	vector<eventChannel*> channels;
 	virtual ~eventListener();
 
 	virtual void onEvent(eventKind event);
 };
 
-//extern eventChannel *g_globalChannel;
+
 void initEvents();
 
 struct gs_eventKind {

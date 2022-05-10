@@ -34,7 +34,7 @@ timer::~timer(){
 	}
 }
 
-void timer::tick(){     //honestly the most convoluted destructor in all of Horizon
+void timer::tick(){     
 	if(!run){return;}
 	ticks_left--;
 	if(!ticks_left){
@@ -65,8 +65,8 @@ void timersTick(){
 	}
 }
 
-//int g_t = 0;		//game time in ticks
-//float g_t2 = 0;	//game time in seconds
+
+
 
 int getGameTicks(){
 	auto& t = G->gs_timer->g_t;

@@ -67,17 +67,17 @@
 * encouraged to submit platform specific modifications to the Khronos
 * group so that they can be included in future versions of this file.
 * Please submit changes by sending them to the public Khronos Bugzilla
-* (http://khronos.org/bugzilla) by filing a bug against product
+* (http:
 * "Khronos (general)" component "Registry".
 *
 * A predefined template which fills in some of the bug fields can be
-* reached using http://tinyurl.com/khrplatform-h-bugreport, but you
+* reached using http:
 * must create a Bugzilla login first.
 *
 *
 * See the Implementer's Guidelines for information about where this file
 * should be located on your system and for more details of its use:
-*    http://www.khronos.org/registry/implementers_guide.pdf
+*    http:
 *
 * This file should be included as
 *        #include <KHR/khrplatform.h>
@@ -349,7 +349,7 @@ typedef enum {
 * Adopters may modify khrplatform.h and this file to suit their platform.
 * You are encouraged to submit all modifications to the Khronos group so that
 * they can be included in future versions of this file.  Please submit changes
-* by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
+* by sending them to the public Khronos Bugzilla (http:
 * by filing a bug against product "EGL" component "Registry".
 */
 
@@ -511,7 +511,7 @@ extern "C" {
 ** This header is generated from the Khronos OpenGL / OpenGL ES XML
 ** API Registry. The current version of the Registry, generator scripts
 ** used to make the header, and the header can be found at
-**   http://www.opengl.org/registry/
+**   http:
 **
 ** Khronos $Revision: 31566 $ on $Date: 2015-06-23 08:48:48 -0700 (Tue, 23 Jun 2015) $
 */
@@ -815,7 +815,7 @@ extern "C" {
 ** This header is generated from the Khronos OpenGL / OpenGL ES XML
 ** API Registry. The current version of the Registry, generator scripts
 ** used to make the header, and the header can be found at
-**   http://www.opengl.org/registry/
+**   http:
 **
 ** Khronos $Revision: 31566 $ on $Date: 2015-06-23 08:48:48 -0700 (Tue, 23 Jun 2015) $
 */

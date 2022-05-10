@@ -2,13 +2,13 @@
 #define GUI_TYPES_GUARD
 #include "util.h"
 #include "vec.h"
-//data types used by GUI widgets:
-//font, texture - types for opaque pointers
-//GUI_border_rects - rects of border zones for the widget
-//GUI_border_size - thickness of each border zone 
-//GUIe_border - border zone enum
-//GUIe_alignment - alignment mode enum
-//GUIe_fileop - file dialog operation type enum
+
+
+
+
+
+
+
 
 struct font;
 struct texture;
@@ -18,10 +18,10 @@ struct GUI_border_rects{
 	rect Rbottom;
 	rect Rleft;
 	rect Rright;
-	rect Rctl; //corner top left
-	rect Rctr; //corner top right
-	rect Rcbl; //corner bottom left
-	rect Rcbr; //corner bottom right
+	rect Rctl; 
+	rect Rctr; 
+	rect Rcbl; 
+	rect Rcbr; 
 };
 typedef GUI_border_rects GUIbr;
 
@@ -47,8 +47,8 @@ enum class GUIe_alignment{None,Left,Right,Top,Bottom,Center};
 typedef GUIe_alignment GUIa;
 DECLARE_enum_class_bitwise_operators(GUIe_alignment);
 
-//selection of a file dialog operation: 
-//open file, save to file, or select folder
+
+
 enum class GUIe_fileop{None,Open,Save,Folder};
 typedef GUIe_fileop GUIf;
 #endif
