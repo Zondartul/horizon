@@ -1,7 +1,7 @@
 #pragma once
 
-struct gs_ecsKind;
-struct gs_entityKind;
+//struct gs_ecsKind;
+//struct gs_entityKind;
 struct gs_tool_editKind;
 struct gs_gui_editorKind;
 struct gs_node_graphKind;
@@ -11,12 +11,12 @@ struct gs_renderLayerKind;
 struct gs_paintKind;
 struct gs_windowKind;
 struct gs_timerKind;
-struct gs_physboxKind;
+//struct gs_physboxKind;
 struct gs_resourceKind;
 struct gs_mainKind;
-struct gs_narrowphaseKind;
-struct gs_broadphaseKind;
-struct gs_modelLoaderKind;
+//struct gs_narrowphaseKind;
+//struct gs_broadphaseKind;
+//struct gs_modelLoaderKind;
 struct gs_renderKind;
 struct gs_printwKind;
 struct gs_commandsKind;
@@ -29,8 +29,8 @@ struct gs_eventKind;
 struct gs_GUIrenderer_defaultKind;
 struct gs_cameraKind;
 struct gs_map_editorKind;
-struct gs_frameprinterKind;
-struct gs_inputControllerKind;
+//struct gs_frameprinterKind;
+//struct gs_inputControllerKind;
 struct gs_consoleKind;
 
 class Globals {
@@ -40,19 +40,19 @@ public:
 	struct gs_entityKind* gs_entity;
 	struct gs_tool_editKind* gs_tool_edit;
 	struct gs_gui_editorKind* gs_gui_editor;
-	struct gs_node_graphKind* gs_node_graph;
+	//struct gs_node_graphKind* gs_node_graph;
 	struct gs_pickerKind* gs_picker;
 	struct gs_debugKind* gs_debug;
 	struct gs_renderLayerKind* gs_renderLayer;
 	struct gs_paintKind* gs_paint;
 	struct gs_windowKind* gs_window;
 	struct gs_timerKind* gs_timer;
-	struct gs_physboxKind* gs_physbox;
+	//struct gs_physboxKind* gs_physbox;
 	struct gs_resourceKind* gs_resource;
 	struct gs_mainKind* gs_main;
-	struct gs_narrowphaseKind* gs_narrowphase;
-	struct gs_broadphaseKind* gs_broadphase;
-	struct gs_modelLoaderKind* gs_modelLoader;
+	//struct gs_narrowphaseKind* gs_narrowphase;
+	//struct gs_broadphaseKind* gs_broadphase;
+	//struct gs_modelLoaderKind* gs_modelLoader;
 	struct gs_renderKind* gs_render;
 	struct gs_printwKind* gs_printw;
 	struct gs_commandsKind* gs_commands;
@@ -65,8 +65,8 @@ public:
 	struct gs_GUIrenderer_defaultKind* gs_GUIrenderer_default;
 	struct gs_cameraKind* gs_camera;
 	struct gs_map_editorKind* gs_map_editor;
-	struct gs_frameprinterKind* gs_frameprinter;
-	struct gs_inputControllerKind* gs_inputController;
+	//struct gs_frameprinterKind* gs_frameprinter;
+	//struct gs_inputControllerKind* gs_inputController;
 	struct gs_consoleKind* gs_console;
 };
 

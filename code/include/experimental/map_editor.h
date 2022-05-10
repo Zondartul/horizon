@@ -37,8 +37,8 @@ class map_editor_kind:public eventListener{
 	bool is_selecting = false;
 	vector<vec3> points;
 	int selectmode;
-	entity *mouseover_ent = 0;
-    entity *selected_ent = 0;
+	//entity *mouseover_ent = 0;
+    //entity *selected_ent = 0;
 	map_editor_kind();
 	void onEvent(eventKind event);
 
@@ -81,7 +81,7 @@ class map_editor_kind:public eventListener{
 
 struct gs_map_editorKind {
     map_editor_kind* g_mapeditor;
-    vector<entity*> g_planes;
+   // vector<entity*> g_planes;
     renderLayer* g_templayer = 0;
 };
 

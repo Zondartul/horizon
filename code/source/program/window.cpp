@@ -13,10 +13,12 @@
 
 //the "correct way to glew" says we don't use gl.h any more.
 #include "stdlib.h"
-#include "inputController.h"
+//#include "inputController.h"
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
+#include "global_vars.h"
+
 //extern GUIbase *g_GUI;
 
 //int g_height;

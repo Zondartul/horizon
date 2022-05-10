@@ -82,53 +82,13 @@
 //#warning TODO: make it so collision normals are away from body2
 //#warning TODO: make it so friction resolution uses actual normal force and not normal velocity
 
-
-//
-//model *g_m;
-//GUIbase *g_GUI = 0;
-//octree_node *g_octree_root;
-//float g_frametime = 0;
-//float g_fps = 0;
-//bool g_gamePaused = false;
-//bool g_printf_enabled = true;
-//void *g_mem1 = 0;
-//void *g_mem2 = 0;
-//
-//uint32_t g_audio_len = 0;
-//uint8_t *g_audio_pos = 0;
-//Through this function, SDL requests the user to copy "len" bytes of audio data into "stream".
-void my_audio_callback(void *userdata, uint8_t *stream, int len){
-	auto& audio_len = G->gs_main->g_audio_len;
-	auto& audio_pos = G->gs_main->g_audio_pos;
-
-    if(audio_len == 0){return;}
-
-    len = (int)min((float)audio_len, len);
-#ifndef NO_SDL
-    SDL_memcpy(stream, audio_pos, len);
-#endif
-    audio_pos += len;
-    audio_len -= len;
-}
-
 int main(int argc, char **argv){
 	printf("Hello World!\n");
 	G = new Globals();
 
-	auto& octree_root = G->gs_main->g_octree_root;
 	auto& camera = G->gs_camera->g_camera;
 	auto& console = G->gs_console->g_console;
-	auto& ecs = G->gs_ecs->g_ecs;
-	auto& physicsOn = G->gs_ecs->g_physicsOn;
-	auto& collisionOn = G->gs_ecs->g_collisionOn;
-	auto& texturingOn = G->gs_ecs->g_texturingOn;
-	auto& audio_len = G->gs_main->g_audio_len;
-	auto& audio_pos = G->gs_main->g_audio_pos;
-	auto& mem1 = G->gs_main->g_mem1;
-	auto& frametime = G->gs_main->g_frametime;
-	auto& fps = G->gs_main->g_fps;
 
-	debuginit();
 
 	initUtil();
 	window_init(512,512);
@@ -137,13 +97,8 @@ int main(int argc, char **argv){
 	renderInit();
 	loadAssets();
 
-	octree_root = new octree_node();
-	float worldsize = 500;
-	octree_root->volume = AABB(-vec3(0.5,0.5,0.5)*worldsize,vec3(0.5,0.5,0.5)*worldsize);
 	camera.setPos({-0.5,0,0});
 	
-	setbuf(stdout,0);
-
 	setupLayers();
 	addKeybinds();
 
@@ -151,67 +106,18 @@ int main(int argc, char **argv){
 	addConsoleCommands();
 
 	openGUI();
-	//setFramePrinter(new frameprinter()); //it's annoying
 
-	ecs.physics = new ecs_physics_system_kind();
-	ecs.collision = new ecs_collision_system_kind();
-	ecs.render = new ecs_render_system_kind();
-	physicsOn = true;
-	collisionOn = true;
-	texturingOn = true;
-
-	printf("initializing sound\n");
-
-#ifndef NO_SDL
-	uint32_t wav_length;
-	uint8_t *wav_buffer;
-	SDL_AudioSpec wav_spec;
-	const char *wavpath = "footstep_rock_1.wav";	
-	if(!SDL_LoadWAV(wavpath, &wav_spec, &wav_buffer, &wav_length)){
-        	printf("SDL wav LOAD ERROR\n"); return 0;
-	}
-	printf("loaded ok\n");
-	printf("wav_spec:\nchnnales: %d\nfreq: %d\npadding: %d\nsamples: %d\nsilence: %d\nsize: %d\n",wav_spec.channels, wav_spec.freq, wav_spec.padding, wav_spec.samples, wav_spec.silence, wav_spec.size);
-	wav_spec.callback = my_audio_callback;
-	wav_spec.userdata = 0;
-
-	audio_pos = wav_buffer;
-	audio_len = wav_length;
-
-
-	if(SDL_OpenAudio(&wav_spec, 0) < 0){
-        printf("DEVICE ERROR\n"); return 0;
-	}
-	SDL_PauseAudio(0);
-	printf("play\n");
-
-	SDL_CloseAudio();
-	SDL_FreeWAV(wav_buffer);
-#endif
-	makeScene1();
 	printf("-------- frames begin ----------\n");
 
-	printf("\n");
-	mem1 = malloc(1);
 	while(1){
-
-		profile(tick(),frametime);
-		if(frametime){fps = 1.0f/frametime;}
+		tick();
 	}
 	return 0;
 }
 
-//float g_eventTime;
-//float g_renderTime;
-//float g_sysmsgTime;
-//
-//float g_eventTimeFlt = 0;
-//float g_renderTimeFlt = 0;
-//float g_sysmsgTimeFlt = 0;
-//float g_frametimeFlt = 1.f;
 void tick(){
 	auto& globalChannel = G->gs_event->g_globalChannel;
-	auto& entities = G->gs_entity->g_entities;
+	//auto& entities = G->gs_entity->g_entities;
 	auto& eventTime = G->gs_main->g_eventTime;
 	auto& renderTime = G->gs_main->g_renderTime;
 	auto& sysmsgTime = G->gs_main->g_sysmsgTime;
@@ -232,30 +138,10 @@ void tick(){
 	eventKind e3; e3.type = EVENT_CLEANUP;
 	globalChannel->publishEvent(e3);
 	
-	frameprint(string()+"entities: "+(int)entities.size());
-	profile(renderTick(),renderTime);
-	profile(sysMessageTick(),sysmsgTime);
-    static int i = 0;
-    i++;
-    if(i == 20){
-		i = 0; 
-		eventTimeFlt = eventTime; 
-		renderTimeFlt = renderTime; 
-		sysmsgTimeFlt = sysmsgTime; 
-		frametimeFlt = frametime;
-	}
-
-	frameprint(fstring("time.event: %.1f%%",eventTimeFlt*100.f/frametimeFlt));
-	frameprint(fstring("time.render: %.1f%%",renderTimeFlt*100.f/frametimeFlt));
-	frameprint(fstring("time.sysmsg: %.1f%%",sysmsgTimeFlt*100.f/frametimeFlt));
-	mem2 = malloc(1);
-	uint64_t memdiff = (uint64_t)mem2 - (uint64_t)mem1;
-	frameprint(fstring("total RAM use: %1.6f MB\n",((float)memdiff)/1000000.f));
-	free(mem2);
-	
+	renderTick();  
+	sysMessageTick(); 
 }
 
-//renderLayer *g_layerGUI;
 void openGUI(){
 	auto& layerGUI = G->gs_main->g_layerGUI;
 	auto& layer2D = G->gs_paint->g_layer2D;

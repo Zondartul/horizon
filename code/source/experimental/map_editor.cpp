@@ -1,7 +1,8 @@
 #include "map_editor.h"
 #include "geometry.h"
 #include "simplemath.h"
-#include "node_graph.h"
+#include "texture.h"
+//#include "node_graph.h"
 
 //map_editor_kind *g_mapeditor;
 //extern renderLayer *g_ecs_render_layer;
@@ -18,7 +19,7 @@ map_editor_kind::map_editor_kind(){
 	auto& GUI = G->gs_main->g_GUI;
 	auto& inputChannel = G->gs_input->g_inputChannel;
 	auto& globalChannel = G->gs_event->g_globalChannel;
-	auto& ecs_render_layer = G->gs_ecs->g_ecs_render_layer;
+	//auto& ecs_render_layer = G->gs_ecs->g_ecs_render_layer;
 
 	//--------- GUI -----------------------
 	mainWindow = new GUIwindow();
@@ -175,7 +176,7 @@ map_editor_kind::map_editor_kind(){
 
 	GUI->addChild(mainWindow);
 	//---------- 3D render -----------------
-	setLayer(ecs_render_layer);
+	//setLayer(ecs_render_layer);
 	layerMap3D = addNewLayer("map3d");
 	renderLayer *lm3d_reset = addNewLayer("map3d.reset",true,true);
 	layerMap3D->resetLayer = lm3d_reset;
@@ -232,17 +233,17 @@ bool mouseray(vec3 *pos, float z){
 	bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],pos);
 	return has_hit;
 }
-
-bool mouseray(vec3 *pos, collisioninfo **col){
-	auto& camera = G->gs_camera->g_camera;
-
-	*col = camera.eyetrace();
-	if(*col){
-		*pos = (*col)->c_to_c.pos;
-		return true;
-	}
-	return false;
-}
+//
+//bool mouseray(vec3 *pos, collisioninfo **col){
+//	auto& camera = G->gs_camera->g_camera;
+//
+//	*col = camera.eyetrace();
+//	if(*col){
+//		//*pos = (*col)->c_to_c.pos;
+//		return true;
+//	}
+//	return false;
+//}
 
 typedef map_editor_kind::selectDataKind::dirKind DIR;
 string toString(DIR d){
@@ -273,7 +274,7 @@ vec3 toVec3(DIR d){
 
 void map_editor_kind::onEvent(eventKind event){
 	auto& camera = G->gs_camera->g_camera;
-	auto& planes = G->gs_map_editor->g_planes;
+	//auto& planes = G->gs_map_editor->g_planes;
 	auto& templayer = G->gs_map_editor->g_templayer;
 	auto& layerDebug = G->gs_paint->g_layerDebug;
 
@@ -282,13 +283,13 @@ void map_editor_kind::onEvent(eventKind event){
 		case ME_MODE_TERRAIN:
 			if(event.type == EVENT_MOUSE_MOVE){
 				vec3 p1;
-				collisioninfo *col = 0;
+				//collisioninfo *col = 0;
 
 				bool has_ent = false;
-				bool has_hit = mouseray(&p1, &col);
-				if(!has_hit){has_hit = mouseray(&p1,1.f); mouseover_ent = 0;}
-				else
-				{
+				//bool has_hit = mouseray(&p1, &col);
+				//if (!has_hit) { has_hit = mouseray(&p1, 1.f); }//mouseover_ent = 0;}
+				//else
+				//{
 					//also later:
 					//gotta make an entity ID system for reasons of:
 					//1) networking (can't send reference to another computer)
@@ -311,62 +312,62 @@ void map_editor_kind::onEvent(eventKind event){
 					// idi = 0  (0x??00 0000)
 					// id < 0   (> 0x8000 0000)
 
-					has_ent = true;
-					assert(col != 0);
-					
-					mouseover_ent = col->body2->E;
-				}
+				//	has_ent = true;
+				//	assert(col != 0);
+				//	
+				//	//mouseover_ent = col->body2->E;
+				//}
 
-				if(has_hit){
+				//if(has_hit){
 
-					if(templayer == 0){
-						templayer = new renderLayer("black_dots_layer");
-						addLayer(layerDebug, templayer);
-					}
-					setLayer(templayer);
-					setColor(vec3(64,0,0));
+				//	if(templayer == 0){
+				//		templayer = new renderLayer("black_dots_layer");
+				//		addLayer(layerDebug, templayer);
+				//	}
+				//	setLayer(templayer);
+				//	setColor(vec3(64,0,0));
 
 
-					static int once = 1;
-					if(once){
+				//	static int once = 1;
+				//	if(once){
 
-						setColor(vec3(64,64,64));
-						if(col){
-							collisionbodyTerrain *body = dynamic_cast<collisionbodyTerrain*>(col->body2);
-							if(body){
-								vec3 pos = body->pos;
-								once = 0;
-								setColor(vec3(0,64,0));
-								for(auto I = body->em->tris.begin(); I != body->em->tris.end(); I++){
+				//		setColor(vec3(64,64,64));
+				//		if(col){
+				//			//collisionbodyTerrain *body = dynamic_cast<collisionbodyTerrain*>(col->body2);
+				//			/*if(body){
+				//				vec3 pos = body->pos;
+				//				once = 0;
+				//				setColor(vec3(0,64,0));
+				//				for(auto I = body->em->tris.begin(); I != body->em->tris.end(); I++){
 
-									e_triangle &tri = **I;
-									e_vertex &vertA = *(tri.definition.verts[0]);
-									e_vertex &vertB = *(tri.definition.verts[1]);
-									e_vertex &vertC = *(tri.definition.verts[2]);
+				//					e_triangle &tri = **I;
+				//					e_vertex &vertA = *(tri.definition.verts[0]);
+				//					e_vertex &vertB = *(tri.definition.verts[1]);
+				//					e_vertex &vertC = *(tri.definition.verts[2]);
 
-									vec3 &A = vertA.pos;
-									vec3 &B = vertB.pos;
-									vec3 &C = vertC.pos;
-								}
+				//					vec3 &A = vertA.pos;
+				//					vec3 &B = vertB.pos;
+				//					vec3 &C = vertC.pos;
+				//				}
 
-							}
-						}
-					}
+				//			}*/
+				//		}
+				//	}
 
-					has_mouseover = true;
-					mouseover_pos = p1;
-					float x = p1.x;
-					float y = p1.y;
-					float z = p1.z;
-					z = floorf(z+gridsize*0.5f,gridsize);
+				//	has_mouseover = true;
+				//	mouseover_pos = p1;
+				//	float x = p1.x;
+				//	float y = p1.y;
+				//	float z = p1.z;
+				//	z = floorf(z+gridsize*0.5f,gridsize);
 
-					x = floorf(x,gridsize);
-					y = floorf(y,gridsize);
+				//	x = floorf(x,gridsize);
+				//	y = floorf(y,gridsize);
 
-					mouseover_square = vec3(x,y,z);
-				}else{
-					has_mouseover = false;
-				}
+				//	mouseover_square = vec3(x,y,z);
+				//}else{
+				//	has_mouseover = false;
+				//}
 			}
 			if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 				if(event.mousebutton.button == MOUSE_LEFT){
@@ -408,18 +409,18 @@ void map_editor_kind::onEvent(eventKind event){
 					startCorner.z = z1;
 					endCorner.z = z1+2.f;
 					if(mode == ME_MODE_BLOCK_PLACEMENT){
-						wall(startCorner, endCorner);
+						//wall(startCorner, endCorner);
 					}
-					if(mode == ME_MODE_TERRAIN){makeSheet(startCorner, endCorner);}
+					//if(mode == ME_MODE_TERRAIN){makeSheet(startCorner, endCorner);}
 				}else if(is_selecting && event.mousebutton.button == MOUSE_RIGHT){
 					//carve block action
 					is_selecting = false;
-					if(!mouseover_ent){return;}
+					//if(!mouseover_ent){return;}
 					//todo: calculate un-carved parts
 					//right now just delete the block
 					//delete mouseover_ent;
-					removeEntity(mouseover_ent);
-					mouseover_ent = 0;
+					//removeEntity(mouseover_ent);
+					//mouseover_ent = 0;
 				}
 			}
 			if(event.type == EVENT_FRAME){
@@ -469,22 +470,22 @@ void map_editor_kind::onEvent(eventKind event){
 		break;
         case ME_MODE_SELECT:
             if(event.type == EVENT_MOUSE_MOVE){
-                collisioninfo *col = 0;
+                //collisioninfo *col = 0;
                 vec3 pos;
-                if(mouseray(&pos,&col)){
-                    entity *E = col->body2->E;
-                    if(E != mouseover_ent){/* un-select entity */}
-                    mouseover_ent = E;
-                }
+                //if(mouseray(&pos,&col)){
+                //    //entity *E = col->body2->E;
+                //    //if(E != mouseover_ent){/* un-select entity */}
+                //    //mouseover_ent = E;
+                //}
             }
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
                 switch(submode){
                     case ME_SUBMODE_DEFAULT:
-                        if(selected_ent != mouseover_ent){
-                            selected_ent = mouseover_ent;
-                        }else{
-                            submode = ME_SUBMODE_MOVE;
-                        }
+                        //if(selected_ent != mouseover_ent){
+                        //    selected_ent = mouseover_ent;
+                        //}else{
+                         //   submode = ME_SUBMODE_MOVE;
+                        //}
                     break;
                     case ME_SUBMODE_MOVE:
                         //first, find which pt we're touching if any
@@ -555,7 +556,7 @@ void map_editor_kind::onEvent(eventKind event){
                 drawRect(R);
                 //end test stuff
                 //real stuff
-                if(mouseover_ent){
+                /*if(mouseover_ent){
                     if(mouseover_ent->body){
                         collisionbody &body = *mouseover_ent->body;
                         vec3 pos = body.pos;
@@ -567,211 +568,212 @@ void map_editor_kind::onEvent(eventKind event){
                         setLineWidth(2.f);
                         drawBoxWireframe(aabb);
                     }
-                }
-                if(selected_ent){
-                    if(selected_ent->body){
-                        collisionbody &body = *selected_ent->body;
-                        vec3 pos = body.pos;
-                        AABB aabb = body.getAABB().moveBy(pos);
+                }*/
+                //if(selected_ent){
+                //    if(selected_ent->body){
+                //        collisionbody &body = *selected_ent->body;
+                //        vec3 pos = body.pos;
+                //        AABB aabb = body.getAABB().moveBy(pos);
 
-                        setLayer(layerMap3D);
-                        setDepthTest(false);
-                        setColor(vec3(0,255,0));
-                        setLineWidth(2.f);
-                        drawBoxWireframe(aabb);
+                //        setLayer(layerMap3D);
+                //        setDepthTest(false);
+                //        setColor(vec3(0,255,0));
+                //        setLineWidth(2.f);
+                //        drawBoxWireframe(aabb);
 
-                        switch(submode){
-                            case(ME_SUBMODE_MOVE):
-                                //draw some arrows (2d)
-                                float sepr = 1.f;
-                                vec3 size = aabb.end-aabb.start;
-                                sdata.ptUp = pos+vec3(0,0,sepr/2.f)*size.z;
-                                sdata.ptDn = pos+vec3(0,0,-sepr/2.f)*size.z;
-                                sdata.ptLeft = pos+vec3(sepr/2.f,0,0)*size.x;
-                                sdata.ptRight = pos+vec3(-sepr/2.f,0,0)*size.x;
-                                sdata.ptFwd = pos+vec3(0,sepr/2.f,0)*size.y;
-                                sdata.ptBack = pos+vec3(0,-sepr/2.f,0)*size.y;
+                //        switch(submode){
+                //            case(ME_SUBMODE_MOVE):
+                //                //draw some arrows (2d)
+                //                float sepr = 1.f;
+                //                vec3 size = aabb.end-aabb.start;
+                //                sdata.ptUp = pos+vec3(0,0,sepr/2.f)*size.z;
+                //                sdata.ptDn = pos+vec3(0,0,-sepr/2.f)*size.z;
+                //                sdata.ptLeft = pos+vec3(sepr/2.f,0,0)*size.x;
+                //                sdata.ptRight = pos+vec3(-sepr/2.f,0,0)*size.x;
+                //                sdata.ptFwd = pos+vec3(0,sepr/2.f,0)*size.y;
+                //                sdata.ptBack = pos+vec3(0,-sepr/2.f,0)*size.y;
 
-                                sdata.ptUp2D = camera.worldToScreen(sdata.ptUp);
-                                sdata.ptDn2D = camera.worldToScreen(sdata.ptDn);
-                                sdata.ptLeft2D = camera.worldToScreen(sdata.ptLeft);
-                                sdata.ptRight2D = camera.worldToScreen(sdata.ptRight);
-                                sdata.ptFwd2D = camera.worldToScreen(sdata.ptFwd);
-                                sdata.ptBack2D = camera.worldToScreen(sdata.ptBack);
+                //                sdata.ptUp2D = camera.worldToScreen(sdata.ptUp);
+                //                sdata.ptDn2D = camera.worldToScreen(sdata.ptDn);
+                //                sdata.ptLeft2D = camera.worldToScreen(sdata.ptLeft);
+                //                sdata.ptRight2D = camera.worldToScreen(sdata.ptRight);
+                //                sdata.ptFwd2D = camera.worldToScreen(sdata.ptFwd);
+                //                sdata.ptBack2D = camera.worldToScreen(sdata.ptBack);
 
-                                sdata.dirAwayUp = camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;
-                                sdata.dirAwayDn = camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D;
-                                sdata.dirAwayLeft = camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D;
-                                sdata.dirAwayRight = camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D;
-                                sdata.dirAwayFwd = camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D;
-                                sdata.dirAwayBack = camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D;
+                //                sdata.dirAwayUp = camera.worldToScreen(sdata.ptUp+vec3(0,0,0.01))-sdata.ptUp2D;
+                //                sdata.dirAwayDn = camera.worldToScreen(sdata.ptDn+vec3(0,0,-0.01))-sdata.ptDn2D;
+                //                sdata.dirAwayLeft = camera.worldToScreen(sdata.ptLeft+vec3(0.01,0,0))-sdata.ptLeft2D;
+                //                sdata.dirAwayRight = camera.worldToScreen(sdata.ptRight+vec3(-0.01,0,0))-sdata.ptRight2D;
+                //                sdata.dirAwayFwd = camera.worldToScreen(sdata.ptFwd+vec3(0,0.01,0))-sdata.ptFwd2D;
+                //                sdata.dirAwayBack = camera.worldToScreen(sdata.ptBack+vec3(0,-0.01,0))-sdata.ptBack2D;
 
-                                sdata.rotUp = atan2(sdata.dirAwayUp.y,sdata.dirAwayUp.x);
-                                sdata.rotDn = atan2(sdata.dirAwayDn.y,sdata.dirAwayDn.x);
-                                sdata.rotLeft = atan2(sdata.dirAwayLeft.y,sdata.dirAwayLeft.x);
-                                sdata.rotRight = atan2(sdata.dirAwayRight.y,sdata.dirAwayRight.x);
-                                sdata.rotFwd = atan2(sdata.dirAwayFwd.y,sdata.dirAwayFwd.x);
-                                sdata.rotBack = atan2(sdata.dirAwayBack.y,sdata.dirAwayBack.x);
+                //                sdata.rotUp = atan2(sdata.dirAwayUp.y,sdata.dirAwayUp.x);
+                //                sdata.rotDn = atan2(sdata.dirAwayDn.y,sdata.dirAwayDn.x);
+                //                sdata.rotLeft = atan2(sdata.dirAwayLeft.y,sdata.dirAwayLeft.x);
+                //                sdata.rotRight = atan2(sdata.dirAwayRight.y,sdata.dirAwayRight.x);
+                //                sdata.rotFwd = atan2(sdata.dirAwayFwd.y,sdata.dirAwayFwd.x);
+                //                sdata.rotBack = atan2(sdata.dirAwayBack.y,sdata.dirAwayBack.x);
 
-                                //arrow mouseover detection
-                                if(!sdata.dragging){
-                                    float seldist = 18.f;
-                                    float distU, distD, distL, distR, distF, distB;
-                                    vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
-                                         if((distU = length(mousePos-setZ(sdata.ptUp2D,0))) < seldist){sdata.dir = DIR::DIR_UP;}
-                                    else if((distD = length(mousePos-setZ(sdata.ptDn2D,0))) < seldist){sdata.dir = DIR::DIR_DN;}
-                                    else if((distL = length(mousePos-setZ(sdata.ptLeft2D,0))) < seldist){sdata.dir = DIR::DIR_LEFT;}
-                                    else if((distR = length(mousePos-setZ(sdata.ptRight2D,0))) < seldist){sdata.dir = DIR::DIR_RIGHT;}
-                                    else if((distF = length(mousePos-setZ(sdata.ptFwd2D,0))) < seldist){sdata.dir = DIR::DIR_FWD;}
-                                    else if((distB = length(mousePos-setZ(sdata.ptBack2D,0))) < seldist){sdata.dir = DIR::DIR_BACK;}
-                                    else {sdata.dir = DIR::DIR_NONE;}
-                                }
-                                //oving this here to ensure synchronisation
-                                //drag distance calculation
-                                if(selected_ent && selected_ent->body){
-                                    if(sdata.dragging){
-                                        collisionbody &body = *selected_ent->body;
-                                        vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
-                                        //float offset;
-                                        vec3 dv3d;
-                                        float dist3D;
-                                        switch(sdata.dir){
-                                            case(DIR::DIR_UP):{
-                                                float axisOffset = dot((mousePos-sdata.ptUp2D),sdata.dirAwayUp);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                                //we don't just take mousepos because we need to
-                                                                //re-align the axes in 2D and then in 3D too
-                                                vec3 finalPt2D = sdata.ptUp2D+normalizeSafe(sdata.dirAwayUp)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptUp),toVec3(sdata.dir));
-                                            }break;
-                                            case(DIR::DIR_DN):{
-                                                float axisOffset = dot((mousePos-sdata.ptDn2D),sdata.dirAwayDn);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                vec3 finalPt2D = sdata.ptDn2D+normalizeSafe(sdata.dirAwayDn)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptDn),toVec3(sdata.dir));
-                                            }break;
-                                            case(DIR::DIR_LEFT):{
-                                                float axisOffset = dot((mousePos-sdata.ptLeft2D),sdata.dirAwayLeft);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                vec3 finalPt2D = sdata.ptLeft2D+normalizeSafe(sdata.dirAwayLeft)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptLeft),toVec3(sdata.dir));
-                                            }break;
-                                            case(DIR::DIR_RIGHT):{
-                                                float axisOffset = dot((mousePos-sdata.ptRight2D),sdata.dirAwayRight);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                vec3 finalPt2D = sdata.ptRight2D+normalizeSafe(sdata.dirAwayRight)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptRight),toVec3(sdata.dir));
-                                            }break;
-                                            case(DIR::DIR_FWD):{
-                                                float axisOffset = dot((mousePos-sdata.ptFwd2D),sdata.dirAwayFwd);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                vec3 finalPt2D = sdata.ptFwd2D+normalizeSafe(sdata.dirAwayFwd)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptFwd),toVec3(sdata.dir));
-                                            }break;
-                                            case(DIR::DIR_BACK):{
-                                                float axisOffset = dot((mousePos-sdata.ptBack2D),sdata.dirAwayBack);
-                                                float pixelsMoved = axisOffset-sdata.initialOffset;
-                                                vec3 finalPt2D = sdata.ptBack2D+normalizeSafe(sdata.dirAwayBack)*pixelsMoved;
-                                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
-                                                dist3D = dot((finalPt3D-sdata.ptBack),toVec3(sdata.dir));
-                                            }break;
-                                        }
-                                        float smoothCoeff = 0.9f;
-                                        dv3d = toVec3(sdata.dir)*dist3D*smoothCoeff;
-                                        body.pos += dv3d;
-                                    }
-                                }
+                //                //arrow mouseover detection
+                //                if(!sdata.dragging){
+                //                    float seldist = 18.f;
+                //                    float distU, distD, distL, distR, distF, distB;
+                //                    vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
+                //                         if((distU = length(mousePos-setZ(sdata.ptUp2D,0))) < seldist){sdata.dir = DIR::DIR_UP;}
+                //                    else if((distD = length(mousePos-setZ(sdata.ptDn2D,0))) < seldist){sdata.dir = DIR::DIR_DN;}
+                //                    else if((distL = length(mousePos-setZ(sdata.ptLeft2D,0))) < seldist){sdata.dir = DIR::DIR_LEFT;}
+                //                    else if((distR = length(mousePos-setZ(sdata.ptRight2D,0))) < seldist){sdata.dir = DIR::DIR_RIGHT;}
+                //                    else if((distF = length(mousePos-setZ(sdata.ptFwd2D,0))) < seldist){sdata.dir = DIR::DIR_FWD;}
+                //                    else if((distB = length(mousePos-setZ(sdata.ptBack2D,0))) < seldist){sdata.dir = DIR::DIR_BACK;}
+                //                    else {sdata.dir = DIR::DIR_NONE;}
+                //                }
+                //                //oving this here to ensure synchronisation
+                //                //drag distance calculation
+                //                if(selected_ent && selected_ent->body){
+                //                    if(sdata.dragging){
+                //                        collisionbody &body = *selected_ent->body;
+                //                        vec3 mousePos = vec3(getMousePos().x, getMousePos().y, 0);
+                //                        //float offset;
+                //                        vec3 dv3d;
+                //                        float dist3D;
+                //                        switch(sdata.dir){
+                //                            case(DIR::DIR_UP):{
+                //                                float axisOffset = dot((mousePos-sdata.ptUp2D),sdata.dirAwayUp);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                                //we don't just take mousepos because we need to
+                //                                                //re-align the axes in 2D and then in 3D too
+                //                                vec3 finalPt2D = sdata.ptUp2D+normalizeSafe(sdata.dirAwayUp)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptUp),toVec3(sdata.dir));
+                //                            }break;
+                //                            case(DIR::DIR_DN):{
+                //                                float axisOffset = dot((mousePos-sdata.ptDn2D),sdata.dirAwayDn);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                vec3 finalPt2D = sdata.ptDn2D+normalizeSafe(sdata.dirAwayDn)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptDn),toVec3(sdata.dir));
+                //                            }break;
+                //                            case(DIR::DIR_LEFT):{
+                //                                float axisOffset = dot((mousePos-sdata.ptLeft2D),sdata.dirAwayLeft);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                vec3 finalPt2D = sdata.ptLeft2D+normalizeSafe(sdata.dirAwayLeft)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptLeft),toVec3(sdata.dir));
+                //                            }break;
+                //                            case(DIR::DIR_RIGHT):{
+                //                                float axisOffset = dot((mousePos-sdata.ptRight2D),sdata.dirAwayRight);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                vec3 finalPt2D = sdata.ptRight2D+normalizeSafe(sdata.dirAwayRight)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptRight),toVec3(sdata.dir));
+                //                            }break;
+                //                            case(DIR::DIR_FWD):{
+                //                                float axisOffset = dot((mousePos-sdata.ptFwd2D),sdata.dirAwayFwd);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                vec3 finalPt2D = sdata.ptFwd2D+normalizeSafe(sdata.dirAwayFwd)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptFwd),toVec3(sdata.dir));
+                //                            }break;
+                //                            case(DIR::DIR_BACK):{
+                //                                float axisOffset = dot((mousePos-sdata.ptBack2D),sdata.dirAwayBack);
+                //                                float pixelsMoved = axisOffset-sdata.initialOffset;
+                //                                vec3 finalPt2D = sdata.ptBack2D+normalizeSafe(sdata.dirAwayBack)*pixelsMoved;
+                //                                vec3 finalPt3D = camera.screenToWorld(finalPt2D);
+                //                                dist3D = dot((finalPt3D-sdata.ptBack),toVec3(sdata.dir));
+                //                            }break;
+                //                        }
+                //                        float smoothCoeff = 0.9f;
+                //                        dv3d = toVec3(sdata.dir)*dist3D*smoothCoeff;
+                //                        body.pos += dv3d;
+                //                    }
+                //                }
 
-                                setLayer(layerMap2D);
-                                texture *t = getTexture("gui/arrow4");
-                                setTexture(t);
-                                setTransparency(true);
-                                setDepthTest(false);
-                                vec2 iconSize = t->size();
-                                rect R = rect(-iconSize/2.f,iconSize/2.f);
-                                setScale(vec3(1,1,1));
+                //                setLayer(layerMap2D);
+                //                texture *t = getTexture("gui/arrow4");
+                //                setTexture(t);
+                //                setTransparency(true);
+                //                setDepthTest(false);
+                //                vec2 iconSize = t->size();
+                //                rect R = rect(-iconSize/2.f,iconSize/2.f);
+                //                setScale(vec3(1,1,1));
 
-                                setRotation(vec3(0,0,1)*(sdata.rotUp+90.f*d2r));
-                                setPosition(vec3(sdata.ptUp2D.x,sdata.ptUp2D.y,0));
-                                sdata.dir == DIR::DIR_UP? setColor(vec3(255,255,255)) : setColor(vec3(128,128,255));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotUp+90.f*d2r));
+                //                setPosition(vec3(sdata.ptUp2D.x,sdata.ptUp2D.y,0));
+                //                sdata.dir == DIR::DIR_UP? setColor(vec3(255,255,255)) : setColor(vec3(128,128,255));
+                //                drawRect(R);
 
-                                setRotation(vec3(0,0,1)*(sdata.rotDn+90.f*d2r));
-                                setPosition(vec3(sdata.ptDn2D.x,sdata.ptDn2D.y,0));
-                                sdata.dir == DIR::DIR_DN? setColor(vec3(255,255,255)) : setColor(vec3(128,128,255));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotDn+90.f*d2r));
+                //                setPosition(vec3(sdata.ptDn2D.x,sdata.ptDn2D.y,0));
+                //                sdata.dir == DIR::DIR_DN? setColor(vec3(255,255,255)) : setColor(vec3(128,128,255));
+                //                drawRect(R);
 
-                                setRotation(vec3(0,0,1)*(sdata.rotLeft+90.f*d2r));
-                                setPosition(vec3(sdata.ptLeft2D.x,sdata.ptLeft2D.y,0));
-                                sdata.dir == DIR::DIR_LEFT? setColor(vec3(255,255,255)) : setColor(vec3(255,128,128));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotLeft+90.f*d2r));
+                //                setPosition(vec3(sdata.ptLeft2D.x,sdata.ptLeft2D.y,0));
+                //                sdata.dir == DIR::DIR_LEFT? setColor(vec3(255,255,255)) : setColor(vec3(255,128,128));
+                //                drawRect(R);
 
-                                setRotation(vec3(0,0,1)*(sdata.rotRight+90.f*d2r));
-                                setPosition(vec3(sdata.ptRight2D.x,sdata.ptRight2D.y,0));
-                                sdata.dir == DIR::DIR_RIGHT? setColor(vec3(255,255,255)) : setColor(vec3(255,128,128));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotRight+90.f*d2r));
+                //                setPosition(vec3(sdata.ptRight2D.x,sdata.ptRight2D.y,0));
+                //                sdata.dir == DIR::DIR_RIGHT? setColor(vec3(255,255,255)) : setColor(vec3(255,128,128));
+                //                drawRect(R);
 
-                                setRotation(vec3(0,0,1)*(sdata.rotFwd+90.f*d2r));
-                                setPosition(vec3(sdata.ptFwd2D.x,sdata.ptFwd2D.y,0));
-                                sdata.dir == DIR::DIR_FWD? setColor(vec3(255,255,255)) : setColor(vec3(128,255,128));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotFwd+90.f*d2r));
+                //                setPosition(vec3(sdata.ptFwd2D.x,sdata.ptFwd2D.y,0));
+                //                sdata.dir == DIR::DIR_FWD? setColor(vec3(255,255,255)) : setColor(vec3(128,255,128));
+                //                drawRect(R);
 
-                                setRotation(vec3(0,0,1)*(sdata.rotBack+90.f*d2r));
-                                setPosition(vec3(sdata.ptBack2D.x,sdata.ptBack2D.y,0));
-                                sdata.dir == DIR::DIR_BACK? setColor(vec3(255,255,255)) : setColor(vec3(128,255,128));
-                                drawRect(R);
+                //                setRotation(vec3(0,0,1)*(sdata.rotBack+90.f*d2r));
+                //                setPosition(vec3(sdata.ptBack2D.x,sdata.ptBack2D.y,0));
+                //                sdata.dir == DIR::DIR_BACK? setColor(vec3(255,255,255)) : setColor(vec3(128,255,128));
+                //                drawRect(R);
 
-                            break;
-                        }
+                //            break;
+                //        }
 
-                    }
-                }
-            }
+                //    }
+                //}
+ 
+		   }
         break;
         case ME_MODE_PLACE:{
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
-                spawnFlag(mouseover_pos);
+                //spawnFlag(mouseover_pos);
             }
             if(event.type == EVENT_FRAME){
-                collisioninfo *col;
+                //collisioninfo *col;
                 clearLayer(layerMap3D);
                 resetLayer(layerMap3D);
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-                if(mouseray(&mouseover_pos, &col)){
+                /*if(mouseray(&mouseover_pos, &col)){
                     setLayer(layerMap3D);
                     setColor(vec3(0,255,0));
                     float size = 0.1f;
                     vec3 v1 = vec3(1,1,1);
                     drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
-                }
+                }*/
             }
         }
         break;
         case ME_MODE_PATHFIND:{
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
-                pathfinding_test(mouseover_pos);
+                //pathfinding_test(mouseover_pos);
             }
             if(event.type == EVENT_FRAME){
-                collisioninfo *col;
+                //collisioninfo *col;
                 clearLayer(layerMap3D);
                 resetLayer(layerMap3D);
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-                if(mouseray(&mouseover_pos, &col)){
+                /*if(mouseray(&mouseover_pos, &col)){
                     setLayer(layerMap3D);
                     setColor(vec3(0,255,0));
                     float size = 0.1f;
                     vec3 v1 = vec3(1,1,1);
                     drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
-                }
+                }*/
             }
         }
         break;
@@ -786,79 +788,80 @@ void map_editor_kind::onEvent(eventKind event){
 				}
             }
             if(event.type == EVENT_FRAME){
-                collisioninfo *col;
+                //collisioninfo *col;
                 clearLayer(layerMap3D);
                 resetLayer(layerMap3D);
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-                if(mouseray(&mouseover_pos, &col)){
-					vec3 dir = camera.getMouseDir();
-					vec3 probe_pos = mouseover_pos+dir*0.05f;
-                    setLayer(layerMap3D);
-                    setColor(vec3(255,255,0));
-					collisionbody *cb = 0;
-					collisioninfo *col2;
-					switch(submode){
-						case ME_SUBMODE_POINT:{
-							if(col->body2){
-								cb = new collisionbodyPoint();
-								cb->bodyname = "probe";
-								cb->pos = probe_pos;
-								cb->type = BODY_TRIGGER;
-								col2 = collisionCheckDispatch(cb, col->body2);
-								if(col2){
-									delete col; 
-									col = col2; 
-									setLayer(layerMap3D);
-									setColor(vec3(0,255,0)); 
-									mouseover_pos = col->c_to_c.pos;}
-							}else{
-								setLayer(layerMap3D);
-								setColor(vec3(255,0,0));
-							}
-						}
-						break;
-						case ME_SUBMODE_CUBE:{
-							if(col->body2){
-								cb = new collisionbodyAABB(AABB(vec3(-0.01f,-0.01f,-0.01f), vec3(0.01f,0.01f,0.01f)));
-								cb->bodyname = "probe";
-								cb->pos = probe_pos;
-								cb->type = BODY_TRIGGER;
-								col2 = collisionCheckDispatch(cb, col->body2);
-								printf("col2 = %p, pos = %s\n",col2,toCString(cb->pos));
-								if(col2){
-									delete col; 
-									col = col2; 
-									printf("body1 = %s\n",col->body1->bodyname.c_str());
-									setLayer(layerMap3D); 
-									setColor(vec3(0,255,0)); 
-									mouseover_pos = col->c_to_c.pos;}
-							}else{
-								setLayer(layerMap3D);
-								setColor(vec3(255,0,0));
-							}
-						}
-						break;
-						default: setLayer(layerMap3D); setColor(vec3(0,255,0));
-					}
-					
-                    float size = 0.1f;
-                    vec3 v1 = vec3(1,1,1);
-                    setLayer(layerMap3D);
-                    drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
-					setColor(vec3(0,255,0));
+    //            if(mouseray(&mouseover_pos, &col)){
+				//	vec3 dir = camera.getMouseDir();
+				//	vec3 probe_pos = mouseover_pos+dir*0.05f;
+    //                setLayer(layerMap3D);
+    //                setColor(vec3(255,255,0));
+				//	collisionbody *cb = 0;
+				//	collisioninfo *col2;
+				//	switch(submode){
+				//		case ME_SUBMODE_POINT:{
+				//			/*if(col->body2){
+				//				cb = new collisionbodyPoint();
+				//				cb->bodyname = "probe";
+				//				cb->pos = probe_pos;
+				//				cb->type = BODY_TRIGGER;
+				//				col2 = collisionCheckDispatch(cb, col->body2);
+				//				if(col2){
+				//					delete col; 
+				//					col = col2; 
+				//					setLayer(layerMap3D);
+				//					setColor(vec3(0,255,0)); 
+				//					mouseover_pos = col->c_to_c.pos;}
+				//			}else{
+				//				setLayer(layerMap3D);
+				//				setColor(vec3(255,0,0));
+				//			}*/
+				//		}
+				//		break;
+				//		case ME_SUBMODE_CUBE:{
+				//			/*if(col->body2){
+				//				cb = new collisionbodyAABB(AABB(vec3(-0.01f,-0.01f,-0.01f), vec3(0.01f,0.01f,0.01f)));
+				//				cb->bodyname = "probe";
+				//				cb->pos = probe_pos;
+				//				cb->type = BODY_TRIGGER;
+				//				col2 = collisionCheckDispatch(cb, col->body2);
+				//				printf("col2 = %p, pos = %s\n",col2,toCString(cb->pos));
+				//				if(col2){
+				//					delete col; 
+				//					col = col2; 
+				//					printf("body1 = %s\n",col->body1->bodyname.c_str());
+				//					setLayer(layerMap3D); 
+				//					setColor(vec3(0,255,0)); 
+				//					mouseover_pos = col->c_to_c.pos;}
+				//			}else{
+				//				setLayer(layerMap3D);
+				//				setColor(vec3(255,0,0));
+				//			}*/
+				//		}
+				//		break;
+				//		default: setLayer(layerMap3D); setColor(vec3(0,255,0));
+				//	}
+				//	
+    //                float size = 0.1f;
+    //                vec3 v1 = vec3(1,1,1);
+    //                setLayer(layerMap3D);
+    //                drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
+				//	setColor(vec3(0,255,0));
 
-					vec3 C = col->c_to_c.pos;
-					vec3 N = col->c_to_c.normal;
-					vec3 P = col->c_to_c.penetration;
-					printf("col.pos = %s, col.normal = %s\n",toCString(C), toCString(N));
-					drawArrow(C,C+N,vec3(0,255,0));
-					drawArrow(C,C+P,vec3(0,0,255));
-					if(cb){delete cb;}
-					delete col;
-				}
-            }
+				//	//vec3 C = col->c_to_c.pos;
+				//	//vec3 N = col->c_to_c.normal;
+				//	//vec3 P = col->c_to_c.penetration;
+				//	//printf("col.pos = %s, col.normal = %s\n",toCString(C), toCString(N));
+				//	//drawArrow(C,C+N,vec3(0,255,0));
+				//	//drawArrow(C,C+P,vec3(0,0,255));
+				//	if(cb){delete cb;}
+				//	delete col;
+				//}
+    //        
+			}
 		}
 		break;
 		case ME_MODE_PLANE:{
@@ -866,8 +869,8 @@ void map_editor_kind::onEvent(eventKind event){
 				if(event.mousebutton.button == MOUSE_LEFT){
 					if(points.size() < 3){points.push_back(mouseover_pos);}
 					else{
-						entity *E = physplane(points[0],points[1],points[2], getTexture("materials/grass1"));
-						planes.push_back(E);
+						//entity *E = physplane(points[0],points[1],points[2], getTexture("materials/grass1"));
+						//planes.push_back(E);
 						points.clear();
 					}
 				}
@@ -875,26 +878,26 @@ void map_editor_kind::onEvent(eventKind event){
 					if(points.size()){
 						points.clear();
 					}else{
-						for(unsigned int i = 0; i < planes.size(); i++){
-							removeEntity(planes[i]);
-						}
-						planes.clear();
+						//for(unsigned int i = 0; i < planes.size(); i++){
+							//removeEntity(planes[i]);
+						//}
+						//planes.clear();
 					}
 				}
 			}
 			if(event.type == EVENT_FRAME){
-				collisioninfo *col;
+				//collisioninfo *col;
 				clearLayer(layerMap3D);
 				resetLayer(layerMap3D);
 				clearLayer(layerMap2D);
 				resetLayer(layerMap2D);
 
-				if(mouseray(&mouseover_pos, &col)){
+				/*if(mouseray(&mouseover_pos, &col)){
 					setLayer(layerMap3D);
 					vec3 v = vec3(1,1,1)*0.1f;
 					setColor(vec3(0,255,0));
 					drawBoxWireframe(AABB(-v,v).moveBy(mouseover_pos));
-				}
+				}*/
 				if(points.size()){
 					setLayer(layerMap3D);
 					setPointSize(4.f);

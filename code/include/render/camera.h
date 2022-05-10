@@ -47,7 +47,7 @@ struct camprojection{
 	vec3 pos;
 };
 
-struct collisioninfo;
+//struct collisioninfo;
 struct bitmap;
 
 class cameraKind{ //sets up the view and projection matrix, nothing else
@@ -75,7 +75,7 @@ public:
 	vec3 worldToScreen(vec3 worldpos, z_meaning zm = Z_IS_DISTANCE);
 	
 	vec3 getMouseDir();
-	collisioninfo *eyetrace(bool useCursor = true);
+	//collisioninfo *eyetrace(bool useCursor = true);
 	void reposition();
 	void setPos(vec3 newpos);
 	void setRot(vec3 newrot);
@@ -90,8 +90,8 @@ public:
 };
 //extern cameraKind g_camera;
 
-class rmodel;
-rmodel *ray_shotgun(int x_steps, int y_steps);
+//class rmodel;
+//rmodel *ray_shotgun(int x_steps, int y_steps);
 
 void go3D();
 void go2D();

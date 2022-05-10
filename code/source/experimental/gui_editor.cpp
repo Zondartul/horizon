@@ -7,7 +7,7 @@
 using namespace tinyxml2;
 using namespace std;
 
-// V-SWEET --0. make gui editor not crash when closing
+// X-BROK AGAIN ---- V-SWEET --0. make gui editor not crash when closing
 // v - 1. object selection
 //	v - 1.1 make a click-screen/gate widget OR an object property that stops clickthrough.
 // v - 2. object deletion

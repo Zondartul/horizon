@@ -1,5 +1,5 @@
 #include "gui_editor.h"
-
+//why the fuck does this compile
 
 void drawBorders(GUIbase *B){
 	//borders
@@ -42,38 +42,13 @@ void gui_editor_tool_edit::draw(){
 	
 	if(subject){
 		if(subject != workWindow){
-			
 			drawBorders(subject);
-			
-			//indicators
-			/*
-			GUI_border_type borderState = subject->testBorders(mousePos);
-			vec2 v = mousePos + vec2(0,-5);
-			rainbowIndicator(v, vector<bool>{
-				true,
-				(borderState & GB_TOP),		
-				(borderState & GB_BOTTOM),		
-				(borderState & GB_LEFT),		
-				(borderState & GB_RIGHT),		
-				(borderState & GB_CORNER_TL),
-				(borderState & GB_CORNER_TR),
-				(borderState & GB_CORNER_BL),
-				(borderState & GB_CORNER_BR)}
-			);
-			*/
-			//drawClock(v+vec2(0,-10));
-			//if(stage == GEMT_END){
-			//	setColor(COL_DBLUE);
-			//	drawLine(toVec3(grabPos), toVec3(mousePos));
-			//	drawGrid(subject, gridStep);
-			//}
 		}
 	}
 	
 	setPointSize(1.0f);
 	setColor(vec3(0,0,0));
 	drawPoint(toVec3(mousePos));
-	//magnifyingGlass(mousePos,vec2(8,-8),32,128);
 }
 void gui_editor_tool_edit::ldown(){
 	gui_editor_tool::ldown();
@@ -84,14 +59,14 @@ void gui_editor_tool_edit::ldown(){
 		printf("edit ldown 1\n");
 		
 		if(mouseover_element && (mouseover_element != subject)){
-			if(isValidSubject(mouseover_element)){//(mouseover_element != workWindow){
+			if(isValidSubject(mouseover_element)){
 				subject = mouseover_element;
 				stage = GEMT_SUBJECT;
 			}else{
 				subject = 0;
 				stage = GEMT_START;
 			}
-			return; //first click only selects the subject
+			return; 
 		}
 		
 		if(stage == GEMT_SUBJECT){
@@ -101,10 +76,9 @@ void gui_editor_tool_edit::ldown(){
 			printf("edit ldown 2\n");			
 			oldArea = subject->area;
 			
-			//vec2 corner = subject->parent->thisToWorld(subject->parent->clientArea).start;
 			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);//+corner;
 			
-			grabPos = gpos;//mousePos;
+			grabPos = gpos;
 			grabState = borderState;
 			if(grabState != GUIb::None){
 				printf(" has borderState\n");
@@ -120,26 +94,22 @@ void gui_editor_tool_edit::ldown(){
 void gui_editor_tool_edit::lup(){
 	gui_editor_tool::lup();
 	printf("edit lup\n");
-	//tool_finished();
 	switch(stage){
 		case GEMT_END: stage = GEMT_SUBJECT; break;
 	}
 }
 
-
-//int g_numDDMs = 0;
-
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
 	if(mouseover_element && (mouseover_element != subject)){
-		if(isValidSubject(mouseover_element)){//(mouseover_element != workWindow){
+		if(isValidSubject(mouseover_element)){
 			subject = mouseover_element;
 			stage = GEMT_SUBJECT;
 		}else{
 			subject = 0;
 			stage = GEMT_START;
 		}
-		return; //first click only selects the subject
+		return; 
 	}
 }
 

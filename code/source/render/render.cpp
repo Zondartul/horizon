@@ -2,21 +2,18 @@
 #include "paint.h"
 #include "renderLayer.h"
 #include "simplemath.h"
-#include "modelprimitives.h"
 #include "editmodel.h"
 #include "main.h"
 #include "model.h"
-#include "frameprinter.h"
 #include "simplemath.h"
 #include "stringUtils.h"
 #include "timer.h"
-#include "inputController.h"
+//#include "inputController.h"
 #include "renderLayer.h"
 #include "window.h"
 #include "renderLow.h"
+#include "global_vars.h"
 
-//extern bool g_texturingOn;
-//extern renderLayer *g_currentLayer;
 
 void renderOptions::apply(renderLayer *L){
 	auto& currentLayer = G->gs_paint->g_currentLayer;
@@ -24,7 +21,6 @@ void renderOptions::apply(renderLayer *L){
 	if(!L){L = currentLayer;}
     renderLayer *oldLayer = currentLayer;
     currentLayer = L;
-	//-----------
 	setColoring(coloring);
 	setTexturing(texturing);
 	setLighting(lighting);
@@ -39,7 +35,6 @@ void renderOptions::apply(renderLayer *L){
 	setNormalColoring(normalColoring);
 	setScissoring(scissoring);
 	setScissor(scissor);
-    //---------------------
     setTransparency(transparency);
     setDepthMask(depthMask);
     setDepthTest(depthTest);
@@ -58,7 +53,6 @@ void renderOptions::apply(renderLayer *L){
     setAmbientColor(ambientLightColor);
 	setTexturePosition(texturePos);
 	setTextureScale(textureScale);
-    //---------------------
     currentLayer = oldLayer;
 }
 
@@ -68,8 +62,6 @@ void renderOptions::applyImmediate(){
     tempLayer->render();
     delete tempLayer;
 }
-
-//vector<renderOptions> g_renderOptionsStack;
 
 void renderableSprite::upload(){}
 
@@ -128,7 +120,6 @@ void renderableMultimodel::upload(){
 void renderableMultimodel::render(renderOptions *options){
 	int i = 0;
 	for(auto I = parts.begin(); I != parts.end(); I++){
-		//a hack
 		(*I)->pos = pos+offsets[i];
 		(*I)->render(options);
 		i++;
@@ -139,10 +130,6 @@ void renderablePlane::upload(){
 	
 	setLayer(layer3D);
 	if(!rm){
-		e_model *em = generatePlane(normal, 0.f, 1000.f*vec2(1.f,1.f), texscale);
-		rmpack rms = em->getRmpack();
-		rm = rms.rm_tris;
-		delete em;
 	}
 	
 	uploadRmodel(rm);
@@ -176,7 +163,6 @@ void renderablePlane::render(renderOptions *options){
 	
 	if(t){setTexture(t);}
 	drawRmodel(rm);
-	//restore previous options
 	setTexturePosition(vec2(0,0));
 	setTextureScale(vec2(1,1));
 }
@@ -194,41 +180,18 @@ void renderTick(){
 
 	auto& m = G->gs_main->g_m;
 	auto& GUI = G->gs_main->g_GUI;
-	auto& inputController = G->gs_inputController->g_inputController;
 	auto& fps = G->gs_main->g_fps;
 	auto& frametime = G->gs_main->g_frametime;
-	//========================= 3D ==============================
 
-	setLayer(layer3D);
-	go3D();
-	clearScreen();
-	drawTriangle(vec3(0,-0.67,-0.5),vec3(0,0,0.5),vec3(0,0.67,-0.5));
-	setColoring(true);
-	setTextPos(vec2(0,0));
-	printText("Hello World [ ijk XYZ o_O ] ");
-
-	setColoring(false);
-	setTexturing(true);
-	setTexture(m->t);
-	drawRmodel(m->rm);
-	renderComment("comment: layer3D done\n");
-
-	//========================= 2D ==============================
-
-	debugFloatingText(vec3(0,0,0),"test");
 	setLayer(layer2D);
+	clearScreen();
 	go2D();
-	frameprint("Hello World [ ijk XYZ o_O ] ");
 
 	static float fps_filtered = 60.f;
 	static float frametime_filtered = 0.015f;
 	fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
 	frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
-	frameprint(string("FPS (filtered): ")+ftoa(fps_filtered,1)+", frametime (filtered): "+ftoa(1000*frametime_filtered,3)+"ms");//(int)(1000*round2(frametime_filtered,4))
-	frameprint(string("FPS: ")+ftoa(fps,1)+", frametime: "+ftoa(1000*frametime,3)+"ms");
-	frameprint(fstring("T1: %d",getGameTicks()));
-	frameprint(string("cam speed: ")+length(inputController->velocity));
-	if(GUI){GUI->renderLogic();} //should be event-driven
+	if(GUI){GUI->renderLogic();}
 
 	renderAllLayers();
 
@@ -242,10 +205,10 @@ void renderTick(){
 	layer2D->reset();
 	layerDebug2D->clear();
 	layerDebug2D->reset();
-	deleteLayer->clear();	//this should be either in paint or a layer's option
+	deleteLayer->clear();
 	deleteLayer->reset();
 
-	OpenGL_swap();	//this should be moved to renderLow
+	OpenGL_swap();
 }
 
 void renderInit(){

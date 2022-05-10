@@ -15,7 +15,7 @@
 #include "stringUtils.h"
 #include "globals.h"
 #include "mouse.h"
-#include "collision.h"
+//#include "collision.h"
 #include "global_vars.h"
 #include "timer.h"
 #include "renderLayer.h"
@@ -46,48 +46,49 @@ vec3 cameraKind::right(){
 	auto& camera = G->gs_camera->g_camera;
 	return rotate(vec3{0,1,0},d2r*camera.rot);
 }
-collisioninfo *cameraKind::eyetrace(bool useCursor){
-	auto& camera = G->gs_camera->g_camera;
-	vec3 dv;
-	if(useCursor){
-		vec2 mousepos = getMousePos();
-		vec3 mousedv = screenToWorld(vec3(mousepos.x,mousepos.y,1));
-		dv = normalizeSafe(mousedv - camera.pos);
-	}else{
-		dv = forward();
-	}
-	return  raytrace(pos,dv);
-}
+//collisioninfo *cameraKind::eyetrace(bool useCursor){
+//	//auto& camera = G->gs_camera->g_camera;
+//	//vec3 dv;
+//	//if(useCursor){
+//	//	vec2 mousepos = getMousePos();
+//	//	vec3 mousedv = screenToWorld(vec3(mousepos.x,mousepos.y,1));
+//	//	dv = normalizeSafe(mousedv - camera.pos);
+//	//}else{
+//	//	dv = forward();
+//	//}
+//	//return  raytrace(pos,dv);
+//	return 0;
+//}
 
 #include "paint.h"
-
-rmodel *ray_shotgun(int x_steps, int y_steps){
-	auto& camera = G->gs_camera->g_camera;
-	auto& width = G->gs_window->g_width;
-	auto& height = G->gs_window->g_height;
-
-	rmodel *rm = new rmodel();
-	float x = 0;
-	float y = 0;
-	float dx = width/(float)x_steps;
-	float dy = height/(float)y_steps;
-	for(int Ix = 0; Ix < x_steps; Ix++){
-		for(int Iy = 0; Iy < y_steps; Iy++){
-			vec3 screenCoords(dx*Ix,dy*Iy,1.0f);
-			vec3 worldCoords = camera.screenToWorld(screenCoords);
-			vec3 dv = normalizeSafe(worldCoords - camera.pos);
-
-			collisioninfo *col = raytrace(camera.pos,dv);
-			if(col){
-				vec3 p = col->c_to_c.pos;
-				rm->vertices->push_back(p);
-			}
-		}
-	}
-	rm->finalize();
-	uploadRmodel(rm);
-	return rm;
-}
+//
+//rmodel *ray_shotgun(int x_steps, int y_steps){
+//	auto& camera = G->gs_camera->g_camera;
+//	auto& width = G->gs_window->g_width;
+//	auto& height = G->gs_window->g_height;
+//
+//	rmodel *rm = new rmodel();
+//	float x = 0;
+//	float y = 0;
+//	float dx = width/(float)x_steps;
+//	float dy = height/(float)y_steps;
+//	for(int Ix = 0; Ix < x_steps; Ix++){
+//		for(int Iy = 0; Iy < y_steps; Iy++){
+//			vec3 screenCoords(dx*Ix,dy*Iy,1.0f);
+//			vec3 worldCoords = camera.screenToWorld(screenCoords);
+//			vec3 dv = normalizeSafe(worldCoords - camera.pos);
+//
+//			//collisioninfo *col = raytrace(camera.pos,dv);
+//			//if(col){
+//			//	vec3 p = col->c_to_c.pos;
+//			//	rm->vertices->push_back(p);
+//			//}
+//		}
+//	}
+//	rm->finalize();
+//	uploadRmodel(rm);
+//	return rm;
+//}
 
 void cameraKind::reposition(){
 	if(mode3D){

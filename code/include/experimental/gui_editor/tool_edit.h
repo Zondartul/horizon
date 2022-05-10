@@ -2,6 +2,8 @@
 #define GUI_EDITOR_TOOL_EDIT_GUARD
 #include "tool.h"
 #include "GUI_types.h"
+#include "elastic_ptr.h"
+#include "vec.h"
 class GUIbase;
 
 class gui_editor_tool_edit:public gui_editor_tool{

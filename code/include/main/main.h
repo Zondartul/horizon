@@ -1,6 +1,6 @@
 #ifndef MAIN_GUARD
 #define MAIN_GUARD
-#include "octree.h"
+//#include "octree.h"
 #include "GUI.h"
 
 //extern GUIbase *g_GUI;
@@ -24,7 +24,7 @@ struct gs_mainKind {
 
 	model* g_m;
 	GUIbase* g_GUI = 0;
-	octree_node* g_octree_root;
+	//octree_node* g_octree_root;
 	float g_frametime = 0;
 	float g_fps = 0;
 	bool g_gamePaused = false;

@@ -7,9 +7,10 @@
 #include "hook.h"
 #include "window.h"
 #include "resource.h"
-#include "inputController.h"
+//#include "inputController.h"
 #include "stringUtils.h"
 #include "input.h"
+#include "global_vars.h"
 using std::vector;
 using std::string;
 //extern eventChannel *g_inputChannel;
@@ -55,7 +56,7 @@ void dropDownTerminal::print(string text){
 }
 
 void dropDownTerminal::onEvent(eventKind event){
-	auto& inputController = G->gs_inputController->g_inputController;
+	//auto& inputController = G->gs_inputController->g_inputController;
 
 	if(event.type == EVENT_KEY_DOWN){
 		const char *K = event.keyboard.key;
@@ -83,7 +84,7 @@ void dropDownTerminal::onEvent(eventKind event){
 			if(string("`") == K){
 				event.maskEvent();
 				terminalOn = true;
-				inputController->disableMouseCapture();
+				//inputController->disableMouseCapture();
 				return;
 			}
 		}

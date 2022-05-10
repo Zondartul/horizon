@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\entity">
-      <UniqueIdentifier>{ef50a0e3-5dcd-47c7-87fc-366962af8245}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\experimental">
       <UniqueIdentifier>{709677c7-8e12-4d9f-8ba1-0661ea859ff0}</UniqueIdentifier>
     </Filter>
@@ -43,9 +40,6 @@
     <Filter Include="Header Files\math">
       <UniqueIdentifier>{07bd4167-665d-46e0-8c93-51fcd51712cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\physics">
-      <UniqueIdentifier>{fd651c03-c730-432a-acfd-3868b02ee178}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\program">
       <UniqueIdentifier>{50fb2228-c362-451b-82d7-fb20cec4a048}</UniqueIdentifier>
     </Filter>
@@ -63,12 +57,6 @@
     </Filter>
     <Filter Include="Header Files\experimental\gui_editor">
       <UniqueIdentifier>{ddd71603-db69-4fa5-b822-efb05bb8ccce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\physics\collision">
-      <UniqueIdentifier>{3887ec41-be81-4726-bdd0-7dd8a049d18c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\entity">
-      <UniqueIdentifier>{40f7c23a-9f90-40fd-8d50-20812e1a08e6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\experimental">
       <UniqueIdentifier>{194189a1-cc6f-40c9-9b5f-ff84b5a599af}</UniqueIdentifier>
@@ -171,12 +159,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\code\include\entity\ecs.h">
-      <Filter>Header Files\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\entity\entity.h">
-      <Filter>Header Files\entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\experimental\editor2.h">
       <Filter>Header Files\experimental</Filter>
     </ClInclude>
@@ -199,9 +181,6 @@
       <Filter>Header Files\experimental\gui_editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\gadgets\console.h">
-      <Filter>Header Files\gadgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\gadgets\frameprinter.h">
       <Filter>Header Files\gadgets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\gadgets\gui_filedialog.h">
@@ -440,24 +419,6 @@
     </ClInclude>
     <ClInclude Include="..\..\code\include\program\window.h">
       <Filter>Header Files\program</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\characterController.h">
-      <Filter>Header Files\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\octree.h">
-      <Filter>Header Files\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\collision\broadphase.h">
-      <Filter>Header Files\physics\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\collision\collision.h">
-      <Filter>Header Files\physics\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\collision\narrowphase.h">
-      <Filter>Header Files\physics\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\physics\collision\resolution.h">
-      <Filter>Header Files\physics\collision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\codeExt\includeExt\freetype\freetype.h">
       <Filter>Header Files\external\freetype</Filter>
@@ -1400,12 +1361,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\code\source\entity\ecs.cpp">
-      <Filter>Source Files\entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\entity\entity.cpp">
-      <Filter>Source Files\entity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\experimental\editor2.cpp">
       <Filter>Source Files\experimental</Filter>
     </ClCompile>
@@ -1413,9 +1368,6 @@
       <Filter>Source Files\experimental</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\experimental\map_editor.cpp">
-      <Filter>Source Files\experimental</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\experimental\node_graph.cpp">
       <Filter>Source Files\experimental</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\experimental\gui_editor\tool.cpp">
@@ -1430,9 +1382,6 @@
     <ClCompile Include="..\..\code\source\gadgets\console.cpp">
       <Filter>Source Files\gadgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\gadgets\frameprinter.cpp">
-      <Filter>Source Files\gadgets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\gadgets\gui_filedialog.cpp">
       <Filter>Source Files\gadgets</Filter>
     </ClCompile>
@@ -1445,9 +1394,6 @@
     <ClCompile Include="..\..\code\source\gadgets\picker.cpp">
       <Filter>Source Files\gadgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\game\AIcontroller.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\game\commands.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
@@ -1455,15 +1401,6 @@
       <Filter>Source Files\game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\generators\editmodel.cpp">
-      <Filter>Source Files\generators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\generators\modelcomposite.cpp">
-      <Filter>Source Files\generators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\generators\modelprimitives.cpp">
-      <Filter>Source Files\generators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\generators\physbox.cpp">
       <Filter>Source Files\generators</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\GUI\GUI.cpp">
@@ -1520,9 +1457,6 @@
     <ClCompile Include="..\..\code\source\input\input.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\input\inputController.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\input\keybinds.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
@@ -1533,9 +1467,6 @@
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\loaders\imageLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\loaders\modelLoader.cpp">
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\loaders\textureLoader.cpp">
@@ -1555,9 +1486,6 @@
     </ClCompile>
     <ClCompile Include="..\..\code\source\math\vec.cpp">
       <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\animation.cpp">
-      <Filter>Source Files\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\util\debug.cpp">
       <Filter>Source Files\util</Filter>
@@ -1627,24 +1555,6 @@
     </ClCompile>
     <ClCompile Include="..\..\code\source\render\rmodel.cpp">
       <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\characterController.cpp">
-      <Filter>Source Files\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\collision.cpp">
-      <Filter>Source Files\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\octree.cpp">
-      <Filter>Source Files\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\collision\broadphase.cpp">
-      <Filter>Source Files\physics\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\collision\narrowphase.cpp">
-      <Filter>Source Files\physics\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\physics\collision\resolution.cpp">
-      <Filter>Source Files\physics\collision</Filter>
     </ClCompile>
     <ClCompile Include="..\..\codeExt\includeExt\glm\detail\glm.cpp">
       <Filter>Header Files\external\glm\detail</Filter>

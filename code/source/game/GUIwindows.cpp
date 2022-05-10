@@ -1,7 +1,7 @@
 #include <iostream>
 #include "game.h"
 #include "util/hook.h"
-#include "ecs.h"
+//#include "ecs.h"
 using namespace std;
 
 void openTestWindow1(){
@@ -174,11 +174,11 @@ void openTestWindow4(){
 		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make box %s\n",toString(size).c_str());
-		rmodel *rm = generateBox(size)->getRmodel(1);
+		//rmodel *rm = generateBox(size)->getRmodel(1);
 		setLayer(loadLayer);
-		uploadRmodel(rm);
+		//uploadRmodel(rm);
 		setLayer(test4layer);
-		drawRmodelStd(rm);
+		//drawRmodelStd(rm);
 		printf("wut\n");
 	};
 	btn_cyl->F = [=](){
@@ -187,11 +187,11 @@ void openTestWindow4(){
 		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cyllinder %s\n",toString(size).c_str());
-		rmodel *rm = generateCyllinder(size.x,size.z)->getRmodel(1);
+		//rmodel *rm = generateCyllinder(size.x,size.z)->getRmodel(1);
 		setLayer(loadLayer);
-		uploadRmodel(rm);
+		//uploadRmodel(rm);
 		setLayer(test4layer);
-		drawRmodelStd(rm);
+		//drawRmodelStd(rm);
 		printf("wut\n");
 	};
 	btn_sph->F = [=](){
@@ -200,11 +200,11 @@ void openTestWindow4(){
 		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make sphere %s\n",toString(size).c_str());
-		rmodel *rm = generateSphere(size.x)->getRmodel(1);
+		//rmodel *rm = generateSphere(size.x)->getRmodel(1);
 		setLayer(loadLayer);
-		uploadRmodel(rm);
+		//uploadRmodel(rm);
 		setLayer(test4layer);
-		drawRmodelStd(rm);
+		//drawRmodelStd(rm);
 		printf("wut\n");
 	};
 	btn_con->F = [=](){
@@ -213,11 +213,11 @@ void openTestWindow4(){
 		float numz = (float)te_z->getNumber();
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cone %s\n",toString(size).c_str());
-		rmodel *rm = generateCone(size.x,size.z)->getRmodel(1);
+		//rmodel *rm = generateCone(size.x,size.z)->getRmodel(1);
 		setLayer(loadLayer);
-		uploadRmodel(rm);
+		//uploadRmodel(rm);
 		setLayer(test4layer);
-		drawRmodelStd(rm);
+		//drawRmodelStd(rm);
 		printf("wut\n");
 	};
 	btn_clear->F = [=](){
@@ -255,10 +255,10 @@ std::function<void(void)> checkbox_func(GUIbutton* button, std::function<void(in
 //#define SET_RENDER_OPT(x,b) g_ecs.render->options.x = b; g_ecs.render->applyRenderOptions();
 
 void set_render_opt(bool* opt, bool val) {
-	auto& ecs = G->gs_ecs->g_ecs;
+	//auto& ecs = G->gs_ecs->g_ecs;
 
-	*opt = val; 
-	ecs.render->applyRenderOptions();
+	//*opt = val; 
+	//ecs.render->applyRenderOptions();
 }
 
 //#define FUNC_FOR_CHECKBOX(x) std::function<void(int)> funcToggle_ ## x = \
@@ -371,7 +371,7 @@ void make_checkbox2(bool *val, string name, GUIgrid *gridobj, int row) {
 
 void openTestWindow5(){
 	auto& GUI = G->gs_main->g_GUI;
-	auto& ecs = G->gs_ecs->g_ecs;
+	//auto& ecs = G->gs_ecs->g_ecs;
 
 	auto grid1 = new GUIgrid();
 
@@ -381,15 +381,15 @@ void openTestWindow5(){
 	grid1->addChild(L1);
 	grid1->grid(L1,0,1);
 
-	auto& options = ecs.render->options;
+	//auto& options = ecs.render->options;
 
-	make_checkbox(&options.wireframe, "wireframe", grid1, 1); //MAKE_CHECKBOX(wireframe,grid1,1);
-	make_checkbox(&options.texturing, "texturing", grid1, 2); //MAKE_CHECKBOX(texturing,grid1,2);
-	make_checkbox(&options.lighting, "lighting", grid1, 3); //MAKE_CHECKBOX(lighting,grid1,3);
-	make_checkbox(&options.coloring, "color", grid1, 4); //MAKE_CHECKBOX(coloring,grid1,4);
-	make_checkbox(&options.boundingBoxes, "boundingBoxes", grid1, 5); //MAKE_CHECKBOX(boundingBoxes,grid1,5);
-	make_checkbox(&options.uvColoring, "uvColoring", grid1, 6); //MAKE_CHECKBOX(uvColoring,grid1,6);
-	make_checkbox(&options.normalColoring, "normalColoring", grid1, 7); //MAKE_CHECKBOX(normalColoring,grid1,7);
+	//make_checkbox(&options.wireframe, "wireframe", grid1, 1); //MAKE_CHECKBOX(wireframe,grid1,1);
+	//make_checkbox(&options.texturing, "texturing", grid1, 2); //MAKE_CHECKBOX(texturing,grid1,2);
+	//make_checkbox(&options.lighting, "lighting", grid1, 3); //MAKE_CHECKBOX(lighting,grid1,3);
+	//make_checkbox(&options.coloring, "color", grid1, 4); //MAKE_CHECKBOX(coloring,grid1,4);
+	//make_checkbox(&options.boundingBoxes, "boundingBoxes", grid1, 5); //MAKE_CHECKBOX(boundingBoxes,grid1,5);
+	//make_checkbox(&options.uvColoring, "uvColoring", grid1, 6); //MAKE_CHECKBOX(uvColoring,grid1,6);
+	//make_checkbox(&options.normalColoring, "normalColoring", grid1, 7); //MAKE_CHECKBOX(normalColoring,grid1,7);
 
 	auto L2 = new GUIlabel();
 	L2->setText("--- physics options ---");
@@ -397,7 +397,7 @@ void openTestWindow5(){
 	grid1->addChild(L2);
 	grid1->grid(L2,8,1);
 
-	make_checkbox2(&ecs.physics->options.gravity, "gravity", grid1, 9); //MAKE_CHECKBOX2(gravity,ecs.physics,grid1,9);
+	//make_checkbox2(&ecs.physics->options.gravity, "gravity", grid1, 9); //MAKE_CHECKBOX2(gravity,ecs.physics,grid1,9);
 
 	auto L3 = new GUIlabel();
 	L3->setText("--- collision options ---");
@@ -405,8 +405,8 @@ void openTestWindow5(){
 	grid1->addChild(L3);
 	grid1->grid(L3,10,1);
 
-	make_checkbox2(&ecs.collision->options.separate, "separate", grid1, 11); //MAKE_CHECKBOX2(separate,ecs.collision,grid1,11);
-	make_checkbox2(&ecs.collision->options.resolve, "resolve", grid1, 12); //MAKE_CHECKBOX2(resolve,ecs.collision,grid1,12);
+	//make_checkbox2(&ecs.collision->options.separate, "separate", grid1, 11); //MAKE_CHECKBOX2(separate,ecs.collision,grid1,11);
+	//make_checkbox2(&ecs.collision->options.resolve, "resolve", grid1, 12); //MAKE_CHECKBOX2(resolve,ecs.collision,grid1,12);
 	
 	GUI->addChild((new GUIwindow())\
 	->setSize({200,300})\

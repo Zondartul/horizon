@@ -12,7 +12,7 @@
 #include "util.h"
 #include "renderCommand.h"
 #include "global_vars.h"
-#include "modelprimitives.h"
+//#include "modelprimitives.h"
 #include "editmodel.h"
 using std::vector;
 using std::ofstream;
@@ -594,7 +594,7 @@ void drawBoxWireframe(vec3 pos, vec3 rot, vec3 scale){
 
 	if(!rm_unitboxWF){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitboxWF = generateBox(vec3(1,1,1))->getRmodel(1);
+		//rm_unitboxWF = generateBox(vec3(1,1,1))->getRmodel(1);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
@@ -610,7 +610,7 @@ void drawCyllinderWireframe(vec3 pos, vec3 rot, float r, float h){
 
 	if(!rm_unitcyllinderWF){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitcyllinderWF = generateCyllinder(1,1,16)->getRmodel(1);
+		//rm_unitcyllinderWF = generateCyllinder(1,1,16)->getRmodel(1);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
@@ -625,7 +625,7 @@ void drawConeWireframe(vec3 pos, vec3 rot, float r, float h){
 
 	if(!rm_unitconeWF){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitconeWF = generateCone(1,1,16)->getRmodel(1);
+		//rm_unitconeWF = generateCone(1,1,16)->getRmodel(1);
 		currentLayer = oldLayer;
 	}
 
@@ -642,7 +642,7 @@ void drawSphereWireframe(vec3 pos, vec3 rot, float r){
 
 	if(!rm_unitsphereWF){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitsphereWF = generateSphere(1,16,8)->getRmodel(1);
+		//rm_unitsphereWF = generateSphere(1,16,8)->getRmodel(1);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(2);
@@ -658,7 +658,7 @@ void drawBox(vec3 pos, vec3 rot,  vec3 scale){
 
 	if(!rm_unitbox){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitbox = generateBox(vec3(1,1,1))->getRmodel(2);
+		//rm_unitbox = generateBox(vec3(1,1,1))->getRmodel(2);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
@@ -673,7 +673,7 @@ void drawCyllinder(vec3 pos, vec3 rot, float r, float h){
 
 	if(!rm_unitcyllinder){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitcyllinder = generateCyllinder(1,1,16)->getRmodel(2);
+		//rm_unitcyllinder = generateCyllinder(1,1,16)->getRmodel(2);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
@@ -688,7 +688,7 @@ void drawCone(vec3 pos, vec3 rot, float r, float h){
 
 	if(!rm_unitcone){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitcone = generateCone(1,1,16)->getRmodel(2);
+		//rm_unitcone = generateCone(1,1,16)->getRmodel(2);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(3);
@@ -703,7 +703,7 @@ void drawSphere(vec3 pos, vec3 rot, float r){
 
 	if(!rm_unitsphere){
 		renderLayer *oldLayer = currentLayer;
-		rm_unitsphere = generateSphere(1,16,8)->getRmodel(2);
+		//rm_unitsphere = generateSphere(1,16,8)->getRmodel(2);
 		currentLayer = oldLayer;
 	}
 	setRenderMode(3);

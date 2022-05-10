@@ -8,7 +8,7 @@
 #include "paint.h"
 #include "window.h"
 #include "geometry.h"
-#include "frameprinter.h"
+//#include "frameprinter.h"
 #include "editmodel.h"
 #include "simplemath.h"
 #include "input.h"
@@ -237,12 +237,12 @@ void editor2Kind::think(){
 		float dist1 = length(p1-lastPoint);																	//point to last point distance
 		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				//screen ray to last point distance
 		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				//plane to last point distance
-		frameprint(has_hit? string("dist: ")+toString(dist1)+", dist2: "+toString(dist2) : "no hit");
-		frameprint(string("cam.z: ")+toString(camera.pos.z)+", dist3: "+toString(dist3));
+		//frameprint(has_hit? string("dist: ")+toString(dist1)+", dist2: "+toString(dist2) : "no hit");
+		//frameprint(string("cam.z: ")+toString(camera.pos.z)+", dist3: "+toString(dist3));
 		bool lastPointSelected = (dist2 < 0.05f);															//selected if screen ray within distance (sphere test)
 		//box select stuff
 		if(hasBox){boxEnd = getMousePos();}
-		frameprint(string("hasBox: ")+toString(hasBox));
+		//frameprint(string("hasBox: ")+toString(hasBox));
 	//redraw immediate layers
 	resetLayer(layers.l3Dimmediate);
 	resetLayer(layers.l2Dimmediate);
