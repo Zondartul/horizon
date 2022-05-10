@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svprop.h                                                               */
-/*                                                                         */
-/*    The FreeType property service (specification).                       */
-/*                                                                         */
-/*  Copyright 2012-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVPROP_H_
@@ -55,7 +55,7 @@ FT_BEGIN_HEADER
     get_property_                                         \
   };
 
-#else /* FT_CONFIG_OPTION_PIC */
+#else 
 
 #define FT_DEFINE_SERVICE_PROPERTIESREC( class_,                \
                                          set_property_,         \
@@ -67,15 +67,15 @@ FT_BEGIN_HEADER
     clazz->get_property = get_property_;                        \
   }
 
-#endif /* FT_CONFIG_OPTION_PIC */
+#endif 
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* SVPROP_H_ */
+#endif 
 
 
-/* END */
+

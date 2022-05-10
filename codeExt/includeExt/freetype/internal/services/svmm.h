@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svmm.h                                                                 */
-/*                                                                         */
-/*    The FreeType Multiple Masters and GX var services (specification).   */
-/*                                                                         */
-/*  Copyright 2003-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVMM_H_
@@ -25,12 +25,7 @@
 FT_BEGIN_HEADER
 
 
-  /*
-   *  A service used to manage multiple-masters data in a given face.
-   *
-   *  See the related APIs in `ftmm.h' (FT_MULTIPLE_MASTERS_H).
-   *
-   */
+  
 
 #define FT_SERVICE_ID_MULTI_MASTERS  "multi-masters"
 
@@ -82,7 +77,7 @@ FT_BEGIN_HEADER
     get_mm_, set_mm_design_, set_mm_blend_, get_mm_var_, set_var_design_    \
   };
 
-#else /* FT_CONFIG_OPTION_PIC */
+#else 
 
 #define FT_DEFINE_SERVICE_MULTIMASTERSREC( class_,                          \
                                            get_mm_,                         \
@@ -100,14 +95,14 @@ FT_BEGIN_HEADER
     clazz->set_var_design = set_var_design_;                                \
   }
 
-#endif /* FT_CONFIG_OPTION_PIC */
+#endif 
 
-  /* */
+  
 
 
 FT_END_HEADER
 
-#endif /* SVMM_H_ */
+#endif 
 
 
-/* END */
+

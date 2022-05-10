@@ -41,7 +41,7 @@ public:
 };
 
 struct gs_editor2Kind {
-	/*static*/ vec3 g_plane[3] = { vec3(0,0,0),vec3(1,0,0),vec3(0,1,0) };
+	 vec3 g_plane[3] = { vec3(0,0,0),vec3(1,0,0),vec3(0,1,0) };
 	editor2Kind* g_editor2;
 };
 

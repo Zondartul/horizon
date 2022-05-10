@@ -1,48 +1,23 @@
-/*
-  Simple DirectMedia Layer
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
-*/
-
-/**
- *  \file SDL_endian.h
- *
- *  Functions for reading and writing endian-specific values
- */
 
 #ifndef _SDL_endian_h
 #define _SDL_endian_h
 
 #include "SDL_stdinc.h"
 
-/**
- *  \name The two types of endianness
- */
-/* @{ */
+
+
 #define SDL_LIL_ENDIAN  1234
 #define SDL_BIG_ENDIAN  4321
-/* @} */
 
-#ifndef SDL_BYTEORDER           /* Not defined in SDL_config.h? */
+
+#ifndef SDL_BYTEORDER           
 #ifdef __linux__
 #include <endian.h>
 #define SDL_BYTEORDER  __BYTE_ORDER
-#else /* __linux__ */
+#else 
 #if defined(__hppa__) || \
     defined(__m68k__) || defined(mc68000) || defined(_M_M68K) || \
     (defined(__MIPS__) && defined(__MISPEB__)) || \
@@ -52,21 +27,19 @@
 #else
 #define SDL_BYTEORDER   SDL_LIL_ENDIAN
 #endif
-#endif /* __linux__ */
-#endif /* !SDL_BYTEORDER */
+#endif 
+#endif 
 
 
 #include "begin_code.h"
-/* Set up for C function definitions, even when using C++ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
- *  \file SDL_endian.h
- */
+
 #if defined(__GNUC__) && defined(__i386__) && \
-   !(__GNUC__ == 2 && __GNUC_MINOR__ == 95 /* broken gcc version */)
+   !(__GNUC__ == 2 && __GNUC_MINOR__ == 95 )
 SDL_FORCE_INLINE Uint16
 SDL_Swap16(Uint16 x)
 {
@@ -176,7 +149,7 @@ SDL_Swap64(Uint64 x)
 {
     Uint32 hi, lo;
 
-    /* Separate into high and low 32-bit values and swap them */
+    
     lo = SDL_static_cast(Uint32, x & 0xFFFFFFFF);
     x >>= 32;
     hi = SDL_static_cast(Uint32, x & 0xFFFFFFFF);
@@ -202,11 +175,8 @@ SDL_SwapFloat(float x)
 }
 
 
-/**
- *  \name Swap to native
- *  Byteswap item from the specified endianness to the native endianness.
- */
-/* @{ */
+
+
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define SDL_SwapLE16(X) (X)
 #define SDL_SwapLE32(X) (X)
@@ -226,14 +196,12 @@ SDL_SwapFloat(float x)
 #define SDL_SwapBE64(X) (X)
 #define SDL_SwapFloatBE(X)  (X)
 #endif
-/* @} *
 
-/* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
 
-#endif /* _SDL_endian_h */
+#endif 
 
-/* vi: set ts=4 sw=4 expandtab: */
+

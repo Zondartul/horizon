@@ -133,21 +133,7 @@ void *operator new(size_t size){
 		g_deallocation_map[A.p] = key;
 		r_aline.push_back(A);
 		g_total_size = g_total_size + size;
-		/*
-		int linesize = 0;
-		int minframe;
-		for(int I = 0; I < r_aline.size(); I++){
-			if(I == 0){
-				minframe = r_aline[I].frame;
-			}
-			linesize += r_aline[I].size;
-			minframe = min(minframe,r_aline[I].frame);
-		}
-		int frame_age = getGameTicks() - minframe;
-		if(frame_age > 10){
-			printf("persistent (age %d) @ %s:%d new(%d) (line %d \\ total %dk)\n",frame_age,af,al,size,linesize,total_size/1024);
-		}
-		*/
+		
 		
 		res = A.p;
 	}else{
@@ -156,47 +142,7 @@ void *operator new(size_t size){
 	if(!res){printf("ERROR: OUT OF MEMORY\n"); throw std::bad_alloc();}
 	
 	return res;
-	/*
-	if(redirect_new || !g_debug_line){
-		redirect_new = 0;
-		void *p = malloc(size);
-		debugprint(g_debug_file,g_debug_line,"memory","[memop:%d] new(%d) = %p\n",debug_mem_op_index,size,p);
-		if(!p){printf("ERROR: allocation failed!\n");exit(0);}
-		g_debug_mem_allocated += size;
-		g_debug_mem_watermark = max(g_debug_mem_watermark, g_debug_mem_allocated);
-
-		int time = SDL_GetTicks();
-		int seconds = time/1000;
-		int milliseconds = time%1000;
-		debugAllocation A;
-		A.reported = p;
-		A.actual = p;
-		A.oldsizereported = 0;
-		A.sizereported = size;
-		A.sizeactual = size;
-		A.file = g_debug_file;
-		A.line = g_debug_line;
-		A.type = "new";
-		A.seconds = seconds;
-		A.milliseconds = milliseconds;
-		A.frame = ticks;
-		A.op_index = debug_mem_op_index++;
-		A.freed = false;
-		g_debug_file = "unknown";
-		g_debug_line = 0;
-		#ifdef DEBUG_NEW
-		debugAllocList[g_debugAllocListI++]=A;
-		#else
-		debugAllocList.push_back(A);
-		#endif
-
-		redirect_new = 1;
-		return p;
-	}else{
-		void *p = malloc(size);
-		return p;
-	}
-	*/
+	
 }
 
 void debug_delete(void *ptr){
@@ -206,43 +152,7 @@ void debug_delete(void *ptr){
 	if(!recurseCounter){
 		recurseCounter++;
 		
-		/*
-		for(auto I = allocation_map.begin(); I != allocation_map.end(); I++){
-			
-			auto &r_afile = I->second;
-			for(auto L = r_afile.begin(); L != r_afile.end(); L++){
-				
-				auto &r_aline = L->second;
-				int k = 0;
-				for(auto K         mapped_alloc_key key = deallocation_map[ptr];
-        struct_alloc_file &f = allocation_map[key.alloc_file];
-        struct_alloc_line &l = f[key.alloc_line];
-        for(auto J = l.begin(); J != l.end();){
-            mapped_alloc &al = *J;
-            if(al.p == ptr){
-                J = l.erase(J);
-                deallocation_map.erase(ptr);
-            }else{
-                J++;
-            }
-        }= r_aline.begin(); K != r_aline.end();){
-					
-					mapped_alloc A = *K;
-					if(A.p == ptr){
-						
-						
-						total_size -= A.size;
-						
-						K = r_aline.erase(K);
-						
-					}else{
-						K++;
-					}
-					k++;
-				}
-			}
-		}
-		*/
+		
 		if(g_deallocation_map.count(ptr)){
 			mapped_alloc_key key = g_deallocation_map[ptr];
 			auto &r_afile = g_allocation_map[key.g_alloc_file];
@@ -334,44 +244,7 @@ void operator delete(void *ptr, size_t size) noexcept{
 void operator delete(void *ptr) noexcept{
 	debug_delete(ptr);
 
-	/*
-	if(redirect_delete || !g_debug_line){
-		redirect_delete = 0;
-		
-
-		bool found = false;
-		int I;
-		#ifdef DEBUG_NEW
-		for(I = debugAllocListSize-1;I >= 0;I--){
-		#else
-		for(I = debugallocList.size();I>= 0;I--){
-		#endif
-			if(debugAllocList[I].reported == ptr){
-				if(!debugAllocList[I].freed){
-					debugAllocList[I].freed = true;
-					g_debug_mem_allocated -= debugAllocList[I].sizereported;
-					found = true;
-					break;
-				}else{
-					debugprint(g_debug_file,g_debug_line,"error","[memop:%d] delete(%p) (prev memop=%d) ERROR: double-delete!\n",debug_mem_op_index,ptr,I);
-					exit(0);
-				}
-			}
-		}
-		if(found){debugprint(g_debug_file,g_debug_line,"memory","[memop:%d] delete(%p) (prev memop=%d)\n",debug_mem_op_index,ptr,I);}
-		else{debugprint(g_debug_file,g_debug_line,"error","[memop:%d] delete(%p) ERROR: wild delete!\n",debug_mem_op_index,ptr);abort();}
-
-		free(ptr);
-		debug_mem_op_index++;
-		g_debug_file = "unknown";
-		g_debug_line = 0;
-		redirect_delete = 1;
-		return;
-	}else{
-		free(ptr);
-		return;
-	}
-	*/
+	
 }
 
 #endif

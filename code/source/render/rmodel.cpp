@@ -42,14 +42,7 @@ rmodel::rmodel(model *m){
 }
 rmodel::~rmodel(){
 	
-	/*
 	
-	
-	
-	
-	
-	
-	*/
 }
 
 model *modelFromPoints(vector<vec3> *vertices,

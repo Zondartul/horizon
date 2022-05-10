@@ -6,35 +6,7 @@
 
 
 
-/*
-	Coordinate systems:
-		World (vec3)
-			|
-			|<ModelView matrix>
-			v
-		camera-relative
-			|
-			| vec4 = {vec3,w=1}
-			| <Projection matrix, different w for persp/ortho>
-			v
-		4D Clip coordinates
-			|
-			| perspective division (vec3 = vec4.xyz / w)
-			v
-		Device
-			|
-			| glViewport transform
-			v
-		Screen
-	
-	Coords:		World(orthodox)	World(game)		Camera		Device			Screen(orthodox)	Screen(game)	
-	X range		-inf...inf		-inf...inf					-1.....1		 0..width			 0..width
-	Y range		-inf...inf		-inf...inf		same as		-1.....1		 0..height			 0....height
-	Z range		-inf...inf		-inf...inf		world,		-1.....1		 0..1				-inf..inf
-	X meaning	 left..right	 in....out		+rotate		 left..right	 from 				 from
-	Y meaning	 down..up		 left..right	+translate	 down..up		 bottom-left corner	 top-left corner
-	Z meaning	 out...in		 down..up					 out...in		 zNear..zFar		 out..in
-*/
+
 
 enum z_meaning {Z_IS_DISTANCE, Z_IS_PLANE, Z_IS_ORTHODOX};
 

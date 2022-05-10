@@ -1,29 +1,6 @@
-/*
-  Simple DirectMedia Layer
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
-*/
-
-/**
- *  \file SDL_stdinc.h
- *
- *  This is a general header that includes C language support.
- */
 
 #ifndef _SDL_stdinc_h
 #define _SDL_stdinc_h
@@ -72,10 +49,7 @@
 #endif
 #ifdef HAVE_MATH_H
 # if defined(__WINRT__)
-/* Defining _USE_MATH_DEFINES is required to get M_PI to be defined on
-   WinRT.  See http:
-   for more information.
-*/
+
 #  define _USE_MATH_DEFINES
 # endif
 # include <math.h>
@@ -87,19 +61,12 @@
 # include <iconv.h>
 #endif
 
-/**
- *  The number of elements in an array.
- */
+
 #define SDL_arraysize(array)    (sizeof(array)/sizeof(array[0]))
 #define SDL_TABLESIZE(table)    SDL_arraysize(table)
 
-/**
- *  \name Cast operators
- *
- *  Use proper C++ casts when compiled as C++ to be compatible with the option
- *  -Wold-style-cast of GCC (and -Werror=old-style-cast in GCC 4.2 and above).
- */
-/* @{ */
+
+
 #ifdef __cplusplus
 #define SDL_reinterpret_cast(type, expression) reinterpret_cast<type>(expression)
 #define SDL_static_cast(type, expression) static_cast<type>(expression)
@@ -109,19 +76,15 @@
 #define SDL_static_cast(type, expression) ((type)(expression))
 #define SDL_const_cast(type, expression) ((type)(expression))
 #endif
-/* @} *
 
-/* Define a four character code as a Uint32 */
 #define SDL_FOURCC(A, B, C, D) \
     ((SDL_static_cast(Uint32, SDL_static_cast(Uint8, (A))) << 0) | \
      (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (B))) << 8) | \
      (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (C))) << 16) | \
      (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (D))) << 24))
 
-/**
- *  \name Basic data types
- */
-/* @{ */
+
+
 
 typedef enum
 {
@@ -129,45 +92,25 @@ typedef enum
     SDL_TRUE = 1
 } SDL_bool;
 
-/**
- * \brief A signed 8-bit integer type.
- */
+
 typedef int8_t Sint8;
-/**
- * \brief An unsigned 8-bit integer type.
- */
+
 typedef uint8_t Uint8;
-/**
- * \brief A signed 16-bit integer type.
- */
+
 typedef int16_t Sint16;
-/**
- * \brief An unsigned 16-bit integer type.
- */
+
 typedef uint16_t Uint16;
-/**
- * \brief A signed 32-bit integer type.
- */
+
 typedef int32_t Sint32;
-/**
- * \brief An unsigned 32-bit integer type.
- */
+
 typedef uint32_t Uint32;
 
-/**
- * \brief A signed 64-bit integer type.
- */
+
 typedef int64_t Sint64;
-/**
- * \brief An unsigned 64-bit integer type.
- */
+
 typedef uint64_t Uint64;
 
-/* @} *
 
-/* Make sure we have macros for printing 64 bit values.
- * <stdint.h> should define these but this is not true all platforms.
- * (for example win32) */
 #ifndef SDL_PRIs64
 #ifdef PRIs64
 #define SDL_PRIs64 PRIs64
@@ -213,7 +156,7 @@ typedef uint64_t Uint64;
 #endif
 #endif
 
-/* Annotations to help code analysis tools */
+
 #ifdef SDL_DISABLE_ANALYZE_MACROS
 #define SDL_IN_BYTECAP(x)
 #define SDL_INOUT_Z_CAP(x)
@@ -226,7 +169,7 @@ typedef uint64_t Uint64;
 #define SDL_PRINTF_VARARG_FUNC( fmtargnumber )
 #define SDL_SCANF_VARARG_FUNC( fmtargnumber )
 #else
-#if defined(_MSC_VER) && (_MSC_VER >= 1600) /* VS 2010 and above */
+#if defined(_MSC_VER) && (_MSC_VER >= 1600) 
 #include <sal.h>
 
 #define SDL_IN_BYTECAP(x) _In_bytecount_(x)
@@ -255,11 +198,11 @@ typedef uint64_t Uint64;
 #define SDL_PRINTF_VARARG_FUNC( fmtargnumber )
 #define SDL_SCANF_VARARG_FUNC( fmtargnumber )
 #endif
-#endif /* SDL_DISABLE_ANALYZE_MACROS */
+#endif 
 
 #define SDL_COMPILE_TIME_ASSERT(name, x)               \
        typedef int SDL_dummy_ ## name[(x) * 2 - 1]
-/** \cond */
+
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 SDL_COMPILE_TIME_ASSERT(uint8, sizeof(Uint8) == 1);
 SDL_COMPILE_TIME_ASSERT(sint8, sizeof(Sint8) == 1);
@@ -269,19 +212,15 @@ SDL_COMPILE_TIME_ASSERT(uint32, sizeof(Uint32) == 4);
 SDL_COMPILE_TIME_ASSERT(sint32, sizeof(Sint32) == 4);
 SDL_COMPILE_TIME_ASSERT(uint64, sizeof(Uint64) == 8);
 SDL_COMPILE_TIME_ASSERT(sint64, sizeof(Sint64) == 8);
-#endif /* DOXYGEN_SHOULD_IGNORE_THIS */
-/** \endcond */
+#endif 
 
-/* Check to make sure enums are the size of ints, for structure packing.
-   For both Watcom C/C++ and Borland C/C++ the compiler option that makes
-   enums having the size of an int must be enabled.
-   This is "-b" for Borland C/C++ and "-ei" for Watcom C/C++ (v11).
-*/
 
-/** \cond */
+
+
+
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 #if !defined(__ANDROID__)
-   /* TODO: include/SDL_stdinc.h:174: error: size of array 'SDL_dummy_enum' is negative */
+   
 typedef enum
 {
     DUMMY_ENUM_VALUE
@@ -289,11 +228,11 @@ typedef enum
 
 SDL_COMPILE_TIME_ASSERT(enum, sizeof(SDL_DUMMY_ENUM) == sizeof(int));
 #endif
-#endif /* DOXYGEN_SHOULD_IGNORE_THIS */
-/** \endcond */
+#endif 
+
 
 #include "begin_code.h"
-/* Set up for C function definitions, even when using C++ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -340,8 +279,8 @@ extern DECLSPEC void SDLCALL SDL_qsort(void *base, size_t nmemb, size_t size, in
 
 extern DECLSPEC int SDLCALL SDL_abs(int x);
 
-/* !!! FIXME: these have side effects. You probably shouldn't use them. */
-/* !!! FIXME: Maybe we do forceinline functions of SDL_mini, SDL_minf, etc? */
+
+
 #define SDL_min(x, y) (((x) < (y)) ? (x) : (y))
 #define SDL_max(x, y) (((x) > (y)) ? (x) : (y))
 
@@ -355,7 +294,7 @@ extern DECLSPEC void *SDLCALL SDL_memset(SDL_OUT_BYTECAP(len) void *dst, int c, 
 #define SDL_zero(x) SDL_memset(&(x), 0, sizeof((x)))
 #define SDL_zerop(x) SDL_memset((x), 0, sizeof(*(x)))
 
-/* Note that memset() is a byte assignment and this is a 32-bit assignment, so they're not directly equivalent. */
+
 SDL_FORCE_INLINE void SDL_memset4(void *dst, Uint32 val, size_t dwords)
 {
 #if defined(__GNUC__) && defined(i386)
@@ -433,7 +372,7 @@ extern DECLSPEC int SDLCALL SDL_vsnprintf(SDL_OUT_Z_CAP(maxlen) char *text, size
 
 #ifndef HAVE_M_PI
 #ifndef M_PI
-#define M_PI    3.14159265358979323846264338327950288   /* pi */
+#define M_PI    3.14159265358979323846264338327950288   
 #endif
 #endif
 
@@ -457,13 +396,13 @@ extern DECLSPEC float SDLCALL SDL_sqrtf(float x);
 extern DECLSPEC double SDLCALL SDL_tan(double x);
 extern DECLSPEC float SDLCALL SDL_tanf(float x);
 
-/* The SDL implementation of iconv() returns these error codes */
+
 #define SDL_ICONV_ERROR     (size_t)-1
 #define SDL_ICONV_E2BIG     (size_t)-2
 #define SDL_ICONV_EILSEQ    (size_t)-3
 #define SDL_ICONV_EINVAL    (size_t)-4
 
-/* SDL_iconv_* are now always real symbols/types, not macros or inlined. */
+
 typedef struct _SDL_iconv_t *SDL_iconv_t;
 extern DECLSPEC SDL_iconv_t SDLCALL SDL_iconv_open(const char *tocode,
                                                    const char *fromcode);
@@ -471,10 +410,7 @@ extern DECLSPEC int SDLCALL SDL_iconv_close(SDL_iconv_t cd);
 extern DECLSPEC size_t SDLCALL SDL_iconv(SDL_iconv_t cd, const char **inbuf,
                                          size_t * inbytesleft, char **outbuf,
                                          size_t * outbytesleft);
-/**
- *  This function converts a string between encodings in one pass, returning a
- *  string that must be freed with SDL_free() or NULL on error.
- */
+
 extern DECLSPEC char *SDLCALL SDL_iconv_string(const char *tocode,
                                                const char *fromcode,
                                                const char *inbuf,
@@ -483,8 +419,7 @@ extern DECLSPEC char *SDLCALL SDL_iconv_string(const char *tocode,
 #define SDL_iconv_utf8_ucs2(S)      (Uint16 *)SDL_iconv_string("UCS-2-INTERNAL", "UTF-8", S, SDL_strlen(S)+1)
 #define SDL_iconv_utf8_ucs4(S)      (Uint32 *)SDL_iconv_string("UCS-4-INTERNAL", "UTF-8", S, SDL_strlen(S)+1)
 
-/* force builds using Clang's static analysis tools to use literal C runtime
-   here, since there are possibly tests that are ineffective otherwise. */
+
 #if defined(__clang_analyzer__) && !defined(SDL_DISABLE_ANALYZE_MACROS)
 #define SDL_malloc malloc
 #define SDL_calloc calloc
@@ -516,12 +451,12 @@ SDL_FORCE_INLINE void *SDL_memcpy4(SDL_OUT_BYTECAP(dwords*4) void *dst, SDL_IN_B
     return SDL_memcpy(dst, src, dwords * 4);
 }
 
-/* Ends C function definitions when using C++ */
+
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
 
-#endif /* _SDL_stdinc_h */
+#endif 
 
-/* vi: set ts=4 sw=4 expandtab: */
+

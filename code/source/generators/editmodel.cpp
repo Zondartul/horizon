@@ -887,7 +887,7 @@ void e_model::repair(){
 
 #define cdup_helper(v,code){		\
     typedef decltype(v)::value_type EL; \
-	/*set<typeof(v.front())> dups;*/	\
+		\
 	set<EL> dups;                   \
 	for_all(v,I,{					\
 		if(!dups.count(*I)){   	    \
@@ -1044,99 +1044,7 @@ void e_model::recalculateNeighbors(){
 	removeTouchingInfo();
 	checkDegenerate(true);
 
-	/*
-		t - triangle
-		e - edge
-		v - vertex
-		d - definitnion
-		p - part
-		c - touch
-		other - other element being checked. can't be 'this'.
-		this - this element. cannot be in 'touch' or 'part'.
-		touch relation is assymmetric. a vertex may touch a triangle but
-		the triangle may not touch the vertex.
-		
-		t.d.v is known
-		t.d.e = 0
-		t.d.t = 0
-		t.p.v = t.d.v
-		t.p.e = any e with both v in t.d.v
-		t.p.t = 0
-		t.t.v = any v in t.t.e and not in t.d.v
-		t.t.e = any e with v in t.d.v and not in t.p.e
-		t.t.t = any t with v in t.d.v and in other.t.d.v
-				or, equivalently,
-					  with e in t.p.e and in other.t.p.e
-		
-		e.d.v is known
-		e.d.e = 0
-		e.d.t = 0
-		e.p.v = e.d.v
-		e.p.e = 0
-		e.p.t = 0
-		e.t.v = any v in e.t.e and not in e.d.v
-		e.t.e = any e with v in e.d.v
-		e.t.t = any t with v with in e.d.v
-		
-		v.d.v = 0
-		v.d.e = 0
-		v.d.t = 0
-		v.p.v = 0
-		v.p.e = 0
-		v.p.t = 0
-		v.t.v = any v in v.t.e
-		v.t.e = any e with this in e.d.v
-		v.t.t = any t with this in t.d.v
-		
-
-		
-		t.t.t ~~~~~~*~~~~				t.t.e ~~~~~~*~~~~				t.t.v ~~~~~~~*~~~~
-		    ~(1)###/     ~~~~   		    ~      /     ~~~~  			    ~       /     ~~~~
-		  ~#######/this       ~~~~		  ~       /this       ~~~~		  ~        /this       ~~~~
-		~*-------*---------------*		 ~=(1)===*---------------*		 ~(1)-----*---------------*
-		 ~\#####/#\#############~		 ~     
-		  ~\(2)/###\###(4)##~			  ~  (2)   (3)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ 
-		    ~*--------*~					~*-------*~						~(2)----(3)~
-
-		e.t.t ~~~~~~*~~~~				e.t.e ~~~~~~*~~~~				e.t.v ~~~~~~(1)~~~
-		    ~(1)###/##(5)~~~~   		    ~     (1)    ~~~~  			    ~       /     ~~~~
-		  ~#######/#########~~~~		  ~       
-		~*-------*---this------*		 ~=(2)===*---this--------*		 ~(2)-----*-----this------*
-		 ~\#####/#\#############~		 ~     
-		  ~\(2)/###\###(4)##~			  ~  (3)   (4)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ 
-		    ~*--------*~					~*-------*~						~(2)----(3)~
-
-
-		v.t.t ~~~~~~*~~~~				v.t.e ~~~~~~*~~~~				v.t.v ~~~~~~(1)~~~
-		    ~(1)###/##(5)~~~~   		    ~     (1)    ~~~~  			    ~       /     ~~~~
-		  ~#######/#########~~~~		  ~       
-		~*-----(this)----------*		 ~=(2)=(this)===(5)======*		 ~(2)---(this)-----------(5)
-		 ~\#####/#\#############~		 ~     
-		  ~\(2)/###\###(4)##~			  ~  (3)   (4)        ~			  ~ \   /   \         ~
-		   ~\#/#(3)#\##~				   ~ 
-		    ~*--------*~					~*-------*~						~(3)----(4)~
-
-									pass (order of computation):
-		t.d.v known   				0
-		t.p.v? (t.d.v)					1.1
-		t.p.e? (t.d.v + e.d.v)			1.2
-		t.t.v? (t.t.e + e.d.v + t.d.v)
-		t.t.e? (t.p.e + e.d.v + t.d.v)		2.1
-		t.t.t? (t.d.v)					1.3
-		e.d.v known					0
-		e.p.v? (e.d.v)					1.4
-		e.t.v? (e.t.e + e.d.v)				2.2
-		e.t.e? (e.d.v)					1.5
-		e.t.t? (t.d.v + e.d.v)			1.6
-		v.t.v? (v.t.e + e.d.v)				2.3
-		v.t.e? (e.d.v)					1.7
-		v.t.t? (t.d.v)					1.8
-
-
-
-	*/
+	
 	
 	for(auto I = tris.begin(); I != tris.end(); I++){
 		CHECK3VERTS(*I);

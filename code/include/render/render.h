@@ -5,35 +5,7 @@
 using std::vector;
 #include "fonts.h"
 
-/*
-	How render works:
-	call flow:
 
-	renderLow			
-	^					
-	|
-	renderQueue			
-	^
-	|
-	renderImmediate		
-	^
-	|
-	renderScene			
-						
-	data flow:
-
-	screen
-	^
-	|
-	renderTarget		
-	^					
-	|
-	renderLayer			
-	^					
-	|
-	renderScene			
-
-*/
 
 class rmodel;
 struct texture;

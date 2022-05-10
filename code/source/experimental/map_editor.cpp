@@ -556,19 +556,7 @@ void map_editor_kind::onEvent(eventKind event){
                 drawRect(R);
                 
                 
-                /*if(mouseover_ent){
-                    if(mouseover_ent->body){
-                        collisionbody &body = *mouseover_ent->body;
-                        vec3 pos = body.pos;
-                        AABB aabb = body.getAABB().moveBy(pos);
-
-                        setLayer(layerMap3D);
-                        setDepthTest(true);
-                        setColor(vec3(0,128,0));
-                        setLineWidth(2.f);
-                        drawBoxWireframe(aabb);
-                    }
-                }*/
+                
                 
                 
                 
@@ -746,13 +734,7 @@ void map_editor_kind::onEvent(eventKind event){
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-                /*if(mouseray(&mouseover_pos, &col)){
-                    setLayer(layerMap3D);
-                    setColor(vec3(0,255,0));
-                    float size = 0.1f;
-                    vec3 v1 = vec3(1,1,1);
-                    drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
-                }*/
+                
             }
         }
         break;
@@ -767,13 +749,7 @@ void map_editor_kind::onEvent(eventKind event){
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-                /*if(mouseray(&mouseover_pos, &col)){
-                    setLayer(layerMap3D);
-                    setColor(vec3(0,255,0));
-                    float size = 0.1f;
-                    vec3 v1 = vec3(1,1,1);
-                    drawBoxWireframe(AABB(-v1*size/2.f,v1*size/2.f).moveBy(mouseover_pos));
-                }*/
+                
             }
         }
         break;
@@ -892,12 +868,7 @@ void map_editor_kind::onEvent(eventKind event){
 				clearLayer(layerMap2D);
 				resetLayer(layerMap2D);
 
-				/*if(mouseray(&mouseover_pos, &col)){
-					setLayer(layerMap3D);
-					vec3 v = vec3(1,1,1)*0.1f;
-					setColor(vec3(0,255,0));
-					drawBoxWireframe(AABB(-v,v).moveBy(mouseover_pos));
-				}*/
+				
 				if(points.size()){
 					setLayer(layerMap3D);
 					setPointSize(4.f);

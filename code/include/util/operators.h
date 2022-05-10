@@ -1,10 +1,6 @@
 #ifndef OPERATORS_GUARD
 #define OPERATORS_GUARD
-/*
 
-
-
-*/
 template<typename T> class assignmentOperator final{
 	public:
 	virtual void operator=(const T& newval){set(newval);}
@@ -71,59 +67,13 @@ template<typename K, typename V> class subscriptAssignmentOperator
 
 
 
-/*
-class foo{
-	public:
-	
-	
-	
-	int b = 0;
-	property(foo, int, a);
-};
-void foo::property_a::set(const int& newval){printf("setter fired (%d)\n",newval); owner.b++; val = newval;}
-const int& foo::property_a::get(){printf("getter fired\n"); owner.b++; return val;}
-
-void propertyExperiment(){
-	printf("-------------- PROPERTY EXPERIMENT -----------\n");
-	foo f;
-	f.a = 5;
-	int a = f.a;
-	printf("int a == %d\n",a);
-	printf("f.b = %d\n",f.b);
-	printf("-------------- END PROPERTY EXPERIMENT -----------\n");
-}
-*/
 
 
 
 
 
-/*
-class barbuz:public subscriptOperator<string,int>{
-	public:
-	int I;
-	virtual int& getIndexRef(const string &key) override{printf("look at my 'I'! %p\n",&I);return I;}
-};
 
-class barbook:public subscriptAssignmentOperator<string,int>{
-	public:
-	int I;
-	virtual const int& getIndex(const string &key) override{printf("you wanna %s?\n",key.c_str()); return I;};
-	virtual void setIndex(const string &key, const int &value) override{printf("da %s is now a %d\n",key.c_str(),value); I = value;}
-};
 
-void subscriptExperiment(){
-	barbuz BZ;
-	barbook BK;
-	printf("-------------- subscript experiment ------------------\n");
-	BZ["hello"] = 1;
-	BK["BK"] = 2;
-	int a = BZ["wat"];
-	int b = BK["ok"];
-	printf("a = %d, b = %d\n",a,b);
-	printf("------------- end subscript experiment ---------------\n");
-}
-*/
 
 
 

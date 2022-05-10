@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svotval.h                                                              */
-/*                                                                         */
-/*    The FreeType OpenType validation service (specification).            */
-/*                                                                         */
-/*  Copyright 2004-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVOTVAL_H_
@@ -43,13 +43,13 @@ FT_BEGIN_HEADER
     otv_validate_func  validate;
   };
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* SVOTVAL_H_ */
+#endif 
 
 
-/* END */
+

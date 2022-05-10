@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svbdf.h                                                                */
-/*                                                                         */
-/*    The FreeType BDF services (specification).                           */
-/*                                                                         */
-/*  Copyright 2003-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVBDF_H_
@@ -56,7 +56,7 @@ FT_BEGIN_HEADER
     get_charset_id_, get_property_                                       \
   };
 
-#else /* FT_CONFIG_OPTION_PIC */
+#else 
 
 #define FT_DEFINE_SERVICE_BDFRec( class_,                                \
                                   get_charset_id_,                       \
@@ -68,15 +68,15 @@ FT_BEGIN_HEADER
     clazz->get_property   = get_property_;                               \
   }
 
-#endif /* FT_CONFIG_OPTION_PIC */
+#endif 
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* SVBDF_H_ */
+#endif 
 
 
-/* END */
+

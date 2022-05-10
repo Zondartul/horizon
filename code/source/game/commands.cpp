@@ -526,15 +526,7 @@ void addConsoleCommands(){
 	
 	
 	
-	/*console->addCommand({"physbox",
-		"spawn a physbox\n"
-		"args: <n>\n"
-		"n: 1 - plain physbox\n"
-		"n: 2 - fancy physbox\n"
-		"n: 3 - bouncy physbox\n"
-		"n: 4 - tree\n",
-		cmd_physbox});
-	console->addCommand({"character","spawn a player-controlled character\n",cmd_spawnCharacter});*/
+	
 
 	console->addCommand({"pause","pause the game\n",cmd_pauseGame});
 

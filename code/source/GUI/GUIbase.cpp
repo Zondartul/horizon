@@ -461,23 +461,7 @@ rect GUIbase::visibleClientArea(){
 }
 
 GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
-	/*
-	AA----------AB------------------------------BB----------BA
-	|  corner	| 			  top				|  corner    |
-	|  top-left AC------------------------------BC top-right |
-	|			|								|			 |
-	AD---AE----AF								BF-----BE---BD
-	|    |											   |     |
-	|	 |                                             |     |
-	|left|                                             |right|
-	|    |                                             |     |
-	|    |                                             |     |
-	CD---CE----CF								DF-----DE---DD
-	|			|								|            |
-	| corner   CC-------------------------------DC corner    |
-	| btm-left  |            bottom             |  btm-right |
-	CA---------CB-------------------------------DB----------DA
-	*/
+	
 
 	rect warea = worldArea();
 	

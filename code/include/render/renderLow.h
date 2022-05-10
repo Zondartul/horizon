@@ -8,36 +8,7 @@
 
 
 
-/*
-implicit state:
-	coloring on/off
-	transparency on/off
-	texturing on/off
-	lighting on/off, vector, color, ambient
-	line_thickness
-	scissor on/off, rect
-	culling on/off, direction
 
-data: (also part of state)
-	vertices
-	color/alphas
-	UVs
-	projection
-	texture
-
-draw commands:
-	point
-	line
-	triangle
-
-resource:
-	texture upload
-
-future stuff:
-	polygon
-	blendtexture/multitexture
-	multiple lights
-*/
 
 struct GPUdriverKind;
 

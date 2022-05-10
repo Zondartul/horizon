@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  ftmemory.h                                                             */
-/*                                                                         */
-/*    The FreeType memory management macros (specification).               */
-/*                                                                         */
-/*  Copyright 1996-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg                       */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef FTMEMORY_H_
@@ -28,40 +28,36 @@
 FT_BEGIN_HEADER
 
 
-  /*************************************************************************/
-  /*                                                                       */
-  /* <Macro>                                                               */
-  /*    FT_SET_ERROR                                                       */
-  /*                                                                       */
-  /* <Description>                                                         */
-  /*    This macro is used to set an implicit `error' variable to a given  */
-  /*    expression's value (usually a function call), and convert it to a  */
-  /*    boolean which is set whenever the value is != 0.                   */
-  /*                                                                       */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 #undef  FT_SET_ERROR
 #define FT_SET_ERROR( expression ) \
           ( ( error = (expression) ) != 0 )
 
 
 
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
-  /****                                                                 ****/
-  /****                                                                 ****/
-  /****                           M E M O R Y                           ****/
-  /****                                                                 ****/
-  /****                                                                 ****/
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
-  /*
-   *  C++ refuses to handle statements like p = (void*)anything, with `p' a
-   *  typed pointer.  Since we don't have a `typeof' operator in standard
-   *  C++, we have to use a template to emulate it.
-   */
+  
 
 #ifdef __cplusplus
 
@@ -96,19 +92,15 @@ FT_BEGIN_HEADER
                                       _ft_debug_lineno = __LINE__, \
                                       FT_ASSIGNP( p, exp ) )
 
-#else /* !FT_DEBUG_MEMORY */
+#else 
 
 #define FT_DEBUG_INNER( exp )       (exp)
 #define FT_ASSIGNP_INNER( p, exp )  FT_ASSIGNP( p, exp )
 
-#endif /* !FT_DEBUG_MEMORY */
+#endif 
 
 
-  /*
-   *  The allocation functions return a pointer, and the error code
-   *  is written to through the `p_error' parameter.  See below for
-   *  for documentation.
-   */
+  
 
   FT_BASE( FT_Pointer )
   ft_mem_alloc( FT_Memory  memory,
@@ -245,21 +237,17 @@ FT_BEGIN_HEADER
                        (FT_Offset)(count) * sizeof ( *(dest) ) )
 
 
-  /*
-   *  Return the maximum number of addressable elements in an array.
-   *  We limit ourselves to INT_MAX, rather than UINT_MAX, to avoid
-   *  any problems.
-   */
+  
 #define FT_ARRAY_MAX( ptr )           ( FT_INT_MAX / sizeof ( *(ptr) ) )
 
 #define FT_ARRAY_CHECK( ptr, count )  ( (count) <= FT_ARRAY_MAX( ptr ) )
 
 
-  /*************************************************************************/
-  /*                                                                       */
-  /* The following functions macros expect that their pointer argument is  */
-  /* _typed_ in order to automatically compute array element sizes.        */
-  /*                                                                       */
+  
+  
+  
+  
+  
 
 #define FT_MEM_NEW_ARRAY( ptr, count )                              \
           FT_ASSIGNP_INNER( ptr, ft_mem_realloc( memory,            \
@@ -364,9 +352,9 @@ FT_BEGIN_HEADER
           FT_MEM_SET_ERROR( FT_MEM_DUP( dst, address, size ) )
 
 
-  /* Return >= 1 if a truncation occurs.            */
-  /* Return 0 if the source string fits the buffer. */
-  /* This is *not* the same as strlcpy().           */
+  
+  
+  
   FT_BASE( FT_Int )
   ft_mem_strcpyn( char*        dst,
                   const char*  src,
@@ -375,12 +363,12 @@ FT_BEGIN_HEADER
 #define FT_STRCPYN( dst, src, size )                                         \
           ft_mem_strcpyn( (char*)dst, (const char*)(src), (FT_ULong)(size) )
 
- /* */
+ 
 
 
 FT_END_HEADER
 
-#endif /* FTMEMORY_H_ */
+#endif 
 
 
-/* END */
+

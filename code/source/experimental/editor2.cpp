@@ -13,12 +13,7 @@
 #include "simplemath.h"
 #include "input.h"
 
-/*
-	editor scratchpad-style rendering:
-	1) make a persistent render-layer with stuff in it
-	2) draw to it
-	3) only clear when closing editor
-*/
+
 
 
 
@@ -104,44 +99,18 @@ void editor2Kind::printselection(){
 	printf("selected %d verts, %d edges, %d tris\n",sel.verts.size(),sel.edges.size(),sel.tris.size());
 }
 
-/*
-	"  F          G\n"
-	"\n"
-	"  .  \n"
-	"\n"
-	".   .\n"
-	" . . \n"
-	"  E  \n"
-	" . . \n"
-	".   .\n"
-	"\n"
-	"A---B\n"
-	"|   |\n"
-	"|   |\n"
-	"|   |\n"
-	"C---D\n"
-*/
+
 
 void editor2Kind::constructTestModel(){
 	printf("editor.constructTestModel()\n");
 	EM = e_model();
-	/*
-	   D   F
-	   |
-	   C
-	   |\
-	   | \\
-	   O-+-A
-	    \|/
-	     B
-
-	*/
+	
 	e_vertex *vO = new e_vertex({0,0,0},&EM);
 	e_vertex *vA = new e_vertex({1,0,0},&EM);
 	e_vertex *vB = new e_vertex({0,1,0},&EM);
 	e_vertex *vC = new e_vertex({0,0,1},&EM);
 	e_vertex *vD = new e_vertex({0,0,2},&EM);
-	/*e_vertex *vF = */new e_vertex({1,1,2},&EM);
+	new e_vertex({1,1,2},&EM);
 
 	new e_edge(vO,vA,&EM);
 	new e_edge(vO,vB,&EM);

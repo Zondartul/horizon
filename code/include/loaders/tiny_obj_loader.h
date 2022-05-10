@@ -383,15 +383,13 @@ static bool tryParseDouble(const char *s, const char *s_end, double *result) {
   
   bool end_not_reached = false;
 
-  /*
-          BEGIN PARSING.
-  */
+  
 
   
   if (*curr == '+' || *curr == '-') {
     sign = *curr;
     curr++;
-  } else if (IS_DIGIT(*curr)) { /* Pass through. */
+  } else if (IS_DIGIT(*curr)) { 
   } else {
     goto fail;
   }
@@ -436,7 +434,7 @@ static bool tryParseDouble(const char *s, const char *s_end, double *result) {
     if ((end_not_reached = (curr != s_end)) && (*curr == '+' || *curr == '-')) {
       exp_sign = *curr;
       curr++;
-    } else if (IS_DIGIT(*curr)) { /* Pass through. */
+    } else if (IS_DIGIT(*curr)) { 
     } else {
       
       goto fail;
@@ -676,7 +674,7 @@ static bool exportFaceGroupToShape(
 	  const size_t nIndexs = shape.mesh.indices.size();
 	  if (nIndexs % 3 == 0) {
 		  shape.mesh.normals.resize(shape.mesh.positions.size());
-		  for (/*register*/ size_t iIndices = 0; iIndices < nIndexs; iIndices += 3) {
+		  for ( size_t iIndices = 0; iIndices < nIndexs; iIndices += 3) {
 			  float3 v1, v2, v3;
 			  memcpy(&v1, &shape.mesh.positions[shape.mesh.indices[iIndices] * 3], sizeof(float3));
 			  memcpy(&v2, &shape.mesh.positions[shape.mesh.indices[iIndices + 1] * 3], sizeof(float3));

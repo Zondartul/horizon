@@ -946,77 +946,7 @@ GLM_FUNC_QUALIFIER void glm_mat4_inverse_lowp(glm_vec4 const in[4], glm_vec4 out
 	out[2] = _mm_mul_ps(Inv2, Rcp0);
 	out[3] = _mm_mul_ps(Inv3, Rcp0);
 }
-/*
-GLM_FUNC_QUALIFIER void glm_mat4_rotate(__m128 const in[4], float Angle, float const v[3], __m128 out[4])
-{
-	float a = glm::radians(Angle);
-	float c = cos(a);
-	float s = sin(a);
 
-	glm::vec4 AxisA(v[0], v[1], v[2], float(0));
-	__m128 AxisB = _mm_set_ps(AxisA.w, AxisA.z, AxisA.y, AxisA.x);
-	__m128 AxisC = detail::sse_nrm_ps(AxisB);
-
-	__m128 Cos0 = _mm_set_ss(c);
-	__m128 CosA = _mm_shuffle_ps(Cos0, Cos0, _MM_SHUFFLE(0, 0, 0, 0));
-	__m128 Sin0 = _mm_set_ss(s);
-	__m128 SinA = _mm_shuffle_ps(Sin0, Sin0, _MM_SHUFFLE(0, 0, 0, 0));
-
-	
-	__m128 Temp0 = _mm_sub_ps(one, CosA);
-	__m128 Temp1 = _mm_mul_ps(Temp0, AxisC);
-	
-	
-	
-	
-	__m128 Axis0 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(0, 0, 0, 0));
-	__m128 TmpA0 = _mm_mul_ps(Axis0, AxisC);
-	__m128 CosA0 = _mm_shuffle_ps(Cos0, Cos0, _MM_SHUFFLE(1, 1, 1, 0));
-	__m128 TmpA1 = _mm_add_ps(CosA0, TmpA0);
-	__m128 SinA0 = SinA;
-	__m128 TmpA2 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(3, 1, 2, 3));
-	__m128 TmpA3 = _mm_mul_ps(SinA0, TmpA2);
-	__m128 TmpA4 = _mm_add_ps(TmpA1, TmpA3);
-
-	
-	
-	
-	__m128 Axis1 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(1, 1, 1, 1));
-	__m128 TmpB0 = _mm_mul_ps(Axis1, AxisC);
-	__m128 CosA1 = _mm_shuffle_ps(Cos0, Cos0, _MM_SHUFFLE(1, 1, 0, 1));
-	__m128 TmpB1 = _mm_add_ps(CosA1, TmpB0);
-	__m128 SinB0 = SinA;
-	__m128 TmpB2 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(3, 0, 3, 2));
-	__m128 TmpB3 = _mm_mul_ps(SinA0, TmpB2);
-	__m128 TmpB4 = _mm_add_ps(TmpB1, TmpB3);
-
-	
-	
-	
-	__m128 Axis2 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(2, 2, 2, 2));
-	__m128 TmpC0 = _mm_mul_ps(Axis2, AxisC);
-	__m128 CosA2 = _mm_shuffle_ps(Cos0, Cos0, _MM_SHUFFLE(1, 0, 1, 1));
-	__m128 TmpC1 = _mm_add_ps(CosA2, TmpC0);
-	__m128 SinC0 = SinA;
-	__m128 TmpC2 = _mm_shuffle_ps(AxisC, AxisC, _MM_SHUFFLE(3, 3, 0, 1));
-	__m128 TmpC3 = _mm_mul_ps(SinA0, TmpC2);
-	__m128 TmpC4 = _mm_add_ps(TmpC1, TmpC3);
-
-	__m128 Result[4];
-	Result[0] = TmpA4;
-	Result[1] = TmpB4;
-	Result[2] = TmpC4;
-	Result[3] = _mm_set_ps(1, 0, 0, 0);
-
-	
-	
-	
-	
-	
-	
-	sse_mul_ps(in, Result, out);
-}
-*/
 GLM_FUNC_QUALIFIER void glm_mat4_outerProduct(__m128 const & c, __m128 const & r, __m128 out[4])
 {
 	out[0] = _mm_mul_ps(c, _mm_shuffle_ps(r, r, _MM_SHUFFLE(0, 0, 0, 0)));

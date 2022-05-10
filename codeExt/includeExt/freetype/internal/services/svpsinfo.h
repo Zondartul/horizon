@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svpsinfo.h                                                             */
-/*                                                                         */
-/*    The FreeType PostScript info service (specification).                */
-/*                                                                         */
-/*  Copyright 2003-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVPSINFO_H_
@@ -76,7 +76,7 @@ FT_BEGIN_HEADER
     get_font_private_, get_font_value_                           \
   };
 
-#else /* FT_CONFIG_OPTION_PIC */
+#else 
 
 #define FT_DEFINE_SERVICE_PSINFOREC( class_,                     \
                                      get_font_info_,             \
@@ -97,15 +97,15 @@ FT_BEGIN_HEADER
     clazz->ps_get_font_value   = get_font_value_;                \
   }
 
-#endif /* FT_CONFIG_OPTION_PIC */
+#endif 
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* SVPSINFO_H_ */
+#endif 
 
 
-/* END */
+

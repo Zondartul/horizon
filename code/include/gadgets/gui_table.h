@@ -1,9 +1,7 @@
 #ifndef GUI_TABLE_GUARD
 #define GUI_TABLE_GUARD
 #include "GUI.h"
-/*
-	Gui table - a widget that shows a table of labels and value entries.
-*/	
+	
 
 struct GUItableInfo{
 	GUIpropertyTable entries;			

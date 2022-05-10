@@ -73,7 +73,7 @@ vec4 baricentric_coords(vec3 A, vec3 B, vec3 C, vec3 D, vec3 point){
 
 bool ray_triangle_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *result, vec2 *barycentric){
 	vec3 R1;
-	if(!ray_plane_intersection(start,dir,A,B,C,&R1)){/*printf("no intersect\n");*/return false;}
+	if(!ray_plane_intersection(start,dir,A,B,C,&R1)){return false;}
 	vec3 bar = baricentric_coords(A,B,C,R1);
 	if((bar.x > 0.f && bar.x < 1.f)
 	&&(bar.y > 0.f && bar.y < 1.f)

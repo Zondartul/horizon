@@ -1,23 +1,13 @@
 #ifndef __gl2platform_h_
 #define __gl2platform_h_
 
-/* $Revision: 10602 $ on $Date:: 2010-03-04 22:35:34 -0800 #$ */
 
-/*
- * This document is licensed under the SGI Free Software B License Version
- * 2.0. For details, see http:
- */
 
-/* Platform-specific types and definitions for OpenGL ES 2.X  gl2.h
- *
- * Adopters may modify khrplatform.h and this file to suit their platform.
- * You are encouraged to submit all modifications to the Khronos group so that
- * they can be included in future versions of this file.  Please submit changes
- * by sending them to the public Khronos Bugzilla (http:
- * by filing a bug against product "OpenGL-ES" component "Registry".
- */
 
-/*#include <KHR/khrplatform.h>*/
+
+
+
+
 
 #ifndef GL_APICALL
 #define GL_APICALL  KHRONOS_APICALL
@@ -27,4 +17,4 @@
 #define GL_APIENTRY KHRONOS_APIENTRY
 #endif
 
-#endif /* __gl2platform_h_ */
+#endif 

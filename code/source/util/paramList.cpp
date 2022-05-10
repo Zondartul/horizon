@@ -33,68 +33,6 @@ template<> ParamList fromString<ParamList>(string S){
 
 
 
-/*
-class bar{
-	public:
-	int a;
-	vec3 dir;
-	string text;
-	void setParamList(ParamList PL){
-		rp(a); rp(dir); rp(text);
-	}
-	ParamList getParamList(){
-		ParamList PL;
-		wp(a); wp(dir); wp(text);
-		return PL;
-	}
-};
 
-class bar2{
-	public:
-	float a;
-	vec3 dir;
-	string text;
-	void setParamList(ParamList PL){
-		rp(a); rp(dir); rp(text);
-	}
-	ParamList getParamList(){
-		ParamList PL;
-		wp(a); wp(dir); wp(text);
-		return PL;
-	}
-};
-
-void parameterExperiment(){
-	printf("------------- PARAMETER LIST EXPERIMENT --------------\n");
-	bar b,c;
-	b.a = 1;
-	b.dir = vec3(1,2,3);
-	b.text = "hello";
-
-	c.a = 3;
-	c.dir = vec3(0,0,1);
-	c.text = "bai";
-
-	ParamList PL;
-	PL = c.getParamList();
-
-	string S = toString(PL);
-	printf("ParamList: \n[%s]\n",S.c_str());
-	PL = fromString<ParamList>(S);
-
-	printf("before: b.a = [%s], b.dir = [%s], b.text = [%s]\n",
-		toCString(b.a),toCString(b.dir),toCString(b.text));
-
-	b.setParamList(PL);
-
-	printf("after: b.a = [%s], b.dir = [%s], b.text = [%s]\n",
-		toCString(b.a),toCString(b.dir),toCString(b.text));
-
-	
-	
-
-	printf("------------- END PARAMETER LIST EXPERIMENT --------------\n");
-}
-*/
 
 

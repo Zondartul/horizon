@@ -40,8 +40,8 @@ d:\stride\shared\horizon\vs\horizon\debug\guilabel.obj
 d:\stride\shared\horizon\vs\horizon\debug\guiimage.obj
 d:\stride\shared\horizon\vs\horizon\debug\guigrid.obj
 d:\stride\shared\horizon\vs\horizon\debug\guiframe.obj
+d:\stride\shared\horizon\vs\horizon\debug\resource.obj
 d:\stride\shared\horizon\vs\horizon\debug\model.obj
-d:\stride\shared\horizon\vs\horizon\debug\fonts.obj
 d:\stride\shared\horizon\vs\horizon\debug\bitmap.obj
 d:\stride\shared\horizon\vs\horizon\debug\atlas.obj
 d:\stride\shared\horizon\vs\horizon\debug\rmodel.obj
@@ -70,7 +70,6 @@ d:\stride\shared\horizon\vs\horizon\debug\elastic_ptr.obj
 d:\stride\shared\horizon\vs\horizon\debug\debug.obj
 d:\stride\shared\horizon\vs\horizon\debug\threads.obj
 d:\stride\shared\horizon\vs\horizon\debug\texture.obj
-d:\stride\shared\horizon\vs\horizon\debug\resource.obj
 d:\stride\shared\horizon\bin\horizon.exe
 d:\stride\shared\horizon\bin\horizon.pdb
 d:\stride\shared\horizon\vs\horizon\debug\..\..\..\bin\horizon.pdb

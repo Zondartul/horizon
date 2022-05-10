@@ -267,7 +267,7 @@ void GUIscrollbar::invalidate(){
 	btnUp->moveTo(vtrack.start-vec2{0,21});
 
 	
-	btnDown->moveTo(vtrack.end-/*children[1]*/btnDown->area.size+vec2{0,21});
+	btnDown->moveTo(vtrack.end-btnDown->area.size+vec2{0,21});
 
 	
 	rect Vr = vbar->area;
@@ -281,7 +281,7 @@ void GUIscrollbar::invalidate(){
 	btnLeft->moveTo(htrack.start-vec2{21,0});
 
 	
-	btnRight->moveTo(htrack.end-/*children[4]*/btnRight->area.size+vec2{21,0});
+	btnRight->moveTo(htrack.end-btnRight->area.size+vec2{21,0});
 
 	
 	rect Hr = hbar->area;

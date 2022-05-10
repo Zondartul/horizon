@@ -16,34 +16,7 @@ using glm::vec3;
 using glm::vec2;
 using glm::quat;
 
-/*
-    documentation of GLM vec functions
-    struct vec3{
-        float x,y,z;
-        operators [] + etc
-        vec3 cross(vec3 A, vec3 B); 
-        float distance(vec3 A, vec3 B); 
-        float dot(vec3 A, vec3 B); 
-        vec3 faceforward(vec3 N, vec3 I, vec3 Nref); 
-        float length(vec3 A);
-        vec3 normalize(vec3 A);
-        vec3 reflect(vec3 I, vec3 N); 
-        vec3 refract(vec3 I, vec3 N, float eta); 
-    }
 
-    struct quat{
-        quat angleAxis(float degrees, vec3 axis);
-        quat quat(vec3 EulerAngles);
-        quat quat(float w, x, y, z); where w = cos(angle/2), x = x*sin(angle/2), etc.
-        float dot(quat q1, quat q2); 
-        
-        quat RotationBetweenVectors(vec3 v1, vec3 v2); 
-                                        
-        
-        
-        quat slerp(quat Q1, quat Q2, float factor); 
-    }
-*/
 string toString(quat q);
 quat toQuat(vec3 angleVec);
 quat slerpAngle(quat Q1, quat Q2, float angle); 

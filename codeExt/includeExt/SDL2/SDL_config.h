@@ -1,30 +1,11 @@
-/*
-  Simple DirectMedia Layer
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
-
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
-
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
-*/
 
 #ifndef _SDL_config_windows_h
 #define _SDL_config_windows_h
 
 #include "SDL_platform.h"
 
-/* This is a set of defines to configure the SDL features */
+
 
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
 #if defined(__GNUC__) || defined(__DMC__) || defined(__WATCOMC__)
@@ -46,14 +27,14 @@ typedef unsigned int uintptr_t;
 #endif
 #define _UINTPTR_T_DEFINED
 #endif
-/* Older Visual C++ headers don't have the Win64-compatible typedefs... */
+
 #if ((_MSC_VER <= 1200) && (!defined(DWORD_PTR)))
 #define DWORD_PTR DWORD
 #endif
 #if ((_MSC_VER <= 1200) && (!defined(LONG_PTR)))
 #define LONG_PTR LONG
 #endif
-#else /* !__GNUC__ && !_MSC_VER */
+#else 
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
 typedef signed short int16_t;
@@ -67,8 +48,8 @@ typedef unsigned long long uint64_t;
 typedef unsigned int size_t;
 #endif
 typedef unsigned int uintptr_t;
-#endif /* __GNUC__ || _MSC_VER */
-#endif /* !_STDINT_H_ && !HAVE_STDINT_H */
+#endif 
+#endif 
 
 #ifdef _WIN64
 # define SIZEOF_VOIDP 8
@@ -82,9 +63,9 @@ typedef unsigned int uintptr_t;
 #define HAVE_DXGI_H 1
 #define HAVE_XINPUT_H 1
 
-/* This is disabled by default to avoid C runtime dependencies and manifest requirements */
+
 #ifdef HAVE_LIBC
-/* Useful headers */
+
 #define HAVE_STDIO_H 1
 #define STDC_HEADERS 1
 #define HAVE_STRING_H 1
@@ -92,7 +73,7 @@ typedef unsigned int uintptr_t;
 #define HAVE_MATH_H 1
 #define HAVE_SIGNAL_H 1
 
-/* C library functions */
+
 #define HAVE_MALLOC 1
 #define HAVE_CALLOC 1
 #define HAVE_REALLOC 1
@@ -153,29 +134,29 @@ typedef unsigned int uintptr_t;
 #define HAVE_STDDEF_H   1
 #endif
 
-/* Enable various audio drivers */
+
 #define SDL_AUDIO_DRIVER_DSOUND 1
 #define SDL_AUDIO_DRIVER_XAUDIO2    1
 #define SDL_AUDIO_DRIVER_WINMM  1
 #define SDL_AUDIO_DRIVER_DISK   1
 #define SDL_AUDIO_DRIVER_DUMMY  1
 
-/* Enable various input drivers */
+
 #define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_XINPUT 1
 #define SDL_HAPTIC_DINPUT   1
 #define SDL_HAPTIC_XINPUT   1
 
-/* Enable various shared object loading systems */
+
 #define SDL_LOADSO_WINDOWS  1
 
-/* Enable various threading systems */
+
 #define SDL_THREAD_WINDOWS  1
 
-/* Enable various timer systems */
+
 #define SDL_TIMER_WINDOWS   1
 
-/* Enable various video drivers */
+
 #define SDL_VIDEO_DRIVER_DUMMY  1
 #define SDL_VIDEO_DRIVER_WINDOWS    1
 
@@ -186,7 +167,7 @@ typedef unsigned int uintptr_t;
 #define SDL_VIDEO_RENDER_D3D11	0
 #endif
 
-/* Enable OpenGL support */
+
 #ifndef SDL_VIDEO_OPENGL
 #define SDL_VIDEO_OPENGL    1
 #endif
@@ -207,15 +188,15 @@ typedef unsigned int uintptr_t;
 #endif
 
 
-/* Enable system power support */
+
 #define SDL_POWER_WINDOWS 1
 
-/* Enable filesystem support */
+
 #define SDL_FILESYSTEM_WINDOWS  1
 
-/* Enable assembly routines (Win64 doesn't have inline asm) */
+
 #ifndef _WIN64
 #define SDL_ASSEMBLY_ROUTINES   1
 #endif
 
-#endif /* _SDL_config_windows_h */
+#endif 

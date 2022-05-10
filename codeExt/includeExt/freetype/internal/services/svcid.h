@@ -1,19 +1,19 @@
-/***************************************************************************/
-/*                                                                         */
-/*  svcid.h                                                                */
-/*                                                                         */
-/*    The FreeType CID font services (specification).                      */
-/*                                                                         */
-/*  Copyright 2007-2016 by                                                 */
-/*  Derek Clegg and Michael Toftdal.                                       */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef SVCID_H_
@@ -59,7 +59,7 @@ FT_BEGIN_HEADER
     get_ros_, get_is_cid_, get_cid_from_glyph_index_                        \
   };
 
-#else /* FT_CONFIG_OPTION_PIC */
+#else 
 
 #define FT_DEFINE_SERVICE_CIDREC( class_,                                   \
                                   get_ros_,                                 \
@@ -76,15 +76,15 @@ FT_BEGIN_HEADER
     clazz->get_cid_from_glyph_index = get_cid_from_glyph_index_;            \
   }
 
-#endif /* FT_CONFIG_OPTION_PIC */
+#endif 
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* SVCID_H_ */
+#endif 
 
 
-/* END */
+

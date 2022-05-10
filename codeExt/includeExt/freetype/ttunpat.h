@@ -1,22 +1,22 @@
-/***************************************************************************/
-/*                                                                         */
-/*  ttunpat.h                                                              */
-/*                                                                         */
-/*    Definitions for the unpatented TrueType hinting system.              */
-/*    Obsolete, retained for backwards compatibility.                      */
-/*                                                                         */
-/*  Copyright 2003-2016 by                                                 */
-/*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
-/*                                                                         */
-/*  Written by Graham Asher <graham.asher@btinternet.com>                  */
-/*                                                                         */
-/*  This file is part of the FreeType project, and may only be used,       */
-/*  modified, and distributed under the terms of the FreeType project      */
-/*  license, LICENSE.TXT.  By continuing to use, modify, or distribute     */
-/*  this file you indicate that you have read the license and              */
-/*  understand and accept it fully.                                        */
-/*                                                                         */
-/***************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #ifndef TTUNPAT_H_
@@ -36,28 +36,16 @@
 FT_BEGIN_HEADER
 
 
- /***************************************************************************
-  *
-  * @constant:
-  *   FT_PARAM_TAG_UNPATENTED_HINTING
-  *
-  * @description:
-  *   Deprecated.
-  *
-  *   Previously: A constant used as the tag of an @FT_Parameter structure to
-  *   indicate that unpatented methods only should be used by the TrueType
-  *   bytecode interpreter for a typeface opened by @FT_Open_Face.
-  *
-  */
+ 
 #define FT_PARAM_TAG_UNPATENTED_HINTING  FT_MAKE_TAG( 'u', 'n', 'p', 'a' )
 
-  /* */
+  
 
 
 FT_END_HEADER
 
 
-#endif /* TTUNPAT_H_ */
+#endif 
 
 
-/* END */
+
