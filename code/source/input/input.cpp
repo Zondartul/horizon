@@ -5,7 +5,7 @@
 
 
 void initInput(){
-	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
 	
 
 	inputChannel = new eventChannel();

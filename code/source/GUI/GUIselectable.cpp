@@ -52,7 +52,7 @@ void GUIselectable::onEvent(eventKind event){
 }
 
 void GUIselectable::select(){
-	auto& keyboardState = G->gs_window->g_keyboardState;
+	auto& keyboardState = Gb->gs_window->g_keyboardState;
 	selected = true;
 	
 	bool shift = keyboardState["Left Shift"];

@@ -35,15 +35,15 @@ cameraKind::cameraKind(){
 	mode3D = true;
 }
 vec3 cameraKind::forward(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	return rotate(vec3{1,0,0},d2r*camera.rot);
 }
 vec3 cameraKind::up(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	return rotate(vec3{0,0,1},d2r*camera.rot);
 }
 vec3 cameraKind::right(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	return rotate(vec3{0,1,0},d2r*camera.rot);
 }
 
@@ -113,8 +113,8 @@ void cameraKind::setRot(vec3 newrot){rot = newrot; }
 void cameraKind::setFov(float newfov){fov = newfov;}
 
 void cameraKind::go2D(){
-	auto& width = G->gs_window->g_width;
-	auto& height = G->gs_window->g_height;
+	auto& width = Gb->gs_window->g_width;
+	auto& height = Gb->gs_window->g_height;
 
 	mode3D = false;
 	#ifndef NO_GLEW
@@ -132,9 +132,9 @@ void cameraKind::go2D(){
 	reposition();
 }
 void cameraKind::go3D(){
-	auto& camera = G->gs_camera->g_camera;
-	auto& width = G->gs_window->g_width;
-	auto& height = G->gs_window->g_height;
+	auto& camera = Gb->gs_camera->g_camera;
+	auto& width = Gb->gs_window->g_width;
+	auto& height = Gb->gs_window->g_height;
 
 	mode3D = true;
 	vec2 scr = getScreenSize();
@@ -210,8 +210,8 @@ struct task_screenshot {
 		printf("\n");
 	}
 	void run() {
-		auto& deleteLayer = G->gs_paint->g_deleteLayer;
-		auto& currentLayer = G->gs_paint->g_currentLayer;
+		auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
+		auto& currentLayer = Gb->gs_paint->g_currentLayer;
 		#ifndef NO_GLEW
 			setLayer(deleteLayer);
 			readPixels(0, 0, width, height, buff);
@@ -297,7 +297,7 @@ vec3 cameraKind::deviceToWorld(vec3 devpos){
 	return V3;
 }
 vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	float x = scrpos.x;
 	float y = scrpos.y;
@@ -336,7 +336,7 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	float x = devpos.x;
 	float y = devpos.y;
@@ -374,7 +374,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::getMouseDir(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	vec2 mouse = getMousePos();
 	vec3 wp = screenToWorld({mouse.x,mouse.y,1},Z_IS_ORTHODOX);
@@ -424,14 +424,14 @@ camprojection cameraKind::getProjection(){
 
 #include "paint.h"
 void go3D(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	
 	camera.go3D();
 	setProjection(camera.getProjection());
 }
 
 void go2D(){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	
 	camera.go2D();
 	setProjection(camera.getProjection());

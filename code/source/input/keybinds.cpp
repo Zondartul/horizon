@@ -4,13 +4,13 @@
 #include "global_vars.h"
 
 keybindList::keybindList(){
-	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
 
 	inputChannel->addListenerFront(this);
 }
 
 void keybindList::checkMB(eventKind &event, int mb, string key) {
-	auto& console = G->gs_console->g_console;
+	auto& console = Gt->gs_console->g_console;
 
 	if (event.mousebutton.button == mb) {
 		if (binds.count(key)) {
@@ -29,7 +29,7 @@ void keybindList::checkMB(eventKind &event, int mb, string key) {
 
 
 void keybindList::checkKB(eventKind& event, string key) {
-	auto& console = G->gs_console->g_console;
+	auto& console = Gt->gs_console->g_console;
 
 	if (binds.count(key)) {
 		event.maskEvent();
@@ -69,7 +69,7 @@ void keybindList::onEvent(eventKind event){
 
 
 void initKeybinds(){
-	auto& keybinds = G->gs_keybinds->g_keybinds;
+	auto& keybinds = Gb->gs_keybinds->g_keybinds;
 
 	keybinds = new keybindList();
 }

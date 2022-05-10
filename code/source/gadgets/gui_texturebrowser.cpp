@@ -56,7 +56,7 @@ GUItextureBrowser::GUItextureBrowser(){
 
 
 void openTextureBrowser(){
-	auto& GUI = G->gs_main->g_GUI;
+	auto& GUI = Gb->gs_main->g_GUI;
 
 	GUI->addChild(new GUItextureBrowser());
 }

@@ -19,11 +19,11 @@ using namespace std;
 
 
 gui_editor_kind::gui_editor_kind(){
-	auto& GUI = G->gs_main->g_GUI;
-	auto& layerGUI = G->gs_main->g_layerGUI;
-	auto& layer2D = G->gs_paint->g_layer2D;
-	auto& inputChannel = G->gs_input->g_inputChannel;
-	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& GUI = Gb->gs_main->g_GUI;
+	auto& layerGUI = Gb->gs_main->g_layerGUI;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
 
 	GUIwindow *mainWindow = new GUIwindow();
 	elMainWindow = mainWindow;
@@ -256,7 +256,7 @@ void gui_editor_kind::close(){
 }
 
 void openGuiEditor(){
-	auto& gui_editor = G->gs_gui_editor->g_gui_editor;
+	auto& gui_editor = Gt->gs_gui_editor->g_gui_editor;
 
 	if(gui_editor){
 		printf("closing gui editor\n");

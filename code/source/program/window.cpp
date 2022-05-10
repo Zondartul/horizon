@@ -61,8 +61,8 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 }
 
 void OpenGL_init(){
-	auto& mainWindow = G->gs_window->g_mainWindow;
-	auto& mainContext = G->gs_window->g_mainContext;
+	auto& mainWindow = Gb->gs_window->g_mainWindow;
+	auto& mainContext = Gb->gs_window->g_mainContext;
 	
 	#ifndef NO_SDL
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -82,16 +82,16 @@ void OpenGL_init(){
 }
 
 void OpenGL_swap(){
-	auto& mainWindow = G->gs_window->g_mainWindow;
+	auto& mainWindow = Gb->gs_window->g_mainWindow;
 	#ifndef NO_SDL
 		SDL_GL_SwapWindow(mainWindow);
 	#endif
 }
 
 void window_init(int h, int w){
-	auto& height = G->gs_window->g_height;
-	auto& width = G->gs_window->g_width;
-	auto& mainWindow = G->gs_window->g_mainWindow;
+	auto& height = Gb->gs_window->g_height;
+	auto& width = Gb->gs_window->g_width;
+	auto& mainWindow = Gb->gs_window->g_mainWindow;
 	#ifndef NO_SDL
 		height = h;
 		width = w;
@@ -142,7 +142,7 @@ void sysMessageBlankTick(){
 
 
 eventKind keyboardTranslate(eventKind event){
-	auto& keyboardMap = G->gs_window->g_keyboardMap;
+	auto& keyboardMap = Gb->gs_window->g_keyboardMap;
 	if(event.type == EVENT_KEY_DOWN){
 		int key = event.keyboard.printchar;
 		bool shift = event.keyboard.mod & MOD_SHIFT;
@@ -160,10 +160,10 @@ bool isprintSafe(int key){
 }
 
 void sysMessageTick(){
-	auto& keyboardState = G->gs_window->g_keyboardState;
-	auto& height = G->gs_window->g_height;
-	auto& width = G->gs_window->g_width;
-	auto& inputChannel = G->gs_input->g_inputChannel;
+	auto& keyboardState = Gb->gs_window->g_keyboardState;
+	auto& height = Gb->gs_window->g_height;
+	auto& width = Gb->gs_window->g_width;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
 
 #ifndef NO_SDL
 	SDL_Event sdl_event;
@@ -256,9 +256,9 @@ void sysMessageTick(){
 }
 
 vec2 getScreenSize(){
-	auto& mainWindow = G->gs_window->g_mainWindow;
-	auto& height = G->gs_window->g_height;
-	auto& width = G->gs_window->g_width;
+	auto& mainWindow = Gb->gs_window->g_mainWindow;
+	auto& height = Gb->gs_window->g_height;
+	auto& width = Gb->gs_window->g_width;
 #ifndef NO_SDL
 	SDL_GetWindowSize(mainWindow, &width, &height);
 #endif

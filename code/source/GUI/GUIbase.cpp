@@ -2,7 +2,7 @@
 
 
 GUIbase::GUIbase(){
-	auto& GUIR_default = G->gs_GUIrenderer_default->GUIR_default;
+	auto& GUIR_default = Gg->gs_GUIrenderer_default->GUIR_default;
 
 	parent = NULL;
 	isClient = true;
@@ -166,7 +166,7 @@ void GUIbase::tickLogic(){
 void GUIbase::tick(){}
 
 void GUIbase::renderLogic(){
-	auto& GUIoptions = G->gs_GUI_internal->g_GUIoptions;
+	auto& GUIoptions = Gg->gs_GUI_internal->g_GUIoptions;
 	if(!parent){GUIsetFavoriteRenderOptions();}
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){

@@ -107,7 +107,7 @@ eventListener::~eventListener(){
 
 
 void initEvents(){
-	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
 
 	globalChannel = new eventChannel();
 }

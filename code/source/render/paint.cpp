@@ -19,13 +19,13 @@ using std::ofstream;
 using std::stringstream;
 
 void setLayer(renderLayer *L){
-	auto &currentLayer = G->gs_paint->g_currentLayer;
+	auto &currentLayer = Gb->gs_paint->g_currentLayer;
 
 	currentLayer = L;
 }
 void addLayer(renderLayer *L){
-	auto &currentLayer = G->gs_paint->g_currentLayer;
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &currentLayer = Gb->gs_paint->g_currentLayer;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	if(currentLayer){
 		for(auto I = layers.begin(); I!= layers.end(); I++){
@@ -39,7 +39,7 @@ void addLayer(renderLayer *L){
 	}
 }
 void addLayer(renderLayer *L1, renderLayer *L2){
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	for(auto I = layers.begin(); I!= layers.end(); I++){
 			if(*I == L1){
@@ -71,7 +71,7 @@ void clearLayer(renderLayer *L){L->clear();}
 void resetLayer(renderLayer *L){L->reset();}
 
 void removeLayer(renderLayer *L){
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	for(auto I = layers.begin(); I!= layers.end(); I++){
 		if(*I == L){
@@ -81,9 +81,9 @@ void removeLayer(renderLayer *L){
 }
 
 void renderAllLayers(){
-	auto &printAllPending = G->gs_paint->g_printAllPending;
-	auto &frameReportPending = G->gs_paint->g_frameReportPending;
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &printAllPending = Gb->gs_paint->g_printAllPending;
+	auto &frameReportPending = Gb->gs_paint->g_frameReportPending;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	if(printAllPending){printAllPending = false; printAllLayers();}
 	if(frameReportPending){frameReportPending = false; frameReport();}
@@ -94,7 +94,7 @@ void renderAllLayers(){
 	}
 }
 void printAllLayers(){
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	int J = 0;
 	for(auto I = layers.begin(); I != layers.end(); I++, J++){
@@ -103,7 +103,7 @@ void printAllLayers(){
 	}
 }
 void frameReport(){
-	auto &layers = G->gs_renderLayer->g_layers;
+	auto &layers = Gb->gs_renderLayer->g_layers;
 
 	string filename = "logs/framereport";
 	filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
@@ -121,121 +121,121 @@ void frameReport(){
 }
 
 void printAllLayersNextRender()	{
-	auto &printAllPending = G->gs_paint->g_printAllPending;
+	auto &printAllPending = Gb->gs_paint->g_printAllPending;
 	printAllPending = true;
 }
 void frameReportNextRender()	{
-	auto& frameReportPending = G->gs_paint->g_frameReportPending;
+	auto& frameReportPending = Gb->gs_paint->g_frameReportPending;
 	frameReportPending = true;
 }
 
 void drawLayer(renderLayer *L)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	currentLayer->push(new renderCommand3(RC3T::LAYER,             L));
 }
 
 void setColoring(bool b)        {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::COLORING,          b));
 }		
 
 void setUvColoring(bool b)      {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::UVCOLORING,        b));
 }		
 
 void setNormalColoring(bool b)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	currentLayer->push(new renderCommand3(RC3T::NORMALCOLORING,    b));
 }	
 
 void setTransparency(bool b)    {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TRANSPARENCY,      b));
 }	
 
 void setDepthMask(bool b)       {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::DEPTHMASK,         b));
 }	
 
 void setTexturing(bool b)       {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURING,         b));
 }	
 
 void setDebug(bool b)           {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::DEBUG,             b));
 }		
 
 void setScissoring(bool b)      {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SCISSORING,        b));
 }		
 
 void setColor(vec3 col)			{
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::COLOR,				col));
 }		
 
 void setAlpha(float a)          {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::ALPHA,             a));
 }		
 
 void setTexture(texture *t)     {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURE_SELECT,    t));
 }		
 
 void setFont(font *f)           {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::FONT_SELECT,       f));
 }		
 
 void setRenderMode(int mode)    {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::MODE_SELECT,       mode));
 }
 
 void setTextPos(vec2 textPos)   {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXT_POS,          textPos));
 } 	
 
 void setScissor(rect S)         {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SCISSOR,           S));
 }	
 
 void setPointSize(float size)   {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::POINTSIZE,         size));
 }	
 
 void setLineWidth(float width)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::LINEWIDTH,         width));
 }
 
 void uploadTexture(texture *t)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURE_UPLOAD,        t));
 }	
 
 void uploadRmodel(rmodel *rm)   {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::RMODEL_UPLOAD,         rm));
 }	
 
 void deleteRmodel(rmodel *rm)   {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::RMODEL_DELETE,         rm));
 }	
 
 void setProjection(camprojection cpj){
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::PROJECTION,            copyToHeap(cpj)));
 }
 
@@ -243,100 +243,100 @@ void setProjectionToCamera(cameraKind *camera){
 	setProjection(camera->getProjection());
 }
 void setPosition(vec3 pos){
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	currentLayer->push(new renderCommand3(RC3T::POSITION,              pos));
 }
 
 void setRotation(vec3 rot){
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::ROTATION,              rot));
 }
 
 void setScale(vec3 scale)       {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SCALE,                 scale));
 }
 
 void setTexturePosition(vec2 pos){
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURE_POS,			pos));
 }
 
 void setTextureScale(vec2 scale){
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURE_SCALE,			scale));
 }
 
 void clearScreen(){
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::CLEAR_SCREEN           ));
 }
 
 void drawRmodel(rmodel *rm)     {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::RMODEL_RENDER,         rm));
 }
 
 void printText(string text)     {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::PRINT_TEXT,            copyToHeap(text)));
 }
 
 void renderComment(string str)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::COMMENT,               copyToHeap(str)));
 }
 
 void setDepthTest(bool b)       {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::DEPTH_TEST,            b));
 }
 
 void setLighting(bool b)        {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::LIGHTING,              b));
 }
 
 void setSunPos(vec3 pos)        {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SUN_POS,               pos));
 }
 
 void setSunColor(vec3 val)      {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SUN_LIGHT_COLOR,       val));
 }
 
 void setAmbientColor(vec3 val)  {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::AMBIENT_LIGHT_COLOR,   val));
 }
 
 void pushRenderOptions()        {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::PUSH_OPTIONS              ));
 }
 
 void popRenderOptions()         {
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::POP_OPTIONS               ));
 }
 
 
 void setFaceCulling(bool b)		{
-	auto& currentLayer = G->gs_paint->g_currentLayer; 
+	auto& currentLayer = Gb->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::FACE_CULLING, b));
 }
 void setFaceCullCCW() {
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	currentLayer->push(new renderCommand3(RC3T::FACE_CULL_CCW));
 }
 void readPixels(int x, int y, int w, int h, void* buff) {
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	currentLayer->push(new renderCommand3(RC3T::READ_PIXELS, buff));
 }
 void setViewport(int x, int y, int w, int h) {
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	rect R;
 	R = R.setStart(vec2(x, y)).setSize(vec2(w, h));
@@ -344,8 +344,8 @@ void setViewport(int x, int y, int w, int h) {
 }
 
 void debugFloatingText(vec3 p, string S){
-	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
-	auto& camera = G->gs_camera->g_camera;
+	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	setLayer(layerDebug2D);
 	setColor(vec3(0,0,0));
@@ -589,8 +589,8 @@ void drawSphereWireframe(AABB aabb){
 }
 
 void drawBoxWireframe(vec3 pos, vec3 rot, vec3 scale){
-	auto& rm_unitboxWF = G->gs_paint->g_rm_unitboxWF;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitboxWF = Gb->gs_paint->g_rm_unitboxWF;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitboxWF){
 		renderLayer *oldLayer = currentLayer;
@@ -605,8 +605,8 @@ void drawBoxWireframe(vec3 pos, vec3 rot, vec3 scale){
 }
 
 void drawCyllinderWireframe(vec3 pos, vec3 rot, float r, float h){
-	auto& rm_unitcyllinderWF = G->gs_paint->g_rm_unitcyllinderWF;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitcyllinderWF = Gb->gs_paint->g_rm_unitcyllinderWF;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitcyllinderWF){
 		renderLayer *oldLayer = currentLayer;
@@ -620,8 +620,8 @@ void drawCyllinderWireframe(vec3 pos, vec3 rot, float r, float h){
 	drawRmodel(rm_unitcyllinderWF);
 }
 void drawConeWireframe(vec3 pos, vec3 rot, float r, float h){
-	auto& rm_unitconeWF = G->gs_paint->g_rm_unitconeWF;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitconeWF = Gb->gs_paint->g_rm_unitconeWF;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitconeWF){
 		renderLayer *oldLayer = currentLayer;
@@ -637,8 +637,8 @@ void drawConeWireframe(vec3 pos, vec3 rot, float r, float h){
 }
 
 void drawSphereWireframe(vec3 pos, vec3 rot, float r){
-	auto& rm_unitsphereWF = G->gs_paint->g_rm_unitsphereWF;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitsphereWF = Gb->gs_paint->g_rm_unitsphereWF;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitsphereWF){
 		renderLayer *oldLayer = currentLayer;
@@ -653,8 +653,8 @@ void drawSphereWireframe(vec3 pos, vec3 rot, float r){
 }
 
 void drawBox(vec3 pos, vec3 rot,  vec3 scale){
-	auto& rm_unitbox = G->gs_paint->g_rm_unitbox;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitbox = Gb->gs_paint->g_rm_unitbox;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitbox){
 		renderLayer *oldLayer = currentLayer;
@@ -668,8 +668,8 @@ void drawBox(vec3 pos, vec3 rot,  vec3 scale){
 	drawRmodel(rm_unitbox);
 }
 void drawCyllinder(vec3 pos, vec3 rot, float r, float h){
-	auto& rm_unitcyllinder = G->gs_paint->g_rm_unitcyllinder;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitcyllinder = Gb->gs_paint->g_rm_unitcyllinder;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitcyllinder){
 		renderLayer *oldLayer = currentLayer;
@@ -683,8 +683,8 @@ void drawCyllinder(vec3 pos, vec3 rot, float r, float h){
 	drawRmodel(rm_unitcyllinder);
 }
 void drawCone(vec3 pos, vec3 rot, float r, float h){
-	auto& rm_unitcone = G->gs_paint->g_rm_unitcone;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitcone = Gb->gs_paint->g_rm_unitcone;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitcone){
 		renderLayer *oldLayer = currentLayer;
@@ -698,8 +698,8 @@ void drawCone(vec3 pos, vec3 rot, float r, float h){
 	drawRmodel(rm_unitcone);
 }
 void drawSphere(vec3 pos, vec3 rot, float r){
-	auto& rm_unitsphere = G->gs_paint->g_rm_unitsphere;
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& rm_unitsphere = Gb->gs_paint->g_rm_unitsphere;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	if(!rm_unitsphere){
 		renderLayer *oldLayer = currentLayer;
@@ -721,12 +721,12 @@ void drawSphere(vec3 pos, vec3 rot, float r){
 
 
 void initLayers(){
-	auto& loadLayer = G->gs_paint->g_loadLayer;
-	auto& layer3D = G->gs_paint->g_layer3D;
-	auto& layerDebug = G->gs_paint->g_layerDebug;
-	auto& layer2D = G->gs_paint->g_layer2D;
-	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
-	auto& deleteLayer = G->gs_paint->g_deleteLayer;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
+	auto& layerDebug = Gb->gs_paint->g_layerDebug;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
+	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
+	auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
 
 	loadLayer 			= addNewLayer("main.loadLayer"); 
 	layer3D 			= addNewLayer("main.layer3D"); 

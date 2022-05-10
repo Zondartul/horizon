@@ -10,7 +10,7 @@ GUIrenderer_default::
 
 void GUIrenderer_default::
 render(GUIbase *el, string type){
-	auto& GUIoptions = G->gs_GUI_internal->g_GUIoptions;
+	auto& GUIoptions = Gg->gs_GUI_internal->g_GUIoptions;
 	if(!el){return;}
 	if(type == ""){type = el->getType();}
 	rect R = el->worldArea();

@@ -14,7 +14,7 @@ using std::list;
 using std::stringstream;
 
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
-	auto& timers = G->gs_timer->g_timers;
+	auto& timers = Gb->gs_timer->g_timers;
 
 	this->ticks_max = ticks_max;
 	this->ticks_left = ticks_max;
@@ -27,7 +27,7 @@ timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, b
 }
 
 timer::~timer(){
-	auto& timers = G->gs_timer->g_timers;
+	auto& timers = Gb->gs_timer->g_timers;
 
 	for(auto I = timers.begin(); I != timers.end();){
 		if(*I == this){ *I = 0; I++;}else{I++;}
@@ -53,7 +53,7 @@ void simpletimer(function<void(timer *T)> F, int ticks_max){
 }
 
 void timersTick(){
-	auto& timers = G->gs_timer->g_timers;
+	auto& timers = Gb->gs_timer->g_timers;
 
 	for(auto I = timers.begin(); I != timers.end();){
         if(*I){
@@ -69,11 +69,11 @@ void timersTick(){
 
 
 int getGameTicks(){
-	auto& t = G->gs_timer->g_t;
+	auto& t = Gb->gs_timer->g_t;
 	return t;
 }
 float getGameTime(){
-	auto& t2 = G->gs_timer->g_t2;
+	auto& t2 = Gb->gs_timer->g_t2;
 	return t2;
 }
 float getRealTime(){
@@ -115,9 +115,9 @@ string getCalendarDateStr(){
 }
 
 void initTimers(){
-	auto& t = G->gs_timer->g_t;
-	auto& t2 = G->gs_timer->g_t2;
-	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& t = Gb->gs_timer->g_t;
+	auto& t2 = Gb->gs_timer->g_t2;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
 
 	timer *T1 = new timer([&](timer *T){t++;},1,1);
 	timer *T2 = new timer([&](timer *T){t2+=1/60.f;},1,1);

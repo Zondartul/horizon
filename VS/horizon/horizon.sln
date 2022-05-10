@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonRender", "..\horizon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonOStools", "..\horizonOStools\horizonOStools.vcxproj", "{9C0C0DE3-C57D-4B0C-8307-35E1B4EEB06F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonGUI", "..\horizonGUI\horizonGUI.vcxproj", "{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -42,6 +44,14 @@ Global
 		{9C0C0DE3-C57D-4B0C-8307-35E1B4EEB06F}.Release|x64.ActiveCfg = Release|x64
 		{9C0C0DE3-C57D-4B0C-8307-35E1B4EEB06F}.Release|x64.Build.0 = Release|x64
 		{9C0C0DE3-C57D-4B0C-8307-35E1B4EEB06F}.Release|x86.ActiveCfg = Release|Win32
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Debug|x64.ActiveCfg = Debug|x64
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Debug|x64.Build.0 = Debug|x64
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Debug|x86.ActiveCfg = Debug|Win32
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Debug|x86.Build.0 = Debug|Win32
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x64.ActiveCfg = Release|x64
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x64.Build.0 = Release|x64
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x86.ActiveCfg = Release|Win32
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

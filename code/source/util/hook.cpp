@@ -18,7 +18,7 @@ class hook:public eventListener{
 
 
 void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventKind event)> handler){
-	auto& hooks = G->gs_hook->g_hooks;
+	auto& hooks = Gb->gs_hook->g_hooks;
 	
 	hook *h = new hook();
 	h->ch = ch;
@@ -31,7 +31,7 @@ void hookAdd(eventChannel *ch, eventType type, string name, function<void(eventK
 }
 
 void hookRemove(eventChannel *ch, string name){
-	auto& hooks = G->gs_hook->g_hooks;
+	auto& hooks = Gb->gs_hook->g_hooks;
 
 	for (auto I = hooks.begin(); I != hooks.end(); I++) {
 		if (((*I)->ch == ch) && ((*I)->name == name)) {

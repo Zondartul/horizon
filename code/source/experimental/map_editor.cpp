@@ -8,17 +8,17 @@
 
 
 void openMapEditor(){
-	auto& mapeditor = G->gs_map_editor->g_mapeditor;
+	auto& mapeditor = Gt->gs_map_editor->g_mapeditor;
 
 	if(mapeditor){delete mapeditor;}
 	mapeditor = new map_editor_kind();
 }
 
 map_editor_kind::map_editor_kind(){
-	auto& layer2D = G->gs_paint->g_layer2D;
-	auto& GUI = G->gs_main->g_GUI;
-	auto& inputChannel = G->gs_input->g_inputChannel;
-	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
+	auto& GUI = Gb->gs_main->g_GUI;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	
 
 	
@@ -223,7 +223,7 @@ void getMinMaxCoords(vec3 p1, vec3 p2,
 }
 
 bool mouseray(vec3 *pos, float z){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	vec3 dir = camera.getMouseDir();
 	vec3 plane[3];
@@ -273,101 +273,17 @@ vec3 toVec3(DIR d){
 }
 
 void map_editor_kind::onEvent(eventKind event){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 	
-	auto& templayer = G->gs_map_editor->g_templayer;
-	auto& layerDebug = G->gs_paint->g_layerDebug;
+	auto& templayer = Gt->gs_map_editor->g_templayer;
+	auto& layerDebug = Gb->gs_paint->g_layerDebug;
 
 	switch(mode){
 		case ME_MODE_BLOCK_PLACEMENT:
 		case ME_MODE_TERRAIN:
 			if(event.type == EVENT_MOUSE_MOVE){
 				vec3 p1;
-				
-
 				bool has_ent = false;
-				
-				
-				
-				
-					
-					
-					
-					
-					
-											
-
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-
-				
-				
-				
-				
-				
-
-				
-
-				
-				
-				
-				
-				
-				
-
-
-				
-				
-
-				
-				
-				
-				
-				
-				
-				
-				
-
-				
-				
-				
-				
-
-				
-				
-				
-				
-
-				
-				
-				
-
-				
-				
-				
-				
-				
-				
-
-				
-				
-
-				
-				
-				
-				
 			}
 			if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 				if(event.mousebutton.button == MOUSE_LEFT){
@@ -413,14 +329,7 @@ void map_editor_kind::onEvent(eventKind event){
 					}
 					
 				}else if(is_selecting && event.mousebutton.button == MOUSE_RIGHT){
-					
-					is_selecting = false;
-					
-					
-					
-					
-					
-					
+					is_selecting = false;	
 				}
 			}
 			if(event.type == EVENT_FRAME){
@@ -472,20 +381,12 @@ void map_editor_kind::onEvent(eventKind event){
             if(event.type == EVENT_MOUSE_MOVE){
                 
                 vec3 pos;
-                
-                
-                
-                
-                
+
             }
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
                 switch(submode){
                     case ME_SUBMODE_DEFAULT:
-                        
-                        
-                        
-                         
-                        
+
                     break;
                     case ME_SUBMODE_MOVE:
                         
@@ -555,186 +456,16 @@ void map_editor_kind::onEvent(eventKind event){
                 setRotation(vec3(0,0,1)*(angle+90*d2r));
                 drawRect(R);
                 
-                
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-                
-                
-
-                
-                
-
-                
-                
- 
 		   }
         break;
         case ME_MODE_PLACE:{
             if(event.type == EVENT_MOUSE_BUTTON_DOWN){
-                
             }
             if(event.type == EVENT_FRAME){
-                
                 clearLayer(layerMap3D);
                 resetLayer(layerMap3D);
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
-
-                
             }
         }
         break;
@@ -770,73 +501,7 @@ void map_editor_kind::onEvent(eventKind event){
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
 
-    
-				
-				
-    
-    
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-    
-    
-    
-    
-				
 
-				
-				
-				
-				
-				
-				
-				
-				
-				
-    
 			}
 		}
 		break;

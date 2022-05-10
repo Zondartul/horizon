@@ -11,7 +11,7 @@
 
 
 void drawRectImmediate(rect R){
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
@@ -60,8 +60,8 @@ void drawRectImmediate(rect R){
 
 
 void printText2D(const char *text, font *F, vec2 &textPos){
-	auto& currentLayer = G->gs_paint->g_currentLayer;
-	auto& printFromTop = G->gs_printw->g_printFromTop;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
+	auto& printFromTop = Gb->gs_printw->g_printFromTop;
 
 	renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);
@@ -103,7 +103,7 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 }
 
 rect preprintText2D(const char *text, font *F){
-	auto& printFromTop = G->gs_printw->g_printFromTop;
+	auto& printFromTop = Gb->gs_printw->g_printFromTop;
 
 	int maxx,maxy,minx,miny;
 	maxx = 0;

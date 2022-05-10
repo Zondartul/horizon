@@ -6,7 +6,7 @@
 
 
 void GUIsetFavoriteRenderOptions(){
-	auto& layerGUI = G->gs_main->g_layerGUI;
+	auto& layerGUI = Gb->gs_main->g_layerGUI;
 	setLayer(layerGUI);
 	layerGUI->clear();
 	setColoring(false);

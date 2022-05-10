@@ -16,7 +16,7 @@
 #include "global_vars.h"
 
 bitmap *getBitmap(string name){
-	auto& bitmaps = G->gs_resource->g_bitmaps;
+	auto& bitmaps = Gb->gs_resource->g_bitmaps;
 
 	for(unsigned int I = 0; I < bitmaps.size(); I++){
 		if(bitmaps[I]->name == name){return bitmaps[I];}
@@ -29,8 +29,8 @@ bitmap *getBitmap(string name){
 	return bmp;
 }
 texture *getTexture(string name){
-	auto& textures = G->gs_resource->g_textures;
-	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& textures = Gb->gs_resource->g_textures;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
 
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
@@ -46,8 +46,8 @@ texture *getTexture(string name){
 	return t;
 }
 texture *getModelTexture(string name){
-	auto& textures = G->gs_resource->g_textures;
-	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& textures = Gb->gs_resource->g_textures;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
 
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
@@ -63,7 +63,7 @@ texture *getModelTexture(string name){
 	return t;
 }
 model *getModel(string name){
-	auto& models = G->gs_resource->g_models;
+	auto& models = Gb->gs_resource->g_models;
 
 	for(unsigned int I = 0; I < models.size(); I++){
 		if(models[I]->name == name){return models[I];}
@@ -77,7 +77,7 @@ model *getModel(string name){
 	return 0;
 }
 font *getFont(string name){
-	auto& fonts = G->gs_resource->g_fonts;
+	auto& fonts = Gb->gs_resource->g_fonts;
 
 	for(unsigned int I = 0; I < fonts.size(); I++){
 		if(fonts[I]->name == name){return fonts[I];}
@@ -94,28 +94,28 @@ font *getFont(string name){
 }
 
 vector<bitmap*> listBitmaps(){
-	auto& bitmaps = G->gs_resource->g_bitmaps;
+	auto& bitmaps = Gb->gs_resource->g_bitmaps;
 	return bitmaps;
 }
 
 vector<texture*> listTextures(){
-	auto& textures = G->gs_resource->g_textures;
+	auto& textures = Gb->gs_resource->g_textures;
 	return textures;
 }
 
 vector<model*> listModels(){
-	auto& models = G->gs_resource->g_models;
+	auto& models = Gb->gs_resource->g_models;
 	return models;
 }
 
 vector<font*> listFonts(){
-	auto& fonts = G->gs_resource->g_fonts; 
+	auto& fonts = Gb->gs_resource->g_fonts; 
 	return fonts;
 }
 
 
 void loadAssets(){
-	auto& m = G->gs_main->g_m; 
+	auto& m = Gb->gs_main->g_m; 
 
 	getFont("cour 14");
 	setFont(getFont("calibri 18"));

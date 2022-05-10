@@ -221,7 +221,7 @@ GUIscrollbar *GUIscrollbar::disableScrolling(){
 }
 
 void GUIscrollbar::renderLogic(){
-	auto& GUIoptions = G->gs_GUI_internal->g_GUIoptions;
+	auto& GUIoptions = Gg->gs_GUI_internal->g_GUIoptions;
 
 	for(unsigned int I = 0; I < children.size(); I++){
 		if(!children[I]->isClient && !children[I]->hidden){

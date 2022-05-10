@@ -1,78 +1,4 @@
-﻿  glm.cpp
-  tinyxml2.cpp
-  editor2.cpp
-  gui_editor.cpp
-  tool.cpp
-  tool_edit.cpp
-  tool_place.cpp
-  map_editor.cpp
-  console.cpp
-  gui_filedialog.cpp
-  gui_table.cpp
-  gui_texturebrowser.cpp
-  picker.cpp
-  commands.cpp
-  GUIwindows.cpp
-  editmodel.cpp
-  GUI.cpp
-  GUIbase.cpp
-  GUIbutton.cpp
-  GUIdropdownMenu.cpp
-  Generating Code...
-  Compiling...
-  GUIframe.cpp
-  GUIgrid.cpp
-  GUIimage.cpp
-  GUIlabel.cpp
-  GUIrenderer.cpp
-  GUIrenderer_default.cpp
-  GUIscrollbar.cpp
-  GUIselectable.cpp
-  GUItextentry.cpp
-  GUIwindow.cpp
-  GUI_internal.cpp
-  GUI_property.cpp
-  GUI_types.cpp
-  input.cpp
-  keybinds.cpp
-  mouse.cpp
-  fontLoader.cpp
-  imageLoader.cpp
-  textureLoader.cpp
-  global_vars.cpp
-  Generating Code...
-  Compiling...
-  main.cpp
-  fancymath.cpp
-  geometry.cpp
-  simplemath.cpp
-  vec.cpp
-  file.cpp
-  pipe.cpp
-  window.cpp
-  camera.cpp
-  paint.cpp
-  paintHelper.cpp
-  printw.cpp
-  render.cpp
-  renderCommand.cpp
-  renderLayer.cpp
-  rmodel.cpp
-  atlas.cpp
-  bitmap.cpp
-  model.cpp
-  resource.cpp
-  Generating Code...
-  Compiling...
-  texture.cpp
-  threads.cpp
-  debug.cpp
-  elastic_ptr.cpp
-  event.cpp
-  hook.cpp
-  paramList.cpp
-  stringUtils.cpp
-  timer.cpp
+﻿  commands.cpp
   util.cpp
   Generating Code...
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
@@ -93,10 +19,10 @@ freetype.lib(pfr.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with '
 freetype.lib(psaux.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psaux.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(pshinter.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pshinter.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(psmodule.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psmodule.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(raster.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(raster.obj)' or at ''; linking object as if no debug info
+freetype.lib(raster.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(raster.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(sfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(sfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(smooth.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(smooth.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
-freetype.lib(truetype.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(truetype.obj)' or at ''; linking object as if no debug info
+freetype.lib(truetype.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(truetype.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(type1.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(type42.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type42.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
 freetype.lib(winfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(winfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info

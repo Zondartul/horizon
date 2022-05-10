@@ -311,7 +311,7 @@ void e_selection::rebuildRmodel_wireHelper(rmodel *rm){
 
 
 void e_selection::rebuildRmodel(){
-	auto& loadLayer = G->gs_paint->g_loadLayer;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
 
 	for(int I = 0; I < 4; I++){
 		if(!rms.rm[I]){

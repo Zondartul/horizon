@@ -21,7 +21,7 @@
 
 
 void closeEntityOptionsWindow(){
-	auto& entWindow = G->gs_picker->g_entWindow;
+	auto& entWindow = Gt->gs_picker->g_entWindow;
 	
 	if(entWindow){delete entWindow; entWindow = 0;}
 }
@@ -89,8 +89,8 @@ void closeEntityOptionsWindow(){
 
 int cmd_pick(int argc, char **argv){
 	
-	auto& pickerLayer = G->gs_picker->g_pickerLayer;
-	auto& camera = G->gs_camera->g_camera;
+	auto& pickerLayer = Gt->gs_picker->g_pickerLayer;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	setLayer(pickerLayer);
 	setColor(vec3(0,255,0));
@@ -129,9 +129,9 @@ int cmd_pick(int argc, char **argv){
 }
 
 int cmd_pick2(int argc, char **argv){
-	auto& loadLayer = G->gs_paint->g_loadLayer;
-	auto& pickerLayer = G->gs_picker->g_pickerLayer;
-	auto& camera = G->gs_camera->g_camera;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
+	auto& pickerLayer = Gt->gs_picker->g_pickerLayer;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	setLayer(pickerLayer);
 	setPointSize(1);
@@ -169,10 +169,10 @@ int cmd_pick2(int argc, char **argv){
 }
 
 void initPicker(){
-	auto& pickerLayer = G->gs_picker->g_pickerLayer;
-	auto& layer3D = G->gs_paint->g_layer3D;
-	auto& console = G->gs_console->g_console;
-	auto& keybinds = G->gs_keybinds->g_keybinds;
+	auto& pickerLayer = Gt->gs_picker->g_pickerLayer;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
+	auto& console = Gt->gs_console->g_console;
+	auto& keybinds = Gb->gs_keybinds->g_keybinds;
 
 	pickerLayer = new renderLayer("picker");
 	addLayer(layer3D,pickerLayer);

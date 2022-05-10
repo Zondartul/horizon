@@ -15,7 +15,7 @@ using std::string;
 
 
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
-	auto& all_layers = G->gs_renderLayer->g_all_layers;
+	auto& all_layers = Gb->gs_renderLayer->g_all_layers;
 
 	all_layers.push_back(this);
 }
@@ -111,7 +111,7 @@ const renderCommand3 *renderLayer::get(unsigned int num){
 }
 
 void setupLayer3D(){
-	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
 
 	setLayer(layer3D->resetLayer);
 #ifndef NO_GLEW
@@ -137,7 +137,7 @@ void setupLayer3D(){
 }
 
 void setupLayer2D(){
-	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
 
 	setLayer(layer2D->resetLayer);
 	setPosition(vec3(0,0,0));
@@ -156,7 +156,7 @@ void setupLayer2D(){
 
 
 void setupLayerDebug(){
-	auto& layerDebug = G->gs_paint->g_layerDebug;
+	auto& layerDebug = Gb->gs_paint->g_layerDebug;
 
 	setLayer(layerDebug->resetLayer);
 #ifndef NO_GLEW
@@ -178,7 +178,7 @@ void setupLayerDebug(){
 }
 
 void setupLayerDebug2D(){
-	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
+	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
 
 	setLayer(layerDebug2D->resetLayer);
 	setPosition(vec3(0,0,0));

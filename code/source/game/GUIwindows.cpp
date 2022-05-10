@@ -5,8 +5,8 @@
 using namespace std;
 
 void openTestWindow1(){
-	auto& loadLayer = G->gs_paint->g_loadLayer;
-	auto& GUI = G->gs_main->g_GUI;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
+	auto& GUI = Gb->gs_main->g_GUI;
 
 	texture *img1 = getTexture("art/printer"); setLayer(loadLayer); uploadTexture(img1);
 
@@ -35,7 +35,7 @@ void openTestWindow1(){
 }
 
 void openTestWindow2(){
-	auto& GUI = G->gs_main->g_GUI;
+	auto& GUI = Gb->gs_main->g_GUI;
 
 	texture *img1 = getTexture("art/printer"); uploadTexture(img1);
 	auto TE = new GUItextEntry();
@@ -58,7 +58,7 @@ void openTestWindow2(){
 }
 
 void openTestWindow3(){
-	auto& GUI = G->gs_main->g_GUI;
+	auto& GUI = Gb->gs_main->g_GUI;
 
 	texture *tex1 = getTexture("art/printer"); uploadTexture(tex1);
 	auto TE = new GUItextEntry();
@@ -100,9 +100,9 @@ void openTestWindow3(){
 }
 
 void openTestWindow4(){
-	auto& layer3D = G->gs_paint->g_layer3D;
-	auto& loadLayer = G->gs_paint->g_loadLayer;
-	auto& GUI = G->gs_main->g_GUI;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
+	auto& GUI = Gb->gs_main->g_GUI;
 
 	renderLayer *test4layerSetup = new renderLayer("openTestWindow4.setup");
 	renderLayer *test4layer = new renderLayer("test4layer");
@@ -370,7 +370,7 @@ void make_checkbox2(bool *val, string name, GUIgrid *gridobj, int row) {
 }
 
 void openTestWindow5(){
-	auto& GUI = G->gs_main->g_GUI;
+	auto& GUI = Gb->gs_main->g_GUI;
 	
 
 	auto grid1 = new GUIgrid();
@@ -415,10 +415,10 @@ void openTestWindow5(){
 	->sizeToContents());
 }
 void openTestWindow6(){
-	auto& GUI = G->gs_main->g_GUI;
-	auto& globalChannel = G->gs_event->g_globalChannel;
-	auto& allocation_map = G->gs_debug->g_allocation_map;
-	auto& total_size = G->gs_debug->g_total_size;
+	auto& GUI = Gb->gs_main->g_GUI;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& allocation_map = Gb->gs_debug->g_allocation_map;
+	auto& total_size = Gb->gs_debug->g_total_size;
 
 	GUIlabel *label1 = new GUIlabel();
 

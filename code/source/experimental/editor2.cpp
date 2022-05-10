@@ -8,50 +8,13 @@
 #include "paint.h"
 #include "window.h"
 #include "geometry.h"
-
 #include "editmodel.h"
 #include "simplemath.h"
 #include "input.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void editor2Kind::setupLayers(){
-	auto& layer3D = G->gs_paint->g_layer3D;
-	auto& layer2D = G->gs_paint->g_layer2D;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
 
 	printf("editor.setupLayers()\n");
 	layers.l3D 			= new renderLayer("editor.l3D");
@@ -133,14 +96,14 @@ void editor2Kind::constructTestModel(){
 }
 
 void openEditor2(){
-	auto& editor2 = G->gs_editor2->g_editor2;
+	auto& editor2 = Gt->gs_editor2->g_editor2;
 	editor2 = new editor2Kind();
 }
 
 
 editor2Kind::editor2Kind():sel(&EM){
-	auto& inputChannel = G->gs_input->g_inputChannel;
-	auto& globalChannel = G->gs_event->g_globalChannel;
+	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	
 	printf("editor.editorKind()\n");
 	inputChannel->addListener(this);
@@ -152,7 +115,7 @@ editor2Kind::editor2Kind():sel(&EM){
 }
 
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	printf("editor.boxSelect()\n");
 	sel.clear();
@@ -196,8 +159,8 @@ void editor2Kind::redraw(){
 
 
 void editor2Kind::think(){
-	auto& camera = G->gs_camera->g_camera;
-	auto& plane = G->gs_editor2->g_plane;
+	auto& camera = Gb->gs_camera->g_camera;
+	auto& plane = Gt->gs_editor2->g_plane;
 	
 		
 		vec3 p1;
@@ -257,8 +220,8 @@ void splitTest(){
 }
 
 void editor2Kind::onEvent(eventKind event){
-	auto& camera = G->gs_camera->g_camera;
-	auto& plane = G->gs_editor2->g_plane;
+	auto& camera = Gb->gs_camera->g_camera;
+	auto& plane = Gt->gs_editor2->g_plane;
 
 	vec2 screenpos;
 	vec3 forward;

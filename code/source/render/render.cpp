@@ -16,7 +16,7 @@
 
 
 void renderOptions::apply(renderLayer *L){
-	auto& currentLayer = G->gs_paint->g_currentLayer;
+	auto& currentLayer = Gb->gs_paint->g_currentLayer;
     
 	if(!L){L = currentLayer;}
     renderLayer *oldLayer = currentLayer;
@@ -66,7 +66,7 @@ void renderOptions::applyImmediate(){
 void renderableSprite::upload(){}
 
 void renderableSprite::render(renderOptions *options){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
     setTexturing(true);
     setTransparency(true);
@@ -87,7 +87,7 @@ void renderableSprite::render(renderOptions *options){
 }
 
 void renderableModel::upload(){
-	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
 
 	setLayer(layer3D);
 	uploadRmodel(rm_default);
@@ -126,7 +126,7 @@ void renderableMultimodel::render(renderOptions *options){
 	}
 }
 void renderablePlane::upload(){
-	auto& layer3D = G->gs_paint->g_layer3D;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
 	
 	setLayer(layer3D);
 	if(!rm){
@@ -137,7 +137,7 @@ void renderablePlane::upload(){
 }
 
 void renderablePlane::render(renderOptions *options){
-	auto& camera = G->gs_camera->g_camera;
+	auto& camera = Gb->gs_camera->g_camera;
 
 	float dist = dot(camera.pos,normal)-offset;
 	
@@ -171,17 +171,17 @@ void renderablePlane::render(renderOptions *options){
 
 
 void renderTick(){
-	auto& layer3D = G->gs_paint->g_layer3D;
-	auto& layer2D = G->gs_paint->g_layer2D;
-	auto& loadLayer = G->gs_paint->g_loadLayer;
-	auto& layerDebug = G->gs_paint->g_layerDebug;
-	auto& layerDebug2D = G->gs_paint->g_layerDebug2D;
-	auto& deleteLayer = G->gs_paint->g_deleteLayer;
+	auto& layer3D = Gb->gs_paint->g_layer3D;
+	auto& layer2D = Gb->gs_paint->g_layer2D;
+	auto& loadLayer = Gb->gs_paint->g_loadLayer;
+	auto& layerDebug = Gb->gs_paint->g_layerDebug;
+	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
+	auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
 
-	auto& m = G->gs_main->g_m;
-	auto& GUI = G->gs_main->g_GUI;
-	auto& fps = G->gs_main->g_fps;
-	auto& frametime = G->gs_main->g_frametime;
+	auto& m = Gb->gs_main->g_m;
+	auto& GUI = Gb->gs_main->g_GUI;
+	auto& fps = Gb->gs_main->g_fps;
+	auto& frametime = Gb->gs_main->g_frametime;
 
 	setLayer(layer2D);
 	clearScreen();
@@ -212,8 +212,8 @@ void renderTick(){
 }
 
 void renderInit(){
-	auto& width = G->gs_window->g_width;
-	auto& height = G->gs_window->g_height;
+	auto& width = Gb->gs_window->g_width;
+	auto& height = Gb->gs_window->g_height;
 
 	g_renderLow = new renderLowKind();
 	g_renderLow->renderLowInit();

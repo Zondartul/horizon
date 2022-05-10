@@ -25,7 +25,7 @@ using std::vector;
 void clearDeleteBuffer();
 
 void debuginit(){
-	auto& debugFile = G->gs_debug->g_debugFile;
+	auto& debugFile = Gb->gs_debug->g_debugFile;
 
 	debugFile = fopen("log.txt","w");
 	setbuf(debugFile,0);
@@ -46,8 +46,8 @@ void debuginit(){
 void crash();
 
 void debugprint(const char *file, int line, const char *mode, const char *format, ...){
-	auto& debugFile = G->gs_debug->g_debugFile;
-	auto& ticks = G->gs_debug->g_ticks;
+	auto& debugFile = Gb->gs_debug->g_debugFile;
+	auto& ticks = Gb->gs_debug->g_ticks;
 
 	va_list ap;
 	va_start(ap, format);
@@ -98,8 +98,8 @@ void debugprint(const char *file, int line, const char *mode, const char *format
 
 
 int set_alloc_pos(const char *file, int line){
-	auto& alloc_file = G->gs_debug->g_alloc_file;
-	auto& alloc_line = G->gs_debug->g_alloc_line;
+	auto& alloc_file = Gb->gs_debug->g_alloc_file;
+	auto& alloc_line = Gb->gs_debug->g_alloc_line;
 
 	alloc_file = file;
 	alloc_line = line;
@@ -184,11 +184,11 @@ void debug_delete(void *ptr){
 #endif
 
 void clearDeleteBuffer(){
-	auto& delayedDelete = G->gs_debug->g_delayedDelete;
-	auto& activeDeleteBuffer = G->gs_debug->g_activeDeleteBuffer;
-	auto& deleteBuffer = G->gs_debug->g_deleteBuffer;
-	auto& deallocation_map = G->gs_debug->g_deallocation_map;
-	auto& allocation_map = G->gs_debug->g_allocation_map;
+	auto& delayedDelete = Gb->gs_debug->g_delayedDelete;
+	auto& activeDeleteBuffer = Gb->gs_debug->g_activeDeleteBuffer;
+	auto& deleteBuffer = Gb->gs_debug->g_deleteBuffer;
+	auto& deallocation_map = Gb->gs_debug->g_deallocation_map;
+	auto& allocation_map = Gb->gs_debug->g_allocation_map;
 
     if(!delayedDelete){return;}
     int inactiveDeleteBuffer = 0;
@@ -217,8 +217,8 @@ void clearDeleteBuffer(){
 }
 
 bool wasRecentlyDeleted(void *ptr){
-	auto& deallocation_map = G->gs_debug->g_deallocation_map;
-	auto& allocation_map = G->gs_debug->g_allocation_map;
+	auto& deallocation_map = Gb->gs_debug->g_deallocation_map;
+	auto& allocation_map = Gb->gs_debug->g_allocation_map;
 
     if(deallocation_map.count(ptr)){
         mapped_alloc_key key = deallocation_map[ptr];
@@ -400,9 +400,9 @@ int debugCheckStackCanary(){
 	return STACK_CANARY_SIZE;
 }
 void profileStart(){
-	auto& currentDebugProfile = G->gs_debug->g_currentDebugProfile;
-	auto& debug_mem_allocated = G->gs_debug->g_debug_mem_allocated;
-	auto& debug_mem_watermark = G->gs_debug->g_debug_mem_watermark;
+	auto& currentDebugProfile = Gb->gs_debug->g_currentDebugProfile;
+	auto& debug_mem_allocated = Gb->gs_debug->g_debug_mem_allocated;
+	auto& debug_mem_watermark = Gb->gs_debug->g_debug_mem_watermark;
 
 	#ifndef NO_SDL
 		currentDebugProfile.time = SDL_GetPerformanceCounter();
@@ -412,9 +412,9 @@ void profileStart(){
 }
 
 debugProfile profileEnd(){
-	auto& currentDebugProfile = G->gs_debug->g_currentDebugProfile;
-	auto& debug_mem_allocated = G->gs_debug->g_debug_mem_allocated;
-	auto& debug_mem_watermark = G->gs_debug->g_debug_mem_watermark;
+	auto& currentDebugProfile = Gb->gs_debug->g_currentDebugProfile;
+	auto& debug_mem_allocated = Gb->gs_debug->g_debug_mem_allocated;
+	auto& debug_mem_watermark = Gb->gs_debug->g_debug_mem_watermark;
 
 	#ifndef NO_SDL
 		uint64_t time = SDL_GetPerformanceCounter() - currentDebugProfile.time;
@@ -463,8 +463,8 @@ void __cyg_profile_func_exit (void *this_fn, void *call_site) {
 #endif
 
 vector<void*> getTrace(){
-	auto& mytrace = G->gs_debug->g_mytrace;
-	auto& mytraceI = G->gs_debug->g_mytraceI;
+	auto& mytrace = Gb->gs_debug->g_mytrace;
+	auto& mytraceI = Gb->gs_debug->g_mytraceI;
 
     vector<void*> v;
     for(int I = 0; I < mytraceI; I++){

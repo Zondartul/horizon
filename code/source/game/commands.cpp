@@ -12,7 +12,7 @@ using std::stringstream;
 
 
 int cmd_pauseGame(int argc, char **argv){
-	auto& gamePaused = G->gs_main->g_gamePaused;
+	auto& gamePaused = Gb->gs_main->g_gamePaused;
 
 	gamePaused = !gamePaused;
     return 0;
@@ -102,8 +102,8 @@ int cmd_pauseGame(int argc, char **argv){
 
 
 int cmd_listKeybinds(int argc, char **argv){
-	auto& console = G->gs_console->g_console;
-	auto& keybinds = G->gs_keybinds->g_keybinds;
+	auto& console = Gt->gs_console->g_console;
+	auto& keybinds = Gb->gs_keybinds->g_keybinds;
 
 	for(auto I = keybinds->binds.begin(); I != keybinds->binds.end(); I++){
 		string key = I->first;
@@ -183,7 +183,7 @@ int cmd_listKeybinds(int argc, char **argv){
 
 
 int cmd_help(int argc, char **argv){
-	auto& console = G->gs_console->g_console;
+	auto& console = Gt->gs_console->g_console;
 
 	if(argc==0){
 		cprint("commands: ");
@@ -346,18 +346,18 @@ int cmd_mapeditor(int argc, char **argv){openMapEditor(); return 0;}
 int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
 
 int cmd_printf(int argc, char **argv){
-	auto& printf_enabled = G->gs_main->g_printf_enabled;
+	auto& printf_enabled = Gb->gs_main->g_printf_enabled;
 	printf_enabled = !printf_enabled; 
 	return 0;
 }
 
 int cmd_memreport(int argc, char **argv){
-	auto& allocation_map = G->gs_debug->g_allocation_map;
-	auto& total_size = G->gs_debug->g_total_size;
-	auto& has_prev_alloc_map = G->gs_commands->g_has_prev_alloc_map;
-	auto& prev_allocation_map = G->gs_commands->g_prev_allocation_map;
-	auto& prev_total_size = G->gs_commands->g_prev_total_size;
-	auto& memreport_last_frame = G->gs_commands->g_memreport_last_frame;
+	auto& allocation_map = Gb->gs_debug->g_allocation_map;
+	auto& total_size = Gb->gs_debug->g_total_size;
+	auto& has_prev_alloc_map = Gt->gs_commands->g_has_prev_alloc_map;
+	auto& prev_allocation_map = Gt->gs_commands->g_prev_allocation_map;
+	auto& prev_total_size = Gt->gs_commands->g_prev_total_size;
+	auto& memreport_last_frame = Gt->gs_commands->g_memreport_last_frame;
 
 	if(argc && (strcmp(argv[0], "-i")==0)){
 		
@@ -502,7 +502,7 @@ int cmd_texture_browser(int argc, char** argv){
 }
 
 void addKeybinds(){
-	auto& keybinds = G->gs_keybinds->g_keybinds;
+	auto& keybinds = Gb->gs_keybinds->g_keybinds;
 	keybinds->binds["+R"].cmd = "reset";
 	keybinds->binds["+F"].cmd = "physbox";
 	keybinds->binds["+G"].cmd = "physbox 1";
@@ -520,7 +520,7 @@ void addKeybinds(){
 
 
 void addConsoleCommands(){
-	auto& console = G->gs_console->g_console;
+	auto& console = Gt->gs_console->g_console;
 
 	console->addCommand({"help","prints information about installed commands\n",cmd_help});
 	
