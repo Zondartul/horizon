@@ -1,8 +1,4 @@
 #include "GUI_internal.h"
-
-
-
-
 GUIlabel::GUIlabel(){
 	textColor = defaulttextColor;
 	textfont = defaulttextfont;
@@ -27,25 +23,18 @@ GUIlabel *GUIlabel::setText(string newtext){
 	text = newtext;
 	return this;
 }
-
 rect GUIlabel::getTextRect(string text){
 	rect size = preprintw(textfont,"%s",text.c_str());
 	return size;
 }
-
 rect GUIlabel::getTextRect(){
 	return getTextRect(text);
 }
-
 GUIbase *GUIlabel::sizeToContents(){
 	rect size = getTextRect();
 	area = area.setSize(size.size);
 	return this;
 }
-
-
-
-
 vec2 getTextCentering(rect area, rect text,
 	GUIe_alignment alignment_vertical, 
 	GUIe_alignment alignment_horizontal, 
@@ -61,23 +50,18 @@ vec2 getTextCentering(rect area, rect text,
 	float txs = text.start.x;
 	float txc = text.center().x;
 	float txe = text.end.x;
-
 	float ays = area.start.y;
 	float ayc = area.center().y;
 	float aye = area.end.y;
 	float tys = text.start.y;
 	float tyc = text.center().y;
 	float tye = text.end.y;
-
-
 	float x,y;
-
 	switch(alignment_horizontal){
 		case(GUIa::Left):	x = axs-txs; break;
 		case(GUIa::Center):	x = axc-txc; break;
 		case(GUIa::Right):	x = axe-txe; break;
 	}
-
 	switch(alignment_vertical){
 		case(GUIa::Top):	y = ays-tys; break;
 		case(GUIa::Center):	y = ayc-tyc; break;
@@ -85,8 +69,6 @@ vec2 getTextCentering(rect area, rect text,
 	}
 	return vec2{x,y};
 }
-
-
 GUIpropertyTable GUIlabel::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIbase::getDefaultPropertyTable();
 	table.table["textColor"] = toString(vec3(defaulttextColor));
@@ -95,7 +77,6 @@ GUIpropertyTable GUIlabel::getDefaultPropertyTable(){
 	table.table["alignment_horizontal"] = toString(GUIa::Center);
 	table.table["alignment_vertical"] = toString(GUIa::Center);
 	table.table["const_height"] = toString((bool)false);
-	
 	return table;
 }
 string GUIlabel::getProperty(string key){
@@ -116,7 +97,4 @@ void GUIlabel::setProperty(string key, string val){
 	else if(key == "const_height"){const_height = fromString<bool>(val);}
 	else GUIbase::setProperty(key,val);
 }
-	
-
 string GUIlabel::getType(){return "GUIlabel";}
-	

@@ -3,14 +3,11 @@
 #include "fonts.h"
 #include "bitmap.h"
 #include "vec.h"
-
 #ifndef NO_GLEW
 #include "GL/glew.h"
 #endif
-
 #include "rmodel.h"
 #include "renderLayer.h"
-
 struct renderStateKind{
 	public:
 	int renderMode = 0; 
@@ -24,17 +21,14 @@ struct renderStateKind{
     int height;
     int width;
 };
-
 struct GPUdriverKind{
 	renderStateKind renderState;
-
 	int numVerts = 0;
 	int num_textures = 0;
 	long bytes_textures = 0;
 	int num_rmodels = 0;
 	long bytes_rmodels = 0;
 	bool debug = false;
-
 #ifndef NO_GLEW
 	GLuint vaoHandle;
 	GLuint positionBufferHandle;
@@ -46,21 +40,17 @@ struct GPUdriverKind{
 	map<texture*,GLuint> texture_GPU_handles;
 	map<rmodel*,GLuint[4]> rmodel_GPU_handles;
 #endif
-
 	void renderLowInit();
 	void parseQueue(renderQueue3 *rqueue);
     void parseCommand(const renderCommand3 &rcmd);
 	void projectionToCamera();
 	void reproject();
-
 #ifndef NO_GLEW
 	GLuint uploadShader(GLuint shaderType, const char *filepath);
 	GLuint uploadShaderProgram(const char *filepath_vertex, const char *filepath_fragment);
 #endif
 };
-
 #ifndef NO_GLEW
 GLenum pixelFormatToGL(pixelFormat F);
 #endif
-
 #endif 

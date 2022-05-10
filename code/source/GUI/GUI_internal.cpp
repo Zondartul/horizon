@@ -1,10 +1,5 @@
 #include "GUI_internal.h"
 #include "main.h"
-
-
-
-
-
 void GUIsetFavoriteRenderOptions(){
 	auto& layerGUI = Gb->gs_main->g_layerGUI;
 	setLayer(layerGUI);
@@ -23,8 +18,6 @@ void GUIsetFavoriteRenderOptions(){
 	setTexturePosition(vec2(0,0));
 	setTextureScale(vec2(1,1));
 }
-
-
 GUIbase *GUI_constructor_dispatch(string S){
 	GUIbase *W = 0;
 	if(S == "GUIbase"){W = new GUIbase();}
@@ -38,14 +31,6 @@ GUIbase *GUI_constructor_dispatch(string S){
 	else if(S == "GUIwindow"){W = new GUIwindow();}
 	else if(S == "GUIselectionGroup"){W = new GUIselectionGroup();}
 	else if(S == "GUIselectable"){W = new GUIselectable();}
-	
 	if(!W){printf("dispatch missing widget type %s\n",S.c_str());}
 	return W;
 }
-
-
-
-
-
-
-

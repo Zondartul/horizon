@@ -1,16 +1,5 @@
 #ifndef GUI_GUARD
 #define GUI_GUARD
-
-
-
-
-
-
-
-
-
-
-
 #include <map>
 #include <string>
 #include <vector>
@@ -19,12 +8,9 @@ using std::map;
 using std::string;
 using std::vector;
 using std::function;
-
-
 #include "event.h" 
 #include "util.h"  
 #include "elastic_ptr.h"
-
 #include "GUI_types.h" 
 #include "GUI_property.h"
 #include "GUIrenderer.h"
@@ -40,5 +26,4 @@ using std::function;
 #include "GUIwindow.h"
 #include "GUIselectable.h"
 #include "GUIdropdownMenu.h"
-
 #endif

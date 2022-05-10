@@ -5,10 +5,8 @@
 #include <vector>
 #include <map>
 #include "config.h"
-
 #define checkNaN(x) if(x != x){printf(#x " is nan at %d\n",__LINE__);}
 #define print1(x) printf(#x " = %s\n", toString(x))
-
 #ifndef NO_SDL
 #define profile(x,y) {\
 	uint64_t t1 = SDL_GetPerformanceCounter();\
@@ -21,34 +19,19 @@
 #else
 #define profile(x,y)
 #endif
-
-
 void debuginit();
 void debugprint(const char *file, int line, const char *mode, const char *format, ...);
-
-
-
 #ifdef DEBUG_PRINT
-
-
 	#define printf(format,...)	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"printf",format , ##__VA_ARGS__);}
 	#define info(format,...) 	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"info",format , ##__VA_ARGS__);}
 	#define warning(format,...) if(g_printf_enabled){debugprint(__FILE__,__LINE__,"warning",format, ##__VA_ARGS__);}
 	#define error(format,...)	debugprint(__FILE__,__LINE__,"error",format , ##__VA_ARGS__);crash();
 	#define frame(format,...) 	if(g_printf_enabled){debugprint(__FILE__,__LINE__,"frame",format , ##__VA_ARGS__);}
-
-
 #else
-
-	
-	
-	
-	
 void info(const char *fmt, ...);
 void warning(const char *fmt, ...);
 void error(const char *fmt, ...);
 void frame(const char *fmt, ...);
-
 #endif
 int set_alloc_pos(const char *file, int line);
 #ifdef DEBUG_MALLOC
@@ -62,7 +45,6 @@ int set_alloc_pos(const char *file, int line);
 	void *debugrealloc(const char *file, int line, void *ptr, size_t size);
 	void debugfree(const char *file, int line, void *ptr);
 #endif
-
 struct mapped_alloc{
 	int size;
 	void *p;
@@ -74,39 +56,13 @@ struct mapped_alloc_key{
 	int alloc_line;
 	int num;
 };
-
-
-
-
-
-
-
 #ifdef DEBUG_NEW
 	#include <new>
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	#define new set_alloc_pos(__FILE__,__LINE__) && 0 ? NULL : new
-    
-    
     bool wasRecentlyDeleted(void *p);
 #else
-    
 #endif
-
-
-
 #ifdef DEBUG_ANALYZER
-
 struct debugProfile{
 	uint64_t time;
 	uint32_t seconds;
@@ -116,12 +72,10 @@ struct debugProfile{
 	uint32_t heapused;
 	uint32_t heapleaked;
 };
-
 void profileStart();
 debugProfile profileEnd();
 #endif
 void crash();
-
 #define SSnumvals 1024
 #define SSbaseval 1266184225
 class stackSentinel{
@@ -130,22 +84,9 @@ class stackSentinel{
 	stackSentinel();
 	~stackSentinel();
 };
-
 typedef std::vector<mapped_alloc> struct_alloc_line;
 typedef std::map<int, struct_alloc_line> struct_alloc_file;
 typedef std::vector<void*> delayedDeleteList;
-
-
-
-
-
-
-
-
-
-
-
-
 struct debugAllocation {
 	void* reported;
 	void* actual;
@@ -161,14 +102,12 @@ struct debugAllocation {
 	int op_index;
 	bool freed;
 };
-
 struct gs_debugKind {
 	delayedDeleteList g_deleteBuffer[2] = { delayedDeleteList{},delayedDeleteList{} };
 	int g_activeDeleteBuffer = 0;
 	bool g_delayedDelete = false; 
 	std::map<const char*, struct_alloc_file> g_allocation_map;
 	std::map<void*, mapped_alloc_key> g_deallocation_map;
-
 #ifdef DEBUG_NEW
 #define debugAllocListSize 10000
 	int g_debugAllocListI = 0;
@@ -176,13 +115,11 @@ struct gs_debugKind {
 #else
 	std::vector<debugAllocation> g_debugAllocList;
 #endif
-
 	const char* g_alloc_file = 0;
 	int g_alloc_line = 0;
 	int g_total_size = 0;
 	int g_ticks = 0;
 	FILE* g_debugFile;
-
 	int g_debug_mem_allocated = 0;
 	int g_debug_mem_watermark = 0;
 	int g_debug_mem_op_index = 0;
@@ -191,10 +128,7 @@ struct gs_debugKind {
 	const char* g_debug_file = "unknown";
 	int g_debug_line = 0;
 	debugProfile g_currentDebugProfile;
-
 	void* g_mytrace[100];
 	int g_mytraceI;
-
 };
-
 #endif

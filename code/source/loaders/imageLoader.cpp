@@ -2,13 +2,10 @@
 #include "bitmap.h"
 #include "stdio.h"
 #include "globals.h"
-
 #pragma warning(push, 0)
 #define STB_IMAGE_IMPLEMENTATION
-
 #include "stb_image.h"
 #pragma warning(pop)
-
 bitmap *loadImage(const char *filename){
 	FILE *f = fopen(filename, "rb");
 	if(!f){error("ERROR: loadImage: can't open [%s]\n",filename);}
@@ -18,8 +15,6 @@ bitmap *loadImage(const char *filename){
 	int requested_components = 4;
 	unsigned char *data = stbi_load(filename, &width, &height, &components, requested_components);
 	if(!data){error("ERROR: loadImage: opened but can't parse [%s]\n",filename);}
-
-	
 	bitmap *BMP = new bitmap();
 	BMP->name = filename;
 	BMP->width = width;
@@ -27,6 +22,5 @@ bitmap *loadImage(const char *filename){
 	BMP->format = TL_RGBA;
 	BMP->setBuffer(data,BMP->numBytes());
 	free(data);
-	
 	return BMP;
 }

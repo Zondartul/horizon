@@ -1,42 +1,7 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
 #ifndef FTSERV_H_
 #define FTSERV_H_
-
-
 FT_BEGIN_HEADER
-
-  
 #ifdef __cplusplus
-
 #define FT_FACE_FIND_SERVICE( face, ptr, id )                               \
   FT_BEGIN_STMNT                                                            \
     FT_Module    module = FT_MODULE( FT_FACE( face )->driver );             \
@@ -48,9 +13,7 @@ FT_BEGIN_HEADER
       _tmp_ = module->clazz->get_interface( module, FT_SERVICE_ID_ ## id ); \
     *_pptr_ = _tmp_;                                                        \
   FT_END_STMNT
-
 #else 
-
 #define FT_FACE_FIND_SERVICE( face, ptr, id )                               \
   FT_BEGIN_STMNT                                                            \
     FT_Module   module = FT_MODULE( FT_FACE( face )->driver );              \
@@ -60,13 +23,8 @@ FT_BEGIN_HEADER
       _tmp_ = module->clazz->get_interface( module, FT_SERVICE_ID_ ## id ); \
     ptr = _tmp_;                                                            \
   FT_END_STMNT
-
 #endif 
-
-
-  
 #ifdef __cplusplus
-
 #define FT_FACE_FIND_GLOBAL_SERVICE( face, ptr, id )               \
   FT_BEGIN_STMNT                                                   \
     FT_Module    module = FT_MODULE( FT_FACE( face )->driver );    \
@@ -77,9 +35,7 @@ FT_BEGIN_HEADER
     _tmp_ = ft_module_get_service( module, FT_SERVICE_ID_ ## id ); \
     *_pptr_ = _tmp_;                                               \
   FT_END_STMNT
-
 #else 
-
 #define FT_FACE_FIND_GLOBAL_SERVICE( face, ptr, id )               \
   FT_BEGIN_STMNT                                                   \
     FT_Module   module = FT_MODULE( FT_FACE( face )->driver );     \
@@ -89,57 +45,14 @@ FT_BEGIN_HEADER
     _tmp_ = ft_module_get_service( module, FT_SERVICE_ID_ ## id ); \
     ptr   = _tmp_;                                                 \
   FT_END_STMNT
-
 #endif 
-
-
-  
-  
-  
-  
-  
-  
-  
-
-  
   typedef struct  FT_ServiceDescRec_
   {
     const char*  serv_id;     
     const void*  serv_data;   
-
   } FT_ServiceDescRec;
-
   typedef const FT_ServiceDescRec*  FT_ServiceDesc;
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 #ifndef FT_CONFIG_OPTION_PIC
-
 #define FT_DEFINE_SERVICEDESCREC1( class_,                                  \
                                    serv_id_1, serv_data_1 )                 \
   static const FT_ServiceDescRec  class_[] =                                \
@@ -147,7 +60,6 @@ FT_BEGIN_HEADER
     { serv_id_1, serv_data_1 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC2( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2 )                 \
@@ -157,7 +69,6 @@ FT_BEGIN_HEADER
     { serv_id_2, serv_data_2 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC3( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -169,7 +80,6 @@ FT_BEGIN_HEADER
     { serv_id_3, serv_data_3 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC4( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -183,7 +93,6 @@ FT_BEGIN_HEADER
     { serv_id_4, serv_data_4 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC5( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -199,7 +108,6 @@ FT_BEGIN_HEADER
     { serv_id_5, serv_data_5 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC6( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -217,7 +125,6 @@ FT_BEGIN_HEADER
     { serv_id_6, serv_data_6 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #define FT_DEFINE_SERVICEDESCREC7( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -237,9 +144,7 @@ FT_BEGIN_HEADER
     { serv_id_7, serv_data_7 },                                             \
     { NULL, NULL }                                                          \
   };
-
 #else 
-
 #define FT_DEFINE_SERVICEDESCREC1( class_,                                  \
                                    serv_id_1, serv_data_1 )                 \
   void                                                                      \
@@ -274,7 +179,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC2( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2 )                 \
@@ -312,7 +216,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC3( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -353,7 +256,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC4( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -397,7 +299,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC5( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -444,7 +345,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC6( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -494,7 +394,6 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #define FT_DEFINE_SERVICEDESCREC7( class_,                                  \
                                    serv_id_1, serv_data_1,                  \
                                    serv_id_2, serv_data_2,                  \
@@ -547,25 +446,10 @@ FT_BEGIN_HEADER
                                                                             \
     return FT_Err_Ok;                                                       \
   }
-
 #endif 
-
-
-  
   FT_BASE( FT_Pointer )
   ft_service_list_lookup( FT_ServiceDesc  service_descriptors,
                           const char*     service_id );
-
-
-  
-  
-  
-  
-  
-  
-  
-
-  
   typedef struct  FT_ServiceCacheRec_
   {
     FT_Pointer  service_POSTSCRIPT_FONT_NAME;
@@ -573,19 +457,9 @@ FT_BEGIN_HEADER
     FT_Pointer  service_GLYPH_DICT;
     FT_Pointer  service_PFR_METRICS;
     FT_Pointer  service_WINFNT;
-
   } FT_ServiceCacheRec, *FT_ServiceCache;
-
-
-  
-
-  
 #define FT_SERVICE_UNAVAILABLE  ((FT_Pointer)~(FT_PtrDist)1)
-
-
-  
 #ifdef __cplusplus
-
 #define FT_FACE_LOOKUP_SERVICE( face, ptr, id )                \
   FT_BEGIN_STMNT                                               \
     FT_Pointer   svc;                                          \
@@ -605,9 +479,7 @@ FT_BEGIN_HEADER
     }                                                          \
     *Pptr = svc;                                               \
   FT_END_STMNT
-
 #else 
-
 #define FT_FACE_LOOKUP_SERVICE( face, ptr, id )                \
   FT_BEGIN_STMNT                                               \
     FT_Pointer  svc;                                           \
@@ -626,22 +498,13 @@ FT_BEGIN_HEADER
     }                                                          \
     ptr = svc;                                                 \
   FT_END_STMNT
-
 #endif 
-
-  
-
 #define FT_DEFINE_SERVICE( name )            \
   typedef struct FT_Service_ ## name ## Rec_ \
     FT_Service_ ## name ## Rec ;             \
   typedef struct FT_Service_ ## name ## Rec_ \
     const * FT_Service_ ## name ;            \
   struct FT_Service_ ## name ## Rec_
-
-  
-
-  
-
 #define FT_SERVICE_BDF_H                <freetype/internal/services/svbdf.h>
 #define FT_SERVICE_CID_H                <freetype/internal/services/svcid.h>
 #define FT_SERVICE_GLYPH_DICT_H         <freetype/internal/services/svgldict.h>
@@ -660,12 +523,5 @@ FT_BEGIN_HEADER
 #define FT_SERVICE_WINFNT_H             <freetype/internal/services/svwinfnt.h>
 #define FT_SERVICE_FONT_FORMAT_H        <freetype/internal/services/svfntfmt.h>
 #define FT_SERVICE_TRUETYPE_GLYF_H      <freetype/internal/services/svttglyf.h>
-
- 
-
 FT_END_HEADER
-
 #endif 
-
-
-

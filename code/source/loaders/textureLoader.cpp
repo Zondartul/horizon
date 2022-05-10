@@ -2,9 +2,6 @@
 #include "stdio.h"
 #include "globals.h"
 #include "imageLoader.h"
-
-
-
 texture *loadTexture(const char *filename){
 	bitmap *bmp = loadImage(filename);
 	if(!bmp){return 0;}

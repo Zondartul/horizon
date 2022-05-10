@@ -1,13 +1,7 @@
-
-
-
-
-
 #ifdef _begin_code_h
 #error Nested inclusion of begin_code.h
 #endif
 #define _begin_code_h
-
 #ifndef SDL_DEPRECATED
 #  if (__GNUC__ >= 4)  
 #    define SDL_DEPRECATED __attribute__((deprecated))
@@ -15,7 +9,6 @@
 #    define SDL_DEPRECATED
 #  endif
 #endif
-
 #ifndef SDL_UNUSED
 #  ifdef __GNUC__
 #    define SDL_UNUSED __attribute__((unused))
@@ -23,8 +16,6 @@
 #    define SDL_UNUSED
 #  endif
 #endif
-
-
 #ifndef DECLSPEC
 # if defined(__WIN32__) || defined(__WINRT__)
 #  ifdef __BORLANDC__
@@ -44,8 +35,6 @@
 #  endif
 # endif
 #endif
-
-
 #ifndef SDLCALL
 #if (defined(__WIN32__) || defined(__WINRT__)) && !defined(__GNUC__)
 #define SDLCALL __cdecl
@@ -53,14 +42,10 @@
 #define SDLCALL
 #endif
 #endif 
-
-
 #ifdef __SYMBIAN32__
 #undef DECLSPEC
 #define DECLSPEC
 #endif 
-
-
 #if defined(_MSC_VER) || defined(__MWERKS__) || defined(__BORLANDC__)
 #ifdef _MSC_VER
 #pragma warning(disable: 4103)
@@ -69,13 +54,11 @@
 #pragma nopackwarning
 #endif
 #ifdef _M_X64
-
 #pragma pack(push,8)
 #else
 #pragma pack(push,4)
 #endif
 #endif 
-
 #ifndef SDL_INLINE
 #if defined(__GNUC__)
 #define SDL_INLINE __inline__
@@ -94,7 +77,6 @@
 #endif
 #endif
 #endif 
-
 #ifndef SDL_FORCE_INLINE
 #if defined(_MSC_VER)
 #define SDL_FORCE_INLINE __forceinline
@@ -104,8 +86,6 @@
 #define SDL_FORCE_INLINE static SDL_INLINE
 #endif
 #endif 
-
-
 #if !defined(__MACH__)
 #ifndef NULL
 #ifdef __cplusplus

@@ -1,6 +1,5 @@
 #include "fancymath.h"
 #include <algorithm>
-
 void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, vector<int> *packed, int *heightNeeded){
 	vector<int> sorted;
 	results->clear();
@@ -11,7 +10,6 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 		results->push_back({0,0});
 	}
 	if(sort){
-		
 		std::sort(sorted.begin(), sorted.end(),
 			[&](int A, int B)->bool {
 				if (sizes[A].y > sizes[B].y) { return true; }
@@ -21,7 +19,6 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 				return false;
 			}
 		);
-		
 	}
 	int x=0,y=0,lineHeight=0,widthleft=0,selected=0,overflow=0;
 	unsigned int I = 0;
@@ -33,7 +30,6 @@ pack2D_oneRect:
 			widthleft = binsize.x-x;
 			if(widthleft < sizes[sorted[0]].x){
 				if(!sort){goto pack2D_nextLine;}
-				
 				for(I = 0; I < sorted.size(); I++){
 					if(sizes[sorted[I]].x < widthleft){
 						selected = sorted[I];
@@ -66,17 +62,13 @@ pack2D_oneRect:
 			(int)binsize.x,	(int)binsize.y,*heightNeeded);
 		return;
 }
-
 vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort){
-	
-	
 	int area = 0;
 	for(unsigned int I = 0; I < sizes.size(); I++){
 		area += int(sizes[I].x*float(int(sizes[I].y)));
 	}
 	int side = ceil(sqrt(area));
 	int n = log2ceil(side);
-	
 	vector<vec2> results;
 	vector<int> packed;
 	int heightNeeded;

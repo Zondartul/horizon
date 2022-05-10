@@ -1,6 +1,5 @@
 #ifndef GUI_PROPERTY_GUARD
 #define GUI_PROPERTY_GUARD
-
 class GUIbase;
 namespace tinyxml2{
 class XMLElement;
@@ -12,12 +11,9 @@ struct GUIpropertyTable{
 	GUIpropertyTable operator+(const GUIpropertyTable &other);
 	string toString() const;
 	GUIpropertyTable() = default;
-	
 	GUIpropertyTable(XMLElement *el);
-	
 	void toXML(XMLElement *el) const;
 };
-
 struct GUIcompoundProperty{
 	string name;
 	GUIpropertyTable table;
@@ -25,11 +21,8 @@ struct GUIcompoundProperty{
 	GUIbase *instantiate() const; 
 	string toString() const;
 	GUIcompoundProperty() = default;
-	
 	GUIcompoundProperty(XMLElement *el);
-	
 	XMLElement *toXML(XMLDocument *doc) const;
 	~GUIcompoundProperty();
 };
-
 #endif

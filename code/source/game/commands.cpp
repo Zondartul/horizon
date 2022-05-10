@@ -5,106 +5,17 @@
 #include "gui_editor.h"
 #include "file.h"
 #include "map_editor.h"
-
 #include "gui_texturebrowser.h"
 using std::ofstream;
 using std::stringstream;
-
-
 int cmd_pauseGame(int argc, char **argv){
 	auto& gamePaused = Gb->gs_main->g_gamePaused;
-
 	gamePaused = !gamePaused;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int cmd_listKeybinds(int argc, char **argv){
 	auto& console = Gt->gs_console->g_console;
 	auto& keybinds = Gb->gs_keybinds->g_keybinds;
-
 	for(auto I = keybinds->binds.begin(); I != keybinds->binds.end(); I++){
 		string key = I->first;
 		bind b = I->second;
@@ -112,79 +23,8 @@ int cmd_listKeybinds(int argc, char **argv){
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int cmd_help(int argc, char **argv){
 	auto& console = Gt->gs_console->g_console;
-
 	if(argc==0){
 		cprint("commands: ");
 		for(auto I = console->commands.begin(); I != console->commands.end(); I++){
@@ -208,117 +48,6 @@ int cmd_help(int argc, char **argv){
 	cprint("usage: help <command>");
 	return 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int cmd_opengui(int argc, char **argv){
 	if(argc!=1){printf("invalid syntax\n"); return 1;}
 	int num = atoi(argv[0]);
@@ -333,7 +62,6 @@ int cmd_opengui(int argc, char **argv){
 	}
 	return 0;
 }
-
 int cmd_editor(int argc, char **argv){openEditor2(); return 0;}
 int cmd_guieditor(int argc, char **argv){openGuiEditor(); return 0;}
 int cmd_dirs(int argc, char **argv){
@@ -344,13 +72,11 @@ int cmd_dirs(int argc, char **argv){
 }
 int cmd_mapeditor(int argc, char **argv){openMapEditor(); return 0;}
 int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
-
 int cmd_printf(int argc, char **argv){
 	auto& printf_enabled = Gb->gs_main->g_printf_enabled;
 	printf_enabled = !printf_enabled; 
 	return 0;
 }
-
 int cmd_memreport(int argc, char **argv){
 	auto& allocation_map = Gb->gs_debug->g_allocation_map;
 	auto& total_size = Gb->gs_debug->g_total_size;
@@ -358,9 +84,7 @@ int cmd_memreport(int argc, char **argv){
 	auto& prev_allocation_map = Gt->gs_commands->g_prev_allocation_map;
 	auto& prev_total_size = Gt->gs_commands->g_prev_total_size;
 	auto& memreport_last_frame = Gt->gs_commands->g_memreport_last_frame;
-
 	if(argc && (strcmp(argv[0], "-i")==0)){
-		
 		if(has_prev_alloc_map){
 			string filename = "logs/memreport_inc";
 			filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
@@ -372,7 +96,6 @@ int cmd_memreport(int argc, char **argv){
 			int tf2 = getGameTicks();
 			int dtf = tf2-tf1;
 			ss << fstring("Incremental memory report for frames %d .. %d (%d frames)\n", tf1, tf2, dtf);
-			
 			int supertotal = 0;
 			for(auto F2 = allocation_map.begin(); F2 != allocation_map.end(); F2++){
 				stringstream ss_file;
@@ -382,8 +105,6 @@ int cmd_memreport(int argc, char **argv){
 				auto &r_file2 = F2->second;
 				auto &r_file1 = prev_allocation_map[key];
 				int filetotal = 0;
-				
-				
 				for(auto L2 = r_file2.begin(); L2 != r_file2.end(); L2++){
 					int alloc_line = L2->first;
 					if(!r_file1.count(alloc_line)){continue;}
@@ -403,7 +124,6 @@ int cmd_memreport(int argc, char **argv){
 			}
 			ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
 			ss << fstring("sys  total: %.3f kb\n",(float)(total_size-prev_total_size)/1024.f);
-			
 			fs << ss.str();
 			fs.close();
 			printf("frame report saved to %s\n",filename.c_str());
@@ -416,7 +136,6 @@ int cmd_memreport(int argc, char **argv){
 		stringstream ss;
 		int J = 0;
 		ss << fstring("Memory report for frame %d\n",getGameTicks());
-		
 		int supertotal = 0;
 		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
 			string alloc_file = F->first;
@@ -438,13 +157,10 @@ int cmd_memreport(int argc, char **argv){
 		}
 		ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
 		ss << fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
-		
 		fs << ss.str();
 		fs.close();
 		printf("frame report saved to %s\n",filename.c_str());
 	}
-	
-	
 	prev_allocation_map = allocation_map;
 	has_prev_alloc_map = true;
 	memreport_last_frame = getGameTicks();
@@ -452,55 +168,24 @@ int cmd_memreport(int argc, char **argv){
 	printf("allocation map saved\n");
 	return 0;
 }
-
 float noiseHelper(float x){
 	return sin(sin(x)+sin(x*x));
 }
-
 float noiseFunc(vec2 pt){
 	float x = pt.x;
 	float y = pt.y;
 	float hx = 1.f * noiseHelper(x)+
 			   0.5f * noiseHelper(2*x) +
 				0.25f * noiseHelper(4*x);
-				
 	float hy = 1.f * noiseHelper(y)+
 			   0.5f * noiseHelper(2*y) +
 				0.25f * noiseHelper(4*y);
 	return hx+hy;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int cmd_texture_browser(int argc, char** argv){
 	openTextureBrowser();
 	return 0;
 }
-
 void addKeybinds(){
 	auto& keybinds = Gb->gs_keybinds->g_keybinds;
 	keybinds->binds["+R"].cmd = "reset";
@@ -516,28 +201,11 @@ void addKeybinds(){
 	keybinds->binds["+F9"].cmd = "memreport";
 	keybinds->binds["+F10"].cmd = "memreport -i";
 }
-
-
-
 void addConsoleCommands(){
 	auto& console = Gt->gs_console->g_console;
-
 	console->addCommand({"help","prints information about installed commands\n",cmd_help});
-	
-	
-	
-	
-
 	console->addCommand({"pause","pause the game\n",cmd_pauseGame});
-
 	console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
-	
-	
-	
-	
- 
-	
-	
 	console->addCommand({"opengui",
 		"open a GUI window. args: 1-5\n",
 		cmd_opengui});
@@ -548,18 +216,8 @@ void addConsoleCommands(){
 	console->addCommand({"dirs","show path settings\n",cmd_dirs});
 	console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
 	console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
-    
 	console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
 	console->addCommand({"memreport","report the memory usage to a file\n"
 		"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});
-
 	console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
 }
-
-
-
-
-
-
-
-

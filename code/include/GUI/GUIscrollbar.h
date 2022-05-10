@@ -1,8 +1,6 @@
 #ifndef GUISCROLLBAR_GUARD
 #define GUISCROLLBAR_GUARD
-
 class GUIscrollbar;
-
 class GUIscrollbarBar:public virtual GUIframe{
 	public:
 	GUIscrollbar *scroll;
@@ -12,23 +10,18 @@ class GUIscrollbarBar:public virtual GUIframe{
 	vec2 offset;
 	GUIscrollbarBar();
 	virtual void onEvent(eventKind event);
-	
 	virtual string getType(); 
 };
-
 class GUIscrollbar:public virtual GUIframe{
 	public:
-	
 	vec2 innerSize;
 	bool bSizeToParent;
 	bool vertical;
 	bool horizontal;
     bool scrollingEnabled;
 	bool constructed = false;
-	
 	vec2 offset;
 	vec2 prevoffset;
-
 	GUIscrollbar();
 	GUIbutton *btnUp;		
 	GUIbutton *btnDown;		
@@ -47,11 +40,9 @@ class GUIscrollbar:public virtual GUIframe{
 	GUIscrollbar *setHorizontal(bool newHorizontal);
     GUIscrollbar *disableScrolling();
     GUIscrollbar *enableScrolling();
-	
 	virtual void renderLogic();
 	virtual void invalidate();
 	virtual GUIbase *addChild(GUIbase *child);
-
 	void clampInnerSizeToOuter(); 
 	rect vtrackRect();
 	rect htrackRect();
@@ -60,15 +51,9 @@ class GUIscrollbar:public virtual GUIframe{
 	vec2 scrollRatio();
 	vec2 scrollOffset();
 	virtual void onEvent(eventKind event);
-	
-	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
-
 	virtual string getType(); 
-	
 };
-
-
 #endif 

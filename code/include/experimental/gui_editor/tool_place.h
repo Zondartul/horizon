@@ -1,6 +1,5 @@
 #ifndef GUI_EDITOR_TOOL_PLACE_GUARD
 #define GUI_EDITOR_TOOL_PLACE_GUARD
-
 class gui_editor_tool_place:public gui_editor_tool{
 	public:
 	enum {GEMT_START, GEMT_END} stage = GEMT_START;
@@ -13,18 +12,14 @@ class gui_editor_tool_place:public gui_editor_tool{
 			GEMS_TABS,		GEMS_SELECTIONGROUP, 
 			GEMS_SELECTABLE,GEMS_GRID
 		 } submode = GEMS_IDLE;
-
 	gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mode);
-	
 	virtual void scan();	
 	virtual void draw();	
 	virtual void lup();		
 	virtual void rup();
 	virtual void cleanup(); 
-	
 	int gridStep = 8;
 	vec2 gposCursor; bool drawVertCursor = false;
 	vec2 gpos1;		 bool drawVert1 = false;
 };
-
 #endif

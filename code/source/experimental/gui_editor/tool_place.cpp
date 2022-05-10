@@ -1,9 +1,7 @@
 #include "gui_editor.h"
-
 gui_editor_tool_place::gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mode):
 	gui_editor_tool(Ed),
 	submode(mode){}
-
 void gui_editor_tool_place::scan(){
 	gui_editor_tool::scan();
 	if(stage == GEMT_START){
@@ -20,7 +18,6 @@ void gui_editor_tool_place::scan(){
 		drawVertCursor = false;
 	}
 }
-
 void gui_editor_tool_place::lup(){
 	gui_editor_tool::lup();
 	GUIwindow *workWindow = 0;
@@ -70,12 +67,10 @@ void gui_editor_tool_place::lup(){
 		}
 	}
 }
-
 void gui_editor_tool_place::rup(){
 	gui_editor_tool::rup();
 	Ed->tool_cancel();
 }
-
 void gui_editor_tool_place::draw(){
 	gui_editor_tool::draw();
 	GUIwindow *workWindow = 0;
@@ -83,35 +78,26 @@ void gui_editor_tool_place::draw(){
 	if(subject){
 		rect R = subject->thisToWorld(subject->clientArea);
 		vec2 gridCorner = R.start;
-	
-		
 		drawGrid(subject, (float)gridStep);
-			
-		
 		if(subject && (subject != workWindow)){
 			setColor(vec3(255,0,0));
 			setLineWidth(3.f);
 			drawRectOutline(R);
 			setLineWidth(1.f);
 		}
-		
 		if(drawVertCursor){
 			vec2 wpos = gridCorner + gposCursor;	
 			setColor(vec3(0,0,68));
 			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
-		
 		if(drawVert1){
 			vec2 wpos = gridCorner + gpos1;
 			setColor(vec3(0,0,68));
 			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
-			
-		
 		if(stage == GEMT_END){
 			vec2 wpos1 = gridCorner + gpos1;
 			vec2 wpos2 = gridCorner + gposCursor;
-				
 			setLineWidth(3.f);
 			setColor(vec3(0,255,0));
 			drawRectOutline(rect(wpos1,wpos2));
@@ -119,7 +105,6 @@ void gui_editor_tool_place::draw(){
 		}
 	}
 }
-
 void gui_editor_tool_place::cleanup(){
 	drawVert1 = false;
 	drawVertCursor = false;

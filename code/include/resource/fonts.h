@@ -12,7 +12,6 @@ struct glyph{
 	int bearingY;
 	int advance;
 };
-
 struct font{
 	string name;
 	rect maxrect;

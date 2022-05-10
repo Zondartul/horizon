@@ -1,7 +1,6 @@
 #include "bitmap.h"
 #include "simplemath.h"
 #include "globals.h"
-
 bitmap::bitmap(){
 	height = 0;
 	width = 0;
@@ -25,7 +24,6 @@ pixel bitmap::read_pixel(vec2 pos){
 void bitmap::write_pixel(vec2 pos, pixel P){
 	write_pixel(coordToIndex(pos), P);
 }
-
 pixel bitmap::read_pixel(int I){
 	pixel P;
 	int *R = &P.R;
@@ -92,17 +90,14 @@ void bitmap::write_pixel(int I, pixel P){
 		break;
 	}
 }
-
 bitmap bitmap::changeFormat(pixelFormat format_out){
 	bitmap newBMP = blankBitmap(height, width, format_out);
-	
 	int n = numPixels();
 	for(int I = 0; I < n; I++){
 		newBMP.write_pixel(I, read_pixel(I));
 	}
 	return newBMP;
 }
-
 bitmap bitmap::crop(int newheight, int newwidth){
 	bitmap BMP = blankBitmap(newheight,newwidth,format);
 	BMP.insert(*this,{0,0});
@@ -164,10 +159,8 @@ void bitmap::forEachPixel(void (*f)(pixel *P)){
 		write_pixel(I,P);
 	}
 }
-
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
-
 void bitmap::saveAs(const char *filename){
 	int comp;
 	switch(format){
@@ -192,18 +185,15 @@ void bitmap::saveAs(const char *filename){
 	unsigned char *buff = V->data();
 	stbi_write_png(filename,width,height,comp,buff, width*bytesPerPixel(format));
 }
-
 void bitmap::setBuffer(unsigned char *buff, int size){
 	vector<unsigned char> *V = new vector<unsigned char>();
 	V->resize(size);
 	memcpy(V->data(), buff, size);
 	data.reset(V);
 }
-
 unsigned char *bitmap::getBuffer(){
     return data->data();
 }
-
 int bytesPerPixel(pixelFormat F){
 	switch(F){
 		case(TL_ALPHA): return 1; break;
@@ -214,7 +204,6 @@ int bytesPerPixel(pixelFormat F){
 	}
 	return 0;
 }
-
 bitmap blankBitmap(int height, int width, pixelFormat format){
 	bitmap BMP;
 	BMP.height = height;
@@ -226,10 +215,8 @@ bitmap blankBitmap(int height, int width, pixelFormat format){
 	if(!buff){printf("can't alloc bitmap!\n");exit(0);}
 	BMP.setBuffer(buff,size);
 	free(buff);
-	
 	return BMP;
 }
-
 bitmap bitmap::clone(){
 	bitmap BMP;
 	BMP.height = height;
@@ -240,4 +227,3 @@ bitmap bitmap::clone(){
 	BMP.setBuffer(data->data(),size);
 	return BMP;
 }
-

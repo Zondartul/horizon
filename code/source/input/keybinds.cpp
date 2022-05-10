@@ -2,16 +2,12 @@
 #include "input.h"
 #include "console.h"
 #include "global_vars.h"
-
 keybindList::keybindList(){
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-
 	inputChannel->addListenerFront(this);
 }
-
 void keybindList::checkMB(eventKind &event, int mb, string key) {
 	auto& console = Gt->gs_console->g_console;
-
 	if (event.mousebutton.button == mb) {
 		if (binds.count(key)) {
 			event.maskEvent();
@@ -19,30 +15,13 @@ void keybindList::checkMB(eventKind &event, int mb, string key) {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
 void keybindList::checkKB(eventKind& event, string key) {
 	auto& console = Gt->gs_console->g_console;
-
 	if (binds.count(key)) {
 		event.maskEvent();
 		console->run(binds[key].cmd);
 	}
 }
-
-
-
-
-
-
-	
 void keybindList::onEvent(eventKind event){
 	switch(event.type){
 		case(EVENT_MOUSE_BUTTON_DOWN):
@@ -66,11 +45,7 @@ void keybindList::onEvent(eventKind event){
 		break;
 	}
 }
-
-
 void initKeybinds(){
 	auto& keybinds = Gb->gs_keybinds->g_keybinds;
-
 	keybinds = new keybindList();
 }
-

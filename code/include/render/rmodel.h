@@ -4,7 +4,6 @@
 using std::vector;
 #include "vec.h"
 class model;
-
 class rmodel{
 	public:
 	vector<vec3> *vertices;
@@ -18,7 +17,6 @@ class rmodel{
 	void finalize();
 	void clear();
 };
-
 struct rmpack{
 	union{
 		rmodel *rm[4];
@@ -31,5 +29,4 @@ struct rmpack{
 	};
 	rmpack();
 };
-
 #endif

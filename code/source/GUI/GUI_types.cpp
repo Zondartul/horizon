@@ -1,9 +1,6 @@
 #include "GUI_internal.h"
-
-
 DEFINE_enum_class_bitwise_operators(GUIe_border);
 DEFINE_enum_class_bitwise_operators(GUIe_alignment);
-
 string toString(GUIe_border b){
 	string S = "[";
 	if(b & GUIb::Top){S += "T";}

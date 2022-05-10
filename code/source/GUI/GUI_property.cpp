@@ -1,13 +1,11 @@
 #include "GUI_internal.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
-
 GUIpropertyTable GUIpropertyTable::operator+(const GUIpropertyTable &other){
 	GUIpropertyTable table = *this;
 	table.table.insert(other.table.begin(),other.table.end());
 	return table;
 }
-
 string GUIpropertyTable::toString() const{
 	string S = "(\n";
 	for(auto I = table.begin(); I != table.end(); I++){
@@ -18,7 +16,6 @@ string GUIpropertyTable::toString() const{
 	S += ")\n";
 	return S;
 }
-
 GUIpropertyTable::GUIpropertyTable(XMLElement *el){
 	if(!el){error("nullptr");}
 	const XMLAttribute *atr = el->FirstAttribute();
@@ -29,7 +26,6 @@ GUIpropertyTable::GUIpropertyTable(XMLElement *el){
 		atr = atr->Next();
 	}
 }
-
 void GUIpropertyTable::toXML(XMLElement *el) const{
 	if(!el){error("nullptr");}
 	for(auto I = table.begin(); I != table.end(); I++){
@@ -38,7 +34,6 @@ void GUIpropertyTable::toXML(XMLElement *el) const{
 		el->SetAttribute(k.c_str(),v.c_str());
 	}
 }
-
 GUIbase *GUIcompoundProperty::instantiate() const{
 	GUIbase *W = 0;
 	W = GUI_constructor_dispatch(name);
@@ -47,7 +42,6 @@ GUIbase *GUIcompoundProperty::instantiate() const{
 	}
 	return W;
 }
-
 string GUIcompoundProperty::toString() const{
 	string S = "(\n";
 	S = S+"name: "+name+"\n";
@@ -59,7 +53,6 @@ string GUIcompoundProperty::toString() const{
 	S += ")\n";
 	return S;
 }
-
 GUIcompoundProperty::GUIcompoundProperty(XMLElement *el){
 	if(!el){error("nullptr");}
 	name = el->Name();
@@ -70,7 +63,6 @@ GUIcompoundProperty::GUIcompoundProperty(XMLElement *el){
 		el2 = el2->NextSiblingElement();
 	}
 }
-
 XMLElement *GUIcompoundProperty::toXML(XMLDocument *doc) const{
 	if(!doc){error("nullptr");}
 	XMLElement *el = doc->NewElement(name.c_str());
@@ -82,7 +74,5 @@ XMLElement *GUIcompoundProperty::toXML(XMLDocument *doc) const{
 	}
 	return el;
 }
-
 GUIcompoundProperty::~GUIcompoundProperty(){
 }
-

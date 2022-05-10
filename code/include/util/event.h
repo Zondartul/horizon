@@ -3,29 +3,24 @@
 #include <vector>
 using std::vector;
 #include "vec.h"
-
 #define MOD_NONE 0
 #define MOD_SHIFT 1
 #define MOD_CTRL 2
 #define MOD_ALT 4
-
 struct event_keyboard{
 	int keycode;
 	const char *key;
 	char printchar;
 	int mod;
 };
-
 enum mouseButtonType{MOUSE_LEFT,MOUSE_MIDDLE,MOUSE_RIGHT,MOUSE_X1,MOUSE_X2};
 struct event_mouse_button{
 	mouseButtonType button;
 };
-
 struct event_mouse_move{
 	vec2 diff;
 	vec2 pos;
 };
-
 struct event_mouse_wheel{
 	int x;
 	int y;
@@ -54,9 +49,7 @@ struct eventKind{
 		event_mouse_wheel mousewheel;
 	};
 };
-
 string toString(eventType et);
-
 class eventListener;
 struct eventListenerList{
 	vector<eventListener*> listeners;
@@ -70,21 +63,14 @@ struct eventListenerList{
 	void removeListener(eventListener *listener);
 };
 typedef eventListenerList eventChannel;
-
 class eventListener{
 	public:
-	
 	vector<eventChannel*> channels;
 	virtual ~eventListener();
-
 	virtual void onEvent(eventKind event);
 };
-
-
 void initEvents();
-
 struct gs_eventKind {
 	eventChannel* g_globalChannel;
 };
-
 #endif

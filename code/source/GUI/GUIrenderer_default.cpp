@@ -1,20 +1,15 @@
 #include "GUI_internal.h"
 #include "paint.h"
-
 GUIrenderer_default::
 GUIrenderer_default(){name = "default";}
-
 GUIrenderer_default::
 ~GUIrenderer_default(){}
-
-
 void GUIrenderer_default::
 render(GUIbase *el, string type){
 	auto& GUIoptions = Gg->gs_GUI_internal->g_GUIoptions;
 	if(!el){return;}
 	if(type == ""){type = el->getType();}
 	rect R = el->worldArea();
-	
 	if(type == "GUbase"){}
 	else if(type == "GUIbutton"){
 		GUIbutton *elBtn = dynamic_cast<GUIbutton*>(el); if(!elBtn){return;}
@@ -25,7 +20,6 @@ render(GUIbase *el, string type){
 		if(elBtn->pressed){setAlpha(255); elBtn->bgColor = elBtn->pressedColor;}
 		render(el, "GUIframe");
 		elBtn->bgColor = oldColor;
-		
 		if(elBtn->image){render(el, "GUIimage");}
 		render(el, "GUIlabel");
 		if(GUIoptions.push){popRenderOptions();}
@@ -93,7 +87,6 @@ render(GUIbase *el, string type){
 		render(el, "GUIframe");
 		setAlpha(128);
 		setColor(elScb->bgColor*0.9f);
-		
 		if(elScb->vertical){
 			rect R = elScb->vtrackRect().setStart(elScb->vtrackRect().start-vec2{0,21})\
 						.setEnd(elScb->vtrackRect().end+vec2{0,21});
@@ -120,7 +113,6 @@ render(GUIbase *el, string type){
 		if(elTE->hasfocus){
 			rect TR;
 			rect AR = elTE->worldArea();
-		
 			if(elTE->cursorPos){
 				TR = elTE->getTextRect(elTE->text.substr(0,elTE->cursorPos));
 			}else{
@@ -187,5 +179,4 @@ render(GUIbase *el, string type){
 		drawRectOutline(R);
 	}
 }
-
 ;

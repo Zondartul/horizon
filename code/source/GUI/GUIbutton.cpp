@@ -1,6 +1,4 @@
 #include "GUI_internal.h"
-
-
 GUIbutton::GUIbutton(){
 	pressed = false;
 	mouseover = false;
@@ -14,7 +12,6 @@ GUIbutton::GUIbutton(){
 	image = defaultimage;
 	noframe = false;
 }
-
 GUIbutton *GUIbutton::setFunction(function<void()> f){
 	F = f;
 	return this;
@@ -28,11 +25,9 @@ GUIbase *GUIbutton::sizeToContents(){
 	printf("GUIbutton:new area = %s\n",toString(area).c_str());
 	return this;
 }
-
 void GUIbutton::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
-
 	if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 		if(mouseover){
 			pressed = true;
@@ -45,24 +40,20 @@ void GUIbutton::onEvent(eventKind event){
 			event.maskEvent();
 			lastPressTime = getRealTime();
 			F(); 
-			
 			return;
 		}
 	}
 }
-
 GUIpropertyTable GUIbutton::getDefaultPropertyTable(){
 	GUIpropertyTable table,table1,table2,table3;
 	table1 = GUIframe::getDefaultPropertyTable();
 	table2 = GUIimage::getDefaultPropertyTable();
 	table3 = GUIlabel::getDefaultPropertyTable();
-
 	table = table1+table2+table3;	
 	table.table["hoverColor"] = toString(vec3(defaulttextColor));
 	table.table["pressedColor"] = toString(vec3(defaultbgcolor*0.9f));
 	return table;
 }
-
 string GUIbutton::getProperty(string key){
 	if(key == "hoverColor"){return toString(hoverColor);}
 	else if(key == "pressedColor"){return toString(pressedColor);}
@@ -82,16 +73,4 @@ void GUIbutton::setProperty(string key, string val){
 		GUIframe::setProperty(key,val);
 	}
 }
-
-
 string GUIbutton::getType(){return "GUIbutton";}
-
-
-
-
-
-
-
-
-
-

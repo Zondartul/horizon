@@ -1,6 +1,5 @@
 #ifndef GUI_DROPDOWNMENU_GUARD
 #define GUI_DROPDOWNMENU_GUARD
-
 class GUIdropdownMenu:public GUIframe{
 	public:
 	vector<GUIdropdownMenu*> submenus;
@@ -17,5 +16,4 @@ class GUIdropdownMenu:public GUIframe{
 	float getMouseDist();
 	virtual string getType();
 };
-
 #endif

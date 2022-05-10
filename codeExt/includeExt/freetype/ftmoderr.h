@@ -1,144 +1,22 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
 #ifndef FTMODERR_H_
 #define FTMODERR_H_
-
-
-  
-  
-  
-  
-  
-  
-  
-
-
 #undef  FT_NEED_EXTERN_C
-
 #ifndef FT_MODERRDEF
-
 #ifdef FT_CONFIG_OPTION_USE_MODULE_ERRORS
 #define FT_MODERRDEF( e, v, s )  FT_Mod_Err_ ## e = v,
 #else
 #define FT_MODERRDEF( e, v, s )  FT_Mod_Err_ ## e = 0,
 #endif
-
 #define FT_MODERR_START_LIST  enum {
 #define FT_MODERR_END_LIST    FT_Mod_Err_Max };
-
 #ifdef __cplusplus
 #define FT_NEED_EXTERN_C
   extern "C" {
 #endif
-
 #endif 
-
-
-  
-  
-  
-  
-  
-  
-  
-
-
 #ifdef FT_MODERR_START_LIST
   FT_MODERR_START_LIST
 #endif
-
-
   FT_MODERRDEF( Base,      0x000, "base module" )
   FT_MODERRDEF( Autofit,   0x100, "autofitter module" )
   FT_MODERRDEF( BDF,       0x200, "BDF module" )
@@ -162,33 +40,14 @@
   FT_MODERRDEF( Type42,   0x1400, "Type 42 module" )
   FT_MODERRDEF( Winfonts, 0x1500, "Windows FON/FNT module" )
   FT_MODERRDEF( GXvalid,  0x1600, "GX validation module" )
-
-
 #ifdef FT_MODERR_END_LIST
   FT_MODERR_END_LIST
 #endif
-
-
-  
-  
-  
-  
-  
-  
-  
-
-
 #ifdef FT_NEED_EXTERN_C
   }
 #endif
-
 #undef FT_MODERR_START_LIST
 #undef FT_MODERR_END_LIST
 #undef FT_MODERRDEF
 #undef FT_NEED_EXTERN_C
-
-
 #endif 
-
-
-

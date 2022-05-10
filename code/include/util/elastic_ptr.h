@@ -1,48 +1,10 @@
 #ifndef ELASTIC_PTR_GUARD
 #define ELASTIC_PTR_GUARD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #include <typeinfo>
 #include "globals.h"
 #include <string>
 using std::string;
-
 class elastic_ptr_anchor_proxy;
-
-
-
-
-
-
-
 class elastic_ptr_anchor{
 	private:
 	elastic_ptr_anchor_proxy *proxy=0;
@@ -53,19 +15,16 @@ class elastic_ptr_anchor{
 	elastic_ptr_anchor(const elastic_ptr_anchor &) = delete;
 	~elastic_ptr_anchor();
 };
-
 class elastic_ptr_anchor_proxy{
 	private:
 	friend class elastic_ptr_anchor;
 	template<typename T> friend class elastic_ptr;
-	
 	elastic_ptr_anchor *anchor;
 	int refcount = 0;
 	elastic_ptr_anchor_proxy(elastic_ptr_anchor *newanchor);
 	void decrement();
 	void increment();
 };
-
 template<typename T> class elastic_ptr{
 	private:
 	const static bool debug = false;
@@ -74,7 +33,6 @@ template<typename T> class elastic_ptr{
 		string type = typeid(T).name();
 		if(debug){error("attempt to deref empty elastic_ptr to %s\n",type.c_str());}
 	}
-	
 	string toString() const{
 		void *ptrProxy = 0;
 		void *ptrAnchor = 0;
@@ -122,7 +80,6 @@ template<typename T> class elastic_ptr{
 	T *operator->(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		
 		result = static_cast<T*>(proxy->anchor);
 		if(debug){printf("->%s = %p\n",toString().c_str(),result);}
 		return result;
@@ -137,7 +94,6 @@ template<typename T> class elastic_ptr{
 	operator T*(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		
 		result = static_cast<T*>(proxy->anchor);
 		if(debug){printf("toRaw(%s) = %p\n",toString().c_str(),result);}
 		return result;
@@ -164,7 +120,5 @@ template<typename T> class elastic_ptr{
 		return *this;
 	}
 };
-
 #define EPCAST(ptrsrc,ptrdest) if(ptrsrc){ptrdest = dynamic_cast<decltype(ptrdest)>(&*ptrsrc);}
-
 #endif

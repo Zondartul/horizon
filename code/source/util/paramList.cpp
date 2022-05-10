@@ -1,7 +1,5 @@
-
 #include "globals.h"
 #include "paramList.h"
-
 string toString(ParamList PL){
 	string S;
 	for(auto I = PL.begin(); I != PL.end(); I++){
@@ -10,7 +8,6 @@ string toString(ParamList PL){
 	}
 	return S;
 }
-
 template<> ParamList fromString<ParamList>(string S){
 	ParamList PL;
 	while(true){
@@ -27,12 +24,3 @@ template<> ParamList fromString<ParamList>(string S){
 	}
 	return PL;
 }
-
-
-
-
-
-
-
-
-

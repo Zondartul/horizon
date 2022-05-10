@@ -1,7 +1,6 @@
 #ifndef GUIFRAME_GUARD
 #define GUIFRAME_GUARD
 #include "GUIbase.h"
-
 class GUIframe:public virtual GUIbase{
 	public:
 	GUIframe();
@@ -10,13 +9,9 @@ class GUIframe:public virtual GUIbase{
 	bool noframe;
 	GUIframe *setBgColor(vec3 color);
 	GUIframe *setBorderColor(vec3 color);
-	
-	
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);
 	virtual void setProperty(string key, string val);
-
 	virtual string getType(); 
 };
-
 #endif

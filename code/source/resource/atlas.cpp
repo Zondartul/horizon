@@ -2,7 +2,6 @@
 #include "fancymath.h"
 #include "globals.h"
 #include "stringUtils.h"
-
 atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
 	vector<vec2> sizes;
 	vec2 binsize;
@@ -22,7 +21,6 @@ atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
 	}
 	return {rects, background};
 }
-
 atlas makeAtlasPOT(vector<bitmap> BMPs, bool sort){
 	vector<vec2> sizes;
 	vec2 binsize;

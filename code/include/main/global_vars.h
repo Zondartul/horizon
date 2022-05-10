@@ -1,6 +1,4 @@
 #pragma once
-
-
 //
 //struct gs_tool_editKind;
 //struct gs_gui_editorKind;
@@ -14,8 +12,6 @@
 //
 //struct gs_resourceKind;
 //struct gs_mainKind;
-
-
 //
 //struct gs_renderKind;
 //struct gs_printwKind;
@@ -30,11 +26,9 @@
 //struct gs_cameraKind;
 //struct gs_map_editorKind;
 //struct gs_consoleKind;
-
 class GlobalsTop {
 public:
 	GlobalsTop();
-
 	struct gs_map_editorKind* gs_map_editor;
 	struct gs_consoleKind* gs_console;
 	struct gs_commandsKind* gs_commands;
@@ -43,21 +37,17 @@ public:
 	struct gs_gui_editorKind* gs_gui_editor;
 	struct gs_pickerKind* gs_picker;
 };
-
 class GlobalsGui {
 public:
 	GlobalsGui();
 	//struct gs_ecsKind *gs_ecs;
 	//struct gs_entityKind* gs_entity;
-	
 	struct gs_GUI_internalKind* gs_GUI_internal;
 	struct gs_GUIrenderer_defaultKind* gs_GUIrenderer_default;
 };
-
 class GlobalsBtm {
 public:
 	GlobalsBtm();
-
 	struct gs_mainKind* gs_main;
 	struct gs_renderLayerKind* gs_renderLayer;
 	struct gs_paintKind* gs_paint;
@@ -73,8 +63,6 @@ public:
 	struct gs_resourceKind* gs_resource;
 	struct gs_debugKind* gs_debug;
 };
-
 extern GlobalsTop *Gt;
 extern GlobalsGui *Gg;
 extern GlobalsBtm *Gb;
-

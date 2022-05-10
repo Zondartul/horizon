@@ -1,18 +1,8 @@
-
-
-
-
 #ifndef _SDL_endian_h
 #define _SDL_endian_h
-
 #include "SDL_stdinc.h"
-
-
-
 #define SDL_LIL_ENDIAN  1234
 #define SDL_BIG_ENDIAN  4321
-
-
 #ifndef SDL_BYTEORDER           
 #ifdef __linux__
 #include <endian.h>
@@ -29,15 +19,10 @@
 #endif
 #endif 
 #endif 
-
-
 #include "begin_code.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
 #if defined(__GNUC__) && defined(__i386__) && \
    !(__GNUC__ == 2 && __GNUC_MINOR__ == 95 )
 SDL_FORCE_INLINE Uint16
@@ -58,7 +43,6 @@ SDL_FORCE_INLINE Uint16
 SDL_Swap16(Uint16 x)
 {
     int result;
-
   __asm__("rlwimi %0,%2,8,16,23": "=&r"(result):"0"(x >> 8), "r"(x));
     return (Uint16)result;
 }
@@ -76,7 +60,6 @@ SDL_Swap16(Uint16 x)
     return SDL_static_cast(Uint16, ((x << 8) | (x >> 8)));
 }
 #endif
-
 #if defined(__GNUC__) && defined(__i386__)
 SDL_FORCE_INLINE Uint32
 SDL_Swap32(Uint32 x)
@@ -96,7 +79,6 @@ SDL_FORCE_INLINE Uint32
 SDL_Swap32(Uint32 x)
 {
     Uint32 result;
-
   __asm__("rlwimi %0,%2,24,16,23": "=&r"(result):"0"(x >> 24), "r"(x));
   __asm__("rlwimi %0,%2,8,8,15": "=&r"(result):"0"(result), "r"(x));
   __asm__("rlwimi %0,%2,24,0,7": "=&r"(result):"0"(result), "r"(x));
@@ -117,7 +99,6 @@ SDL_Swap32(Uint32 x)
                                     ((x >> 8) & 0x0000FF00) | (x >> 24)));
 }
 #endif
-
 #if defined(__GNUC__) && defined(__i386__)
 SDL_FORCE_INLINE Uint64
 SDL_Swap64(Uint64 x)
@@ -148,8 +129,6 @@ SDL_FORCE_INLINE Uint64
 SDL_Swap64(Uint64 x)
 {
     Uint32 hi, lo;
-
-    
     lo = SDL_static_cast(Uint32, x & 0xFFFFFFFF);
     x >>= 32;
     hi = SDL_static_cast(Uint32, x & 0xFFFFFFFF);
@@ -159,8 +138,6 @@ SDL_Swap64(Uint64 x)
     return (x);
 }
 #endif
-
-
 SDL_FORCE_INLINE float
 SDL_SwapFloat(float x)
 {
@@ -173,10 +150,6 @@ SDL_SwapFloat(float x)
     swapper.ui32 = SDL_Swap32(swapper.ui32);
     return swapper.f;
 }
-
-
-
-
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define SDL_SwapLE16(X) (X)
 #define SDL_SwapLE32(X) (X)
@@ -196,12 +169,8 @@ SDL_SwapFloat(float x)
 #define SDL_SwapBE64(X) (X)
 #define SDL_SwapFloatBE(X)  (X)
 #endif
-
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
-
 #endif 
-
-

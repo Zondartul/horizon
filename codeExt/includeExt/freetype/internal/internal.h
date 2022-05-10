@@ -1,29 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-
-
 #define FT_INTERNAL_OBJECTS_H             <freetype/internal/ftobjs.h>
 #define FT_INTERNAL_PIC_H                 <freetype/internal/ftpic.h>
 #define FT_INTERNAL_STREAM_H              <freetype/internal/ftstream.h>
@@ -38,27 +12,12 @@
 #define FT_INTERNAL_SERVICE_H             <freetype/internal/ftserv.h>
 #define FT_INTERNAL_RFORK_H               <freetype/internal/ftrfork.h>
 #define FT_INTERNAL_VALIDATE_H            <freetype/internal/ftvalid.h>
-
 #define FT_INTERNAL_TRUETYPE_TYPES_H      <freetype/internal/tttypes.h>
 #define FT_INTERNAL_TYPE1_TYPES_H         <freetype/internal/t1types.h>
-
 #define FT_INTERNAL_POSTSCRIPT_AUX_H      <freetype/internal/psaux.h>
 #define FT_INTERNAL_POSTSCRIPT_HINTS_H    <freetype/internal/pshints.h>
 #define FT_INTERNAL_POSTSCRIPT_GLOBALS_H  <freetype/internal/psglobal.h>
-
 #define FT_INTERNAL_AUTOHINT_H            <freetype/internal/autohint.h>
-
-
 #if defined( _MSC_VER )      
-
-  
-  
-  
-  
-  
 #pragma warning( disable : 4127 )
-
 #endif 
-
-
-

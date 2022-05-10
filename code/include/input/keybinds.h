@@ -7,16 +7,9 @@
 using std::map;
 using std::function;
 using std::string;
-
-
-
-
-
 struct bind{
 	string cmd;
 };
-
-
 class keybindList:public eventListener{
 	public:
 	map<string,bind> binds; 
@@ -25,12 +18,8 @@ class keybindList:public eventListener{
 	void checkMB(eventKind &event, int mb, string key);
 	void checkKB(eventKind &event, string key);
 };
-
-
 void initKeybinds();
-
 struct gs_keybindsKind {
 	keybindList* g_keybinds;
 };
-
 #endif

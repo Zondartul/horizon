@@ -2,7 +2,6 @@
 #include "util.h"
 #include "globals.h"
 #include "rmodel.h"
-
 string toString(RC3T type){
     switch(type){
         case(RC3T::COLORING):              return "coloring";
@@ -15,7 +14,6 @@ string toString(RC3T type){
         case(RC3T::SCISSORING):            return "scissoring";
         case(RC3T::DEPTH_TEST):            return "depth_test";
         case(RC3T::LIGHTING):              return "lighting";
-
         case(RC3T::LAYER):                 return "layer";
         case(RC3T::COLOR):                 return "color";
         case(RC3T::ALPHA):                 return "alpha";
@@ -45,9 +43,7 @@ string toString(RC3T type){
     }
     return "<error>";
 }
-
 renderCommand3::renderCommand3(){type = RC3T::ERROR;}
-
 renderCommand3::renderCommand3(RC3T type, ...):type(type){
     va_list args;
     va_start(args,type);
@@ -62,7 +58,6 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::SCISSORING):             b = va_arg(args,int); break;
         case(RC3T::DEPTH_TEST):             b = va_arg(args,int); break;
         case(RC3T::LIGHTING):               b = va_arg(args,int); break;
-
         case(RC3T::LAYER):                  layer = va_arg(args,renderLayer*); break;
         case(RC3T::COLOR):                  v3 = va_arg(args,vec3); break;
         case(RC3T::ALPHA):                  f = (float)va_arg(args,double); break;
@@ -96,7 +91,6 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
     }
     va_end(args);
 }
-
 renderCommand3 *renderCommand3::clone(){
     renderCommand3 *rcmd = new renderCommand3();
     rcmd->type = type;
@@ -112,7 +106,6 @@ renderCommand3 *renderCommand3::clone(){
         case(RC3T::DEPTH_TEST):
         case(RC3T::LIGHTING):
                                             rcmd->b = b; break;
-
         case(RC3T::LAYER):                  rcmd->layer = layer; break;
         case(RC3T::COLOR):
         case(RC3T::POSITION):
@@ -140,18 +133,14 @@ renderCommand3 *renderCommand3::clone(){
         case(RC3T::CLEAR_SCREEN):           break;
         case(RC3T::PRINT_TEXT):             rcmd->s = copyToHeap(*s); break;
         case(RC3T::COMMENT):                rcmd->s = copyToHeap(*s); break;
-
         case(RC3T::READ_PIXELS):            rcmd->buff = buff; break;
         case(RC3T::FACE_CULLING):           rcmd->b = b; break;
         case(RC3T::FACE_CULL_CCW):          break;
         case(RC3T::VIEWPORT):               rcmd->r = r; break;
-
         case(RC3T::RMODEL_DELETE):          return 0; 
     }
     return rcmd;
 }
-
-
 renderCommand3::~renderCommand3(){
     switch(type){
         case(RC3T::RMODEL_DELETE):          delete rm; break;
@@ -160,13 +149,9 @@ renderCommand3::~renderCommand3(){
         case(RC3T::COMMENT):                delete s; break;
     }
 }
-
-
 bool isValid(void* x) {
-    
     return (x != 0);
 }
-
 string toString(renderCommand3 *rcmd){
     string S = toString(rcmd->type)+" ";
     switch(rcmd->type){
@@ -180,7 +165,6 @@ string toString(renderCommand3 *rcmd){
         case(RC3T::SCISSORING):             S +=  toString(rcmd->b); break;
         case(RC3T::DEPTH_TEST):             S +=  toString(rcmd->b); break;
         case(RC3T::LIGHTING):               S +=  toString(rcmd->b); break;
-
         case(RC3T::LAYER):                  S +=  isValid(rcmd->layer)? toString(rcmd->layer) : fstring("<deleted %p>",rcmd->layer); break;
         case(RC3T::COLOR):                  S +=  toString(rcmd->v3); break;
         case(RC3T::ALPHA):                  S +=  toString(rcmd->f); break;

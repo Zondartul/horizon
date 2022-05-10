@@ -8,28 +8,13 @@ using std::pair;
 #include "vec.h"
 #include "globals.h"
 #include "math.h"
-
-
-
-
-
-
-
-
-
 void pack2D(vector<vec2> sizes,
 			vec2 binsize,
 			bool sort,
 			vector<vec2> *results,
 			vector<int> *packed,
 			int *heightNeeded);
-
-
-
 vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
-
-
-
 template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
@@ -42,7 +27,6 @@ template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, flo
 	error("unreachable code");
 	return scatter.front().first;
 }
-
 template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
@@ -60,8 +44,6 @@ template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, floa
 	error("unreachable code");
 	return scatter.front().first;
 }
-
-
 template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float pos){
 	if (scatter.size() == 0){error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
@@ -89,8 +71,4 @@ template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float
 	error("unreachable code");
 	return scatter.front().first;
 }
-
-
-
-
 #endif

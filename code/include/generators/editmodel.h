@@ -9,14 +9,11 @@
 using std::list;
 using std::vector;
 using std::set;
-
 class e_vertex;
 class e_edge;
 class e_triangle;
 struct e_model;
 class e_face;
-
-
 struct e_selection{
 	vector<e_vertex*>	verts;
 	vector<e_edge*>		edges;
@@ -33,61 +30,37 @@ struct e_selection{
 	bool rainbowTris = true;
 	e_selection() = delete; 
 	e_selection(e_model *EM);
-
-	
 	void addElements(e_selection sel2);		
 	void removeElements(e_selection sel2);	
 	void clear();							
-
-	
 	e_selection getVerts();			
 	e_selection getEdges();			
 	e_selection getTris();			
-
-
-
 	e_selection getImplicitVerts();	
-
 	e_selection getImplicitEdges();	
-									
 	e_selection getImplicitTris();	
-									
-
-	
-	
 	vector<e_selection> getNormalized();
-	
 	vec3 center();					
 	AABB getAABB();
-
-	
 	void deleteAll();									
 	void move(vec3 offset); 							
 	void rotate(vec3 center, vec3 axis, float angle); 	
 	void scale(vec3 center, float scale);				
 	void scale(vec3 center, vec3 scale);				
-
 	void uv_project_box(vec3 origin,float scale);		
 	void uv_scale(float scale);							
-
 	e_selection addTo(e_model *EM);						
-
 	void recalculateNormalsSmooth();					
 	void recalculateNormalsFlat();						
 	void removeDuplicates();							
-
 	void rebuildRmodel();
 	void rebuildRmodel_vertHelper(rmodel *rm);
 	void rebuildRmodel_edgeHelper(rmodel *rm);
 	void rebuildRmodel_triHelper(rmodel *rm);
 	void rebuildRmodel_wireHelper(rmodel *rm);
 	void render();
-	
-	
-	
 	vector<e_selection> extrude();
 };
-
 class e_element{
 	public:
 	e_selection definition;
@@ -97,20 +70,17 @@ class e_element{
 	e_element() = delete;
 	e_element(e_model *EM);
 };
-
 class e_vertex:public e_element{
 	public:
 	vec3 pos = {0,0,0};
 	e_vertex() = default;
 	e_vertex(vec3 pos, e_model *EM);
 };
-
 class e_edge:public e_element{
 	public:
 	e_edge() = default;
 	e_edge(e_vertex *A, e_vertex *B, e_model *EM);
 };
-
 class e_triangle:public e_element{
 	public:
 	vec2 uvs[3];
@@ -119,17 +89,13 @@ class e_triangle:public e_element{
 	e_triangle() = default;
 	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
 };
-
 class e_face:public e_element{
 	public:
 	e_face() = default;
 	e_face(vector<e_triangle*> tris, e_model *EM);
 	void recalcEdges(); 
 };
-
-
 template<typename T> T& listGet(list<T> &L,int N){if(N >= L.size()){error("index out of bounds");} auto I = L.begin(); while(N--){ I++;} return *I;}
-
 struct e_model{
 	list<e_vertex*> verts;
 	list<e_edge*> edges;
@@ -137,11 +103,9 @@ struct e_model{
 	list<e_face*> faces;
 	bool isElaborate = false;
 	e_selection selectAll();
-	
 	const char *checkDuplicates(bool repair);			
 	const char *checkDegenerate(bool repair);			
 	const char *checkDanglingPointers(bool repair);	
-	
 	void removePartsInfo();					
 	void removeTouchingInfo();
 	void recalculateNeighbors();				
@@ -152,7 +116,5 @@ struct e_model{
 };
 #include <string>
 using std::string;
-
 string toString(e_model *EM);
-
 #endif

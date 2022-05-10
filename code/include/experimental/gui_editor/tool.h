@@ -2,7 +2,6 @@
 #define GUI_EDITOR_TOOL_GUARD
 class gui_editor_kind;
 class GUIbase;
-
 class gui_editor_tool{
 	public:
 	gui_editor_kind *Ed = 0;
@@ -17,5 +16,4 @@ class gui_editor_tool{
 	virtual void rdown();
 	virtual void cleanup(); 
 };
-
 #endif

@@ -1,7 +1,5 @@
 #include "GUI_internal.h"
-
 string GUIselectionGroup::getType(){return "GUIselectionGroup";}
-
 void GUIselectionGroup::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
@@ -12,30 +10,23 @@ void GUIselectionGroup::onEvent(eventKind event){
 		}
 	}
 }
-
 GUIselectable::GUIselectable(){
 	selected = false;
 	group = nullptr;
 	pressed = false;
 }
-
 void GUIselectable::onEvent(eventKind event){
 	if(event.type == EVENT_MOUSE_MOVE){
 		recalcMouseover();	
-							
 	}
-	
 	if(event.isMasked()){return;}
-	
 	vec2 pos = getMousePos();
 	if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 		if(mouseover){
 			printf("click selectable\n");
 			event.maskEvent();
-
 			pressed = true;	
 			offset = area.start-pos;			
-		
 			select();
 		}
 	}
@@ -50,16 +41,13 @@ void GUIselectable::onEvent(eventKind event){
 		if(moveable && pressed){moveTo(pos+offset);} 
 	}
 }
-
 void GUIselectable::select(){
 	auto& keyboardState = Gb->gs_window->g_keyboardState;
 	selected = true;
-	
 	bool shift = keyboardState["Left Shift"];
 	bool ctrl = keyboardState["Left Ctrl"];
 	printf("shift = %d, ctrl = %d\n",shift,ctrl);
 	if(parent){
-		
 		GUIselectionGroup *SG = dynamic_cast<GUIselectionGroup*>(parent);
 		if(SG && !ctrl){
 			if(shift){
@@ -84,20 +72,7 @@ void GUIselectable::select(){
 					if(elSel && (elSel != this)){elSel->selected = false;}
 				}
 			}
-			
 		}
 	}
 }
-
 string GUIselectable::getType(){return "GUIselectable";}
-
-
-
-
-
-
-
-
-
-
-

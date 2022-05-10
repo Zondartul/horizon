@@ -1,45 +1,26 @@
 #include "globals.h"
 #include "window.h"
-
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
-
 #include "stdio.h"
-
 #ifndef NO_GLEW
 #include "GL/glew.h"
 #endif
-
-
 #include "stdlib.h"
-
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
 #include "global_vars.h"
-
-
-
-
-
-
-
-
-
-
-
 void OpenGL_printVersion(){
 	const unsigned char *version;
 	const char *profile;
 	OpenGL_getVersion(&version, &profile);
 	printf("OpenGL version: %s, profile: %s\n",version, profile);
 }
-
 void OpenGL_getVersion(const unsigned char **version, const char **profile){
 #ifndef NO_GLEW
 	* version = 0;
-
 	*profile = 0;
 	int profileID;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &profileID);
@@ -59,11 +40,9 @@ void OpenGL_getVersion(const unsigned char **version, const char **profile){
 	*profile = 0;
 #endif
 }
-
 void OpenGL_init(){
 	auto& mainWindow = Gb->gs_window->g_mainWindow;
 	auto& mainContext = Gb->gs_window->g_mainContext;
-	
 	#ifndef NO_SDL
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	#endif
@@ -74,20 +53,17 @@ void OpenGL_init(){
 	#endif
 	#ifndef NO_SDL
 		mainContext = SDL_GL_CreateContext(mainWindow);
-
 		SDL_GL_SetSwapInterval(1); 
 	#endif
 	#ifndef NO_GLEW
 	#endif
 }
-
 void OpenGL_swap(){
 	auto& mainWindow = Gb->gs_window->g_mainWindow;
 	#ifndef NO_SDL
 		SDL_GL_SwapWindow(mainWindow);
 	#endif
 }
-
 void window_init(int h, int w){
 	auto& height = Gb->gs_window->g_height;
 	auto& width = Gb->gs_window->g_width;
@@ -95,24 +71,19 @@ void window_init(int h, int w){
 	#ifndef NO_SDL
 		height = h;
 		width = w;
-
 		int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		atexit(SDL_Quit);
 		if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
-
 		mainWindow = SDL_CreateWindow("Hai",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			h,w,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-
 		OpenGL_init();
-
 		OpenGL_printVersion();
 		printf("-------- window init done ---------\n");
 	#endif
 }
-
 void sysMessageBlankTick(){
 #ifndef NO_SDL
 	SDL_Event sdl_event;
@@ -123,24 +94,6 @@ void sysMessageBlankTick(){
 	}
 #endif
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 eventKind keyboardTranslate(eventKind event){
 	auto& keyboardMap = Gb->gs_window->g_keyboardMap;
 	if(event.type == EVENT_KEY_DOWN){
@@ -154,17 +107,14 @@ eventKind keyboardTranslate(eventKind event){
 	}
 	return event;
 }
-
 bool isprintSafe(int key){
 	return ((key > 31) && (key < 127));
 }
-
 void sysMessageTick(){
 	auto& keyboardState = Gb->gs_window->g_keyboardState;
 	auto& height = Gb->gs_window->g_height;
 	auto& width = Gb->gs_window->g_width;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-
 #ifndef NO_SDL
 	SDL_Event sdl_event;
 	while(SDL_PollEvent(&sdl_event)){
@@ -244,8 +194,6 @@ void sysMessageTick(){
 			}
 			break;
 		default:
-			
-			
 			break;
 		}
 		continue;
@@ -254,7 +202,6 @@ void sysMessageTick(){
 	}
 #endif
 }
-
 vec2 getScreenSize(){
 	auto& mainWindow = Gb->gs_window->g_mainWindow;
 	auto& height = Gb->gs_window->g_height;
@@ -264,4 +211,3 @@ vec2 getScreenSize(){
 #endif
 	return {width,height};
 }
-

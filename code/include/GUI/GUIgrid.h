@@ -1,6 +1,5 @@
 #ifndef GUIGRID_GUARD
 #define GUIGRID_GUARD
-
 struct gridcell{
 	int spanx;
 	int spany;
@@ -8,7 +7,6 @@ struct gridcell{
 };
 typedef vector<gridcell> gridrow;
 typedef vector<gridrow> gridkind;
-
 struct gridline{
 	float min;		
 	float max;		
@@ -16,15 +14,11 @@ struct gridline{
 	float cur;		
 	float pos;		
 };
-
 struct linespan{
 	int from;
 	int to;
 	gridcell *cell;
 };
-
-
-
 class GUIgrid:public virtual GUIbase{
 	public:
 	GUIgrid();
@@ -41,13 +35,9 @@ class GUIgrid:public virtual GUIbase{
 	vector<gridline> colsettings;
 	vector<linespan> rowspans; 
 	vector<linespan> colspans; 
-
 	void shrinkChildren();
 	void sizeToGrid(); 
 	virtual void invalidate();
-	
-	
 	virtual string getType(); 
 };
-
 #endif

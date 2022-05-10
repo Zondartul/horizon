@@ -1,57 +1,42 @@
-
-
-
 #pragma once
-
 #include "platform.h"
-
 #if GLM_ARCH & GLM_ARCH_SSE2_BIT
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_add(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_add_ps(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_add(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_add_ss(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_sub(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_sub_ps(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_sub(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_sub_ss(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mul(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_mul_ps(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_mul(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_mul_ss(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_div(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_div_ps(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_div(glm_vec4 a, glm_vec4 b)
 {
 	return _mm_div_ss(a, b);
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_div_lowp(glm_vec4 a, glm_vec4 b)
 {
 	return glm_vec4_mul(a, _mm_rcp_ps(b));
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_swizzle_xyzw(glm_vec4 a)
 {
 #	if GLM_ARCH & GLM_ARCH_AVX2_BIT
@@ -60,7 +45,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_swizzle_xyzw(glm_vec4 a)
 		return _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 2, 1, 0));
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_fma(glm_vec4 a, glm_vec4 b, glm_vec4 c)
 {
 #	if GLM_ARCH & GLM_ARCH_AVX2_BIT
@@ -69,7 +53,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec1_fma(glm_vec4 a, glm_vec4 b, glm_vec4 c)
 		return _mm_add_ss(_mm_mul_ss(a, b), c);
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_fma(glm_vec4 a, glm_vec4 b, glm_vec4 c)
 {
 #	if GLM_ARCH & GLM_ARCH_AVX2_BIT
@@ -78,12 +61,10 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_fma(glm_vec4 a, glm_vec4 b, glm_vec4 c)
 		return glm_vec4_add(glm_vec4_mul(a, b), c);
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_abs(glm_vec4 x)
 {
 	return _mm_and_ps(x, _mm_castsi128_ps(_mm_set1_epi32(0x7FFFFFFF)));
 }
-
 GLM_FUNC_QUALIFIER glm_ivec4 glm_ivec4_abs(glm_ivec4 x)
 {
 #	if GLM_ARCH & GLM_ARCH_SSSE3_BIT
@@ -95,7 +76,6 @@ GLM_FUNC_QUALIFIER glm_ivec4 glm_ivec4_abs(glm_ivec4 x)
 		return sub0;
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_sign(glm_vec4 x)
 {
 	glm_vec4 const zro0 = _mm_setzero_ps();
@@ -106,7 +86,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_sign(glm_vec4 x)
 	glm_vec4 const or0 = _mm_or_ps(and0, and1);;
 	return or0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_round(glm_vec4 x)
 {
 #	if GLM_ARCH & GLM_ARCH_SSE41_BIT
@@ -120,7 +99,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_round(glm_vec4 x)
 		return sub0;
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_floor(glm_vec4 x)
 {
 #	if GLM_ARCH & GLM_ARCH_SSE41_BIT
@@ -133,10 +111,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_floor(glm_vec4 x)
 		return sub0;
 #	endif
 }
-
-
-
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_roundEven(glm_vec4 x)
 {
 	glm_vec4 const sgn0 = _mm_castsi128_ps(_mm_set1_epi32(0x80000000));
@@ -146,7 +120,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_roundEven(glm_vec4 x)
 	glm_vec4 const sub0 = glm_vec4_sub(add0, or0);
 	return sub0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_ceil(glm_vec4 x)
 {
 #	if GLM_ARCH & GLM_ARCH_SSE41_BIT
@@ -159,14 +132,12 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_ceil(glm_vec4 x)
 		return add0;
 #	endif
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_fract(glm_vec4 x)
 {
 	glm_vec4 const flr0 = glm_vec4_floor(x);
 	glm_vec4 const sub0 = glm_vec4_sub(x, flr0);
 	return sub0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mod(glm_vec4 x, glm_vec4 y)
 {
 	glm_vec4 const div0 = glm_vec4_div(x, y);
@@ -175,14 +146,12 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mod(glm_vec4 x, glm_vec4 y)
 	glm_vec4 const sub0 = glm_vec4_sub(x, mul0);
 	return sub0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_clamp(glm_vec4 v, glm_vec4 minVal, glm_vec4 maxVal)
 {
 	glm_vec4 const min0 = _mm_min_ps(v, maxVal);
 	glm_vec4 const max0 = _mm_max_ps(min0, minVal);
 	return max0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mix(glm_vec4 v1, glm_vec4 v2, glm_vec4 a)
 {
 	glm_vec4 const sub0 = glm_vec4_sub(_mm_set1_ps(1.0f), a);
@@ -190,13 +159,11 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_mix(glm_vec4 v1, glm_vec4 v2, glm_vec4 a)
 	glm_vec4 const mad0 = glm_vec4_fma(v2, a, mul0);
 	return mad0;
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_step(glm_vec4 edge, glm_vec4 x)
 {
 	glm_vec4 const cmp = _mm_cmple_ps(x, edge);
 	return _mm_movemask_ps(cmp) == 0 ? _mm_set1_ps(1.0f) : _mm_setzero_ps();
 }
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_smoothstep(glm_vec4 edge0, glm_vec4 edge1, glm_vec4 x)
 {
 	glm_vec4 const sub0 = glm_vec4_sub(x, edge0);
@@ -209,8 +176,6 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_smoothstep(glm_vec4 edge0, glm_vec4 edge1, 
 	glm_vec4 const mul2 = glm_vec4_mul(mul1, sub2);
 	return mul2;
 }
-
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_nan(glm_vec4 x)
 {
 	glm_ivec4 const t1 = _mm_castps_si128(x);						
@@ -223,13 +188,10 @@ GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_nan(glm_vec4 x)
 	glm_ivec4 const And = _mm_and_si128(Equal, Nequal);
 	return _mm_castsi128_ps(And);									
 }
-
-
 GLM_FUNC_QUALIFIER glm_vec4 glm_vec4_inf(glm_vec4 x)
 {
 	glm_ivec4 const t1 = _mm_castps_si128(x);										
 	glm_ivec4 const t2 = _mm_sll_epi32(t1, _mm_cvtsi32_si128(1));					
 	return _mm_castsi128_ps(_mm_cmpeq_epi32(t2, _mm_set1_epi32(0xFF000000)));		
 }
-
 #endif

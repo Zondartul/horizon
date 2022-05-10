@@ -7,19 +7,15 @@ using std::vector;
 using std::string;
 struct texture;
 class rmodel;
-
 struct vertex{
 	vec3 pos;
 	vec3 normal;
 	vec2 uv;
 };
-
 struct triangle{
 	vertex v[3];
 };
-
 struct e_model;
-
 class model{
 public:
 	string name;
@@ -31,5 +27,4 @@ public:
 	e_model *toEmodel();
 	AABB getAABB();
 };
-
 #endif

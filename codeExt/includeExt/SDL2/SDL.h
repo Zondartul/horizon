@@ -1,11 +1,5 @@
-
-
-
-
-
 #ifndef _SDL_H
 #define _SDL_H
-
 #include "SDL_main.h"
 #include "SDL_stdinc.h"
 #include "SDL_assert.h"
@@ -33,17 +27,10 @@
 #include "SDL_timer.h"
 #include "SDL_version.h"
 #include "SDL_video.h"
-
 #include "begin_code.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-
-
-
 #define SDL_INIT_TIMER          0x00000001
 #define SDL_INIT_AUDIO          0x00000010
 #define SDL_INIT_VIDEO          0x00000020  
@@ -56,29 +43,13 @@ extern "C" {
                 SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS | \
                 SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER \
             )
-
-
-
 extern DECLSPEC int SDLCALL SDL_Init(Uint32 flags);
-
-
 extern DECLSPEC int SDLCALL SDL_InitSubSystem(Uint32 flags);
-
-
 extern DECLSPEC void SDLCALL SDL_QuitSubSystem(Uint32 flags);
-
-
 extern DECLSPEC Uint32 SDLCALL SDL_WasInit(Uint32 flags);
-
-
 extern DECLSPEC void SDLCALL SDL_Quit(void);
-
-
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
-
 #endif 
-
-

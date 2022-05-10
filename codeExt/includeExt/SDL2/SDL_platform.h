@@ -1,10 +1,5 @@
-
-
-
-
 #ifndef _SDL_platform_h
 #define _SDL_platform_h
-
 #if defined(_AIX)
 #undef __AIX__
 #define __AIX__     1
@@ -42,18 +37,14 @@
 #undef __LINUX__ 
 #define __ANDROID__ 1
 #endif
-
 #if defined(__APPLE__)
-
 #include "AvailabilityMacros.h"
 #include "TargetConditionals.h"
 #if TARGET_OS_IPHONE
-
 #undef __IPHONEOS__
 #define __IPHONEOS__ 1
 #undef __MACOSX__
 #else
-
 #undef __MACOSX__
 #define __MACOSX__  1
 #if MAC_OS_X_VERSION_MIN_REQUIRED < 1050
@@ -61,7 +52,6 @@
 #endif 
 #endif 
 #endif 
-
 #if defined(__NetBSD__)
 #undef __NETBSD__
 #define __NETBSD__  1
@@ -90,16 +80,12 @@
 #undef __SOLARIS__
 #define __SOLARIS__ 1
 #endif
-
 #if defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW32__)
-
-
 #if (defined(_MSC_VER) && (_MSC_VER >= 1700) && !_USING_V110_SDK71_)	
 #include <winapifamily.h>
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 #undef __WINDOWS__
 #define __WINDOWS__   1
-
 #elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
 #undef __WINRT__
 #define __WINRT__ 1
@@ -109,7 +95,6 @@
 #define __WINDOWS__   1
 #endif 
 #endif 
-
 #if defined(__WINDOWS__)
 #undef __WIN32__
 #define __WIN32__ 1
@@ -118,8 +103,6 @@
 #undef __PSP__
 #define __PSP__ 1
 #endif
-
-
 #if defined(__native_client__)
 #undef __LINUX__
 #undef __NACL__
@@ -129,26 +112,15 @@
 #undef __LINUX__
 #undef __PNACL__
 #define __PNACL__ 1
-
 #define __SDL_NOGETPROCADDR__
 #endif
-
-
 #include "begin_code.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
 extern DECLSPEC const char * SDLCALL SDL_GetPlatform (void);
-
-
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
-
 #endif 
-
-

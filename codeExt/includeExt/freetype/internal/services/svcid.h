@@ -1,32 +1,8 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifndef SVCID_H_
 #define SVCID_H_
-
 #include FT_INTERNAL_SERVICE_H
-
-
 FT_BEGIN_HEADER
-
-
 #define FT_SERVICE_ID_CID  "CID"
-
   typedef FT_Error
   (*FT_CID_GetRegistryOrderingSupplementFunc)( FT_Face       face,
                                                const char*  *registry,
@@ -39,17 +15,13 @@ FT_BEGIN_HEADER
   (*FT_CID_GetCIDFromGlyphIndexFunc)( FT_Face   face,
                                       FT_UInt   glyph_index,
                                       FT_UInt  *cid );
-
   FT_DEFINE_SERVICE( CID )
   {
     FT_CID_GetRegistryOrderingSupplementFunc  get_ros;
     FT_CID_GetIsInternallyCIDKeyedFunc        get_is_cid;
     FT_CID_GetCIDFromGlyphIndexFunc           get_cid_from_glyph_index;
   };
-
-
 #ifndef FT_CONFIG_OPTION_PIC
-
 #define FT_DEFINE_SERVICE_CIDREC( class_,                                   \
                                   get_ros_,                                 \
                                   get_is_cid_,                              \
@@ -58,9 +30,7 @@ FT_BEGIN_HEADER
   {                                                                         \
     get_ros_, get_is_cid_, get_cid_from_glyph_index_                        \
   };
-
 #else 
-
 #define FT_DEFINE_SERVICE_CIDREC( class_,                                   \
                                   get_ros_,                                 \
                                   get_is_cid_,                              \
@@ -75,16 +45,6 @@ FT_BEGIN_HEADER
     clazz->get_is_cid               = get_is_cid_;                          \
     clazz->get_cid_from_glyph_index = get_cid_from_glyph_index_;            \
   }
-
 #endif 
-
-  
-
-
 FT_END_HEADER
-
-
 #endif 
-
-
-

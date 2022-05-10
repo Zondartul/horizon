@@ -1,39 +1,27 @@
 #include "GUI_internal.h"
-
-
 GUItextEntry::GUItextEntry(){
-
 	bgColor *= 1.1f;
 	focusedColor = vec3{255,255,255};
-
 	hasfocus = false;
-
 	callOnEdit		= false;
 	callOnEnter		= true;
 	callOnUnfocus	= true;
 	unfocusOnEnter	= true;
 	clearOnEnter	= false;
-
 	multiline = false;
 	numeric = false;
 	text = "";
 	tcaret = getTexture("gui/caret12");
 	cursorPos = 0;
-
 	alignment_horizontal = GUIa::Left;
 	alignment_vertical = GUIa::Center;
 	const_height = false;
 }
-
 GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}
 GUItextEntry *GUItextEntry::setFunction(function<void()> f){F = f; return this;}
 double GUItextEntry::getNumber(){float N = 0; sscanf(text.c_str(),"%f",&N); return N;}
-
-
-
 void GUItextEntry::onEvent(eventKind event){
 	GUIbase::onEvent(event);
-
 	bool unfocus = 0;
 	bool edit = 0;
 	bool enter = 0;
@@ -97,8 +85,6 @@ void GUItextEntry::onEvent(eventKind event){
 	if(unfocus){hasfocus = false;}
 	if(call){F();}
 }
-
-
 GUIpropertyTable GUItextEntry::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIbutton::getDefaultPropertyTable();
 	table.table["focusedColor"] = toString(vec3({255,255,255}));
@@ -111,7 +97,6 @@ GUIpropertyTable GUItextEntry::getDefaultPropertyTable(){
 	table.table["numeric"] = toString(bool(false));
 	return table;
 }
-
 string GUItextEntry::getProperty(string key){
 	if(key == "focusedColor"){return toString(focusedColor);}
 	else if(key == "callOnEdit"){return toString(callOnEdit);}
@@ -122,9 +107,7 @@ string GUItextEntry::getProperty(string key){
 	else if(key == "numeric"){return toString(numeric);}
 	else return GUIbutton::getProperty(key);
 }
-
 void GUItextEntry::setProperty(string key, string val){
-
 	if(key == "focusedColor"){focusedColor = fromString<vec3>(val);}
 	else if(key == "callOnEdit"){callOnEdit = fromString<bool>(val);}
 	else if(key == "callOnEnter"){callOnEnter = fromString<bool>(val);}
@@ -134,5 +117,4 @@ void GUItextEntry::setProperty(string key, string val){
 	else if(key == "numeric"){numeric = fromString<bool>(val);}
 	else GUIbutton::setProperty(key,val);
 }
-
 string GUItextEntry::getType(){return "GUItextEntry";}

@@ -1,12 +1,6 @@
-
-
 #ifndef _SDL_config_windows_h
 #define _SDL_config_windows_h
-
 #include "SDL_platform.h"
-
-
-
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
 #if defined(__GNUC__) || defined(__DMC__) || defined(__WATCOMC__)
 #define HAVE_STDINT_H   1
@@ -27,7 +21,6 @@ typedef unsigned int uintptr_t;
 #endif
 #define _UINTPTR_T_DEFINED
 #endif
-
 #if ((_MSC_VER <= 1200) && (!defined(DWORD_PTR)))
 #define DWORD_PTR DWORD
 #endif
@@ -50,30 +43,23 @@ typedef unsigned int size_t;
 typedef unsigned int uintptr_t;
 #endif 
 #endif 
-
 #ifdef _WIN64
 # define SIZEOF_VOIDP 8
 #else
 # define SIZEOF_VOIDP 4
 #endif
-
 #define HAVE_DDRAW_H 1
 #define HAVE_DINPUT_H 1
 #define HAVE_DSOUND_H 1
 #define HAVE_DXGI_H 1
 #define HAVE_XINPUT_H 1
-
-
 #ifdef HAVE_LIBC
-
 #define HAVE_STDIO_H 1
 #define STDC_HEADERS 1
 #define HAVE_STRING_H 1
 #define HAVE_CTYPE_H 1
 #define HAVE_MATH_H 1
 #define HAVE_SIGNAL_H 1
-
-
 #define HAVE_MALLOC 1
 #define HAVE_CALLOC 1
 #define HAVE_REALLOC 1
@@ -133,41 +119,26 @@ typedef unsigned int uintptr_t;
 #define HAVE_STDARG_H   1
 #define HAVE_STDDEF_H   1
 #endif
-
-
 #define SDL_AUDIO_DRIVER_DSOUND 1
 #define SDL_AUDIO_DRIVER_XAUDIO2    1
 #define SDL_AUDIO_DRIVER_WINMM  1
 #define SDL_AUDIO_DRIVER_DISK   1
 #define SDL_AUDIO_DRIVER_DUMMY  1
-
-
 #define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_XINPUT 1
 #define SDL_HAPTIC_DINPUT   1
 #define SDL_HAPTIC_XINPUT   1
-
-
 #define SDL_LOADSO_WINDOWS  1
-
-
 #define SDL_THREAD_WINDOWS  1
-
-
 #define SDL_TIMER_WINDOWS   1
-
-
 #define SDL_VIDEO_DRIVER_DUMMY  1
 #define SDL_VIDEO_DRIVER_WINDOWS    1
-
 #ifndef SDL_VIDEO_RENDER_D3D
 #define SDL_VIDEO_RENDER_D3D    1
 #endif
 #ifndef SDL_VIDEO_RENDER_D3D11
 #define SDL_VIDEO_RENDER_D3D11	0
 #endif
-
-
 #ifndef SDL_VIDEO_OPENGL
 #define SDL_VIDEO_OPENGL    1
 #endif
@@ -186,17 +157,9 @@ typedef unsigned int uintptr_t;
 #ifndef SDL_VIDEO_OPENGL_EGL
 #define SDL_VIDEO_OPENGL_EGL    1
 #endif
-
-
-
 #define SDL_POWER_WINDOWS 1
-
-
 #define SDL_FILESYSTEM_WINDOWS  1
-
-
 #ifndef _WIN64
 #define SDL_ASSEMBLY_ROUTINES   1
 #endif
-
 #endif 

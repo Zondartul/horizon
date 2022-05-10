@@ -1,9 +1,6 @@
 #include "GUI_internal.h"
-
-
 GUIbase::GUIbase(){
 	auto& GUIR_default = Gg->gs_GUIrenderer_default->GUIR_default;
-
 	parent = NULL;
 	isClient = true;
 	hidden = false;
@@ -17,20 +14,9 @@ GUIbase::GUIbase(){
 	render_noscissor = false;
 	mouseover = false;
 }
-
 GUIbase::~GUIbase(){
 	if(!deletePending){error("GUI widget deleted without close()\n");}
 	if(parent){parent->removeChild(this);}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	{
 		stackSentinel SS;
 		printf("deleting children\n");
@@ -41,23 +27,18 @@ GUIbase::~GUIbase(){
 		}
 	}
 }
-
 GUIbase *GUIbase::addChild(GUIbase *child){
 	addChild(child, children.end());
 	return this;
 }
-
-
 GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 	child->parent = this;
-	
 	ChI iter2 = children.insert(iter, child);
 	if(child->isClient){clientChannel.addListenerFront(child);}
 	else{partChannel.addListenerFront(child);}
 	invalidateTree();
 	return iter2;
 }
-
 void GUIbase_debugChildren(GUIbase *b){
 	if (!b) { error("'this' is null"); }
 	printf("printing %p's %d children:\n",b,b->children.size());
@@ -70,7 +51,6 @@ void GUIbase_debugChildren(GUIbase *b){
 		i++;
 	}
 }
-
 GUIbase *GUIbase::removeChild(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	bool found = false;
@@ -89,7 +69,6 @@ GUIbase *GUIbase::removeChild(GUIbase *child){
 	invalidateTree();
 	return this;
 }
-
 GUIbase *GUIbase::moveChildToTheTop(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	bool found= false;
@@ -103,7 +82,6 @@ GUIbase *GUIbase::moveChildToTheTop(GUIbase *child){
 	else{clientChannel.moveListenerToFront(child);}
 	return this;
 }
-
 GUIbase *GUIbase::makePart(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	child->isClient = false;
@@ -111,7 +89,6 @@ GUIbase *GUIbase::makePart(GUIbase *child){
 	partChannel.addListenerFront(child);
 	return this;
 }
-
 GUIbase *GUIbase::makeClient(GUIbase *child){
 	if(!isAncestorOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	child->isClient = true;
@@ -119,29 +96,24 @@ GUIbase *GUIbase::makeClient(GUIbase *child){
 	clientChannel.addListenerFront(child);
 	return this;
 }
-
 GUIbase *GUIbase::setSize(vec2 newSize){
 	area = area.setSize(newSize);
 	invalidate();
 	return this;
 }
-
 GUIbase *GUIbase::moveTo(vec2 newstart){
 	area = area.moveTo(newstart);
 	invalidate();
 	return this;
 }
-
 GUIbase *GUIbase::setClientArea(rect newclientarea){
 	clientArea = newclientarea;
 	return this;
 }
-
 GUIbase *GUIbase::setHidden(bool newHidden){
 	hidden = newHidden;
 	return this;
 }
-
 GUIbase *GUIbase::sizeToContents(){
 	float maxx = 0;
 	float maxy = 0;
@@ -155,16 +127,13 @@ GUIbase *GUIbase::sizeToContents(){
 	area = area.setSize(area.size+diff);
 	return this;
 }
-
 void GUIbase::tickLogic(){
 	tick();
 	for(auto I = children.begin(); I != children.end(); I++){
 		(*I)->tickLogic();
 	}
 }
-
 void GUIbase::tick(){}
-
 void GUIbase::renderLogic(){
 	auto& GUIoptions = Gg->gs_GUI_internal->g_GUIoptions;
 	if(!parent){GUIsetFavoriteRenderOptions();}
@@ -197,14 +166,8 @@ void GUIbase::renderLogic(){
 		}
 	}
 }
-
 void GUIbase::render(){ if(renderer){renderer->render(this);} }
-
-
-
 void GUIbase::onEvent(eventKind event){
-	
-	
 	bool transmit = true;
 	if(!parent){
 		if(event.type == EVENT_MOUSE_MOVE){
@@ -214,7 +177,6 @@ void GUIbase::onEvent(eventKind event){
 			tickLogic();
 		}
 		if(event.type == EVENT_CLEANUP){
-			
 			checkCloseTree();
 		}
 	}
@@ -232,27 +194,18 @@ void GUIbase::onEvent(eventKind event){
 			case EVENT_CLEANUP:
 			case EVENT_MOUSE_MOVE: 			
 			default:
-				
 			break;
 		}
 	}
-	
 	partChannel.publishEventParallelMaskable(event);
-	
 	if(transmit){
-		
 		int shouldMask = clientChannel.publishEventParallelMaskable(event);
-		
-		
 		if(event.mask){
 			event.maskEvent(shouldMask);
 		}
 	}else{
-		
-		
 	}
 }
-
 GUIbase *GUIbase::root(){
 	GUIbase *p = this;
 	for(int I = 0; I < 500; I++){
@@ -262,7 +215,6 @@ GUIbase *GUIbase::root(){
 	error("GUIbase::root: recursion detected\n");
 	return 0;
 }
-
 GUIbase *GUIbase::getMouseoverElement(){
 	if(!mouseover){return 0;}
 	for(auto I = children.begin(); I != children.end(); I++){
@@ -272,7 +224,6 @@ GUIbase *GUIbase::getMouseoverElement(){
 	}
 	return this;
 }
-
 bool GUIbase::isAncestorOf(GUIbase *child){
 	while(child && child->parent){
 		if(child->parent == this){return true;}
@@ -280,11 +231,9 @@ bool GUIbase::isAncestorOf(GUIbase *child){
 	}
 	return false;
 }
-
 bool GUIbase::isParentOf(GUIbase *child){
 	return (child && (child->parent == this));
 }
-
 GUIbase *GUIbase::getByHelper(string askname, string asktype){
 	if((askname != "") && (name == askname)){return this;}
 	if((asktype != "") && (getType() == asktype)){return this;}
@@ -294,38 +243,29 @@ GUIbase *GUIbase::getByHelper(string askname, string asktype){
 	}
 	return 0;
 }
-
 GUIbase *GUIbase::getByName(string name){
-	
 	GUIbase *B = getByHelper(name,"");
 	if(!B){printf("can't find widget by name: [%s]\n",name.c_str());}
 	else{printf("found widget by name: [%s]\n", name.c_str());}
 	return B;
 }
-
 GUIbase *GUIbase::getByType(string type){
 	GUIbase *B = getByHelper("",type);
 	if(!B){printf("can't find widget by type: [%s]\n",type.c_str());}
 	else{printf("found widget by type: [%s]\n",type.c_str());}
 	return B;
 }
-
 void GUIbase::invalidate(){
 	clientArea = rect().setStart({1,1}).setEnd(area.size-vec2{1,1});
 }
-
 void GUIbase::invalidateTree(){
 	if(suppressInvalidate){return;}
-	
-	
-	
 	if(parent){
 		root()->invalidateTree();
 	}else{
 		invalidateDown();
 	}
 }
-
 void GUIbase::invalidateDown(){
 	invalidate();
 	bool prevsuppress = suppressInvalidate;
@@ -335,17 +275,11 @@ void GUIbase::invalidateDown(){
 	}
 	suppressInvalidate = prevsuppress;
 }
-
-
-
 void GUIbase::recalcMouseover(){
 	vec2 pos = getMousePos();
-	
 	if(!visibleArea().contains(pos)){mouseover = false; return;}
 	if(parent){
-		
 		if(!parent->mouseover){mouseover = false; return;}
-		
 		auto I = parent->children.begin();
 		while(*I != this){I++;}
 		I++;
@@ -355,35 +289,26 @@ void GUIbase::recalcMouseover(){
 	}
 	mouseover = true;
 }
-
 void GUIbase::recalcMouseoverTree(){
 	recalcMouseover();
 	for(auto I = children.begin(); I != children.end(); I++){
 		(*I)->recalcMouseoverTree();
 	}
 }
-
 void GUIbase::close(){
 	deletePending = true;
 	for(auto I = children.begin(); I != children.end(); I++){
 		(*I)->close();
 	}
 }
-
 void GUIbase::checkCloseTree(){
 	vector<GUIbase*> children2 = children; 
-											
-	
 	for(auto I = children2.begin(); I != children2.end(); I++){
 		GUIbase *el = *I;
 		if(el->deletePending){delete el;}
 		else{el->checkCloseTree();}
 	}
 }
-
-
-
-
 vec2 GUIbase::thisToWorld(vec2 L){
 	if(parent){
 		if(isClient){
@@ -395,14 +320,9 @@ vec2 GUIbase::thisToWorld(vec2 L){
 		return L+area.start;
 	}
 }
-
 rect GUIbase::thisToWorld(rect L){
 	return L.setStart(thisToWorld(L.start)).setEnd(thisToWorld(L.end));
 }
-
-
-
-
 vec2 GUIbase::clientToWorld(vec2 L){
 	if(parent){
 		if(isClient){
@@ -414,11 +334,9 @@ vec2 GUIbase::clientToWorld(vec2 L){
 		return L+area.start+clientArea.start;
 	}
 }
-
 rect GUIbase::clientToWorld(rect L){
 	return L.setStart(clientToWorld(L.start)).setEnd(clientToWorld(L.end));
 }
-
 rect GUIbase::worldArea(){
 	if(parent){
 		return thisToWorld(rect(area.size));
@@ -459,41 +377,32 @@ rect GUIbase::visibleClientArea(){
 		return worldClientArea();
 	}
 }
-
 GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
-	
-
 	rect warea = worldArea();
-	
 	vec2 AA = warea.start;
 	vec2 AB = AA + vec2(bsize.corner,0);
 	vec2 AC = AB + vec2(0,bsize.top);
 	vec2 AD = AA + vec2(0,bsize.corner);
 	vec2 AE = AD + vec2(bsize.left,0);
 	vec2 AF = vec2(AB.x,AD.y);
-	
 	vec2 BA = vec2(warea.end.x, warea.start.y);
 	vec2 BB = BA + vec2(-bsize.corner,0);
 	vec2 BC = BB + vec2(0,bsize.top);
 	vec2 BD = BA + vec2(0,bsize.corner);
 	vec2 BE = BD + vec2(-bsize.right,0);
 	vec2 BF = vec2(BB.x,BD.y);
-	
 	vec2 CA = vec2(warea.start.x, warea.end.y);
 	vec2 CB = CA + vec2(bsize.corner,0);
 	vec2 CC = CB + vec2(0,-bsize.bottom);
 	vec2 CD = CA + vec2(0,-bsize.corner);
 	vec2 CE = CD + vec2(bsize.left,0);
 	vec2 CF = vec2(CB.x,CD.y);
-	
 	vec2 DA = warea.end;
 	vec2 DB = DA + vec2(-bsize.corner,0);
 	vec2 DC = DB + vec2(0,-bsize.bottom);
 	vec2 DD = DA + vec2(0,-bsize.corner);
 	vec2 DE = DD + vec2(-bsize.right,0);
 	vec2 DF = vec2(DB.x, DD.y);
-	
-	
 	GUI_border_rects border;
 	border.Rtop		= rect(AB,BC);
 	border.Rbottom	= rect(CC,DB);
@@ -503,15 +412,10 @@ GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
 	border.Rctr		= rect(BB,BD);
 	border.Rcbl		= rect(CD,CB);
 	border.Rcbr		= rect(DF,DA);
-
-	
 	return border;
 }
-
 GUIe_border GUIbase::testBorders(vec2 pos, GUI_border_size borderSize){
-	
 	GUI_border_rects border = getBorders(borderSize);
-	
 	GUIe_border condition = GUIb::None;
 	if(border.Rctl.contains(pos))	{condition |= GUIb::Corner_TL;}
 	if(border.Rtop.contains(pos))	{condition |= GUIb::Top;}
@@ -521,10 +425,8 @@ GUIe_border GUIbase::testBorders(vec2 pos, GUI_border_size borderSize){
 	if(border.Rcbl.contains(pos))	{condition |= GUIb::Corner_BL;}
 	if(border.Rbottom.contains(pos)){condition |= GUIb::Bottom;}
 	if(border.Rcbr.contains(pos))	{condition |= GUIb::Corner_BR;}
-	
 	return condition;
 }
-
 GUIpropertyTable GUIbase::getDefaultPropertyTable(){
 	GUIpropertyTable table;
 	table.table["name"] 		= name;
@@ -534,7 +436,6 @@ GUIpropertyTable GUIbase::getDefaultPropertyTable(){
 	table.table["area"] 		= toString(rect(defaultarea));
 	return table;
 }
-
 GUIpropertyTable GUIbase::getPropertyTable(){
 	GUIpropertyTable table = getDefaultPropertyTable();
 	for(auto I = table.table.begin(); I != table.table.end(); I++){
@@ -544,7 +445,6 @@ GUIpropertyTable GUIbase::getPropertyTable(){
 	}
 	return table;
 }
-
 void GUIbase::setPropertyTable(GUIpropertyTable table){
 	for(auto I = table.table.begin(); I != table.table.end(); I++){
 		auto key = I->first;
@@ -552,7 +452,6 @@ void GUIbase::setPropertyTable(GUIpropertyTable table){
 		setProperty(key,val);
 	}
 }
-
 string GUIbase::getProperty(string key){
 		 if(key == "name")		{return name;}
 	else if(key == "type")		{return getType();}
@@ -561,7 +460,6 @@ string GUIbase::getProperty(string key){
 	else if(key == "area")		{return toString(area);}
 	return "";
 }
-
 void GUIbase::setProperty(string key, string val){
 		 if(key == "name")		{name		= val;}
 	else if(key == "type")		{if(getType() != val){error("attmpt to change GUI widget type\n");}}
@@ -569,9 +467,7 @@ void GUIbase::setProperty(string key, string val){
 	else if(key == "hidden")	{hidden 	= fromString<bool>(val);}
 	else if(key == "area")		{area		= fromString<rect>(val);}
 }
-
 string GUIbase::getType(){return "GUIbase";}
-
 GUIcompoundProperty GUIbase::getCompoundProperty(){
 	GUIcompoundProperty prop;
 	prop.name = getType();
@@ -582,9 +478,6 @@ GUIcompoundProperty GUIbase::getCompoundProperty(){
 	}
 	return prop;
 }
-
-
-
 void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 	if(prop.name == getType()){
 		setPropertyTable(prop.table);
@@ -610,9 +503,3 @@ void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 		Ip++;
 	}
 }
-
-
-
-
-
-

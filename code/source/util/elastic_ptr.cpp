@@ -1,5 +1,4 @@
 #include "elastic_ptr.h"
-
 elastic_ptr_anchor::elastic_ptr_anchor(){
 	proxy = new elastic_ptr_anchor_proxy(this);
 	proxy->increment();
@@ -9,7 +8,6 @@ elastic_ptr_anchor::~elastic_ptr_anchor(){
 	proxy->decrement();
 	proxy = 0;
 }
-
 elastic_ptr_anchor_proxy::elastic_ptr_anchor_proxy(elastic_ptr_anchor *newanchor){
 	anchor = newanchor;
 }

@@ -1,57 +1,13 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifndef FTWINFNT_H_
 #define FTWINFNT_H_
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
 #ifdef FREETYPE_H
 #error "freetype.h of FreeType 1 has been loaded!"
 #error "Please fix the directory search order for header files"
 #error "so that freetype.h of FreeType 2 is found first."
 #endif
-
-
 FT_BEGIN_HEADER
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-  
-
 #define FT_WinFNT_ID_CP1252    0
 #define FT_WinFNT_ID_DEFAULT   1
 #define FT_WinFNT_ID_SYMBOL    2
@@ -71,16 +27,6 @@ FT_BEGIN_HEADER
 #define FT_WinFNT_ID_CP874   222
 #define FT_WinFNT_ID_CP1250  238
 #define FT_WinFNT_ID_OEM     255
-
-
-  
-  
-  
-  
-  
-  
-  
-  
   typedef struct  FT_WinFNT_HeaderRec_
   {
     FT_UShort  version;
@@ -119,37 +65,10 @@ FT_BEGIN_HEADER
     FT_UShort  C_space;
     FT_UShort  color_table_offset;
     FT_ULong   reserved1[4];
-
   } FT_WinFNT_HeaderRec;
-
-
-  
-  
-  
-  
-  
-  
-  
-  
   typedef struct FT_WinFNT_HeaderRec_*  FT_WinFNT_Header;
-
-
-  
   FT_EXPORT( FT_Error )
   FT_Get_WinFNT_Header( FT_Face               face,
                         FT_WinFNT_HeaderRec  *aheader );
-
-  
-
-
 FT_END_HEADER
-
 #endif 
-
-
-
-
-
-
-
-

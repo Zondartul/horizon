@@ -1,5 +1,4 @@
 #include "gadgets/gui_table.h"
-
 GUItable::GUItable(){
 	bar = new GUIscrollbar();
 	bar->setInnerSize(vec2(400,150));
@@ -7,13 +6,10 @@ GUItable::GUItable(){
 	grid = new GUIgrid();
 	bar->addChild(grid);
 }
-
 GUItable::GUItable(GUIpropertyTable tab):GUItable(){
 	setTable(tab);
 }
-
 GUItable &GUItable::setTable(GUIpropertyTable tab){
-	
 	table.entries = tab;
 	grid->resize(table.entries.table.size(),2);
 	grid->configureColumn(0,32,128,1.0);
@@ -23,14 +19,12 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 	vec2 lblSize = vec2(128,32);
 	vec2 teSize = vec2(128,32);
 	for(auto I = tab.table.begin(); I != tab.table.end(); I++){
-		
 		string name = I->first;
 		string val = I->second;
 		GUIlabel *l = new GUIlabel(name);
 		l->setSize(lblSize);
 		grid->addChild(l);
 		grid->grid(l,row,0);
-		
 		GUItextEntry *te = new GUItextEntry();
 		te->setText(val);
 		te->setSize(teSize);
@@ -46,20 +40,16 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 		});
 		grid->addChild(te);
 		grid->grid(te,row++,1);
-		
 		table.entry_widgets[name] = te;
-		
 		y+= 32;
 	}
 	bar->setInnerSize(vec2(lblSize.x+teSize.x,y));
 	return *this;
 }
-
 void GUItable::invalidate(){
 	GUIwindow::invalidate();
 	bar->setSize(clientArea.size);
 }
-
 GUItable &GUItable::setFunction(function<void(string, string)> f){
 	f_entryChanged = f;
 	return *this;

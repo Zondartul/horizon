@@ -6,7 +6,6 @@
 using std::vector;
 #include "dirent.h"
 #include "resource.h"
-
 string fileToString(const char *filepath){
 	FILE *fp;
 	fp = fopen(filepath,"r");
@@ -19,7 +18,6 @@ string fileToString(const char *filepath){
 	}
 	return S;
 }
-
 string locateResource(const char *type, const char *name){
 #ifndef NO_SDL
 	SDL_ClearError();
@@ -45,8 +43,6 @@ string locateResource(const char *type, const char *name){
 	if(T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".jpg";}
 	if(T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".jpg";}
 	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" + namedir + sname + "/"+sname + ".obj";}
-
-
 	FILE *f = fopen(abspath.c_str(),"rb");
 	if(!f && T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".png"; f = fopen(abspath.c_str(),"rb");}
 	if(!f && T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".png";  f = fopen(abspath.c_str(),"rb");}
@@ -58,7 +54,6 @@ string locateResource(const char *type, const char *name){
 	fclose(f);
 	return abspath;
 }
-
 bool fileReadable(string S){
 	FILE *fp = fopen(S.c_str(),"r");
 	if(!fp){return false;}
@@ -67,7 +62,6 @@ bool fileReadable(string S){
 		return true;
 	}
 }
-
 string getProgramDirectory(){
 #ifndef NO_SDL
 	return string(SDL_GetBasePath());
@@ -81,7 +75,6 @@ string getConfigDirectory(){
 string getDataDirectory(){
 	return toCanonicalPath(getProgramDirectory()+"..\\data\\");
 }
-
 string getOSdirSeparator(){
 #ifdef WIN32
 	return "\\";
@@ -89,7 +82,6 @@ string getOSdirSeparator(){
 	return "/";
 #endif
 }
-
 string getOSdirInitiator(){
 #ifdef WIN32
 	return "";
@@ -97,8 +89,6 @@ string getOSdirInitiator(){
 	return "/";
 #endif
 }
-
-
 string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
@@ -109,7 +99,6 @@ string toCanonicalPath(string dir){
 			if(S == ".."){
 				subdirs.pop_back();
 			}else if(S == ""){
-				
 			}else{
 				subdirs.push_back(S);
 			}
@@ -126,11 +115,9 @@ string toCanonicalPath(string dir){
 	printf("%s\n",S.c_str());
 	return S;
 }
-
 vector<string> getDirectoryList(string dirname){
 	vector<string> res;
 	printf("direntries begin\n");
-
 	DIR *d = opendir(dirname.c_str());
 	if(!d){return res;} 
 	while(1){
@@ -141,11 +128,9 @@ vector<string> getDirectoryList(string dirname){
 		res.push_back(S);
 	}
 	closedir(d);
-
 	printf("direntries end\n");
 	return res;
 }
-
 string getFileExtension(string filename){
 	string S;
 	int pos = filename.find_last_of(".");
@@ -154,7 +139,6 @@ string getFileExtension(string filename){
 	printf("getFileExt(%s) = [%s]\n",filename.c_str(),S.c_str());
 	return S;
 }
-
 string getFilename(string filepath){
 	string S = toCanonicalPath(filepath);
 	int pos = S.find_last_of("/");
@@ -162,7 +146,6 @@ string getFilename(string filepath){
 	printf("getFilename(%s) = [%s]\n",filepath.c_str(),S.c_str());
 	return S;
 }
-
 string getFileNameNoExt(string filepath){
 	string filename = getFilename(filepath);
 	string S = filename;
@@ -171,14 +154,12 @@ string getFileNameNoExt(string filepath){
 	printf("getFileNameNoExt(%s) = [%s]\n",filepath.c_str(),S.c_str());
 	return S;
 }
-
 bool isFolder(string filename){
 	printf("isFolder(%s)? ",filename.c_str());
 	DIR *d = opendir(filename.c_str());
 	if(d){printf("yes\n"); closedir(d); return true;}
 	else {printf("no\n");return false;}
 }
-
 texture *getFileIcon(string filename){
 	string ext = getFileExtension(filename);
 	texture *t = 0;
@@ -243,11 +224,8 @@ texture *getFileIcon(string filename){
 	}
 	return t;
 }
-
 bool fileExists(string filename){
 	FILE *f = fopen(filename.c_str(),"r");
 	if(!f){return false;}
 	else{fclose(f); return true;}
 }
-
-

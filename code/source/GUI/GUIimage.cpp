@@ -1,7 +1,4 @@
 #include "GUI_internal.h"
-
-
-
 GUIimage::GUIimage(){
 	image = defaultimage;
 	noframe = true;
@@ -14,13 +11,9 @@ GUIbase *GUIimage::sizeToContents(){
 	if(image){
 		area = area.setSize(image->size());
 	}else{
-
 	}
 	return this;
 }
-
-
-	
 GUIpropertyTable GUIimage::getDefaultPropertyTable(){
 	GUIpropertyTable table = GUIframe::getDefaultPropertyTable();
 	table.table["image"] = toString((texture*)defaultimage);
@@ -34,7 +27,4 @@ void GUIimage::setProperty(string key, string val){
 	if(key == "image"){setImage(fromString<texture*>(val));}
 	else{GUIframe::setProperty(key,val);}
 }
-
-
 string GUIimage::getType(){return "GUIimage";}
-

@@ -3,9 +3,7 @@
 #include <string>
 using std::string;
 #include "vec.h"
-
 struct bitmap;
-
 struct texture{
 	string name;
 	texture();
@@ -16,5 +14,4 @@ struct texture{
 	rect getRect();
 	bitmap *bmp;
 };
-
 #endif

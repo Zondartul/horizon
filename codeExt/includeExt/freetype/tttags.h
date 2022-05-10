@@ -1,38 +1,13 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifndef TTAGS_H_
 #define TTAGS_H_
-
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
 #ifdef FREETYPE_H
 #error "freetype.h of FreeType 1 has been loaded!"
 #error "Please fix the directory search order for header files"
 #error "so that freetype.h of FreeType 2 is found first."
 #endif
-
-
 FT_BEGIN_HEADER
-
-
 #define TTAG_avar  FT_MAKE_TAG( 'a', 'v', 'a', 'r' )
 #define TTAG_BASE  FT_MAKE_TAG( 'B', 'A', 'S', 'E' )
 #define TTAG_bdat  FT_MAKE_TAG( 'b', 'd', 'a', 't' )
@@ -101,11 +76,5 @@ FT_BEGIN_HEADER
 #define TTAG_vhea  FT_MAKE_TAG( 'v', 'h', 'e', 'a' )
 #define TTAG_vmtx  FT_MAKE_TAG( 'v', 'm', 't', 'x' )
 #define TTAG_wOFF  FT_MAKE_TAG( 'w', 'O', 'F', 'F' )
-
-
 FT_END_HEADER
-
 #endif 
-
-
-

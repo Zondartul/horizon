@@ -4,14 +4,10 @@
 #include <vector>
 using std::vector;
 #include "fonts.h"
-
-
-
 class rmodel;
 struct texture;
 class renderLayer;
 struct camprojection;
-
 struct renderOptions{
 	bool wireframe = false;
 	bool texturing = true;
@@ -24,7 +20,6 @@ struct renderOptions{
 	float alpha;
 	bool scissoring = false;
 	rect scissor;
-    
     bool transparency = true;
     bool depthMask = true;
     bool depthTest = true;
@@ -44,16 +39,13 @@ struct renderOptions{
     vec3 ambientLightColor = vec3(0,0,0);
 	vec2 texturePos = vec2(0,0);
 	vec2 textureScale = vec2(1,1);
-    
     renderLayer *layer_3d = 0;
     renderLayer *layer_2d = 0;
-    
 	void apply(renderLayer *L = 0);
     void applyImmediate();
 };
 void pushRenderOptions();
 void popRenderOptions();
-
 class renderable{
 	public:
 	vec3 pos = vec3(0,0,0);
@@ -63,7 +55,6 @@ class renderable{
 	virtual void render(renderOptions *options)=0;
 	virtual ~renderable() = default;
 };
-
 class renderableSprite:public renderable{
     public:
     texture *t = 0;
@@ -72,7 +63,6 @@ class renderableSprite:public renderable{
     void render(renderOptions *options);
     virtual ~renderableSprite() = default;
 };
-
 class renderableModel:public renderable{
 	public:
 	rmodel *rm_default = 0;
@@ -82,8 +72,6 @@ class renderableModel:public renderable{
 	void render(renderOptions *options);
 	virtual ~renderableModel() = default;
 };
-
-
 class renderableMultimodel:public renderable{
 	public:
 	vector<vec3> offsets;
@@ -92,8 +80,6 @@ class renderableMultimodel:public renderable{
 	void render(renderOptions *options);
 	virtual ~renderableMultimodel() = default;
 };
-
-
 class renderablePlane:public renderable{
 	public:
 	vec3 normal;
@@ -105,15 +91,9 @@ class renderablePlane:public renderable{
 	void render(renderOptions *options);
 	virtual ~renderablePlane() = default;
 };
-
-
 void renderInit();
 void renderTick();
-
 struct gs_renderKind {
 	vector<renderOptions> g_renderOptionsStack;
 };
-
-
-
 #endif

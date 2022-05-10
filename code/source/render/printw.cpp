@@ -8,11 +8,8 @@
 #include "rmodel.h"
 #include "simplemath.h"
 #include "global_vars.h"
-
-
 void drawRectImmediate(rect R){
 	auto& currentLayer = Gb->gs_paint->g_currentLayer;
-
 	rmodel *rm = new rmodel();
 	vec3 A = vec3(R.start.x,R.start.y,0.0f);
 	vec3 B = vec3(R.start.x,R.end.y,0.0f);
@@ -28,22 +25,18 @@ void drawRectImmediate(rect R){
 	rm->vertices->push_back(B);
 	rm->vertices->push_back(D);
 	rm->vertices->push_back(C);
-
 	rm->uvs->push_back(UVA);
 	rm->uvs->push_back(UVB);
 	rm->uvs->push_back(UVC);
 	rm->uvs->push_back(UVB);
 	rm->uvs->push_back(UVD);
 	rm->uvs->push_back(UVC);
-
-
 	rm->colors->push_back(vec3(1,0,0));
 	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,1,1));
 	rm->colors->push_back(vec3(1,0,0));
 	rm->colors->push_back(vec3(1,1,1));
-
 	rm->finalize();
     renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("drawRectImmediate",false,true);
@@ -56,13 +49,9 @@ void drawRectImmediate(rect R){
     delete L;
     setLayer(oldL);
 }
-
-
-
 void printText2D(const char *text, font *F, vec2 &textPos){
 	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	auto& printFromTop = Gb->gs_printw->g_printFromTop;
-
 	renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("printText2D",false,true);
     setLayer(L);
@@ -70,7 +59,6 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 	char C = *text;
 	int x=(int)textPos.x,y=(int)textPos.y,I=0;
 	setTexturing(true);
-
     setTransparency(true);
 	float yoffset = 0;
 	if(printFromTop){yoffset = F->maxrect.end.y;}
@@ -81,8 +69,6 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 			texture *t = G.t;
 			setTexture(t);
 			drawRect((t->getRect().moveTo({G.bearingX,-G.bearingY})*scale).moveBy({x,y+yoffset}));
-
-
 			x+=int(float(G.advance)*scale);
 		}else{
 			if(C == '\n'){
@@ -94,17 +80,14 @@ void printText2D(const char *text, font *F, vec2 &textPos){
 		 C = text[I];
 	 }
 	 textPos = vec2(x,y);
-
     setTexturing(false);
     L->render();
     L->clear();
     delete L;
     setLayer(oldL);
 }
-
 rect preprintText2D(const char *text, font *F){
 	auto& printFromTop = Gb->gs_printw->g_printFromTop;
-
 	int maxx,maxy,minx,miny;
 	maxx = 0;
 	maxy = 0;
@@ -144,18 +127,10 @@ rect preprintText2D(const char *text, font *F){
 	}
 	return rect({minx,miny},{maxx,maxy});
 }
-
-
-
-
-
-
 void printw(const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
-
 	size_t fuckhuge = 100000;
-		
 	char *buff = (char*)malloc(fuckhuge + 1);
 	vsnprintf(buff,fuckhuge,format,ap);
 	printText(buff);
@@ -164,7 +139,6 @@ void printw(const char *format, ...){
 rect preprintw(font *F, const char *format, ...){
 	va_list ap;
 	va_start(ap, format);
-
 	char buff[100001];
 	vsnprintf(buff,100000,format,ap);
 	return preprintText2D(buff,F);

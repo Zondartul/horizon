@@ -1,58 +1,38 @@
-
-
-
-
 #ifndef _SDL_syswm_h
 #define _SDL_syswm_h
-
 #include "SDL_stdinc.h"
 #include "SDL_error.h"
 #include "SDL_video.h"
 #include "SDL_version.h"
-
 #include "begin_code.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
 #ifdef SDL_PROTOTYPES_ONLY
 struct SDL_SysWMinfo;
 #else
-
 #if defined(SDL_VIDEO_DRIVER_WINDOWS)
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>
 #endif
-
 #if defined(SDL_VIDEO_DRIVER_WINRT)
 #include <Inspectable.h>
 #endif
-
-
 #if defined(SDL_VIDEO_DRIVER_X11)
 #if defined(__APPLE__) && defined(__MACH__)
-
 #define Cursor X11Cursor
 #endif
-
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
-
 #if defined(__APPLE__) && defined(__MACH__)
-
 #undef Cursor
 #endif
-
 #endif 
-
 #if defined(SDL_VIDEO_DRIVER_DIRECTFB)
 #include <directfb.h>
 #endif
-
 #if defined(SDL_VIDEO_DRIVER_COCOA)
 #ifdef __OBJC__
 @class NSWindow;
@@ -60,7 +40,6 @@ struct SDL_SysWMinfo;
 typedef struct _NSWindow NSWindow;
 #endif
 #endif
-
 #if defined(SDL_VIDEO_DRIVER_UIKIT)
 #ifdef __OBJC__
 #include <UIKit/UIKit.h>
@@ -70,13 +49,10 @@ typedef struct _UIViewController UIViewController;
 #endif
 typedef Uint32 GLuint;
 #endif
-
 #if defined(SDL_VIDEO_DRIVER_ANDROID)
 typedef struct ANativeWindow ANativeWindow;
 typedef void *EGLSurface;
 #endif
-
-
 typedef enum
 {
     SDL_SYSWM_UNKNOWN,
@@ -90,8 +66,6 @@ typedef enum
     SDL_SYSWM_WINRT,
     SDL_SYSWM_ANDROID
 } SDL_SYSWM_TYPE;
-
-
 struct SDL_SysWMmsg
 {
     SDL_version version;
@@ -119,24 +93,18 @@ struct SDL_SysWMmsg
 #if defined(SDL_VIDEO_DRIVER_COCOA)
         struct
         {
-            
             int dummy;
-            
         } cocoa;
 #endif
 #if defined(SDL_VIDEO_DRIVER_UIKIT)
         struct
         {
             int dummy;
-            
         } uikit;
 #endif
-        
         int dummy;
     } msg;
 };
-
-
 struct SDL_SysWMinfo
 {
     SDL_version version;
@@ -209,7 +177,6 @@ struct SDL_SysWMinfo
             struct MirSurface *surface;  
         } mir;
 #endif
-
 #if defined(SDL_VIDEO_DRIVER_ANDROID)
         struct
         {
@@ -217,28 +184,15 @@ struct SDL_SysWMinfo
             EGLSurface surface;
         } android;
 #endif
-
-        
         int dummy;
     } info;
 };
-
 #endif 
-
 typedef struct SDL_SysWMinfo SDL_SysWMinfo;
-
-
-
 extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowWMInfo(SDL_Window * window,
                                                      SDL_SysWMinfo * info);
-
-
-
 #ifdef __cplusplus
 }
 #endif
 #include "close_code.h"
-
 #endif 
-
-

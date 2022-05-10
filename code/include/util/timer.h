@@ -6,7 +6,6 @@
 using std::function;
 using std::string;
 using std::list;
-
 class timer{
 	public:
 	int ticks_max;
@@ -20,25 +19,19 @@ class timer{
 	~timer();
 	void tick();
 };
-
 void simpletimer(function<void(timer *T)> F, int ticks_max);
-
 void timersTick();
 int getGameTicks();
 float getGameTime();
 float getRealTime();
-
 int getCalendarTime();
 string getCalendarTimeStr();
 int getCalendarDate();
 string getCalendarDateStr();
-
 void initTimers();
-
 struct gs_timerKind {
 	list<timer*> g_timers;
 	int g_t = 0;		
 	float g_t2 = 0;	
 };
-
 #endif

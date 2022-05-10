@@ -12,21 +12,15 @@
 #include "global_vars.h"
 using std::stringstream;
 using std::string;
-
-
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){
 	auto& all_layers = Gb->gs_renderLayer->g_all_layers;
-
 	all_layers.push_back(this);
 }
-
 void renderLayer::render(){
     g_renderLow->renderParseQueue(&queue3, this);
 }
-
 void renderLayer::clear(){
 	int i = 0;
-
     for(auto I = queue3.begin(); I != queue3.end(); I++){
         renderCommand3 *cmd = *I;
         delete cmd;
@@ -43,12 +37,9 @@ void renderLayer::print(){
         printf("%d: %s\n",J,toCString(*I));
     }
 }
-
-
 void renderLayer::push(renderCommand3 *cmd){
     queue3.push_back(cmd);
 }
-
 renderLayer *renderLayer::duplicate(){
 	renderLayer *L2 = new renderLayer();
     for(auto I = queue3.begin(); I != queue3.end(); I++){
@@ -59,13 +50,10 @@ renderLayer *renderLayer::duplicate(){
     }
 	return L2;
 }
-
-
 string toString(renderLayer *l){
 	if(!l){return "<null>";}
 	return l->name;
 }
-
 void addWithIndent(stringstream &ss1, stringstream &ss2, int num){
 	char buff[200];
 	while(ss2.getline(buff,199)){
@@ -76,14 +64,12 @@ void addWithIndent(stringstream &ss1, stringstream &ss2, int num){
 		if(!ss2.eof()){ss1 << "\n";}
 	}
 }
-
 string renderLayer::report3(){
 	stringstream ss;
 	ss << "layer \"" << name << "\"";
 	if(persistent){ss << "+persistent ";}
 	if(special){ss << "+special ";}
 	ss << "\n";
-
 	int J = 0;
 	for(auto I = queue3.begin(); I != queue3.end(); I++,J++){
 		ss << " " << J << ": " << escapeString(toString(*I)) << "\n";
@@ -97,11 +83,9 @@ string renderLayer::report3(){
 			}
 			addWithIndent(ss, ss2, 4);
 		}
-
 	}
 	return ss.str();
 }
-
 const renderCommand3 *renderLayer::get(unsigned int num){
     if(queue3.size() > num){
         return queue3[num];
@@ -109,16 +93,13 @@ const renderCommand3 *renderLayer::get(unsigned int num){
         return 0;
     }
 }
-
 void setupLayer3D(){
 	auto& layer3D = Gb->gs_paint->g_layer3D;
-
 	setLayer(layer3D->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(true);
 	setFaceCullCCW();
 #endif
-
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
 	setDepthTest(true);
@@ -127,7 +108,6 @@ void setupLayer3D(){
 	setSunPos(vec3(0.5,0.75,1));
 	setSunColor(0.9f*vec3(1,1,1));
 	setAmbientColor(0.3f*vec3(1,1,1));
-
 	setColoring(true);
 	setTexturing(false);
 	setScissoring(false);
@@ -135,10 +115,8 @@ void setupLayer3D(){
 	setAlpha(255);
 	setColor({255,255,255});
 }
-
 void setupLayer2D(){
 	auto& layer2D = Gb->gs_paint->g_layer2D;
-
 	setLayer(layer2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
@@ -153,11 +131,8 @@ void setupLayer2D(){
 	setDepthMask(true);
 	setLighting(false);
 }
-
-
 void setupLayerDebug(){
 	auto& layerDebug = Gb->gs_paint->g_layerDebug;
-
 	setLayer(layerDebug->resetLayer);
 #ifndef NO_GLEW
 	setFaceCulling(false);
@@ -167,7 +142,6 @@ void setupLayerDebug(){
 	setDepthTest(false);
 	setDepthMask(true);
 	setLighting(false);
-
 	setColoring(true);
 	setTexturing(false);
 	setScissoring(false);
@@ -176,10 +150,8 @@ void setupLayerDebug(){
 	setColor({255,255,255});
 	setPointSize(3.f);
 }
-
 void setupLayerDebug2D(){
 	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
-
 	setLayer(layerDebug2D->resetLayer);
 	setPosition(vec3(0,0,0));
 	setScale(vec3(1,1,1));
@@ -193,22 +165,14 @@ void setupLayerDebug2D(){
 	setDepthMask(true);
 	setLighting(false);
 }
-
 void setupLayers(){
 	setupLayer3D();
 	setupLayer2D();
 	setupLayerDebug();
 	setupLayerDebug2D();
 }
-
 renderExKind::renderExKind(logmessage lmsg_, renderLayer* L, int cmdNum):exKind(lmsg_){
     const renderCommand3 *rcmd = 0;
     if(L){rcmd = L->get(cmdNum);}
     msg.msg += string()+"\nwhere layer = ["+(L? toString(L) : "<null>")+"], rcmd #"+cmdNum+" = ["+(rcmd? toString(rcmd) : "<null>")+"]";
 }
-
-
-
-
-
-

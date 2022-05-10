@@ -1,5 +1,4 @@
 #include "GUI_internal.h"
-
 GUIdropdownMenu::GUIdropdownMenu(){
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	setSize(vec2(10,10));
@@ -10,38 +9,28 @@ GUIdropdownMenu::GUIdropdownMenu(){
 	constructed = true;
 	globalChannel->addListener(this); 
 }
-
 GUIbutton *GUIdropdownMenu::addItem(string text){
 	GUIbutton *btn = new GUIbutton();
 	btn->setText(text);
 	btn->setSize(vec2(80,24));
 	btn->moveTo(vec2(0,0));
-	
 	grid->addChild(btn);
 	grid->grid(btn);
 	invalidate();
 	return btn;
 }
-
 GUIbutton *GUIdropdownMenu::addItem(string text, function<void()> func){
 	GUIbutton *btn = addItem(text);
 	btn->F = func;
 	invalidate();
 	return btn;
 }
-
 GUIdropdownMenu *GUIdropdownMenu::addSubmenu(string text){
-	
-	
-	
-	
-	
 	GUIdropdownMenu *ddm = new GUIdropdownMenu();
 	ddm->name = name+"_sub";
 	submenus.push_back(ddm);
 	ddm->isClient = false;
 	ddm->hidden = true;
-	
 	GUIbutton *btn = addItem(text+" >",[=](){
 		ddm->hidden = false;
 	});
@@ -51,7 +40,6 @@ GUIdropdownMenu *GUIdropdownMenu::addSubmenu(string text){
 	invalidate();
 	return ddm;
 }
-
 void GUIdropdownMenu::invalidate(){
 	if(!constructed){return;}
 	vec2 max_corner = grid->area.end;
@@ -63,7 +51,6 @@ void GUIdropdownMenu::invalidate(){
 	area = area.setSize(max_corner);
 	clientArea = area.setStart(vec2(0,0));;
 }
-
 float rectDist(rect R, vec2 pos){
 	vec2 A = R.start;
 	vec2 D = R.end;
@@ -76,7 +63,6 @@ float rectDist(rect R, vec2 pos){
 	if(R.contains(pos)){dist = 0;}
 	return dist;
 }
-
 float GUIdropdownMenu::getMouseDist(){
 	vec2 pos = getMousePos();
 	rect R = grid->worldArea();
@@ -91,15 +77,10 @@ float GUIdropdownMenu::getMouseDist(){
 	}
 	return dist;
 }
-
-
-
 void GUIdropdownMenu::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	if(event.isMasked()){return;}
-
 	if(event.type == EVENT_FRAME){
-		
 		if(!hidden){
 			float dist = getMouseDist();
 			if(dist == 0){hideCounter = 0;}
@@ -111,10 +92,4 @@ void GUIdropdownMenu::onEvent(eventKind event){
 		}
 	}
 }
-
 string GUIdropdownMenu::getType(){return "GUIdropdownMenu";}
-
-
-
-
-

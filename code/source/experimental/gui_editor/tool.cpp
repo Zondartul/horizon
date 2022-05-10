@@ -1,7 +1,5 @@
 #include "gui_editor.h"
-
 gui_editor_tool::gui_editor_tool(gui_editor_kind *Ed):Ed(Ed){}
-
 void gui_editor_tool::scan(){
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;

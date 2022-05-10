@@ -11,11 +11,9 @@
 #include "editmodel.h"
 #include "simplemath.h"
 #include "input.h"
-
 void editor2Kind::setupLayers(){
 	auto& layer3D = Gb->gs_paint->g_layer3D;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
-
 	printf("editor.setupLayers()\n");
 	layers.l3D 			= new renderLayer("editor.l3D");
 	layers.l3Dimmediate = new renderLayer("editor.l3Dimmediate");
@@ -26,11 +24,8 @@ void editor2Kind::setupLayers(){
 	addLayer(layer2D,		layers.l2D);
 	addLayer(layers.l2D,	layers.l2Dimmediate);
 }
-
-
 #define if_first() static int first = 1; if(first-- > 0)
 #define if_not_first() static int first = 1; if(!(first-- > 0))
-
 void editor2Kind::resetLayer(renderLayer *L){
 	if(L == layers.l3D){
 		printf("editor.resetLayer(l3D)\n");
@@ -55,26 +50,19 @@ void editor2Kind::resetLayer(renderLayer *L){
 	if(L == layers.l2Dimmediate){
 		layers.l2Dimmediate->clear();
 	}
-
 }
-
 void editor2Kind::printselection(){
 	printf("selected %d verts, %d edges, %d tris\n",sel.verts.size(),sel.edges.size(),sel.tris.size());
 }
-
-
-
 void editor2Kind::constructTestModel(){
 	printf("editor.constructTestModel()\n");
 	EM = e_model();
-	
 	e_vertex *vO = new e_vertex({0,0,0},&EM);
 	e_vertex *vA = new e_vertex({1,0,0},&EM);
 	e_vertex *vB = new e_vertex({0,1,0},&EM);
 	e_vertex *vC = new e_vertex({0,0,1},&EM);
 	e_vertex *vD = new e_vertex({0,0,2},&EM);
 	new e_vertex({1,1,2},&EM);
-
 	new e_edge(vO,vA,&EM);
 	new e_edge(vO,vB,&EM);
 	new e_edge(vA,vB,&EM);
@@ -82,29 +70,22 @@ void editor2Kind::constructTestModel(){
 	new e_edge(vB,vC,&EM);
 	new e_edge(vA,vC,&EM);
 	new e_edge(vC,vD,&EM);
-
 	new e_triangle(vO,vA,vB,&EM);
 	new e_triangle(vO,vA,vC,&EM);
 	new e_triangle(vO,vB,vC,&EM);
 	new e_triangle(vA,vB,vC,&EM);
-
 	EM.recalculateNeighbors();
-
 	setLayer(layers.l3D);
 	sel = EM.selectAll();
 	sel.rebuildRmodel();
 }
-
 void openEditor2(){
 	auto& editor2 = Gt->gs_editor2->g_editor2;
 	editor2 = new editor2Kind();
 }
-
-
 editor2Kind::editor2Kind():sel(&EM){
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
-	
 	printf("editor.editorKind()\n");
 	inputChannel->addListener(this);
 	inputChannel->moveListenerToFront(this);
@@ -113,10 +94,8 @@ editor2Kind::editor2Kind():sel(&EM){
 	constructTestModel();
 	redraw();
 }
-
 void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 	auto& camera = Gb->gs_camera->g_camera;
-
 	printf("editor.boxSelect()\n");
 	sel.clear();
 	camera.go3D();
@@ -132,7 +111,6 @@ void editor2Kind::boxSelect(vec2 boxStart, vec2 boxEnd){
 	redraw();
 	printselection();
 }
-
 void editor2Kind::redraw(){
 	printf("editor.redraw()\n");
 	e_selection selAll = EM.selectAll();
@@ -145,37 +123,24 @@ void editor2Kind::redraw(){
 	printf("selAll.verts = %d\nsel.verts = %d\n",selAll.verts.size(),sel.verts.size());
 	sel.rebuildRmodel();
 	selAll.rebuildRmodel();
-
 	resetLayer(layers.l3D);
 	setLayer(layers.l3D);
 	setPointSize(3);
 	selAll.render();
-
 	setPointSize(5);
 	sel.render();
 }
-
-
-
-
 void editor2Kind::think(){
 	auto& camera = Gb->gs_camera->g_camera;
 	auto& plane = Gt->gs_editor2->g_plane;
-	
-		
 		vec3 p1;
 		vec3 dir = camera.getMouseDir();
 		bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1);
 		float dist1 = length(p1-lastPoint);																	
 		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				
 		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				
-		
-		
 		bool lastPointSelected = (dist2 < 0.05f);															
-		
 		if(hasBox){boxEnd = getMousePos();}
-		
-	
 	resetLayer(layers.l3Dimmediate);
 	resetLayer(layers.l2Dimmediate);
 	if(hasLastPoint){
@@ -199,30 +164,24 @@ void editor2Kind::think(){
 		drawRectOutline(rect(boxStart,boxEnd));
 	}
 }
-
 void splitTest(){
 	static int step = 0;
 	int maxstep = 10;
 	printf("splitTest step %d/%d\n",step,maxstep);
-
 	switch(step){
 		case 0:
-
 		break;
 		case 1:
 		break;
 		default:
         break;
 	}
-
 	step++;
 	if(step>maxstep){step = 0;}
 }
-
 void editor2Kind::onEvent(eventKind event){
 	auto& camera = Gb->gs_camera->g_camera;
 	auto& plane = Gt->gs_editor2->g_plane;
-
 	vec2 screenpos;
 	vec3 forward;
 	string K;
@@ -302,7 +261,6 @@ void editor2Kind::onEvent(eventKind event){
 				printselection();
 				redraw();
 				printf("\nselected implicit edges\n");
-
 			}
 			if(K == "3"){
 				event.maskEvent();
@@ -310,7 +268,6 @@ void editor2Kind::onEvent(eventKind event){
 				printselection();
 				redraw();
 				printf("\nselected implicit triangles\n");
-
 			}
 			if(K == "4"){
 				event.maskEvent();

@@ -1,7 +1,6 @@
 #include "resource.h"
 #include "imageLoader.h"
 #include "textureLoader.h"
-
 #include "fontLoader.h"
 #include "file.h"
 #include "bitmap.h"
@@ -14,10 +13,8 @@
 #include "rmodel.h"
 #include "editmodel.h"
 #include "global_vars.h"
-
 bitmap *getBitmap(string name){
 	auto& bitmaps = Gb->gs_resource->g_bitmaps;
-
 	for(unsigned int I = 0; I < bitmaps.size(); I++){
 		if(bitmaps[I]->name == name){return bitmaps[I];}
 	}
@@ -31,7 +28,6 @@ bitmap *getBitmap(string name){
 texture *getTexture(string name){
 	auto& textures = Gb->gs_resource->g_textures;
 	auto& loadLayer = Gb->gs_paint->g_loadLayer;
-
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}
@@ -48,7 +44,6 @@ texture *getTexture(string name){
 texture *getModelTexture(string name){
 	auto& textures = Gb->gs_resource->g_textures;
 	auto& loadLayer = Gb->gs_paint->g_loadLayer;
-
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}
@@ -64,21 +59,14 @@ texture *getModelTexture(string name){
 }
 model *getModel(string name){
 	auto& models = Gb->gs_resource->g_models;
-
 	for(unsigned int I = 0; I < models.size(); I++){
 		if(models[I]->name == name){return models[I];}
 	}
 	string filepath = locateResource("model", name.c_str());
-	
-	
-	
-	
-	
 	return 0;
 }
 font *getFont(string name){
 	auto& fonts = Gb->gs_resource->g_fonts;
-
 	for(unsigned int I = 0; I < fonts.size(); I++){
 		if(fonts[I]->name == name){return fonts[I];}
 	}
@@ -92,41 +80,24 @@ font *getFont(string name){
 	fonts.push_back(f);
 	return f;
 }
-
 vector<bitmap*> listBitmaps(){
 	auto& bitmaps = Gb->gs_resource->g_bitmaps;
 	return bitmaps;
 }
-
 vector<texture*> listTextures(){
 	auto& textures = Gb->gs_resource->g_textures;
 	return textures;
 }
-
 vector<model*> listModels(){
 	auto& models = Gb->gs_resource->g_models;
 	return models;
 }
-
 vector<font*> listFonts(){
 	auto& fonts = Gb->gs_resource->g_fonts; 
 	return fonts;
 }
-
-
 void loadAssets(){
 	auto& m = Gb->gs_main->g_m; 
-
 	getFont("cour 14");
 	setFont(getFont("calibri 18"));
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

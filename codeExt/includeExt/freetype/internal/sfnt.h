@@ -1,210 +1,29 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifndef SFNT_H_
 #define SFNT_H_
-
-
 #include <ft2build.h>
 #include FT_INTERNAL_DRIVER_H
 #include FT_INTERNAL_TRUETYPE_TYPES_H
-
-
 FT_BEGIN_HEADER
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Init_Face_Func)( FT_Stream      stream,
                         TT_Face        face,
                         FT_Int         face_index,
                         FT_Int         num_params,
                         FT_Parameter*  params );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_Face_Func)( FT_Stream      stream,
                         TT_Face        face,
                         FT_Int         face_index,
                         FT_Int         num_params,
                         FT_Parameter*  params );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef void
   (*TT_Done_Face_Func)( TT_Face  face );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_Any_Func)( TT_Face    face,
                        FT_ULong   tag,
                        FT_Long    offset,
                        FT_Byte   *buffer,
                        FT_ULong*  length );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Find_SBit_Image_Func)( TT_Face          face,
                               FT_UInt          glyph_index,
@@ -212,80 +31,10 @@ FT_BEGIN_HEADER
                               TT_SBit_Range   *arange,
                               TT_SBit_Strike  *astrike,
                               FT_ULong        *aglyph_offset );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_SBit_Metrics_Func)( FT_Stream        stream,
                                 TT_SBit_Range    range,
                                 TT_SBit_Metrics  metrics );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_SBit_Image_Func)( TT_Face              face,
                               FT_ULong             strike_index,
@@ -294,295 +43,76 @@ FT_BEGIN_HEADER
                               FT_Stream            stream,
                               FT_Bitmap           *amap,
                               TT_SBit_MetricsRec  *ametrics );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Set_SBit_Strike_Func)( TT_Face          face,
                               FT_Size_Request  req,
                               FT_ULong*        astrike_index );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_Strike_Metrics_Func)( TT_Face           face,
                                   FT_ULong          strike_index,
                                   FT_Size_Metrics*  metrics );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Get_PS_Name_Func)( TT_Face      face,
                           FT_UInt      idx,
                           FT_String**  PSname );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_Metrics_Func)( TT_Face    face,
                            FT_Stream  stream,
                            FT_Bool    vertical );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef void
   (*TT_Get_Metrics_Func)( TT_Face     face,
                           FT_Bool     vertical,
                           FT_UInt     gindex,
                           FT_Short*   abearing,
                           FT_UShort*  aadvance );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Get_Name_Func)( TT_Face      face,
                        FT_UShort    nameid,
                        FT_String**  name );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef FT_Error
   (*TT_Load_Table_Func)( TT_Face    face,
                          FT_Stream  stream );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef void
   (*TT_Free_Table_Func)( TT_Face  face );
-
-
-  
   typedef FT_Int
   (*TT_Face_GetKerningFunc)( TT_Face  face,
                              FT_UInt  left_glyph,
                              FT_UInt  right_glyph );
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   typedef struct  SFNT_Interface_
   {
     TT_Loader_GotoTableFunc      goto_table;
-
     TT_Init_Face_Func            init_face;
     TT_Load_Face_Func            load_face;
     TT_Done_Face_Func            done_face;
     FT_Module_Requester          get_interface;
-
     TT_Load_Any_Func             load_any;
-
-    
-    
     TT_Load_Table_Func           load_head;
     TT_Load_Metrics_Func         load_hhea;
     TT_Load_Table_Func           load_cmap;
     TT_Load_Table_Func           load_maxp;
     TT_Load_Table_Func           load_os2;
     TT_Load_Table_Func           load_post;
-
     TT_Load_Table_Func           load_name;
     TT_Free_Table_Func           free_name;
-
-    
     TT_Load_Table_Func           load_kern;
-
     TT_Load_Table_Func           load_gasp;
     TT_Load_Table_Func           load_pclt;
-
-    
-    
     TT_Load_Table_Func           load_bhed;
-
     TT_Load_SBit_Image_Func      load_sbit_image;
-
-    
     TT_Get_PS_Name_Func          get_psname;
     TT_Free_Table_Func           free_psnames;
-
-    
-
-    
     TT_Face_GetKerningFunc       get_kerning;
-
-    
-
-    
-    
     TT_Load_Table_Func           load_font_dir;
     TT_Load_Metrics_Func         load_hmtx;
-
     TT_Load_Table_Func           load_eblc;
     TT_Free_Table_Func           free_eblc;
-
     TT_Set_SBit_Strike_Func      set_sbit_strike;
     TT_Load_Strike_Metrics_Func  load_strike_metrics;
-
     TT_Get_Metrics_Func          get_metrics;
-
     TT_Get_Name_Func             get_name;
-
   } SFNT_Interface;
-
-
-  
   typedef SFNT_Interface*   SFNT_Service;
-
 #ifndef FT_CONFIG_OPTION_PIC
-
 #define FT_DEFINE_SFNT_INTERFACE(        \
           class_,                        \
           goto_table_,                   \
@@ -648,12 +178,9 @@ FT_BEGIN_HEADER
     get_metrics_,                        \
     get_name_,                           \
   };
-
 #else 
-
 #define FT_INTERNAL( a, a_ )  \
           clazz->a = a_;
-
 #define FT_DEFINE_SFNT_INTERFACE(                       \
           class_,                                       \
           goto_table_,                                  \
@@ -723,12 +250,6 @@ FT_BEGIN_HEADER
     clazz->get_metrics         = get_metrics_;          \
     clazz->get_name            = get_name_;             \
   }
-
 #endif 
-
 FT_END_HEADER
-
 #endif 
-
-
-

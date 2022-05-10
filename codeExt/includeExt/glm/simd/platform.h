@@ -1,23 +1,14 @@
-
-
-
 #pragma once
-
-
-
-
 #define GLM_PLATFORM_UNKNOWN		0x00000000
 #define GLM_PLATFORM_WINDOWS		0x00010000
 #define GLM_PLATFORM_LINUX			0x00020000
 #define GLM_PLATFORM_APPLE			0x00040000
-
 #define GLM_PLATFORM_ANDROID		0x00100000
 #define GLM_PLATFORM_CHROME_NACL	0x00200000
 #define GLM_PLATFORM_UNIX			0x00400000
 #define GLM_PLATFORM_QNXNTO			0x00800000
 #define GLM_PLATFORM_WINCE			0x01000000
 #define GLM_PLATFORM_CYGWIN			0x02000000
-
 #ifdef GLM_FORCE_PLATFORM_UNKNOWN
 #	define GLM_PLATFORM GLM_PLATFORM_UNKNOWN
 #elif defined(__CYGWIN__)
@@ -41,14 +32,10 @@
 #else
 #	define GLM_PLATFORM GLM_PLATFORM_UNKNOWN
 #endif
-
-
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_MESSAGE_PLATFORM_DISPLAYED)
 #	define GLM_MESSAGE_PLATFORM_DISPLAYED
 #	if(GLM_PLATFORM & GLM_PLATFORM_QNXNTO)
 #		pragma message("GLM: QNX platform detected")
-
-
 #	elif(GLM_PLATFORM & GLM_PLATFORM_APPLE)
 #		pragma message("GLM: Apple platform detected")
 #	elif(GLM_PLATFORM & GLM_PLATFORM_WINCE)
@@ -69,13 +56,7 @@
 #		pragma message("GLM: platform not detected")
 #	endif
 #endif
-
-
-
-
 #define GLM_COMPILER_UNKNOWN		0x00000000
-
-
 #define GLM_COMPILER_INTEL			0x00100000
 #define GLM_COMPILER_INTEL12		0x00100010
 #define GLM_COMPILER_INTEL12_1		0x00100020
@@ -83,16 +64,12 @@
 #define GLM_COMPILER_INTEL14		0x00100040
 #define GLM_COMPILER_INTEL15		0x00100050
 #define GLM_COMPILER_INTEL16		0x00100060
-
-
 #define GLM_COMPILER_VC				0x01000000
 #define GLM_COMPILER_VC10			0x01000090
 #define GLM_COMPILER_VC11			0x010000A0
 #define GLM_COMPILER_VC12			0x010000B0
 #define GLM_COMPILER_VC14			0x010000C0
 #define GLM_COMPILER_VC15			0x010000D0
-
-
 #define GLM_COMPILER_GCC			0x02000000
 #define GLM_COMPILER_GCC44			0x020000B0
 #define GLM_COMPILER_GCC45			0x020000C0
@@ -112,8 +89,6 @@
 #define GLM_COMPILER_GCC71			0x02000B00
 #define GLM_COMPILER_GCC72			0x02000C00
 #define GLM_COMPILER_GCC80			0x02000D00
-
-
 #define GLM_COMPILER_CUDA			0x10000000
 #define GLM_COMPILER_CUDA40			0x10000040
 #define GLM_COMPILER_CUDA41			0x10000050
@@ -124,8 +99,6 @@
 #define GLM_COMPILER_CUDA70			0x100000A0
 #define GLM_COMPILER_CUDA75			0x100000B0
 #define GLM_COMPILER_CUDA80			0x100000C0
-
-
 #define GLM_COMPILER_CLANG			0x20000000
 #define GLM_COMPILER_CLANG32		0x20000030
 #define GLM_COMPILER_CLANG33		0x20000040
@@ -138,15 +111,10 @@
 #define GLM_COMPILER_CLANG40		0x200000B0
 #define GLM_COMPILER_CLANG41		0x200000C0
 #define GLM_COMPILER_CLANG42		0x200000D0
-
-
 #define GLM_MODEL_32				0x00000010
 #define GLM_MODEL_64				0x00000020
-
-
 #ifdef GLM_FORCE_COMPILER_UNKNOWN
 #	define GLM_COMPILER GLM_COMPILER_UNKNOWN
-
 #elif defined(__INTEL_COMPILER)
 #	if __INTEL_COMPILER == 1200
 #		define GLM_COMPILER GLM_COMPILER_INTEL12
@@ -163,8 +131,6 @@
 #	else
 #		define GLM_COMPILER GLM_COMPILER_INTEL
 #	endif
-
-
 #elif defined(__CUDACC__)
 #	if !defined(CUDA_VERSION) && !defined(GLM_FORCE_CUDA)
 #		include <cuda.h>  
@@ -174,8 +140,6 @@
 #	else
 #		define GLM_COMPILER GLM_COMPILER_CUDA
 #	endif
-
-
 #elif defined(__clang__)
 #	if GLM_PLATFORM & GLM_PLATFORM_APPLE
 #		if __clang_major__ == 5 && __clang_minor__ == 0
@@ -224,8 +188,6 @@
 #			define GLM_COMPILER GLM_COMPILER_CLANG
 #		endif
 #	endif
-
-
 #elif defined(_MSC_VER)
 #	if _MSC_VER < 1600
 #		error "GLM requires Visual C++ 10 - 2010 or higher"
@@ -242,8 +204,6 @@
 #	else
 #		define GLM_COMPILER GLM_COMPILER_VC
 #	endif
-
-
 #elif defined(__GNUC__) || defined(__MINGW32__)
 #	if (__GNUC__ == 4) && (__GNUC_MINOR__ == 2)
 #		define GLM_COMPILER (GLM_COMPILER_GCC42)
@@ -288,20 +248,12 @@
 #	else
 #		define GLM_COMPILER (GLM_COMPILER_GCC)
 #	endif
-
 #else
 #	define GLM_COMPILER GLM_COMPILER_UNKNOWN
 #endif
-
 #ifndef GLM_COMPILER
 #	error "GLM_COMPILER undefined, your compiler may not be supported by GLM. Add #define GLM_COMPILER 0 to ignore this message."
 #endif
-
-
-
-
-
-
 #define GLM_ARCH_X86_BIT		0x00000001
 #define GLM_ARCH_SSE2_BIT		0x00000002
 #define GLM_ARCH_SSE3_BIT		0x00000004
@@ -315,7 +267,6 @@
 #define GLM_ARCH_NEON_BIT		0x00000200
 #define GLM_ARCH_MIPS_BIT		0x00010000
 #define GLM_ARCH_PPC_BIT		0x01000000
-
 #define GLM_ARCH_PURE		(0x00000000)
 #define GLM_ARCH_X86		(GLM_ARCH_X86_BIT)
 #define GLM_ARCH_SSE2		(GLM_ARCH_SSE2_BIT | GLM_ARCH_X86)
@@ -330,7 +281,6 @@
 #define GLM_ARCH_NEON		(GLM_ARCH_NEON_BIT | GLM_ARCH_ARM)
 #define GLM_ARCH_MIPS		(GLM_ARCH_MIPS_BIT)
 #define GLM_ARCH_PPC		(GLM_ARCH_PPC_BIT)
-
 #if defined(GLM_FORCE_PURE)
 #	define GLM_ARCH GLM_ARCH_PURE
 #elif defined(GLM_FORCE_MIPS)
@@ -356,7 +306,6 @@
 #elif defined(GLM_FORCE_SSE2)
 #	define GLM_ARCH (GLM_ARCH_SSE2)
 #elif (GLM_COMPILER & (GLM_COMPILER_CLANG | GLM_COMPILER_GCC)) || ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_PLATFORM & GLM_PLATFORM_LINUX))
-
 #	if defined(__AVX512BW__) && defined(__AVX512F__) && defined(__AVX512CD__) && defined(__AVX512VL__) && defined(__AVX512DQ__)
 #		define GLM_ARCH (GLM_ARCH_AVX512)
 #	elif defined(__AVX2__)
@@ -409,14 +358,9 @@
 #else
 #	define GLM_ARCH GLM_ARCH_PURE
 #endif
-
-
-
-
 #if defined(__MINGW64__) && (GLM_ARCH != GLM_ARCH_PURE)
 #	include <intrin.h>
 #endif
-
 #if GLM_ARCH & GLM_ARCH_AVX2_BIT
 #	include <immintrin.h>
 #elif GLM_ARCH & GLM_ARCH_AVX_BIT
@@ -432,17 +376,14 @@
 #elif GLM_ARCH & GLM_ARCH_SSE2_BIT
 #	include <emmintrin.h>
 #endif
-
 #if GLM_ARCH & GLM_ARCH_SSE2_BIT
 	typedef __m128		glm_vec4;
 	typedef __m128i		glm_ivec4;
 	typedef __m128i		glm_uvec4;
 #endif
-
 #if GLM_ARCH & GLM_ARCH_AVX_BIT
 	typedef __m256d		glm_dvec4;
 #endif
-
 #if GLM_ARCH & GLM_ARCH_AVX2_BIT
 	typedef __m256i		glm_i64vec4;
 	typedef __m256i		glm_u64vec4;
