@@ -7,8 +7,8 @@
 using namespace tinyxml2;
 using namespace std;
 gui_editor_kind::gui_editor_kind(){
-	auto& GUI = Gb->gs_main->g_GUI;
-	auto& layerGUI = Gb->gs_main->g_layerGUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->gs_event->g_globalChannel;

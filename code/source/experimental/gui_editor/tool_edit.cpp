@@ -95,7 +95,7 @@ void gui_editor_tool_edit::rdown(){
 }
 void gui_editor_tool_edit::rup(){
 	auto &numDDMs = Gt->gs_tool_edit->g_numDDMs;
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	gui_editor_tool::rup();
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;

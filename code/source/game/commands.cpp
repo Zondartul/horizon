@@ -9,8 +9,8 @@
 using std::ofstream;
 using std::stringstream;
 int cmd_pauseGame(int argc, char **argv){
-	auto& gamePaused = Gb->gs_main->g_gamePaused;
-	gamePaused = !gamePaused;
+	//auto& gamePaused = Gb->gs_main->g_gamePaused;
+	//gamePaused = !gamePaused;
     return 0;
 }
 int cmd_listKeybinds(int argc, char **argv){
@@ -73,8 +73,8 @@ int cmd_dirs(int argc, char **argv){
 int cmd_mapeditor(int argc, char **argv){openMapEditor(); return 0;}
 int cmd_framereport(int argc, char **argv){frameReportNextRender(); return 0;}
 int cmd_printf(int argc, char **argv){
-	auto& printf_enabled = Gb->gs_main->g_printf_enabled;
-	printf_enabled = !printf_enabled; 
+	//auto& printf_enabled = Gb->gs_main->g_printf_enabled;
+	//printf_enabled = !printf_enabled; 
 	return 0;
 }
 int cmd_memreport(int argc, char **argv){

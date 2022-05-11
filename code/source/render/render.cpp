@@ -12,6 +12,8 @@
 #include "window.h"
 #include "renderLow.h"
 #include "global_vars.h"
+#include "GUI.h"
+
 void renderOptions::apply(renderLayer *L){
 	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	if(!L){L = currentLayer;}
@@ -151,16 +153,16 @@ void renderTick(){
 	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
 	auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
 	//auto& m = Gb->gs_main->g_m;
-	auto& GUI = Gb->gs_main->g_GUI;
-	auto& fps = Gb->gs_main->g_fps;
-	auto& frametime = Gb->gs_main->g_frametime;
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	//auto& fps = Gb->gs_main->g_fps;
+	//auto& frametime = Gb->gs_main->g_frametime;
 	setLayer(layer2D);
 	clearScreen();
 	go2D();
-	static float fps_filtered = 60.f;
-	static float frametime_filtered = 0.015f;
-	fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
-	frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
+	//static float fps_filtered = 60.f;
+	//static float frametime_filtered = 0.015f;
+	//fps_filtered = mix2(fps_filtered,fps,1.0f/200.0f);
+	//frametime_filtered = mix2(frametime_filtered,frametime,1.0f/200.0f);
 	if(GUI){GUI->renderLogic();}
 	renderAllLayers();
 	loadLayer->clear();

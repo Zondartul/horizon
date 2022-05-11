@@ -1,8 +1,20 @@
-﻿  global_vars.cpp
+﻿  debug.cpp
+  dllmain.cpp
+  file.cpp
+  global_vars.cpp
+  GPUdriver.cpp
   paint.cpp
   printw.cpp
   render.cpp
+  renderCommand.cpp
   renderLayer.cpp
   renderLow.cpp
+  rmodel.cpp
+  simplemath.cpp
+  stringUtils.cpp
+  texture.cpp
+  vec.cpp
+  window.cpp
   Generating Code...
+     Creating library ..\..\bin\horizonRender.lib and object ..\..\bin\horizonRender.exp
   horizonRender.vcxproj -> D:\Stride\shared\horizon\bin\horizonRender.dll

@@ -20,6 +20,8 @@
 #include "camera.h" 
 #include "map_editor.h" 
 #include "console.h"
+#include "GUI.h"
+
 GlobalsTop* Gt = 0;
 GlobalsGui* Gg = 0;
 GlobalsBtm* Gb = 0;
@@ -35,6 +37,7 @@ GlobalsTop::GlobalsTop() {
 GlobalsGui::GlobalsGui() {
 	gs_GUI_internal = new gs_GUI_internalKind();
 	gs_GUIrenderer_default = new gs_GUIrenderer_defaultKind();
+	gs_GUI = new gs_GUIKind();
 }
 GlobalsBtm::GlobalsBtm() {
 	gs_debug = new gs_debugKind();
@@ -43,7 +46,7 @@ GlobalsBtm::GlobalsBtm() {
 	gs_window = new gs_windowKind();
 	gs_timer = new gs_timerKind();
 	gs_resource = new gs_resourceKind();
-	gs_main = new gs_mainKind();
+	//gs_main = new gs_mainKind();
 	gs_render = new gs_renderKind();
 	gs_printw = new gs_printwKind();
 	gs_keybinds = new gs_keybindsKind();

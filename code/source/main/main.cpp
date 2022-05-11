@@ -1,4 +1,7 @@
 #include "game.h"
+
+void openGUI();
+
 void initHorizonGUI() {
 	printf("Hello World!\n");
 	Gb = new GlobalsBtm();
@@ -16,6 +19,9 @@ void initHorizonGUI() {
 	openGUI();
 	printf("-------- frames begin ----------\n");
 }
+
+void tick();
+
 int main(int argc, char **argv){
 	initHorizonGUI();
 	Gt = new GlobalsTop();
@@ -29,7 +35,7 @@ int main(int argc, char **argv){
 }
 void tick(){
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
-	auto& eventTime = Gb->gs_main->g_eventTime;
+	//auto& eventTime = Gb->gs_main->g_eventTime;
 	//auto& renderTime = Gb->gs_main->g_renderTime;
 	//auto& sysmsgTime = Gb->gs_main->g_sysmsgTime;
 	//auto& frametime = Gb->gs_main->g_frametime;
@@ -42,16 +48,16 @@ void tick(){
 	eventKind e1; e1.type = EVENT_TICK;
 	globalChannel->publishEvent(e1);
 	eventKind e2; e2.type = EVENT_FRAME;
-	profile(globalChannel->publishEvent(e2),eventTime);
+	globalChannel->publishEvent(e2);// profile(globalChannel->publishEvent(e2), eventTime);
 	eventKind e3; e3.type = EVENT_CLEANUP;
 	globalChannel->publishEvent(e3);
 	renderTick();  
 	sysMessageTick(); 
 }
 void openGUI(){
-	auto& layerGUI = Gb->gs_main->g_layerGUI;
+	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	layerGUI = new renderLayer("GUI.layerGUI");

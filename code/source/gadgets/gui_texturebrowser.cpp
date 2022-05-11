@@ -39,7 +39,7 @@ GUItextureBrowser::GUItextureBrowser(){
 	populate();
 }
 void openTextureBrowser(){
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	GUI->addChild(new GUItextureBrowser());
 }
 void GUItextureBrowser::addTile(string imgpath, string label){

@@ -26,4 +26,10 @@ using std::function;
 #include "GUIwindow.h"
 #include "GUIselectable.h"
 #include "GUIdropdownMenu.h"
+
+struct gs_GUIKind {
+	class GUIbase* g_GUI;
+	class renderLayer* g_layerGUI;
+};
+
 #endif

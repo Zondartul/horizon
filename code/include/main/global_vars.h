@@ -1,31 +1,5 @@
 #pragma once
-//
-//struct gs_tool_editKind;
-//struct gs_gui_editorKind;
-//struct gs_node_graphKind;
-//struct gs_pickerKind;
-//struct gs_debugKind;
-//struct gs_renderLayerKind;
-//struct gs_paintKind;
-//struct gs_windowKind;
-//struct gs_timerKind;
-//
-//struct gs_resourceKind;
-//struct gs_mainKind;
-//
-//struct gs_renderKind;
-//struct gs_printwKind;
-//struct gs_commandsKind;
-//struct gs_editor2Kind;
-//struct gs_keybindsKind;
-//struct gs_inputKind;
-//struct gs_hookKind;
-//struct gs_GUI_internalKind;
-//struct gs_eventKind;
-//struct gs_GUIrenderer_defaultKind;
-//struct gs_cameraKind;
-//struct gs_map_editorKind;
-//struct gs_consoleKind;
+
 class GlobalsTop {
 public:
 	GlobalsTop();
@@ -40,15 +14,14 @@ public:
 class GlobalsGui {
 public:
 	GlobalsGui();
-	//struct gs_ecsKind *gs_ecs;
-	//struct gs_entityKind* gs_entity;
 	struct gs_GUI_internalKind* gs_GUI_internal;
 	struct gs_GUIrenderer_defaultKind* gs_GUIrenderer_default;
+	struct gs_GUIKind* gs_GUI;
 };
 class GlobalsBtm {
 public:
 	GlobalsBtm();
-	struct gs_mainKind* gs_main;
+	//struct gs_mainKind* gs_main;
 	struct gs_renderLayerKind* gs_renderLayer;
 	struct gs_paintKind* gs_paint;
 	struct gs_windowKind* gs_window;

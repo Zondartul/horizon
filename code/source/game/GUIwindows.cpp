@@ -4,7 +4,7 @@
 using namespace std;
 void openTestWindow1(){
 	auto& loadLayer = Gb->gs_paint->g_loadLayer;
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	texture *img1 = getTexture("art/printer"); setLayer(loadLayer); uploadTexture(img1);
 	GUIbase *F = new GUIframe();
 		F->setSize({200,300})\
@@ -27,7 +27,7 @@ void openTestWindow1(){
 	GUI->addChild(W);
 }
 void openTestWindow2(){
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	texture *img1 = getTexture("art/printer"); uploadTexture(img1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({128,24})->moveTo({20,220});
@@ -47,7 +47,7 @@ void openTestWindow2(){
 		);
 }
 void openTestWindow3(){
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	texture *tex1 = getTexture("art/printer"); uploadTexture(tex1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({96,24})->moveTo({20,220});
@@ -84,7 +84,7 @@ void openTestWindow3(){
 void openTestWindow4(){
 	auto& layer3D = Gb->gs_paint->g_layer3D;
 	auto& loadLayer = Gb->gs_paint->g_loadLayer;
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	renderLayer *test4layerSetup = new renderLayer("openTestWindow4.setup");
 	renderLayer *test4layer = new renderLayer("test4layer");
 	addLayer(layer3D,test4layerSetup);
@@ -251,7 +251,7 @@ void make_checkbox2(bool *val, string name, GUIgrid *gridobj, int row) {
 	gridobj->grid(L,row,1);
 }
 void openTestWindow5(){
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto grid1 = new GUIgrid();
 	auto L1 = new GUIlabel();
 	L1->setText("--- render options ---");
@@ -275,7 +275,7 @@ void openTestWindow5(){
 	->sizeToContents());
 }
 void openTestWindow6(){
-	auto& GUI = Gb->gs_main->g_GUI;
+	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	auto& allocation_map = Gb->gs_debug->g_allocation_map;
 	auto& total_size = Gb->gs_debug->g_total_size;
