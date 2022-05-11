@@ -75,7 +75,7 @@ void cameraKind::go2D(){
 	reposition();
 }
 void cameraKind::go3D(){
-	auto& camera = Gb->gs_camera->g_camera;
+	//auto& camera = Gb->gs_camera->g_camera;
 	auto& width = Gb->gs_window->g_width;
 	auto& height = Gb->gs_window->g_height;
 	mode3D = true;
@@ -270,7 +270,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	float y = devpos.y;
 	float z = devpos.z;
 	vec2 scr = getScreenSize();
-	float zfar = 100.f;
+	//float zfar = 100.f;
 	vec3 dtw,dts;
 	switch(zm){
 		case(Z_IS_ORTHODOX):

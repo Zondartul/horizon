@@ -97,7 +97,7 @@ vector<font*> listFonts(){
 	return fonts;
 }
 void loadAssets(){
-	auto& m = Gb->gs_main->g_m; 
+	//auto& m = Gb->gs_main->g_m; 
 	getFont("cour 14");
 	setFont(getFont("calibri 18"));
 }

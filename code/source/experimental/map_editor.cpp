@@ -218,14 +218,14 @@ vec3 toVec3(DIR d){
 }
 void map_editor_kind::onEvent(eventKind event){
 	auto& camera = Gb->gs_camera->g_camera;
-	auto& templayer = Gt->gs_map_editor->g_templayer;
-	auto& layerDebug = Gb->gs_paint->g_layerDebug;
+	//auto& templayer = Gt->gs_map_editor->g_templayer;
+	//auto& layerDebug = Gb->gs_paint->g_layerDebug;
 	switch(mode){
 		case ME_MODE_BLOCK_PLACEMENT:
 		case ME_MODE_TERRAIN:
 			if(event.type == EVENT_MOUSE_MOVE){
 				vec3 p1;
-				bool has_ent = false;
+				//bool has_ent = false;
 			}
 			if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 				if(event.mousebutton.button == MOUSE_LEFT){

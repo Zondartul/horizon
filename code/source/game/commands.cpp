@@ -91,7 +91,7 @@ int cmd_memreport(int argc, char **argv){
 			ofstream fs(filename);
 			if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
 			stringstream ss;
-			int J = 0;
+			//int J = 0;
 			int tf1 = memreport_last_frame;
 			int tf2 = getGameTicks();
 			int dtf = tf2-tf1;
@@ -134,7 +134,7 @@ int cmd_memreport(int argc, char **argv){
 		ofstream fs(filename);
 		if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
 		stringstream ss;
-		int J = 0;
+		//int J = 0;
 		ss << fstring("Memory report for frame %d\n",getGameTicks());
 		int supertotal = 0;
 		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){

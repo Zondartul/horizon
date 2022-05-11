@@ -119,14 +119,14 @@ void renderComment(string str);
 void initLayers();
 
 struct gs_paintKind {
-	struct renderLayer* g_currentLayer;
+	class renderLayer* g_currentLayer;
 
-	struct renderLayer* g_loadLayer;	//data load commands go here
-	struct renderLayer* g_layer3D;		//3D drawing commands go here
-	struct renderLayer* g_layerDebug;	//3D debug indication goes here
-	struct renderLayer* g_layer2D;		//2D drawing commands go here
-	struct renderLayer* g_layerDebug2D;	//2D debug indication goes here
-	struct renderLayer* g_deleteLayer;	//data delete commands go here
+	class renderLayer* g_loadLayer;		//data load commands go here
+	class renderLayer* g_layer3D;		//3D drawing commands go here
+	class renderLayer* g_layerDebug;	//3D debug indication goes here
+	class renderLayer* g_layer2D;		//2D drawing commands go here
+	class renderLayer* g_layerDebug2D;	//2D debug indication goes here
+	class renderLayer* g_deleteLayer;	//data delete commands go here
 };
 
 #endif

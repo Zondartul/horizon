@@ -100,8 +100,8 @@ void initTimers(){
 	auto& t = Gb->gs_timer->g_t;
 	auto& t2 = Gb->gs_timer->g_t2;
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
-	timer *T1 = new timer([&](timer *T){t++;},1,1);
-	timer *T2 = new timer([&](timer *T){t2+=1/60.f;},1,1);
+	/*timer *T1 = */ new timer([&](timer *T){t++;},1,1);
+	/*timer *T2 = */ new timer([&](timer *T){t2+=1/60.f;},1,1);
 	hookAdd(globalChannel,EVENT_FRAME,"timers",
 		[](eventKind e){
 			timersTick();

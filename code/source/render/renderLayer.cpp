@@ -20,7 +20,7 @@ void renderLayer::render(){
     g_renderLow->renderParseQueue(&queue3, this);
 }
 void renderLayer::clear(){
-	int i = 0;
+	//int i = 0;
     for(auto I = queue3.begin(); I != queue3.end(); I++){
         renderCommand3 *cmd = *I;
         delete cmd;

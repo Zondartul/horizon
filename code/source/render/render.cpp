@@ -150,7 +150,7 @@ void renderTick(){
 	auto& layerDebug = Gb->gs_paint->g_layerDebug;
 	auto& layerDebug2D = Gb->gs_paint->g_layerDebug2D;
 	auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
-	auto& m = Gb->gs_main->g_m;
+	//auto& m = Gb->gs_main->g_m;
 	auto& GUI = Gb->gs_main->g_GUI;
 	auto& fps = Gb->gs_main->g_fps;
 	auto& frametime = Gb->gs_main->g_frametime;

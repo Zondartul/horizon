@@ -30,15 +30,15 @@ int main(int argc, char **argv){
 void tick(){
 	auto& globalChannel = Gb->gs_event->g_globalChannel;
 	auto& eventTime = Gb->gs_main->g_eventTime;
-	auto& renderTime = Gb->gs_main->g_renderTime;
-	auto& sysmsgTime = Gb->gs_main->g_sysmsgTime;
-	auto& frametime = Gb->gs_main->g_frametime;
-	auto& eventTimeFlt = Gb->gs_main->g_eventTimeFlt;
-	auto& renderTimeFlt = Gb->gs_main->g_renderTimeFlt;
-	auto& sysmsgTimeFlt = Gb->gs_main->g_sysmsgTimeFlt;
-	auto& frametimeFlt = Gb->gs_main->g_frametimeFlt;
-	auto& mem1 = Gb->gs_main->g_mem1;
-	auto& mem2 = Gb->gs_main->g_mem2;
+	//auto& renderTime = Gb->gs_main->g_renderTime;
+	//auto& sysmsgTime = Gb->gs_main->g_sysmsgTime;
+	//auto& frametime = Gb->gs_main->g_frametime;
+	//auto& eventTimeFlt = Gb->gs_main->g_eventTimeFlt;
+	//auto& renderTimeFlt = Gb->gs_main->g_renderTimeFlt;
+	//auto& sysmsgTimeFlt = Gb->gs_main->g_sysmsgTimeFlt;
+	//auto& frametimeFlt = Gb->gs_main->g_frametimeFlt;
+	//auto& mem1 = Gb->gs_main->g_mem1;
+	//auto& mem2 = Gb->gs_main->g_mem2;
 	eventKind e1; e1.type = EVENT_TICK;
 	globalChannel->publishEvent(e1);
 	eventKind e2; e2.type = EVENT_FRAME;

@@ -10,7 +10,7 @@ using std::map;
 #define contains(_v,_x)					(std::find((_v).begin(), (_v).end(), (_x)) != (_v).end())
 #define push_if_not_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I == (_v).end()){(_v).push_back(_x);}}
 #define remove_if_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I != (_v).end()){(_v).erase(_I);}}
-#define for_all(_v,_I,c)				{auto &v = _v; for(auto _I = (_v).begin(); _I != (_v).end(); _I++){c;}}
+#define for_all(_v,_I,c)				{auto &v = _v; for(auto _I = v.begin(); _I != v.end(); _I++){c;}}//{auto &v = _v; for(auto _I = (_v).begin(); _I != (_v).end(); _I++){c;}}
 #define ne(I) (I)->neighbors_essential
 #define nd(I) (I)->neighbors_direct
 #define for_all_elements(_I,c){			\
@@ -20,14 +20,14 @@ using std::map;
 }
 #define for_all_ne(_x,_I,c){			\
 	auto &x = _x;						\
-	auto &n = (_x)->parts;\
+	auto &n = x->parts;\
 	for_all(n.verts,_I,c);				\
 	for_all(n.edges,_I,c);				\
 	for_all(n.tris,_I,c);				\
 }
 #define for_all_nd(_x,_I,c){			\
 	auto &x = _x;						\
-	auto &n = (x)->touching;			\
+	auto &n = x->touching;			\
 	for_all(n.verts,_I,c);				\
 	for_all(n.edges,_I,c);				\
 	for_all(n.tris,_I,c);				\
@@ -56,7 +56,7 @@ void e_face::recalcEdges(){
 	errorNotImplemented();
 }
 e_face::e_face(vector<e_triangle*> tris, e_model *EM):e_element(EM){
-	int j = 0;
+	//int j = 0;
 	for_all(tris,T,{
 		definition.tris.push_back(*T);
 	});
@@ -165,14 +165,14 @@ void e_selection::removeDuplicates(){
 		rrm_helper0((rm), (*I)->definition.verts[(vn)],(color),(UV),(normal));	\
 	}
 void e_selection::rebuildRmodel_vertHelper(rmodel *rm){
-	int i = 0, j = 0, k = 0;
+	int i = 0;//, j = 0;// , k = 0;
 	for_all(verts,I,
 		rrm_helper0(rm,*I,colorVerts,vec2(0,0),vec3(0,0,1));
 		i++;
 	);
 }
 void e_selection::rebuildRmodel_edgeHelper(rmodel* rm) {
-	int i = 0, j = 0, k = 0;
+	int  j = 0;//i = 0, //k = 0;
 	for_all(edges, I, {
 		j++;
 		rrm_helper(rm,0,colorEdges,vec2(0,0),vec3(0,0,1));
@@ -181,7 +181,7 @@ void e_selection::rebuildRmodel_edgeHelper(rmodel* rm) {
 	);
 }
 void e_selection::rebuildRmodel_triHelper(rmodel *rm){
-	int i = 0, j = 0, k = 0;
+	int i = 0;// , j = 0; //k = 0;
 	for_all(tris,I,{
 		i++;
 		vec3 VA = (*I)->definition.verts[0]->pos;
@@ -213,7 +213,7 @@ void e_selection::rebuildRmodel_triHelper(rmodel *rm){
 	});
 }
 void e_selection::rebuildRmodel_wireHelper(rmodel *rm){
-	int i = 0, j = 0, k = 0;
+	int i = 0;// , j = 0;// , k = 0;
 	for_all(tris,I,{
 		i++;
 		vec3 vnA;
@@ -457,9 +457,9 @@ void e_selection::uv_project_box(vec3 origin,float scale){
 		float dotx = fabs(dot(dV,vec3(1,0,0)));
 		float doty = fabs(dot(dV,vec3(0,1,0)));
 		float dotz = fabs(dot(dV,vec3(0,0,1)));
-		bool xmin = ((dotx < doty) && (dotx < dotz));
-		bool ymin = ((doty < dotx) && (doty < dotz));
-		bool zmin = ((dotz < dotx) && (dotz < doty));
+		//bool xmin = ((dotx < doty) && (dotx < dotz));
+		//bool ymin = ((doty < dotx) && (doty < dotz));
+		//bool zmin = ((dotz < dotx) && (dotz < doty));
 		bool xmax = ((dotx > doty) && (dotx > dotz));
 		bool ymax = ((doty > dotx) && (doty > dotz));
 		bool zmax = ((dotz > doty) && (dotz > dotx));
@@ -863,7 +863,7 @@ void e_model::recalculateNeighbors(){
 			CHECK3VERTS(*J);
 			e_vertex *vD = (*J)->definition.verts[0];
 			e_vertex *vE = (*J)->definition.verts[1];
-			e_vertex *vF = (*J)->definition.verts[2];
+			//e_vertex *vF = (*J)->definition.verts[2];
 			if(((vA == vD) || (vB == vD)) || ((vA == vE) || (vB == vD))){
 				(*I)->touching.tris.push_back(*J);
 			}

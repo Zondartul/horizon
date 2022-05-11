@@ -4,7 +4,7 @@
 #include "window.h"
 #include "printw.h"
 #include "renderLow.h"
-struct renderLowKind;
+class renderLowKind;
 
 GlobalsRender* G = 0;
 renderLowKind* g_renderLow;

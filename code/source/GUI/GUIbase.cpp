@@ -54,7 +54,7 @@ void GUIbase_debugChildren(GUIbase *b){
 GUIbase *GUIbase::removeChild(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
 	bool found = false;
-	int i = 0;
+	//int i = 0;
 	for(auto I = children.begin(); I != children.end();){ 
 		if(*I == child){
 			if(!child->isClient){partChannel.removeListener(child);}
@@ -71,7 +71,7 @@ GUIbase *GUIbase::removeChild(GUIbase *child){
 }
 GUIbase *GUIbase::moveChildToTheTop(GUIbase *child){
 	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
-	bool found= false;
+	//bool found= false;
 	for(auto I = children.begin(); I != children.end(); I++){
 		if(*I == child){
 			I = children.erase(I);

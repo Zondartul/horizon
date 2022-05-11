@@ -31,7 +31,7 @@ void gui_editor_tool_place::lup(){
 		}
 		else if(stage == GEMT_END){
 			printf("mouse up during place_end\n");
-			GUIbase *mEl = workWindow->getMouseoverElement();
+			//GUIbase *mEl = workWindow->getMouseoverElement();
 				if(subject){
 					printf("has subject\n");
 					GUIbase *nEl = 0;

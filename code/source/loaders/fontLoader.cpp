@@ -83,7 +83,7 @@ font *loadFont(const char *fontpath, int size){
 	bitmap *BMP = new bitmap();
 	*BMP = A.BMP.clone();
 	font *F = new font();
-	int maxy=0;
+	//int maxy=0;
 	int J = 0;
 	vec2 start = {0,0};
 	vec2 end = {0,0};

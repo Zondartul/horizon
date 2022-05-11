@@ -233,7 +233,7 @@ void gui_editor_kind::save(string filepath){
 	auto P = workWindow->getCompoundProperty();
 	XMLElement *el = P.toXML(&doc);
 	doc.InsertEndChild(el);
-	XMLError eResult = doc.SaveFile(filepath.c_str());
+	/*XMLError eResult = */ doc.SaveFile(filepath.c_str());
 }
 void gui_editor_kind::paste(string filepath){
 	try {

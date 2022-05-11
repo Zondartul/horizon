@@ -36,9 +36,9 @@ void GUItextEntry::onEvent(eventKind event){
 	if(hasfocus){
 		if(event.type == EVENT_KEY_DOWN){
 			const char *K = event.keyboard.key;
-			int C = event.keyboard.keycode;
-			char pc = event.keyboard.printchar;
-			int mods = event.keyboard.mod;
+			//int C = event.keyboard.keycode;
+			//char pc = event.keyboard.printchar;
+			//int mods = event.keyboard.mod;
 			if(string("Backspace") == K){	
 				event.maskEvent();
 				if(text != ""){

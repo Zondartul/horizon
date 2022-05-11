@@ -136,9 +136,9 @@ void editor2Kind::think(){
 		vec3 p1;
 		vec3 dir = camera.getMouseDir();
 		bool has_hit = ray_plane_intersection(camera.pos,dir,plane[0],plane[1],plane[2],&p1);
-		float dist1 = length(p1-lastPoint);																	
+		//float dist1 = length(p1-lastPoint);																	
 		float dist2 = point_line_distance(camera.pos,camera.pos+dir,lastPoint);				
-		float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				
+		//float dist3 = point_plane_distance(plane[0],plane[1],plane[2],camera.pos);				
 		bool lastPointSelected = (dist2 < 0.05f);															
 		if(hasBox){boxEnd = getMousePos();}
 	resetLayer(layers.l3Dimmediate);

@@ -682,7 +682,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_NO_GLEW;_NO_SDL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
@@ -705,7 +705,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -713,6 +713,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codeExt\includeExt\tinyXML2;$(SolutionDir)..\..\codeExt\includeExt\dirent;$(SolutionDir)..\..\codeExt\includeExt;$(SolutionDir)..\..\code\include\experimental\gui_editor;$(SolutionDir)..\..\code\include\physics\collision;$(SolutionDir)..\..\code\include\util;$(SolutionDir)..\..\code\include\thread;$(SolutionDir)..\..\code\include\resource;$(SolutionDir)..\..\code\include\render;$(SolutionDir)..\..\code\include\program;$(SolutionDir)..\..\code\include\physics;$(SolutionDir)..\..\code\include\math;$(SolutionDir)..\..\code\include\main;$(SolutionDir)..\..\code\include\loaders;$(SolutionDir)..\..\code\include\input;$(SolutionDir)..\..\code\include\GUI;$(SolutionDir)..\..\code\include\generators;$(SolutionDir)..\..\code\include\game;$(SolutionDir)..\..\code\include\gadgets;$(SolutionDir)..\..\code\include\experimental;$(SolutionDir)..\..\code\include\entity;$(SolutionDir)..\..\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -723,11 +724,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\codeExt\includeExt;D:\Stride\shared\horizon\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codeExt\includeExt\tinyXML2;$(SolutionDir)..\..\codeExt\includeExt\dirent;$(SolutionDir)..\..\codeExt\includeExt;$(SolutionDir)..\..\code\include\experimental\gui_editor;$(SolutionDir)..\..\code\include\physics\collision;$(SolutionDir)..\..\code\include\util;$(SolutionDir)..\..\code\include\thread;$(SolutionDir)..\..\code\include\resource;$(SolutionDir)..\..\code\include\render;$(SolutionDir)..\..\code\include\program;$(SolutionDir)..\..\code\include\physics;$(SolutionDir)..\..\code\include\math;$(SolutionDir)..\..\code\include\main;$(SolutionDir)..\..\code\include\loaders;$(SolutionDir)..\..\code\include\input;$(SolutionDir)..\..\code\include\GUI;$(SolutionDir)..\..\code\include\generators;$(SolutionDir)..\..\code\include\game;$(SolutionDir)..\..\code\include\gadgets;$(SolutionDir)..\..\code\include\experimental;$(SolutionDir)..\..\code\include\entity;$(SolutionDir)..\..\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -739,7 +740,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -747,6 +748,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codeExt\includeExt\tinyXML2;$(SolutionDir)..\..\codeExt\includeExt\dirent;$(SolutionDir)..\..\codeExt\includeExt;$(SolutionDir)..\..\code\include\experimental\gui_editor;$(SolutionDir)..\..\code\include\physics\collision;$(SolutionDir)..\..\code\include\util;$(SolutionDir)..\..\code\include\thread;$(SolutionDir)..\..\code\include\resource;$(SolutionDir)..\..\code\include\render;$(SolutionDir)..\..\code\include\program;$(SolutionDir)..\..\code\include\physics;$(SolutionDir)..\..\code\include\math;$(SolutionDir)..\..\code\include\main;$(SolutionDir)..\..\code\include\loaders;$(SolutionDir)..\..\code\include\input;$(SolutionDir)..\..\code\include\GUI;$(SolutionDir)..\..\code\include\generators;$(SolutionDir)..\..\code\include\game;$(SolutionDir)..\..\code\include\gadgets;$(SolutionDir)..\..\code\include\experimental;$(SolutionDir)..\..\code\include\entity;$(SolutionDir)..\..\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

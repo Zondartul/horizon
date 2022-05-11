@@ -20,6 +20,8 @@ quat slerpAngle(quat Q1, quat Q2, float ang){
     float angD = angle(diff);
     angD = fmodf(angD+180.f,360.f)-180.f; 
     angD = clamp(angD,-180.f,180.f);
+	//11.05.2022: idk, ang should prolly be used here
+	angD = (angD > 0 ? clamp(ang, 0, angD) : clamp(ang, angD, 0));
     quat diffClamped = glm::angleAxis(angD,axis(diff));
     return diffClamped*Q1;
 }

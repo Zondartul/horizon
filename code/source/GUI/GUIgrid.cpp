@@ -6,7 +6,7 @@ void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	spany = (int)max(spany,1);
 	int extra_cells_x = spanx-1;
 	int extra_cells_y = spany-1;
-	bool nextRow = (row == -1);
+	//bool nextRow = (row == -1);
 	if(row == -1){row = getNumRows();}
 	int min_size_y = max(row + extra_cells_y + 1, 1);
 	int min_size_x = max(col + extra_cells_x + 1, 1);
