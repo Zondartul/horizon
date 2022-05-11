@@ -1,10 +1,21 @@
+#include <stdexcept>
+#include <sstream>
 #include "event.h"
 #include "globals.h"
 #include "global_vars.h"
+using std::stringstream;
+
 eventKind::eventKind(){mask = 0;} 
 eventKind::eventKind(eventType type) :type(type), mask(0) {}
 void eventKind::maskEvent(int newmask){
-	if(mask){*mask = newmask;}else{error("Event is non-maskable (%s)\n",toString(type).c_str());}
+	if(mask){
+		*mask = newmask;
+	}else{
+		//error("Event is non-maskable (%s)\n",toString(type).c_str());
+		stringstream ss;
+		ss << "Event is non-maskable (" << toString(type) << ")";
+		throw std::runtime_error(ss.str());
+	}
 }
 int eventKind::isMasked(){
 	if(mask && *mask){return *mask;}

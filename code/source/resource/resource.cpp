@@ -1,3 +1,5 @@
+#include <stdexcept>
+#include <sstream>
 #include "resource.h"
 #include "imageLoader.h"
 #include "textureLoader.h"
@@ -13,6 +15,8 @@
 #include "rmodel.h"
 #include "editmodel.h"
 #include "global_vars.h"
+using std::stringstream;
+
 bitmap *getBitmap(string name){
 	auto& bitmaps = Gb->gs_resource->g_bitmaps;
 	for(unsigned int I = 0; I < bitmaps.size(); I++){
@@ -20,7 +24,12 @@ bitmap *getBitmap(string name){
 	}
 	string filepath = locateResource("bitmap", name.c_str());
 	bitmap *bmp = loadImage(filepath.c_str());
-	if(!bmp){error("can't load bitmap %s\n",name.c_str());}
+	if(!bmp){
+		//error("can't load bitmap %s\n",name.c_str());
+		stringstream ss;
+		ss << "can't load bitmap " << name << "\n";
+		throw std::runtime_error(ss.str());
+	}
 	bmp->name = name;
 	bitmaps.push_back(bmp);
 	return bmp;
@@ -33,7 +42,12 @@ texture *getTexture(string name){
 	}
 	string filepath = locateResource("texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
-	if(!t){error("can't load texture %s\n",name.c_str());}
+	if(!t){
+		//error("can't load texture %s\n",name.c_str());
+		stringstream ss;
+		ss << "can't load texture " << name << "\n";
+		throw std::runtime_error(ss.str());
+	}
 	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
 	setLayer(loadLayer);
@@ -49,7 +63,12 @@ texture *getModelTexture(string name){
 	}
 	string filepath = locateResource("model_texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
-	if(!t){error("can't load texture %s\n",name.c_str());}
+	if(!t){
+		//error("can't load texture %s\n",name.c_str());
+		stringstream ss;
+		ss << "can't load texture " << name << "\n";
+		throw std::runtime_error(ss.str());
+	}
 	else{printf("texture %s loaded\n",name.c_str());}
 	t->name = name;
 	setLayer(loadLayer);
@@ -76,7 +95,12 @@ font *getFont(string name){
 	string filepath = locateResource("font", fontname);
 	font *f = loadFont(filepath.c_str(),size);
 	f->name = name;
-	if(!f){error("can't load font %s, size %d\n",fontname, size);}
+	if(!f){
+		//error("can't load font %s, size %d\n",fontname, size);
+		stringstream ss;
+		ss << "can't load font " << fontname << ", size " << size;
+		throw std::runtime_error(ss.str());
+	}
 	fonts.push_back(f);
 	return f;
 }

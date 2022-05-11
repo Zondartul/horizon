@@ -1,9 +1,11 @@
+#include <iostream>
+#include <stdexcept>
+#include <sstream>
 #include "gui_editor.h"
 #include "gui_filedialog.h"
 #include "file.h"
 #include "resource/bitmap.h"
 #include "tinyxml2.h"
-#include <iostream>
 using namespace tinyxml2;
 using namespace std;
 gui_editor_kind::gui_editor_kind(){
@@ -241,7 +243,12 @@ void gui_editor_kind::paste(string filepath){
 		EPCAST(elWorkWindow, workWindow) else return;
 		printf("gui_editor_kind::paste()\n");
 		XMLDocument doc;
-		if (!fileReadable(filepath)) { error("can't read file [%s]\n", filepath.c_str()); }
+		if (!fileReadable(filepath)) { 
+			//error("can't read file [%s]\n", filepath.c_str()); 
+			stringstream ss;
+			ss << "can't read file [" << filepath << "]\n";
+			throw std::runtime_error(ss.str());
+		}
 		doc.LoadFile(filepath.c_str());
 		XMLElement* el = doc.RootElement();
 		GUIcompoundProperty* P = new GUIcompoundProperty(el);

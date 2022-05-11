@@ -1,4 +1,8 @@
+#include <stdexcept>
+#include <sstream>
 #include "GUI_internal.h"
+using std::stringstream;
+
 GUIbase::GUIbase(){
 	auto& GUIR_default = Gg->gs_GUIrenderer_default->GUIR_default;
 	parent = NULL;
@@ -15,10 +19,10 @@ GUIbase::GUIbase(){
 	mouseover = false;
 }
 GUIbase::~GUIbase(){
-	if(!deletePending){error("GUI widget deleted without close()\n");}
+	if (!deletePending) { throw std::runtime_error("GUI widget deleted without close()\n"); }//{error("GUI widget deleted without close()\n");}
 	if(parent){parent->removeChild(this);}
 	{
-		stackSentinel SS;
+		//stackSentinel SS;
 		printf("deleting children\n");
 		vector<GUIbase*> children2 = children;
 		for(auto I = children2.begin(); I != children2.end(); I++){
@@ -40,7 +44,7 @@ GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 	return iter2;
 }
 void GUIbase_debugChildren(GUIbase *b){
-	if (!b) { error("'this' is null"); }
+	if (!b) { throw std::runtime_error("'this' is null"); }//{ error("'this' is null"); }
 	printf("printing %p's %d children:\n",b,b->children.size());
 	if(!b->children.size()){printf("%p has no children\n", b);return;}
 	int i = 0;
@@ -52,7 +56,12 @@ void GUIbase_debugChildren(GUIbase *b){
 	}
 }
 GUIbase *GUIbase::removeChild(GUIbase *child){
-	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
+	if(!isParentOf(child)){
+		//error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));
+		stringstream ss;
+		ss << "GUI widget (" << toString(this) << ") is not the parent of (" << toString(child) << ")\n";
+		throw std::runtime_error(ss.str());
+	}
 	bool found = false;
 	//int i = 0;
 	for(auto I = children.begin(); I != children.end();){ 
@@ -70,7 +79,12 @@ GUIbase *GUIbase::removeChild(GUIbase *child){
 	return this;
 }
 GUIbase *GUIbase::moveChildToTheTop(GUIbase *child){
-	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
+	if(!isParentOf(child)){
+		//error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));
+		stringstream ss;
+		ss << "GUI widget (" << toString(this) << ") is not the parent of (" << toString(child) << ")\n";
+		throw std::runtime_error(ss.str());
+	}
 	//bool found= false;
 	for(auto I = children.begin(); I != children.end(); I++){
 		if(*I == child){
@@ -83,14 +97,24 @@ GUIbase *GUIbase::moveChildToTheTop(GUIbase *child){
 	return this;
 }
 GUIbase *GUIbase::makePart(GUIbase *child){
-	if(!isParentOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
+	if(!isParentOf(child)){
+		//error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));
+		stringstream ss;
+		ss << "GUI widget (" << toString(this) << ") is not the parent of (" << toString(child) << ")\n";
+		throw std::runtime_error(ss.str());
+	}
 	child->isClient = false;
 	clientChannel.removeListener(child);
 	partChannel.addListenerFront(child);
 	return this;
 }
 GUIbase *GUIbase::makeClient(GUIbase *child){
-	if(!isAncestorOf(child)){error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));}
+	if(!isAncestorOf(child)){
+		//error("GUI widget (%s) is not the parent of (%s)\n",toCString(this), toCString(child));
+		stringstream ss;
+		ss << "GUI widget (" << toString(this) << ") is not the parent of (" << toString(child) << ")\n";
+		throw std::runtime_error(ss.str());
+	}
 	child->isClient = true;
 	partChannel.removeListener(child);
 	clientChannel.addListenerFront(child);
@@ -212,7 +236,7 @@ GUIbase *GUIbase::root(){
 		if(p->parent){p = p->parent;}
 		else{return p;}
 	}
-	error("GUIbase::root: recursion detected\n");
+	throw std::runtime_error("GUIbase::root: recursion detected\n");//error("GUIbase::root: recursion detected\n");
 	return 0;
 }
 GUIbase *GUIbase::getMouseoverElement(){
@@ -462,7 +486,12 @@ string GUIbase::getProperty(string key){
 }
 void GUIbase::setProperty(string key, string val){
 		 if(key == "name")		{name		= val;}
-	else if(key == "type")		{if(getType() != val){error("attmpt to change GUI widget type\n");}}
+		 else if (key == "type") {
+			 if (getType() != val) {
+				 //error("attmpt to change GUI widget type\n");}
+				 throw std::runtime_error("attempt to change GUI widget type\n");
+			 }
+		 }
 	else if(key == "isClient")	{isClient 	= fromString<bool>(val);}
 	else if(key == "hidden")	{hidden 	= fromString<bool>(val);}
 	else if(key == "area")		{area		= fromString<rect>(val);}

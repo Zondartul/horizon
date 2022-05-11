@@ -1,9 +1,12 @@
 #ifndef ELASTIC_PTR_GUARD
 #define ELASTIC_PTR_GUARD
 #include <typeinfo>
-#include "globals.h"
 #include <string>
+#include <sstream>
+#include <stdexcept>
+#include "globals.h"
 using std::string;
+using std::stringstream;
 class elastic_ptr_anchor_proxy;
 class elastic_ptr_anchor{
 	private:
@@ -31,7 +34,12 @@ template<typename T> class elastic_ptr{
 	elastic_ptr_anchor_proxy *proxy=0;
 	void badDerefError(){
 		string type = typeid(T).name();
-		if(debug){error("attempt to deref empty elastic_ptr to %s\n",type.c_str());}
+		if(debug){
+			//error("attempt to deref empty elastic_ptr to %s\n",type.c_str());
+			stringstream ss;
+			ss << "attempt to deref empty elastic_ptr to " << type << "\n";
+			throw std::runtime_error(ss.str());
+		}
 	}
 	string toString() const{
 		void *ptrProxy = 0;
@@ -60,7 +68,12 @@ template<typename T> class elastic_ptr{
 	elastic_ptr(T *obj){
 		if(obj){
 			proxy = obj->elastic_ptr_anchor::proxy;
-			if(!proxy){error("zombie elastic_anchor at %p\n",obj);}
+			if(!proxy){
+				//error("zombie elastic_anchor at %p\n",obj);
+				stringstream ss;
+				ss << "zombie elastic_anchro at " << (void*)obj << "\n";
+				throw std::runtime_error(ss.str());
+			}
 			proxy->increment();
 		}
 		if(debug){printf("constructed %s from %p\n",toString().c_str(),obj);}

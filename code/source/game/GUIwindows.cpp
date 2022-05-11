@@ -277,8 +277,8 @@ void openTestWindow5(){
 void openTestWindow6(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
-	auto& allocation_map = Gb->gs_debug->g_allocation_map;
-	auto& total_size = Gb->gs_debug->g_total_size;
+	//auto& allocation_map = Gb->gs_debug->g_allocation_map;
+	//auto& total_size = Gb->gs_debug->g_total_size;
 	auto& sysEvent = Gb->sysEvent;
 	GUIlabel *label1 = new GUIlabel();
 	GUIscrollbar *bar = new GUIscrollbar();
@@ -299,7 +299,7 @@ void openTestWindow6(){
 		if(i < 100){i++; return;}
 		i = 0;
 		string S = "Memory allocation report:\n";
-		if(allocation_map.empty()){
+		/*if(allocation_map.empty()){
 			S += "operators <new> and <delete> are not replaced in this build\n";
 		}else{
 			int supertotal = 0;
@@ -323,7 +323,7 @@ void openTestWindow6(){
 			}
 			S += fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
 			S += fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
-		}
+		}*/
 		label1->setText(S);
 		label1->sizeToContents();
 		win->invalidate();

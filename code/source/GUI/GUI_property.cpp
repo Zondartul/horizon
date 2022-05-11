@@ -17,7 +17,7 @@ string GUIpropertyTable::toString() const{
 	return S;
 }
 GUIpropertyTable::GUIpropertyTable(XMLElement *el){
-	if(!el){error("nullptr");}
+	if (!el) { throw std::runtime_error("nullptr"); }//{error("nullptr");}
 	const XMLAttribute *atr = el->FirstAttribute();
 	while(atr){
 		string k = atr->Name();
@@ -27,7 +27,7 @@ GUIpropertyTable::GUIpropertyTable(XMLElement *el){
 	}
 }
 void GUIpropertyTable::toXML(XMLElement *el) const{
-	if(!el){error("nullptr");}
+	if(!el) { throw std::runtime_error("nullptr"); }//{error("nullptr");}
 	for(auto I = table.begin(); I != table.end(); I++){
 		string k = I->first;
 		string v = I->second;
@@ -54,7 +54,7 @@ string GUIcompoundProperty::toString() const{
 	return S;
 }
 GUIcompoundProperty::GUIcompoundProperty(XMLElement *el){
-	if(!el){error("nullptr");}
+	if(!el) { throw std::runtime_error("nullptr"); }//{error("nullptr");}
 	name = el->Name();
 	table = GUIpropertyTable(el);
 	XMLElement *el2 = el->FirstChildElement();
@@ -64,7 +64,7 @@ GUIcompoundProperty::GUIcompoundProperty(XMLElement *el){
 	}
 }
 XMLElement *GUIcompoundProperty::toXML(XMLDocument *doc) const{
-	if(!doc){error("nullptr");}
+	if(!doc) { throw std::runtime_error("nullptr"); }//{error("nullptr");}
 	XMLElement *el = doc->NewElement(name.c_str());
 	table.toXML(el);
 	for(auto I = children.begin(); I != children.end(); I++){

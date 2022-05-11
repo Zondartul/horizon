@@ -73,7 +73,12 @@ void window_init(int h, int w){
 		width = w;
 		int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 		atexit(SDL_Quit);
-		if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
+		if(err){
+			//error("SDL INIT ERROR: [%s]\n", SDL_GetError());
+			stringstream ss;
+			ss << "SDL INIT ERROR: [" << SDL_GetError() << "]\n";
+			throw std::runtime_error(ss.str());
+		}
 		mainWindow = SDL_CreateWindow("Hai",
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,

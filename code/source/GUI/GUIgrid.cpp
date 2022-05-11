@@ -63,7 +63,13 @@ void GUIgrid::clear(){
 	rowsettings.clear();
 	colsettings.clear();
 }
-#define nonnan(x) if(isnan(x)){error("result is NaN: %s\n",#x);}
+#define nonnan(x) if(isnan(x)){			\
+	stringstream ss;						\
+	ss << "result is NaN: " << #x << "\n";	\
+	throw std::runtime_error(ss.str());			\
+}
+
+//{error("result is NaN: %s\n",#x);}
 void GUIgrid::invalidate(){
 	for(unsigned int R = 0; R < rowsettings.size(); R++){
 		float maxy = 0;

@@ -131,4 +131,8 @@ struct gs_debugKind {
 	void* g_mytrace[100];
 	int g_mytraceI;
 };
+//hey you know how debug.h/.cpp is a hot steaming pile of garbage?
+// lets not use it and the next time we need a bunch of rockbanged
+//  trace features we'll do them but encapsulated
+
 #endif

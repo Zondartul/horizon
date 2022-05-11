@@ -77,97 +77,98 @@ int cmd_printf(int argc, char **argv){
 	//printf_enabled = !printf_enabled; 
 	return 0;
 }
-int cmd_memreport(int argc, char **argv){
-	auto& allocation_map = Gb->gs_debug->g_allocation_map;
-	auto& total_size = Gb->gs_debug->g_total_size;
-	auto& has_prev_alloc_map = Gt->gs_commands->g_has_prev_alloc_map;
-	auto& prev_allocation_map = Gt->gs_commands->g_prev_allocation_map;
-	auto& prev_total_size = Gt->gs_commands->g_prev_total_size;
-	auto& memreport_last_frame = Gt->gs_commands->g_memreport_last_frame;
-	if(argc && (strcmp(argv[0], "-i")==0)){
-		if(has_prev_alloc_map){
-			string filename = "logs/memreport_inc";
-			filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
-			ofstream fs(filename);
-			if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
-			stringstream ss;
-			//int J = 0;
-			int tf1 = memreport_last_frame;
-			int tf2 = getGameTicks();
-			int dtf = tf2-tf1;
-			ss << fstring("Incremental memory report for frames %d .. %d (%d frames)\n", tf1, tf2, dtf);
-			int supertotal = 0;
-			for(auto F2 = allocation_map.begin(); F2 != allocation_map.end(); F2++){
-				stringstream ss_file;
-				const char *key = F2->first;
-				string alloc_file = F2->first;
-				ss_file << alloc_file + ":\n";
-				auto &r_file2 = F2->second;
-				auto &r_file1 = prev_allocation_map[key];
-				int filetotal = 0;
-				for(auto L2 = r_file2.begin(); L2 != r_file2.end(); L2++){
-					int alloc_line = L2->first;
-					if(!r_file1.count(alloc_line)){continue;}
-					auto &r_line2 = L2->second;
-					auto &r_line1 = r_file1[alloc_line];
-					int count2 = r_line2.size();
-					int count1 = r_line1.size();
-					int size = 0;
-					if(count2){size = r_line2[0].size;}
-					int total = size*(count2-count1);
-					if(total){ss_file << fstring(" @%d: %d x %d b = %d b\n",alloc_line,count2-count1,size,total);}
-					supertotal += total;
-					filetotal += total;
-				}
-				ss_file << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
-				if(filetotal){ss << ss_file.str();}
-			}
-			ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-			ss << fstring("sys  total: %.3f kb\n",(float)(total_size-prev_total_size)/1024.f);
-			fs << ss.str();
-			fs.close();
-			printf("frame report saved to %s\n",filename.c_str());
-		}
-	}else{
-		string filename = "logs/memreport";
-		filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
-		ofstream fs(filename);
-		if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
-		stringstream ss;
-		//int J = 0;
-		ss << fstring("Memory report for frame %d\n",getGameTicks());
-		int supertotal = 0;
-		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
-			string alloc_file = F->first;
-			ss << alloc_file + ":\n";
-			auto &r_file = F->second;
-			int filetotal = 0;
-			for(auto L = r_file.begin(); L != r_file.end(); L++){
-				int alloc_line = L->first;
-				auto &r_line = L->second;
-				int count = r_line.size();
-				int size = 0;
-				if(count){size = r_line[0].size;}
-				int total = size*count;
-				ss << fstring(" @%d: %d x %d b = %d b\n",alloc_line,count,size,total);
-				supertotal += total;
-				filetotal += total;
-			}
-			ss << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
-		}
-		ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
-		ss << fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
-		fs << ss.str();
-		fs.close();
-		printf("frame report saved to %s\n",filename.c_str());
-	}
-	prev_allocation_map = allocation_map;
-	has_prev_alloc_map = true;
-	memreport_last_frame = getGameTicks();
-	prev_total_size = total_size;
-	printf("allocation map saved\n");
-	return 0;
-}
+//int cmd_memreport(int argc, char **argv){
+//	auto& allocation_map = Gb->gs_debug->g_allocation_map;
+//	auto& total_size = Gb->gs_debug->g_total_size;
+//	auto& has_prev_alloc_map = Gt->gs_commands->g_has_prev_alloc_map;
+//	auto& prev_allocation_map = Gt->gs_commands->g_prev_allocation_map;
+//	auto& prev_total_size = Gt->gs_commands->g_prev_total_size;
+//	auto& memreport_last_frame = Gt->gs_commands->g_memreport_last_frame;
+//	if(argc && (strcmp(argv[0], "-i")==0)){
+//		if(has_prev_alloc_map){
+//			string filename = "logs/memreport_inc";
+//			filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
+//			ofstream fs(filename);
+//			if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
+//			stringstream ss;
+//			//int J = 0;
+//			int tf1 = memreport_last_frame;
+//			int tf2 = getGameTicks();
+//			int dtf = tf2-tf1;
+//			ss << fstring("Incremental memory report for frames %d .. %d (%d frames)\n", tf1, tf2, dtf);
+//			int supertotal = 0;
+//			for(auto F2 = allocation_map.begin(); F2 != allocation_map.end(); F2++){
+//				stringstream ss_file;
+//				const char *key = F2->first;
+//				string alloc_file = F2->first;
+//				ss_file << alloc_file + ":\n";
+//				auto &r_file2 = F2->second;
+//				auto &r_file1 = prev_allocation_map[key];
+//				int filetotal = 0;
+//				for(auto L2 = r_file2.begin(); L2 != r_file2.end(); L2++){
+//					int alloc_line = L2->first;
+//					if(!r_file1.count(alloc_line)){continue;}
+//					auto &r_line2 = L2->second;
+//					auto &r_line1 = r_file1[alloc_line];
+//					int count2 = r_line2.size();
+//					int count1 = r_line1.size();
+//					int size = 0;
+//					if(count2){size = r_line2[0].size;}
+//					int total = size*(count2-count1);
+//					if(total){ss_file << fstring(" @%d: %d x %d b = %d b\n",alloc_line,count2-count1,size,total);}
+//					supertotal += total;
+//					filetotal += total;
+//				}
+//				ss_file << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
+//				if(filetotal){ss << ss_file.str();}
+//			}
+//			ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
+//			ss << fstring("sys  total: %.3f kb\n",(float)(total_size-prev_total_size)/1024.f);
+//			fs << ss.str();
+//			fs.close();
+//			printf("frame report saved to %s\n",filename.c_str());
+//		}
+//	}else{
+//		string filename = "logs/memreport";
+//		filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
+//		ofstream fs(filename);
+//		if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
+//		stringstream ss;
+//		//int J = 0;
+//		ss << fstring("Memory report for frame %d\n",getGameTicks());
+//		int supertotal = 0;
+//		for(auto F = allocation_map.begin(); F != allocation_map.end(); F++){
+//			string alloc_file = F->first;
+//			ss << alloc_file + ":\n";
+//			auto &r_file = F->second;
+//			int filetotal = 0;
+//			for(auto L = r_file.begin(); L != r_file.end(); L++){
+//				int alloc_line = L->first;
+//				auto &r_line = L->second;
+//				int count = r_line.size();
+//				int size = 0;
+//				if(count){size = r_line[0].size;}
+//				int total = size*count;
+//				ss << fstring(" @%d: %d x %d b = %d b\n",alloc_line,count,size,total);
+//				supertotal += total;
+//				filetotal += total;
+//			}
+//			ss << fstring("file: %.3f kb\n",(float)filetotal/1024.f);
+//		}
+//		ss << fstring("user total: %.3f kb\n",(float)supertotal/1024.f);
+//		ss << fstring("sys  total: %.3f kb\n",(float)total_size/1024.f);
+//		fs << ss.str();
+//		fs.close();
+//		printf("frame report saved to %s\n",filename.c_str());
+//	}
+//	prev_allocation_map = allocation_map;
+//	has_prev_alloc_map = true;
+//	memreport_last_frame = getGameTicks();
+//	prev_total_size = total_size;
+//	printf("allocation map saved\n");
+//	return 0;
+//}
+
 float noiseHelper(float x){
 	return sin(sin(x)+sin(x*x));
 }
@@ -217,7 +218,7 @@ void addConsoleCommands(){
 	console->addCommand({"mapeditor","open a map editor\n",cmd_mapeditor});
 	console->addCommand({"framereport","save the render commands for the next frame to disk",cmd_framereport});
 	console->addCommand({"printf","toggle debug message printing\n",cmd_printf});
-	console->addCommand({"memreport","report the memory usage to a file\n"
-		"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});
+	//console->addCommand({"memreport","report the memory usage to a file\n"
+	//	"args: -i -- incremental, reports difference from previous report\n",cmd_memreport});
 	console->addCommand({"texbrowser","browse for textures\n",cmd_texture_browser});
 }

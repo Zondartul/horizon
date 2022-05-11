@@ -1,4 +1,6 @@
 #include <string>
+#include <stdexcept>
+#include <sstream>
 #ifndef NO_GLEW
 	#include "GL/glew.h"
 #endif
@@ -18,6 +20,8 @@
 using glm::mat4;
 using glm::vec3;
 using std::string;
+using std::stringstream;
+
 cameraKind::cameraKind(){
 	pos = {0,0,0};
 	rot = {0,0,0};
@@ -210,7 +214,7 @@ void cameraKind::screenshot(){
 	task->run();
 }
 void cameraKind::screenRead(rect R, bitmap *Bmp){
-	if(!Bmp){error("no bmp");}
+	if (!Bmp) { throw std::runtime_error("no bmp"); }//{error("no bmp");}
 	int rwidth = (int)R.size.x;
 	int rheight = (int)R.size.y;
 	task_screenshot* task = new task_screenshot(rwidth, rheight, Bmp);
@@ -261,7 +265,8 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 			return wtd;
 		break;
 	}
-	error("unreachable code");
+	//error("unreachable code");
+	throw std::runtime_error("unreachable code");
 	return vec3(0,0,0);
 }
 vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
@@ -295,7 +300,8 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 			return dts;
 		break;
 	}
-	error("unreachable code");
+	//error("unreachable code");
+	throw std::runtime_error("unreachable code");
 	return vec3(0,0,0);
 }
 vec3 cameraKind::getMouseDir(){

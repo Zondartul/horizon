@@ -1487,9 +1487,6 @@
     <ClCompile Include="..\..\code\source\math\vec.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\util\debug.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\util\elastic_ptr.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>

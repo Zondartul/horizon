@@ -33,7 +33,7 @@ logmessage::logmessage(const logmessage& lmsg){
 string toString(logmessage lmsg){
     return fstring("[%.3f]%s:%d: %s",lmsg.time,lmsg.file.c_str(),lmsg.line,lmsg.msg.c_str());
 }
-extern vector<void*> getTrace();
+//extern vector<void*> getTrace();
 exKind::exKind(logmessage msg_):msg(msg_){
     try{
         vector<void*> tr = getTrace();

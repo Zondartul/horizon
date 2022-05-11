@@ -15,7 +15,8 @@ void elastic_ptr_anchor_proxy::decrement(){
 	refcount--;
 	if(!refcount){
 		if(anchor){
-			error("elastic_ptr inc/dec mismatch (anchor still alive)\n");
+			//error("elastic_ptr inc/dec mismatch (anchor still alive)\n");
+			throw std::runtime_error("elastic_ptr inc/dec mismatch (anchor still alive)\n");
 		}
 		delete this;
 	}

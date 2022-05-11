@@ -2,7 +2,7 @@
 #include "tool_edit.h" 
 #include "gui_editor.h" 
 #include "picker.h" 
-#include "debug.h" 
+//#include "debug.h" 
 #include "renderLayer.h" 
 #include "paint.h" 
 #include "window.h" 
@@ -28,7 +28,7 @@ GlobalsBtm* Gb = 0;
 GlobalsTop::GlobalsTop() {
 	gs_map_editor = new gs_map_editorKind();
 	gs_console = new gs_consoleKind();
-	gs_commands = new gs_commandsKind();
+	//gs_commands = new gs_commandsKind();
 	gs_editor2 = new gs_editor2Kind();
 	gs_tool_edit = new gs_tool_editKind();
 	gs_gui_editor = new gs_gui_editorKind();
@@ -40,7 +40,7 @@ GlobalsGui::GlobalsGui() {
 	gs_GUI = new gs_GUIKind();
 }
 GlobalsBtm::GlobalsBtm() {
-	gs_debug = new gs_debugKind();
+	//gs_debug = new gs_debugKind();
 	gs_renderLayer = new gs_renderLayerKind();
 	gs_paint = new gs_paintKind();
 	gs_window = new gs_windowKind();

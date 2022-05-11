@@ -1,11 +1,14 @@
 #include <algorithm>
 #include <map>
+#include <stdexcept>
+#include <sstream>
 #include "editmodel.h"
 #include "globals.h"
 #include "paint.h"
 #include "simplemath.h"
 #include "stringUtils.h"
 #include "global_vars.h"
+using std::stringstream;
 using std::map;
 #define contains(_v,_x)					(std::find((_v).begin(), (_v).end(), (_x)) != (_v).end())
 #define push_if_not_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I == (_v).end()){(_v).push_back(_x);}}
@@ -53,7 +56,8 @@ e_triangle::e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM):e_ele
 	EM->tris.push_back(this);
 }
 void e_face::recalcEdges(){
-	errorNotImplemented();
+	//errorNotImplemented();
+	throw std::runtime_error("not implemented");
 }
 e_face::e_face(vector<e_triangle*> tris, e_model *EM):e_element(EM){
 	//int j = 0;
@@ -304,9 +308,9 @@ e_selection e_selection::getTris(){
 }
 #define getImpVertsHelper(x) {e_vertex *V = x; if(!dups.count(V)){dups.insert(V);sel.verts.push_back(V);}}
 e_selection e_selection::getImplicitVerts(){
-	if(!EM){error("no EM\n");}
+	if (!EM) { throw std::runtime_error("no EM\n"); }//{error("no EM\n");}
 	EM->sanityCheck();
-	if(!EM->isElaborate){error("e_model not elaborate\n");}
+	if (!EM->isElaborate) { throw std::runtime_error("e_model not elaborate"); }//{error("e_model not elaborate\n");}
 	e_selection sel(EM);
 	set<e_vertex*> dups;
 	for(auto I = verts.begin(); I != verts.end(); I++){
@@ -324,15 +328,20 @@ e_selection e_selection::getImplicitVerts(){
 	return sel;
 }
 e_selection e_selection::getImplicitEdges(){
-	if(!EM){error("no EM\n");}
+	if (!EM) { throw std::runtime_error("no EM\n"); }//{error("no EM\n");}
 	EM->sanityCheck();
-	if(!EM->isElaborate){error("e_model not elaborate\n");}
+	if(!EM->isElaborate) { throw std::runtime_error("e_model not elaborate\n"); }//{error("e_model not elaborate\n");}
 	e_selection sel(EM);
 	set<e_edge*> dups;
 	e_selection verts = getImplicitVerts();
 	for(auto I = EM->edges.begin(); I != EM->edges.end(); I++){
 		auto &n = (*I)->parts;
-		if(n.verts.size() != 2){error("edge vert size = %d\n",n.verts.size());}
+		if(n.verts.size() != 2){
+			//error("edge vert size = %d\n",n.verts.size());
+			stringstream ss;
+			ss << "edge vert size = " << n.verts.size() << "\n";
+			throw std::runtime_error(ss.str());
+		}
 		e_vertex *v1 = (*I)->parts.verts[0];
 		e_vertex *v2 = (*I)->parts.verts[1];
 		if(contains(verts.verts,v1) && contains(verts.verts,v2)){
@@ -342,9 +351,9 @@ e_selection e_selection::getImplicitEdges(){
 	return sel;
 }
 e_selection e_selection::getImplicitTris(){
-	if(!EM){error("no EM\n");}
+	if(!EM) { throw std::runtime_error("no EM\n"); }//{error("no EM\n");}
 	EM->sanityCheck();
-	if(!EM->isElaborate){error("e_model not elaborate\n");}
+	if(!EM->isElaborate) { throw std::runtime_error("e_model not elaborate\n"); }//{error("e_model not elaborate\n");}
 	e_selection sel(EM);
 	set<e_triangle*> dups;
 	e_selection verts = getImplicitVerts();
@@ -389,7 +398,7 @@ AABB e_selection::getAABB(){
     return AABB(vmin, vmax);
 }
 void e_selection::deleteAll(){
-	if(!EM){error("no EM\n");}
+	if(!EM) { throw std::runtime_error("no EM\n"); }//{error("no EM\n");}
 	for(auto I = verts.begin(); I != verts.end(); I++){EM->verts.remove(*I);}
 	for(auto I = edges.begin(); I != edges.end(); I++){EM->edges.remove(*I);}
 	for(auto I = tris.begin(); I != tris.end(); I++){EM->tris.remove(*I);}
@@ -491,8 +500,8 @@ void e_selection::uv_scale(float scale){
 e_vertex *mapVertex(e_vertex *v,
 					map<e_vertex*,e_vertex*> &vmap,
 					e_model *EM){
-	if(!v){error("mV: no v\n");}
-	if(!EM){error("mV: no EM\n");}
+	if(!v) { throw std::runtime_error("mV: no v\n"); }//{error("mV: no v\n");}
+	if(!EM) { throw std::runtime_error("mV: no EM\n"); }//{error("mV: no EM\n");}
 	e_vertex *v2;
 	if(mapcontains(vmap,v)){
 		v2 = vmap[v];
@@ -506,8 +515,8 @@ e_edge *mapEdge(e_edge *e,
 				map<e_edge*,e_edge*> &emap,
 				map<e_vertex*,e_vertex*> &vmap,
 				e_model *EM){
-	if(!e){error("mE: no e\n");}
-	if(!EM){error("mE: no EM\n");}
+	if(!e) { throw std::runtime_error("mE: no e\n"); }//{error("mE: no e\n");}
+	if(!EM) { throw std::runtime_error("mE: no EM\n"); }//{error("mE: no EM\n");}
 	e_edge *e2;
 	if(mapcontains(emap,e)){
 		e2 = emap[e];
@@ -525,8 +534,8 @@ e_triangle *mapTriangle(e_triangle *t,
 						map<e_triangle*,e_triangle*> &tmap,
 						map<e_vertex*,e_vertex*> &vmap,
 						e_model *EM){
-	if(!t){error("mT: no t\n");}
-	if(!EM){error("mT: no EM\n");}
+	if(!t) { throw std::runtime_error("mT: no t\n"); }//{error("mT: no t\n");}
+	if(!EM) { throw std::runtime_error("mT: no EM\n"); }//{error("mT: no EM\n");}
 	e_triangle *t2;
 	if(mapcontains(tmap,t)){
 		t2 = tmap[t];
@@ -547,8 +556,8 @@ e_face *mapFace(e_face *f,
 				map<e_triangle*,e_triangle*> &tmap,
 				map<e_vertex*,e_vertex*> &vmap,
 				e_model *EM){
-	if(!f){error("mF: no f\n");}
-	if(!EM){error("mF: no EM\n");}
+	if(!f) { throw std::runtime_error("mF: no f\n"); }//{error("mF: no f\n");}
+	if(!EM) { throw std::runtime_error("mF: no EM\n"); }//{error("mF: no EM\n");}
 	e_face *f2;
 	if(mapcontains(fmap,f)){
 		f2 = fmap[f];
@@ -788,8 +797,8 @@ const char *e_model::checkDegenerate(bool repair){
 	if(repair){return didstuff;}
 	else{return repneeded;}
 }
-#define CHECK2VERTS(x) if((x)->definition.verts.size() != 2 ){error("recalc neighbors: 2 verts expected");}
-#define CHECK3VERTS(x) if((x)->definition.verts.size() != 3 ){error("recalc neighbors: 3 verts expected");}
+#define CHECK2VERTS(x) if((x)->definition.verts.size() != 2 ) { throw std::runtime_error("recalc neighbors: 2 verts expected"); }//{error("recalc neighbors: 2 verts expected");}
+#define CHECK3VERTS(x) if((x)->definition.verts.size() != 3 ) { throw std::runtime_error("recalc neighbors: 3 verts expected"); }//{error("recalc neighbors: 3 verts expected");}
 void e_model::recalculateNeighbors(){
 	removePartsInfo();
 	removeTouchingInfo();
@@ -931,7 +940,12 @@ void e_model::recalculateNeighbors(){
 }
 void e_model::sanityCheck(){
 	const char *status = checkDegenerate(false);
-	if(status){error("e_model sanity error (%s)\n",status);}
+	if(status){
+		//error("e_model sanity error (%s)\n",status);
+		stringstream ss;
+		ss << "e_model sanity error (" << status << ")\n";
+		throw std::runtime_error(ss.str());
+	}
 }
 rmodel *e_model::getRmodel(int mode){
 	e_selection selAll = selectAll();

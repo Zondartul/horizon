@@ -93,7 +93,12 @@ void frameReport(){
 	string filename = "logs/framereport";
 	filename = filename + "_" + getCalendarDateStr()+"_"+getCalendarTimeStr()+".txt";
 	ofstream fs(filename);
-	if(!fs.is_open()){error((string("can't open file [")+filename+"] for writing\n").c_str());}
+	if(!fs.is_open()){
+		//error((string("can't open file [")+filename+"] for writing\n").c_str());
+		stringstream ss;
+		ss << "can't open file[" << filename << "] for writing\n";
+		throw std::runtime_error(ss.str());
+	}
 	stringstream ss;
 	int J = 0;
     ss << "\nmain sequence (RC3):\n";

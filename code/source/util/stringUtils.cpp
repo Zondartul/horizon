@@ -183,7 +183,10 @@ string fstring(const char *format, ...){
 	printfify(format,str);
 	return str;
 }
-void stringUtils_error(string S){error(S.c_str());}
+void stringUtils_error(string S){
+	//error(S.c_str());
+	throw std::runtime_error(S);
+}
 vector<string> explode(string S, char del){
 	vector<string> res;
 	res.push_back("");
@@ -264,10 +267,16 @@ string unescapeString(string S){
 				case 't': S2 += '\t'; break;
 				case 'r': S2 += '\r'; break;
 				case 0:
-					error("broken escape sequence\n");
+					throw std::runtime_error("broken escape sequence\n"); //error("broken escape sequence\n");
 					break;
 				default:
-					error((string("unknown escape sequence [")+C+C2+"]\n").c_str());
+					//error((string("unknown escape sequence [")+C+C2+"]\n").c_str());
+				{
+					stringstream ss;
+					ss << "unknown escape sequence [" << C << C2 << "]\n";
+					throw std::runtime_error(ss.str());
+				}
+					
 					break;
 			}
 		}else{

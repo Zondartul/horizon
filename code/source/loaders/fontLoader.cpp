@@ -1,11 +1,12 @@
+#include <string>
+#include <stdexcept>
+#include <sstream>
 #include "fontLoader.h"
 #include "fonts.h"
 #include "globals.h"
 #include "atlas.h"
 #include "stringUtils.h"
 #include "file.h"
-#include <string>
-using std::string;
 #pragma warning(push, 0)
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -17,6 +18,9 @@ FT_Face		face;
 #include "bitmap.h"
 #include "simplemath.h"
 #include "paint.h"
+using std::stringstream;
+using std::string;
+
 void initFreeType(){
 	if(FT_Init_FreeType(&freetype) != 0)
 	{printf("FreeType: could not initialize!\n");exit(0);}
@@ -24,23 +28,34 @@ void initFreeType(){
 }
 void loadFont_FT(const char *fontpath, int size){
 	FILE *f = fopen(fontpath, "rb");
-	if(!f){error("can't open file [%s]\n",fontpath);}
+	if(!f){
+		//error("can't open file [%s]\n",fontpath);
+		stringstream ss;
+		ss << "can't open file [" << fontpath << "]\n";
+		throw std::runtime_error(ss.str());
+	}
 	fclose(f);
 	int err = FT_New_Face(freetype,
 							fontpath,
 							0,
 							&face);
 	if(err == FT_Err_Unknown_File_Format){
-		error("FreeType: unsupported file format for [%s]\n", fontpath);
+		//error("FreeType: unsupported file format for [%s]\n", fontpath);
+		stringstream ss;
+		ss << "FreeType: unsupported file format for [" << fontpath << "]\n";
+		throw std::runtime_error(ss.str());
 	}else if(err){
-		error("FreeType: broken font [%s]\n", fontpath);
+		//error("FreeType: broken font [%s]\n", fontpath);
+		stringstream ss;
+		ss << "FreeType: broken font [" << fontpath << "]\n";
+		throw std::runtime_error(ss.str());
 	}
 	printf("font opened: [%s]\n",fontpath);
 	err = FT_Set_Pixel_Sizes(
 		face,
 		0,	
 		size);
-	if(err){error("FreeType: some error (fixed size?)\n");}
+	if (err) { throw std::runtime_error("FreeType: some error (fixed size?)\n"); }//{error("FreeType: some error (fixed size?)\n");}
 }
 void replaceColor(pixel *P){
 	if(P->A){

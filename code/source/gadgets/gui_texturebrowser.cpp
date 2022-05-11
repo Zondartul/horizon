@@ -1,12 +1,21 @@
+#include <stdexcept>
+#include <sstream>
 #include "game.h"
 #include "gui_texturebrowser.h"
 #include "file.h"
 #include "tinyxml2.h"
+using std::stringstream;
 using namespace tinyxml2;
+
 GUIcompoundProperty loadGUI(string filepath){
 	GUIcompoundProperty P;
 	XMLDocument doc;
-	if(!fileReadable(filepath)){error("can't read file [%s]\n",filepath.c_str());}
+	if(!fileReadable(filepath)){
+		//error("can't read file [%s]\n",filepath.c_str());
+		stringstream ss;
+		ss << "can't read file [" << filepath << "]\n";
+		throw std::runtime_error(ss.str());
+	}
 	doc.LoadFile(filepath.c_str());
 	XMLElement *el = doc.RootElement();
 	GUIcompoundProperty P2(el);
@@ -26,16 +35,28 @@ GUItextureBrowser::GUItextureBrowser(){
 	Ptile = loadGUI("data/sel_tile_small.gui.xml");
 	printf("GTB constructed\n");
 	lbl = dynamic_cast<GUIlabel*>(getByName("TBlbl"));
-	if(!lbl){error("no lbl");}
+	if(!lbl){
+		//error("no lbl");
+		throw std::runtime_error("no lbl");
+	}
 	btn = dynamic_cast<GUIbutton*>(getByName("TBbtnsel"));
-	if(!btn){error("no btn");}
+	if(!btn){
+		//error("no btn");
+		throw std::runtime_error("no btn");
+	}
 	btn->setFunction([=](){
 		addTile("materials/APPULS","APPULS");
 	});
 	sg = dynamic_cast<GUIselectionGroup*>(getByName("TBselgroup"));
-	if(!sg){error("no sg");}
+	if(!sg){
+		//error("no sg");
+		throw std::runtime_error("no sg");
+	}
 	scroll = dynamic_cast<GUIscrollbar*>(getByName("TBscroll"));
-	if(!scroll){error("no scroll");}
+	if(!scroll){
+		//error("no scroll");
+		throw std::runtime_error("no scroll");
+	}
 	populate();
 }
 void openTextureBrowser(){

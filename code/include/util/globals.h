@@ -18,6 +18,8 @@ using std::list;
 #define onceon(x,y) for(static int onceon=0;onceon<=x;){if(onceon==x){y;} onceon++; break;}
 #define firstn(x,y) for(static int firstn=0;firstn<=x;){{y;} firstn++; break;}
 #define errorNotImplemented()	error((string("function ")+__func__+" not implemented\n").c_str())
-#include "debug.h"
+//#include "debug.h"
 #define DLLAPI __declspec(dllimport)
+
+//we are going fuckdangle this file too
 #endif

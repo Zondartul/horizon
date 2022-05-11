@@ -1,11 +1,14 @@
+#include <stdexcept>
+#include <sstream>
+#include <vector>
 #include "file.h"
 #include "globals.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include <vector>
-using std::vector;
 #include "dirent.h"
 #include "resource.h"
+using std::vector;
+using std::stringstream;
 string fileToString(const char *filepath){
 	FILE *fp;
 	fp = fopen(filepath,"r");
@@ -28,7 +31,12 @@ string locateResource(const char *type, const char *name){
 	if(!basepath){
 #ifndef NO_SDL
 		const char *err = SDL_GetError();
-		if(err){error("locateResource: SDL error: [%s]\n",err);}
+		if(err){
+			//error("locateResource: SDL error: [%s]\n",err);
+			stringstream ss;
+			ss << "locateResource: SDL error: [" << err << "]\n";
+			throw std::runtime_error(ss.str());
+		}
 #endif
 		basepath = "./";
 	}
@@ -49,7 +57,10 @@ string locateResource(const char *type, const char *name){
 	if(f){
 		printf("%s \"%s\" found\n",type,name);
 	}else{
-		error("locateResource [%s] failed!\n",abspath.c_str());
+		//error("locateResource [%s] failed!\n",abspath.c_str());
+		stringstream ss;
+		ss << "locateResource [" << abspath << "] failed!\n";
+		throw std::runtime_error(ss.str());
 	}
 	fclose(f);
 	return abspath;

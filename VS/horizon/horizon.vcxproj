@@ -483,7 +483,6 @@
     <ClCompile Include="..\..\code\source\resource\resource.cpp" />
     <ClCompile Include="..\..\code\source\resource\texture.cpp" />
     <ClCompile Include="..\..\code\source\thread\threads.cpp" />
-    <ClCompile Include="..\..\code\source\util\debug.cpp" />
     <ClCompile Include="..\..\code\source\util\elastic_ptr.cpp" />
     <ClCompile Include="..\..\code\source\util\event.cpp" />
     <ClCompile Include="..\..\code\source\util\hook.cpp" />
