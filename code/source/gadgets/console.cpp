@@ -15,21 +15,21 @@ using std::string;
 dropDownTerminal::dropDownTerminal():terminalOn(false){
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	layer = new renderLayer("console.terminal");
 	layer->resetLayer = duplicateLayer(layer2D->resetLayer);
 	layer->resetLayer->name = "console.terminal.reset";
 	layer->resetLayer->special = true;
 	addLayer(layer2D,layer);
 	inputChannel->addListenerFront(this);
-	globalChannel->addListenerFront(this);
+	globalChannel.addListenerFront(this);
 }
 dropDownTerminal::~dropDownTerminal(){
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	removeLayer(layer);
 	inputChannel->removeListener(this);
-	globalChannel->removeListener(this);
+	globalChannel.removeListener(this);
 }
 void dropDownTerminal::print(string text){
 	if(!terminalStrings.size()){terminalStrings.push_back("");}

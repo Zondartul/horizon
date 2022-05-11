@@ -25,11 +25,13 @@ public:
 	struct gs_renderLayerKind* gs_renderLayer;
 	struct gs_paintKind* gs_paint;
 	struct gs_windowKind* gs_window;
-	struct gs_timerKind* gs_timer;
+	//struct gs_timerKind* gs_timer;
+	//struct gs_hookKind* gs_hook;
+	class sysTimerKind* sysTimer;
 	struct gs_cameraKind* gs_camera;
-	struct gs_eventKind* gs_event;
+	//struct gs_eventKind* gs_event;
+	class sysEventKind* sysEvent;
 	struct gs_inputKind* gs_input;
-	struct gs_hookKind* gs_hook;
 	struct gs_renderKind* gs_render;
 	struct gs_printwKind* gs_printw;
 	struct gs_keybindsKind* gs_keybinds;

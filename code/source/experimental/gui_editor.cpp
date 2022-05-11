@@ -11,7 +11,7 @@ gui_editor_kind::gui_editor_kind(){
 	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	GUIwindow *mainWindow = new GUIwindow();
 	elMainWindow = mainWindow;
 	mainWindow->setTitle("GUI editor");
@@ -196,7 +196,7 @@ gui_editor_kind::gui_editor_kind(){
 	helper.editor = this;
 	inputChannel->addListener(this);
 	inputChannel->addListenerFront(&helper);
-	globalChannel->addListener(this);
+	globalChannel.addListener(this);
 	tool_default();
 }
 void gui_editor_kind::close(){

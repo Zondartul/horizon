@@ -5,7 +5,7 @@
 using std::exception;
 #include <string>
 using std::string;
-void initUtil();
+//void initUtil();
 void selfdestruct();
 template <typename T> T* copyToHeap(T &obj){
     T* ptr = new T();

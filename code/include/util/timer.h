@@ -3,9 +3,12 @@
 #include <functional>
 #include <string>
 #include <list>
+#include "event.h"
+
 using std::function;
 using std::string;
 using std::list;
+
 class timer{
 	public:
 	int ticks_max;
@@ -28,10 +31,21 @@ int getCalendarTime();
 string getCalendarTimeStr();
 int getCalendarDate();
 string getCalendarDateStr();
-void initTimers();
-struct gs_timerKind {
-	list<timer*> g_timers;
-	int g_t = 0;		
-	float g_t2 = 0;	
+
+//void initTimers();
+
+//struct gs_timerKind {
+//	list<timer*> g_timers;
+//	int g_t = 0;		
+//	float g_t2 = 0;	
+//};
+
+class sysTimerKind {
+public:
+	sysTimerKind(sysEventKind &sysEvent);
+	list<timer*> timers;
+	int t = 0;
+	float t2 = 0;
 };
+
 #endif

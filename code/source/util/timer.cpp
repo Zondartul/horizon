@@ -13,17 +13,17 @@
 using std::list;
 using std::stringstream;
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
-	auto& timers = Gb->gs_timer->g_timers;
+	//auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
 	this->ticks_max = ticks_max;
 	this->ticks_left = ticks_max;
 	this->repeat = repeat;
 	this->run = run;
 	this->selfdestruct = selfdestruct;
 	this->F = F;
-	timers.push_back(this);
+	//timers.push_back(this);
 }
 timer::~timer(){
-	auto& timers = Gb->gs_timer->g_timers;
+	auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
 	for(auto I = timers.begin(); I != timers.end();){
 		if(*I == this){ *I = 0; I++;}else{I++;}
 	}
@@ -42,10 +42,11 @@ void timer::tick(){
 	}
 }
 void simpletimer(function<void(timer *T)> F, int ticks_max){
-	new timer(F,ticks_max,0,1,1);
+	Gb->sysTimer->timers.push_back(new timer(F,ticks_max,0,1,1));
 }
+
 void timersTick(){
-	auto& timers = Gb->gs_timer->g_timers;
+	auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
 	for(auto I = timers.begin(); I != timers.end();){
         if(*I){
             (*I)->tick();
@@ -56,11 +57,11 @@ void timersTick(){
 	}
 }
 int getGameTicks(){
-	auto& t = Gb->gs_timer->g_t;
+	auto& t = Gb->sysTimer->t;//Gb->gs_timer->g_t;
 	return t;
 }
 float getGameTime(){
-	auto& t2 = Gb->gs_timer->g_t2;
+	auto& t2 = Gb->sysTimer->t2;//Gb->gs_timer->g_t2;
 	return t2;
 }
 float getRealTime(){
@@ -96,14 +97,27 @@ string getCalendarDateStr(){
 	ss << FMT_2DIG << tinfo->tm_mday << "." << FMT_2DIG << tinfo->tm_mon << "." << FMT_4DIG <<(tinfo->tm_year+1900);
 	return ss.str();
 }
-void initTimers(){
-	auto& t = Gb->gs_timer->g_t;
-	auto& t2 = Gb->gs_timer->g_t2;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
-	/*timer *T1 = */ new timer([&](timer *T){t++;},1,1);
-	/*timer *T2 = */ new timer([&](timer *T){t2+=1/60.f;},1,1);
-	hookAdd(globalChannel,EVENT_FRAME,"timers",
-		[](eventKind e){
+
+//void initTimers(){
+//	auto& t = Gb->gs_timer->g_t;
+//	auto& t2 = Gb->gs_timer->g_t2;
+//	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
+//	/*timer *T1 = */ new timer([&](timer *T){t++;},1,1);
+//	/*timer *T2 = */ new timer([&](timer *T){t2+=1/60.f;},1,1);
+//	hookAdd(&globalChannel,EVENT_FRAME,"timers",
+//		[](eventKind e){
+//			timersTick();
+//		}
+//	);
+//}
+
+sysTimerKind::sysTimerKind(sysEventKind &sysEvent) {
+	//auto& globalChannel = sysEvent.globalChannel;//Gb->sysEvent->globalChannel;
+
+	timers.push_back(new timer([&](timer* T) {t++; }, 1, 1));
+	timers.push_back(new timer([&](timer* T) {t2 += 1 / 60.f; }, 1, 1));
+	sysEvent.hookAdd(&sysEvent.globalChannel, EVENT_FRAME, "timers",
+		[](eventKind e) {
 			timersTick();
 		}
 	);

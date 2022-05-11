@@ -1,12 +1,16 @@
 #ifndef EVENT_GUARD
 #define EVENT_GUARD
 #include <vector>
-using std::vector;
+#include <functional>
 #include "vec.h"
+#include "hook.h"
 #define MOD_NONE 0
 #define MOD_SHIFT 1
 #define MOD_CTRL 2
 #define MOD_ALT 4
+using std::vector;
+using std::function;
+
 struct event_keyboard{
 	int keycode;
 	const char *key;
@@ -42,6 +46,7 @@ struct eventKind{
 	void maskEvent(int newmask = 1);
 	int isMasked();
 	eventKind();
+	eventKind(eventType type);
 	union{
 		event_keyboard keyboard;
 		event_mouse_button mousebutton;
@@ -69,8 +74,31 @@ class eventListener{
 	virtual ~eventListener();
 	virtual void onEvent(eventKind event);
 };
-void initEvents();
-struct gs_eventKind {
-	eventChannel* g_globalChannel;
+
+//void initEvents();
+
+//struct gs_eventKind {
+	//eventChannel* g_globalChannel;
+//};
+class hook;
+
+class sysEventKind {
+public:
+	sysEventKind();
+	eventChannel globalChannel;
+	vector<hook*> hooks;
+	void hookAdd(eventChannel* ch, eventType type, string name, function<void(eventKind event)> handler);
+	void hookRemove(eventChannel* ch, string name);
 };
+
+
+class hook :public eventListener {
+public:
+	eventChannel* ch;
+	eventType type;
+	string name;
+	function<void(eventKind event)> handler;
+	void onEvent(eventKind event);
+};
+
 #endif

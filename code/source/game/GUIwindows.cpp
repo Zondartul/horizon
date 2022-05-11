@@ -276,9 +276,10 @@ void openTestWindow5(){
 }
 void openTestWindow6(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	auto& allocation_map = Gb->gs_debug->g_allocation_map;
 	auto& total_size = Gb->gs_debug->g_total_size;
+	auto& sysEvent = Gb->sysEvent;
 	GUIlabel *label1 = new GUIlabel();
 	GUIscrollbar *bar = new GUIscrollbar();
 	bar\
@@ -291,7 +292,8 @@ void openTestWindow6(){
 		->moveTo({100,20})\
 		->addChild(bar);
 	GUI->addChild(win);
-	hookAdd(globalChannel, EVENT_FRAME, "testWindow6.update",
+	
+	sysEvent->hookAdd(&globalChannel, EVENT_FRAME, "testWindow6.update",
 	[=](eventKind event){
 		static int i = 0;
 		if(i < 100){i++; return;}

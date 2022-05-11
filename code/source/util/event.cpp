@@ -2,6 +2,7 @@
 #include "globals.h"
 #include "global_vars.h"
 eventKind::eventKind(){mask = 0;} 
+eventKind::eventKind(eventType type) :type(type), mask(0) {}
 void eventKind::maskEvent(int newmask){
 	if(mask){*mask = newmask;}else{error("Event is non-maskable (%s)\n",toString(type).c_str());}
 }
@@ -80,7 +81,10 @@ eventListener::~eventListener(){
 		(*I)->removeListener(this);
 	}
 }
-void initEvents(){
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
-	globalChannel = new eventChannel();
-}
+
+//void initEvents(){
+//	auto& globalChannel = Gb->gs_event->g_globalChannel;
+//	globalChannel = new eventChannel();
+//}
+
+sysEventKind::sysEventKind() {}

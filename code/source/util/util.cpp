@@ -2,11 +2,11 @@
 #include "event.h"
 #include "timer.h"
 #include "stringUtils.h"
-void initUtil(){
-	initEvents();
-	initTimers();
-	printf("-------- util init done -----------\n");
-}
+//void initUtil(){
+	//initEvents();
+	//initTimers();
+	//printf("-------- util init done -----------\n");
+//}
 typedef int (*funcptr)(void);
 void crash(){
 	int x = *(int*)0;

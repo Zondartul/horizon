@@ -11,7 +11,7 @@ map_editor_kind::map_editor_kind(){
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& inputChannel = Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gb->gs_event->g_globalChannel;
+	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));
 	GUIbutton *btnCube = new GUIbutton();
@@ -163,7 +163,7 @@ map_editor_kind::map_editor_kind(){
     setAlpha(255);
     setColor(vec3(255,255,255));
 	inputChannel->addListener(this);
-	globalChannel->addListener(this);
+	globalChannel.addListener(this);
 }
 float roundf(float x,float prec){return roundf(x/prec)*prec;}
 float floorf(float x,float prec){return floorf(x/prec)*prec;}
