@@ -12,6 +12,7 @@ template <typename T> T* copyToHeap(T &obj){
     *ptr = obj;
     return ptr;
 }
+/*
 struct logmessage{
     float time;
     string msg;
@@ -29,6 +30,8 @@ class exKind : public exception {
     virtual const char* what() const noexcept;
 };
 #define ex(...) exKind(logmessage(fstring( __VA_ARGS__ ), __FILE__, __LINE__ ))
+*/
+
 #define DECLARE_enum_class_bitwise_operators(T) \
 	bool operator|(T lhs, T rhs); \
 	bool operator&(T lhs, T rhs); \

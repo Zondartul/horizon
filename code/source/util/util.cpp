@@ -11,6 +11,8 @@ typedef int (*funcptr)(void);
 void crash(){
 	int x = *(int*)0;
 }
+
+/*
 logmessage::logmessage(string msg_, const char* file_, int line_){
     time = getRealTime();
     msg = msg_;
@@ -36,7 +38,7 @@ string toString(logmessage lmsg){
 //extern vector<void*> getTrace();
 exKind::exKind(logmessage msg_):msg(msg_){
     try{
-        vector<void*> tr = getTrace();
+        //vector<void*> tr = getTrace();
         msg.msg+="\ntrace:------\n";
         for(unsigned int I = 0; I < tr.size(); I++){
             void *p = tr[I];
@@ -50,3 +52,4 @@ const char* exKind::what() const noexcept{
     S += msg.msg;
     return stralloc(S.c_str());
 }
+*/

@@ -1,4 +1,76 @@
-﻿  glm.cpp
+﻿  editor2.cpp
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(63,1): warning C4820: 'e_selection': '3' bytes padding added after data member 'e_selection::rainbowTris'
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(78,1): warning C4623: 'e_vertex': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(83,1): warning C4623: 'e_edge': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(91,1): warning C4623: 'e_triangle': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(97,1): warning C4623: 'e_face': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(116,1): warning C4820: 'e_model': '3' bytes padding added after data member 'e_model::isElaborate'
+D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(29,16): warning C4820: 'editor2Kind': '2' bytes padding added after data member 'editor2Kind::showLine'
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(32,15): warning C4820: 'editor2Kind': '2' bytes padding added after data member 'editor2Kind::hasBox'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(84,50): warning C4668: '_USING_V110_SDK71_' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(6,8): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(31,9): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(16,18): warning C4820: 'SDL_Keysym': '2' bytes padding added after data member 'SDL_Keysym::mod'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(35,18): warning C4820: 'SDL_HapticDirection': '3' bytes padding added after data member 'SDL_HapticDirection::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(40,34): warning C4820: 'SDL_HapticConstant': '2' bytes padding added after data member 'SDL_HapticConstant::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(54,34): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(67,1): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(71,34): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(82,1): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::center'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(86,34): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(97,1): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(101,18): warning C4820: 'SDL_HapticLeftRight': '2' bytes padding added after data member 'SDL_HapticLeftRight::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(108,34): warning C4820: 'SDL_HapticCustom': '2' bytes padding added after data member 'SDL_HapticCustom::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,18): warning C4820: 'SDL_HapticCustom': '1' bytes padding added after data member 'SDL_HapticCustom::channels'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(55,9): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(97,56): warning C4458: declaration of 'boxStart' hides class member
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(32,7): message : see declaration of 'editor2Kind::boxStart'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(97,56): warning C4458: declaration of 'boxEnd' hides class member
+D:\Stride\shared\horizon\code\include\experimental\editor2.h(33,7): message : see declaration of 'editor2Kind::boxEnd'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(123,9): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): warning C4777: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 3 has type 'unsigned int'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : the sizes of types 'unsigned int' and 'int' might differ on other platforms
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(282,12): message : consider using '%zd' in the format string
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(313,2): warning C4061: enumerator 'EVENT_KEY_UP' in switch of enum 'eventType' is not explicitly handled by a case label
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(313,2): warning C4061: enumerator 'EVENT_MOUSE_WHEEL' in switch of enum 'eventType' is not explicitly handled by a case label
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(313,2): warning C4061: enumerator 'EVENT_TICK' in switch of enum 'eventType' is not explicitly handled by a case label
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\experimental\editor2.cpp(313,2): warning C4061: enumerator 'EVENT_CLEANUP' in switch of enum 'eventType' is not explicitly handled by a case label
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(240,23): warning C4514: 'SDL_memset4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(372,24): warning C4514: 'SDL_memcpy4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(58,1): warning C4514: 'SDL_Swap16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(129,1): warning C4514: 'SDL_Swap64': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4514: 'SDL_SwapFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
   gui_editor.cpp
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\setup.hpp(30,10): warning C4464: relative include path contains '..'
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(42,22): warning C4201: nonstandard extension used: nameless struct/union
@@ -1307,6 +1379,42 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C451
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(87,17): warning C4514: 'glm::tvec3<float,glm::packed_highp>::tvec3': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(87,17): warning C4514: 'glm::tvec2<float,glm::packed_highp>::tvec2': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(90,36): warning C4514: 'glm::tvec4<float,glm::packed_highp>::tvec4': unreferenced inline function has been removed
+  console.cpp
+D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\gadgets\console.h(28,1): warning C4820: 'dropDownTerminal': '3' bytes padding added after data member 'dropDownTerminal::terminalOn'
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(84,50): warning C4668: '_USING_V110_SDK71_' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(6,8): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(31,9): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(16,18): warning C4820: 'SDL_Keysym': '2' bytes padding added after data member 'SDL_Keysym::mod'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(35,18): warning C4820: 'SDL_HapticDirection': '3' bytes padding added after data member 'SDL_HapticDirection::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(40,34): warning C4820: 'SDL_HapticConstant': '2' bytes padding added after data member 'SDL_HapticConstant::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(54,34): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(67,1): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(71,34): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(82,1): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::center'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(86,34): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(97,1): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(101,18): warning C4820: 'SDL_HapticLeftRight': '2' bytes padding added after data member 'SDL_HapticLeftRight::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(108,34): warning C4820: 'SDL_HapticCustom': '2' bytes padding added after data member 'SDL_HapticCustom::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,18): warning C4820: 'SDL_HapticCustom': '1' bytes padding added after data member 'SDL_HapticCustom::channels'
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(92,39): warning C4365: 'initializing': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(96,43): warning C5219: implicit conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(97,32): warning C4365: 'argument': conversion from 'int' to 'const unsigned int', signed/unsigned mismatch
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(240,23): warning C4514: 'SDL_memset4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(372,24): warning C4514: 'SDL_memcpy4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(58,1): warning C4514: 'SDL_Swap16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(129,1): warning C4514: 'SDL_Swap64': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4514: 'SDL_SwapFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
   gui_filedialog.cpp
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\setup.hpp(30,10): warning C4464: relative include path contains '..'
 D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(42,22): warning C4201: nonstandard extension used: nameless struct/union
@@ -3004,6 +3112,114 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
+  Generating Code...
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(52): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(50): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(52): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(51): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(50): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(51): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(48): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(47): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(48): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(45): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(44): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(45): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(42): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(41): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(42): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(233): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(232): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(233): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(229): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(228): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(229): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(217): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(199): message : index 'C' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(217): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(175): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(173): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(175): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(158): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(156): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(158): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(154): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(152): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(154): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(126): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(125): message : index 'CS' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(144): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(139): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(138): message : index 'C' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(139): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(132): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(131): message : index 'C' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(132): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(117): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(113): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(120): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(114): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(113): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(114): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(89): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(88): message : index 'RS' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(107): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(102): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(101): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(102): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(95): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(94): message : index 'R' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(95): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(80): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(76): message : index 'C' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(83): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(77): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(76): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(77): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(146): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(144): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(146): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(182): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(178): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(182): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(179): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(178): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(179): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(168): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(164): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(168): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(165): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(164): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(165): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(240): warning C4702: unreachable code
+D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(86): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(85): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(87): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(97): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(95): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(97): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(44): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(41): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(44): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(38): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(37): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\gadgets\console.cpp(38): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): message : feeds call on this line
+  Compiling...
   GUIlabel.cpp
 D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
 D:\Stride\shared\horizon\code\include\GUI\GUIbase.h(19,23): warning C4820: 'GUIbase': '2' bytes padding added after data member 'GUIbase::deletePending'
@@ -3098,110 +3314,6 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
-  Generating Code...
-D:\Stride\shared\horizon\code\source\GUI\GUIlabel.cpp(70): warning C4701: potentially uninitialized local variable 'x' used
-D:\Stride\shared\horizon\code\source\GUI\GUIlabel.cpp(70): warning C4701: potentially uninitialized local variable 'y' used
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(18): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(52): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(50): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(52): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(51): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(50): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(51): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(48): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(47): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(48): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(45): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(44): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(45): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(42): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(41): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(42): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(233): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(232): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(233): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(229): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(228): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(229): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(217): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(199): message : index 'C' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(217): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(175): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(173): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(175): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(158): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(156): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(158): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(154): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(152): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(154): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(126): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(125): message : index 'CS' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(144): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(139): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(138): message : index 'C' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(139): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(132): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(131): message : index 'C' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(132): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(117): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(113): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(120): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(114): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(113): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(114): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(89): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(88): message : index 'RS' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(107): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(102): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(101): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(102): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(95): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(94): message : index 'R' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(95): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(80): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(76): message : index 'C' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(83): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(77): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(76): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIgrid.cpp(77): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(146): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(144): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(146): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(240): warning C4702: unreachable code
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(182): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(178): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(182): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(179): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(178): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(179): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(168): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(164): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(168): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(165): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(164): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIbase.cpp(165): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(86): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(85): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\gadgets\gui_filedialog.cpp(87): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(457): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(456): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(454): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\experimental\map_editor.cpp(430): message : feeds call on this line
-D:\Stride\shared\horizon\codeExt\includeExt\glm\gtx\dual_quaternion.inl(309): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\codeExt\includeExt\glm\gtx\dual_quaternion.inl(307): message : index 'trace' range checked by comparison on this line
-D:\Stride\shared\horizon\codeExt\includeExt\glm\gtx\dual_quaternion.inl(309): message : feeds call on this line
-  Compiling...
   GUIrenderer.cpp
 D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
 D:\Stride\shared\horizon\code\include\GUI\GUIbase.h(19,23): warning C4820: 'GUIbase': '2' bytes padding added after data member 'GUIbase::deletePending'
@@ -3970,6 +4082,78 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
+  keybinds.cpp
+D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\gadgets\console.h(28,1): warning C4820: 'dropDownTerminal': '3' bytes padding added after data member 'dropDownTerminal::terminalOn'
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(46,2): warning C4062: enumerator 'EVENT_MOUSE_WHEEL' in switch of enum 'eventType' is not handled
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(46,2): warning C4062: enumerator 'EVENT_FRAME' in switch of enum 'eventType' is not handled
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(46,2): warning C4062: enumerator 'EVENT_TICK' in switch of enum 'eventType' is not handled
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+D:\Stride\shared\horizon\code\source\input\keybinds.cpp(46,2): warning C4062: enumerator 'EVENT_CLEANUP' in switch of enum 'eventType' is not handled
+D:\Stride\shared\horizon\code\include\util\event.h(32): message : see declaration of 'eventType'
+  fontLoader.cpp
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(84,50): warning C4668: '_USING_V110_SDK71_' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(6,8): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(31,9): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(16,18): warning C4820: 'SDL_Keysym': '2' bytes padding added after data member 'SDL_Keysym::mod'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(35,18): warning C4820: 'SDL_HapticDirection': '3' bytes padding added after data member 'SDL_HapticDirection::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(40,34): warning C4820: 'SDL_HapticConstant': '2' bytes padding added after data member 'SDL_HapticConstant::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(54,34): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(67,1): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(71,34): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(82,1): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::center'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(86,34): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(97,1): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(101,18): warning C4820: 'SDL_HapticLeftRight': '2' bytes padding added after data member 'SDL_HapticLeftRight::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(108,34): warning C4820: 'SDL_HapticCustom': '2' bytes padding added after data member 'SDL_HapticCustom::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,18): warning C4820: 'SDL_HapticCustom': '1' bytes padding added after data member 'SDL_HapticCustom::channels'
+D:\Stride\shared\horizon\code\include\render\render.h(19,12): warning C4820: 'renderOptions': '1' bytes padding added after data member 'renderOptions::normalColoring'
+D:\Stride\shared\horizon\code\include\render\render.h(22,14): warning C4820: 'renderOptions': '3' bytes padding added after data member 'renderOptions::scissoring'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(57,7): warning C4365: 'argument': conversion from 'int' to 'FT_UInt', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(69,52): warning C4365: 'argument': conversion from 'int' to 'FT_ULong', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(69,53): warning C4365: 'initializing': conversion from 'FT_UInt' to 'int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(74,18): warning C4365: 'argument': conversion from 'int' to 'FT_UInt', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(79,39): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(80,39): warning C4365: '=': conversion from 'unsigned int' to 'int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(93,38): warning C4242: 'argument': conversion from 'int' to 'char', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(113,24): warning C4365: 'argument': conversion from 'int' to 'const unsigned int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(114,39): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(114,63): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(114,91): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(114,113): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(118,47): warning C4365: 'argument': conversion from 'int' to 'FT_ULong', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(118,48): warning C4365: 'initializing': conversion from 'FT_UInt' to 'int', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(123,20): warning C4365: 'argument': conversion from 'int' to 'FT_UInt', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(127,16): warning C4242: 'argument': conversion from 'int' to 'char', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(133,28): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(135,28): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(139,30): warning C5219: implicit conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(140,30): warning C5219: implicit conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp(146,23): warning C4100: 'f': unreferenced formal parameter
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(240,23): warning C4514: 'SDL_memset4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(372,24): warning C4514: 'SDL_memcpy4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(58,1): warning C4514: 'SDL_Swap16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(129,1): warning C4514: 'SDL_Swap64': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4514: 'SDL_SwapFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
   global_vars.cpp
 D:\Stride\shared\horizon\code\include\experimental\gui_editor\tool.h(18,1): warning C5204: 'gui_editor_tool': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 D:\Stride\shared\horizon\code\include\experimental\gui_editor\tool_edit.h(25,1): warning C4265: 'gui_editor_tool_edit': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
@@ -4365,6 +4549,326 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
+  camera.cpp
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.hpp(24,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\setup.hpp(30,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(42,28): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(269): message : see reference to class template instantiation 'glm::tvec4<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(43,29): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(44,29): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(18,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(19,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(20,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(21,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(42,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(203): message : see reference to class template instantiation 'glm::tvec2<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(43,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(44,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(22,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(42,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(224): message : see reference to class template instantiation 'glm::tvec3<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(43,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(44,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(23,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(24,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(25,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(26,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(27,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(28,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(29,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(30,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(31,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(32,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec1.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_exponential_simd.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common_simd.inl(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_geometric_simd.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(8,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.hpp(25,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.hpp(26,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.hpp(27,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.hpp(28,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\constants.hpp(17,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.inl(5,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\gtc\matrix_transform.inl(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(84,50): warning C4668: '_USING_V110_SDK71_' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(6,8): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(31,9): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(16,18): warning C4820: 'SDL_Keysym': '2' bytes padding added after data member 'SDL_Keysym::mod'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(35,18): warning C4820: 'SDL_HapticDirection': '3' bytes padding added after data member 'SDL_HapticDirection::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(40,34): warning C4820: 'SDL_HapticConstant': '2' bytes padding added after data member 'SDL_HapticConstant::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(54,34): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(67,1): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(71,34): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(82,1): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::center'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(86,34): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(97,1): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(101,18): warning C4820: 'SDL_HapticLeftRight': '2' bytes padding added after data member 'SDL_HapticLeftRight::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(108,34): warning C4820: 'SDL_HapticCustom': '2' bytes padding added after data member 'SDL_HapticCustom::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,18): warning C4820: 'SDL_HapticCustom': '1' bytes padding added after data member 'SDL_HapticCustom::channels'
+D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
+D:\Stride\shared\horizon\code\include\util\timer.h(20,28): warning C4820: 'timer': '4' bytes padding added after data member 'timer::deleteRequested'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\code\source\render\camera.cpp(75,16): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\render\camera.cpp(76,17): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\render\camera.cpp(100,16): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\render\camera.cpp(102,18): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\render\camera.cpp(123,17): warning C5038: data member 'task_screenshot::height' will be initialized after data member 'task_screenshot::BMP'
+D:\Stride\shared\horizon\code\source\render\camera.cpp(123,33): warning C5038: data member 'task_screenshot::BMP' will be initialized after data member 'task_screenshot::mode'
+D:\Stride\shared\horizon\code\source\render\camera.cpp(138,1): warning C4365: 'argument': conversion from 'int' to 'size_t', signed/unsigned mismatch
+D:\Stride\shared\horizon\code\source\render\camera.cpp(169,1): warning C4100: 'T': unreferenced formal parameter
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(153,37): warning C4514: 'glm::detail::compute_vec4_div<float,glm::aligned_lowp,true>::call': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(90,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(446,68): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(452,71): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(458,69): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(464,68): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(470,71): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(476,69): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\exponential.h(4,29): warning C4514: 'glm_vec1_sqrt_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_exponential_simd.inl(25,56): warning C4514: 'glm::detail::compute_sqrt<glm::tvec4,float,glm::aligned_lowp,true>::call': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(32,27): warning C4514: 'glm::abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(697,25): warning C4514: 'glm::floatBitsToInt': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(708,26): warning C4514: 'glm::floatBitsToUint': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(719,27): warning C4514: 'glm::intBitsToFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(730,27): warning C4514: 'glm::uintBitsToFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(8,29): warning C4514: 'glm_vec1_add': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(16,29): warning C4514: 'glm_vec1_sub': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(24,29): warning C4514: 'glm_vec1_mul': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(32,29): warning C4514: 'glm_vec1_div': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(36,29): warning C4514: 'glm_vec4_div_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(40,29): warning C4514: 'glm_vec4_swizzle_xyzw': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(48,29): warning C4514: 'glm_vec1_fma': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(64,29): warning C4514: 'glm_vec4_abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(68,30): warning C4514: 'glm_ivec4_abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(114,29): warning C4514: 'glm_vec4_roundEven': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(123,29): warning C4514: 'glm_vec4_ceil': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(135,29): warning C4514: 'glm_vec4_fract': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(141,29): warning C4514: 'glm_vec4_mod': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(155,29): warning C4514: 'glm_vec4_mix': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(162,29): warning C4514: 'glm_vec4_step': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(167,29): warning C4514: 'glm_vec4_smoothstep': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(179,29): warning C4514: 'glm_vec4_nan': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(191,29): warning C4514: 'glm_vec4_inf': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(12,29): warning C4514: 'glm_vec4_distance': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(36,29): warning C4514: 'glm_vec1_dot': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(54,29): warning C4514: 'glm_vec4_cross': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(65,29): warning C4514: 'glm_vec4_normalize': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(72,29): warning C4514: 'glm_vec4_faceforward': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(80,29): warning C4514: 'glm_vec4_reflect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(88,27): warning C4514: 'glm_vec4_refract': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(4,25): warning C4514: 'glm_mat4_matrixCompMult': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(11,25): warning C4514: 'glm_mat4_add': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(18,25): warning C4514: 'glm_mat4_sub': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(25,29): warning C4514: 'glm_mat4_mul_vec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(40,27): warning C4514: 'glm_vec4_mul_mat4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(61,25): warning C4514: 'glm_mat4_mul': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(120,25): warning C4514: 'glm_mat4_transpose': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(131,29): warning C4514: 'glm_mat4_determinant_highp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(245,29): warning C4514: 'glm_mat4_determinant_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(274,29): warning C4514: 'glm_mat4_determinant': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(303,25): warning C4514: 'glm_mat4_inverse': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(421,25): warning C4514: 'glm_mat4_inverse_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(64,50): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_lowp>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(72,53): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_mediump>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(80,51): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_highp>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(240,23): warning C4514: 'SDL_memset4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(372,24): warning C4514: 'SDL_memcpy4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(58,1): warning C4514: 'SDL_Swap16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(129,1): warning C4514: 'SDL_Swap64': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4514: 'SDL_SwapFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(87,17): warning C4514: 'glm::tvec3<float,glm::packed_highp>::tvec3': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(87,17): warning C4514: 'glm::tvec2<float,glm::packed_highp>::tvec2': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(90,36): warning C4514: 'glm::tvec4<float,glm::packed_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::packed_highp>::tmat4x4': unreferenced inline function has been removed
+  paint.cpp
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\setup.hpp(30,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(42,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(203): message : see reference to class template instantiation 'glm::tvec2<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(43,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(44,22): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(42,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(224): message : see reference to class template instantiation 'glm::tvec3<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(43,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(44,25): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(42,28): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(269): message : see reference to class template instantiation 'glm::tvec4<T,P>' being compiled
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(43,29): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(44,29): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(18,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(19,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(20,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(21,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(22,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(23,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(24,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(25,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(26,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat2x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(27,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(28,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(29,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(30,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x2.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(31,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x3.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.hpp(32,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec1.hpp(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_exponential_simd.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common_simd.inl(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_geometric_simd.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(8,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(6,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_integer_simd.inl(4,10): warning C4464: relative include path contains '..'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
+D:\Stride\shared\horizon\code\include\util\timer.h(20,28): warning C4820: 'timer': '4' bytes padding added after data member 'timer::deleteRequested'
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(63,1): warning C4820: 'e_selection': '3' bytes padding added after data member 'e_selection::rainbowTris'
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(78,1): warning C4623: 'e_vertex': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(83,1): warning C4623: 'e_edge': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(91,1): warning C4623: 'e_triangle': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(97,1): warning C4623: 'e_face': default constructor was implicitly defined as deleted
+D:\Stride\shared\horizon\code\include\generators\editmodel.h(116,1): warning C4820: 'e_model': '3' bytes padding added after data member 'e_model::isElaborate'
+D:\Stride\shared\horizon\code\source\render\paint.cpp(283,42): warning C4100: 'h': unreferenced formal parameter
+D:\Stride\shared\horizon\code\source\render\paint.cpp(283,35): warning C4100: 'w': unreferenced formal parameter
+D:\Stride\shared\horizon\code\source\render\paint.cpp(283,28): warning C4100: 'y': unreferenced formal parameter
+D:\Stride\shared\horizon\code\source\render\paint.cpp(283,21): warning C4100: 'x': unreferenced formal parameter
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(153,37): warning C4514: 'glm::detail::compute_vec4_div<float,glm::aligned_lowp,true>::call': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(90,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(97,36): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(98,36): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(446,68): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(452,71): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(458,69): warning C4514: 'glm::tvec4<glm::int32,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(464,68): warning C4514: 'glm::tvec4<float,glm::aligned_lowp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(470,71): warning C4514: 'glm::tvec4<float,glm::aligned_mediump>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4_simd.inl(476,69): warning C4514: 'glm::tvec4<float,glm::aligned_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\exponential.h(4,29): warning C4514: 'glm_vec1_sqrt_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_exponential_simd.inl(25,56): warning C4514: 'glm::detail::compute_sqrt<glm::tvec4,float,glm::aligned_lowp,true>::call': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(32,27): warning C4514: 'glm::abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(697,25): warning C4514: 'glm::floatBitsToInt': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(708,26): warning C4514: 'glm::floatBitsToUint': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(719,27): warning C4514: 'glm::intBitsToFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_common.inl(730,27): warning C4514: 'glm::uintBitsToFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(8,29): warning C4514: 'glm_vec1_add': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(16,29): warning C4514: 'glm_vec1_sub': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(24,29): warning C4514: 'glm_vec1_mul': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(32,29): warning C4514: 'glm_vec1_div': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(36,29): warning C4514: 'glm_vec4_div_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(40,29): warning C4514: 'glm_vec4_swizzle_xyzw': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(48,29): warning C4514: 'glm_vec1_fma': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(64,29): warning C4514: 'glm_vec4_abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(68,30): warning C4514: 'glm_ivec4_abs': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(114,29): warning C4514: 'glm_vec4_roundEven': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(123,29): warning C4514: 'glm_vec4_ceil': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(135,29): warning C4514: 'glm_vec4_fract': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(141,29): warning C4514: 'glm_vec4_mod': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(155,29): warning C4514: 'glm_vec4_mix': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(162,29): warning C4514: 'glm_vec4_step': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(167,29): warning C4514: 'glm_vec4_smoothstep': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(179,29): warning C4514: 'glm_vec4_nan': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\common.h(191,29): warning C4514: 'glm_vec4_inf': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(12,29): warning C4514: 'glm_vec4_distance': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(36,29): warning C4514: 'glm_vec1_dot': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(54,29): warning C4514: 'glm_vec4_cross': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(65,29): warning C4514: 'glm_vec4_normalize': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(72,29): warning C4514: 'glm_vec4_faceforward': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(80,29): warning C4514: 'glm_vec4_reflect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\geometric.h(88,27): warning C4514: 'glm_vec4_refract': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(4,25): warning C4514: 'glm_mat4_matrixCompMult': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(11,25): warning C4514: 'glm_mat4_add': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(18,25): warning C4514: 'glm_mat4_sub': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(25,29): warning C4514: 'glm_mat4_mul_vec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(40,27): warning C4514: 'glm_vec4_mul_mat4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(61,25): warning C4514: 'glm_mat4_mul': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(120,25): warning C4514: 'glm_mat4_transpose': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(131,29): warning C4514: 'glm_mat4_determinant_highp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(245,29): warning C4514: 'glm_mat4_determinant_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(274,29): warning C4514: 'glm_mat4_determinant': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(303,25): warning C4514: 'glm_mat4_inverse': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\matrix.h(421,25): warning C4514: 'glm_mat4_inverse_lowp': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(64,50): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_lowp>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(72,53): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_mediump>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_matrix_simd.inl(80,51): warning C4514: 'glm::outerProduct': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat4x4.hpp(30,17): warning C4514: 'glm::tmat4x4<float,glm::aligned_highp>::tmat4x4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_half.inl(22,3): warning C4514: 'glm::detail::uif32::uif32': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_half.inl(26,3): warning C4514: 'glm::detail::uif32::uif32': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(10,26): warning C4514: 'glm::packUnorm2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(26,26): warning C4514: 'glm::unpackUnorm2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(39,26): warning C4514: 'glm::packSnorm2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(55,26): warning C4514: 'glm::unpackSnorm2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(68,26): warning C4514: 'glm::packUnorm4x8': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(86,26): warning C4514: 'glm::unpackUnorm4x8': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(99,26): warning C4514: 'glm::packSnorm4x8': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(117,31): warning C4514: 'glm::unpackSnorm4x8': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(130,28): warning C4514: 'glm::packDouble2x32': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(144,27): warning C4514: 'glm::unpackDouble2x32': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(157,26): warning C4514: 'glm::packHalf2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_packing.inl(171,26): warning C4514: 'glm::unpackHalf2x16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_integer.inl(181,26): warning C4514: 'glm::uaddCarry': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_integer.inl(199,26): warning C4514: 'glm::usubBorrow': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_integer.inl(220,26): warning C4514: 'glm::umulExtended': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\func_integer.inl(240,26): warning C4514: 'glm::imulExtended': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\integer.h(3,30): warning C4514: 'glm_i128_interleave': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\simd\integer.h(33,30): warning C4514: 'glm_i128_interleave2': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec3.hpp(87,17): warning C4514: 'glm::tvec3<float,glm::packed_highp>::tvec3': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec4.hpp(90,36): warning C4514: 'glm::tvec4<float,glm::packed_highp>::tvec4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_mat3x3.hpp(30,17): warning C4514: 'glm::tmat3x3<float,glm::packed_highp>::tmat3x3': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\glm\detail\type_vec2.hpp(87,17): warning C4514: 'glm::tvec2<float,glm::packed_highp>::tvec2': unreferenced inline function has been removed
+  printw.cpp
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\source\render\printw.cpp(71,77): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
+D:\Stride\shared\horizon\code\source\render\printw.cpp(106,77): warning C5219: implicit conversion from 'int' to 'float', possible loss of data
   render.cpp
 D:\Stride\shared\horizon\code\include\render\render.h(19,12): warning C4820: 'renderOptions': '1' bytes padding added after data member 'renderOptions::normalColoring'
 D:\Stride\shared\horizon\code\include\render\render.h(22,14): warning C4820: 'renderOptions': '3' bytes padding added after data member 'renderOptions::scissoring'
@@ -4452,7 +4956,236 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
-  elastic_ptr.cpp
+  renderCommand.cpp
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'ERROR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'PUSH_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'POP_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'READ_PIXELS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'FACE_CULLING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'FACE_CULL_CCW' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(43,5): warning C4062: enumerator 'VIEWPORT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(46,33): warning C4582: 'renderCommand3::v3': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(46,33): warning C4582: 'renderCommand3::v2': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(46,33): warning C4582: 'renderCommand3::r': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(47,58): warning C4582: 'renderCommand3::v3': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(47,58): warning C4582: 'renderCommand3::v2': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(47,58): warning C4582: 'renderCommand3::r': constructor is not implicitly called
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(51,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(51,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(52,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(52,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(53,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(53,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(54,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(54,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(55,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(55,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(56,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(56,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(57,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(57,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(58,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(58,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(59,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(59,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(60,65): warning C4800: Implicit conversion from 'int' to bool. Possible information loss
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(60,65): message : consider using explicit cast or comparison to 0 to avoid this warning
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(91,5): warning C4062: enumerator 'ERROR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(91,5): warning C4062: enumerator 'PUSH_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(91,5): warning C4062: enumerator 'POP_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(141,5): warning C4062: enumerator 'ERROR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(141,5): warning C4062: enumerator 'TEXTURE_SCALE' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(141,5): warning C4062: enumerator 'PUSH_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(141,5): warning C4062: enumerator 'POP_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(141,5): warning C4062: enumerator 'TEXTURE_POS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'ERROR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'COLORING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'UVCOLORING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'NORMALCOLORING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TRANSPARENCY' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'DEPTHMASK' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXTURING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'DEBUG' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'SCISSORING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'DEPTH_TEST' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'LIGHTING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'LAYER' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'COLOR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'ALPHA' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXTURE_SELECT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'FONT_SELECT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'MODE_SELECT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXT_POS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'SCISSOR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'POINTSIZE' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'LINEWIDTH' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'SUN_POS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'SUN_LIGHT_COLOR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'AMBIENT_LIGHT_COLOR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXTURE_UPLOAD' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'RMODEL_UPLOAD' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'POSITION' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'ROTATION' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'SCALE' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'CLEAR_SCREEN' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'RMODEL_RENDER' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXTURE_SCALE' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'PUSH_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'POP_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'TEXTURE_POS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'READ_PIXELS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'FACE_CULLING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'FACE_CULL_CCW' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(150,5): warning C4062: enumerator 'VIEWPORT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'ERROR' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'TEXTURE_SCALE' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'PUSH_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'POP_OPTIONS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'TEXTURE_POS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'READ_PIXELS' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'FACE_CULLING' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'FACE_CULL_CCW' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+D:\Stride\shared\horizon\code\source\render\renderCommand.cpp(192,5): warning C4062: enumerator 'VIEWPORT' in switch of enum 'RC3T' is not handled
+D:\Stride\shared\horizon\code\include\render\renderCommand.h(13): message : see declaration of 'RC3T'
+  Generating Code...
+D:\Stride\shared\horizon\code\source\render\paint.cpp(299): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\render\paint.cpp(298): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\render\paint.cpp(299): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\render\camera.cpp(305): warning C4702: unreachable code
+D:\Stride\shared\horizon\code\source\render\camera.cpp(270): warning C4702: unreachable code
+D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(70): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(69): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(70): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(71): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(70): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(72): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(62): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(61): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(64): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(57): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(56): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(59): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(157): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(154): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(157): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(169): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(166): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(169): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(207): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(201): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(207): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(202): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(201): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(202): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(191): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(187): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(191): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(188): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(187): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(188): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\GUI\GUIlabel.cpp(70): warning C4701: potentially uninitialized local variable 'x' used
+D:\Stride\shared\horizon\code\source\GUI\GUIlabel.cpp(70): warning C4701: potentially uninitialized local variable 'y' used
+  Compiling...
+  renderLayer.cpp
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
+D:\Stride\shared\horizon\code\include\render\render.h(19,12): warning C4820: 'renderOptions': '1' bytes padding added after data member 'renderOptions::normalColoring'
+D:\Stride\shared\horizon\code\include\render\render.h(22,14): warning C4820: 'renderOptions': '3' bytes padding added after data member 'renderOptions::scissoring'
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\include\render\paint.h(118,1): warning C4820: 'gs_paintKind': '2' bytes padding added after data member 'gs_paintKind::g_frameReportPending'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_platform.h(84,50): warning C4668: '_USING_V110_SDK71_' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\begin_code.h(6,8): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_assert.h(31,9): warning C4668: '__GNUC__' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_keyboard.h(16,18): warning C4820: 'SDL_Keysym': '2' bytes padding added after data member 'SDL_Keysym::mod'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(35,18): warning C4820: 'SDL_HapticDirection': '3' bytes padding added after data member 'SDL_HapticDirection::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(40,34): warning C4820: 'SDL_HapticConstant': '2' bytes padding added after data member 'SDL_HapticConstant::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(54,34): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(67,1): warning C4820: 'SDL_HapticPeriodic': '2' bytes padding added after data member 'SDL_HapticPeriodic::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(71,34): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(82,1): warning C4820: 'SDL_HapticCondition': '2' bytes padding added after data member 'SDL_HapticCondition::center'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(86,34): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(97,1): warning C4820: 'SDL_HapticRamp': '2' bytes padding added after data member 'SDL_HapticRamp::fade_level'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(101,18): warning C4820: 'SDL_HapticLeftRight': '2' bytes padding added after data member 'SDL_HapticLeftRight::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(108,34): warning C4820: 'SDL_HapticCustom': '2' bytes padding added after data member 'SDL_HapticCustom::type'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_haptic.h(114,18): warning C4820: 'SDL_HapticCustom': '1' bytes padding added after data member 'SDL_HapticCustom::channels'
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(240,23): warning C4514: 'SDL_memset4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_stdinc.h(372,24): warning C4514: 'SDL_memcpy4': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(58,1): warning C4514: 'SDL_Swap16': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(129,1): warning C4514: 'SDL_Swap64': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4514: 'SDL_SwapFloat': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
+D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
+  rmodel.cpp
+D:\Stride\shared\horizon\code\include\render\rmodel.h(28,4): warning C4201: nonstandard extension used: nameless struct/union
+D:\Stride\shared\horizon\code\include\render\render.h(19,12): warning C4820: 'renderOptions': '1' bytes padding added after data member 'renderOptions::normalColoring'
+D:\Stride\shared\horizon\code\include\render\render.h(22,14): warning C4820: 'renderOptions': '3' bytes padding added after data member 'renderOptions::scissoring'
+D:\Stride\shared\horizon\code\include\render\camera.h(44,1): warning C4820: 'cameraKind': '2' bytes padding added after data member 'cameraKind::perspective'
+D:\Stride\shared\horizon\code\include\render\renderLayer.h(19,26): warning C4820: 'renderLayer': '2' bytes padding added after data member 'renderLayer::special'
   stringUtils.cpp
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(21,19): warning C4774: 'snprintf' : format string expected in argument 3 is not a string literal
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(21,19): message : e.g. instead of printf(name); use printf("%s", name); because format specifiers in 'name' may pose a security issue
@@ -4532,61 +5265,54 @@ D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_endian.h(142,1): warning C4
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(21,27): warning C4514: 'SDL_PointInRect': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(26,27): warning C4514: 'SDL_RectEmpty': unreferenced inline function has been removed
 D:\Stride\shared\horizon\codeExt\includeExt\SDL2\SDL_rect.h(30,27): warning C4514: 'SDL_RectEquals': unreferenced inline function has been removed
-  util.cpp
-D:\Stride\shared\horizon\code\include\util\event.h(18,9): warning C4820: 'event_keyboard': '3' bytes padding added after data member 'event_keyboard::printchar'
-D:\Stride\shared\horizon\code\include\util\timer.h(20,28): warning C4820: 'timer': '4' bytes padding added after data member 'timer::deleteRequested'
-D:\Stride\shared\horizon\code\source\util\util.cpp(12,6): warning C4189: 'x': local variable is initialized but not referenced
   Generating Code...
-D:\Stride\shared\horizon\code\source\util\util.cpp(43): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\util\util.cpp(41): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\util\util.cpp(43): message : feeds call on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(227): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(225): message : index 'i' range checked by comparison on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(227): message : feeds call on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(243): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(242): message : index 'I' range checked by comparison on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(250): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(296): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(295): message : index 'I' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(296): message : feeds call on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(262): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(262): message : index '' range checked by comparison on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(276): message : feeds call on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(261): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(260): message : index 'I' range checked by comparison on this line
 D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(276): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(296): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(295): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\util\stringUtils.cpp(296): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(70): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(69): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIwindow.cpp(70): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(71): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(70): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(72): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(62): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(61): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(64): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(57): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(56): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIselectable.cpp(59): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(169): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(166): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(169): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(157): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(154): message : index '' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(157): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(207): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(201): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(207): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(202): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(201): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(202): message : feeds memory load on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(191): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(187): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(191): message : feeds call on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(188): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(187): message : index 'I' range checked by comparison on this line
-D:\Stride\shared\horizon\code\source\GUI\GUIscrollbar.cpp(188): message : feeds memory load on this line
+D:\Stride\shared\horizon\code\source\render\rmodel.cpp(60): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\render\rmodel.cpp(44): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\render\rmodel.cpp(60): message : feeds call on this line
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(75): warning C4866: compiler may not enforce left-to-right evaluation order for call to 'std::operator<<<char,std::char_traits<char>,std::allocator<char> >'
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(75): warning C4866: compiler may not enforce left-to-right evaluation order for call to 'std::operator<<<std::char_traits<char> >'
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(91): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(90): message : index '' range checked by comparison on this line
+D:\Stride\shared\horizon\code\source\render\renderLayer.cpp(91): message : feeds call on this line
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
 glm.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:REF' specification
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-util.obj : error LNK2019: unresolved external symbol "class std::vector<void *,class std::allocator<void *> > __cdecl getTrace(void)" (?getTrace@@YA?AV?$vector@PAXV?$allocator@PAX@std@@@std@@XZ) referenced in function "public: __thiscall exKind::exKind(struct logmessage)" (??0exKind@@QAE@Ulogmessage@@@Z)
-D:\Stride\shared\horizon\VS\horizon\Debug\..\..\..\bin\horizon.exe : fatal error LNK1120: 1 unresolved externals
+freetype.lib(autofit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(autofit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftbase.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbase.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftbitmap.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftbitmap.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftinit.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftinit.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftsystem.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftsystem.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(bdf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(bdf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(cff.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(cff.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(type1cid.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1cid.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftgzip.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftgzip.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftlzw.obj) : warning LNK4099: PDB '' was not found with 'freetype.lib(ftlzw.obj)' or at ''; linking object as if no debug info
+freetype.lib(pcf.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pcf.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(pfr.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pfr.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(psaux.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psaux.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(pshinter.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(pshinter.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(psmodule.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(psmodule.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(raster.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(raster.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(sfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(sfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(smooth.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(smooth.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(truetype.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(truetype.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(type1.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type1.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(type42.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(type42.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(winfnt.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(winfnt.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+freetype.lib(ftdebug.obj) : warning LNK4099: PDB 'freetype.pdb' was not found with 'freetype.lib(ftdebug.obj)' or at 'D:\Stride\shared\horizon\bin\freetype.pdb'; linking object as if no debug info
+  horizon.vcxproj -> D:\Stride\shared\horizon\bin\horizon.exe

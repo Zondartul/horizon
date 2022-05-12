@@ -171,8 +171,10 @@ void setupLayers(){
 	setupLayerDebug();
 	setupLayerDebug2D();
 }
+/*
 renderExKind::renderExKind(logmessage lmsg_, renderLayer* L, int cmdNum):exKind(lmsg_){
     const renderCommand3 *rcmd = 0;
     if(L){rcmd = L->get(cmdNum);}
     msg.msg += string()+"\nwhere layer = ["+(L? toString(L) : "<null>")+"], rcmd #"+cmdNum+" = ["+(rcmd? toString(rcmd) : "<null>")+"]";
 }
+*/

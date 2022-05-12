@@ -34,11 +34,14 @@ string toString(renderLayer *l);
 void setupLayer3D();
 void setupLayer2D();
 void setupLayers();
+/*
 class renderExKind: public exKind{
     public:
     renderExKind(logmessage lmsg_, renderLayer *L, int cmdNum);
 };
 #define renderEx(L,N,...) renderExKind(logmessage(fstring( __VA_ARGS__ ), __FILE__, __LINE__ ),L,N)
+*/
+
 struct gs_renderLayerKind {
 	vector<renderLayer*> g_all_layers;
 	vector<renderLayer*> g_layers;
