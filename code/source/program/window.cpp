@@ -119,7 +119,7 @@ void sysMessageTick(){
 	auto& keyboardState = Gb->gs_window->g_keyboardState;
 	auto& height = Gb->gs_window->g_height;
 	auto& width = Gb->gs_window->g_width;
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
 #ifndef NO_SDL
 	SDL_Event sdl_event;
 	while(SDL_PollEvent(&sdl_event)){
@@ -203,7 +203,7 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		inputChannel->publishEventSequentialMaskable(event);
+		inputChannel.publishEventSequentialMaskable(event);
 	}
 #endif
 }

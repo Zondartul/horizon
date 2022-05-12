@@ -10,7 +10,7 @@ void openMapEditor(){
 map_editor_kind::map_editor_kind(){
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));
@@ -162,7 +162,7 @@ map_editor_kind::map_editor_kind(){
     setPosition(vec3(0,0,0));
     setAlpha(255);
     setColor(vec3(255,255,255));
-	inputChannel->addListener(this);
+	inputChannel.addListener(this);
 	globalChannel.addListener(this);
 }
 float roundf(float x,float prec){return roundf(x/prec)*prec;}

@@ -2,9 +2,9 @@
 #include "input.h"
 #include "console.h"
 #include "global_vars.h"
-keybindList::keybindList(){
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
-	inputChannel->addListenerFront(this);
+keybindList::keybindList(sysInputKind &sysInput){
+	//auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
+	sysInput.inputChannel.addListenerFront(this);
 }
 void keybindList::checkMB(eventKind &event, int mb, string key) {
 	auto& console = Gt->gs_console->g_console;
@@ -45,7 +45,7 @@ void keybindList::onEvent(eventKind event){
 		break;
 	}
 }
-void initKeybinds(){
-	auto& keybinds = Gb->gs_keybinds->g_keybinds;
-	keybinds = new keybindList();
-}
+//void initKeybinds(){
+//	auto& keybinds = Gb->gs_keybinds->g_keybinds;
+//	keybinds = new keybindList();
+//}

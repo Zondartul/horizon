@@ -84,11 +84,11 @@ void openEditor2(){
 	editor2 = new editor2Kind();
 }
 editor2Kind::editor2Kind():sel(&EM){
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	printf("editor.editorKind()\n");
-	inputChannel->addListener(this);
-	inputChannel->moveListenerToFront(this);
+	inputChannel.addListener(this);
+	inputChannel.moveListenerToFront(this);
 	globalChannel.addListener(this);
 	setupLayers();
 	constructTestModel();

@@ -31,10 +31,11 @@ public:
 	struct gs_cameraKind* gs_camera;
 	//struct gs_eventKind* gs_event;
 	class sysEventKind* sysEvent;
-	struct gs_inputKind* gs_input;
+	//struct gs_inputKind* gs_input;
+	class sysInputKind* sysInput;
 	struct gs_renderKind* gs_render;
 	struct gs_printwKind* gs_printw;
-	struct gs_keybindsKind* gs_keybinds;
+	//struct gs_keybindsKind* gs_keybinds;
 	struct gs_resourceKind* gs_resource;
 	//struct gs_debugKind* gs_debug;
 };

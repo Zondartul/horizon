@@ -10,16 +10,20 @@ using std::string;
 struct bind{
 	string cmd;
 };
+
+class sysInputKind;
+
 class keybindList:public eventListener{
 	public:
+	keybindList(sysInputKind &sysInput);
 	map<string,bind> binds; 
-	keybindList();
 	void onEvent(eventKind event);
 	void checkMB(eventKind &event, int mb, string key);
 	void checkKB(eventKind &event, string key);
 };
-void initKeybinds();
-struct gs_keybindsKind {
-	keybindList* g_keybinds;
-};
+//void initKeybinds();
+
+//struct gs_keybindsKind {
+//	keybindList* g_keybinds;
+//};
 #endif

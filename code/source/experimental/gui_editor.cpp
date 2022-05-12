@@ -12,7 +12,7 @@ gui_editor_kind::gui_editor_kind(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	GUIwindow *mainWindow = new GUIwindow();
 	elMainWindow = mainWindow;
@@ -196,8 +196,8 @@ gui_editor_kind::gui_editor_kind(){
 	setAlpha(255.0f);
 	setColor(vec3(0,0,0));
 	helper.editor = this;
-	inputChannel->addListener(this);
-	inputChannel->addListenerFront(&helper);
+	inputChannel.addListener(this);
+	inputChannel.addListenerFront(&helper);
 	globalChannel.addListener(this);
 	tool_default();
 }

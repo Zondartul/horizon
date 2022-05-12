@@ -51,8 +51,9 @@ GlobalsBtm::GlobalsBtm() {
 	gs_resource = new gs_resourceKind();
 	gs_render = new gs_renderKind();
 	gs_printw = new gs_printwKind();
-	gs_keybinds = new gs_keybindsKind();
-	gs_input = new gs_inputKind();
+	//gs_keybinds = new gs_keybindsKind();
+	//gs_input = new gs_inputKind();
+	sysInput = new sysInputKind();
 	//gs_hook = new gs_hookKind();
 	gs_camera = new gs_cameraKind();
 }

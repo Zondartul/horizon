@@ -8,7 +8,7 @@ void initHorizonSystem() {
 
 	Gb = new GlobalsBtm();
 	//initUtil();
-	initInput();
+	//initInput();
 	addKeybinds();
 	initFreeType();
 
@@ -59,11 +59,11 @@ void openGUI(){
 	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gb->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gb->gs_input->g_inputChannel;
+	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	layerGUI = new renderLayer("GUI.layerGUI");
 	addLayer(layer2D,layerGUI);
 	GUI = new GUIbase();
-	inputChannel->addListenerFront(GUI);
+	inputChannel.addListenerFront(GUI);
 	globalChannel.addListenerFront(GUI);
 }
