@@ -11,10 +11,10 @@
 #include "globals.h"
 #include "paint.h"
 #include "paint.h"
-#include "main.h"
+//#include "main.h"
 #include "rmodel.h"
 #include "editmodel.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::stringstream;
 
 bitmap *getBitmap(string name){

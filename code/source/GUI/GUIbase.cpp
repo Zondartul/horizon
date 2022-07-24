@@ -1,7 +1,9 @@
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 #include "GUI_internal.h"
-using std::stringstream;
+using namespace std;
+//using std::stringstream;
 
 GUIbase::GUIbase(){
 	auto& GUIR_default = Gg->gs_GUIrenderer_default->GUIR_default;
@@ -19,7 +21,7 @@ GUIbase::GUIbase(){
 	mouseover = false;
 }
 GUIbase::~GUIbase(){
-	if (!deletePending) { throw std::runtime_error("GUI widget deleted without close()\n"); }//{error("GUI widget deleted without close()\n");}
+	if (!deletePending) { cout << "GUI widget deleted without close()" << endl; } //{ throw std::runtime_error("GUI widget deleted without close()\n"); }//{error("GUI widget deleted without close()\n");}
 	if(parent){parent->removeChild(this);}
 	{
 		//stackSentinel SS;

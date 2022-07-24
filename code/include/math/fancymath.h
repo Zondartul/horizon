@@ -1,13 +1,16 @@
 #ifndef FANCYMATH_GUARD
 #define FANCYMATH_GUARD
 #include "simplemath.h"
-#include <vector>
-#include <utility>
-using std::vector;
-using std::pair;
 #include "vec.h"
 #include "globals.h"
 #include "math.h"
+#include <vector>
+#include <utility>
+#include <stdexcept>
+using std::vector;
+using std::pair;
+using std::runtime_error;
+
 void pack2D(vector<vec2> sizes,
 			vec2 binsize,
 			bool sort,
@@ -16,7 +19,7 @@ void pack2D(vector<vec2> sizes,
 			int *heightNeeded);
 vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
 template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, float pos){
-	if (scatter.size() == 0){error("nothing to interpolate");}
+	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); }//{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
 	if (pos > scatter.back().second){return scatter.back().first;}
@@ -24,11 +27,11 @@ template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, flo
 		if(pos > (I+1)->second){continue;}
 		if(std::abs(pos-I->second) > std::abs(pos-(I+1)->second)){return I->first;}else{return (I+1)->first;}
 	}
-	error("unreachable code");
+	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
 template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, float pos){
-	if (scatter.size() == 0){error("nothing to interpolate");}
+	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); }//{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
 	if (pos > scatter.back().second){return scatter.back().first;}
@@ -41,11 +44,11 @@ template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, floa
 		float k = (pos - pos2)/(pos2-pos1);
 		return val1*(1.f-k)+val2*k;
 	}
-	error("unreachable code");
+	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
 template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float pos){
-	if (scatter.size() == 0){error("nothing to interpolate");}
+	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); } //{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
 	if (pos > scatter.back().second){return scatter.back().first;}
@@ -68,7 +71,7 @@ template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float
 		float h11 = t*t*t-t*t;
 		return h00*p0+h10*m0+h01*p1+h11*m1;
 	}
-	error("unreachable code");
+	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
 #endif

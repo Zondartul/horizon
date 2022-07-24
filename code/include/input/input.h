@@ -11,7 +11,7 @@ class sysInputKind {
 public:
 	sysInputKind();
 	eventChannel inputChannel;
-	keybindList keybinds;
+	//keybindList keybinds;
 };
 
 #endif

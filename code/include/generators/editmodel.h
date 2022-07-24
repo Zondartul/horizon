@@ -6,9 +6,12 @@
 #include <list>
 #include <vector>
 #include <set>
+#include <stdexcept>
 using std::list;
 using std::vector;
 using std::set;
+using std::runtime_error;
+
 class e_vertex;
 class e_edge;
 class e_triangle;
@@ -95,7 +98,15 @@ class e_face:public e_element{
 	e_face(vector<e_triangle*> tris, e_model *EM);
 	void recalcEdges(); 
 };
-template<typename T> T& listGet(list<T> &L,int N){if(N >= L.size()){error("index out of bounds");} auto I = L.begin(); while(N--){ I++;} return *I;}
+template<typename T> T& listGet(list<T> &L,int N){
+	if(N >= L.size()){
+		//error("index out of bounds");
+		throw runtime_error("index out of bounds");
+	} 
+	auto I = L.begin(); 
+	while(N--){ I++;} 
+	return *I;
+}
 struct e_model{
 	list<e_vertex*> verts;
 	list<e_edge*> edges;

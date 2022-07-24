@@ -9,7 +9,7 @@
 #include "renderCommand.h"
 #include "paint.h"
 #include "window.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::stringstream;
 using std::string;
 renderLayer::renderLayer(string name,bool persistent, bool special):name(name),persistent(persistent),special(special){

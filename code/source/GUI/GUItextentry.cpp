@@ -19,7 +19,13 @@ GUItextEntry::GUItextEntry(){
 }
 GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}
 GUItextEntry *GUItextEntry::setFunction(function<void()> f){F = f; return this;}
-double GUItextEntry::getNumber(){float N = 0; sscanf(text.c_str(),"%f",&N); return N;}
+double GUItextEntry::getNumber(){
+	float N = 0; 
+	stringstream ss(text);
+	ss >> N;
+	//sscanf(text.c_str(),"%f",&N); 
+	return N;
+}
 void GUItextEntry::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	bool unfocus = 0;

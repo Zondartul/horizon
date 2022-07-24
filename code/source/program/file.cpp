@@ -5,7 +5,7 @@
 #include "globals.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include "dirent.h"
+#include "dirent/dirent.h"
 #include "resource.h"
 using std::vector;
 using std::stringstream;

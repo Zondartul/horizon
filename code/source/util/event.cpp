@@ -2,7 +2,7 @@
 #include <sstream>
 #include "event.h"
 #include "globals.h"
-#include "global_vars.h"
+//#include "global_vars.h"
 using std::stringstream;
 
 eventKind::eventKind(){mask = 0;} 

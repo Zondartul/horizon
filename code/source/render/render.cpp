@@ -3,7 +3,7 @@
 #include "renderLayer.h"
 #include "simplemath.h"
 #include "editmodel.h"
-#include "main.h"
+//#include "main.h"
 #include "model.h"
 #include "simplemath.h"
 #include "stringUtils.h"
@@ -11,7 +11,7 @@
 #include "renderLayer.h"
 #include "window.h"
 #include "renderLow.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 #include "GUI.h"
 
 void renderOptions::apply(renderLayer *L){

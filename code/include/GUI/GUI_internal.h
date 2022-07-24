@@ -12,7 +12,7 @@
 #include "texture.h"
 #include "fonts.h"
 #include "timer.h" 
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::isnan;
 struct GUI_options_kind{
 	bool debug = false;

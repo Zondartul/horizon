@@ -1,5 +1,7 @@
 #include "GUI_internal.h"
-#include "main.h"
+//#include "main.h"
+
+
 void GUIsetFavoriteRenderOptions(){
 	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	setLayer(layerGUI);

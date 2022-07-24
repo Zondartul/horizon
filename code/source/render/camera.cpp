@@ -14,7 +14,7 @@
 #include "stringUtils.h"
 #include "globals.h"
 #include "mouse.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 #include "timer.h"
 #include "renderLayer.h"
 using glm::mat4;

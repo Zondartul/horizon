@@ -8,7 +8,7 @@
 	//printf("-------- input init done ----------\n");
 //}
 
-sysInputKind::sysInputKind():
-	keybinds(*this)
+sysInputKind::sysInputKind()//:
+	//keybinds(*this)
 {
 }

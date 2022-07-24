@@ -7,7 +7,7 @@
 #include "renderLayer.h"
 #include "rmodel.h"
 #include "simplemath.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 void drawRectImmediate(rect R){
 	auto& currentLayer = Gb->gs_paint->g_currentLayer;
 	rmodel *rm = new rmodel();

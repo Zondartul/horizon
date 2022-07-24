@@ -1,6 +1,7 @@
 #ifndef WINDOW_GUARD
 #define WINDOW_GUARD
 #include "vec.h"
+#include "globals.h"
 #include <map>
 #include <string>
 using std::map;
@@ -9,12 +10,12 @@ using std::string;
 //assuming single window for now (unless headless)
 //extern int g_width;
 //extern int g_height;
-vec2 getScreenSize();
+vec2 DLLAPI getScreenSize(void);
 
 void OpenGL_printVersion();
 void OpenGL_getVersion(const unsigned char **version, const char **profile);
 void OpenGL_init();
-void OpenGL_swap();
+void DLLAPI OpenGL_swap();
 
 //creates the main window and calls opengl_init
 void window_init(int h, int w);

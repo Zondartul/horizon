@@ -11,7 +11,7 @@
 #include "timer.h"
 #include "util.h"
 #include "renderCommand.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 #include "editmodel.h"
 using std::vector;
 using std::ofstream;

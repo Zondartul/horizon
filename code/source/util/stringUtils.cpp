@@ -1,9 +1,12 @@
 #include <tuple> 
+#include <sstream>
 #include "stringUtils.h"
 #include "stdio.h"
 #include "globals.h"
 #include "vec.h"
 #include "string.h"
+using namespace std;
+
 string itoa(int N){
 	char buff[20];
 	snprintf(buff,19,"%d",N);
@@ -29,7 +32,10 @@ string toString(vec3 V){
 }
 template<> vec3 fromString<vec3>(const string S){
 	vec3 v;
-	std::ignore = sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
+	//std::ignore = sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
+	char c;
+	stringstream ss(S);
+	ss >> c >> v.x >> c >> v.y >> c >> v.z >> c;
 	return v;
 }
 string toString(vec2 V){
@@ -39,7 +45,10 @@ string toString(vec2 V){
 }
 template<> vec2 fromString<vec2>(const string S){
 	vec2 v;
-	std::ignore = sscanf(S.c_str(),"(%f,%f)",&v.x,&v.y);
+	//std::ignore = sscanf(S.c_str(),"(%f,%f)",&v.x,&v.y);
+	char c;
+	stringstream ss(S);
+	ss >> c >> v.x >> c >> v.y >> c;
 	return v;
 }
 string toString(rect R){
@@ -50,7 +59,10 @@ string toString(rect R){
 template<> rect fromString<rect>(const string S){
 	vec2 start;
 	vec2 size;
-	std::ignore = sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
+	//std::ignore = sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
+	char c;
+	stringstream ss(S);
+	ss >> c >> start.x >> c >> start.y >> c >> c >> c >> size.x >> c >> size.y >> c;
 	vec2 end = start+size;
 	return rect(start,end);
 }
@@ -60,7 +72,12 @@ string toString(AABB aabb){
 template<>  AABB fromString<AABB>(const string S){
 	vec3 start;
 	vec3 size;
-	std::ignore = sscanf(S.c_str(),"(%f,%f,%f + %f,%f,%f)",&start.x,&start.y,&start.z,&size.x,&size.y,&size.z);
+	//std::ignore = sscanf(S.c_str(),"(%f,%f,%f + %f,%f,%f)",&start.x,&start.y,&start.z,&size.x,&size.y,&size.z);
+	char c;
+	stringstream ss(S);
+	ss >> c >> start.x >> c >> start.y >> c >> start.z
+		>> c >> c >> c
+		>> size.x >> c >> size.y >> c >> size.z >> c;
 	vec3 end = start+size;
 	return AABB(start,end);
 }
@@ -92,7 +109,9 @@ string toString(void *p){
 }
 template<> void *fromString<void*>(const string S){
 	void *p;
-	std::ignore = sscanf(S.c_str(),"0x%p",&p);
+	//std::ignore = sscanf(S.c_str(),"0x%p",&p);
+	stringstream ss(S);
+	ss >> p;
 	return p;
 }
 string toString(bool B){
@@ -106,7 +125,9 @@ string toString(int I){
 }
 template<> int fromString<int>(const string S){
 	int n;
-	std::ignore = sscanf(S.c_str(),"%d",&n);
+	//std::ignore = sscanf(S.c_str(),"%d",&n);
+	stringstream ss(S);
+	ss >> n;
 	return n;
 }
 string toString(float f){
@@ -114,7 +135,9 @@ string toString(float f){
 }
 template<> float fromString<float>(const string S){
 	float f;
-	std::ignore = sscanf(S.c_str(),"%f",&f);
+	//std::ignore = sscanf(S.c_str(),"%f",&f);
+	stringstream ss(S);
+	ss >> f;
 	return f;
 }
 string toString(string S){
@@ -131,12 +154,16 @@ string toString(texture *t){
 }
 template<> texture* fromString<texture*>(const string S){
 	if(S == "tex:[null]"){return 0;}
-	char buff[80];
-	std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
+	//char buff[80];
+	//std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
+	char c;
+	string name;
+	stringstream ss(S);
+	ss >> c >> c >> c >> c >> c >> name >> c;
 	printf("fromString<texture*>: S = [%s]\n",S.c_str());
-	printf("fromString<texture*>: buff = [%s]\n",buff);
-	buff[79] = 0;
-	string name(buff);
+	printf("fromString<texture*>: buff = [%s]\n", name.c_str());//buff);
+	//buff[79] = 0;
+	//string name(buff);
 	return getTexture(name);
 }
 #include "fonts.h"
@@ -146,12 +173,16 @@ string toString(font *f){
 }
 template<> font* fromString<font*>(const string S){
 	if(S == "font:[null]"){return 0;}
-	char buff[80];
-	std::ignore = sscanf(S.c_str(),"font:[%[^]]]",buff);
+	//char buff[80];
+	//std::ignore = sscanf(S.c_str(),"font:[%[^]]]",buff);
+	string name;
+	char c;
+	stringstream ss(S);
+	ss >> c >> c >> c >> c >> c >> c >> name >> c;
 	printf("fromString<font*>: S = [%s]\n",S.c_str());
-	printf("fromString<font*>: buff = [%s]\n",buff);
-	buff[79] = 0;
-	string name(buff);
+	printf("fromString<font*>: buff = [%s]\n", name.c_str());//buff);
+	//buff[79] = 0;
+	//string name(buff);
 	return getFont(name);
 }
 #include "GUI_internal.h"
@@ -199,6 +230,7 @@ vector<string> explode(string S, char del){
 	}
 	return res;
 }
+
 char **explode(const char *str, char del){
 	char *str2 = (char *)malloc(strlen(str)+1);
 	if (str2) { strcpy(str2, str); }

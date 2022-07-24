@@ -2,7 +2,7 @@
 #include <vector>
 //#include "hook.h"
 #include "event.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::vector;
 //class hook:public eventListener{
 //	public:

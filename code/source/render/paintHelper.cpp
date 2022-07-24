@@ -2,7 +2,7 @@
 #include "rmodel.h"
 #include "paint.h"
 #include "camera.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 #define rmTri(A,B,C) \
 	rm->vertices->push_back(A); rm->uvs->push_back(vec2(0,0)); rm->colors->push_back(vec3(1,0,0));	\
 	rm->vertices->push_back(B); rm->uvs->push_back(vec2(0,1)); rm->colors->push_back(vec3(0,1,0));	\

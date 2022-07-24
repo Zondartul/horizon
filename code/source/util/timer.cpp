@@ -9,7 +9,7 @@
 #include "hook.h"
 #include "time.h"
 #include "stringUtils.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::list;
 using std::stringstream;
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
