@@ -12,6 +12,7 @@
 #include "main.h" 
 #include "input.h"
 #include "global_vars.h"
+#include "global_vars_gui.h"
 void closeEntityOptionsWindow(){
 	auto& entWindow = Gt->gs_picker->g_entWindow;
 	if(entWindow){delete entWindow; entWindow = 0;}
@@ -58,7 +59,7 @@ void initPicker(){
 	auto& pickerLayer = Gt->gs_picker->g_pickerLayer;
 	auto& layer3D = Gb->gs_paint->g_layer3D;
 	auto& console = Gt->gs_console->g_console;
-	auto& keybinds = Gb->sysInput->keybinds;// Gb->gs_keybinds->g_keybinds;
+	//auto& keybinds = Gb->sysInput->keybinds;// Gb->gs_keybinds->g_keybinds;
 	pickerLayer = new renderLayer("picker");
 	addLayer(layer3D,pickerLayer);
 	setLayer(pickerLayer);
@@ -70,6 +71,6 @@ void initPicker(){
 	setPointSize(3);
 	console->addCommand({"pick","picker function 1\n",cmd_pick});
 	console->addCommand({"pick2","picker function 2\n",cmd_pick2});
-	keybinds.binds["+LMB"].cmd = "pick";
-	keybinds.binds["+RMB"].cmd = "pick2";
+	//keybinds.binds["+LMB"].cmd = "pick";
+	//keybinds.binds["+RMB"].cmd = "pick2";
 }

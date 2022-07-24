@@ -90,12 +90,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,11 +111,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,11 +130,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,11 +149,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,51 +165,67 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="bitmap.h" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="debug.h" />
-    <ClInclude Include="file.h" />
-    <ClInclude Include="fonts.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="globals.h" />
-    <ClInclude Include="global_vars.h" />
-    <ClInclude Include="GPUdriver.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="modelLoader.h" />
-    <ClInclude Include="paint.h" />
-    <ClInclude Include="printw.h" />
-    <ClInclude Include="render.h" />
-    <ClInclude Include="renderCommand.h" />
-    <ClInclude Include="renderLayer.h" />
-    <ClInclude Include="renderLow.h" />
-    <ClInclude Include="rmodel.h" />
-    <ClInclude Include="simplemath.h" />
-    <ClInclude Include="stringUtils.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="textureLoader.h" />
-    <ClInclude Include="util.h" />
-    <ClInclude Include="vec.h" />
-    <ClInclude Include="window.h" />
+    <ClCompile Include="code\source\loaders\fontLoader.cpp" />
+    <ClCompile Include="code\source\loaders\imageLoader.cpp" />
+    <ClCompile Include="code\source\loaders\modelLoader.cpp" />
+    <ClCompile Include="code\source\loaders\textureLoader.cpp" />
+    <ClCompile Include="code\source\main\dllmain.cpp" />
+    <ClCompile Include="code\source\math\simplemath.cpp" />
+    <ClCompile Include="code\source\math\vec.cpp" />
+    <ClCompile Include="code\source\program\file.cpp" />
+    <ClCompile Include="code\source\program\window.cpp" />
+    <ClCompile Include="code\source\render\GPUdriver.cpp" />
+    <ClCompile Include="code\source\render\paint.cpp" />
+    <ClCompile Include="code\source\render\printw.cpp" />
+    <ClCompile Include="code\source\render\renderCommand.cpp" />
+    <ClCompile Include="code\source\render\renderLayer.cpp" />
+    <ClCompile Include="code\source\render\renderLow.cpp" />
+    <ClCompile Include="code\source\render\rmodel.cpp" />
+    <ClCompile Include="code\source\resource\resource.cpp" />
+    <ClCompile Include="code\source\resource\texture.cpp" />
+    <ClCompile Include="code\source\util\debug.cpp" />
+    <ClCompile Include="code\source\util\global_vars_render.cpp" />
+    <ClCompile Include="code\source\util\stringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="file.cpp" />
-    <ClCompile Include="global_vars.cpp" />
-    <ClCompile Include="GPUdriver.cpp" />
-    <ClCompile Include="paint.cpp" />
-    <ClCompile Include="printw.cpp" />
-    <ClCompile Include="render.cpp" />
-    <ClCompile Include="renderCommand.cpp" />
-    <ClCompile Include="renderLayer.cpp" />
-    <ClCompile Include="renderLow.cpp" />
-    <ClCompile Include="rmodel.cpp" />
-    <ClCompile Include="simplemath.cpp" />
-    <ClCompile Include="stringUtils.cpp" />
-    <ClCompile Include="texture.cpp" />
-    <ClCompile Include="vec.cpp" />
-    <ClCompile Include="window.cpp" />
+    <ClInclude Include="code\include\Ext\dirent\dirent.h" />
+    <ClInclude Include="code\include\Ext\GL\glew.h" />
+    <ClInclude Include="code\include\Ext\GL\glxew.h" />
+    <ClInclude Include="code\include\Ext\GL\wglew.h" />
+    <ClInclude Include="code\include\generators\editmodel.h" />
+    <ClInclude Include="code\include\loaders\fontLoader.h" />
+    <ClInclude Include="code\include\loaders\ft2build.h" />
+    <ClInclude Include="code\include\loaders\imageLoader.h" />
+    <ClInclude Include="code\include\loaders\modelLoader.h" />
+    <ClInclude Include="code\include\loaders\stb_image.h" />
+    <ClInclude Include="code\include\loaders\stb_image_write.h" />
+    <ClInclude Include="code\include\loaders\textureLoader.h" />
+    <ClInclude Include="code\include\loaders\tiny_obj_loader.h" />
+    <ClInclude Include="code\include\math\simplemath.h" />
+    <ClInclude Include="code\include\math\vec.h" />
+    <ClInclude Include="code\include\program\file.h" />
+    <ClInclude Include="code\include\program\framework.h" />
+    <ClInclude Include="code\include\program\window.h" />
+    <ClInclude Include="code\include\render\camera.h" />
+    <ClInclude Include="code\include\render\GPUdriver.h" />
+    <ClInclude Include="code\include\render\paint.h" />
+    <ClInclude Include="code\include\render\printw.h" />
+    <ClInclude Include="code\include\render\render.h" />
+    <ClInclude Include="code\include\render\renderCommand.h" />
+    <ClInclude Include="code\include\render\renderLayer.h" />
+    <ClInclude Include="code\include\render\renderLow.h" />
+    <ClInclude Include="code\include\render\rmodel.h" />
+    <ClInclude Include="code\include\resource\bitmap.h" />
+    <ClInclude Include="code\include\resource\fonts.h" />
+    <ClInclude Include="code\include\resource\model.h" />
+    <ClInclude Include="code\include\resource\resource.h" />
+    <ClInclude Include="code\include\resource\texture.h" />
+    <ClInclude Include="code\include\util\config.h" />
+    <ClInclude Include="code\include\util\debug.h" />
+    <ClInclude Include="code\include\util\globals_render.h" />
+    <ClInclude Include="code\include\util\global_vars_render.h" />
+    <ClInclude Include="code\include\util\stringUtils.h" />
+    <ClInclude Include="code\include\util\util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -76,23 +76,11 @@
     <Filter Include="Source Files\input">
       <UniqueIdentifier>{acdf2835-1013-4071-a2cd-06104bd84838}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\loaders">
-      <UniqueIdentifier>{013e8d16-b495-4e00-8f33-c14b7b8fe93f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\main">
       <UniqueIdentifier>{ee1d8beb-27ea-4595-a92a-0300c9d50776}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\math">
-      <UniqueIdentifier>{e3bd085f-2cdd-4b1a-9ea0-04bd9d44bd81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\physics">
-      <UniqueIdentifier>{df69c46f-8d13-4f1e-86a8-b41f18bf74a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\program">
       <UniqueIdentifier>{e575c3aa-cb7c-4382-8073-6aac38a56db8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\render">
-      <UniqueIdentifier>{99d9fde8-83de-42c1-bc04-4db5ac50ddf7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\resource">
       <UniqueIdentifier>{6e87775d-6624-4a68-93a5-f22f7191b68e}</UniqueIdentifier>
@@ -105,9 +93,6 @@
     </Filter>
     <Filter Include="Source Files\experimental\gui_editor">
       <UniqueIdentifier>{032e2591-f553-47e8-9c31-16e0e3a44dc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\physics\collision">
-      <UniqueIdentifier>{4006e683-40a8-483a-bb24-040310f0c371}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{28bf1f4a-2336-4c42-b43c-8183049d9da7}</UniqueIdentifier>
@@ -150,12 +135,6 @@
     </Filter>
     <Filter Include="Header Files\external\glm\simd">
       <UniqueIdentifier>{2d0b7ca9-43c6-4df1-bad4-8dfb947c2785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\external">
-      <UniqueIdentifier>{d56414ab-825e-42c7-b3e3-c18879e5d1b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\external\tinyXML2">
-      <UniqueIdentifier>{202d2dca-1ded-41a2-957b-8850a4f87a71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1403,106 +1382,13 @@
     <ClCompile Include="..\..\code\source\generators\editmodel.cpp">
       <Filter>Source Files\generators</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUI.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUI_internal.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUI_property.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUI_types.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIbase.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIbutton.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIdropdownMenu.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIframe.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIgrid.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIimage.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIlabel.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIrenderer.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIrenderer_default.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIscrollbar.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIselectable.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUItextentry.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\GUI\GUIwindow.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\input\input.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\input\keybinds.cpp">
       <Filter>Source Files\input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\input\mouse.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\loaders\fontLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\loaders\imageLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\loaders\textureLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\main\main.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\math\fancymath.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\math\geometry.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\math\simplemath.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\math\vec.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\elastic_ptr.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\event.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\hook.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\util\paramList.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\stringUtils.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\util\timer.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\util\util.cpp">
@@ -1511,58 +1397,13 @@
     <ClCompile Include="..\..\code\source\thread\threads.cpp">
       <Filter>Source Files\thread</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\code\source\resource\atlas.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\resource\bitmap.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\resource\model.cpp">
       <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\resource\resource.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\resource\texture.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\camera.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\paint.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\paintHelper.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\printw.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\render.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\renderCommand.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\renderLayer.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\render\rmodel.cpp">
-      <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\codeExt\includeExt\glm\detail\glm.cpp">
       <Filter>Header Files\external\glm\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\codeExt\sourceExt\tinyXML2\tinyxml2.cpp">
-      <Filter>Source Files\external\tinyXML2</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\program\file.cpp">
-      <Filter>Source Files\program</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\code\source\program\window.cpp">
-      <Filter>Source Files\program</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\code\source\program\pipe.cpp">
       <Filter>Source Files\program</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\source\main\global_vars.cpp">

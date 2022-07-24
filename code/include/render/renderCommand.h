@@ -11,7 +11,7 @@ class rmodel;
 struct camprojection;
 struct font;
 enum RC3T{
-        ERROR = 0,
+        E_ERROR = 0,
         COLORING,           UVCOLORING,         NORMALCOLORING,
         TRANSPARENCY,       DEPTHMASK,          TEXTURING,
         DEBUG,              SCISSORING,         DEPTH_TEST,

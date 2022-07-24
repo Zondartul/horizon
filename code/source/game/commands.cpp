@@ -6,6 +6,7 @@
 #include "file.h"
 #include "map_editor.h"
 #include "gui_texturebrowser.h"
+//#include "global_vars_gui.h"
 using std::ofstream;
 using std::stringstream;
 int cmd_pauseGame(int argc, char **argv){
@@ -14,13 +15,13 @@ int cmd_pauseGame(int argc, char **argv){
     return 0;
 }
 int cmd_listKeybinds(int argc, char **argv){
-	auto& console = Gt->gs_console->g_console;
-	auto& keybinds = Gb->sysInput->keybinds;//Gb->gs_keybinds->g_keybinds;
-	for(auto I = keybinds.binds.begin(); I != keybinds.binds.end(); I++){
-		string key = I->first;
-		bind b = I->second;
-		console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
-	}
+	//auto& console = Gt->gs_console->g_console;
+	//auto& keybinds = Gb->sysInput->keybinds;//Gb->gs_keybinds->g_keybinds;
+	//for(auto I = keybinds.binds.begin(); I != keybinds.binds.end(); I++){
+	//	string key = I->first;
+	//	bind b = I->second;
+	//	console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
+	//}
 	return 0;
 }
 int cmd_help(int argc, char **argv){
@@ -188,19 +189,19 @@ int cmd_texture_browser(int argc, char** argv){
 	return 0;
 }
 void addKeybinds(){
-	auto& keybinds = Gb->sysInput->keybinds;//Gb->gs_keybinds->g_keybinds;
-	keybinds.binds["+R"].cmd = "reset";
-	keybinds.binds["+F"].cmd = "physbox";
-	keybinds.binds["+G"].cmd = "physbox 1";
-	keybinds.binds["+H"].cmd = "physbox 2";
-	keybinds.binds["+J"].cmd = "physbox 3";
-	keybinds.binds["+C"].cmd = "character";
-	keybinds.binds["+V"].cmd = "npc";
-	keybinds.binds["+Pause"].cmd = "pause";
-	keybinds.binds["+F8"].cmd = "framereport";
-	keybinds.binds["+F3"].cmd = "printf";
-	keybinds.binds["+F9"].cmd = "memreport";
-	keybinds.binds["+F10"].cmd = "memreport -i";
+	//auto& keybinds = Gb->sysInput->keybinds;//Gb->gs_keybinds->g_keybinds;
+	//keybinds.binds["+R"].cmd = "reset";
+	//keybinds.binds["+F"].cmd = "physbox";
+	//keybinds.binds["+G"].cmd = "physbox 1";
+	//keybinds.binds["+H"].cmd = "physbox 2";
+	//keybinds.binds["+J"].cmd = "physbox 3";
+	//keybinds.binds["+C"].cmd = "character";
+	//keybinds.binds["+V"].cmd = "npc";
+	//keybinds.binds["+Pause"].cmd = "pause";
+	//keybinds.binds["+F8"].cmd = "framereport";
+	//keybinds.binds["+F3"].cmd = "printf";
+	//keybinds.binds["+F9"].cmd = "memreport";
+	//keybinds.binds["+F10"].cmd = "memreport -i";
 }
 void addConsoleCommands(){
 	auto& console = Gt->gs_console->g_console;

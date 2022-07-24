@@ -2,6 +2,8 @@
 #include "geometry.h"
 #include "simplemath.h"
 #include "texture.h"
+#include "global_vars_gui.h"
+
 void openMapEditor(){
 	auto& mapeditor = Gt->gs_map_editor->g_mapeditor;
 	if(mapeditor){delete mapeditor;}

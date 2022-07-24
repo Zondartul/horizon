@@ -1,30 +1,31 @@
 #include "game.h"
-
+#include "global_vars_gui.h" //for globalChannel
 void openGUI();
+void initHorizonSystem();
+void initHorizonGUI();
+//void initHorizonSystem() {
+//	//Gb = (GlobalsBtm*)malloc(sizeof(GlobalsBtm));
+//	//new(Gb) GlobalsBtm();
+//
+//	Gb = new GlobalsBtm();
+//	//initUtil();
+//	//initInput();
+//	addKeybinds();
+//	initFreeType();
+//
+//	window_init(512, 512);
+//	renderInit();
+//	setupLayers();
+//	loadAssets();
+//}
 
-void initHorizonSystem() {
-	//Gb = (GlobalsBtm*)malloc(sizeof(GlobalsBtm));
-	//new(Gb) GlobalsBtm();
-
-	Gb = new GlobalsBtm();
-	//initUtil();
-	//initInput();
-	addKeybinds();
-	initFreeType();
-
-	window_init(512, 512);
-	renderInit();
-	setupLayers();
-	loadAssets();
-}
-
-void initHorizonGUI() {
-	printf("Hello World!\n");
-	Gg = new GlobalsGui();
-	auto& camera = Gb->gs_camera->g_camera;
-	camera.setPos({ -0.5,0,0 });
-	openGUI();
-}
+//void initHorizonGUI() {
+//	printf("Hello World!\n");
+//	Gg = new GlobalsGui();
+//	auto& camera = Gb->gs_camera->g_camera;
+//	camera.setPos({ -0.5,0,0 });
+//	openGUI();
+//}
 
 void initTop() {
 	Gt = new GlobalsTop();
@@ -44,6 +45,7 @@ int main(int argc, char **argv){
 	}
 	return 0;
 }
+
 void tick(){
 	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	//eventKind e1; e1.type = EVENT_TICK;
@@ -55,15 +57,15 @@ void tick(){
 	renderTick();  
 	sysMessageTick(); 
 }
-void openGUI(){
-	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
-	auto& layer2D = Gb->gs_paint->g_layer2D;
-	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
-	layerGUI = new renderLayer("GUI.layerGUI");
-	addLayer(layer2D,layerGUI);
-	GUI = new GUIbase();
-	inputChannel.addListenerFront(GUI);
-	globalChannel.addListenerFront(GUI);
-}
+//void openGUI(){
+//	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
+//	auto& layer2D = Gb->gs_paint->g_layer2D;
+//	auto& GUI = Gg->gs_GUI->g_GUI;
+//	auto& inputChannel = Gb->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
+//	auto& globalChannel = Gb->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
+//	layerGUI = new renderLayer("GUI.layerGUI");
+//	addLayer(layer2D,layerGUI);
+//	GUI = new GUIbase();
+//	inputChannel.addListenerFront(GUI);
+//	globalChannel.addListenerFront(GUI);
+//}

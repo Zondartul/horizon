@@ -11,7 +11,7 @@
 #include "GUI.h"
 #include "input.h"
 #include "renderLow.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 void OpenGL_printVersion(){
 	const unsigned char *version;
 	const char *profile;

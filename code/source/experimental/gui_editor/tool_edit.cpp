@@ -1,4 +1,6 @@
 #include "gui_editor.h"
+#include "global_vars_gui.h"
+
 void drawBorders(GUIbase *B){
 	GUI_border_rects border = B->getBorders();
 	setColor(vec3(0,64,0));

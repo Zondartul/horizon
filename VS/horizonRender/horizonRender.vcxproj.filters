@@ -13,138 +13,240 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{771f2c16-ebf4-4b3c-a2fb-64117abfa89d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{968f3d82-7b44-4bd9-9075-fff8e93a5160}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\program">
+      <UniqueIdentifier>{9eaa9263-115d-4537-9639-a9127870d4d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\render">
+      <UniqueIdentifier>{47bed2fa-b4bb-400a-a67b-c8dd7b07268b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource">
+      <UniqueIdentifier>{87bd1660-db86-4dbe-bd3f-ba2fb03181ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{5cde5274-dab5-4a8c-a828-1044307a0a17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext">
+      <UniqueIdentifier>{cf5efbf4-89c5-4eab-9612-2b4cf70c4853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\dirent">
+      <UniqueIdentifier>{8eb1f79e-0b7d-4b35-960c-7b6c453833dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\GL">
+      <UniqueIdentifier>{71c0d7ca-e967-4d34-9209-1a9e13c994ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\glm">
+      <UniqueIdentifier>{792cd429-e899-4c4b-be34-304c7c26efed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\loaders">
+      <UniqueIdentifier>{0d6460f2-ec92-47e7-be41-7a184083b580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{2e22974d-1597-4191-9c4a-8ce3ef61bb78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\program">
+      <UniqueIdentifier>{cb9118f4-837c-4958-b672-4c5abc4b02c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\render">
+      <UniqueIdentifier>{85caed10-e38c-4f2b-a97d-649eadc8e662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource">
+      <UniqueIdentifier>{f37c9c56-a5c9-45a9-b808-a34e0ea16b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{ad36fc56-5847-49a7-b9a8-f67ebccbaa58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\generators">
+      <UniqueIdentifier>{6209778b-405b-43c5-a311-a5cbeeec3c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\loaders">
+      <UniqueIdentifier>{3b41ed15-6dc8-4d46-9638-8e50e1b345af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GPUdriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="renderLow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bitmap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fonts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="renderLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rmodel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="modelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="paint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="printw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="renderCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stringUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="simplemath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="global_vars.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="code\source\main\dllmain.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\math\simplemath.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\math\vec.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\program\file.cpp">
+      <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\program\window.cpp">
+      <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\GPUdriver.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\paint.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\printw.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\renderCommand.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\renderLayer.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\renderLow.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\rmodel.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\resource.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\texture.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\debug.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\global_vars_render.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\stringUtils.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\fontLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\imageLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\textureLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\modelLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GPUdriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderLow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="file.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vec.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="simplemath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stringUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="renderCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="render.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rmodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="paint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="printw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="global_vars.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="code\include\Ext\dirent\dirent.h">
+      <Filter>Header Files\Ext\dirent</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\GL\glew.h">
+      <Filter>Header Files\Ext\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\GL\glxew.h">
+      <Filter>Header Files\Ext\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\GL\wglew.h">
+      <Filter>Header Files\Ext\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\math\simplemath.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\math\vec.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\file.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\framework.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\window.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\camera.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\GPUdriver.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\paint.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\printw.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\render.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\renderCommand.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\renderLayer.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\renderLow.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\rmodel.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\bitmap.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\fonts.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\model.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\resource.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\texture.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\config.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\debug.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\global_vars_render.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\globals_render.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\stringUtils.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\util.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\fontLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\ft2build.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\imageLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\modelLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\stb_image.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\stb_image_write.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\textureLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\tiny_obj_loader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\generators\editmodel.h">
+      <Filter>Header Files\generators</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

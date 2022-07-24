@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizon", "horizon.vcxproj", "{08026C41-66BE-4025-B27E-78CBCD11E030}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E887020F-B2C7-4D85-BB2D-E4E66B4DC963} = {E887020F-B2C7-4D85-BB2D-E4E66B4DC963}
+		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B} = {5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonRender", "..\horizonRender\horizonRender.vcxproj", "{E887020F-B2C7-4D85-BB2D-E4E66B4DC963}"

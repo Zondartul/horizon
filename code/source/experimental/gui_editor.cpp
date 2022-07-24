@@ -6,6 +6,7 @@
 #include "file.h"
 #include "resource/bitmap.h"
 #include "tinyxml2.h"
+#include "global_vars_gui.h"
 using namespace tinyxml2;
 using namespace std;
 gui_editor_kind::gui_editor_kind(){

@@ -19,7 +19,24 @@ using std::list;
 #define firstn(x,y) for(static int firstn=0;firstn<=x;){{y;} firstn++; break;}
 #define errorNotImplemented()	error((string("function ")+__func__+" not implemented\n").c_str())
 //#include "debug.h"
-#define DLLAPI __declspec(dllimport)
+//#define DLLAPI __declspec(dllimport)
+//#define DLLAPI __declspec(dllexport)
+
+#define DLLEXPORT __declspec(dllexport)
+#define DLLIMPORT __declspec(dllimport)
+
+#ifdef DLL_GUI
+#define DLLAPI_GUI DLLEXPORT
+#else
+#define DLLAPI_GUI DLLIMPORT
+#endif
+
+#ifdef DLL_RENDER
+#define DLLAPI_RENDER DLLEXPORT
+#else
+#define DLLAPI_RENDER DLLIMPORT
+#endif
+
 
 //we are going fuckdangle this file too
 #endif

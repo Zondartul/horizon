@@ -7,6 +7,7 @@
 #include "glm/gtx/vector_angle.hpp"
 #include "glm/gtc/quaternion.hpp"
 #pragma warning(pop)
+#include "globals.h"
 #include <string>
 using std::string;
 using glm::mat4;
@@ -38,7 +39,7 @@ vec3 setZ(vec3 A, float z);
 float cross(vec2 A, vec2 B);
 vec3 toVec3Angle(quat q);
 vec3 toVec3Angle(vec3 fwd);
-struct rect{
+struct DLLAPI rect{
 	vec2 start;
 	vec2 end;
 	vec2 size;

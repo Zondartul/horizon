@@ -7,9 +7,10 @@
 #include "paint.h"
 #include "simplemath.h"
 #include "stringUtils.h"
-#include "global_vars.h"
+#include "global_vars_gui.h"
 using std::stringstream;
 using std::map;
+
 #define contains(_v,_x)					(std::find((_v).begin(), (_v).end(), (_x)) != (_v).end())
 #define push_if_not_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I == (_v).end()){(_v).push_back(_x);}}
 #define remove_if_contains(_v,_x)		{auto _I = std::find((_v).begin(), (_v).end(), (_x)); if(_I != (_v).end()){(_v).erase(_I);}}

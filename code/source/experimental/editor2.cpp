@@ -11,6 +11,8 @@
 #include "editmodel.h"
 #include "simplemath.h"
 #include "input.h"
+#include "global_vars_gui.h" //for layers
+
 void editor2Kind::setupLayers(){
 	auto& layer3D = Gb->gs_paint->g_layer3D;
 	auto& layer2D = Gb->gs_paint->g_layer2D;

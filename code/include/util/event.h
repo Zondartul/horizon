@@ -40,7 +40,7 @@ enum eventType{
 			EVENT_TICK,					
 			EVENT_CLEANUP				
 			};
-struct eventKind{
+struct DLLAPI eventKind{
 	eventType type;
 	int *mask;
 	void maskEvent(int newmask = 1);
@@ -56,7 +56,7 @@ struct eventKind{
 };
 string toString(eventType et);
 class eventListener;
-struct eventListenerList{
+struct DLLAPI eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
 	int publishEventSequentialMaskable(eventKind event);	
@@ -68,7 +68,7 @@ struct eventListenerList{
 	void removeListener(eventListener *listener);
 };
 typedef eventListenerList eventChannel;
-class eventListener{
+class DLLAPI eventListener{
 	public:
 	vector<eventChannel*> channels;
 	virtual ~eventListener();

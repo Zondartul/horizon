@@ -1,7 +1,2 @@
-﻿  global_vars.cpp
-  renderLayer.cpp
-  renderLow.cpp
-  window.cpp
-  Generating Code...
-     Creating library ..\..\bin\horizonRender.lib and object ..\..\bin\horizonRender.exp
-  horizonRender.vcxproj -> D:\Stride\shared\horizon\bin\horizonRender.dll
+﻿  modelLoader.cpp
+D:\Stride\shared\horizon\VS\horizonRender\code\source\loaders\modelLoader.cpp(1,10): fatal error C1083: Cannot open include file: 'modelLoader.h': No such file or directory

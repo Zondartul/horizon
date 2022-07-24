@@ -1,6 +1,8 @@
 #include <iostream>
 #include "game.h"
 #include "util/hook.h"
+#include "global_vars_gui.h"
+
 using namespace std;
 void openTestWindow1(){
 	auto& loadLayer = Gb->gs_paint->g_loadLayer;

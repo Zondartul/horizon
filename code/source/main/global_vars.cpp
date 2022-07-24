@@ -1,30 +1,30 @@
 #include "global_vars.h"
 #include "tool_edit.h" 
 #include "gui_editor.h" 
-#include "picker.h" 
+//#include "picker.h" 
 //#include "debug.h" 
-#include "renderLayer.h" 
-#include "paint.h" 
-#include "window.h" 
-#include "timer.h" 
-#include "resource.h" 
-#include "render.h" 
-#include "printw.h" 
-#include "commands.h" 
-#include "editor2.h" 
-#include "keybinds.h" 
-#include "hook.h" 
-#include "GUI_internal.h" 
-#include "event.h" 
-#include "GUIrenderer_default.h" 
-#include "camera.h" 
+//#include "renderLayer.h" 
+//#include "paint.h" 
+//#include "window.h" 
+//#include "timer.h" 
+//#include "resource.h" 
+//#include "render.h" 
+//#include "printw.h" 
+//#include "commands.h" 
+//#include "editor2.h" 
+//#include "keybinds.h" 
+//#include "hook.h" 
+//#include "GUI_internal.h" 
+//#include "event.h" 
+//#include "GUIrenderer_default.h" 
+//#include "camera.h" 
 #include "map_editor.h" 
-#include "console.h"
-#include "GUI.h"
+//#include "console.h"
+//#include "GUI.h"
 
 GlobalsTop* Gt = 0;
-GlobalsGui* Gg = 0;
-GlobalsBtm* Gb = 0;
+//GlobalsGui* Gg = 0;
+//GlobalsBtm* Gb = 0;
 GlobalsTop::GlobalsTop() {
 	gs_map_editor = new gs_map_editorKind();
 	gs_console = new gs_consoleKind();
@@ -34,29 +34,29 @@ GlobalsTop::GlobalsTop() {
 	gs_gui_editor = new gs_gui_editorKind();
 	gs_picker = new gs_pickerKind();
 }
-GlobalsGui::GlobalsGui() {
-	gs_GUI_internal = new gs_GUI_internalKind();
-	gs_GUIrenderer_default = new gs_GUIrenderer_defaultKind();
-	gs_GUI = new gs_GUIKind();
-}
-GlobalsBtm::GlobalsBtm() {
-	//gs_debug = new gs_debugKind();
-	gs_renderLayer = new gs_renderLayerKind();
-	gs_paint = new gs_paintKind();
-	gs_window = new gs_windowKind();
-	//gs_event = new gs_eventKind();
-	sysEvent = new sysEventKind();
-	//gs_timer = new gs_timerKind();
-	sysTimer = new sysTimerKind(*sysEvent);
-	gs_resource = new gs_resourceKind();
-	gs_render = new gs_renderKind();
-	gs_printw = new gs_printwKind();
-	//gs_keybinds = new gs_keybindsKind();
-	//gs_input = new gs_inputKind();
-	sysInput = new sysInputKind();
-	//gs_hook = new gs_hookKind();
-	gs_camera = new gs_cameraKind();
-}
+//GlobalsGui::GlobalsGui() {
+//	gs_GUI_internal = new gs_GUI_internalKind();
+//	gs_GUIrenderer_default = new gs_GUIrenderer_defaultKind();
+//	gs_GUI = new gs_GUIKind();
+//}
+//GlobalsBtm::GlobalsBtm() {
+//	//gs_debug = new gs_debugKind();
+//	gs_renderLayer = new gs_renderLayerKind();
+//	gs_paint = new gs_paintKind();
+//	gs_window = new gs_windowKind();
+//	//gs_event = new gs_eventKind();
+//	sysEvent = new sysEventKind();
+//	//gs_timer = new gs_timerKind();
+//	sysTimer = new sysTimerKind(*sysEvent);
+//	gs_resource = new gs_resourceKind();
+//	gs_render = new gs_renderKind();
+//	gs_printw = new gs_printwKind();
+//	//gs_keybinds = new gs_keybindsKind();
+//	//gs_input = new gs_inputKind();
+//	sysInput = new sysInputKind();
+//	//gs_hook = new gs_hookKind();
+//	gs_camera = new gs_cameraKind();
+//}
 
 // now how do we change these globals into organized systems?
 /*

@@ -422,7 +422,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\codeExt\includeExt\glm\detail\glm.cpp" />
-    <ClCompile Include="..\..\codeExt\sourceExt\tinyXML2\tinyxml2.cpp" />
     <ClCompile Include="..\..\code\source\experimental\editor2.cpp" />
     <ClCompile Include="..\..\code\source\experimental\gui_editor.cpp" />
     <ClCompile Include="..\..\code\source\experimental\gui_editor\tool.cpp" />
@@ -437,58 +436,13 @@
     <ClCompile Include="..\..\code\source\game\commands.cpp" />
     <ClCompile Include="..\..\code\source\game\GUIwindows.cpp" />
     <ClCompile Include="..\..\code\source\generators\editmodel.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUI.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIbase.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIbutton.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIdropdownMenu.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIframe.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIgrid.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIimage.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIlabel.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIrenderer.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIrenderer_default.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIscrollbar.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIselectable.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUItextentry.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUIwindow.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUI_internal.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUI_property.cpp" />
-    <ClCompile Include="..\..\code\source\GUI\GUI_types.cpp" />
-    <ClCompile Include="..\..\code\source\input\input.cpp" />
     <ClCompile Include="..\..\code\source\input\keybinds.cpp" />
-    <ClCompile Include="..\..\code\source\input\mouse.cpp" />
-    <ClCompile Include="..\..\code\source\loaders\fontLoader.cpp" />
-    <ClCompile Include="..\..\code\source\loaders\imageLoader.cpp" />
-    <ClCompile Include="..\..\code\source\loaders\textureLoader.cpp" />
     <ClCompile Include="..\..\code\source\main\global_vars.cpp" />
     <ClCompile Include="..\..\code\source\main\main.cpp" />
-    <ClCompile Include="..\..\code\source\math\fancymath.cpp" />
-    <ClCompile Include="..\..\code\source\math\geometry.cpp" />
-    <ClCompile Include="..\..\code\source\math\simplemath.cpp" />
-    <ClCompile Include="..\..\code\source\math\vec.cpp" />
-    <ClCompile Include="..\..\code\source\program\file.cpp" />
-    <ClCompile Include="..\..\code\source\program\pipe.cpp" />
     <ClCompile Include="..\..\code\source\program\window.cpp" />
-    <ClCompile Include="..\..\code\source\render\camera.cpp" />
-    <ClCompile Include="..\..\code\source\render\paint.cpp" />
-    <ClCompile Include="..\..\code\source\render\paintHelper.cpp" />
-    <ClCompile Include="..\..\code\source\render\printw.cpp" />
-    <ClCompile Include="..\..\code\source\render\render.cpp" />
-    <ClCompile Include="..\..\code\source\render\renderCommand.cpp" />
-    <ClCompile Include="..\..\code\source\render\renderLayer.cpp" />
-    <ClCompile Include="..\..\code\source\render\rmodel.cpp" />
-    <ClCompile Include="..\..\code\source\resource\atlas.cpp" />
-    <ClCompile Include="..\..\code\source\resource\bitmap.cpp" />
     <ClCompile Include="..\..\code\source\resource\model.cpp" />
-    <ClCompile Include="..\..\code\source\resource\resource.cpp" />
-    <ClCompile Include="..\..\code\source\resource\texture.cpp" />
     <ClCompile Include="..\..\code\source\thread\threads.cpp" />
-    <ClCompile Include="..\..\code\source\util\elastic_ptr.cpp" />
-    <ClCompile Include="..\..\code\source\util\event.cpp" />
-    <ClCompile Include="..\..\code\source\util\hook.cpp" />
     <ClCompile Include="..\..\code\source\util\paramList.cpp" />
-    <ClCompile Include="..\..\code\source\util\stringUtils.cpp" />
-    <ClCompile Include="..\..\code\source\util\timer.cpp" />
     <ClCompile Include="..\..\code\source\util\util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -685,7 +639,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;_NO_GLEW;_NO_SDL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\codeExt\includeExt\tinyXML2;$(SolutionDir)..\..\codeExt\includeExt\dirent;$(SolutionDir)..\..\codeExt\includeExt;$(SolutionDir)..\..\code\include\experimental\gui_editor;$(SolutionDir)..\..\code\include\physics\collision;$(SolutionDir)..\..\code\include\util;$(SolutionDir)..\..\code\include\thread;$(SolutionDir)..\..\code\include\resource;$(SolutionDir)..\..\code\include\render;$(SolutionDir)..\..\code\include\program;$(SolutionDir)..\..\code\include\physics;$(SolutionDir)..\..\code\include\math;$(SolutionDir)..\..\code\include\main;$(SolutionDir)..\..\code\include\loaders;$(SolutionDir)..\..\code\include\input;$(SolutionDir)..\..\code\include\GUI;$(SolutionDir)..\..\code\include\generators;$(SolutionDir)..\..\code\include\game;$(SolutionDir)..\..\code\include\gadgets;$(SolutionDir)..\..\code\include\experimental;$(SolutionDir)..\..\code\include\entity;$(SolutionDir)..\..\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\include;$(SolutionDir)..\..\codeExt\includeExt\tinyXML2;$(SolutionDir)..\..\codeExt\includeExt\dirent;$(SolutionDir)..\..\codeExt\includeExt;$(SolutionDir)..\..\code\include\experimental\gui_editor;$(SolutionDir)..\..\code\include\physics\collision;$(SolutionDir)..\..\code\include\util;$(SolutionDir)..\..\code\include\thread;$(SolutionDir)..\..\code\include\resource;$(SolutionDir)..\..\code\include\render;$(SolutionDir)..\..\code\include\program;$(SolutionDir)..\..\code\include\physics;$(SolutionDir)..\..\code\include\math;$(SolutionDir)..\..\code\include\main;$(SolutionDir)..\..\code\include\loaders;$(SolutionDir)..\..\code\include\input;$(SolutionDir)..\..\code\include\GUI;$(SolutionDir)..\..\code\include\generators;$(SolutionDir)..\..\code\include\game;$(SolutionDir)..\..\code\include\gadgets;$(SolutionDir)..\..\code\include\experimental;$(SolutionDir)..\..\code\include\entity;$(SolutionDir)..\..\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <CallingConvention>Cdecl</CallingConvention>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
@@ -698,7 +652,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;D:\Stride\shared\horizon\VS\horizon\Debug;D:\Stride\shared\horizon\libs\win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>horizonRender.lib;SDL2.lib;SDL2main.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonRender.lib;horizonGUI.lib;SDL2.lib;SDL2main.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>

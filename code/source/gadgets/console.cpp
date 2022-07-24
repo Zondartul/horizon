@@ -10,6 +10,7 @@
 #include "stringUtils.h"
 #include "input.h"
 #include "global_vars.h"
+#include "global_vars_gui.h"
 using std::vector;
 using std::string;
 dropDownTerminal::dropDownTerminal():terminalOn(false){

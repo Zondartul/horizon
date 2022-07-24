@@ -4,6 +4,7 @@
 #include "gui_texturebrowser.h"
 #include "file.h"
 #include "tinyxml2.h"
+#include "global_vars_gui.h"
 using std::stringstream;
 using namespace tinyxml2;
 
