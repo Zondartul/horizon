@@ -1,7 +1,7 @@
+#include "util/event.h"
+#include "util/globals_render.h"
 #include <stdexcept>
 #include <sstream>
-#include "event.h"
-#include "globals.h"
 //#include "global_vars.h"
 using std::stringstream;
 

@@ -1,8 +1,8 @@
 #ifndef PAINT_GUARD
 #define PAINT_GUARD
-#include "math/vec.h"
 #include "Ext/glm/glm.hpp"
 #include "render/printw.h"
+#include "math/vec.h"
 #include "render/camera.h"
 #include <string>
 #include <vector>
@@ -14,71 +14,62 @@ struct font;
 struct texture;
 class rmodel;
 class model;
-//extern renderLayer *g_currentLayer;
-//core functions
-void setLayer(renderLayer *L);			//chooses the renderlayer to which drawing is done
-void addLayer(renderLayer *L);			//adds the specified renderlayer after the current one
-void addLayer(renderLayer *L1, renderLayer *L2);	//adds L2 after existing L1
-renderLayer *addNewLayer(string name = "", bool persistent = true, bool special = false);				//adds a new renderlayer after the current one
-renderLayer *duplicateLayer(renderLayer *L); //creates a copy of layer L and returns it
-void clearLayer(renderLayer *L);		//clears a layer
-void resetLayer(renderLayer *L);		//adds a call to the layer's reset layer.
-
-void removeLayer(renderLayer *L);		//removes the specified renderlayer
-void renderAllLayers();					//executes all the render queues
-void printAllLayers();					//(debug) prints the commands currently in queues
-void printAllLayersNextRender();		//(debug) same, but waits until a 'renderAll' command is issued
-void frameReport();						//(debug) write the commands in queues to file
-void frameReportNextRender();			//(debug) same, but waits until a 'renderAll' command is issued
-
-void setColoring(bool b);				//enables per-vertex coloring (no color = white)
-void setUvColoring(bool b);				//(debug) add color based on UV-coordinates
-void setNormalColoring(bool b);			//(debug) add color based on the normal vector
-void setTransparency(bool b);			//enables transparency (no transparency = alpha 1)
-void setDepthMask(bool b);				//enables or disables depth buffer writing
-void setTexturing(bool b);				//enables texturing (no texture = colors only)
-void setDebug(bool b);					//enables debug rendering mode
-void setScissoring(bool b);				//enable scissor test
-void setDepthTest(bool b);				//enable depth test
-void setLighting(bool b);				//enable lighting calc
-
-void drawLayer(renderLayer *L);			//render another layer while rendering this one
-void setColor(vec3 col);				//sets global color (default = 1,1,1)
-void setAlpha(float a);					//sets global alpha (default = 1), needs transparency
-void setTexture(texture *t);			//selects current texture, needs upload
-void setFont(font *f);					//selects current font, needs upload
-void setRenderMode(int mode);			//1 - points, 2 - lines, 3 - triangles, not implemented: 4 - triangles (wireframe)
-void setTextPos(vec2 textPos); 			//textPos is advanced automatically after each print
-void setScissor(rect S);				//limits the drawn-to area
-void setPointSize(float size);			//sets size of single points (not lines)
-void setLineWidth(float width);			//sets the width of lines
-void setSunPos(vec3 pos);				//sets the directional light position
-void setSunColor(vec3 val);				//sets the directional light brightness
-void setAmbientColor(vec3 val);			//sets the ambient light brightness
-
-void uploadTexture(texture *t);			//uploads texture to GPU
-void uploadRmodel(rmodel *rm);			//uploads rmodel to GPU
-void deleteRmodel(rmodel *rm);			//deletes rmodel from GPU
-
-void setProjection(camprojection cpj);	//changes current projection matrix
+void setLayer(renderLayer *L);			
+void addLayer(renderLayer *L);			
+void addLayer(renderLayer *L1, renderLayer *L2);	
+renderLayer *addNewLayer(string name = "", bool persistent = true, bool special = false);				
+renderLayer *duplicateLayer(renderLayer *L); 
+void clearLayer(renderLayer *L);		
+void resetLayer(renderLayer *L);		
+void removeLayer(renderLayer *L);		
+void renderAllLayers();					
+void printAllLayers();					
+void printAllLayersNextRender();		
+void frameReport();						
+void frameReportNextRender();			
+void setColoring(bool b);				
+void setUvColoring(bool b);				
+void setNormalColoring(bool b);			
+void setTransparency(bool b);			
+void setDepthMask(bool b);				
+void setTexturing(bool b);				
+void setDebug(bool b);					
+void setScissoring(bool b);				
+void setDepthTest(bool b);				
+void setLighting(bool b);				
+void drawLayer(renderLayer *L);			
+void setColor(vec3 col);				
+void setAlpha(float a);					
+void setTexture(texture *t);			
+void setFont(font *f);					
+void setRenderMode(int mode);			
+void setTextPos(vec2 textPos); 			
+void setScissor(rect S);				
+void setPointSize(float size);			
+void setLineWidth(float width);			
+void setSunPos(vec3 pos);				
+void setSunColor(vec3 val);				
+void setAmbientColor(vec3 val);			
+void uploadTexture(texture *t);			
+void uploadRmodel(rmodel *rm);			
+void deleteRmodel(rmodel *rm);			
+void setProjection(camprojection cpj);	
 void setProjectionToCamera(cameraKind *camera);
-void setPosition(vec3 pos);				//changes current world position
-void setRotation(vec3 rot);				//changes current world rotation
-void setScale(vec3 scale);				//changes current object scale
-
-void setTexturePosition(vec2 pos);		//changes global texture shift
-void setTextureScale(vec2 scale);		//changes global texture scale
-
-//void clearDepthBuffer();				//clears only the depth buffer
-void clearScreen();						//clears screen with current color
-void drawRmodel(rmodel *rm);			//draws rendermodel
-void drawRmodelStd(rmodel *rm);			//draws rendermodel at standard position,
-										//	rotation, and scale
-void printText(string text);		//draws text at current textPos
-void pushRenderOptions();                //save current render options
-void popRenderOptions();                 //restore render options
-
-//simple drawing functions:
+void setPosition(vec3 pos);				
+void setRotation(vec3 rot);				
+void setScale(vec3 scale);				
+void setTexturePosition(vec2 pos);		
+void setTextureScale(vec2 scale);		
+void clearScreen();						
+void drawRmodel(rmodel *rm);			
+void drawRmodelStd(rmodel *rm);			
+void printText(string text);		
+void pushRenderOptions();                
+void popRenderOptions();                 
+void setFaceCulling(bool b);
+void setFaceCullCCW();
+void readPixels(int x, int y, int w, int h, void* buff);
+void setViewport(int x, int y, int w, int h);
 void drawPoint(vec3 pos);
 void drawPoints(const vector<vec3> &points);
 void drawPoint(vec3 pos, vec3 color);
@@ -89,45 +80,41 @@ void drawArrow(vec3 start, vec3 end, vec3 color);
 void drawTriangle(vec3 A, vec3 B, vec3 C);
 void drawRect(rect R);
 void drawRectOutline(rect R);
-void drawRectOutlineColored(rect R, vec3 col); //disables scissor, sets color, draws rect outline
+void drawRectOutlineColored(rect R, vec3 col); 
 void drawImage(texture *t, rect R);
-
 void debugFloatingText(vec3 p, string S);
-
 void drawModel(vec3 pos, vec3 rot, vec3 scale, model *m);
-
-//draws primitive shapes by scaling a prefab model.
 void drawBoxWireframe(AABB aabb);
 void drawCyllinderWireframe(AABB aabb);
 void drawConeWireframe(AABB aabb);
 void drawSphereWireframe(AABB aabb);
-
 void drawBoxWireframe(vec3 pos, vec3 rot,  vec3 scale);
 void drawCyllinderWireframe(vec3 pos, vec3 rot, float r, float h);
 void drawConeWireframe(vec3 pos, vec3 rot, float r, float h);
 void drawSphereWireframe(vec3 pos, vec3 rot, float r);
-
 void drawBox(vec3 pos, vec3 rot,  vec3 scale);
 void drawCyllinder(vec3 pos, vec3 rot, float r, float h);
 void drawCone(vec3 pos, vec3 rot, float r, float h);
 void drawSphere(vec3 pos, vec3 rot, float r);
-
-
-//util
 void renderComment(string str);
-
-
 void initLayers();
-
 struct gs_paintKind {
-	class renderLayer* g_currentLayer;
-
-	class renderLayer* g_loadLayer;		//data load commands go here
-	class renderLayer* g_layer3D;		//3D drawing commands go here
-	class renderLayer* g_layerDebug;	//3D debug indication goes here
-	class renderLayer* g_layer2D;		//2D drawing commands go here
-	class renderLayer* g_layerDebug2D;	//2D debug indication goes here
-	class renderLayer* g_deleteLayer;	//data delete commands go here
+	renderLayer* g_loadLayer;		
+	renderLayer* g_layer3D;		
+	renderLayer* g_layerDebug;	
+	renderLayer* g_layer2D;		
+	renderLayer* g_layerDebug2D;	
+	renderLayer* g_deleteLayer;	
+	renderLayer* g_currentLayer = 0;
+	rmodel* g_rm_unitboxWF = 0;
+	rmodel* g_rm_unitcyllinderWF = 0;
+	rmodel* g_rm_unitconeWF = 0;
+	rmodel* g_rm_unitsphereWF = 0;
+	rmodel* g_rm_unitbox = 0;
+	rmodel* g_rm_unitcyllinder = 0;
+	rmodel* g_rm_unitcone = 0;
+	rmodel* g_rm_unitsphere = 0;
+	bool g_printAllPending = false;
+	bool g_frameReportPending = false;
 };
-
 #endif

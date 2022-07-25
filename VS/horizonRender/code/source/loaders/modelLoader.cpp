@@ -1,19 +1,20 @@
-#include "loaders/modelLoader.h"
-#include "globals.h"
-#include "selfaware.h"
-#include <map>
-using std::map;
-#include <string>
-using std::string;
-#include <vector>
-using std::vector;
-#include <map>
-using std::map;
 #define TINYOBJLOADER_IMPLEMENTATION
-#include "tiny_obj_loader.h"
-#include "simplemath.h"
+#include "loaders/tiny_obj_loader.h"
 
-map<string,model> modelCache;
+#include "loaders/modelLoader.h"
+#include "resource/model.h"
+#include "resource/resource.h"
+#include "util/globals_render.h"
+//#include "selfaware.h"
+#include "program/file.h"
+#include "math/simplemath.h"
+#include <vector>
+#include <string>
+#include <map>
+#include <iostream>
+using namespace std;
+
+map<string,model*> modelCache;
 vector<tinyobj::shape_t> shapes;
 vector<tinyobj::material_t> materials;
 
@@ -29,7 +30,8 @@ void model::recalculateNormals(){
 		auto &B = tris[I].v[1];
 		auto &C = tris[I].v[2];
 		
-		vec3f norm = (B.pos-A.pos).cross(C.pos-A.pos).norm();
+		//vec3f norm = (B.pos-A.pos).cross(C.pos-A.pos).norm();
+		vec3 norm = normalize(cross((B.pos - A.pos),(C.pos - A.pos)));
 		A.normal = norm;
 		B.normal = norm;
 		C.normal = norm;
@@ -42,7 +44,8 @@ AABB model::getAABB(){
 	aabb = aabb.setEnd(tris[0].v[0].pos);
 	for(int I = 0; I < tris.size(); I++){
 		for(int J = 0; J < 3; J++){
-			vec3f p = tris[I].v[J].pos;
+			//vec3f p = tris[I].v[J].pos;
+			vec3 p = tris[I].v[J].pos;
 			aabb = aabb.setStart({min(aabb.start.x,p.x),min(aabb.start.y,p.y),min(aabb.start.z,p.z)});
 			aabb = aabb.setEnd({max(aabb.end.x,p.x),max(aabb.end.y,p.y),max(aabb.end.z,p.z)});
 		}
@@ -50,19 +53,20 @@ AABB model::getAABB(){
 	return aabb;
 }
 
-model getModel(string name){
-	if(!modelCache.count(name)){
-		string filepath = locateResource("model",name.c_str());
-		model M = loadModel(filepath.c_str());
-		M.t = getTexture(string()+"model_"+name);
-		modelCache[name] = M;
-	}
-	return modelCache[name];
-}
+
+//model *getModel(string name){
+//	if(!modelCache.count(name)){
+//		string filepath = locateResource("model",name.c_str());
+//		model *M = loadModel(filepath.c_str());
+//		M->t = getTexture(string()+"model_"+name);
+//		modelCache[name] = M;
+//	}
+//	return modelCache[name];
+//}
 
 void printCurrentModel();
 
-vertex readVertex(auto S, int I){
+vertex readVertex(tinyobj::mesh_t S, int I){
 	vertex A;
 	A.pos = {S.positions[S.indices[I]*3],S.positions[S.indices[I]*3+1],S.positions[S.indices[I]*3+2]};
 	A.normal = {S.normals[S.indices[I]*3],S.normals[S.indices[I]*3+1],S.normals[S.indices[I]*3+2]};
@@ -70,7 +74,7 @@ vertex readVertex(auto S, int I){
 	return A;
 }
 
-triangle readTriangle(auto S, int I){
+triangle readTriangle(tinyobj::mesh_t S, int I){
 	triangle T;
 	T.v[0] = readVertex(S, I*3);
 	T.v[1] = readVertex(S, I*3+1);
@@ -78,22 +82,31 @@ triangle readTriangle(auto S, int I){
 	return T;
 }
 
-model loadModel(const char *filepath){
+model *loadModel(const char *filepath){
 	string inputfile = filepath;
 
 	string err;
 	bool ret = tinyobj::LoadObj(shapes, materials, err, inputfile.c_str());
-	if(!err.empty()){warning("loadModel: error: %s\n",err.c_str());}
-	if(!ret){error("loadModel: LoadObj failed\n");}
-	if(!shapes.size()){error("loadModel: empty obj file\n");}
+	if(!err.empty()){
+		//warning("loadModel: error: %s\n",err.c_str());
+		cerr << "warning: " << "loadModel: error :" << err << endl;
+	}
+	if(!ret){
+		//error("loadModel: LoadObj failed\n");
+		throw runtime_error("loadModel: LoadObj failed");
+	}
+	if(!shapes.size()){
+		//error("loadModel: empty obj file\n");
+		throw runtime_error("loadModel: empty obj file");
+	}
 	//printCurrentModel();
 	
-	model M;
+	model *M = new model();
 	auto &S = shapes[0].mesh;
 	int numVerts = S.positions.size()/3;
 	int numTris = S.num_vertices.size();
 	for(int I = 0; I < numTris; I++){
-		M.tris.push_back(readTriangle(S,I));		
+		M->tris.push_back(readTriangle(S,I));		
 	}
 	printf("model loaded: %d triangles, %d vertices (%d%% reuse)\n",numTris, numVerts, 100-(33*numVerts/numTris));
 	//printf("loadModel: loaded %d verts, %d faces\n",

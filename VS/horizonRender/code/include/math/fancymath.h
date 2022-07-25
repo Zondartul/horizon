@@ -1,9 +1,9 @@
 #ifndef FANCYMATH_GUARD
 #define FANCYMATH_GUARD
-#include "simplemath.h"
-#include "vec.h"
-#include "globals.h"
-#include "math.h"
+#include "math/simplemath.h"
+#include "math/vec.h"
+#include "util/globals_render.h"
+#include <cmath>
 #include <vector>
 #include <utility>
 #include <stdexcept>

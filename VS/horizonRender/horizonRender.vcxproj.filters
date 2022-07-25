@@ -19,9 +19,6 @@
     <Filter Include="Source Files\math">
       <UniqueIdentifier>{968f3d82-7b44-4bd9-9075-fff8e93a5160}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\program">
-      <UniqueIdentifier>{9eaa9263-115d-4537-9639-a9127870d4d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\render">
       <UniqueIdentifier>{47bed2fa-b4bb-400a-a67b-c8dd7b07268b}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,15 @@
     </Filter>
     <Filter Include="Source Files\loaders">
       <UniqueIdentifier>{3b41ed15-6dc8-4d46-9638-8e50e1b345af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\program">
+      <UniqueIdentifier>{9eaa9263-115d-4537-9639-a9127870d4d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{34abac6a-cd0c-4641-a4be-9ba9f41ec7d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{c4906826-c3e2-48aa-8040-10b2fbfb03a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +137,30 @@
     </ClCompile>
     <ClCompile Include="code\source\loaders\modelLoader.cpp">
       <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\bitmap.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\atlas.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\math\fancymath.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\timer.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\event.cpp">
+      <Filter>Header Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\camera.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\hook.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\input\mouse.cpp">
+      <Filter>Source Files\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +277,15 @@
     </ClInclude>
     <ClInclude Include="code\include\generators\editmodel.h">
       <Filter>Header Files\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\math\fancymath.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\timer.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\mouse.h">
+      <Filter>Header Files\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

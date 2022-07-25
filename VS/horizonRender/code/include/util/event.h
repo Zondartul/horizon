@@ -1,15 +1,16 @@
 #ifndef EVENT_GUARD
 #define EVENT_GUARD
+#include "math/vec.h"
+#include "util/hook.h"
+#include "globals_render.h"
 #include <vector>
 #include <functional>
-#include "vec.h"
-#include "hook.h"
+using std::vector;
+using std::function;
 #define MOD_NONE 0
 #define MOD_SHIFT 1
 #define MOD_CTRL 2
 #define MOD_ALT 4
-using std::vector;
-using std::function;
 
 struct event_keyboard{
 	int keycode;
@@ -40,7 +41,7 @@ enum eventType{
 			EVENT_TICK,					
 			EVENT_CLEANUP				
 			};
-struct DLLAPI eventKind{
+struct DLLAPI_RENDER eventKind{
 	eventType type;
 	int *mask;
 	void maskEvent(int newmask = 1);
@@ -56,7 +57,7 @@ struct DLLAPI eventKind{
 };
 string toString(eventType et);
 class eventListener;
-struct DLLAPI eventListenerList{
+struct DLLAPI_RENDER eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
 	int publishEventSequentialMaskable(eventKind event);	
@@ -68,7 +69,7 @@ struct DLLAPI eventListenerList{
 	void removeListener(eventListener *listener);
 };
 typedef eventListenerList eventChannel;
-class DLLAPI eventListener{
+class DLLAPI_RENDER eventListener{
 	public:
 	vector<eventChannel*> channels;
 	virtual ~eventListener();

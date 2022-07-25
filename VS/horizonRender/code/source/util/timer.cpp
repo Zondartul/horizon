@@ -1,17 +1,18 @@
-#include <list>
-#include <sstream>
-#include <iomanip>
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
-#include "timer.h"
-#include "event.h"
-#include "hook.h"
-#include "time.h"
-#include "stringUtils.h"
-#include "global_vars_gui.h"
+#include "util/timer.h"
+#include "util/event.h"
+#include "util/hook.h"
+#include "util/stringUtils.h"
+#include "util/global_vars_render.h"
+#include <ctime>
+#include <list>
+#include <sstream>
+#include <iomanip>
 using std::list;
 using std::stringstream;
+
 timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, bool selfdestruct){
 	//auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
 	this->ticks_max = ticks_max;
@@ -23,7 +24,7 @@ timer::timer(function<void(timer *T)> F, int ticks_max, bool repeat, bool run, b
 	//timers.push_back(this);
 }
 timer::~timer(){
-	auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
+	auto& timers = Gr->sysTimer->timers;//Gb->gs_timer->g_timers;
 	for(auto I = timers.begin(); I != timers.end();){
 		if(*I == this){ *I = 0; I++;}else{I++;}
 	}
@@ -42,11 +43,11 @@ void timer::tick(){
 	}
 }
 void simpletimer(function<void(timer *T)> F, int ticks_max){
-	Gb->sysTimer->timers.push_back(new timer(F,ticks_max,0,1,1));
+	Gr->sysTimer->timers.push_back(new timer(F,ticks_max,0,1,1));
 }
 
 void timersTick(){
-	auto& timers = Gb->sysTimer->timers;//Gb->gs_timer->g_timers;
+	auto& timers = Gr->sysTimer->timers;//Gb->gs_timer->g_timers;
 	for(auto I = timers.begin(); I != timers.end();){
         if(*I){
             (*I)->tick();
@@ -57,11 +58,11 @@ void timersTick(){
 	}
 }
 int getGameTicks(){
-	auto& t = Gb->sysTimer->t;//Gb->gs_timer->g_t;
+	auto& t = Gr->sysTimer->t;//Gb->gs_timer->g_t;
 	return t;
 }
 float getGameTime(){
-	auto& t2 = Gb->sysTimer->t2;//Gb->gs_timer->g_t2;
+	auto& t2 = Gr->sysTimer->t2;//Gb->gs_timer->g_t2;
 	return t2;
 }
 float getRealTime(){

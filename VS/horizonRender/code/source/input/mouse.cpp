@@ -1,7 +1,8 @@
-#include "mouse.h"
 #ifndef NO_SDL
 #include <SDL2/SDL.h>
 #endif
+#include "input/mouse.h"
+
 void setMouseRelativeMode(bool mode){
 #ifndef NO_SDL
 	if(mode){SDL_SetRelativeMouseMode(SDL_TRUE);}

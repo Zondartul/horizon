@@ -1,22 +1,23 @@
+#ifndef NO_GLEW
+	#include "Ext/GL/glew.h"
+#endif
+#include "Ext/glm/gtc/matrix_transform.hpp"
+#include "program/window.h" 
+#include "render/camera.h"
+#include "render/renderLayer.h"
+#include "render/paint.h"
+#include "math/simplemath.h"
+#include "input/mouse.h"
+#include "resource/bitmap.h"
+#include "util/stringUtils.h"
+#include "util/globals_render.h"
+#include "util/global_vars_render.h"
+#include "util/timer.h"
 #include <string>
 #include <stdexcept>
 #include <sstream>
-#ifndef NO_GLEW
-	#include "GL/glew.h"
-#endif
-#include "glm/gtc/matrix_transform.hpp"
-#include "camera.h"
-#include "math.h"
-#include "simplemath.h"
-#include "window.h" 
-#include "stdlib.h"
-#include "bitmap.h"
-#include "stringUtils.h"
-#include "globals.h"
-#include "mouse.h"
-#include "global_vars_gui.h"
-#include "timer.h"
-#include "renderLayer.h"
+#include <cmath>
+#include <cstdlib>
 using glm::mat4;
 using glm::vec3;
 using std::string;
@@ -33,18 +34,17 @@ cameraKind::cameraKind(){
 	mode3D = true;
 }
 vec3 cameraKind::forward(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	return rotate(vec3{1,0,0},d2r*camera.rot);
 }
 vec3 cameraKind::up(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	return rotate(vec3{0,0,1},d2r*camera.rot);
 }
 vec3 cameraKind::right(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	return rotate(vec3{0,1,0},d2r*camera.rot);
 }
-#include "paint.h"
 void cameraKind::reposition(){
 	if(mode3D){
 		mView = mat4(1.0f);
@@ -62,8 +62,8 @@ void cameraKind::setPos(vec3 newpos){pos = newpos; }
 void cameraKind::setRot(vec3 newrot){rot = newrot; }
 void cameraKind::setFov(float newfov){fov = newfov;}
 void cameraKind::go2D(){
-	auto& width = Gb->gs_window->g_width;
-	auto& height = Gb->gs_window->g_height;
+	auto& width = Gr->gs_window->g_width;
+	auto& height = Gr->gs_window->g_height;
 	mode3D = false;
 	#ifndef NO_GLEW
 		setViewport(0, 0, width, height);
@@ -79,9 +79,9 @@ void cameraKind::go2D(){
 	reposition();
 }
 void cameraKind::go3D(){
-	//auto& camera = Gb->gs_camera->g_camera;
-	auto& width = Gb->gs_window->g_width;
-	auto& height = Gb->gs_window->g_height;
+	//auto& camera = Gr->gs_camera->g_camera;
+	auto& width = Gr->gs_window->g_width;
+	auto& height = Gr->gs_window->g_height;
 	mode3D = true;
 	vec2 scr = getScreenSize();
 #ifndef NO_GLEW
@@ -152,8 +152,8 @@ struct task_screenshot {
 		printf("\n");
 	}
 	void run() {
-		auto& deleteLayer = Gb->gs_paint->g_deleteLayer;
-		auto& currentLayer = Gb->gs_paint->g_currentLayer;
+		auto& deleteLayer = Gr->gs_paint->g_deleteLayer;
+		auto& currentLayer = Gr->gs_paint->g_currentLayer;
 		#ifndef NO_GLEW
 			setLayer(deleteLayer);
 			readPixels(0, 0, width, height, buff);
@@ -234,7 +234,7 @@ vec3 cameraKind::deviceToWorld(vec3 devpos){
 	return V3;
 }
 vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	float x = scrpos.x;
 	float y = scrpos.y;
 	float z = scrpos.z;
@@ -270,7 +270,7 @@ vec3 cameraKind::screenToDevice(vec3 scrpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	float x = devpos.x;
 	float y = devpos.y;
 	float z = devpos.z;
@@ -305,7 +305,7 @@ vec3 cameraKind::deviceToScreen(vec3 devpos, z_meaning zm){
 	return vec3(0,0,0);
 }
 vec3 cameraKind::getMouseDir(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	vec2 mouse = getMousePos();
 	vec3 wp = screenToWorld({mouse.x,mouse.y,1},Z_IS_ORTHODOX);
 	return normalize(wp-camera.pos);
@@ -345,14 +345,13 @@ camprojection cameraKind::getProjection(){
 	cpj.pos = pos;
 	return cpj;
 }
-#include "paint.h"
 void go3D(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	camera.go3D();
 	setProjection(camera.getProjection());
 }
 void go2D(){
-	auto& camera = Gb->gs_camera->g_camera;
+	auto& camera = Gr->gs_camera->g_camera;
 	camera.go2D();
 	setProjection(camera.getProjection());
 }

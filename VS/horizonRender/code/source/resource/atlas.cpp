@@ -1,7 +1,8 @@
-#include "atlas.h"
-#include "fancymath.h"
-#include "globals.h"
-#include "stringUtils.h"
+#include "resource/atlas.h"
+#include "math/fancymath.h"
+#include "util/globals_render.h"
+#include "util/stringUtils.h"
+
 atlas makeAtlas(vector<bitmap> BMPs, bitmap background, bool sort){
 	vector<vec2> sizes;
 	vec2 binsize;

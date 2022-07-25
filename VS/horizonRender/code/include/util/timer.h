@@ -1,10 +1,9 @@
 #ifndef TIMER_GUARD
 #define TIMER_GUARD
+#include "util/event.h"
 #include <functional>
 #include <string>
 #include <list>
-#include "event.h"
-
 using std::function;
 using std::string;
 using std::list;

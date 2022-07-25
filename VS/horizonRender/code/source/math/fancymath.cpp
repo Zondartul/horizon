@@ -1,5 +1,6 @@
-#include "fancymath.h"
+#include "math/fancymath.h"
 #include <algorithm>
+
 void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, vector<int> *packed, int *heightNeeded){
 	vector<int> sorted;
 	results->clear();

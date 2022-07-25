@@ -1,6 +1,10 @@
-#include "bitmap.h"
-#include "simplemath.h"
-#include "globals.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "loaders/stb_image_write.h"
+
+#include "resource/bitmap.h"
+#include "math/simplemath.h"
+#include "util/globals_render.h"
+
 bitmap::bitmap(){
 	height = 0;
 	width = 0;
@@ -159,8 +163,7 @@ void bitmap::forEachPixel(void (*f)(pixel *P)){
 		write_pixel(I,P);
 	}
 }
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
+
 void bitmap::saveAs(const char *filename){
 	int comp;
 	switch(format){
