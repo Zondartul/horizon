@@ -120,7 +120,84 @@ const renderCommand3 *renderLayer::get(unsigned int num){
         return 0;
     }
 }
-
+void setupLayer3D(){
+	auto& layer3D = Gr->gs_paint->g_layer3D;
+	setLayer(layer3D->resetLayer);
+#ifndef NO_GLEW
+	setFaceCulling(true);
+	setFaceCullCCW();
+#endif
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setDepthTest(true);
+	setDepthMask(true);
+	setLighting(true);
+	setSunPos(vec3(0.5,0.75,1));
+	setSunColor(0.9f*vec3(1,1,1));
+	setAmbientColor(0.3f*vec3(1,1,1));
+	setColoring(true);
+	setTexturing(false);
+	setScissoring(false);
+	setTransparency(false);
+	setAlpha(255);
+	setColor({255,255,255});
+}
+void setupLayer2D(){
+	auto& layer2D = Gr->gs_paint->g_layer2D;
+	setLayer(layer2D->resetLayer);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setRotation(vec3(0,0,0));
+	setColoring(false);
+	setTransparency(false);
+	setTexturing(false);
+	setScissoring(false);
+	vec2 scr = getScreenSize();
+	setScissor(rect(vec2(0,0),scr));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+}
+void setupLayerDebug(){
+	auto& layerDebug = Gr->gs_paint->g_layerDebug;
+	setLayer(layerDebug->resetLayer);
+#ifndef NO_GLEW
+	setFaceCulling(false);
+#endif
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+	setColoring(true);
+	setTexturing(false);
+	setScissoring(false);
+	setTransparency(false);
+	setAlpha(255);
+	setColor({255,255,255});
+	setPointSize(3.f);
+}
+void setupLayerDebug2D(){
+	auto& layerDebug2D = Gr->gs_paint->g_layerDebug2D;
+	setLayer(layerDebug2D->resetLayer);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setColoring(false);
+	setTransparency(false);
+	setTexturing(false);
+	setScissoring(false);
+	vec2 scr = getScreenSize();
+	setScissor(rect(vec2(0,0),scr));
+	setDepthTest(false);
+	setDepthMask(true);
+	setLighting(false);
+}
+void setupLayers(){
+	setupLayer3D();
+	setupLayer2D();
+	setupLayerDebug();
+	setupLayerDebug2D();
+}
 
 
 

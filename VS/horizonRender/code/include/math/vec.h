@@ -7,6 +7,7 @@
 #include "Ext/glm/gtx/vector_angle.hpp"
 #include "Ext/glm/gtc/quaternion.hpp"
 #pragma warning(pop) //that's their problem, not mine
+#include "util/globals_render.h"
 #include <string>
 using std::string;
 using glm::mat4;
@@ -77,7 +78,7 @@ vec3 toVec3Angle(quat q);
 vec3 toVec3Angle(vec3 fwd);
 
 
-struct rect{
+struct DLLAPI_RENDER rect{
 	vec2 start;
 	vec2 end;
 	vec2 size;
@@ -107,7 +108,7 @@ rect operator*(rect A, float N);
 bool operator==(rect A, rect B);
 
 
-struct AABB{
+struct DLLAPI_RENDER AABB{
 	vec3 start;
 	vec3 end;
 	vec3 size;

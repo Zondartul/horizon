@@ -87,9 +87,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\include;D:\Stride\shared\horizon\codeExt\includeExt\tinyXML2;D:\Stride\shared\horizon\VS\horizonGUI\util;D:\Stride\shared\horizon\codeExt\includeExt;D:\Stride\shared\horizon\code\include\thread;D:\Stride\shared\horizon\code\include\resource;D:\Stride\shared\horizon\code\include\render;D:\Stride\shared\horizon\code\include\program;D:\Stride\shared\horizon\code\include\math;D:\Stride\shared\horizon\code\include\loaders;D:\Stride\shared\horizon\code\include\input;D:\Stride\shared\horizon\code\include\generators;D:\Stride\shared\horizon\code\include\game;D:\Stride\shared\horizon\code\include\util;D:\Stride\shared\horizon\code\include\GUI;D:\Stride\shared\horizon\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,9 +104,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\util;D:\Stride\shared\horizon\codeExt\includeExt;D:\Stride\shared\horizon\code\include\thread;D:\Stride\shared\horizon\code\include\resource;D:\Stride\shared\horizon\code\include\render;D:\Stride\shared\horizon\code\include\program;D:\Stride\shared\horizon\code\include\math;D:\Stride\shared\horizon\code\include\loaders;D:\Stride\shared\horizon\code\include\input;D:\Stride\shared\horizon\code\include\generators;D:\Stride\shared\horizon\code\include\game;D:\Stride\shared\horizon\code\include\util;D:\Stride\shared\horizon\code\include\GUI;D:\Stride\shared\horizon\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,9 +121,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\util;D:\Stride\shared\horizon\codeExt\includeExt;D:\Stride\shared\horizon\code\include\thread;D:\Stride\shared\horizon\code\include\resource;D:\Stride\shared\horizon\code\include\render;D:\Stride\shared\horizon\code\include\program;D:\Stride\shared\horizon\code\include\math;D:\Stride\shared\horizon\code\include\loaders;D:\Stride\shared\horizon\code\include\input;D:\Stride\shared\horizon\code\include\generators;D:\Stride\shared\horizon\code\include\game;D:\Stride\shared\horizon\code\include\util;D:\Stride\shared\horizon\code\include\GUI;D:\Stride\shared\horizon\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,9 +138,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\util;D:\Stride\shared\horizon\codeExt\includeExt;D:\Stride\shared\horizon\code\include\thread;D:\Stride\shared\horizon\code\include\resource;D:\Stride\shared\horizon\code\include\render;D:\Stride\shared\horizon\code\include\program;D:\Stride\shared\horizon\code\include\math;D:\Stride\shared\horizon\code\include\loaders;D:\Stride\shared\horizon\code\include\input;D:\Stride\shared\horizon\code\include\generators;D:\Stride\shared\horizon\code\include\game;D:\Stride\shared\horizon\code\include\util;D:\Stride\shared\horizon\code\include\GUI;D:\Stride\shared\horizon\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,58 +152,63 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="code\Ext\tinyXML2\tinyxml2.cpp" />
-    <ClCompile Include="code\GUI\GUI.cpp" />
-    <ClCompile Include="code\GUI\GUIbase.cpp" />
-    <ClCompile Include="code\GUI\GUIbutton.cpp" />
-    <ClCompile Include="code\GUI\GUIdropdownMenu.cpp" />
-    <ClCompile Include="code\GUI\GUIframe.cpp" />
-    <ClCompile Include="code\GUI\GUIgrid.cpp" />
-    <ClCompile Include="code\GUI\GUIimage.cpp" />
-    <ClCompile Include="code\GUI\GUIlabel.cpp" />
-    <ClCompile Include="code\GUI\GUIrenderer.cpp" />
-    <ClCompile Include="code\GUI\GUIrenderer_default.cpp" />
-    <ClCompile Include="code\GUI\GUIscrollbar.cpp" />
-    <ClCompile Include="code\GUI\GUIselectable.cpp" />
-    <ClCompile Include="code\GUI\GUItextentry.cpp" />
-    <ClCompile Include="code\GUI\GUIwindow.cpp" />
-    <ClCompile Include="code\GUI\GUI_internal.cpp" />
-    <ClCompile Include="code\GUI\GUI_property.cpp" />
-    <ClCompile Include="code\GUI\GUI_types.cpp" />
-    <ClCompile Include="code\input\input.cpp" />
-    <ClCompile Include="code\input\mouse.cpp" />
-    <ClCompile Include="code\loaders\fontLoader.cpp" />
-    <ClCompile Include="code\loaders\imageLoader.cpp" />
-    <ClCompile Include="code\loaders\textureLoader.cpp" />
-    <ClCompile Include="code\main\dllmain.cpp" />
-    <ClCompile Include="code\math\fancymath.cpp" />
-    <ClCompile Include="code\math\geometry.cpp" />
-    <ClCompile Include="code\math\simplemath.cpp" />
-    <ClCompile Include="code\math\vec.cpp" />
-    <ClCompile Include="code\program\file.cpp" />
-    <ClCompile Include="code\program\pipe.cpp" />
-    <ClCompile Include="code\render\camera.cpp" />
-    <ClCompile Include="code\render\paint.cpp" />
-    <ClCompile Include="code\render\paintHelper.cpp" />
-    <ClCompile Include="code\render\printw.cpp" />
-    <ClCompile Include="code\render\render.cpp" />
-    <ClCompile Include="code\render\renderCommand.cpp" />
-    <ClCompile Include="code\render\renderLayer.cpp" />
-    <ClCompile Include="code\render\rmodel.cpp" />
-    <ClCompile Include="code\resource\atlas.cpp" />
-    <ClCompile Include="code\resource\bitmap.cpp" />
-    <ClCompile Include="code\resource\resource.cpp" />
-    <ClCompile Include="code\resource\texture.cpp" />
-    <ClCompile Include="code\util\elastic_ptr.cpp" />
-    <ClCompile Include="code\util\event.cpp" />
-    <ClCompile Include="code\util\global_vars_gui.cpp" />
-    <ClCompile Include="code\util\hook.cpp" />
-    <ClCompile Include="code\util\stringUtils.cpp" />
-    <ClCompile Include="code\util\timer.cpp" />
+    <ClCompile Include="code\source\Ext\tinyXML2\tinyxml2.cpp" />
+    <ClCompile Include="code\source\GUI\GUIbase.cpp" />
+    <ClCompile Include="code\source\GUI\GUIbutton.cpp" />
+    <ClCompile Include="code\source\GUI\GUIdropdownMenu.cpp" />
+    <ClCompile Include="code\source\GUI\GUIframe.cpp" />
+    <ClCompile Include="code\source\GUI\GUIgrid.cpp" />
+    <ClCompile Include="code\source\GUI\GUIimage.cpp" />
+    <ClCompile Include="code\source\GUI\GUIlabel.cpp" />
+    <ClCompile Include="code\source\GUI\GUIrenderer.cpp" />
+    <ClCompile Include="code\source\GUI\GUIrenderer_default.cpp" />
+    <ClCompile Include="code\source\GUI\GUIscrollbar.cpp" />
+    <ClCompile Include="code\source\GUI\GUIselectable.cpp" />
+    <ClCompile Include="code\source\GUI\GUItextentry.cpp" />
+    <ClCompile Include="code\source\GUI\GUIwindow.cpp" />
+    <ClCompile Include="code\source\GUI\GUI_internal.cpp" />
+    <ClCompile Include="code\source\GUI\GUI_property.cpp" />
+    <ClCompile Include="code\source\GUI\GUI_types.cpp" />
+    <ClCompile Include="code\source\input\input.cpp" />
+    <ClCompile Include="code\source\main\dllmain_gui.cpp" />
+    <ClCompile Include="code\source\math\geometry.cpp" />
+    <ClCompile Include="code\source\program\pipe.cpp" />
+    <ClCompile Include="code\source\render\paintHelper.cpp" />
+    <ClCompile Include="code\source\render\render_gui.cpp" />
+    <ClCompile Include="code\source\util\elastic_ptr.cpp" />
+    <ClCompile Include="code\source\util\global_vars_gui.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h" />
-    <ClInclude Include="include\global_vars_gui.h" />
+    <ClInclude Include="code\include\Ext\tinyXML2\tinyxml2.h" />
+    <ClInclude Include="code\include\GUI\GUI.h" />
+    <ClInclude Include="code\include\GUI\GUIbase.h" />
+    <ClInclude Include="code\include\GUI\GUIbutton.h" />
+    <ClInclude Include="code\include\GUI\GUIdropdownMenu.h" />
+    <ClInclude Include="code\include\GUI\GUIframe.h" />
+    <ClInclude Include="code\include\GUI\GUIgrid.h" />
+    <ClInclude Include="code\include\GUI\GUIimage.h" />
+    <ClInclude Include="code\include\GUI\GUIlabel.h" />
+    <ClInclude Include="code\include\GUI\GUIrenderer.h" />
+    <ClInclude Include="code\include\GUI\GUIrenderer_default.h" />
+    <ClInclude Include="code\include\GUI\GUIrenderer_win98.h" />
+    <ClInclude Include="code\include\GUI\GUIscrollbar.h" />
+    <ClInclude Include="code\include\GUI\GUIselectable.h" />
+    <ClInclude Include="code\include\GUI\GUItextentry.h" />
+    <ClInclude Include="code\include\GUI\GUIwindow.h" />
+    <ClInclude Include="code\include\GUI\GUI_internal.h" />
+    <ClInclude Include="code\include\GUI\GUI_property.h" />
+    <ClInclude Include="code\include\GUI\GUI_types.h" />
+    <ClInclude Include="code\include\GUI\readme_GUI.h" />
+    <ClInclude Include="code\include\input\input.h" />
+    <ClInclude Include="code\include\input\keybinds.h" />
+    <ClInclude Include="code\include\main\framework_gui.h" />
+    <ClInclude Include="code\include\math\geometry.h" />
+    <ClInclude Include="code\include\program\pipe.h" />
+    <ClInclude Include="code\include\render\paintHelper.h" />
+    <ClInclude Include="code\include\render\render_gui.h" />
+    <ClInclude Include="code\include\util\elastic_ptr.h" />
+    <ClInclude Include="code\include\util\globals_gui.h" />
+    <ClInclude Include="code\include\util\global_vars_gui.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

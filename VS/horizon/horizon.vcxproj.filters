@@ -25,9 +25,6 @@
     <Filter Include="Header Files\generators">
       <UniqueIdentifier>{2ee0a916-ce4a-401c-b437-8dfe5caabc2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GUI">
-      <UniqueIdentifier>{48c6b5f8-0800-49cc-a6b6-d74bc732aea3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\input">
       <UniqueIdentifier>{5a569396-ab33-40d7-bba2-32b61e0f974c}</UniqueIdentifier>
     </Filter>
@@ -39,9 +36,6 @@
     </Filter>
     <Filter Include="Header Files\math">
       <UniqueIdentifier>{07bd4167-665d-46e0-8c93-51fcd51712cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\program">
-      <UniqueIdentifier>{50fb2228-c362-451b-82d7-fb20cec4a048}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\render">
       <UniqueIdentifier>{66ebc0cd-4de8-49cc-ba06-d4f8b342a3a4}</UniqueIdentifier>
@@ -198,70 +192,7 @@
     <ClInclude Include="..\..\code\include\generators\physbox.h">
       <Filter>Header Files\generators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUI.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUI_internal.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUI_property.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUI_types.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIbase.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIbutton.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIdropdownMenu.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIframe.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIgrid.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIimage.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIlabel.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIrenderer.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIrenderer_default.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIrenderer_win98.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIscrollbar.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIselectable.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUItextentry.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\GUIwindow.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\GUI\readme_GUI.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\input\input.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\input\inputController.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\input\keybinds.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\loaders\fontLoader.h">
@@ -294,31 +225,13 @@
     <ClInclude Include="..\..\code\include\math\fancymath.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\include\math\geometry.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\math\simplemath.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\math\vec.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\util\animation.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\util\config.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\util\debug.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\include\util\elastic_ptr.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\util\event.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\util\globals.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\util\hook.h">
@@ -333,13 +246,7 @@
     <ClInclude Include="..\..\code\include\util\paramList.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\include\util\stringUtils.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\util\timer.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\util\util.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\thread\threads.h">
@@ -348,56 +255,11 @@
     <ClInclude Include="..\..\code\include\resource\atlas.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\code\include\resource\bitmap.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\resource\fonts.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\resource\model.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\resource\resource.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\resource\texture.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\code\include\render\camera.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\GPUdriver.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\code\include\render\paint.h">
       <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\paintHelper.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\printw.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\render.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\renderCommand.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\renderLayer.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\renderLow.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\render\rmodel.h">
-      <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\program\file.h">
-      <Filter>Header Files\program</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\program\window.h">
-      <Filter>Header Files\program</Filter>
     </ClInclude>
     <ClInclude Include="..\..\codeExt\includeExt\freetype\freetype.h">
       <Filter>Header Files\external\freetype</Filter>
@@ -1325,12 +1187,6 @@
     </ClInclude>
     <ClInclude Include="..\..\codeExt\includeExt\SDL2\SDL_video.h">
       <Filter>Header Files\external\SDL2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\util\dll_io.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\code\include\program\pipe.h">
-      <Filter>Header Files\program</Filter>
     </ClInclude>
     <ClInclude Include="todo.h">
       <Filter>Header Files</Filter>

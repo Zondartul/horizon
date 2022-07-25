@@ -1,10 +1,10 @@
 #ifndef RENDERCOMMAND_GUARD
 #define RENDERCOMMAND_GUARD
+#include "render/camera.h"
+#include "util/stringUtils.h"
 #include "math/vec.h"
 #include <string>
-#include "render/camera.h"
 using std::string;
-#include "util/stringUtils.h"
 
 class renderLayer;
 struct texture;
@@ -13,7 +13,7 @@ struct camprojection;
 struct font;
 
 enum RC3T{
-        ERROR = 0,
+        E_ERROR = 0,
         COLORING,           UVCOLORING,         NORMALCOLORING,
         TRANSPARENCY,       DEPTHMASK,          TEXTURING,
         DEBUG,              SCISSORING,         DEPTH_TEST,

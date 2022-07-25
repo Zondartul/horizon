@@ -75,7 +75,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\source\main\dllmain.cpp">
+    <ClCompile Include="code\source\main\dllmain_render.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="code\source\math\simplemath.cpp">
@@ -150,9 +150,6 @@
     <ClCompile Include="code\source\util\timer.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\util\event.cpp">
-      <Filter>Header Files\util</Filter>
-    </ClCompile>
     <ClCompile Include="code\source\render\camera.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
@@ -161,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="code\source\input\mouse.cpp">
       <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\event.cpp">
+      <Filter>Source Files\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +185,7 @@
     <ClInclude Include="code\include\program\file.h">
       <Filter>Header Files\program</Filter>
     </ClInclude>
-    <ClInclude Include="code\include\program\framework.h">
+    <ClInclude Include="code\include\program\framework_render.h">
       <Filter>Header Files\program</Filter>
     </ClInclude>
     <ClInclude Include="code\include\program\window.h">

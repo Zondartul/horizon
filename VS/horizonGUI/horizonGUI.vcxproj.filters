@@ -34,171 +34,207 @@
     <Filter Include="Source Files\program">
       <UniqueIdentifier>{dd47c56e-70b7-43fd-8153-ec8c1a905a93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\resource">
-      <UniqueIdentifier>{aaf2a758-f1f4-4a3b-9e90-4f972c5c62f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Ext">
       <UniqueIdentifier>{f77bf439-8e8b-4b34-a8c5-5da56ea1a22f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Ext\tinyXML2">
       <UniqueIdentifier>{06d47a12-1eb3-4cf7-828b-47e1563b86e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\loaders">
-      <UniqueIdentifier>{747c393f-4c2f-4fa6-b5fe-14a94939af64}</UniqueIdentifier>
+    <Filter Include="Header Files\Ext">
+      <UniqueIdentifier>{72a28352-8d53-46b5-af2a-9484e1a2d1b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\tinyXML2">
+      <UniqueIdentifier>{9677ea44-5a53-495c-b3b9-52d7620513ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{0044ada9-e3c5-4589-b694-2648326681d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{63db98a9-aa33-482e-8f1e-988cec2e7ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{c5588dcb-ce0c-4e10-9d93-a9d0904c1c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{5caa87d0-14f6-4051-8c23-0045d2021c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{f8e483c7-6b99-442a-82a9-1fa475cc554a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\program">
+      <UniqueIdentifier>{5d47f258-1d43-4a76-97f0-e0d35860cd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\render">
+      <UniqueIdentifier>{4bd3ba9b-96cf-4fbe-b4e7-f3900f3910e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\util\elastic_ptr.cpp">
+    <ClCompile Include="code\source\util\elastic_ptr.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
-    <ClCompile Include="code\util\event.cpp">
+    <ClCompile Include="code\source\util\global_vars_gui.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
-    <ClCompile Include="code\util\global_vars_gui.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\util\hook.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\util\stringUtils.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\util\timer.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\resource\atlas.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\resource\bitmap.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\resource\resource.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\resource\texture.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\camera.cpp">
+    <ClCompile Include="code\source\render\render_gui.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
-    <ClCompile Include="code\render\paint.cpp">
+    <ClCompile Include="code\source\render\paintHelper.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
-    <ClCompile Include="code\render\paintHelper.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\printw.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\render.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\renderCommand.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\renderLayer.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\render\rmodel.cpp">
-      <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\program\file.cpp">
+    <ClCompile Include="code\source\program\pipe.cpp">
       <Filter>Source Files\program</Filter>
     </ClCompile>
-    <ClCompile Include="code\program\pipe.cpp">
-      <Filter>Source Files\program</Filter>
-    </ClCompile>
-    <ClCompile Include="code\math\fancymath.cpp">
+    <ClCompile Include="code\source\math\geometry.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="code\math\geometry.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\math\simplemath.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\math\vec.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\main\dllmain.cpp">
+    <ClCompile Include="code\source\main\dllmain_gui.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="code\loaders\fontLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\loaders\imageLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\loaders\textureLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\input\input.cpp">
+    <ClCompile Include="code\source\input\input.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="code\input\mouse.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
-    <ClCompile Include="code\GUI\GUI.cpp">
+    <ClCompile Include="code\source\GUI\GUI_internal.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUI_internal.cpp">
+    <ClCompile Include="code\source\GUI\GUI_property.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUI_property.cpp">
+    <ClCompile Include="code\source\GUI\GUI_types.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUI_types.cpp">
+    <ClCompile Include="code\source\GUI\GUIbase.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIbase.cpp">
+    <ClCompile Include="code\source\GUI\GUIbutton.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIbutton.cpp">
+    <ClCompile Include="code\source\GUI\GUIdropdownMenu.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIdropdownMenu.cpp">
+    <ClCompile Include="code\source\GUI\GUIframe.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIframe.cpp">
+    <ClCompile Include="code\source\GUI\GUIgrid.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIgrid.cpp">
+    <ClCompile Include="code\source\GUI\GUIimage.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIimage.cpp">
+    <ClCompile Include="code\source\GUI\GUIlabel.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIlabel.cpp">
+    <ClCompile Include="code\source\GUI\GUIrenderer.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIrenderer.cpp">
+    <ClCompile Include="code\source\GUI\GUIrenderer_default.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIrenderer_default.cpp">
+    <ClCompile Include="code\source\GUI\GUIscrollbar.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIscrollbar.cpp">
+    <ClCompile Include="code\source\GUI\GUIselectable.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIselectable.cpp">
+    <ClCompile Include="code\source\GUI\GUItextentry.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUItextentry.cpp">
+    <ClCompile Include="code\source\GUI\GUIwindow.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="code\GUI\GUIwindow.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="code\Ext\tinyXML2\tinyxml2.cpp">
+    <ClCompile Include="code\source\Ext\tinyXML2\tinyxml2.cpp">
       <Filter>Source Files\Ext\tinyXML2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\framework.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="code\include\Ext\tinyXML2\tinyxml2.h">
+      <Filter>Header Files\Ext\tinyXML2</Filter>
     </ClInclude>
-    <ClInclude Include="include\global_vars_gui.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="code\include\GUI\GUI.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUI_internal.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUI_property.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUI_types.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIbase.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIbutton.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIdropdownMenu.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIframe.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIgrid.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIimage.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIlabel.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIrenderer.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIrenderer_default.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIrenderer_win98.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIscrollbar.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIselectable.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUItextentry.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\GUIwindow.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\GUI\readme_GUI.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\main\framework_gui.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\global_vars_gui.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\input.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\math\geometry.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\pipe.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\paintHelper.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\elastic_ptr.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\globals_gui.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\keybinds.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\render_gui.h">
+      <Filter>Header Files\render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

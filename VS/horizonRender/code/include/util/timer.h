@@ -25,7 +25,7 @@ void simpletimer(function<void(timer *T)> F, int ticks_max);
 void timersTick();
 int getGameTicks();
 float getGameTime();
-float getRealTime();
+DLLAPI_RENDER float getRealTime();
 int getCalendarTime();
 string getCalendarTimeStr();
 int getCalendarDate();

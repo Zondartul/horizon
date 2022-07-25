@@ -34,6 +34,9 @@ private:
 	renderQueue3 queue3;
 };
 string toString(renderLayer *l);
+void setupLayer3D();
+void setupLayer2D();
+void setupLayers();
 
 struct gs_renderLayerKind {
 	vector<renderLayer*> g_all_layers;

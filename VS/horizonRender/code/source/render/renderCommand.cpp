@@ -46,7 +46,7 @@ string toString(RC3T type){
     return "<error>";
 }
 
-renderCommand3::renderCommand3(){type = RC3T::ERROR;}
+renderCommand3::renderCommand3(){type = RC3T::E_ERROR;}
 
 renderCommand3::renderCommand3(RC3T type, ...):type(type){
     va_list args;

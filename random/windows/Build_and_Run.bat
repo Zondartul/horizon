@@ -1,1 +1,0 @@
-cd ..\common && mingw32-make && bin\a.exe
