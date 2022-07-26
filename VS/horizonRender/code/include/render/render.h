@@ -1,9 +1,10 @@
 #ifndef RENDER_GUARD
 #define RENDER_GUARD
+#include "resource/fonts.h"
 #include "math/vec.h"
+#include "util/globals_render.h"
 #include <vector>
 using std::vector;
-#include "resource/fonts.h"
 
 /*
 	How render works:
@@ -40,7 +41,7 @@ struct texture;
 class renderLayer;
 struct camprojection;
 
-struct renderOptions{
+struct DLLAPI_RENDER renderOptions{
 	bool wireframe = false;
 	bool texturing = true;
 	bool lighting = true;

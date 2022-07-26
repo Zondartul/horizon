@@ -1,8 +1,9 @@
 #ifndef RESOURCE_GUARD
 #define RESOURCE_GUARD
+#include "util/globals_render.h"
+#include <vector>
 #include <string>
 using std::string;
-#include <vector>
 using std::vector;
 //central resource/asset manager, owns all CPU-side resources.
 //										network
@@ -18,16 +19,16 @@ struct texture;
 class model;
 struct font;
 
-bitmap *getBmage(string name);
-texture *getTexture(string name);
-texture *getModelTexture(string name);
-model *getModel(string name);
-font *getFont(string name);
+bitmap DLLAPI_RENDER *getBmage(string name);
+texture DLLAPI_RENDER *getTexture(string name);
+texture DLLAPI_RENDER *getModelTexture(string name);
+model DLLAPI_RENDER *getModel(string name);
+font DLLAPI_RENDER *getFont(string name);
 
-vector<bitmap*> listBitmaps();
-vector<texture*> listTextures();
-vector<model*> listModels();
-vector<font*> listFonts();
+vector<bitmap*> DLLAPI_RENDER listBitmaps();
+vector<texture*> DLLAPI_RENDER listTextures();
+vector<model*> DLLAPI_RENDER listModels();
+vector<font*> DLLAPI_RENDER listFonts();
 
 //about textures, bitmap, atlases and materials:
 // bmp contains picture data
@@ -53,6 +54,6 @@ vector<font*> listFonts();
 //
 //
 //
-void loadAssets();
+void DLLAPI_RENDER loadAssets();
 
 #endif

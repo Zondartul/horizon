@@ -1,11 +1,12 @@
 #ifndef RMODEL_GUARD
 #define RMODEL_GUARD
 #include "math/vec.h"
+#include "util/globals_render.h"
 #include <vector>
 using std::vector;
 class model;
 
-class rmodel{
+class DLLAPI_RENDER rmodel{
 	public:
 	vector<vec3> *vertices;
 	vector<vec3> *colors;
@@ -19,7 +20,7 @@ class rmodel{
 	void clear();
 };
 
-struct rmpack{
+struct DLLAPI_RENDER rmpack{
 	union{
 		rmodel *rm[4];
 		struct{

@@ -1,6 +1,7 @@
 #ifndef MODEL_GUARD
 #define MODEL_GUARD
 #include "math/vec.h"
+#include "util/globals_render.h"
 #include <vector>
 #include <string>
 using std::vector;
@@ -8,19 +9,19 @@ using std::string;
 struct texture;
 class rmodel;
 
-struct vertex{
+struct DLLAPI_RENDER vertex{
 	vec3 pos;
 	vec3 normal;
 	vec2 uv;
 };
 
-struct triangle{
+struct DLLAPI_RENDER triangle{
 	vertex v[3];
 };
 
 struct e_model;
 
-class model{
+class DLLAPI_RENDER model{
 public:
 	string name;
 	vector<triangle> tris;

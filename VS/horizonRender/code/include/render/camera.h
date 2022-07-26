@@ -1,14 +1,19 @@
 #ifndef CAMERA_GUARD
 #define CAMERA_GUARD
 #include "math/vec.h"
+#include "util/globals_render.h"
+#include "util/stringUtils.h"
 
-enum z_meaning {Z_IS_DISTANCE, Z_IS_PLANE, Z_IS_ORTHODOX};
-struct camprojection{
+enum DLLAPI_RENDER z_meaning {Z_IS_DISTANCE, Z_IS_PLANE, Z_IS_ORTHODOX};
+
+struct DLLAPI_RENDER camprojection{
 	mat4 MVP;
 	vec3 pos;
 };
+
 struct bitmap;
-class cameraKind{ 
+
+class DLLAPI_RENDER cameraKind{ 
 public:
 	glm::mat4 mView;			
 	glm::mat4 mProjection;		
@@ -43,9 +48,14 @@ public:
 	void screenRead(rect R, bitmap *Bmp);
 	camprojection getProjection();
 };
-void go3D();
-void go2D();
-struct gs_cameraKind {
+void DLLAPI_RENDER go3D();
+void DLLAPI_RENDER go2D();
+
+struct DLLAPI_RENDER gs_cameraKind {
 	cameraKind g_camera;
 };
+
+//---- stringUtils:
+DLLAPI_RENDER string toString(camprojection);	template<> camprojection fromString<camprojection>(const string S);
+
 #endif

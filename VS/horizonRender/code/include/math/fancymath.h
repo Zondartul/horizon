@@ -11,14 +11,18 @@ using std::vector;
 using std::pair;
 using std::runtime_error;
 
-void pack2D(vector<vec2> sizes,
+void DLLAPI_RENDER pack2D(vector<vec2> sizes,
 			vec2 binsize,
 			bool sort,
 			vector<vec2> *results,
 			vector<int> *packed,
 			int *heightNeeded);
-vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
-template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, float pos){
+
+vec2 DLLAPI_RENDER pack2DfindClosestPOT(vector<vec2> sizes, bool sort);
+
+template<typename VT> 
+VT DLLAPI_RENDER interpolate_nearest(vector<pair<VT,float>> scatter, float pos)
+{
 	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); }//{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
@@ -30,7 +34,10 @@ template<typename VT> VT interpolate_nearest(vector<pair<VT,float>> scatter, flo
 	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
-template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, float pos){
+
+template<typename VT> 
+VT DLLAPI_RENDER interpolate_linear(vector<pair<VT,float>> scatter, float pos)
+{
 	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); }//{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
@@ -47,7 +54,10 @@ template<typename VT> VT interpolate_linear(vector<pair<VT,float>> scatter, floa
 	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
-template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float pos){
+
+template<typename VT> 
+VT DLLAPI_RENDER interpolate_cubic(vector<pair<VT,float>> scatter, float pos)
+{
 	if (scatter.size() == 0) { throw runtime_error("nothing to interpolate"); } //{error("nothing to interpolate");}
 	if (scatter.size() == 1){return scatter.front().first;}
 	if (pos < scatter.front().second){return scatter.front().first;}
@@ -74,4 +84,5 @@ template<typename VT> VT interpolate_cubic(vector<pair<VT,float>> scatter, float
 	throw runtime_error("unreachable code");//error("unreachable code");
 	return scatter.front().first;
 }
+
 #endif

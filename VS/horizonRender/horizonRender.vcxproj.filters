@@ -162,6 +162,9 @@
     <ClCompile Include="code\source\util\event.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="code\source\util\util.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\Ext\dirent\dirent.h">

@@ -6,8 +6,8 @@ using std::vector;
 
 void apply(renderOptions O, renderLayer* L);
 void applyImmediate(renderOptions O);
-void pushRenderOptions();
-void popRenderOptions();
+//void pushRenderOptions();
+//void popRenderOptions();
 class renderable {
 public:
 	vec3 pos = vec3(0, 0, 0);

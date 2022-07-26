@@ -12,7 +12,7 @@ class rmodel;
 struct camprojection;
 struct font;
 
-enum RC3T{
+enum DLLAPI_RENDER RC3T{
         E_ERROR = 0,
         COLORING,           UVCOLORING,         NORMALCOLORING,
         TRANSPARENCY,       DEPTHMASK,          TEXTURING,
@@ -31,9 +31,9 @@ enum RC3T{
         READ_PIXELS,        FACE_CULLING,       FACE_CULL_CCW,
         VIEWPORT
 };
-string toString(RC3T);
+string DLLAPI_RENDER toString(RC3T);
 //takes up 20 bytes (so an average frame is 40 kb)
-struct renderCommand3{
+struct DLLAPI_RENDER renderCommand3{
     renderCommand3();
     renderCommand3(const renderCommand3 &other) = delete; //may own stuff, so can't be copied.
     renderCommand3(RC3T type, ...);
@@ -61,6 +61,6 @@ struct renderCommand3{
         void* buff;
     };
 };
-string toString(renderCommand3 *rcmd);
+string DLLAPI_RENDER toString(renderCommand3 *rcmd);
 
 #endif // RENDERCOMMAND_H_INCLUDED

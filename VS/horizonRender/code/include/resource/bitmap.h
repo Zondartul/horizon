@@ -1,6 +1,7 @@
 #ifndef BITMAP_GUARD
 #define BITMAP_GUARD
 #include "math/vec.h"
+#include "util/globals_render.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -9,18 +10,18 @@ using std::shared_ptr;
 using std::string;
 //functions to manipulate bitmaps
 
-enum pixelFormat{TL_ALPHA, TL_RGB, TL_RGBA, TL_LUMINANCE, TL_LUMINANCE_ALPHA};
+enum DLLAPI_RENDER pixelFormat{TL_ALPHA, TL_RGB, TL_RGBA, TL_LUMINANCE, TL_LUMINANCE_ALPHA};
 
-struct pixel{
+struct DLLAPI_RENDER pixel{
 	int R;
 	int G;
 	int B;
 	int A;
-
 };
 ///Used to store raw image data and manipulate it.
 typedef shared_ptr<vector<unsigned char>> bytebuff;
-struct bitmap{
+
+struct DLLAPI_RENDER bitmap{
 	//data 
 	string name;
 	int height;///<height in pixels
@@ -69,8 +70,9 @@ struct bitmap{
 };
 
 ///tells you how many bytes are needed to represent a pixel at a given format
-int bytesPerPixel(pixelFormat F);	
+int DLLAPI_RENDER bytesPerPixel(pixelFormat F);
 
 ///creates a bitmap and fills it with a color.
-bitmap blankBitmap(int height, int width, pixelFormat format);
+bitmap DLLAPI_RENDER blankBitmap(int height, int width, pixelFormat format);
+
 #endif

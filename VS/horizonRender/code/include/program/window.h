@@ -12,22 +12,22 @@ using std::string;
 //extern int g_height;
 vec2 DLLAPI_RENDER getScreenSize(void);
 
-void OpenGL_printVersion();
-void OpenGL_getVersion(const unsigned char **version, const char **profile);
-void OpenGL_init();
+void DLLAPI_RENDER OpenGL_printVersion();
+void DLLAPI_RENDER OpenGL_getVersion(const unsigned char **version, const char **profile);
+void DLLAPI_RENDER OpenGL_init();
 void DLLAPI_RENDER OpenGL_swap();
 
 //creates the main window and calls opengl_init
 void DLLAPI_RENDER window_init(int h, int w);
 
 //pumps system messages, ignores everything buit "quit".
-void sysMessageBlankTick();
+void DLLAPI_RENDER sysMessageBlankTick();
 //sends messages to inputController
-void sysMessageTick();
+void DLLAPI_RENDER sysMessageTick();
 
-extern map<string,bool> g_keyboardState;
+extern map<string,bool> DLLAPI_RENDER g_keyboardState;
 
-struct gs_windowKind {
+struct DLLAPI_RENDER gs_windowKind {
 	int g_height;
 	int g_width;
 

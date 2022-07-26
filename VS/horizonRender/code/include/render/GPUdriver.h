@@ -1,17 +1,18 @@
 #ifndef GPU_DRIVER_GUARD
 #define GPU_DRIVER_GUARD
-#include "resource/fonts.h"
-#include "resource/bitmap.h"
-#include "math/vec.h"
 
 #ifndef NO_GLEW
 #include "Ext/GL/glew.h"
 #endif
 
+#include "resource/fonts.h"
+#include "resource/bitmap.h"
+#include "math/vec.h"
 #include "render/rmodel.h"
 #include "render/renderLayer.h"
+#include "util/globals_render.h"
 
-struct renderStateKind{
+struct DLLAPI_RENDER renderStateKind{
 	public:
 	int renderMode = 0; //1 - points, 2 - edges, 3 - triangles
 	font *fnt = 0;
@@ -25,7 +26,7 @@ struct renderStateKind{
 	int width = 0;
 };
 
-struct GPUdriverKind {
+struct DLLAPI_RENDER GPUdriverKind {
 	renderStateKind renderState;
 
 	int numVerts = 0;

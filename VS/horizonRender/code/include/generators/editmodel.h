@@ -7,6 +7,8 @@
 #include <vector>
 #include <set>
 #include <stdexcept>
+#include <string>
+using std::string;
 using std::list;
 using std::vector;
 using std::set;
@@ -17,7 +19,7 @@ class e_edge;
 class e_triangle;
 struct e_model;
 class e_face;
-struct e_selection{
+struct DLLAPI_RENDER e_selection{
 	vector<e_vertex*>	verts;
 	vector<e_edge*>		edges;
 	vector<e_triangle*>	tris;
@@ -64,7 +66,8 @@ struct e_selection{
 	void render();
 	vector<e_selection> extrude();
 };
-class e_element{
+
+class DLLAPI_RENDER e_element{
 	public:
 	e_selection definition;
 	e_selection parts;
@@ -73,18 +76,21 @@ class e_element{
 	e_element() = delete;
 	e_element(e_model *EM);
 };
-class e_vertex:public e_element{
+
+class DLLAPI_RENDER e_vertex:public e_element{
 	public:
 	vec3 pos = {0,0,0};
 	e_vertex() = default;
 	e_vertex(vec3 pos, e_model *EM);
 };
-class e_edge:public e_element{
+
+class DLLAPI_RENDER e_edge:public e_element{
 	public:
 	e_edge() = default;
 	e_edge(e_vertex *A, e_vertex *B, e_model *EM);
 };
-class e_triangle:public e_element{
+
+class DLLAPI_RENDER e_triangle:public e_element{
 	public:
 	vec2 uvs[3];
 	vec3 face_normal;
@@ -92,13 +98,15 @@ class e_triangle:public e_element{
 	e_triangle() = default;
 	e_triangle(e_vertex *A, e_vertex *B, e_vertex *C, e_model *EM);
 };
-class e_face:public e_element{
+
+class DLLAPI_RENDER e_face:public e_element{
 	public:
 	e_face() = default;
 	e_face(vector<e_triangle*> tris, e_model *EM);
 	void recalcEdges(); 
 };
-template<typename T> T& listGet(list<T> &L,int N){
+
+template<typename T> T &listGet(list<T> &L,int N){
 	if(N >= L.size()){
 		//error("index out of bounds");
 		throw runtime_error("index out of bounds");
@@ -107,7 +115,7 @@ template<typename T> T& listGet(list<T> &L,int N){
 	while(N--){ I++;} 
 	return *I;
 }
-struct e_model{
+struct DLLAPI_RENDER e_model{
 	list<e_vertex*> verts;
 	list<e_edge*> edges;
 	list<e_triangle*> tris;
@@ -125,7 +133,6 @@ struct e_model{
 	rmodel *getRmodel(int mode = 2);						
 	rmpack getRmpack();
 };
-#include <string>
-using std::string;
+
 string toString(e_model *EM);
 #endif

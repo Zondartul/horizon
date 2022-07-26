@@ -201,6 +201,7 @@
     <ClCompile Include="code\source\util\hook.cpp" />
     <ClCompile Include="code\source\util\stringUtils.cpp" />
     <ClCompile Include="code\source\util\timer.cpp" />
+    <ClCompile Include="code\source\util\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\Ext\dirent\dirent.h" />

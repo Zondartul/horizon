@@ -1,4 +1,5 @@
 #pragma once
+#include "globals_render.h"
 struct gs_paintKind;
 struct gs_renderLayerKind;
 struct gs_windowKind;
@@ -6,7 +7,7 @@ struct gs_printwKind;
 struct gs_renderLowKind;
 class sysTimerKind;
 
-struct GlobalsRender {
+struct DLLAPI_RENDER GlobalsRender {
 	GlobalsRender();
 
 	struct gs_paintKind* gs_paint;
@@ -21,4 +22,4 @@ struct GlobalsRender {
 	struct gs_cameraKind* gs_camera;
 };
 
-extern GlobalsRender* Gr;
+extern DLLAPI_RENDER GlobalsRender* Gr;

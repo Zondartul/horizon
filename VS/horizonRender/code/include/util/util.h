@@ -1,22 +1,23 @@
 #ifndef UTIL_GUARD
 #define UTIL_GUARD
-#include "stdlib.h"
+#include "util/globals_render.h"
+#include <cstdlib>
 #include <exception>
-using std::exception;
 #include <string>
+using std::exception;
 using std::string;
 
-void initUtil();
-void selfdestruct();
+void DLLAPI_RENDER initUtil();
+void DLLAPI_RENDER selfdestruct();
 
-template <typename T> T* copyToHeap(T &obj){
+template <typename T> T *copyToHeap(T &obj){
     T* ptr = new T();
     *ptr = obj;
     return ptr;
 }
 
 
-struct logmessage{
+struct DLLAPI_RENDER logmessage{
     float time;
     string msg;
     string file;
@@ -25,9 +26,9 @@ struct logmessage{
     logmessage(string msg_);   //only message
     logmessage(const logmessage& lmsg); //copy-constructor
 };
-string toString(logmessage);
+string DLLAPI_RENDER toString(logmessage);
 
-class exKind : public exception {
+class DLLAPI_RENDER exKind : public exception {
     public:
     logmessage msg;
     exKind(logmessage msg_);
@@ -39,10 +40,10 @@ class exKind : public exception {
 //code generation macro to declare and define the operator functions that
 //perform bitwise operations (|, &, |= etc) on class-enums.
 #define DECLARE_enum_class_bitwise_operators(T) \
-	bool operator|(T lhs, T rhs); \
-	bool operator&(T lhs, T rhs); \
-	T & operator|=(T & lhs, T rhs); \
-	T & operator&=(T & lhs, T rhs); 
+	DLLAPI_RENDER bool operator|(T lhs, T rhs); \
+	DLLAPI_RENDER bool operator&(T lhs, T rhs); \
+	DLLAPI_RENDER T & operator|=(T & lhs, T rhs); \
+	DLLAPI_RENDER T & operator&=(T & lhs, T rhs); 
 
 //was T operator op (so T | T = T), now is bool (for testing as a bitfield)
 //because we can't easily make a T to bool implicit

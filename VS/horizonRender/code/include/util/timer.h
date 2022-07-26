@@ -1,6 +1,7 @@
 #ifndef TIMER_GUARD
 #define TIMER_GUARD
 #include "util/event.h"
+#include "util/globals_render.h"
 #include <functional>
 #include <string>
 #include <list>
@@ -8,7 +9,7 @@ using std::function;
 using std::string;
 using std::list;
 
-class timer{
+class DLLAPI_RENDER timer{
 	public:
 	int ticks_max;
 	int ticks_left;
@@ -21,15 +22,16 @@ class timer{
 	~timer();
 	void tick();
 };
-void simpletimer(function<void(timer *T)> F, int ticks_max);
-void timersTick();
-int getGameTicks();
-float getGameTime();
+
+void DLLAPI_RENDER simpletimer(function<void(timer *T)> F, int ticks_max);
+void DLLAPI_RENDER timersTick();
+int DLLAPI_RENDER getGameTicks();
+float DLLAPI_RENDER getGameTime();
 DLLAPI_RENDER float getRealTime();
-int getCalendarTime();
-string getCalendarTimeStr();
-int getCalendarDate();
-string getCalendarDateStr();
+int DLLAPI_RENDER getCalendarTime();
+string DLLAPI_RENDER getCalendarTimeStr();
+int DLLAPI_RENDER getCalendarDate();
+string DLLAPI_RENDER getCalendarDateStr();
 
 //void initTimers();
 
@@ -39,7 +41,7 @@ string getCalendarDateStr();
 //	float g_t2 = 0;	
 //};
 
-class sysTimerKind {
+class DLLAPI_RENDER sysTimerKind {
 public:
 	sysTimerKind(sysEventKind &sysEvent);
 	list<timer*> timers;

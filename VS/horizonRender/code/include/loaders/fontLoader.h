@@ -1,6 +1,8 @@
 #ifndef FONTLOADER_GUARD
 #define FONTLOADER_GUARD
-void initFreeType();
+#include "util/globals_render.h"
+
+void DLLAPI_RENDER initFreeType();
 struct font;
-font *loadFont(const char *fontpath, int size);
+font DLLAPI_RENDER *loadFont(const char *fontpath, int size);
 #endif

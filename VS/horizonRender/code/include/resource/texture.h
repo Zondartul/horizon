@@ -1,12 +1,13 @@
 #ifndef TEXTURE_GUARD
 #define TEXTURE_GUARD
+#include "math/vec.h"
+#include "util/globals_render.h"
 #include <string>
 using std::string;
-#include "math/vec.h"
 
 struct bitmap;
 
-struct texture{
+struct DLLAPI_RENDER texture{
 	string name;
 	texture();
 	int w();

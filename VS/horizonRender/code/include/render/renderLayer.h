@@ -5,6 +5,7 @@
 #include "render/renderCommand.h"
 #include "util/stringUtils.h"
 #include "util/util.h"
+#include "util/globals_render.h"
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -14,7 +15,7 @@ using std::string;
 
 typedef vector<renderCommand3*> renderQueue3;
 
-class renderLayer {
+class DLLAPI_RENDER renderLayer {
 public:
 	string name;
 	bool persistent = true;
@@ -33,12 +34,12 @@ public:
 private:
 	renderQueue3 queue3;
 };
-string toString(renderLayer *l);
-void setupLayer3D();
-void setupLayer2D();
-void setupLayers();
+string DLLAPI_RENDER toString(renderLayer *l);
+void DLLAPI_RENDER setupLayer3D();
+void DLLAPI_RENDER setupLayer2D();
+void DLLAPI_RENDER setupLayers();
 
-struct gs_renderLayerKind {
+struct DLLAPI_RENDER gs_renderLayerKind {
 	vector<renderLayer*> g_all_layers;
 	vector<renderLayer*> g_layers;
 };

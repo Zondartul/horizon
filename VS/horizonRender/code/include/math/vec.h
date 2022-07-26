@@ -8,6 +8,7 @@
 #include "Ext/glm/gtc/quaternion.hpp"
 #pragma warning(pop) //that's their problem, not mine
 #include "util/globals_render.h"
+#include "util/stringUtils.h"
 #include <string>
 using std::string;
 using glm::mat4;
@@ -45,9 +46,9 @@ using glm::quat;
         quat slerp(quat Q1, quat Q2, float factor); //spherical linear interpolation at const speed, factor between 0.0 and 1.0
     }
 */
-string toString(quat q);
-quat toQuat(vec3 angleVec);
-quat slerpAngle(quat Q1, quat Q2, float angle); //moves at most <angle> radians from Q1 to Q2.
+string DLLAPI_RENDER toString(quat q);
+quat DLLAPI_RENDER toQuat(vec3 angleVec);
+quat DLLAPI_RENDER slerpAngle(quat Q1, quat Q2, float angle); //moves at most <angle> radians from Q1 to Q2.
 
 //vanilla glm normalize(vec3) evaluates to NaN if length(vec3) is 0
 //for that reason, overriding normalize to normalizeSafe
@@ -56,26 +57,26 @@ quat slerpAngle(quat Q1, quat Q2, float angle); //moves at most <angle> radians 
 #define normalize(x) normalizeSafe(x)
 #endif
 
-vec3 rotate(vec3 V, vec3 Angle);
-vec3 clamp(vec3 A, vec3 min, vec3 max);
-vec3 operator/(vec3 A, float N);
-vec3 operator*(vec3 A, float N);
+vec3 DLLAPI_RENDER rotate(vec3 V, vec3 Angle);
+vec3 DLLAPI_RENDER clamp(vec3 A, vec3 min, vec3 max);
+vec3 DLLAPI_RENDER operator/(vec3 A, float N);
+vec3 DLLAPI_RENDER operator*(vec3 A, float N);
 
-vec2 clamp(vec2 A, vec2 min, vec2 max);
-vec2 operator/(vec2 A, float N);
-vec2 operator*(vec2 A, float N);
-vec2 normalizeSafe(vec2 V);
-vec3 normalizeSafe(vec3 V);
-vec2 toVec2(vec3 A);
-vec3 toVec3(vec2 A,float z = 0.f);
+vec2 DLLAPI_RENDER clamp(vec2 A, vec2 min, vec2 max);
+vec2 DLLAPI_RENDER operator/(vec2 A, float N);
+vec2 DLLAPI_RENDER operator*(vec2 A, float N);
+vec2 DLLAPI_RENDER normalizeSafe(vec2 V);
+vec3 DLLAPI_RENDER normalizeSafe(vec3 V);
+vec2 DLLAPI_RENDER toVec2(vec3 A);
+vec3 DLLAPI_RENDER toVec3(vec2 A,float z = 0.f);
 
-vec3 setX(vec3 A, float x);
-vec3 setY(vec3 A, float y);
-vec3 setZ(vec3 A, float z);
+vec3 DLLAPI_RENDER setX(vec3 A, float x);
+vec3 DLLAPI_RENDER setY(vec3 A, float y);
+vec3 DLLAPI_RENDER setZ(vec3 A, float z);
 
-float cross(vec2 A, vec2 B);
-vec3 toVec3Angle(quat q);
-vec3 toVec3Angle(vec3 fwd);
+float DLLAPI_RENDER cross(vec2 A, vec2 B);
+vec3 DLLAPI_RENDER toVec3Angle(quat q);
+vec3 DLLAPI_RENDER toVec3Angle(vec3 fwd);
 
 
 struct DLLAPI_RENDER rect{
@@ -104,8 +105,8 @@ struct DLLAPI_RENDER rect{
 	vec2 bottomRightCorner();
 	vec2 center();
 };
-rect operator*(rect A, float N);
-bool operator==(rect A, rect B);
+rect DLLAPI_RENDER operator*(rect A, float N);
+bool DLLAPI_RENDER operator==(rect A, rect B);
 
 
 struct DLLAPI_RENDER AABB{
@@ -126,11 +127,18 @@ struct DLLAPI_RENDER AABB{
 };
 
 //builds 3x3 rotation matrices for rotating a vec3 by ang RADIANS around basic axes.
-mat3 xrotr(float ang);
-mat3 yrotr(float ang);
-mat3 zrotr(float ang);
+mat3 DLLAPI_RENDER xrotr(float ang);
+mat3 DLLAPI_RENDER yrotr(float ang);
+mat3 DLLAPI_RENDER zrotr(float ang);
 
 #define vec3_min(V1,V2) vec3(min((V1).x,(V2).x),min((V1).y,(V2).y),min((V1).z,(V2).z))
 #define vec3_max(V1,V2) vec3(max((V1).x,(V2).x),max((V1).y,(V2).y),max((V1).z,(V2).z))
+
+//------ stringUtils:
+DLLAPI_RENDER string toString(vec3);	template<> DLLAPI_RENDER vec3	fromString<vec3>(const string S);
+DLLAPI_RENDER string toString(vec2);	template<> DLLAPI_RENDER vec2	fromString<vec2>(const string S);
+DLLAPI_RENDER string toString(rect);	template<> DLLAPI_RENDER rect	fromString<rect>(const string S);
+DLLAPI_RENDER string toString(AABB);	template<> DLLAPI_RENDER AABB	fromString<AABB>(const string S);
+DLLAPI_RENDER string toString(mat4);	template<> DLLAPI_RENDER mat4	fromString<mat4>(const string S);
 
 #endif
