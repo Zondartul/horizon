@@ -202,6 +202,7 @@
     <ClInclude Include="code\include\input\input.h" />
     <ClInclude Include="code\include\input\keybinds.h" />
     <ClInclude Include="code\include\main\framework_gui.h" />
+    <ClInclude Include="code\include\main\main_gui.h" />
     <ClInclude Include="code\include\math\geometry.h" />
     <ClInclude Include="code\include\program\pipe.h" />
     <ClInclude Include="code\include\render\paintHelper.h" />

@@ -3,17 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizon", "horizon.vcxproj", "{08026C41-66BE-4025-B27E-78CBCD11E030}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E887020F-B2C7-4D85-BB2D-E4E66B4DC963} = {E887020F-B2C7-4D85-BB2D-E4E66B4DC963}
-		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B} = {5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonRender", "..\horizonRender\horizonRender.vcxproj", "{E887020F-B2C7-4D85-BB2D-E4E66B4DC963}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonOStools", "..\horizonOStools\horizonOStools.vcxproj", "{9C0C0DE3-C57D-4B0C-8307-35E1B4EEB06F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonGUI", "..\horizonGUI\horizonGUI.vcxproj", "{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "horizonApp", "..\horizonApp\horizonApp.vcxproj", "{F46A28B0-986B-4EB4-A165-FF9090C91E0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Debug|x64.ActiveCfg = Debug|x64
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Debug|x64.Build.0 = Debug|x64
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Debug|x86.ActiveCfg = Debug|Win32
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Debug|x86.Build.0 = Debug|Win32
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Release|x64.ActiveCfg = Release|x64
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Release|x64.Build.0 = Release|x64
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Release|x86.ActiveCfg = Release|Win32
-		{08026C41-66BE-4025-B27E-78CBCD11E030}.Release|x86.Build.0 = Release|Win32
 		{E887020F-B2C7-4D85-BB2D-E4E66B4DC963}.Debug|x64.ActiveCfg = Debug|x64
 		{E887020F-B2C7-4D85-BB2D-E4E66B4DC963}.Debug|x64.Build.0 = Debug|x64
 		{E887020F-B2C7-4D85-BB2D-E4E66B4DC963}.Debug|x86.ActiveCfg = Debug|Win32
@@ -53,6 +41,14 @@ Global
 		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x64.Build.0 = Release|x64
 		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x86.ActiveCfg = Release|Win32
 		{5D94DC42-3BC3-46F0-8A0E-5D9A832F107B}.Release|x86.Build.0 = Release|Win32
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Debug|x64.ActiveCfg = Debug|x64
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Debug|x64.Build.0 = Debug|x64
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Debug|x86.ActiveCfg = Debug|Win32
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Debug|x86.Build.0 = Debug|Win32
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Release|x64.ActiveCfg = Release|x64
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Release|x64.Build.0 = Release|x64
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Release|x86.ActiveCfg = Release|Win32
+		{F46A28B0-986B-4EB4-A165-FF9090C91E0F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

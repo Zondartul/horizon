@@ -3,6 +3,7 @@
 #include "Ext/dirent/dirent.h"
 #include "program/file.h"
 #include "util/globals_render.h"
+#include "resource/resource.h"
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
@@ -35,7 +36,12 @@ string locateResource(const char *type, const char *name){
 	if(!basepath){
 #ifndef NO_SDL
 		const char *err = SDL_GetError();
-		if(err){error("locateResource: SDL error: [%s]\n",err);}
+		if(err){
+			//error("locateResource: SDL error: [%s]\n",err);
+			stringstream ss;
+			ss << "locateResource: SDL error: [" << err << "]\n";
+			throw std::runtime_error(ss.str());
+		}
 #endif
 		basepath = "./";
 	}
@@ -186,6 +192,70 @@ bool isFolder(string filename){
 	else {printf("no\n");return false;}
 }
 
+texture *getFileIcon(string filename){
+	string ext = getFileExtension(filename);
+	texture *t = 0;
+	if(isFolder(filename)){
+		t = getTexture("gui/iconfolder");
+	}else
+	if(
+	(ext == "txt")||
+	(ext == "c")||
+	(ext == "cpp")||
+	(ext == "h")||
+	(ext == "hpp")||
+	(ext == "cfg")
+	){
+		t = getTexture("gui/iconfiletxt");
+	}
+	else
+	if(
+	(ext == "bmp")||
+	(ext == "png")||
+	(ext == "jpg")||
+	(ext == "jpeg")||
+	(ext == "img")
+	){
+		t = getTexture("gui/iconpicture");
+	}
+	else
+	if(
+	(ext == "zip")||
+	(ext == "rar")||
+	(ext == "gz")||
+	(ext == "7z")
+	){
+		t = getTexture("gui/iconzipfile");
+	}
+	else
+	if(
+	(ext == "exe")
+	){
+		t = getTexture("gui/iconfileexe");
+	}
+	else
+	if(
+	(ext == "bat")
+	){
+		t = getTexture("gui/iconfilecmd");
+	}
+	else
+	if(
+	(ext == "dll")
+	){
+		t = getTexture("gui/icongear2");
+	}
+	else
+	if(
+	(ext == "a")
+	){
+		t = getTexture("gui/iconfilegear");
+	}
+	else{
+		t = getTexture("gui/iconfile");
+	}
+	return t;
+}
 bool fileExists(string filename){
 	FILE *f = fopen(filename.c_str(),"r");
 	if(!f){return false;}

@@ -290,5 +290,8 @@
     <ClInclude Include="code\include\input\mouse.h">
       <Filter>Header Files\input</Filter>
     </ClInclude>
+    <ClInclude Include="code\include\util\event.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,27 +11,4 @@ public:
 	struct sysInputKind* sysInput;
 };
 
-//class DLLAPI_GUI GlobalsBtm {
-//public:
-//	GlobalsBtm();
-//	//struct gs_mainKind* gs_main;
-//	struct gs_renderLayerKind* gs_renderLayer;
-//	struct gs_paintKind* gs_paint;
-//	struct gs_windowKind* gs_window;
-//	//struct gs_timerKind* gs_timer;
-//	//struct gs_hookKind* gs_hook;
-//	class sysTimerKind* sysTimer;
-//	struct gs_cameraKind* gs_camera;
-//	//struct gs_eventKind* gs_event;
-//	class sysEventKind* sysEvent;
-//	//struct gs_inputKind* gs_input;
-//	class sysInputKind* sysInput;
-//	struct gs_renderKind* gs_render;
-//	struct gs_printwKind* gs_printw;
-//	//struct gs_keybindsKind* gs_keybinds;
-//	struct gs_resourceKind* gs_resource;
-//	//struct gs_debugKind* gs_debug;
-//};
-
-extern GlobalsGui *Gg;
-//extern GlobalsBtm *Gb;
+extern DLLAPI_GUI GlobalsGui *Gg;

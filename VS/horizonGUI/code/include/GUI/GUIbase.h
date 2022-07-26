@@ -1,6 +1,8 @@
 #ifndef GUIBASE_GUARD
 #define GUIBASE_GUARD
-class GUIbase:public eventListener, public elastic_ptr_anchor{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIbase:public eventListener, public elastic_ptr_anchor{
 	public:
 	string name;	
 	GUIbase *parent;
@@ -70,4 +72,5 @@ class GUIbase:public eventListener, public elastic_ptr_anchor{
 	virtual GUIcompoundProperty getCompoundProperty();
 	virtual void setCompoundProperty(const GUIcompoundProperty prop);
 };
+
 #endif

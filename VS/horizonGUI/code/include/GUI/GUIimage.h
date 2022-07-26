@@ -1,6 +1,8 @@
 #ifndef GUIIMAGE_GUARD
 #define GUIIMAGE_GUARD
-class GUIimage:public virtual GUIframe{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIimage:public virtual GUIframe{
 	public:
 	GUIimage();
 	texture *image;
@@ -11,4 +13,5 @@ class GUIimage:public virtual GUIframe{
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
+
 #endif 

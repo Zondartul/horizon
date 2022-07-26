@@ -14,7 +14,6 @@
 #include "GUI/GUI.h"
 
 GlobalsGui* Gg = 0;
-//GlobalsBtm* Gb = 0;
 
 GlobalsGui::GlobalsGui() {
 	gs_GUI_internal = new gs_GUI_internalKind();
@@ -22,24 +21,7 @@ GlobalsGui::GlobalsGui() {
 	gs_GUI = new gs_GUIKind();
 	sysInput = new sysInputKind();
 }
-//GlobalsBtm::GlobalsBtm() {
-//	//gs_debug = new gs_debugKind();
-//	gs_renderLayer = new gs_renderLayerKind();
-//	gs_paint = new gs_paintKind();
-//	gs_window = new gs_windowKind();
-//	//gs_event = new gs_eventKind();
-//	sysEvent = new sysEventKind();
-//	//gs_timer = new gs_timerKind();
-//	sysTimer = new sysTimerKind(*sysEvent);
-//	gs_resource = new gs_resourceKind();
-//	gs_render = new gs_renderKind();
-//	gs_printw = new gs_printwKind();
-//	//gs_keybinds = new gs_keybindsKind();
-//	//gs_input = new gs_inputKind();
-//	sysInput = new sysInputKind();
-//	//gs_hook = new gs_hookKind();
-//	gs_camera = new gs_cameraKind();
-//}
+
 
 // now how do we change these globals into organized systems?
 /*

@@ -1,7 +1,10 @@
 #ifndef GUISCROLLBAR_GUARD
 #define GUISCROLLBAR_GUARD
+#include "util/globals_gui.h"
+
 class GUIscrollbar;
-class GUIscrollbarBar:public virtual GUIframe{
+
+class DLLAPI_GUI GUIscrollbarBar:public virtual GUIframe{
 	public:
 	GUIscrollbar *scroll;
 	vec3 hoverColor;
@@ -12,7 +15,8 @@ class GUIscrollbarBar:public virtual GUIframe{
 	virtual void onEvent(eventKind event);
 	virtual string getType(); 
 };
-class GUIscrollbar:public virtual GUIframe{
+
+class DLLAPI_GUI GUIscrollbar:public virtual GUIframe{
 	public:
 	vec2 innerSize;
 	bool bSizeToParent;
@@ -56,4 +60,5 @@ class GUIscrollbar:public virtual GUIframe{
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
+
 #endif 

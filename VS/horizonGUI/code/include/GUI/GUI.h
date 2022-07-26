@@ -1,5 +1,6 @@
 #ifndef GUI_GUARD
 #define GUI_GUARD
+#include "util/global_vars_gui.h"
 #include "util/event.h" 
 #include "util/util.h"  
 #include "util/elastic_ptr.h"
@@ -27,7 +28,7 @@ using std::string;
 using std::vector;
 using std::function;
 
-struct gs_GUIKind {
+struct DLLAPI_GUI gs_GUIKind {
 	class GUIbase* g_GUI;
 	class renderLayer* g_layerGUI;
 };

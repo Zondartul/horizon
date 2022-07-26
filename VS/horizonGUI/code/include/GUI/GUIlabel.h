@@ -1,6 +1,8 @@
 #ifndef GUILABEL_GUARD
 #define GUILABEL_GUARD
-class GUIlabel:public virtual GUIbase{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIlabel:public virtual GUIbase{
 	public:
 	GUIlabel();
 	GUIlabel(string text);
@@ -22,8 +24,10 @@ class GUIlabel:public virtual GUIbase{
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
-vec2 getTextCentering(rect area, rect text,
+
+vec2 DLLAPI_GUI getTextCentering(rect area, rect text,
 		GUIe_alignment alignment_vertical, 
 		GUIe_alignment alignment_horizontal, 
 		bool const_height, font *F);
+
 #endif

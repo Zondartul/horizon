@@ -1,5 +1,6 @@
 #ifndef GUI_PROPERTY_GUARD
 #define GUI_PROPERTY_GUARD
+#include "util/globals_gui.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -8,12 +9,22 @@ using std::vector;
 using std::string;
 
 class GUIbase;
+
 namespace tinyxml2{
-class XMLElement;
-class XMLDocument;
+	class DLLAPI_GUI XMLDocument;
+	class DLLAPI_GUI XMLElement;
+	class DLLAPI_GUI XMLAttribute;
+	class DLLAPI_GUI XMLComment;
+	class DLLAPI_GUI XMLText;
+	class DLLAPI_GUI XMLDeclaration;
+	class DLLAPI_GUI XMLUnknown;
+	class DLLAPI_GUI XMLPrinter;
+	class DLLAPI_GUI XMLNode;
 }
+
 using namespace tinyxml2;
-struct GUIpropertyTable{
+
+struct DLLAPI_GUI GUIpropertyTable{
 	map<string,string> table;
 	GUIpropertyTable operator+(const GUIpropertyTable &other);
 	string toString() const;
@@ -21,7 +32,8 @@ struct GUIpropertyTable{
 	GUIpropertyTable(XMLElement *el);
 	void toXML(XMLElement *el) const;
 };
-struct GUIcompoundProperty{
+
+struct DLLAPI_GUI GUIcompoundProperty{
 	string name;
 	GUIpropertyTable table;
 	vector<GUIcompoundProperty> children;
@@ -32,4 +44,5 @@ struct GUIcompoundProperty{
 	XMLElement *toXML(XMLDocument *doc) const;
 	~GUIcompoundProperty();
 };
+
 #endif

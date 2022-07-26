@@ -1,13 +1,17 @@
 #ifndef GUISELECTABLE_GUARD
 #define GUISELECTABLE_GUARD
+#include "util/globals_gui.h"
+
 class GUIselectable;
-class GUIselectionGroup:public GUIbase{
+
+class DLLAPI_GUI GUIselectionGroup:public GUIbase{
 	public:
 	bool bSizeToParent = false;
 	void onEvent(eventKind event);
 	virtual string getType();
 };
-class GUIselectable:public GUIframe{
+
+class DLLAPI_GUI GUIselectable:public GUIframe{
 	public:
 	GUIselectable();
 	GUIselectionGroup *group;
@@ -19,4 +23,5 @@ class GUIselectable:public GUIframe{
 	vec2 offset;
 	virtual string getType();
 };
+
 #endif

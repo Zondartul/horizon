@@ -1,7 +1,9 @@
 #ifndef GUIFRAME_GUARD
 #define GUIFRAME_GUARD
-#include "GUIbase.h"
-class GUIframe:public virtual GUIbase{
+#include "GUI/GUIbase.h"
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIframe:public virtual GUIbase{
 	public:
 	GUIframe();
 	vec3 bgColor;

@@ -1,6 +1,12 @@
 #ifndef GUIBUTTON_GUARD
 #define GUIBUTTON_GUARD
-class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual GUIlabel{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIbutton:
+	public virtual GUIframe, 
+	public virtual GUIimage, 
+	public virtual GUIlabel
+{
 	public:
 	GUIbutton();
 	vec3 hoverColor;
@@ -16,4 +22,5 @@ class GUIbutton:public virtual GUIframe, public virtual GUIimage, public virtual
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
+
 #endif 

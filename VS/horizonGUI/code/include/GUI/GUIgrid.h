@@ -1,25 +1,31 @@
 #ifndef GUIGRID_GUARD
 #define GUIGRID_GUARD
-struct gridcell{
+#include "util/globals_gui.h"
+
+struct DLLAPI_GUI gridcell{
 	int spanx;
 	int spany;
 	GUIbase *child;
 };
+
 typedef vector<gridcell> gridrow;
 typedef vector<gridrow> gridkind;
-struct gridline{
+
+struct DLLAPI_GUI gridline{
 	float min;		
 	float max;		
 	float weight;	
 	float cur;		
 	float pos;		
 };
-struct linespan{
+
+struct DLLAPI_GUI linespan{
 	int from;
 	int to;
 	gridcell *cell;
 };
-class GUIgrid:public virtual GUIbase{
+
+class DLLAPI_GUI GUIgrid:public virtual GUIbase{
 	public:
 	GUIgrid();
 	virtual void grid(GUIbase *child, int row = -1, int col = 0, int spanx = 1, int spany = 1);
@@ -40,4 +46,5 @@ class GUIgrid:public virtual GUIbase{
 	virtual void invalidate();
 	virtual string getType(); 
 };
+
 #endif

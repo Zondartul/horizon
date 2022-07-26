@@ -236,5 +236,8 @@
     <ClInclude Include="code\include\render\render_gui.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
+    <ClInclude Include="code\include\main\main_gui.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

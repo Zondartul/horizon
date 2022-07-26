@@ -10,7 +10,7 @@ using std::stringstream;
 
 class elastic_ptr_anchor_proxy;
 
-class elastic_ptr_anchor{
+class DLLAPI_GUI elastic_ptr_anchor{
 	private:
 	elastic_ptr_anchor_proxy *proxy=0;
 	friend class elastic_ptr_anchor_proxy;
@@ -20,7 +20,8 @@ class elastic_ptr_anchor{
 	elastic_ptr_anchor(const elastic_ptr_anchor &) = delete;
 	~elastic_ptr_anchor();
 };
-class elastic_ptr_anchor_proxy{
+
+class DLLAPI_GUI elastic_ptr_anchor_proxy{
 	private:
 	friend class elastic_ptr_anchor;
 	template<typename T> friend class elastic_ptr;
@@ -30,7 +31,8 @@ class elastic_ptr_anchor_proxy{
 	void decrement();
 	void increment();
 };
-template<typename T> class elastic_ptr{
+
+template<typename T> class DLLAPI_GUI elastic_ptr{
 	private:
 	const static bool debug = false;
 	elastic_ptr_anchor_proxy *proxy=0;
@@ -135,5 +137,7 @@ template<typename T> class elastic_ptr{
 		return *this;
 	}
 };
+
 #define EPCAST(ptrsrc,ptrdest) if(ptrsrc){ptrdest = dynamic_cast<decltype(ptrdest)>(&*ptrsrc);}
+
 #endif

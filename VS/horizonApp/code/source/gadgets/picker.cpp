@@ -1,0 +1,81 @@
+#include "gadgets/picker.h"
+#include "gadgets/console.h"
+#include "GUI/GUI.h"
+#include "render/renderLayer.h"
+#include "render/paint.h"
+#include "render/camera.h"
+#include "render/rmodel.h"
+#include "program/window.h"
+#include "main/main.h" 
+#include "input/input.h"
+#include "input/keybinds.h"
+#include "input/mouse.h"
+#include "util/stringUtils.h"
+#include "util/global_vars_app.h"
+#include "util/global_vars_gui.h"
+#include "util/global_vars_render.h"
+
+void closeEntityOptionsWindow(){
+	auto& entWindow = Ga->gs_picker->g_entWindow;
+	if(entWindow){delete entWindow; entWindow = 0;}
+}
+
+int cmd_pick(int, char **argv){
+	auto& pickerLayer = Ga->gs_picker->g_pickerLayer;
+	auto& camera = Gr->gs_camera->g_camera;
+	setLayer(pickerLayer);
+	setColor(vec3(0,255,0));
+	setPointSize(3);
+	vec2 mousepos = getMousePos();
+	vec3 mousedv = camera.screenToWorld(vec3(mousepos.x,mousepos.y,1));
+	vec3 dv = normalizeSafe(mousedv - camera.pos);
+	printf("LMB: %s, dv: %s\n",toString(mousepos).c_str(),toString(dv).c_str());
+		printf("no hit\n");
+		closeEntityOptionsWindow();
+	return 0;
+}
+
+int cmd_pick2(int, char **argv){
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	auto& pickerLayer = Ga->gs_picker->g_pickerLayer;
+	auto& camera = Gr->gs_camera->g_camera;
+	setLayer(pickerLayer);
+	setPointSize(1);
+	rmodel *rm1 = new rmodel();
+	vec2 scr = getScreenSize();
+	int div = 50;
+	for(int I = 0; div*I < scr.x; I++){
+		for(int J = 0; div*J < scr.y; J++){
+			vec3 dv = camera.screenToWorld(vec3(div*I,div*J,1));
+			dv = normalizeSafe(dv - camera.pos);
+		}
+	}
+	rm1->finalize();
+	setLayer(loadLayer);
+	uploadRmodel(rm1);
+	setLayer(pickerLayer);
+	setRenderMode(1);
+	setColor(vec3(255,0,0));
+	drawRmodelStd(rm1);
+	return 0;
+}
+
+void initPicker(){
+	auto& pickerLayer = Ga->gs_picker->g_pickerLayer;
+	auto& layer3D = Gr->gs_paint->g_layer3D;
+	auto& console = Ga->gs_console->g_console;
+	//auto& keybinds = Gb->sysInput->keybinds;// Gb->gs_keybinds->g_keybinds;
+	pickerLayer = new renderLayer("picker");
+	addLayer(layer3D,pickerLayer);
+	setLayer(pickerLayer);
+	setPosition(vec3(0,0,0));
+	setScale(vec3(1,1,1));
+	setColoring(false);
+	setTexturing(false);
+	setLighting(false);
+	setPointSize(3);
+	console->addCommand({"pick","picker function 1\n",cmd_pick});
+	console->addCommand({"pick2","picker function 2\n",cmd_pick2});
+	//keybinds.binds["+LMB"].cmd = "pick";
+	//keybinds.binds["+RMB"].cmd = "pick2";
+}

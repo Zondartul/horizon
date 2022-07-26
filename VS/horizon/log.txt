@@ -1,5 +1,0 @@
-[0.226]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:35:		OpenGL version: 4.6.0 NVIDIA 451.48, profile: CORE
-[0.227]:	f0:	D:\Stride\shared\horizon\code\source\program\window.cpp:115:		-------- window init done ---------
-[0.228]:	f0:	D:\Stride\shared\horizon\code\source\input\input.cpp:12:		-------- input init done ----------
-[0.228]:	f0:	D:\Stride\shared\horizon\code\source\loaders\fontLoader.cpp:35:		-------- FreeType init done -------
-[0.238]:	f0:	D:\Stride\shared\horizon\code\source\program\file.cpp:16:		can't open file 'code/shaders/vertShader.vert'

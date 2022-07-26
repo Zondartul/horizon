@@ -1,6 +1,8 @@
 #ifndef GUI_DROPDOWNMENU_GUARD
 #define GUI_DROPDOWNMENU_GUARD
-class GUIdropdownMenu:public GUIframe{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIdropdownMenu:public GUIframe{
 	public:
 	vector<GUIdropdownMenu*> submenus;
 	GUIbutton *btnMenu = 0; 

@@ -240,6 +240,7 @@
     <ClInclude Include="code\include\resource\texture.h" />
     <ClInclude Include="code\include\util\config.h" />
     <ClInclude Include="code\include\util\debug.h" />
+    <ClInclude Include="code\include\util\event.h" />
     <ClInclude Include="code\include\util\globals_render.h" />
     <ClInclude Include="code\include\util\global_vars_render.h" />
     <ClInclude Include="code\include\util\stringUtils.h" />

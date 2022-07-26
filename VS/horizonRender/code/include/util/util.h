@@ -39,11 +39,11 @@ class DLLAPI_RENDER exKind : public exception {
 
 //code generation macro to declare and define the operator functions that
 //perform bitwise operations (|, &, |= etc) on class-enums.
-#define DECLARE_enum_class_bitwise_operators(T) \
-	DLLAPI_RENDER bool operator|(T lhs, T rhs); \
-	DLLAPI_RENDER bool operator&(T lhs, T rhs); \
-	DLLAPI_RENDER T & operator|=(T & lhs, T rhs); \
-	DLLAPI_RENDER T & operator&=(T & lhs, T rhs); 
+#define DECLARE_enum_class_bitwise_operators(spec, T) \
+	spec bool operator|(T lhs, T rhs); \
+	spec bool operator&(T lhs, T rhs); \
+	spec T & operator|=(T & lhs, T rhs); \
+	spec T & operator&=(T & lhs, T rhs); 
 
 //was T operator op (so T | T = T), now is bool (for testing as a bitfield)
 //because we can't easily make a T to bool implicit

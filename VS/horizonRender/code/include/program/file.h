@@ -26,7 +26,9 @@ string DLLAPI_RENDER getFileExtension(string filename);
 string DLLAPI_RENDER getFilename(string filepath);
 string DLLAPI_RENDER getFileNameNoExt(string filename);
 bool DLLAPI_RENDER isFolder(string filename);
-
+struct texture;
+texture DLLAPI_RENDER *getFileIcon(string filename);
 bool DLLAPI_RENDER fileExists(string filename);
+
 
 #endif

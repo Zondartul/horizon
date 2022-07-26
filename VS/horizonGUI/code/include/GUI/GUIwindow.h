@@ -1,6 +1,8 @@
 #ifndef GUIWINDOW_GUARD
 #define GUIWINDOW_GUARD
-class GUIwindow:public virtual GUIframe{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUIwindow:public virtual GUIframe{
 	public:
 	bool hasCloseButton;
 	bool moveable;
@@ -21,4 +23,5 @@ class GUIwindow:public virtual GUIframe{
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
+
 #endif

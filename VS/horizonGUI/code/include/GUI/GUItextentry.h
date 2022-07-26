@@ -1,6 +1,8 @@
 #ifndef GUITEXTENTRY_GUARD
 #define GUITEXTENTRY_GUARD
-class GUItextEntry:public virtual GUIbutton{
+#include "util/globals_gui.h"
+
+class DLLAPI_GUI GUItextEntry:public virtual GUIbutton{
 	public:
 	vec3 focusedColor;
 	bool callOnEdit;
@@ -23,4 +25,5 @@ class GUItextEntry:public virtual GUIbutton{
 	virtual void setProperty(string key, string val);
 	virtual string getType(); 
 };
+
 #endif

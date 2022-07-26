@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\experimental">
+      <UniqueIdentifier>{f6619639-791f-45db-a8f0-264606f841ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\experimental\gui_editor">
+      <UniqueIdentifier>{2d1d5098-707a-43be-9d53-f3e974d52788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gadgets">
+      <UniqueIdentifier>{af0b8862-2b61-4c83-8dcc-a5f128c03286}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{19ae7a42-78ea-49df-93f2-82857711096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{a6732184-dc13-4437-a6d7-27dc8226632d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\generators">
+      <UniqueIdentifier>{9387b19d-d3df-41e6-8669-a9d9657056ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{33ad4a3c-1604-496e-89ee-97d3b040f42a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource">
+      <UniqueIdentifier>{4a71ee9b-85a1-4fba-911a-86c6de3ee20a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thread">
+      <UniqueIdentifier>{4118962d-3f50-49c9-a690-c6ab618a51bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{63847f2c-6c3d-4544-8ebf-3b4d45c0970d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\experimental">
+      <UniqueIdentifier>{18eb3d34-8ca5-4b2c-9e1e-f197ef77934c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\experimental\gui_editor">
+      <UniqueIdentifier>{097aab3a-73f1-43c8-85e3-6913116df9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gadgets">
+      <UniqueIdentifier>{7c95b03c-9326-47ec-ae97-3e581841fdd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{3d40d672-a7ad-4cb9-bcc2-7a7a33154c57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{9e67b362-cb96-4188-bb2d-9bf2bce6816d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thread">
+      <UniqueIdentifier>{7bf38964-eb65-41cc-bd0e-7478e03efc02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{263390ae-8db0-4b36-92df-884d870e1f45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\source\experimental\editor2.cpp">
+      <Filter>Source Files\experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\experimental\gui_editor.cpp">
+      <Filter>Source Files\experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\experimental\map_editor.cpp">
+      <Filter>Source Files\experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\experimental\gui_editor\tool.cpp">
+      <Filter>Source Files\experimental\gui_editor</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\experimental\gui_editor\tool_edit.cpp">
+      <Filter>Source Files\experimental\gui_editor</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\experimental\gui_editor\tool_place.cpp">
+      <Filter>Source Files\experimental\gui_editor</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\console.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\gui_filedialog.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\gui_table.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\gui_texturebrowser.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\notificationbox.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\gadgets\picker.cpp">
+      <Filter>Source Files\gadgets</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\game\commands.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\game\GUIwindows.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\input\keybinds.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\generators\editmodel.cpp">
+      <Filter>Source Files\generators</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\main\main.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\model.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\thread\threads.cpp">
+      <Filter>Source Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\paramList.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\global_vars_app.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\include\experimental\gui_editor\tool.h">
+      <Filter>Header Files\experimental\gui_editor</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\experimental\gui_editor\tool_edit.h">
+      <Filter>Header Files\experimental\gui_editor</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\experimental\gui_editor\tool_place.h">
+      <Filter>Header Files\experimental\gui_editor</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\experimental\editor2.h">
+      <Filter>Header Files\experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\experimental\gui_editor.h">
+      <Filter>Header Files\experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\experimental\map_editor.h">
+      <Filter>Header Files\experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\console.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\gui_filedialog.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\gui_table.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\gui_texturebrowser.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\notificationbox.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\gadgets\picker.h">
+      <Filter>Header Files\gadgets</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\game\commands.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\game\game.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\game\GUIwindows.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\main\main.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\thread\threads.h">
+      <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\operators.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\paramList.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\global_vars_app.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

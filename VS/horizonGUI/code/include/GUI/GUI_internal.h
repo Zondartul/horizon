@@ -11,24 +11,30 @@
 #include "resource/texture.h"
 #include "resource/fonts.h"
 #include "util/timer.h" 
+#include "util/globals_gui.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
 #include "util/stringUtils.h"
 #include <cmath>
 using std::isnan;
 
-struct GUI_options_kind{
+struct DLLAPI_GUI GUI_options_kind{
 	bool debug = false;
 	bool push = false;
 };
-void GUIsetFavoriteRenderOptions();
-struct gs_GUI_internalKind {
+
+void DLLAPI_GUI GUIsetFavoriteRenderOptions();
+
+struct DLLAPI_GUI gs_GUI_internalKind {
 	GUI_options_kind g_GUIoptions;
 };
-class GUIbase;
-GUIbase *GUI_constructor_dispatch(string S);
 
-string toString(GUIe_alignment al); template<> GUIe_alignment fromString<GUIe_alignment>(const string S);
+class GUIbase;
+
+GUIbase DLLAPI_GUI *GUI_constructor_dispatch(string S);
+
+string DLLAPI_GUI toString(GUIe_alignment al); 
+template<> DLLAPI_GUI GUIe_alignment fromString<GUIe_alignment>(const string S);
 
 
 #define defaultarea rect(100,100)

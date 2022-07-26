@@ -2,7 +2,7 @@
 #define EVENT_GUARD
 #include "math/vec.h"
 #include "util/hook.h"
-#include "globals_render.h"
+#include "util/globals_render.h"
 #include <vector>
 #include <functional>
 using std::vector;
@@ -12,25 +12,30 @@ using std::function;
 #define MOD_CTRL 2
 #define MOD_ALT 4
 
-struct event_keyboard{
+struct DLLAPI_RENDER event_keyboard{
 	int keycode;
 	const char *key;
 	char printchar;
 	int mod;
 };
-enum mouseButtonType{MOUSE_LEFT,MOUSE_MIDDLE,MOUSE_RIGHT,MOUSE_X1,MOUSE_X2};
-struct event_mouse_button{
+
+enum DLLAPI_RENDER mouseButtonType{MOUSE_LEFT,MOUSE_MIDDLE,MOUSE_RIGHT,MOUSE_X1,MOUSE_X2};
+
+struct DLLAPI_RENDER event_mouse_button{
 	mouseButtonType button;
 };
-struct event_mouse_move{
+
+struct DLLAPI_RENDER event_mouse_move{
 	vec2 diff;
 	vec2 pos;
 };
-struct event_mouse_wheel{
+
+struct DLLAPI_RENDER event_mouse_wheel{
 	int x;
 	int y;
 };
-enum eventType{	
+
+enum DLLAPI_RENDER eventType{	
 			EVENT_KEY_UP,				
 			EVENT_KEY_DOWN,
 			EVENT_MOUSE_BUTTON_UP,		
@@ -41,6 +46,7 @@ enum eventType{
 			EVENT_TICK,					
 			EVENT_CLEANUP				
 			};
+
 struct DLLAPI_RENDER eventKind{
 	eventType type;
 	int *mask;
@@ -55,8 +61,11 @@ struct DLLAPI_RENDER eventKind{
 		event_mouse_wheel mousewheel;
 	};
 };
-string toString(eventType et);
+
+string DLLAPI_RENDER toString(eventType et);
+
 class eventListener;
+
 struct DLLAPI_RENDER eventListenerList{
 	vector<eventListener*> listeners;
 	void publishEvent(eventKind event);
@@ -68,7 +77,9 @@ struct DLLAPI_RENDER eventListenerList{
 	void moveListenerToBack(eventListener *listener);
 	void removeListener(eventListener *listener);
 };
+
 typedef eventListenerList eventChannel;
+
 class DLLAPI_RENDER eventListener{
 	public:
 	vector<eventChannel*> channels;
@@ -83,7 +94,7 @@ class DLLAPI_RENDER eventListener{
 //};
 class hook;
 
-class sysEventKind {
+class DLLAPI_RENDER sysEventKind {
 public:
 	sysEventKind();
 	eventChannel globalChannel;
@@ -93,7 +104,7 @@ public:
 };
 
 
-class hook :public eventListener {
+class DLLAPI_RENDER hook :public eventListener {
 public:
 	eventChannel* ch;
 	eventType type;
