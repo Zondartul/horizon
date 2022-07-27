@@ -17,7 +17,7 @@ using std::string;
 
 dropDownTerminal::dropDownTerminal():terminalOn(false){
 	auto& layer2D = Gr->gs_paint->g_layer2D;
-	auto& inputChannel = Gg->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
 	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	layer = new renderLayer("console.terminal");
 	layer->resetLayer = duplicateLayer(layer2D->resetLayer);
@@ -29,7 +29,7 @@ dropDownTerminal::dropDownTerminal():terminalOn(false){
 }
 
 dropDownTerminal::~dropDownTerminal(){
-	auto& inputChannel = Gg->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
 	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	removeLayer(layer);
 	inputChannel.removeListener(this);

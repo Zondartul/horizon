@@ -1,5 +1,4 @@
 #include "GUI/GUI_internal.h"
-#include "Ext/tinyXML2/tinyxml2.h"
 using namespace tinyxml2;
 
 GUIpropertyTable GUIpropertyTable::operator+(const GUIpropertyTable &other){

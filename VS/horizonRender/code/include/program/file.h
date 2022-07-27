@@ -2,7 +2,7 @@
 #define FILE_GUARD
 //handles file IO
 #ifndef NO_SDL
-#include "SDL2/SDL.h"
+#include "Ext/SDL2/SDL.h"
 #endif
 
 #include "util/globals_render.h"

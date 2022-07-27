@@ -16,7 +16,12 @@ using std::stringstream;
 string fileToString(const char *filepath){
 	FILE *fp;
 	fp = fopen(filepath,"r");
-	if(!fp){printf("can't open file '%s'\n",filepath);exit(1);}
+	if(!fp){
+		//printf("can't open file '%s'\n",filepath);exit(1);
+		stringstream ss;
+		ss << "can't open file " << filepath;
+		throw runtime_error(ss.str());
+	}
 	string S;
 	int C = fgetc(fp);
 	while(C != EOF){

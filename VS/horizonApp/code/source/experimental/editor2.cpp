@@ -88,7 +88,7 @@ void openEditor2(){
 	editor2 = new editor2Kind();
 }
 editor2Kind::editor2Kind():sel(&EM){
-	auto& inputChannel = Gg->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
 	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	printf("editor.editorKind()\n");
 	inputChannel.addListener(this);

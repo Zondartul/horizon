@@ -90,9 +90,6 @@
     <ClCompile Include="code\source\main\dllmain_gui.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\input\input.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
     <ClCompile Include="code\source\GUI\GUI_internal.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
@@ -211,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="code\include\util\global_vars_gui.h">
       <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\input\input.h">
-      <Filter>Header Files\input</Filter>
     </ClInclude>
     <ClInclude Include="code\include\math\geometry.h">
       <Filter>Header Files\math</Filter>

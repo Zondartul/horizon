@@ -1,5 +1,6 @@
 #ifndef TINYXML2_INCLUDED
 #define TINYXML2_INCLUDED
+#include "util/globals_gui.h"
 #if defined(ANDROID_NDK) || defined(__BORLANDC__) || defined(__QNXNTO__)
 #   include <ctype.h>
 #   include <limits.h>
@@ -62,14 +63,14 @@ static const int TIXML2_PATCH_VERSION = 0;
 static const int TINYXML2_MAX_ELEMENT_DEPTH = 100;
 namespace tinyxml2
 {
-class XMLDocument;
-class XMLElement;
-class XMLAttribute;
-class XMLComment;
-class XMLText;
-class XMLDeclaration;
-class XMLUnknown;
-class XMLPrinter;
+class DLLAPI_GUI XMLDocument;
+class DLLAPI_GUI XMLElement;
+class DLLAPI_GUI XMLAttribute;
+class DLLAPI_GUI XMLComment;
+class DLLAPI_GUI XMLText;
+class DLLAPI_GUI XMLDeclaration;
+class DLLAPI_GUI XMLUnknown;
+class DLLAPI_GUI XMLPrinter;
 class TINYXML2_LIB StrPair
 {
 public:
@@ -318,7 +319,7 @@ private:
     int _maxAllocs;
     int _nUntracked;
 };
-class TINYXML2_LIB XMLVisitor
+class TINYXML2_LIB DLLAPI_GUI XMLVisitor
 {
 public:
     virtual ~XMLVisitor() {}
@@ -347,7 +348,7 @@ public:
         return true;
     }
 };
-enum XMLError {
+enum DLLAPI_GUI XMLError {
     XML_SUCCESS = 0,
     XML_NO_ATTRIBUTE,
     XML_WRONG_ATTRIBUTE_TYPE,
@@ -369,7 +370,7 @@ enum XMLError {
 	XML_ELEMENT_DEPTH_EXCEEDED,
 	XML_ERROR_COUNT
 };
-class TINYXML2_LIB XMLUtil
+class TINYXML2_LIB DLLAPI_GUI XMLUtil
 {
 public:
     static const char* SkipWhiteSpace( const char* p, int* curLineNumPtr )	{
@@ -438,7 +439,7 @@ private:
 	static const char* writeBoolTrue;
 	static const char* writeBoolFalse;
 };
-class TINYXML2_LIB XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLNode
 {
     friend class XMLDocument;
     friend class XMLElement;
@@ -575,7 +576,7 @@ private:
     XMLNode( const XMLNode& );	
     XMLNode& operator=( const XMLNode& );	
 };
-class TINYXML2_LIB XMLText : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLText : public XMLNode
 {
     friend class XMLDocument;
 public:
@@ -603,7 +604,7 @@ private:
     XMLText( const XMLText& );	
     XMLText& operator=( const XMLText& );	
 };
-class TINYXML2_LIB XMLComment : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLComment : public XMLNode
 {
     friend class XMLDocument;
 public:
@@ -624,7 +625,7 @@ private:
     XMLComment( const XMLComment& );	
     XMLComment& operator=( const XMLComment& );	
 };
-class TINYXML2_LIB XMLDeclaration : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLDeclaration : public XMLNode
 {
     friend class XMLDocument;
 public:
@@ -645,7 +646,7 @@ private:
     XMLDeclaration( const XMLDeclaration& );	
     XMLDeclaration& operator=( const XMLDeclaration& );	
 };
-class TINYXML2_LIB XMLUnknown : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLUnknown : public XMLNode
 {
     friend class XMLDocument;
 public:
@@ -666,7 +667,7 @@ private:
     XMLUnknown( const XMLUnknown& );	
     XMLUnknown& operator=( const XMLUnknown& );	
 };
-class TINYXML2_LIB XMLAttribute
+class TINYXML2_LIB DLLAPI_GUI XMLAttribute
 {
     friend class XMLElement;
 public:
@@ -740,7 +741,7 @@ private:
     XMLAttribute*   _next;
     MemPool*        _memPool;
 };
-class TINYXML2_LIB XMLElement : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLElement : public XMLNode
 {
     friend class XMLDocument;
 public:
@@ -937,7 +938,7 @@ enum Whitespace {
     PRESERVE_WHITESPACE,
     COLLAPSE_WHITESPACE
 };
-class TINYXML2_LIB XMLDocument : public XMLNode
+class TINYXML2_LIB DLLAPI_GUI XMLDocument : public XMLNode
 {
     friend class XMLElement;
     friend class XMLNode;
@@ -1062,7 +1063,7 @@ inline NodeType* XMLDocument::CreateUnlinkedNode( MemPoolT<PoolElementSize>& poo
 	_unlinked.Push(returnNode);
     return returnNode;
 }
-class TINYXML2_LIB XMLHandle
+class TINYXML2_LIB DLLAPI_GUI XMLHandle
 {
 public:
     explicit XMLHandle( XMLNode* node ) : _node( node ) {
@@ -1117,7 +1118,7 @@ public:
 private:
     XMLNode* _node;
 };
-class TINYXML2_LIB XMLConstHandle
+class TINYXML2_LIB DLLAPI_GUI XMLConstHandle
 {
 public:
     explicit XMLConstHandle( const XMLNode* node ) : _node( node ) {
@@ -1172,7 +1173,7 @@ public:
 private:
     const XMLNode* _node;
 };
-class TINYXML2_LIB XMLPrinter : public XMLVisitor
+class TINYXML2_LIB DLLAPI_GUI XMLPrinter : public XMLVisitor
 {
 public:
     XMLPrinter( FILE* file=0, bool compact = false, int depth = 0 );

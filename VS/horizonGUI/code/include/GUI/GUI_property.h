@@ -1,6 +1,7 @@
 #ifndef GUI_PROPERTY_GUARD
 #define GUI_PROPERTY_GUARD
 #include "util/globals_gui.h"
+#include "Ext/tinyXML2/tinyxml2.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -9,7 +10,7 @@ using std::vector;
 using std::string;
 
 class GUIbase;
-
+/*
 namespace tinyxml2{
 	class DLLAPI_GUI XMLDocument;
 	class DLLAPI_GUI XMLElement;
@@ -21,6 +22,7 @@ namespace tinyxml2{
 	class DLLAPI_GUI XMLPrinter;
 	class DLLAPI_GUI XMLNode;
 }
+*/
 
 using namespace tinyxml2;
 

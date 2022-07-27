@@ -169,7 +169,6 @@
     <ClCompile Include="code\source\GUI\GUI_internal.cpp" />
     <ClCompile Include="code\source\GUI\GUI_property.cpp" />
     <ClCompile Include="code\source\GUI\GUI_types.cpp" />
-    <ClCompile Include="code\source\input\input.cpp" />
     <ClCompile Include="code\source\main\dllmain_gui.cpp" />
     <ClCompile Include="code\source\math\geometry.cpp" />
     <ClCompile Include="code\source\program\pipe.cpp" />
@@ -199,7 +198,6 @@
     <ClInclude Include="code\include\GUI\GUI_property.h" />
     <ClInclude Include="code\include\GUI\GUI_types.h" />
     <ClInclude Include="code\include\GUI\readme_GUI.h" />
-    <ClInclude Include="code\include\input\input.h" />
     <ClInclude Include="code\include\input\keybinds.h" />
     <ClInclude Include="code\include\main\framework_gui.h" />
     <ClInclude Include="code\include\main\main_gui.h" />

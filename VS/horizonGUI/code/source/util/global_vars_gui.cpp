@@ -19,7 +19,7 @@ GlobalsGui::GlobalsGui() {
 	gs_GUI_internal = new gs_GUI_internalKind();
 	gs_GUIrenderer_default = new gs_GUIrenderer_defaultKind();
 	gs_GUI = new gs_GUIKind();
-	sysInput = new sysInputKind();
+	//sysInput = new sysInputKind();
 }
 
 

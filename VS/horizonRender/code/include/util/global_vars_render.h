@@ -1,11 +1,11 @@
 #pragma once
 #include "globals_render.h"
-struct gs_paintKind;
-struct gs_renderLayerKind;
-struct gs_windowKind;
-struct gs_printwKind;
-struct gs_renderLowKind;
-class sysTimerKind;
+//struct gs_paintKind;
+//struct gs_renderLayerKind;
+//struct gs_windowKind;
+//struct gs_printwKind;
+//struct gs_renderLowKind;
+//class sysTimerKind;
 
 struct DLLAPI_RENDER GlobalsRender {
 	GlobalsRender();
@@ -19,7 +19,8 @@ struct DLLAPI_RENDER GlobalsRender {
 	//random stuff
 	class sysEventKind* sysEvent;
 	class sysTimerKind* sysTimer;
-	struct gs_cameraKind* gs_camera;
+	struct gs_cameraKind* gs_camera; 
+	struct sysInputKind* sysInput; 
 };
 
 extern DLLAPI_RENDER GlobalsRender* Gr;

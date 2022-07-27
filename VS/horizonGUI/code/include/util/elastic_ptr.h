@@ -32,7 +32,7 @@ class DLLAPI_GUI elastic_ptr_anchor_proxy{
 	void increment();
 };
 
-template<typename T> class DLLAPI_GUI elastic_ptr{
+template<typename T> class elastic_ptr{
 	private:
 	const static bool debug = false;
 	elastic_ptr_anchor_proxy *proxy=0;

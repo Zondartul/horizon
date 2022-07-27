@@ -165,6 +165,9 @@
     <ClCompile Include="code\source\util\util.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="code\source\input\input.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\Ext\dirent\dirent.h">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="code\include\util\event.h">
       <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\input.h">
+      <Filter>Header Files\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,8 @@
 #ifndef WINDOW_GUARD
 #define WINDOW_GUARD
+#ifndef NO_SDL
+#include "Ext/SDL2/SDL.h"
+#endif
 #include "math/vec.h"
 #include "util/globals_render.h"
 #include <map>

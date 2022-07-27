@@ -1,5 +1,5 @@
 #ifndef NO_SDL
-#include <SDL2/SDL.h>
+#include "Ext/SDL2/SDL.h"
 #endif
 #include "input/mouse.h"
 

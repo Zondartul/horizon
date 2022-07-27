@@ -4,6 +4,7 @@
 #include "program/window.h"
 #include "render/printw.h"
 #include "render/renderLow.h"
+#include "input/input.h"
 #include "util/event.h"
 #include "util/timer.h"
 #include "render/camera.h"
@@ -20,5 +21,6 @@ GlobalsRender::GlobalsRender() {
 	gs_renderLow = new gs_renderLowKind();
 	sysEvent = new sysEventKind();
 	sysTimer = new sysTimerKind(*sysEvent);
-	gs_camera = new gs_cameraKind();
+	gs_camera = new gs_cameraKind(); 
+	sysInput = new sysInputKind();
 }

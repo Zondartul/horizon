@@ -1,19 +1,25 @@
-//system includes
-#include <cstdio>
-#include <cstdlib>
 //external includes
 #ifndef NO_SDL
-#include <SDL2/SDL.h>
+#include "Ext/SDL2/SDL.h"
 #endif
 #ifndef NO_GLEW
 #include "Ext/GL/glew.h"
 #endif
 //the "correct way to glew" says we don't use gl.h any more.
 //project includes
-#include "util/globals_render.h"
 #include "program/window.h"
 #include "render/renderLow.h"
+#include "input/input.h"
+#include "util/globals_render.h"
 #include "util/global_vars_render.h"
+#include "util/event.h"
+//system includes
+#include <cstdio>
+#include <cstdlib>
+#include <exception>
+#include <sstream>
+using std::runtime_error;
+using std::stringstream;
 
 #ifndef NO_SDL
 SDL_Window *mainWindow;
@@ -82,12 +88,19 @@ void OpenGL_swap(){
 
 void window_init(int h, int w){
 #ifndef NO_SDL
+	auto& width = Gr->gs_window->g_width;
+	auto& height = Gr->gs_window->g_height;
 	height = h;
 	width = w;
 
 	int err = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	atexit(SDL_Quit);
-	if(err){error("SDL INIT ERROR: [%s]\n", SDL_GetError());}
+	if(err){
+		//error("SDL INIT ERROR: [%s]\n", SDL_GetError());
+		stringstream ss;
+		ss << "SDL INIT ERROR: [" << SDL_GetError() << "]";
+		throw runtime_error(ss.str());
+	}
 
 	mainWindow = SDL_CreateWindow("Hai",
 		SDL_WINDOWPOS_CENTERED,
@@ -114,13 +127,30 @@ void sysMessageBlankTick(){
 	}
 #endif
 }
-
+eventKind keyboardTranslate(eventKind event){
+	auto& keyboardMap = Gr->gs_window->g_keyboardMap;
+	if(event.type == EVENT_KEY_DOWN){
+		int key = event.keyboard.printchar;
+		bool shift = event.keyboard.mod & MOD_SHIFT;
+		if(shift){
+			if(keyboardMap.count(key)){
+				event.keyboard.printchar = keyboardMap[key];
+			}
+		}
+	}
+	return event;
+}
 bool isprintSafe(int key){
 	return ((key > 31) && (key < 127));
 }
 
 void sysMessageTick(){
 #ifndef NO_SDL
+	auto& keyboardState = Gr->gs_window->g_keyboardState;
+	auto& width = Gr->gs_window->g_width;
+	auto& height = Gr->gs_window->g_height;
+	auto& inputChannel = Gr->sysInput->inputChannel;
+
 	SDL_Event sdl_event;
 	while(SDL_PollEvent(&sdl_event)){
 		eventKind event;
@@ -217,7 +247,7 @@ void sysMessageTick(){
 		}
 		continue;
 		dispatchEvent:
-		inputChannel->publishEventSequentialMaskable(event);
+		inputChannel.publishEventSequentialMaskable(event);
 		//inputController.onEvent(event);
 		//if(GUI){GUI->onEvent(event);}
 	}

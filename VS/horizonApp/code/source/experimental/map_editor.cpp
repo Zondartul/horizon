@@ -20,7 +20,7 @@ void openMapEditor(){
 map_editor_kind::map_editor_kind(){
 	auto& layer2D = Gr->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gg->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
 	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));

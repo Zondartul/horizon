@@ -90,7 +90,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -102,7 +102,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -112,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -126,14 +126,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -145,7 +145,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,7 +154,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;NO_SDL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL_RENDER;HORIZONRENDER_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -168,10 +168,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype.lib;SDL2.lib;SDL2main.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="code\source\input\input.cpp" />
     <ClCompile Include="code\source\input\mouse.cpp" />
     <ClCompile Include="code\source\loaders\fontLoader.cpp" />
     <ClCompile Include="code\source\loaders\imageLoader.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="code\include\Ext\GL\glxew.h" />
     <ClInclude Include="code\include\Ext\GL\wglew.h" />
     <ClInclude Include="code\include\generators\editmodel.h" />
+    <ClInclude Include="code\include\input\input.h" />
     <ClInclude Include="code\include\input\mouse.h" />
     <ClInclude Include="code\include\loaders\fontLoader.h" />
     <ClInclude Include="code\include\loaders\ft2build.h" />
