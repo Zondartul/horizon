@@ -11,6 +11,8 @@
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
+#include "util/global_vars_util.h"
 
 void openMapEditor(){
 	auto& mapeditor = Ga->gs_map_editor->g_mapeditor;
@@ -20,8 +22,8 @@ void openMapEditor(){
 map_editor_kind::map_editor_kind(){
 	auto& layer2D = Gr->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
+	auto& inputChannel = Gp->sysInput->inputChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));
 	GUIbutton *btnCube = new GUIbutton();

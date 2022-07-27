@@ -3,6 +3,7 @@
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h" //for globalChannel
 #include "util/global_vars_render.h"
+#include "util/global_vars_util.h"
 #include "main/main_gui.h" //for init stuff
 
 //void initHorizonSystem() {
@@ -49,12 +50,9 @@ int main(int argc, char **argv){
 }
 
 void tick(){
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
-	//eventKind e1; e1.type = EVENT_TICK;
+	auto& globalChannel = Gu->sysEvent->globalChannel;
 	globalChannel.publishEvent(eventKind(EVENT_TICK));//(e1);
-	//eventKind e2; e2.type = EVENT_FRAME;
 	globalChannel.publishEvent(eventKind(EVENT_FRAME));//(e2);
-	//eventKind e3; e3.type = EVENT_CLEANUP;
 	globalChannel.publishEvent(eventKind(EVENT_CLEANUP));//(e3);
 	renderTick();  
 	sysMessageTick(); 

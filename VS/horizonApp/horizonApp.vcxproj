@@ -33,11 +33,9 @@
     <ClCompile Include="code\source\gadgets\picker.cpp" />
     <ClCompile Include="code\source\game\commands.cpp" />
     <ClCompile Include="code\source\game\GUIwindows.cpp" />
-    <ClCompile Include="code\source\generators\editmodel.cpp" />
     <ClCompile Include="code\source\input\keybinds.cpp" />
     <ClCompile Include="code\source\main\main.cpp" />
     <ClCompile Include="code\source\resource\model.cpp" />
-    <ClCompile Include="code\source\thread\threads.cpp" />
     <ClCompile Include="code\source\util\global_vars_app.cpp" />
     <ClCompile Include="code\source\util\paramList.cpp" />
   </ItemGroup>
@@ -117,32 +115,32 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NO_SDL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -152,16 +150,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NO_SDL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -169,14 +167,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NO_SDL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -186,16 +184,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NO_SDL;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonApp\code\include;D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonGUI.lib;horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

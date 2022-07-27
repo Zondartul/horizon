@@ -31,6 +31,9 @@
     <Filter Include="Header Files\generators">
       <UniqueIdentifier>{6209778b-405b-43c5-a311-a5cbeeec3c7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\generators">
+      <UniqueIdentifier>{f21143d0-afc4-45f7-921a-e38dc98a09f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\source\main\dllmain_render.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="code\source\render\camera.cpp">
       <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\generators\editmodel.cpp">
+      <Filter>Source Files\generators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

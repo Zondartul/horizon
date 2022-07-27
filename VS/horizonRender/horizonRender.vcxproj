@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="code\source\generators\editmodel.cpp" />
     <ClCompile Include="code\source\main\dllmain_render.cpp" />
     <ClCompile Include="code\source\render\camera.cpp" />
     <ClCompile Include="code\source\render\GPUdriver.cpp" />

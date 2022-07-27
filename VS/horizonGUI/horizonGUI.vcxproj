@@ -87,14 +87,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonRender.lib;SDL2.lib;SDL2main.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -104,16 +104,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -121,14 +121,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -138,16 +138,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;NO_SDL;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>horizonRender.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -170,11 +170,8 @@
     <ClCompile Include="code\source\GUI\GUI_property.cpp" />
     <ClCompile Include="code\source\GUI\GUI_types.cpp" />
     <ClCompile Include="code\source\main\dllmain_gui.cpp" />
-    <ClCompile Include="code\source\math\geometry.cpp" />
-    <ClCompile Include="code\source\program\pipe.cpp" />
     <ClCompile Include="code\source\render\paintHelper.cpp" />
     <ClCompile Include="code\source\render\render_gui.cpp" />
-    <ClCompile Include="code\source\util\elastic_ptr.cpp" />
     <ClCompile Include="code\source\util\global_vars_gui.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,11 +198,8 @@
     <ClInclude Include="code\include\input\keybinds.h" />
     <ClInclude Include="code\include\main\framework_gui.h" />
     <ClInclude Include="code\include\main\main_gui.h" />
-    <ClInclude Include="code\include\math\geometry.h" />
-    <ClInclude Include="code\include\program\pipe.h" />
     <ClInclude Include="code\include\render\paintHelper.h" />
     <ClInclude Include="code\include\render\render_gui.h" />
-    <ClInclude Include="code\include\util\elastic_ptr.h" />
     <ClInclude Include="code\include\util\globals_gui.h" />
     <ClInclude Include="code\include\util\global_vars_gui.h" />
   </ItemGroup>

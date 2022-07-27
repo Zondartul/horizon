@@ -2,8 +2,8 @@
 #include "render/paint.h"
 #include "math/simplemath.h"
 #include "util/stringUtils.h"
-#include "util/globals_app.h"
-#include "util/global_vars_gui.h"
+//#include "util/globals_app.h"
+//#include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
 #include <algorithm>
 #include <map>

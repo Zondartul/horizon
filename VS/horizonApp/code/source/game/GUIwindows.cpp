@@ -2,6 +2,7 @@
 #include "util/hook.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_util.h"
 #include <iostream>
 
 using namespace std;
@@ -279,10 +280,10 @@ void openTestWindow5(){
 }
 void openTestWindow6(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;
 	//auto& allocation_map = Gr->gs_debug->g_allocation_map;
 	//auto& total_size = Gr->gs_debug->g_total_size;
-	auto& sysEvent = Gr->sysEvent;
+	auto& sysEvent = Gu->sysEvent;
 	GUIlabel *label1 = new GUIlabel();
 	GUIscrollbar *bar = new GUIscrollbar();
 	bar\

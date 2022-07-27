@@ -1,7 +1,7 @@
 #include "GUI/GUI_internal.h"
 
 GUIdropdownMenu::GUIdropdownMenu(){
-	auto& globalChannel = Gr->sysEvent->globalChannel; //gs_event->g_globalChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel; //gs_event->g_globalChannel;
 	setSize(vec2(10,10));
 	grid = new GUIgrid();
 	grid->setSize(vec2(10,10));

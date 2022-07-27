@@ -12,6 +12,7 @@
 #include "render/renderLow.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
 #include "GUI/GUI.h"
 
 void apply(renderOptions O, renderLayer* L) {
@@ -230,8 +231,8 @@ void renderTick(){
 	OpenGL_swap();
 }
 void renderInit(){
-	auto& width = Gr->gs_window->g_width;
-	auto& height = Gr->gs_window->g_height;
+	auto& width = Gp->gs_window->g_width;
+	auto& height = Gp->gs_window->g_height;
 	g_renderLow = new renderLowKind();
 	g_renderLow->renderLowInit();
 	g_renderLow->setViewportSize(width, height);

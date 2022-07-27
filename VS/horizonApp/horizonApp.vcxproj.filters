@@ -28,17 +28,11 @@
     <Filter Include="Source Files\input">
       <UniqueIdentifier>{a6732184-dc13-4437-a6d7-27dc8226632d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\generators">
-      <UniqueIdentifier>{9387b19d-d3df-41e6-8669-a9d9657056ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\main">
       <UniqueIdentifier>{33ad4a3c-1604-496e-89ee-97d3b040f42a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\resource">
       <UniqueIdentifier>{4a71ee9b-85a1-4fba-911a-86c6de3ee20a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\thread">
-      <UniqueIdentifier>{4118962d-3f50-49c9-a690-c6ab618a51bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{63847f2c-6c3d-4544-8ebf-3b4d45c0970d}</UniqueIdentifier>
@@ -111,17 +105,11 @@
     <ClCompile Include="code\source\input\keybinds.cpp">
       <Filter>Source Files\input</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\generators\editmodel.cpp">
-      <Filter>Source Files\generators</Filter>
-    </ClCompile>
     <ClCompile Include="code\source\main\main.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
     <ClCompile Include="code\source\resource\model.cpp">
       <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\thread\threads.cpp">
-      <Filter>Source Files\thread</Filter>
     </ClCompile>
     <ClCompile Include="code\source\util\paramList.cpp">
       <Filter>Source Files\util</Filter>

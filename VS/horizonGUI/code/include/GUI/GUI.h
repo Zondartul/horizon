@@ -1,9 +1,10 @@
 #ifndef GUI_GUARD
 #define GUI_GUARD
-#include "util/global_vars_gui.h"
-#include "util/event.h" 
 #include "util/util.h"  
 #include "util/elastic_ptr.h"
+#include "util/event.h" 
+#include "util/globals_gui.h"
+#include "util/global_vars_gui.h"
 #include "GUI/GUI_types.h" 
 #include "GUI/GUI_property.h"
 #include "GUI/GUIrenderer.h"

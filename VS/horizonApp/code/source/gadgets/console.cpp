@@ -10,6 +10,8 @@
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
+#include "util/global_vars_util.h"
 #include <vector>
 #include <string>
 using std::vector;
@@ -17,8 +19,8 @@ using std::string;
 
 dropDownTerminal::dropDownTerminal():terminalOn(false){
 	auto& layer2D = Gr->gs_paint->g_layer2D;
-	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
+	auto& inputChannel = Gp->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	layer = new renderLayer("console.terminal");
 	layer->resetLayer = duplicateLayer(layer2D->resetLayer);
 	layer->resetLayer->name = "console.terminal.reset";
@@ -29,8 +31,8 @@ dropDownTerminal::dropDownTerminal():terminalOn(false){
 }
 
 dropDownTerminal::~dropDownTerminal(){
-	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
+	auto& inputChannel = Gp->sysInput->inputChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;
 	removeLayer(layer);
 	inputChannel.removeListener(this);
 	globalChannel.removeListener(this);

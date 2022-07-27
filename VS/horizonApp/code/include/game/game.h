@@ -1,8 +1,10 @@
 #ifndef GAME_GUARD
 #define GAME_GUARD
-#ifndef NO_SDL
-#include <SDL2/SDL.h>
+
+#ifdef USE_SDL
+#include <Ext/SDL2/SDL.h>
 #endif
+
 #include "main/main.h"
 #include "math/simplemath.h"
 #include "experimental/editor2.h"

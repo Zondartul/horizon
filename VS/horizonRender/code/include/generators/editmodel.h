@@ -134,5 +134,5 @@ struct DLLAPI_RENDER e_model{
 	rmpack getRmpack();
 };
 
-string toString(e_model *EM);
+string DLLAPI_RENDER toString(e_model *EM);
 #endif

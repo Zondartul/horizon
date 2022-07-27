@@ -22,17 +22,8 @@
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{0ad9132f-6a31-4aac-8402-31129f0f9888}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\math">
-      <UniqueIdentifier>{4f4f21fc-008c-4609-a313-3b95d8a0f656}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\render">
       <UniqueIdentifier>{3136260c-fea3-480d-a4d2-bda23bc5c272}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\input">
-      <UniqueIdentifier>{33dbeeff-4d08-4aff-8615-747c0d6dbd61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\program">
-      <UniqueIdentifier>{dd47c56e-70b7-43fd-8153-ec8c1a905a93}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Ext">
       <UniqueIdentifier>{f77bf439-8e8b-4b34-a8c5-5da56ea1a22f}</UniqueIdentifier>
@@ -58,20 +49,11 @@
     <Filter Include="Header Files\input">
       <UniqueIdentifier>{5caa87d0-14f6-4051-8c23-0045d2021c04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\math">
-      <UniqueIdentifier>{f8e483c7-6b99-442a-82a9-1fa475cc554a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\program">
-      <UniqueIdentifier>{5d47f258-1d43-4a76-97f0-e0d35860cd0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\render">
       <UniqueIdentifier>{4bd3ba9b-96cf-4fbe-b4e7-f3900f3910e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\source\util\elastic_ptr.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
     <ClCompile Include="code\source\util\global_vars_gui.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
@@ -80,12 +62,6 @@
     </ClCompile>
     <ClCompile Include="code\source\render\paintHelper.cpp">
       <Filter>Source Files\render</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\program\pipe.cpp">
-      <Filter>Source Files\program</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\math\geometry.cpp">
-      <Filter>Source Files\math</Filter>
     </ClCompile>
     <ClCompile Include="code\source\main\dllmain_gui.cpp">
       <Filter>Source Files\main</Filter>
@@ -209,17 +185,8 @@
     <ClInclude Include="code\include\util\global_vars_gui.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
-    <ClInclude Include="code\include\math\geometry.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\program\pipe.h">
-      <Filter>Header Files\program</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\render\paintHelper.h">
       <Filter>Header Files\render</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\elastic_ptr.h">
-      <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="code\include\util\globals_gui.h">
       <Filter>Header Files\util</Filter>

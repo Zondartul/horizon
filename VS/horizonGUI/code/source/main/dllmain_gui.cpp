@@ -12,6 +12,8 @@
 #include "input/input.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
+#include "util/global_vars_util.h"
 #include "main/main_gui.h"
 void openGUI();
 
@@ -59,8 +61,8 @@ void openGUI() {
 	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 	auto& layer2D = Gr->gs_paint->g_layer2D;
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& inputChannel = Gr->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
+	auto& inputChannel = Gp->sysInput->inputChannel;//Gb->gs_input->g_inputChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;//Gb->gs_event->g_globalChannel;
 	layerGUI = new renderLayer("GUI.layerGUI");
 	addLayer(layer2D, layerGUI);
 	GUI = new GUIbase();

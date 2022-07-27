@@ -13,6 +13,8 @@
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
+#include "util/global_vars_util.h"
 #include <cstdio>
 
 void editor2Kind::setupLayers(){
@@ -88,8 +90,8 @@ void openEditor2(){
 	editor2 = new editor2Kind();
 }
 editor2Kind::editor2Kind():sel(&EM){
-	auto& inputChannel = Gr->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
-	auto& globalChannel = Gr->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
+	auto& inputChannel = Gp->sysInput->inputChannel;//Gr->gs_input->g_inputChannel;
+	auto& globalChannel = Gu->sysEvent->globalChannel;//Gr->gs_event->g_globalChannel;
 	printf("editor.editorKind()\n");
 	inputChannel.addListener(this);
 	inputChannel.moveListenerToFront(this);
