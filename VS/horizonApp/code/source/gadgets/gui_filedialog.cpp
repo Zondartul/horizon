@@ -152,3 +152,69 @@ GUIfileDialog &GUIfileDialog::setFunction(function<void(string)> f){
 	func = f;
 	return *this;
 }
+
+texture* getFileIcon(string filename) {
+	string ext = getFileExtension(filename);
+	texture* t = 0;
+	if (isFolder(filename)) {
+		t = getTexture("gui/iconfolder");
+	}
+	else
+		if (
+			(ext == "txt") ||
+			(ext == "c") ||
+			(ext == "cpp") ||
+			(ext == "h") ||
+			(ext == "hpp") ||
+			(ext == "cfg")
+			) {
+			t = getTexture("gui/iconfiletxt");
+		}
+		else
+			if (
+				(ext == "bmp") ||
+				(ext == "png") ||
+				(ext == "jpg") ||
+				(ext == "jpeg") ||
+				(ext == "img")
+				) {
+				t = getTexture("gui/iconpicture");
+			}
+			else
+				if (
+					(ext == "zip") ||
+					(ext == "rar") ||
+					(ext == "gz") ||
+					(ext == "7z")
+					) {
+					t = getTexture("gui/iconzipfile");
+				}
+				else
+					if (
+						(ext == "exe")
+						) {
+						t = getTexture("gui/iconfileexe");
+					}
+					else
+						if (
+							(ext == "bat")
+							) {
+							t = getTexture("gui/iconfilecmd");
+						}
+						else
+							if (
+								(ext == "dll")
+								) {
+								t = getTexture("gui/icongear2");
+							}
+							else
+								if (
+									(ext == "a")
+									) {
+									t = getTexture("gui/iconfilegear");
+								}
+								else {
+									t = getTexture("gui/iconfile");
+								}
+	return t;
+}

@@ -16,44 +16,14 @@
     <Filter Include="Source Files\main">
       <UniqueIdentifier>{771f2c16-ebf4-4b3c-a2fb-64117abfa89d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\math">
-      <UniqueIdentifier>{968f3d82-7b44-4bd9-9075-fff8e93a5160}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\render">
       <UniqueIdentifier>{47bed2fa-b4bb-400a-a67b-c8dd7b07268b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\resource">
-      <UniqueIdentifier>{87bd1660-db86-4dbe-bd3f-ba2fb03181ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{5cde5274-dab5-4a8c-a828-1044307a0a17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Ext">
-      <UniqueIdentifier>{cf5efbf4-89c5-4eab-9612-2b4cf70c4853}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Ext\dirent">
-      <UniqueIdentifier>{8eb1f79e-0b7d-4b35-960c-7b6c453833dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Ext\GL">
-      <UniqueIdentifier>{71c0d7ca-e967-4d34-9209-1a9e13c994ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Ext\glm">
-      <UniqueIdentifier>{792cd429-e899-4c4b-be34-304c7c26efed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\loaders">
-      <UniqueIdentifier>{0d6460f2-ec92-47e7-be41-7a184083b580}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\math">
-      <UniqueIdentifier>{2e22974d-1597-4191-9c4a-8ce3ef61bb78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\program">
-      <UniqueIdentifier>{cb9118f4-837c-4958-b672-4c5abc4b02c7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\render">
       <UniqueIdentifier>{85caed10-e38c-4f2b-a97d-649eadc8e662}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\resource">
-      <UniqueIdentifier>{f37c9c56-a5c9-45a9-b808-a34e0ea16b26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\util">
       <UniqueIdentifier>{ad36fc56-5847-49a7-b9a8-f67ebccbaa58}</UniqueIdentifier>
@@ -61,34 +31,10 @@
     <Filter Include="Header Files\generators">
       <UniqueIdentifier>{6209778b-405b-43c5-a311-a5cbeeec3c7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\loaders">
-      <UniqueIdentifier>{3b41ed15-6dc8-4d46-9638-8e50e1b345af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\program">
-      <UniqueIdentifier>{9eaa9263-115d-4537-9639-a9127870d4d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\input">
-      <UniqueIdentifier>{34abac6a-cd0c-4641-a4be-9ba9f41ec7d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\input">
-      <UniqueIdentifier>{c4906826-c3e2-48aa-8040-10b2fbfb03a4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\source\main\dllmain_render.cpp">
       <Filter>Source Files\main</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\math\simplemath.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\math\vec.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\program\file.cpp">
-      <Filter>Source Files\program</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\program\window.cpp">
-      <Filter>Source Files\program</Filter>
     </ClCompile>
     <ClCompile Include="code\source\render\GPUdriver.cpp">
       <Filter>Source Files\render</Filter>
@@ -111,92 +57,14 @@
     <ClCompile Include="code\source\render\rmodel.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\resource\resource.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\resource\texture.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\util\debug.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
     <ClCompile Include="code\source\util\global_vars_render.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\util\stringUtils.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\loaders\fontLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\loaders\imageLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\loaders\textureLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\loaders\modelLoader.cpp">
-      <Filter>Source Files\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\resource\bitmap.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\resource\atlas.cpp">
-      <Filter>Source Files\resource</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\math\fancymath.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\util\timer.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
     <ClCompile Include="code\source\render\camera.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\util\hook.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\input\mouse.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\util\event.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\util\util.cpp">
-      <Filter>Source Files\util</Filter>
-    </ClCompile>
-    <ClCompile Include="code\source\input\input.cpp">
-      <Filter>Source Files\input</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\include\Ext\dirent\dirent.h">
-      <Filter>Header Files\Ext\dirent</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\Ext\GL\glew.h">
-      <Filter>Header Files\Ext\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\Ext\GL\glxew.h">
-      <Filter>Header Files\Ext\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\Ext\GL\wglew.h">
-      <Filter>Header Files\Ext\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\math\simplemath.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\math\vec.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\program\file.h">
-      <Filter>Header Files\program</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\program\framework_render.h">
-      <Filter>Header Files\program</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\program\window.h">
-      <Filter>Header Files\program</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\render\camera.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
@@ -224,80 +92,14 @@
     <ClInclude Include="code\include\render\rmodel.h">
       <Filter>Header Files\render</Filter>
     </ClInclude>
-    <ClInclude Include="code\include\resource\bitmap.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\resource\fonts.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\resource\model.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\resource\resource.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\resource\texture.h">
-      <Filter>Header Files\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\config.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\debug.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\util\global_vars_render.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
     <ClInclude Include="code\include\util\globals_render.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
-    <ClInclude Include="code\include\util\stringUtils.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\util.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\fontLoader.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\ft2build.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\imageLoader.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\modelLoader.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\stb_image.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\stb_image_write.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\textureLoader.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\loaders\tiny_obj_loader.h">
-      <Filter>Header Files\loaders</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\generators\editmodel.h">
       <Filter>Header Files\generators</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\math\fancymath.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\timer.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\input\mouse.h">
-      <Filter>Header Files\input</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\util\event.h">
-      <Filter>Header Files\util</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\input\input.h">
-      <Filter>Header Files\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

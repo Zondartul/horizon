@@ -1,8 +1,8 @@
 #ifndef GPU_DRIVER_GUARD
 #define GPU_DRIVER_GUARD
 
-#ifndef NO_GLEW
-#include "Ext/GL/glew.h"
+#ifdef USE_GLEW
+	#include "Ext/GL/glew.h"
 #endif
 
 #include "resource/fonts.h"

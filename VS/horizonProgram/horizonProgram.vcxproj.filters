@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{294c46cd-5654-4b47-a0fe-c79e5235f1a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{afd5cc23-99d3-47d1-8849-2af67b492a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{a77be2d7-904e-49ac-a0ee-ac81dd9e801b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\program">
+      <UniqueIdentifier>{b3322f2d-f83f-4dcf-8d04-f4001b98e5ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{b6fbe18e-868a-4294-9a1e-d5c6aefdddb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\program">
+      <UniqueIdentifier>{bb2eb696-0019-49bd-ba36-d406a0f8fa77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext">
+      <UniqueIdentifier>{07d5f000-544a-4f88-929b-9ace6f1a8841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\dirent">
+      <UniqueIdentifier>{edf8c7d7-45bb-49fc-85b0-0f6835597136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\SDL2">
+      <UniqueIdentifier>{9cff77b9-0df3-4315-b4cd-f06dc93f6468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{ca22f709-770d-4475-b3a3-ca703632dd3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{f24244d7-5d4c-49b1-89b4-cd67ea91cf4d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\source\main\dllmain_program.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\input\input.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\input\mouse.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\program\file.cpp">
+      <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\program\pipe.cpp">
+      <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\program\window.cpp">
+      <Filter>Source Files\program</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\util\global_vars_program.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\include\main\framework_program.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\globals_program.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\file.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\window.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\program\pipe.h">
+      <Filter>Header Files\program</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\dirent\dirent.h">
+      <Filter>Header Files\Ext\dirent</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\SDL2\SDL.h">
+      <Filter>Header Files\Ext\SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\input.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\input\mouse.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\global_vars_program.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

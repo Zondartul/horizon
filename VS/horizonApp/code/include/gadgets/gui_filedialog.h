@@ -19,4 +19,6 @@ class GUIfileDialog: public GUIwindow{
 	vector<GUIbase*> elements;
 };
 
+texture* getFileIcon(string filename);
+
 #endif

@@ -1,18 +1,18 @@
-#include "render/paint.h"
-#include <cstdio>
-#include "util/globals_render.h"
 #include "math/simplemath.h"
+#include "render/paint.h"
 #include "render/renderLayer.h"
 #include "render/rmodel.h"
+#include "render/renderCommand.h"
 #include "resource/model.h"
+#include "generators/editmodel.h"
 #include "util/timer.h"
 #include "util/util.h"
-#include "render/renderCommand.h"
 #include "util/global_vars_render.h"
-#include "generators/editmodel.h"
+#include "util/globals_render.h"
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <cstdio>
 using namespace std;
 
 void setLayer(renderLayer *L){

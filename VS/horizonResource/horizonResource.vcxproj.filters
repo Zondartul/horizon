@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{6df2a6bd-b9c1-4ed1-ae95-40d648b0a9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext">
+      <UniqueIdentifier>{d9d180e8-ec8e-4a86-a90c-86ad42547795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\freetype">
+      <UniqueIdentifier>{a5ccdec6-f41f-4f95-8614-b7ed7d825016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource">
+      <UniqueIdentifier>{9c55c70b-244b-4a82-a7e5-122687bdfe20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\loaders">
+      <UniqueIdentifier>{5fc26c2a-9b02-46d3-b56b-293cd0f5597f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\main">
+      <UniqueIdentifier>{ec080bdf-80b3-455f-b588-164e213b525f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource">
+      <UniqueIdentifier>{ec4119f2-c68b-49f1-862f-694fe6f19bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\loaders">
+      <UniqueIdentifier>{ef1e7a98-bddd-4ae1-be46-ee98604595e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{3ec3118f-2af1-4651-a36b-f93c70c7b91c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\stb_image">
+      <UniqueIdentifier>{790b1a5b-38d6-4401-8f54-dfdc5df9718b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ext\tiny_obj_loader">
+      <UniqueIdentifier>{079b046a-9f87-4bb0-a03e-9098d34815bf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\include\main\framework_resource.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\freetype\freetype.h">
+      <Filter>Header Files\Ext\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\atlas.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\bitmap.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\fonts.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\model.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\resource.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\resource\texture.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\fontLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\imageLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\modelLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\loaders\textureLoader.h">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\util\globals_resource.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\stb_image\stb_image.h">
+      <Filter>Header Files\Ext\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\stb_image\stb_image_write.h">
+      <Filter>Header Files\Ext\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\Ext\tiny_obj_loader\tiny_obj_loader.h">
+      <Filter>Header Files\Ext\tiny_obj_loader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\source\main\dllmain_resource.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\atlas.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\bitmap.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\resource.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\texture.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\fontLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\imageLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\modelLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\loaders\textureLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\resource\font.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

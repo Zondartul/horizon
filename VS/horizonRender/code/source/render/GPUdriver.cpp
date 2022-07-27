@@ -1,10 +1,10 @@
-#include "render/GPUdriver.h"
-#include "util/globals_render.h"
 #include "program/file.h"
+#include "render/GPUdriver.h"
 #include "resource/texture.h"
 #include "render/printw.h"
 #include "util/util.h"
-#include "util/debug.h"
+//#include "util/debug.h"
+#include "util/globals_render.h"
 #include <sstream>
 #include <stdexcept>
 using std::stringstream;
@@ -258,8 +258,11 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(TEXTURE_UPLOAD):{
                 texture *t = rcmd.t;
-                if(wasRecentlyDeleted(t)){error("accessing a deleted texture");}
-                if(!t){error("attempt to upload null texture\n");}
+                //if(wasRecentlyDeleted(t)){error("accessing a deleted texture");}
+                if(!t){
+                    //error("attempt to upload null texture\n");
+                    throw runtime_error("attempt to upload a null texture");
+                }
 
                 if(texture_GPU_handles.count(t)){break;}//texture already uploaded.
                 if(bitmap_GPU_handles.count(t->bmp)){break;}//texture already uploaded.
@@ -282,26 +285,46 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
                     int err = glGetError();
                     if(err){
-                        if(err == GL_OUT_OF_MEMORY){error("Error: GL_OUT_OF_MEMORY");}
+                        if(err == GL_OUT_OF_MEMORY){
+                            //error("Error: GL_OUT_OF_MEMORY");
+                            throw runtime_error("Error: GL_OUT_OF_MEMORY");
+                        }
                         stringstream ss;
                         ss << "GL Error: " << err;
-                        error(ss.str().c_str());
+                        //error(ss.str().c_str());
+                        throw runtime_error(ss.str());
                     }
                 }else{
-                   error("no texture data to upload (%s)\n",t->name.c_str());
+                   //error("no texture data to upload (%s)\n",t->name.c_str());
+                    stringstream ss;
+                    ss << "no texture data to upload (" << t->name << ")";
+                    throw runtime_error(ss.str());
                 }
             } break;
             case(TEXTURE_SELECT):{
                 texture *t = rcmd.t;
-                if(wasRecentlyDeleted(t)){error("accessing a deleted texture");}
-                if(!t){error("attempt to select null texture\n");}
+                //if(wasRecentlyDeleted(t)){error("accessing a deleted texture");}
+                if(!t){
+                    //error("attempt to select null texture\n");
+                    throw runtime_error("attempt to select null texture");
+                }
                 GLuint handle = 0;
                 //render_sys_data_texture rdata;
                 if(t->bmp){
-                    if(!bitmap_GPU_handles.count(t->bmp)){error("image not uploaded: \"%s\"/%p\n",t->name.c_str(),t->bmp);}
+                    if(!bitmap_GPU_handles.count(t->bmp)){
+                        //error("image not uploaded: \"%s\"/%p\n",t->name.c_str(),t->bmp);
+                        stringstream ss;
+                        ss << "image not uploaded: \"" << t->name << "\"/" << (void*)(t->bmp);
+                        throw runtime_error(ss.str());
+                    }
                     handle = bitmap_GPU_handles[t->bmp];
                 }else{
-                    if(!texture_GPU_handles.count(t)){error("texture not uploaded: %s\n",t->name.c_str());}
+                    if(!texture_GPU_handles.count(t)){
+                        //error("texture not uploaded: %s\n",t->name.c_str());
+                        stringstream ss;
+                        ss << "texture not uploaded: " << t->name;
+                        throw runtime_error(ss.str());
+                    }
                     handle = texture_GPU_handles[t];
                 }
                 if(debug){printf("texture select %s (%d)\n",t->name.c_str(), handle);}
@@ -329,10 +352,10 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(RMODEL_UPLOAD):{
                 rmodel *rm = rcmd.rm;
-                if(wasRecentlyDeleted(rm)){
-                    //error("accessing a deleted rmodel");
-                    throw runtime_error("accessing a deleted rmodel");
-                }
+                //if(wasRecentlyDeleted(rm)){
+                //    //error("accessing a deleted rmodel");
+                //    throw runtime_error("accessing a deleted rmodel");
+                //}
                 if(!rm){
                     //error("attempt to upload null rmodel\n");
                     throw runtime_error("attempt to upload null rmodel");
@@ -392,10 +415,10 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(RMODEL_RENDER):{
                 rmodel *rm = rcmd.rm;
-                if(wasRecentlyDeleted(rm)){
-                    //error("accessing a deleted rmodel");
-                    throw runtime_error("accessing a deleted rmodel");
-                }
+                //if(wasRecentlyDeleted(rm)){
+                //    //error("accessing a deleted rmodel");
+                //    throw runtime_error("accessing a deleted rmodel");
+                //}
                 if(!rm){
                     //error("attempt to render null rmodel\n");
                     throw runtime_error("attempt to render null rmodel");
@@ -437,10 +460,10 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(RMODEL_DELETE):{
                 rmodel *rm = rcmd.rm;
-                if(wasRecentlyDeleted(rm)){
-                    //error("accessing a deleted rmodel");
-                    throw runtime_error("accessing a deleted rmodel");
-                }
+                //if(wasRecentlyDeleted(rm)){
+                //    //error("accessing a deleted rmodel");
+                //    throw runtime_error("accessing a deleted rmodel");
+                //}
                 if(!rm){
                     //error("attempt to delete null rmodel\n");
                     throw runtime_error("attempt to delete null rmodel");

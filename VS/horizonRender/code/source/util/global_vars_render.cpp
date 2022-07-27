@@ -16,11 +16,9 @@ renderLowKind* g_renderLow;
 GlobalsRender::GlobalsRender() {
 	gs_paint = new gs_paintKind();
 	gs_renderLayer = new gs_renderLayerKind();
-	gs_window = new gs_windowKind();
+	//gs_window = new gs_windowKind();
 	gs_printw = new gs_printwKind();
 	gs_renderLow = new gs_renderLowKind();
-	sysEvent = new sysEventKind();
-	sysTimer = new sysTimerKind(*sysEvent);
 	gs_camera = new gs_cameraKind(); 
-	sysInput = new sysInputKind();
+	//sysInput = new sysInputKind();
 }

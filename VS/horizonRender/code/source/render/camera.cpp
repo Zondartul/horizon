@@ -1,6 +1,7 @@
-#ifndef NO_GLEW
+#ifdef USE_GLEW
 	#include "Ext/GL/glew.h"
 #endif
+
 #include "Ext/glm/gtc/matrix_transform.hpp"
 #include "program/window.h" 
 #include "render/camera.h"
@@ -12,6 +13,7 @@
 #include "util/stringUtils.h"
 #include "util/globals_render.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
 #include "util/timer.h"
 #include <string>
 #include <stdexcept>
@@ -62,8 +64,8 @@ void cameraKind::setPos(vec3 newpos){pos = newpos; }
 void cameraKind::setRot(vec3 newrot){rot = newrot; }
 void cameraKind::setFov(float newfov){fov = newfov;}
 void cameraKind::go2D(){
-	auto& width = Gr->gs_window->g_width;
-	auto& height = Gr->gs_window->g_height;
+	auto& width = Gp->gs_window->g_width;
+	auto& height = Gp->gs_window->g_height;
 	mode3D = false;
 	#ifndef NO_GLEW
 		setViewport(0, 0, width, height);
@@ -80,8 +82,8 @@ void cameraKind::go2D(){
 }
 void cameraKind::go3D(){
 	//auto& camera = Gr->gs_camera->g_camera;
-	auto& width = Gr->gs_window->g_width;
-	auto& height = Gr->gs_window->g_height;
+	auto& width  = Gp->gs_window->g_width;
+	auto& height = Gp->gs_window->g_height;
 	mode3D = true;
 	vec2 scr = getScreenSize();
 #ifndef NO_GLEW
@@ -354,4 +356,21 @@ void go2D(){
 	auto& camera = Gr->gs_camera->g_camera;
 	camera.go2D();
 	setProjection(camera.getProjection());
+}
+
+//#include "render/camera.h"
+//from stringUtils
+string toString(camprojection cpj) { return toString(cpj.MVP) + ":" + toString(cpj.pos); }
+template<> camprojection fromString<camprojection>(const string S) {
+	vector<string> VS = explode(S, ':');
+	mat4 MVP;
+	vec3 pos;
+	if (VS.size() == 2) {
+		MVP = fromString<mat4>(VS[0]);
+		pos = fromString<vec3>(VS[1]);
+	}
+	camprojection proj;
+	proj.MVP = MVP;
+	proj.pos = pos;
+	return proj;
 }
