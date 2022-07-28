@@ -97,6 +97,7 @@
       </PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -118,6 +119,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,6 +141,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +163,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\generators\editmodel.h" />
+    <ClInclude Include="code\include\main\framework_render.h" />
+    <ClInclude Include="code\include\main\main_render.h" />
     <ClInclude Include="code\include\render\camera.h" />
     <ClInclude Include="code\include\render\GPUdriver.h" />
     <ClInclude Include="code\include\render\paint.h" />

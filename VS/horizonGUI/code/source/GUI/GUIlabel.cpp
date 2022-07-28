@@ -17,7 +17,12 @@ GUIlabel *GUIlabel::setTextColor(vec3 color){
 	return this;
 }
 GUIlabel *GUIlabel::setTextFont(font *f){
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	textfont = f;
+	if (textfont) {
+		setLayer(loadLayer);
+		uploadFont(textfont);
+	}
 	return this;
 }
 GUIlabel *GUIlabel::setText(string newtext){

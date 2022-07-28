@@ -1,6 +1,8 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 //#include "pch.h"
 #include "main/framework_util.h"
+#include "main/main_util.h"
+#include "util/global_vars_util.h"
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -18,3 +20,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     return TRUE;
 }
 
+void initHorizonUtil() {
+    static bool initialized = false;
+    if (initialized) { return; }
+    initialized = true;
+
+    Gu = new GlobalsUtil();
+}

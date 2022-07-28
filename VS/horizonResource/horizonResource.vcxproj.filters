@@ -96,6 +96,9 @@
     <ClInclude Include="code\include\Ext\tiny_obj_loader\tiny_obj_loader.h">
       <Filter>Header Files\Ext\tiny_obj_loader</Filter>
     </ClInclude>
+    <ClInclude Include="code\include\main\main_resource.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\source\main\dllmain_resource.cpp">

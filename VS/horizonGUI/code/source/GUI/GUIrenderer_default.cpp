@@ -64,6 +64,7 @@ render(GUIbase *el, string type){
 		GUIlabel *elLbl = dynamic_cast<GUIlabel*>(el); if(!elLbl){return;}
 		setColor(elLbl->textColor);
 		setFont(elLbl->textfont);
+		//uploadFont(elLbl->textfont);
 		rect tRect = elLbl->getTextRect();
 		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);
 		setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);

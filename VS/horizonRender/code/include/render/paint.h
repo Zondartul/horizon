@@ -100,6 +100,7 @@ void DLLAPI_RENDER drawCone(vec3 pos, vec3 rot, float r, float h);
 void DLLAPI_RENDER drawSphere(vec3 pos, vec3 rot, float r);
 void DLLAPI_RENDER renderComment(string str);
 void DLLAPI_RENDER initLayers();
+void DLLAPI_RENDER uploadFont(font* f);
 
 struct DLLAPI_RENDER gs_paintKind {
 	renderLayer* g_loadLayer;		

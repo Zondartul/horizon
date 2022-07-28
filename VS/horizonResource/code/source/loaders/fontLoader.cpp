@@ -147,5 +147,3 @@ font *loadFont(const char *fontpath, int size){
 	F->maxrect = rect(start,end);
 	return F;
 }
-void uploadFont(font *f){
-}

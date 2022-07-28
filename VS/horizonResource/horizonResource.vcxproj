@@ -28,6 +28,7 @@
     <ClInclude Include="code\include\loaders\modelLoader.h" />
     <ClInclude Include="code\include\loaders\textureLoader.h" />
     <ClInclude Include="code\include\main\framework_resource.h" />
+    <ClInclude Include="code\include\main\main_resource.h" />
     <ClInclude Include="code\include\resource\atlas.h" />
     <ClInclude Include="code\include\resource\bitmap.h" />
     <ClInclude Include="code\include\resource\fonts.h" />

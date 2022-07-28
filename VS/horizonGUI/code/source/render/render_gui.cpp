@@ -230,12 +230,3 @@ void renderTick(){
 	deleteLayer->reset();
 	OpenGL_swap();
 }
-void renderInit(){
-	auto& width = Gp->gs_window->g_width;
-	auto& height = Gp->gs_window->g_height;
-	g_renderLow = new renderLowKind();
-	g_renderLow->renderLowInit();
-	g_renderLow->setViewportSize(width, height);
-	initLayers();
-	printf("-------- render init done -----\n");
-}

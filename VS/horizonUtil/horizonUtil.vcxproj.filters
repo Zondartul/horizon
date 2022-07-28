@@ -125,5 +125,8 @@
     <ClInclude Include="code\include\util\global_vars_util.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>
+    <ClInclude Include="code\include\main\main_util.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

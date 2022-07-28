@@ -1,11 +1,21 @@
 #include "GUI/GUI_internal.h"
 
 GUIimage::GUIimage(){
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	image = defaultimage;
+	if (image) {
+		setLayer(loadLayer);
+		uploadTexture(image);
+	}
 	noframe = true;
 }
 GUIimage *GUIimage::setImage(texture *newimage){
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	image = newimage;
+	if (image) {
+		setLayer(loadLayer);
+		uploadTexture(image);
+	}
 	return this;
 }
 GUIbase *GUIimage::sizeToContents(){

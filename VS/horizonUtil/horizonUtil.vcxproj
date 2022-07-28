@@ -36,6 +36,7 @@
   <ItemGroup>
     <ClInclude Include="code\include\Ext\glm\glm.hpp" />
     <ClInclude Include="code\include\main\framework_util.h" />
+    <ClInclude Include="code\include\main\main_util.h" />
     <ClInclude Include="code\include\math\fancymath.h" />
     <ClInclude Include="code\include\math\geometry.h" />
     <ClInclude Include="code\include\math\simplemath.h" />

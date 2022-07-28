@@ -5,7 +5,6 @@
 #include "util/global_vars_render.h"
 #include "util/global_vars_util.h"
 #include "main/main_gui.h" //for init stuff
-
 //void initHorizonSystem() {
 //	//Gb = (GlobalsBtm*)malloc(sizeof(GlobalsBtm));
 //	//new(Gb) GlobalsBtm();
@@ -30,7 +29,7 @@
 //	openGUI();
 //}
 
-void initTop() {
+void initApp() {
 	Ga = new GlobalsApp();
 	auto& console = Ga->gs_console->g_console;
 	console = new consoleKind();
@@ -40,9 +39,13 @@ void initTop() {
 void tick();
 
 int main(int argc, char **argv){
-	initHorizonSystem();
+	//initHorizonSystem();
+	//initHorizonGUI();
+	//initTop();
 	initHorizonGUI();
-	initTop();
+	openGUI();
+	initApp();
+
 	while(1){
 		tick();
 	}
@@ -57,6 +60,7 @@ void tick(){
 	renderTick();  
 	sysMessageTick(); 
 }
+
 //void openGUI(){
 //	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
 //	auto& layer2D = Gb->gs_paint->g_layer2D;

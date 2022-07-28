@@ -34,6 +34,9 @@
     <Filter Include="Source Files\generators">
       <UniqueIdentifier>{f21143d0-afc4-45f7-921a-e38dc98a09f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\main">
+      <UniqueIdentifier>{5a92f1b0-b6b7-4355-bf82-66097c529dd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\source\main\dllmain_render.cpp">
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="code\include\generators\editmodel.h">
       <Filter>Header Files\generators</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\main\framework_render.h">
+      <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\main\main_render.h">
+      <Filter>Header Files\main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

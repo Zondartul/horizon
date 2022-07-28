@@ -2,6 +2,7 @@
 #include "resource/texture.h"
 #include "resource/bitmap.h"
 #include <sstream>
+#include <tuple> // for std::ignore
 using std::stringstream;
 
 texture::texture(){
@@ -19,12 +20,13 @@ string toString(texture* t) {
 }
 template<> texture* fromString<texture*>(const string S) {
 	if (S == "tex:[null]") { return 0; }
-	//char buff[80];
-	//std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
-	char c;
-	string name;
-	stringstream ss(S);
-	ss >> c >> c >> c >> c >> c >> name >> c;
+	char buff[80];
+	std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
+	//char c;
+	//string name;
+	//stringstream ss(S);
+	//ss >> c >> c >> c >> c >> c >> name >> c;
+	string name(buff);
 	printf("fromString<texture*>: S = [%s]\n", S.c_str());
 	printf("fromString<texture*>: buff = [%s]\n", name.c_str());//buff);
 	//buff[79] = 0;

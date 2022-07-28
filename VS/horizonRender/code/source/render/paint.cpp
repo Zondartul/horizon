@@ -4,12 +4,14 @@
 #include "render/rmodel.h"
 #include "render/renderCommand.h"
 #include "resource/model.h"
+#include "resource/fonts.h"
 #include "generators/editmodel.h"
 #include "util/timer.h"
 #include "util/util.h"
 #include "util/global_vars_render.h"
 #include "util/globals_render.h"
 #include <vector>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cstdio>
@@ -626,4 +628,13 @@ void initLayers(){
 	layerDebug2D->resetLayer = addNewLayer("main.layerDebug2D.reset",true,true);
 	deleteLayer 		= addNewLayer("main.deleteLayer"); 
 	setLayer(loadLayer);	
+}
+
+void uploadFont(font* f) {
+	cout << "uploading font " << f->name << endl;
+	for (auto& [c,G] : f->charmap) {
+		uploadTexture(G.t);
+		cout << c;
+	}
+	cout << endl << "upload font done" << endl;
 }

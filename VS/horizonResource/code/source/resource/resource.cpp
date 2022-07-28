@@ -129,7 +129,7 @@ vector<font*> listFonts(){return fonts;}
 //#include "generators/editmodel.h"
 
 void loadAssets(){
-	getFont("cour 14");
+	//getFont("cour 14");
 	//setFont(getFont("calibri 18"));
 
 	//something about that fancy box
