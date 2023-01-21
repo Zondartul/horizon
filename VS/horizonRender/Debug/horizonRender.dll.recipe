@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Stride\shared\horizon\bin\horizonRender.dll</FullPath>
+      <FullPath>D:\Stride\horizon\bin\horizonRender.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

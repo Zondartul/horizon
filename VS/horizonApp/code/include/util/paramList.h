@@ -2,6 +2,7 @@
 #define PARAMLIST_GUARD
 #include "math/vec.h"
 #include "util/stringUtils.h"
+#include "util/debug.h" //21.01.2023: for error()
 #include <string>
 #include <typeinfo>
 #include <map>

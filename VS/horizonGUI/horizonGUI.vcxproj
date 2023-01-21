@@ -89,14 +89,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,14 +125,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonGUI\code\include;D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>horizonRender.lib;horizonResource.lib;horizonProgram.lib;horizonUtil.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -96,7 +96,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -104,7 +104,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>horizonResource.lib;horizonProgram.lib;horizonUtil.lib;glew32.lib;opengl32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\bin;$(SolutionDir)..\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,14 +140,14 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\Stride\shared\horizon\VS\horizonRender\code\include;D:\Stride\shared\horizon\VS\horizonResource\code\include;D:\Stride\shared\horizon\VS\horizonProgram\code\include;D:\Stride\shared\horizon\VS\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalLibraryDirectories>D:\Stride\shared\horizon\bin;D:\Stride\shared\horizon\VS\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\bin;$(SolutionDir)..\horizonRender\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>horizonResource.lib;horizonProgram.lib;horizonUtil.lib;glew32.lib;opengl32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
