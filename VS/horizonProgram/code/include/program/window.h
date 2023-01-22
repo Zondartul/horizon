@@ -5,6 +5,7 @@
 #endif
 #include "math/vec.h"
 #include "util/globals_program.h"
+#include "util/event.h" //for onEvent to catch resizes
 #include <map>
 #include <string>
 using std::map;
@@ -30,7 +31,7 @@ void DLLAPI_PROGRAM sysMessageTick();
 
 extern map<string,bool> DLLAPI_PROGRAM g_keyboardState;
 
-struct DLLAPI_PROGRAM gs_windowKind {
+struct DLLAPI_PROGRAM gs_windowKind:public eventListener {
 	int g_height;
 	int g_width;
 
@@ -55,6 +56,8 @@ struct DLLAPI_PROGRAM gs_windowKind {
 	SDL_Window* g_mainWindow;
 	SDL_GLContext g_mainContext;
 #endif
+
+	void onEvent(eventKind event);
 };
 
 #endif

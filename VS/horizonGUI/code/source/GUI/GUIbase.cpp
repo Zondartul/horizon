@@ -205,6 +205,9 @@ void GUIbase::onEvent(eventKind event){
 		if(event.type == EVENT_CLEANUP){
 			checkCloseTree();
 		}
+		//if (event.type == EVENT_WINDOW_RESIZE) {
+		//	invalidateTree();
+		//}
 	}
 	if(blockChildInput){
 		switch(event.type){

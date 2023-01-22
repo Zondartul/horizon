@@ -5,11 +5,12 @@
 #include "loaders/modelLoader.h"
 #include "render/rmodel.h"
 #include "util/globals_render.h"
+#include "util/event.h"
 //renderLow, opengl 3.x version
 
 struct GPUdriverKind;
 
-class DLLAPI_RENDER renderLowKind {
+class DLLAPI_RENDER renderLowKind: public eventListener {
 public:
 	renderLowKind();
 
@@ -21,6 +22,8 @@ public:
 	void renderModel(model* m);
 	void unloadModel(rmodel* rm);
 	void setViewportSize(int width, int height);
+
+	void onEvent(eventKind event);
 
 	GPUdriverKind* GPUdriver;
 	renderOptions options;

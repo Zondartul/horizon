@@ -2,10 +2,17 @@
 #include "input/mouse.h"
 #include "resource/resource.h"
 #include "render/paint.h"
+#include "util/global_vars_render.h" //for loadLayer
 
 gui_editor_tool_place::gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mode):
 	gui_editor_tool(Ed),
-	submode(mode){}
+	submode(mode){
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	
+	setLayer(loadLayer);
+	uploadTexture(getTexture("gui/iconvertexwhite"));
+}
+
 void gui_editor_tool_place::scan(){
 	gui_editor_tool::scan();
 	if(stage == GEMT_START){

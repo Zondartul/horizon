@@ -44,6 +44,13 @@ void renderLowKind::setViewportSize(int width, int height){
     GPUdriver->renderState.height = height;
 }
 
+void renderLowKind::onEvent(eventKind event)
+{
+    if (event.type == EVENT_WINDOW_RESIZE) {
+        setViewportSize(event.windowresize.width, event.windowresize.height);
+    }
+}
+
 void renderLowKind::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L){
 
     int cmdNum = 0;
@@ -120,7 +127,6 @@ void renderLowKind::parseCommand(const renderCommand3 &rcmd){
             case(TEXTURE_SELECT):
                 options.t = rcmd.t;
             break;
-
 
             case(SCISSORING):
                 options.scissoring = rcmd.b;

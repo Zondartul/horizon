@@ -14,18 +14,9 @@ using std::ofstream;
 using std::stringstream;
 
 int cmd_pauseGame(int argc, char **argv){
-	//auto& gamePaused = Gb->gs_main->g_gamePaused;
-	//gamePaused = !gamePaused;
     return 0;
 }
 int cmd_listKeybinds(int argc, char **argv){
-	//auto& console = Gt->gs_console->g_console;
-	//auto& keybinds = Gb->sysInput->keybinds;//Gb->gs_keybinds->g_keybinds;
-	//for(auto I = keybinds.binds.begin(); I != keybinds.binds.end(); I++){
-	//	string key = I->first;
-	//	bind b = I->second;
-	//	console->print(fstring("%s: %s\n",key.c_str(),b.cmd.c_str()));
-	//}
 	return 0;
 }
 int cmd_help(int argc, char **argv){

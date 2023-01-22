@@ -35,6 +35,11 @@ struct DLLAPI_UTIL event_mouse_wheel{
 	int y;
 };
 
+struct DLLAPI_UTIL event_window_resize {
+	int width;
+	int height;
+};
+
 enum DLLAPI_UTIL eventType{	
 			EVENT_KEY_UP,				
 			EVENT_KEY_DOWN,
@@ -44,7 +49,8 @@ enum DLLAPI_UTIL eventType{
 			EVENT_MOUSE_WHEEL,			
 			EVENT_FRAME,				
 			EVENT_TICK,					
-			EVENT_CLEANUP				
+			EVENT_CLEANUP,
+			EVENT_WINDOW_RESIZE
 			};
 
 struct DLLAPI_UTIL eventKind{
@@ -59,6 +65,7 @@ struct DLLAPI_UTIL eventKind{
 		event_mouse_button mousebutton;
 		event_mouse_move mousemove;
 		event_mouse_wheel mousewheel;
+		event_window_resize windowresize;
 	};
 };
 

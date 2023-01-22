@@ -38,6 +38,24 @@ void initApp() {
 
 void tick();
 
+#include "util/global_vars_program.h"
+struct globals {
+	GlobalsApp* Ga = 0;
+	GlobalsGui* Gg = 0;
+	GlobalsProgram* Gp = 0;
+	GlobalsRender* Gr = 0;
+	GlobalsUtil* Gu = 0;
+
+	globals() {
+		this->Ga = ::Ga;
+		this->Gg = ::Gg;
+		this->Gp = ::Gp;
+		this->Gr = ::Gr;
+		this->Gu = ::Gu;
+	}
+};
+
+
 int main(int argc, char **argv){
 	//initHorizonSystem();
 	//initHorizonGUI();
@@ -45,6 +63,8 @@ int main(int argc, char **argv){
 	initHorizonGUI();
 	openGUI();
 	initApp();
+
+	globals G;
 
 	while(1){
 		tick();

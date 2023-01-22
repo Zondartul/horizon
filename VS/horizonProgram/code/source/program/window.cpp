@@ -235,7 +235,10 @@ void sysMessageTick(){
 					height = sdl_event.window.data2;
 					printf("window resized: %d x %d\n",width,height);
                     //if(g_renderLow){g_renderLow->setViewportSize(width, height);}
-					//we'll instead publish an event about this
+					/// we'll instead publish an event about this
+					event.type = EVENT_WINDOW_RESIZE;
+					event.windowresize.width = width;
+					event.windowresize.height = height;
 					break;
 				default:
 					break;
@@ -264,3 +267,9 @@ vec2 getScreenSize(){
 	return {width,height};
 }
 
+void gs_windowKind::onEvent(eventKind event) {
+	if (event.type == EVENT_WINDOW_RESIZE) {
+		g_height = event.windowresize.height;
+		g_width = event.windowresize.width;
+	}
+}
