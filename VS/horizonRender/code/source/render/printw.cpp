@@ -9,18 +9,16 @@
 #include "math/simplemath.h"
 #include "util/global_vars_render.h"
 
-void drawRectImmediate(rect R){
-	auto& currentLayer = Gr->gs_paint->g_currentLayer;
-
-	rmodel *rm = new rmodel();
-	vec3 A = vec3(R.start.x,R.start.y,0.0f);
-	vec3 B = vec3(R.start.x,R.end.y,0.0f);
-	vec3 C = vec3(R.end.x,R.start.y,0.0f);
-	vec3 D = vec3(R.end.x,R.end.y,0.0f);
-	vec2 UVA = vec2(0,0);//*0.1f;
-	vec2 UVB = vec2(0,1);//*0.1f;
-	vec2 UVC = vec2(1,0);//*0.1f;
-	vec2 UVD = vec2(1,1);//*0.1f;
+rmodel* make_rm_rect(rect R) {
+	rmodel* rm = new rmodel();
+	vec3 A = vec3(R.start.x, R.start.y, 0.0f);
+	vec3 B = vec3(R.start.x, R.end.y, 0.0f);
+	vec3 C = vec3(R.end.x, R.start.y, 0.0f);
+	vec3 D = vec3(R.end.x, R.end.y, 0.0f);
+	vec2 UVA = vec2(0, 0);//*0.1f;
+	vec2 UVB = vec2(0, 1);//*0.1f;
+	vec2 UVC = vec2(1, 0);//*0.1f;
+	vec2 UVD = vec2(1, 1);//*0.1f;
 	rm->vertices->push_back(A);
 	rm->vertices->push_back(B);
 	rm->vertices->push_back(C);
@@ -36,14 +34,21 @@ void drawRectImmediate(rect R){
 	rm->uvs->push_back(UVC);
 
 
-	rm->colors->push_back(vec3(1,0,0));
-	rm->colors->push_back(vec3(1,1,1));
-	rm->colors->push_back(vec3(1,1,1));
-	rm->colors->push_back(vec3(1,1,1));
-	rm->colors->push_back(vec3(1,0,0));
-	rm->colors->push_back(vec3(1,1,1));
+	rm->colors->push_back(vec3(1, 0, 0));
+	rm->colors->push_back(vec3(1, 1, 1));
+	rm->colors->push_back(vec3(1, 1, 1));
+	rm->colors->push_back(vec3(1, 1, 1));
+	rm->colors->push_back(vec3(1, 0, 0));
+	rm->colors->push_back(vec3(1, 1, 1));
 
 	rm->finalize();
+	return rm;
+}
+
+void drawRectImmediate(rect R){
+	auto& currentLayer = Gr->gs_paint->g_currentLayer;
+
+	rmodel* rm = make_rm_rect(R);
     renderLayer *oldL = currentLayer;
     renderLayer *L = new renderLayer("drawRectImmediate",false,true);
     setLayer(L);

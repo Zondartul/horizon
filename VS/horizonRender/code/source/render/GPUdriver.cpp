@@ -7,8 +7,9 @@
 #include "util/globals_render.h"
 #include <sstream>
 #include <stdexcept>
-using std::stringstream;
-using std::runtime_error;
+#include <iostream>
+using namespace std;
+
 
 
 void GPUdriverKind::renderLowInit(){
@@ -184,6 +185,12 @@ void GPUdriverKind::parseQueue(renderQueue3 *rqueue){
         parseCommand(rcmd);
 
     }
+}
+
+
+std::ostream& operator<<(std::ostream& stream, rect R) {
+    stream << "(" << R.start.x << ", " << R.start.y <<" x " << R.size.x << ", " << R.size.y << ")";
+    return stream;
 }
 
 void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
@@ -595,6 +602,7 @@ void GPUdriverKind::parseCommand(const renderCommand3 &rcmd){
 
             case(VIEWPORT):
                 //printf("glViewport: %d %d %d %d\n", rcmd.r.start.x, rcmd.r.start.y, rcmd.r.size.x, rcmd.r.size.y);
+                //cout << "GPUdriver.cpp: glViewport: rect= " << rcmd.r << endl;
                 glViewport((GLint)rcmd.r.start.x, (GLint)rcmd.r.start.y, (GLsizei)rcmd.r.size.x, (GLsizei)rcmd.r.size.y);
             break;
 

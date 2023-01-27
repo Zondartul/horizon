@@ -2,6 +2,7 @@
 #define CONSOLE_GUARD
 #include "util/event.h"
 #include "render/renderLayer.h"
+#include "render/render_gui.h" /// for renderableText
 #include <functional>
 #include <string>
 using std::function;
@@ -24,6 +25,8 @@ class dropDownTerminal:public eventListener, public terminalKind{
 	string inputText;
 	consoleKind *console;
 	vector<string> terminalStrings;
+	vector<renderableText*> rTs;
+	renderableText* rT_input;
 	dropDownTerminal();
 	virtual ~dropDownTerminal();
 	bool terminalOn;

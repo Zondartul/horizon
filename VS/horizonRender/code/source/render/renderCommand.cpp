@@ -1,7 +1,9 @@
+#include <stdexcept>
 #include "render/renderCommand.h"
 #include "util/util.h"
 #include "render/rmodel.h"
 #include "util/globals_render.h"
+using namespace std;
 
 string toString(RC3T type){
     switch(type){
@@ -42,6 +44,9 @@ string toString(RC3T type){
         case(RC3T::RMODEL_RENDER):         return "rmodel_render";
         case(RC3T::PRINT_TEXT):            return "print_text";
         case(RC3T::COMMENT):               return "comment";
+        case(RC3T::VIEWPORT):              return "viewport";
+        case(RC3T::FACE_CULLING):          return "face_culling";
+        case(RC3T::FACE_CULL_CCW):         return "face_cull_ccw";
     }
     return "<error>";
 }
@@ -89,6 +94,10 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::RMODEL_RENDER):          rm = va_arg(args,rmodel*); break;
         case(RC3T::PRINT_TEXT):             s = va_arg(args,string*); break;
         case(RC3T::COMMENT):                s = va_arg(args,string*); break;
+        case(RC3T::VIEWPORT):               r = va_arg(args, rect); break;
+        case(RC3T::FACE_CULLING):           b = va_arg(args, bool); break;
+        case(RC3T::FACE_CULL_CCW):          break;
+        default: throw runtime_error("unexpected rendercommand3");
     }
     va_end(args);
 }

@@ -33,12 +33,25 @@
 ///		-- with resource packager to make it a single file
 /// - [IDEA] tree of nodes (ownership / parts / composition)
 /// - [IDEA] task manager for threads / processes
+/// - [IDEA] horizonRender for software rendering (no gpu, draw to BMP)
+///     -- with a debug drawer showing screen, texture memory, depth map, etc.
+///	- [IDEA] GUI: textEdit should make the cursor jump to where it is clicked.
+/// - [IDEA] GUI: add layout elements (Hbox, Vbox)
+/// - [IDEA] GUI: add radiobutton
+/// 
 /// Bugs:
 ///	- [FIXED BUG] crash in horizonApp when clicking frame button in guieditor
 ///		-- thrown from horizonRender:GPUdriverKind::parseCommand (select texture but tex not uploaded)
 ///		-- only after mouse goes into the working area of the editor
 ///		--- fix: added a line to upload texture when tool_place is constructed
-/// - [BUG] resizing a window makes all UI derped
+///		-- [related BUG] crash in horizonApp when clicking a textentry in opengui 3
+///			--- texture not uploaded - maybe getTexture had used to upload them too?
+/// - [FIXED BUG] resizing a window makes all UI derped
 ///		-- added an "event window_resized" but who should listen to it?
+///		-- not sure what the problem is. Does the viewport match the window or is it clipped?
+///			need some 3D stuff to check.
+///		-- fix: turns out paint-to-rmcd function just forgot to handle viewport and some other commands,
+///			so it didn't package their args.
 /// - [BUG] horizonApp: guieditor: when a file is loaded, the gui is squoshed
-/// 
+/// - [BUG] Crash in horizonApp due to memory leak (2.1 GB) probably due to text?
+///		-- idea: make text only as renderable; forbid direct text drawing (printw)

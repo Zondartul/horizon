@@ -60,4 +60,6 @@ struct DLLAPI_PROGRAM gs_windowKind:public eventListener {
 	void onEvent(eventKind event);
 };
 
+void DLLAPI_PROGRAM ProgramResizeViewport(unsigned int width, unsigned int height);
+
 #endif

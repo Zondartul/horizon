@@ -49,7 +49,12 @@ void initHorizonRender() {
 void renderInit() {
     auto& width = Gp->gs_window->g_width;
     auto& height = Gp->gs_window->g_height;
-    g_renderLow = new renderLowKind();
+    //g_renderLow = new renderLowKind();
+    auto* splitter = new renderLow_Splitter();
+    splitter->children.push_back(new renderLow_SDL());
+    splitter->children.push_back(new renderLow_Soft());
+    g_renderLow = splitter;
+    cout << "--- render init put renderLow_Soft here ---" << endl;
     g_renderLow->renderLowInit();
     g_renderLow->setViewportSize(width, height);
     initLayers();

@@ -90,7 +90,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

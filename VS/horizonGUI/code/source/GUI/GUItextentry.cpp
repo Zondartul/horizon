@@ -1,4 +1,5 @@
 #include "GUI/GUI_internal.h"
+#include "util/global_vars_render.h"
 
 GUItextEntry::GUItextEntry(){
 	bgColor *= 1.1f;
@@ -17,7 +18,13 @@ GUItextEntry::GUItextEntry(){
 	alignment_horizontal = GUIa::Left;
 	alignment_vertical = GUIa::Center;
 	const_height = false;
+
+	/// 25.01.2023: need to upload textures before using them
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	setLayer(loadLayer);
+	uploadTexture(tcaret);
 }
+
 GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}
 GUItextEntry *GUItextEntry::setFunction(function<void()> f){F = f; return this;}
 double GUItextEntry::getNumber(){

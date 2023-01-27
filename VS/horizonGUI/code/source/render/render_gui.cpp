@@ -1,3 +1,4 @@
+#include <iostream>
 #include "render/render_gui.h"
 #include "render/paint.h"
 #include "render/renderLayer.h"
@@ -14,6 +15,7 @@
 #include "util/global_vars_render.h"
 #include "util/global_vars_program.h"
 #include "GUI/GUI.h"
+using namespace std;
 
 void apply(renderOptions O, renderLayer* L) {
 	auto& currentLayer = Gr->gs_paint->g_currentLayer;
@@ -230,3 +232,68 @@ void renderTick(){
 	deleteLayer->reset();
 	OpenGL_swap();
 }
+
+/// ---- renderableText
+
+/// already defined elsewhere
+//void uploadFont(font* F) { //where should this go? idk
+//	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+//	setLayer(loadLayer);
+//	for (auto& [c, g] : F->charmap) {
+//		uploadTexture(g.t);
+//	}
+//}
+
+//rmodel* make_rm_rect(rect R); /// in printw.cpp
+
+void renderableText::upload() {
+	assert(F);
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	setLayer(loadLayer);
+	uploadFont(F);
+	//auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	//setLayer(loadLayer);
+	//uploadTexture(F->t);
+	rm = make_rm_rect(rect(1.0,1.0));
+	uploadRmodel(rm);
+	uploaded = true;
+}
+
+std::ostream& operator<<(std::ostream& stream, vec3 v) {
+	stream << "(" << v.x << ", " << v.y << ", " << v.z << ")";
+	return stream;
+}
+
+
+
+void renderableText::render(renderOptions* options) {
+	//cout << "rendering text [" << text << "]" << endl;
+	assert(uploaded);
+	//vec2 pos2(0, 0);
+	//rect R = preprintText2D(text.c_str(), F, pos2);
+	bool printFromTop = true;
+
+	float yoffset = 0;
+	if (printFromTop) { yoffset = F->maxrect.end.y; }
+
+	vec3 pos3 = pos;
+	pos3.y += yoffset;
+
+	setTexturing(true);
+	for (char c : text) {
+		auto &c_glyph = F->charmap[c];
+		auto& t = c_glyph.t;
+		float height = t->h();
+		float width = t->w();
+		setTexture(t);
+		auto scale = vec3(width, height, 1.0);
+		vec3 pos_adjust = vec3(c_glyph.bearingX, -c_glyph.bearingY, 0);
+		setScale(scale);
+		setPosition(pos3 + pos_adjust);
+		//cout << "rT: scale " << scale << ", pos " << pos << endl;
+		drawRmodel(rm);
+		pos3.x += c_glyph.advance;
+	}
+}
+
+/// -----------

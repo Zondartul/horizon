@@ -18,8 +18,8 @@
 #include <cstdlib>
 #include <exception>
 #include <sstream>
-using std::runtime_error;
-using std::stringstream;
+#include <iostream>
+using namespace std;
 
 #ifndef NO_SDL
 SDL_Window *mainWindow;
@@ -239,6 +239,7 @@ void sysMessageTick(){
 					event.type = EVENT_WINDOW_RESIZE;
 					event.windowresize.width = width;
 					event.windowresize.height = height;
+					goto dispatchEvent;
 					break;
 				default:
 					break;
@@ -272,4 +273,13 @@ void gs_windowKind::onEvent(eventKind event) {
 		g_height = event.windowresize.height;
 		g_width = event.windowresize.width;
 	}
+}
+
+void ProgramResizeViewport(unsigned int width, unsigned int height) {
+	cout << "PrgResizeViewport(" << width << ", " << height << ")" << endl;
+	/// EXPERIMENT 26.01.2023
+	auto& window = Gp->gs_window->g_mainWindow;
+	//does nothing //SDL_SetWindowSize(window, width, height); /// idk i think we need to change opengl viewport size
+	//check SDL_RenderSetViewport(renderer, rect)
+	//also glViewport
 }

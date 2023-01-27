@@ -19,6 +19,8 @@
 #include "resource/bitmap.h"
 #include "resource/model.h"
 #include "util/global_vars_render.h"
+#include "util/global_vars_program.h"
+#include "input/input.h" /// for sysInput->inputChannel
 
 using glm::mat4;
 using glm::vec3;
@@ -27,31 +29,45 @@ using std::map;
 
 extern model* g_mBox;
 
-renderLowKind::renderLowKind(){
+/// ------- renderLowKind ---------------
+
+renderLowKind::renderLowKind() {}
+renderLowKind::~renderLowKind() {}
+
+
+/// --------- renderLow_SDL ----------------
+
+renderLow_SDL::renderLow_SDL(){
     Gr = new GlobalsRender();
 
 	GPUdriver = new GPUdriverKind();
     vec2 size = getScreenSize();
     setViewportSize((int)size.x,(int)size.y);
+
+    auto& inputChannel = Gp->sysInput->inputChannel; /// for event_window_resize /// btw we should make individual events subscribable
+    inputChannel.addListener(this);
 }
 
-void renderLowKind::renderLowInit(){
+renderLow_SDL::~renderLow_SDL() {}
+
+void renderLow_SDL::renderLowInit(){
     GPUdriver->renderLowInit();
 }
 
-void renderLowKind::setViewportSize(int width, int height){
+void renderLow_SDL::setViewportSize(int width, int height){
     GPUdriver->renderState.width = width;
     GPUdriver->renderState.height = height;
+    ProgramResizeViewport(width, height);
 }
 
-void renderLowKind::onEvent(eventKind event)
+void renderLow_SDL::onEvent(eventKind event)
 {
     if (event.type == EVENT_WINDOW_RESIZE) {
         setViewportSize(event.windowresize.width, event.windowresize.height);
     }
 }
 
-void renderLowKind::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L){
+void renderLow_SDL::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L){
 
     int cmdNum = 0;
     renderCommand3 *rcmd = 0;
@@ -77,7 +93,7 @@ void renderLowKind::renderParseQueue(vector<renderCommand3*>* rqueue, renderLaye
     }
 }
 
-void renderLowKind::parseCommand(const renderCommand3 &rcmd){
+void renderLow_SDL::parseCommand(const renderCommand3 &rcmd){
         bool passCommand = true;
        switch(rcmd.type){
             case(COLORING):
@@ -196,4 +212,58 @@ void renderLowKind::parseCommand(const renderCommand3 &rcmd){
         }
 }
 
+/// --------------- renderLow_Soft
 
+
+
+renderLow_Soft::renderLow_Soft() {
+}
+
+renderLow_Soft::~renderLow_Soft() {}
+
+void renderLow_Soft::renderLowInit() {
+}
+
+void renderLow_Soft::setViewportSize(int width, int height) {
+}
+
+void renderLow_Soft::onEvent(eventKind event)
+{
+    if (event.type == EVENT_WINDOW_RESIZE) {
+        setViewportSize(event.windowresize.width, event.windowresize.height);
+    }
+}
+
+void renderLow_Soft::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L) {
+
+}
+
+void renderLow_Soft::parseCommand(const renderCommand3& rcmd) {
+
+}
+
+/// ---------- renderLow_Splitter --------------------
+
+renderLow_Splitter::renderLow_Splitter() {}
+renderLow_Splitter::~renderLow_Splitter() {}
+
+void renderLow_Splitter::renderLowInit() {
+    for (auto& child : children) { child->renderLowInit(); }
+}
+
+void renderLow_Splitter::setViewportSize(int width, int height) {
+    for (auto& child : children) { child->renderLowInit(); }
+}
+
+void renderLow_Splitter::onEvent(eventKind event)
+{
+    for (auto& child : children) { child->onEvent(event); }
+}
+
+void renderLow_Splitter::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L) {
+    for (auto& child : children) { child->renderParseQueue(rqueue, L); }
+}
+
+void renderLow_Splitter::parseCommand(const renderCommand3& rcmd) {
+    for (auto& child : children) { child->parseCommand(rcmd); }
+}

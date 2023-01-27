@@ -32,6 +32,18 @@ public:
 	virtual ~renderableSprite() = default;
 };
 
+class DLLAPI_GUI renderableText : public renderable {
+public:
+	string text;
+	font* F = 0;
+	rmodel* rm = 0;
+	vec3 pos;
+	bool uploaded = false;
+	void upload();
+	void render(renderOptions* options);
+	virtual ~renderableText() = default;
+};
+
 class DLLAPI_GUI renderableModel :public renderable {
 public:
 	rmodel* rm_default = 0;

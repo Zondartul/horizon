@@ -85,7 +85,7 @@ struct DLLAPI_UTIL rect{
 	vec2 size;
 	rect();
 	rect(int width, int height);
-	rect(vec2 size);
+	explicit rect(vec2 size);
 	rect(vec2 start, vec2 end);
 	rect(vec2 start, vec2 end, vec2 size);
 	//[[nodiscard]] is needed so you don't try to modify the rect with these -

@@ -28,6 +28,22 @@ dropDownTerminal::dropDownTerminal():terminalOn(false){
 	addLayer(layer2D,layer);
 	inputChannel.addListenerFront(this);
 	globalChannel.addListenerFront(this);
+
+	auto make_rt = [&](font* F, float ypos) {
+		auto rT = new renderableText();
+		rT->pos = vec3(0, ypos, 0);
+		rT->F = F;
+		rT->upload();
+		return rT;
+	};
+
+	auto* F = getFont("cour 14");
+	float font_height = F->maxrect.size.y;
+
+	for (unsigned int i = 0; i < 11; i++) {
+		rTs.push_back(make_rt(F, font_height*i));
+	}
+	rT_input = make_rt(F, font_height * 11);
 }
 
 dropDownTerminal::~dropDownTerminal(){
@@ -87,6 +103,13 @@ void dropDownTerminal::onEvent(eventKind event){
 		layer->reset();
 		if(terminalOn){
 			setLayer(layer);
+
+			/// Debug: can we see if the window's opengl context borks on resize?
+			/// can we fix that?
+			//setScissoring(false);
+
+			/// end debug
+
 			setTransparency(true);
 			setColor(vec3(64,128,64));
 			setAlpha(196.f);
@@ -96,13 +119,36 @@ void dropDownTerminal::onEvent(eventKind event){
 			drawRect(R);
 			setColor(vec3(128,255,128));
 			setAlpha(255.f);
-			setFont(getFont("cour 14"));
-			int numstr = terminalStrings.size();
-			setTextPos(vec2(0,end.y-0*14));
-			printText(inputText);
-			for(int I = 0; I < numstr; I++){
-				setTextPos(vec2(0,end.y-(1+numstr-1-I)*14));
-				printText(terminalStrings[I]);
+			
+			bool render_direct_text = false;
+			bool render_rTs = true;
+
+			if (render_direct_text) {
+				setFont(getFont("cour 14"));
+				int numstr = terminalStrings.size();
+				setTextPos(vec2(0,end.y-0*14));
+				/// echo user typing
+				printText(inputText);
+				/// print everything else
+				for(int I = 0; I < numstr; I++){
+					setTextPos(vec2(0,end.y-(1+numstr-1-I)*14));
+					printText(terminalStrings[I]);
+				}
+			}
+			
+			if (render_rTs) {
+				rT_input->text = inputText;
+				rT_input->render(nullptr);
+
+				for (unsigned int i = 0; i < rTs.size(); i++) {
+					int i_str = terminalStrings.size() - rTs.size() + i;
+					string S;
+					if ((i_str >= 0) && (i_str < terminalStrings.size())) {
+						S = terminalStrings[i_str];
+					}
+					rTs[i]->text = S;
+					rTs[i]->render(nullptr);
+				}
 			}
 		}
 	}

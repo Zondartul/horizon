@@ -8,7 +8,9 @@
 //struct font;
 //void setFont(font *f);
 struct font;
+struct rmodel;
 
+rmodel DLLAPI_RENDER *make_rm_rect(rect R);
 void DLLAPI_RENDER printText2D(const char *text,font *f, vec2 &textPos);
 rect DLLAPI_RENDER preprintText2D(const char *text,font *f, vec2 &textPos);
 void DLLAPI_RENDER printw(const char *format, ...);
