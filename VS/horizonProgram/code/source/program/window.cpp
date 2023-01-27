@@ -164,7 +164,7 @@ void sysMessageTick(){
 			event.keyboard.keycode = sdl_event.key.keysym.sym;
 			event.keyboard.key = SDL_GetKeyName(sdl_event.key.keysym.sym);
 			keyboardState[event.keyboard.key] = true;
-			printf("key down: [%s]\n",event.keyboard.key);
+			//printf("key down: [%s]\n",event.keyboard.key);
 			event.keyboard.mod = MOD_NONE;
 			if(sdl_event.key.keysym.mod & KMOD_SHIFT){event.keyboard.mod = event.keyboard.mod | MOD_SHIFT;}
 			if(sdl_event.key.keysym.mod & KMOD_CTRL){event.keyboard.mod = event.keyboard.mod | MOD_CTRL;}

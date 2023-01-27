@@ -25,7 +25,7 @@ GUIbase::~GUIbase(){
 	if(parent){parent->removeChild(this);}
 	{
 		//stackSentinel SS;
-		printf("deleting children\n");
+		//printf("deleting children\n");
 		vector<GUIbase*> children2 = children;
 		for(auto I = children2.begin(); I != children2.end(); I++){
 			GUIbase *ch = *I;

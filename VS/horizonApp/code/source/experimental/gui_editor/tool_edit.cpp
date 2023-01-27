@@ -171,9 +171,9 @@ void gui_editor_tool_edit::rup(){
 void gui_editor_tool_edit::scan(){
 	gui_editor_tool::scan();
 	switch(stage){
-		case GEMT_START: printf("stage=start\n");  break;
+	case GEMT_START: break;//printf("stage=start\n");  break;
 		case GEMT_END:{
-			printf("stage=end\n");
+			//printf("stage=end\n");
 			vec2 mousePos = getMousePos();
 			vec2 corner = subject->parent->thisToWorld(subject->parent->clientArea).start;
 			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);

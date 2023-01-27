@@ -66,7 +66,10 @@ template<> rect fromString<rect>(const string S){
 	//std::ignore = sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
 	char c;
 	stringstream ss(S);
-	ss >> c >> start.x >> c >> start.y >> c >> c >> c >> size.x >> c >> size.y >> c;
+	/// so something funny about this... seems to eat the first two characters of the size.x
+	/// maybe it's because stream extraction operator ignores spaces by default.
+	//ss >> c >> start.x >> c >> start.y >> c >> c >> c >> size.x >> c >> size.y >> c;
+	ss >> c >> start.x >> c >> start.y >> c >> size.x >> c >> size.y >> c;
 	vec2 end = start+size;
 	return rect(start,end);
 }
