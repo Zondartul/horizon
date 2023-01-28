@@ -8,25 +8,34 @@ GUIlabel::GUIlabel(){
 	text = defaulttext;
 	const_height = false;
 	textOffset = vec2(0,0);
+
+	rT = new renderableText();
+	rT->F = getFont("calibri 16");
+	rT->text = text;
+	rT->upload();
 }
 GUIlabel::GUIlabel(string text):GUIlabel(){
 	setText(text);
 }
 GUIlabel *GUIlabel::setTextColor(vec3 color){
 	textColor = color;
+	rT->color = color;
 	return this;
 }
 GUIlabel *GUIlabel::setTextFont(font *f){
 	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	textfont = f;
-	if (textfont) {
-		setLayer(loadLayer);
-		uploadFont(textfont);
-	}
+	//if (textfont) {
+	//	setLayer(loadLayer);
+	//	uploadFont(textfont);
+	//}
+	rT->F = f;
+	rT->upload();
 	return this;
 }
 GUIlabel *GUIlabel::setText(string newtext){
 	text = newtext;
+	rT->text = newtext;
 	return this;
 }
 rect GUIlabel::getTextRect(string text){
@@ -67,11 +76,13 @@ vec2 getTextCentering(rect area, rect text,
 		case(GUIa::Left):	x = axs-txs; break;
 		case(GUIa::Center):	x = axc-txc; break;
 		case(GUIa::Right):	x = axe-txe; break;
+		default: x = 0; break;
 	}
 	switch(alignment_vertical){
 		case(GUIa::Top):	y = ays-tys; break;
 		case(GUIa::Center):	y = ayc-tyc; break;
 		case(GUIa::Bottom):	y = aye-tye; break;
+		default: y = 0; break;
 	}
 	return vec2{x,y};
 }

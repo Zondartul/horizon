@@ -47,6 +47,8 @@ string toString(RC3T type){
         case(RC3T::VIEWPORT):              return "viewport";
         case(RC3T::FACE_CULLING):          return "face_culling";
         case(RC3T::FACE_CULL_CCW):         return "face_cull_ccw";
+        case(RC3T::PUSH_OPTIONS):          return "push_options";
+        case(RC3T::POP_OPTIONS):           return "pop_options";
     }
     return "<error>";
 }
@@ -97,6 +99,8 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::VIEWPORT):               r = va_arg(args, rect); break;
         case(RC3T::FACE_CULLING):           b = va_arg(args, bool); break;
         case(RC3T::FACE_CULL_CCW):          break;
+        case(RC3T::PUSH_OPTIONS):           break;
+        case(RC3T::POP_OPTIONS):            break;
         default: throw runtime_error("unexpected rendercommand3");
     }
     va_end(args);
@@ -148,6 +152,7 @@ renderCommand3 *renderCommand3::clone(){
 
 
         case(RC3T::RMODEL_DELETE):          return 0; //copying of this command is forbidden
+        default: throw runtime_error("unexpected rendercommand3");
     }
     return rcmd;
 }

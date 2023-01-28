@@ -206,6 +206,15 @@ void renderLow_SDL::parseCommand(const renderCommand3 &rcmd){
             case(AMBIENT_LIGHT_COLOR):
                 options.ambientLightColor = rcmd.v3;
             break;
+
+            case(PUSH_OPTIONS):
+                optionStack.push_back(options);
+            break;
+
+            case(POP_OPTIONS):
+                options = optionStack.back();
+                optionStack.pop_back();
+            break;
 		}
         if(passCommand){
             GPUdriver->parseCommand(rcmd);

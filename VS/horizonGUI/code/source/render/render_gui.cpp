@@ -281,7 +281,8 @@ void renderableText::render(renderOptions* options) {
 
 	setTexturing(true);
 	for (char c : text) {
-		auto &c_glyph = F->charmap[c];
+		if (!F->charmap.count(c)) { continue; } /// missing character handling
+		auto &c_glyph = F->charmap.at(c);
 		auto& t = c_glyph.t;
 		float height = t->h();
 		float width = t->w();
@@ -294,6 +295,9 @@ void renderableText::render(renderOptions* options) {
 		drawRmodel(rm);
 		pos3.x += c_glyph.advance;
 	}
+	/// clean our mess
+	setScale(vec3(1, 1, 1));
+	setPosition(vec3(0, 0, 0));
 }
 
 /// -----------

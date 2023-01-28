@@ -36,7 +36,9 @@ render(GUIbase *el, string type){
 			setAlpha(255);
 			setColor(elFrame->borderColor);
 			drawRectOutline(el->worldArea());
-			if(GUIoptions.push){popRenderOptions();}
+			if(GUIoptions.push){
+				popRenderOptions();
+			}
 			renderComment(fstring("frame %p end\n",this));
 		}
 	}
@@ -62,14 +64,19 @@ render(GUIbase *el, string type){
 	else if(type == "GUIlabel"){
 		if(GUIoptions.push){pushRenderOptions();}
 		GUIlabel *elLbl = dynamic_cast<GUIlabel*>(el); if(!elLbl){return;}
-		setColor(elLbl->textColor);
-		setFont(elLbl->textfont);
+		//setColor(elLbl->textColor);
+		//setFont(elLbl->textfont);
 		//uploadFont(elLbl->textfont);
+		
+		/// we can now move text centering, from render, to update.
 		rect tRect = elLbl->getTextRect();
 		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);
-		setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
+		vec2 newPos = vec2(tp.x, tp.y) + elLbl->textOffset;
+		//setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
+		elLbl->rT->pos = vec3(newPos.x, newPos.y, 0);
 		setScissor(el->visibleArea());
-		printw("%s",elLbl->text.c_str());
+		//printw("%s",elLbl->text.c_str());
+		elLbl->rT->render(nullptr);
 		if(GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIscrollbarBar"){

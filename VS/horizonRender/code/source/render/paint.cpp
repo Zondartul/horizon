@@ -633,6 +633,7 @@ void initLayers(){
 void uploadFont(font* f) {
 	cout << "uploading font " << f->name << endl;
 	for (auto& [c,G] : f->charmap) {
+		assert(G.t); /// texture must exist
 		uploadTexture(G.t);
 		cout << c;
 	}

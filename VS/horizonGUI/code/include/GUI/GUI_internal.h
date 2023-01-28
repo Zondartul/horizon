@@ -23,7 +23,7 @@ using std::isnan;
 
 struct DLLAPI_GUI GUI_options_kind{
 	bool debug = false;
-	bool push = false;
+	bool push = true; //temporary debug 28.01.2023 to deal with [bug 11] //false;
 };
 
 void DLLAPI_GUI GUIsetFavoriteRenderOptions();

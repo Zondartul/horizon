@@ -1,11 +1,13 @@
 #ifndef GUILABEL_GUARD
 #define GUILABEL_GUARD
 #include "util/globals_gui.h"
+#include "render/render_gui.h"
 
 class DLLAPI_GUI GUIlabel:public virtual GUIbase{
 	public:
 	GUIlabel();
 	GUIlabel(string text);
+	renderableText* rT;
 	vec3 textColor;
 	font *textfont;
 	string text;
