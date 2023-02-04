@@ -15,7 +15,8 @@
 #include "program/window.h"
 #include "render/camera.h"
 #include "render/printw.h"
-#include "render/GPUdriver.h"
+#include "render/GPUdriverOpenGL.h"
+#include "render/GPUdriverSoft.h"
 #include "resource/bitmap.h"
 #include "resource/model.h"
 #include "util/global_vars_render.h"
@@ -40,7 +41,7 @@ renderLowKind::~renderLowKind() {}
 renderLow_SDL::renderLow_SDL(){
     Gr = new GlobalsRender();
 
-	GPUdriver = new GPUdriverKind();
+	gpu = new GPUdriverOpenGL();
     vec2 size = getScreenSize();
     setViewportSize((int)size.x,(int)size.y);
 
@@ -51,12 +52,13 @@ renderLow_SDL::renderLow_SDL(){
 renderLow_SDL::~renderLow_SDL() {}
 
 void renderLow_SDL::renderLowInit(){
-    GPUdriver->renderLowInit();
+    gpu->renderLowInit();
 }
 
 void renderLow_SDL::setViewportSize(int width, int height){
-    GPUdriver->renderState.width = width;
-    GPUdriver->renderState.height = height;
+    //GPUdriver->renderState.width = width;
+    //GPUdriver->renderState.height = height;
+    gpu->setViewportSize(width, height);
     ProgramResizeViewport(width, height);
 }
 
@@ -217,8 +219,13 @@ void renderLow_SDL::parseCommand(const renderCommand3 &rcmd){
             break;
 		}
         if(passCommand){
-            GPUdriver->parseCommand(rcmd);
+            gpu->parseCommand(rcmd);
         }
+}
+
+void renderLow_SDL::resetOptions() {
+   //gpu->resetRenderState();
+    gpu->command_reset_options();
 }
 
 /// --------------- renderLow_Soft
@@ -226,6 +233,7 @@ void renderLow_SDL::parseCommand(const renderCommand3 &rcmd){
 
 
 renderLow_Soft::renderLow_Soft() {
+    gpu = new GPUdriverSoft();
 }
 
 renderLow_Soft::~renderLow_Soft() {}
@@ -251,6 +259,7 @@ void renderLow_Soft::parseCommand(const renderCommand3& rcmd) {
 
 }
 
+void renderLow_Soft::resetOptions() {}
 /// ---------- renderLow_Splitter --------------------
 
 renderLow_Splitter::renderLow_Splitter() {}
@@ -261,7 +270,7 @@ void renderLow_Splitter::renderLowInit() {
 }
 
 void renderLow_Splitter::setViewportSize(int width, int height) {
-    for (auto& child : children) { child->renderLowInit(); }
+    for (auto& child : children) { child->setViewportSize(width, height); }
 }
 
 void renderLow_Splitter::onEvent(eventKind event)
@@ -276,3 +285,11 @@ void renderLow_Splitter::renderParseQueue(vector<renderCommand3*>* rqueue, rende
 void renderLow_Splitter::parseCommand(const renderCommand3& rcmd) {
     for (auto& child : children) { child->parseCommand(rcmd); }
 }
+
+void renderLow_Splitter::resetOptions() {
+    for (auto& child : children) { child->resetOptions(); }
+}
+
+//--------- GPUdriver -----------
+
+GPUdriver::~GPUdriver() {}

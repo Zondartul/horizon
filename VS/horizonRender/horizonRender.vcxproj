@@ -176,10 +176,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="code\include\render\RenderState.cpp" />
     <ClCompile Include="code\source\generators\editmodel.cpp" />
     <ClCompile Include="code\source\main\dllmain_render.cpp" />
     <ClCompile Include="code\source\render\camera.cpp" />
-    <ClCompile Include="code\source\render\GPUdriver.cpp" />
+    <ClCompile Include="code\source\render\GPUdriverOpenGL.cpp" />
+    <ClCompile Include="code\source\render\GPUdriverSoft.cpp" />
+    <ClCompile Include="code\source\render\GPUdriverSoftCommands.cpp" />
     <ClCompile Include="code\source\render\paint.cpp" />
     <ClCompile Include="code\source\render\printw.cpp" />
     <ClCompile Include="code\source\render\renderCommand.cpp" />
@@ -187,6 +190,7 @@
     <ClCompile Include="code\source\render\renderLow.cpp" />
     <ClCompile Include="code\source\render\rmodel.cpp" />
     <ClCompile Include="code\source\util\global_vars_render.cpp" />
+    <ClCompile Include="GPUdriverOpenGLCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\generators\editmodel.h" />
@@ -194,13 +198,16 @@
     <ClInclude Include="code\include\main\main_render.h" />
     <ClInclude Include="code\include\render\camera.h" />
     <ClInclude Include="code\include\render\GPUdriver.h" />
+    <ClInclude Include="code\include\render\GPUdriverOpenGL.h" />
     <ClInclude Include="code\include\render\paint.h" />
     <ClInclude Include="code\include\render\printw.h" />
     <ClInclude Include="code\include\render\render.h" />
     <ClInclude Include="code\include\render\renderCommand.h" />
     <ClInclude Include="code\include\render\renderLayer.h" />
     <ClInclude Include="code\include\render\renderLow.h" />
+    <ClInclude Include="code\include\render\RenderState.h" />
     <ClInclude Include="code\include\render\rmodel.h" />
+    <ClInclude Include="code\include\render\GPUdriverSoft.h" />
     <ClInclude Include="code\include\util\globals_render.h" />
     <ClInclude Include="code\include\util\global_vars_render.h" />
   </ItemGroup>

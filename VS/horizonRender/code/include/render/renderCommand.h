@@ -29,7 +29,7 @@ enum DLLAPI_RENDER RC3T{
         PUSH_OPTIONS,       POP_OPTIONS,		TEXTURE_POS,
         
         READ_PIXELS,        FACE_CULLING,       FACE_CULL_CCW,
-        VIEWPORT
+        VIEWPORT,           RESET_OPTIONS,      PRINT_OPTIONS
 };
 string DLLAPI_RENDER toString(RC3T);
 //takes up 20 bytes (so an average frame is 40 kb)

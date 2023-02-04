@@ -333,3 +333,11 @@ void openTestWindow6(){
 		win->invalidate();
 	});
 };
+
+void openTestWindow7() {
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	GUIlabel* label1 = new GUIlabel();
+	GUI->addChild(label1);
+	label1->setText("Hello World!");
+	label1->sizeToContents();
+}

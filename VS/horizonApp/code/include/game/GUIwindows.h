@@ -6,4 +6,5 @@ void openTestWindow3();
 void openTestWindow4();
 void openTestWindow5();
 void openTestWindow6();
+void openTestWindow7();
 #endif

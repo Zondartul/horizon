@@ -273,6 +273,16 @@ void popRenderOptions()         {
 	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::POP_OPTIONS               ));
 }
+void resetRenderOptions() {
+	auto& currentLayer = Gr->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::RESET_OPTIONS			  ));
+}
+
+void printRenderOptions(){
+	auto& currentLayer = Gr->gs_paint->g_currentLayer;
+	currentLayer->push(new renderCommand3(RC3T::PRINT_OPTIONS			  ));
+}
+
 void setFaceCulling(bool b)		{
 	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::FACE_CULLING, b));

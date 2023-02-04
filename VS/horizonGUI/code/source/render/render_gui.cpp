@@ -279,7 +279,13 @@ void renderableText::render(renderOptions* options) {
 	vec3 pos3 = pos;
 	pos3.y += yoffset;
 
-	setTexturing(true);
+	if (!text.empty()) {
+		/// figure out the state before printing
+		printRenderOptions();
+	}
+
+	setTexturing(true); /// [bug 11]: this is sufficient to mess up textures.
+	setScissoring(false);
 	for (char c : text) {
 		if (!F->charmap.count(c)) { continue; } /// missing character handling
 		auto &c_glyph = F->charmap.at(c);
@@ -298,6 +304,7 @@ void renderableText::render(renderOptions* options) {
 	/// clean our mess
 	setScale(vec3(1, 1, 1));
 	setPosition(vec3(0, 0, 0));
+	setTexturing(false);
 }
 
 /// -----------

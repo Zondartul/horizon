@@ -37,7 +37,7 @@ public:
 	string text;
 	font* F = 0;
 	rmodel* rm = 0;
-	vec3 pos;
+	//vec3 pos; /// its in base class
 	bool uploaded = false;
 	void upload();
 	void render(renderOptions* options);

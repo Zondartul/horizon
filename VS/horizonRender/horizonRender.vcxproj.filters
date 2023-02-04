@@ -42,7 +42,7 @@
     <ClCompile Include="code\source\main\dllmain_render.cpp">
       <Filter>Source Files\main</Filter>
     </ClCompile>
-    <ClCompile Include="code\source\render\GPUdriver.cpp">
+    <ClCompile Include="code\source\render\GPUdriverOpenGL.cpp">
       <Filter>Source Files\render</Filter>
     </ClCompile>
     <ClCompile Include="code\source\render\paint.cpp">
@@ -71,6 +71,18 @@
     </ClCompile>
     <ClCompile Include="code\source\generators\editmodel.cpp">
       <Filter>Source Files\generators</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUdriverOpenGLCommands.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\include\render\RenderState.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\GPUdriverSoftCommands.cpp">
+      <Filter>Source Files\render</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\render\GPUdriverSoft.cpp">
+      <Filter>Source Files\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +127,15 @@
     </ClInclude>
     <ClInclude Include="code\include\main\main_render.h">
       <Filter>Header Files\main</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\GPUdriverSoft.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\GPUdriverOpenGL.h">
+      <Filter>Header Files\render</Filter>
+    </ClInclude>
+    <ClInclude Include="code\include\render\RenderState.h">
+      <Filter>Header Files\render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,38 +40,66 @@
 /// - [IDEA 14] GUI: add radiobutton
 /// - [IDEA 15] renderableText: replace missing characters with boxes
 /// - [IDEA 16] replace printw with renderableText
+/// - [IDEA 17] horizonRender: add reset_options
+///		-- also have it reset on boot
+/// - [IDEA 18] horizonRender: ability to mute some commands
+/// - [IDEA 19] horizonRender: debug command to print and diff renderOptions
+/// - [IDEA 20] general: arbitrary (standardized) object serialization via <<archive
+/// - [IDEA 21] horizonRender: RenderState: replace VP, camPos with camprojection
+/// - [IDEA 22] horizonRender: separate the state-changing part of a command from the "do stuff" part.
+///		-- also deduplicate renderState and renderOptions
+/// 
 /// 
 /// Bugs:
-///	- [fixed bug 1] crash in horizonApp when clicking frame button in guieditor
+///	v [fixed bug 1] crash in horizonApp when clicking frame button in guieditor
 ///		-- thrown from horizonRender:GPUdriverKind::parseCommand (select texture but tex not uploaded)
 ///		-- only after mouse goes into the working area of the editor
 ///		--- fix: added a line to upload texture when tool_place is constructed
 ///		-- [related BUG] crash in horizonApp when clicking a textentry in opengui 3
 ///			--- texture not uploaded - maybe getTexture had used to upload them too?
-/// - [fixed bug 2] resizing a window makes all UI derped
+/// v [fixed bug 2] resizing a window makes all UI derped
 ///		-- added an "event window_resized" but who should listen to it?
 ///		-- not sure what the problem is. Does the viewport match the window or is it clipped?
 ///			need some 3D stuff to check.
 ///		-- fix: turns out paint-to-rmcd function just forgot to handle viewport and some other commands,
 ///			so it didn't package their args.
-/// - [fixed bug 3] horizonApp: guieditor: when a file is loaded, the gui is squoshed
+/// v [fixed bug 3] horizonApp: guieditor: when a file is loaded, the gui is squoshed
 ///		-- this is due to fromString<rect> impl switching from scanf to operator>>,
 ///			which ignores spaces. Fixed by reducing the number of throwaway characters.
 ///			(related: bug 4)
-/// - [fixed bug 4] horizonApp: guieditor: when a file is loaded, text doesn't display.
+/// v [fixed bug 4] horizonApp: guieditor: when a file is loaded, text doesn't display.
 ///		-- this is due to fromString<font*> impl parsing font name but not size.
 ///			(related: bug 3)
 /// - [BUG 5] Crash in horizonApp due to memory leak (2.1 GB) probably due to text?
 ///		-- idea: make text only as renderable; forbid direct text drawing (printw)
 /// - [BUG 6] horizonApp: guieditor: can't add a tab widget
-/// - [fixed bug 7] horizonApp: opengui 2 and 3: crash
+/// v [fixed bug 7] horizonApp: opengui 2 and 3: crash
 ///		-- was because getTextCentering doesn't handle all enum values
 /// - [BUG 9] horizonApp: opengui4: crash
 ///		-- renderText tried to render a glypth with no texture
 ///		--- glypth is not in charmap. Font has no newline '\n' character.
 ///		--- fix: don't print missing characters	(see idea 15)
 /// - [BUG 10] horizonApp: opengui4: crash when clicking the close button
-/// - [BUG 11] horizonGUI: textures and text are glitched out and incomprehensible
+/// v [fixed bug 11] horizonGUI: textures and text are glitched out and incomprehensible
 ///		-- when implementing (idea 16)
-/// - [BUG 12] horizonGUI: crash when using PUSH_OPTIONS.
+///		-- looks like merely enabling textures messes things up, also discovered (bug 13)
+/// v [fixed bug 12] horizonGUI: crash when using PUSH_OPTIONS.
+///		-- the option was simply not handled
+/// - [BUG 13] horizonRender: PUSH/POP options doesn't restore all the options.
+///		-- reopened: current texture and rmodel are not checked
+/// - [BUG 14] horizonGUI: labels with renderableText have tiiiny text
+///		-- BUT console still looks good, and it also uses renderableText
+///			maybe something in GUI leaves an incompatible setting?
+///		-- try turning on GUI push options
+///		-- renderOptions appear the same... see if rmodel and texture are the same?
+/// v [fixed bug 15] horizonRender: crash if using resetOptions right after init
+///		-- probably was about an unhandled render command?
 /// 
+///  
+/// -----------------------------------------------
+///  LOST AND FOUND: if other 'todo' lines are found, move them here
+/// -----------------------------------------------
+/// 
+/// 
+/// 
+///  

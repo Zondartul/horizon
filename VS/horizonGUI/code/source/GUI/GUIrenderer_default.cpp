@@ -74,9 +74,11 @@ render(GUIbase *el, string type){
 		vec2 newPos = vec2(tp.x, tp.y) + elLbl->textOffset;
 		//setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
 		elLbl->rT->pos = vec3(newPos.x, newPos.y, 0);
+		
 		setScissor(el->visibleArea());
 		//printw("%s",elLbl->text.c_str());
 		elLbl->rT->render(nullptr);
+		
 		if(GUIoptions.push){popRenderOptions();}
 	}
 	else if(type == "GUIscrollbarBar"){

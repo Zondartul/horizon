@@ -7,9 +7,11 @@
 #include "util/globals_render.h"
 #include "util/event.h"
 #include "resource/bitmap.h" /// for bitmap in renderLow_Soft
-//renderLow, opengl 3.x version
 
-struct GPUdriverKind;
+/// renderLow, opengl 3.x version
+
+
+struct GPUdriver;
 
 class DLLAPI_RENDER renderLowKind: public eventListener {
 public:
@@ -27,7 +29,8 @@ public:
 
 	virtual void onEvent(eventKind event) = 0;
 
-	GPUdriverKind* GPUdriver;
+	virtual void resetOptions() = 0; ///this, and setviewport, should be bundled into lowInit().
+	GPUdriver* gpu;
 	renderOptions options;
 #pragma warning(disable: 4251) //don't say vector<> needs a dll-interface
 	vector<renderOptions> optionStack;
@@ -49,6 +52,8 @@ public:
 	void setViewportSize(int width, int height);
 
 	void onEvent(eventKind event);
+
+	void resetOptions();
 };
 
 /// duplicates commands to two or more other renderLow instances
@@ -64,13 +69,15 @@ public:
 	void parseCommand(const renderCommand3& rcmd);
 	void setViewportSize(int width, int height);
 	void onEvent(eventKind event);
+
+	void resetOptions();
 };
 
 class DLLAPI_RENDER renderLow_Soft : public renderLowKind {
 public:
-	bitmap bmp_viewport;
-	bitmap bmp_depth;
-	std::vector<bitmap> textures;
+	//bitmap bmp_viewport;
+	//bitmap bmp_depth;
+	//std::vector<bitmap> textures;
 	//std::vector<model> models;
 	//std::vector<rmodel> rmodels;
 
@@ -88,6 +95,8 @@ public:
 	void setViewportSize(int width, int height);
 
 	void onEvent(eventKind event);
+
+	void resetOptions();
 	/// new
 	void compose_total_bmp(); /// outputs a single bitmap containing all the data.
 	void compose_rqueue_slideshow(); /// outputs a step-by-step animation of how a frame was constructed.

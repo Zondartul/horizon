@@ -55,6 +55,7 @@ int cmd_opengui(int argc, char **argv){
 		case 4:openTestWindow4();break;
 		case 5:openTestWindow5();break;
 		case 6:openTestWindow6();break;
+		case 7:openTestWindow7();break;
 	}
 	return 0;
 }

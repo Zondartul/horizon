@@ -101,6 +101,7 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::FACE_CULL_CCW):          break;
         case(RC3T::PUSH_OPTIONS):           break;
         case(RC3T::POP_OPTIONS):            break;
+        case(RC3T::PRINT_OPTIONS):          break;
         default: throw runtime_error("unexpected rendercommand3");
     }
     va_end(args);
@@ -151,7 +152,10 @@ renderCommand3 *renderCommand3::clone(){
         case(RC3T::COMMENT):                rcmd->s = copyToHeap(*s); break;
 
 
-        case(RC3T::RMODEL_DELETE):          return 0; //copying of this command is forbidden
+        case(RC3T::RMODEL_DELETE):          throw runtime_error("copy of forbidden rcmd"); //copying of this command is forbidden
+        case(RC3T::PUSH_OPTIONS):           break;
+        case(RC3T::POP_OPTIONS):            break;
+        case(RC3T::PRINT_OPTIONS):          break;
         default: throw runtime_error("unexpected rendercommand3");
     }
     return rcmd;
