@@ -6,12 +6,14 @@ GUIlabel::GUIlabel(){
 	alignment_horizontal = GUIa::Center;
 	alignment_vertical = GUIa::Center;
 	text = defaulttext;
+	textfont = defaulttextfont;
 	const_height = false;
 	textOffset = vec2(0,0);
 
 	rT = new renderableText();
-	rT->F = getFont("calibri 16");
+	rT->F = textfont;//getFont("calibri 16");
 	rT->text = text;
+	rT->color = textColor;
 	rT->upload();
 }
 GUIlabel::GUIlabel(string text):GUIlabel(){

@@ -31,6 +31,7 @@ dropDownTerminal::dropDownTerminal():terminalOn(false){
 
 	auto make_rt = [&](font* F, float ypos) {
 		auto rT = new renderableText();
+		rT->color = vec3(128, 255, 128);
 		rT->pos = vec3(0, ypos, 0);
 		rT->F = F;
 		rT->upload();

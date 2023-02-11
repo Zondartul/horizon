@@ -3,12 +3,24 @@
 #include "util/global_vars_gui.h"
 #include "util/global_vars_render.h"
 #include "util/global_vars_util.h"
+#include "util/global_vars_app.h"
 #include <iostream>
 
 using namespace std;
+
+void closeTestWindows() {
+	auto& testWindows = Ga->gs_commands->testWindows;
+	for (auto* win : testWindows) {
+		win->close();
+	}
+	testWindows.clear();
+}
+
 void openTestWindow1(){
 	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	texture *img1 = getTexture("art/printer"); setLayer(loadLayer); uploadTexture(img1);
 	GUIbase *F = new GUIframe();
 		F->setSize({200,300})\
@@ -29,29 +41,36 @@ void openTestWindow1(){
 		->addChild((new GUIlabel())->setText("Yer a wizzard Harry!")->sizeToContents());
 	GUI->addChild(F);
 	GUI->addChild(W);
+	testWindows.push_back(F);
+	testWindows.push_back(W);
 }
 void openTestWindow2(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	texture *img1 = getTexture("art/printer"); uploadTexture(img1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({128,24})->moveTo({20,220});
-	GUI->addChild((new GUIwindow())\
-		->setSize({200,300})\
-		->moveTo({100,20})\
+	auto* win = (new GUIwindow())\
+		->setSize({ 200,300 })\
+		->moveTo({ 100,20 })\
 		->addChild((new GUIscrollbar())\
 			->sizeToParent(true)\
-			->setInnerSize({300,600})\
+			->setInnerSize({ 300,600 })\
 			->setHorizontal(false)\
-			->addChild((new GUIlabel())->setText("Hello World")->sizeToContents()->moveTo({20,20}))\
-			->addChild((new GUIimage())->setImage(img1)->setSize({128,128})->moveTo({20,64}))\
-			->addChild((new GUIbutton())->setFunction([GUI](){GUI->moveTo(GUI->area.start+vec2{5,0});})\
-							->setText("boop")->sizeToContents()->moveTo({20,200}))\
+			->addChild((new GUIlabel())->setText("Hello World")->sizeToContents()->moveTo({ 20,20 }))\
+			->addChild((new GUIimage())->setImage(img1)->setSize({ 128,128 })->moveTo({ 20,64 }))\
+			->addChild((new GUIbutton())->setFunction([GUI]() {GUI->moveTo(GUI->area.start + vec2{ 5,0 }); })\
+				->setText("boop")->sizeToContents()->moveTo({ 20,200 }))\
 			->addChild(TE)\
-			)\
 		);
+	GUI->addChild(win);
+	testWindows.push_back(win);
 }
 void openTestWindow3(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	texture *tex1 = getTexture("art/printer"); uploadTexture(tex1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({96,24})->moveTo({20,220});
@@ -84,23 +103,38 @@ void openTestWindow3(){
 	printf("---- window sized\n");
 	GUI->invalidateTree();
 	printf("------------ GUI setup done\n");
+	testWindows.push_back(window);
 }
-void openTestWindow4(){
+
+struct testWindow4data {
+	renderLayer* test4layer = 0;
+	renderLayer* test4layerSetup = 0;
+};
+
+void testWindow4_prepare_wireframe_layer(testWindow4data &data){
 	auto& layer3D = Gr->gs_paint->g_layer3D;
-	auto& loadLayer = Gr->gs_paint->g_loadLayer;
-	auto& GUI = Gg->gs_GUI->g_GUI;
-	renderLayer *test4layerSetup = new renderLayer("openTestWindow4.setup");
-	renderLayer *test4layer = new renderLayer("test4layer");
-	addLayer(layer3D,test4layerSetup);
-	addLayer(test4layerSetup,test4layer);
-	setLayer(test4layerSetup);
+	data.test4layerSetup = new renderLayer("openTestWindow4.setup");
+	data.test4layer = new renderLayer("test4layer");
+	addLayer(layer3D,data.test4layerSetup);
+	addLayer(data.test4layerSetup,data.test4layer);
+	setLayer(data.test4layerSetup);
 	setTexturing(false);
 	setColoring(true);
 	setTransparency(false);
 	setLighting(false);
 	setRenderMode(2);
 	setColor(vec3(255,255,0));
-	setLayer(test4layer);
+	setLayer(data.test4layer);
+}
+
+void openTestWindow4(){
+	auto& layer3D = Gr->gs_paint->g_layer3D;
+	auto& loadLayer = Gr->gs_paint->g_loadLayer;
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+	testWindow4data data;
+	//testWindow4_prepare_wireframe_layer(data);
+
 	GUIwindow *win = new GUIwindow();
 	win->moveTo({250,40});
 	GUItextEntry *te_x = new GUItextEntry();
@@ -147,6 +181,7 @@ void openTestWindow4(){
 	win->addChild(grid);
 	win->sizeToContents();
 	GUI->addChild(win);
+	testWindows.push_back(win);
 	btn_box->F = [=](){
 		float numx = (float)te_x->getNumber();
 		float numy = (float)te_y->getNumber();
@@ -154,7 +189,7 @@ void openTestWindow4(){
 		vec3 size = vec3(numx,numy,numz);
 		printf("make box %s\n",toString(size).c_str());
 		setLayer(loadLayer);
-		setLayer(test4layer);
+		setLayer(data.test4layer);
 		printf("wut\n");
 	};
 	btn_cyl->F = [=](){
@@ -164,7 +199,7 @@ void openTestWindow4(){
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cyllinder %s\n",toString(size).c_str());
 		setLayer(loadLayer);
-		setLayer(test4layer);
+		setLayer(data.test4layer);
 		printf("wut\n");
 	};
 	btn_sph->F = [=](){
@@ -174,7 +209,7 @@ void openTestWindow4(){
 		vec3 size = vec3(numx,numy,numz);
 		printf("make sphere %s\n",toString(size).c_str());
 		setLayer(loadLayer);
-		setLayer(test4layer);
+		setLayer(data.test4layer);
 		printf("wut\n");
 	};
 	btn_con->F = [=](){
@@ -184,11 +219,11 @@ void openTestWindow4(){
 		vec3 size = vec3(numx,numy,numz);
 		printf("make cone %s\n",toString(size).c_str());
 		setLayer(loadLayer);
-		setLayer(test4layer);
+		setLayer(data.test4layer);
 		printf("wut\n");
 	};
 	btn_clear->F = [=](){
-		clearLayer(test4layer);
+		clearLayer(data.test4layer);
 	};
 }
 std::function<void(void)> checkbox_func(GUIbutton* button, std::function<void(int)> func) {
@@ -256,6 +291,8 @@ void make_checkbox2(bool *val, string name, GUIgrid *gridobj, int row) {
 }
 void openTestWindow5(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	auto grid1 = new GUIgrid();
 	auto L1 = new GUIlabel();
 	L1->setText("--- render options ---");
@@ -272,18 +309,23 @@ void openTestWindow5(){
 	L3->sizeToContents();
 	grid1->addChild(L3);
 	grid1->grid(L3,10,1);
-	GUI->addChild((new GUIwindow())\
-	->setSize({200,300})\
-	->moveTo({100,20})\
-	->addChild(grid1)\
-	->sizeToContents());
+	auto* win = (new GUIwindow())\
+		->setSize({ 200,300 })\
+		->moveTo({ 100,20 })\
+		->addChild(grid1)\
+		->sizeToContents();
+	GUI->addChild(win);
+	testWindows.push_back(win);
 }
+
 void openTestWindow6(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& globalChannel = Gu->sysEvent->globalChannel;
 	//auto& allocation_map = Gr->gs_debug->g_allocation_map;
 	//auto& total_size = Gr->gs_debug->g_total_size;
 	auto& sysEvent = Gu->sysEvent;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	GUIlabel *label1 = new GUIlabel();
 	GUIscrollbar *bar = new GUIscrollbar();
 	bar\
@@ -296,7 +338,8 @@ void openTestWindow6(){
 		->moveTo({100,20})\
 		->addChild(bar);
 	GUI->addChild(win);
-	
+	testWindows.push_back(win);
+
 	sysEvent->hookAdd(&globalChannel, EVENT_FRAME, "testWindow6.update",
 	[=](eventKind event){
 		static int i = 0;
@@ -336,8 +379,43 @@ void openTestWindow6(){
 
 void openTestWindow7() {
 	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
 	GUIlabel* label1 = new GUIlabel();
 	GUI->addChild(label1);
+	testWindows.push_back(label1);
 	label1->setText("Hello World!");
 	label1->sizeToContents();
+}
+
+void openTestWindow8() {
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	auto& testWindows = Ga->gs_commands->testWindows;
+
+	GUIwindow* win = new GUIwindow();
+	
+	vector<string> fonts = {
+		"cour 14", "cour 16", "cour 22", 
+		"times 14", "times 16", "times 22",
+		"calibri 12", "calibri 14", "calibri 16", 
+		"calibri 18", "calibri 20", "calibri 22"
+	};
+
+	unsigned int y = 0;
+	for (auto fname : fonts) {
+		font* F = getFont(fname);
+		assert(F);
+		GUIlabel* lbl = new GUIlabel();
+		lbl->setText(fname);
+		lbl->setTextFont(F);
+		lbl->sizeToContents();
+		win->addChild(lbl);
+		lbl->moveTo(vec2(0, y));
+		//lbl->area.moveBy(vec2(0, y));
+		y += 32;
+	}
+	//win->sizeToContents();
+	win->setSize(vec2(128, y+32));
+	GUI->addChild(win);
+	testWindows.push_back(win);
 }

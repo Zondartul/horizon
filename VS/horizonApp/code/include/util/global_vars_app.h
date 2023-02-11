@@ -10,6 +10,7 @@ public:
 	struct gs_tool_editKind* gs_tool_edit;
 	struct gs_gui_editorKind* gs_gui_editor;
 	struct gs_pickerKind* gs_picker;
+	struct gs_commandsKind* gs_commands;
 };
 
 extern GlobalsApp *Ga;

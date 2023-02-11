@@ -469,6 +469,8 @@ void drawRectOutline(rect R){
 	setRenderMode(2);
 	drawRmodel(rm);
 	deleteRmodel(rm);
+	/// 11.02.2023: dealing with [bug 19] - don't leave rendermode at 2?
+	setRenderMode(3);
 }
 void drawRectOutlineColored(rect R, vec3 col){
 	setScissoring(false);

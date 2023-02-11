@@ -49,6 +49,7 @@ int cmd_opengui(int argc, char **argv){
 	int num = atoi(argv[0]);
 	switch(num){
 		default:
+		case 0:closeTestWindows(); break;
 		case 1:openTestWindow1();break;
 		case 2:openTestWindow2();break;
 		case 3:openTestWindow3();break;
@@ -56,6 +57,7 @@ int cmd_opengui(int argc, char **argv){
 		case 5:openTestWindow5();break;
 		case 6:openTestWindow6();break;
 		case 7:openTestWindow7();break;
+		case 8:openTestWindow8(); break;
 	}
 	return 0;
 }
@@ -205,7 +207,7 @@ void addConsoleCommands(){
 	console->addCommand({"pause","pause the game\n",cmd_pauseGame});
 	console->addCommand({"keybinds","print the current keybinds\n",cmd_listKeybinds});
 	console->addCommand({"opengui",
-		"open a GUI window. args: 1-5\n",
+		"open a GUI window. args: 1-8, 0 to close\n",
 		cmd_opengui});
 	console->addCommand({"editor",
 		"open a 3D model editor\n",

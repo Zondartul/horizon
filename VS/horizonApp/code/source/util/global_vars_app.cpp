@@ -32,6 +32,7 @@ GlobalsApp::GlobalsApp() {
 	gs_tool_edit = new gs_tool_editKind();
 	gs_gui_editor = new gs_gui_editorKind();
 	gs_picker = new gs_pickerKind();
+	gs_commands = new gs_commandsKind();
 }
 
 // now how do we change these globals into organized systems?

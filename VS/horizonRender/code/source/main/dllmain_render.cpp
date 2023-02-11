@@ -50,14 +50,19 @@ void renderInit() {
     auto& width = Gp->gs_window->g_width;
     auto& height = Gp->gs_window->g_height;
     //g_renderLow = new renderLowKind();
-    auto* splitter = new renderLow_Splitter();
-    splitter->children.push_back(new renderLow_SDL());
-    splitter->children.push_back(new renderLow_Soft());
-    g_renderLow = splitter;
+    bool debug_split = false;
+    if (debug_split) {
+        auto* splitter = new renderLow_Splitter();
+        splitter->children.push_back(new renderLow_SDL());
+        splitter->children.push_back(new renderLow_Soft());
+        g_renderLow = splitter;
+    }else {
+        g_renderLow = new renderLow_SDL();
+    }
     cout << "--- render init put renderLow_Soft here ---" << endl;
     g_renderLow->renderLowInit();
     g_renderLow->setViewportSize(width, height);
-    g_renderLow->resetOptions();
+    //g_renderLow->resetOptions();
     initLayers();
     //printf("-------- render init done -----\n");
     cout << "-------- render init done -----" << endl;

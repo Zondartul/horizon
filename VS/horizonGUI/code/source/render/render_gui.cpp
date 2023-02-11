@@ -271,7 +271,7 @@ void renderableText::render(renderOptions* options) {
 	assert(uploaded);
 	//vec2 pos2(0, 0);
 	//rect R = preprintText2D(text.c_str(), F, pos2);
-	bool printFromTop = true;
+	bool printFromTop = false;
 
 	float yoffset = 0;
 	if (printFromTop) { yoffset = F->maxrect.end.y; }
@@ -279,13 +279,14 @@ void renderableText::render(renderOptions* options) {
 	vec3 pos3 = pos;
 	pos3.y += yoffset;
 
-	if (!text.empty()) {
-		/// figure out the state before printing
-		printRenderOptions();
-	}
+	//if (!text.empty()) {
+		// /// figure out the state before printing
+		//printRenderOptions();
+	//}
 
 	setTexturing(true); /// [bug 11]: this is sufficient to mess up textures.
-	setScissoring(false);
+	setColor(color);
+	//setScissoring(false);
 	for (char c : text) {
 		if (!F->charmap.count(c)) { continue; } /// missing character handling
 		auto &c_glyph = F->charmap.at(c);
@@ -298,6 +299,7 @@ void renderableText::render(renderOptions* options) {
 		setScale(scale);
 		setPosition(pos3 + pos_adjust);
 		//cout << "rT: scale " << scale << ", pos " << pos << endl;
+		//printRenderOptions();
 		drawRmodel(rm);
 		pos3.x += c_glyph.advance;
 	}

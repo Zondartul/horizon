@@ -1,7 +1,6 @@
-#ifndef COMMANDS_GUARD
-#define COMMANDS_GUARD
+#pragma once
 #include <map>
-using std::map;
+#include <vector>
 void deleteDynamicBodies();
 void spawnPhysbox1();
 void spawnFancyBox();
@@ -16,4 +15,9 @@ void addConsoleCommands();
 	//int g_prev_total_size = 0;
 	//bool g_has_prev_alloc_map = 0;
 //};
-#endif
+
+class GUIbase;
+
+struct gs_commandsKind {
+	std::vector<GUIbase*> testWindows;
+};

@@ -252,11 +252,11 @@ void renderLow_Soft::onEvent(eventKind event)
 }
 
 void renderLow_Soft::renderParseQueue(vector<renderCommand3*>* rqueue, renderLayer* L) {
-
+    gpu->parseQueue(rqueue);
 }
 
 void renderLow_Soft::parseCommand(const renderCommand3& rcmd) {
-
+    gpu->parseCommand(rcmd);
 }
 
 void renderLow_Soft::resetOptions() {}

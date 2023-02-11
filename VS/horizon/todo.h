@@ -75,11 +75,12 @@
 /// - [BUG 6] horizonApp: guieditor: can't add a tab widget
 /// v [fixed bug 7] horizonApp: opengui 2 and 3: crash
 ///		-- was because getTextCentering doesn't handle all enum values
-/// - [BUG 9] horizonApp: opengui4: crash
+/// - [fixed bug 9] horizonApp: opengui4: crash
 ///		-- renderText tried to render a glypth with no texture
 ///		--- glypth is not in charmap. Font has no newline '\n' character.
 ///		--- fix: don't print missing characters	(see idea 15)
 /// - [BUG 10] horizonApp: opengui4: crash when clicking the close button
+///		-- also see [bug 20]
 /// v [fixed bug 11] horizonGUI: textures and text are glitched out and incomprehensible
 ///		-- when implementing (idea 16)
 ///		-- looks like merely enabling textures messes things up, also discovered (bug 13)
@@ -92,10 +93,25 @@
 ///			maybe something in GUI leaves an incompatible setting?
 ///		-- try turning on GUI push options
 ///		-- renderOptions appear the same... see if rmodel and texture are the same?
+///     -- turns out this happens when font is "calibri 16", it works
+///			fine with "cour 14". check if other fonts are crappy
+///		-- calibri 12 and 16 fails, 14 and 18 are ok.
 /// v [fixed bug 15] horizonRender: crash if using resetOptions right after init
 ///		-- probably was about an unhandled render command?
-/// 
-///  
+///	- [BUG 16] horizonRender: resetOptions at init causes buttons and pictures to not display.
+/// - [BUG 17] horizonRender: text is wrong color
+///		-- console was green and labels blue.
+///		-- now console white and labels black.
+/// - [BUG 18] horizonApp: opengui 0 crashes if window was closed (dangling pointer)
+///		-- needs smart pointers?
+/// - [fixed bug 19] all text bork depending on whether the console is shown.
+///		-- seen on opengui 8 once opengui 4 was shown
+///			--- removing renderlayer commands from opengui4 isolates the fuckery
+///		-- seen on opengui 3 regardless of 4
+///		-- seems to be caused by the "grid" element
+///		-- fix: in the "drawRectOutline" change renderMode back from wireframe.
+/// - [BUG 20] horizonApp: opengui 4 button 'clear' crash.
+///		-- also see [bug 10]
 /// -----------------------------------------------
 ///  LOST AND FOUND: if other 'todo' lines are found, move them here
 /// -----------------------------------------------

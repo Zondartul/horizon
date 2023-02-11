@@ -10,6 +10,8 @@
 #include "util/globals_render.h"
 //#include "util/stringUtils.h" /// to print vec2 and stuff
 #include "render/rmodel.h"
+#include "math/vec.h" /// for << vec3
+#include "util/stringUtils.h" /// or this
 using namespace std;
 
 //GPUdriverSoft::~GPUdriverSoft(){}
@@ -69,6 +71,18 @@ void GPUdriverSoft::command_texture_scale(vec2 v) {
 void GPUdriverSoft::command_rmodel_upload(rmodel* rm) {
 }
 void GPUdriverSoft::command_rmodel_render(rmodel* rm) {
+   /* cout << "rmodel_render: " << (void*)rm <<  endl;
+    cout << rm << endl;
+    cout << " vertices: ";
+        for (auto v : *rm->vertices) {
+            cout << toString(v) << " ";
+        }
+    cout << endl;
+    cout << " uvs: ";
+        for (auto uv : *rm->uvs) {
+            cout << toString(uv) << " ";
+        }
+    cout << endl;*/
 }
 void GPUdriverSoft::command_rmodel_delete(rmodel* rm) {
 }
