@@ -121,21 +121,21 @@ void dropDownTerminal::onEvent(eventKind event){
 			setColor(vec3(128,255,128));
 			setAlpha(255.f);
 			
-			bool render_direct_text = false;
+			//bool render_direct_text = false;
 			bool render_rTs = true;
 
-			if (render_direct_text) {
-				setFont(getFont("cour 14"));
-				int numstr = terminalStrings.size();
-				setTextPos(vec2(0,end.y-0*14));
+			//if (render_direct_text) {
+				//setFont(getFont("cour 14"));
+				//int numstr = terminalStrings.size();
+				//setTextPos(vec2(0,end.y-0*14));
 				/// echo user typing
-				printText(inputText);
+				//printText(inputText);
 				/// print everything else
-				for(int I = 0; I < numstr; I++){
-					setTextPos(vec2(0,end.y-(1+numstr-1-I)*14));
-					printText(terminalStrings[I]);
-				}
-			}
+				//for(int I = 0; I < numstr; I++){
+					//setTextPos(vec2(0,end.y-(1+numstr-1-I)*14));
+					//printText(terminalStrings[I]);
+				//}
+			//}
 			
 			if (render_rTs) {
 				rT_input->text = inputText;

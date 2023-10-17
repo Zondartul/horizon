@@ -17,6 +17,10 @@
 #include <cstdio>
 using namespace std;
 
+gs_paintKind::gs_paintKind() {
+
+}
+
 void setLayer(renderLayer *L){
 	auto &currentLayer = Gr->gs_paint->g_currentLayer;
 	currentLayer = L;
@@ -166,18 +170,18 @@ void setTexture(texture *t)     {
 	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::TEXTURE_SELECT,    t));
 }		
-void setFont(font *f)           {
-	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
-	currentLayer->push(new renderCommand3(RC3T::FONT_SELECT,       f));
-}		
+//void setFont(font *f)           {
+//	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
+//	currentLayer->push(new renderCommand3(RC3T::FONT_SELECT,       f));
+//}		
 void setRenderMode(int mode)    {
 	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::MODE_SELECT,       mode));
 }
-void setTextPos(vec2 textPos)   {
-	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
-	currentLayer->push(new renderCommand3(RC3T::TEXT_POS,          textPos));
-} 	
+//void setTextPos(vec2 textPos)   {
+//	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
+//	currentLayer->push(new renderCommand3(RC3T::TEXT_POS,          textPos));
+//} 	
 void setScissor(rect S)         {
 	auto& currentLayer = Gr->gs_paint->g_currentLayer; 
 	currentLayer->push(new renderCommand3(RC3T::SCISSOR,           S));
@@ -308,7 +312,7 @@ void debugFloatingText(vec3 p, string S){
 	setColor(vec3(0,0,0));
 	if(dot(p-camera.pos,camera.forward()) > 0){
 		vec3 tp = camera.worldToScreen(p);
-		setTextPos(vec2(tp.x,tp.y));
+		//setTextPos(vec2(tp.x,tp.y));
 		printText(S);
 	}
 }

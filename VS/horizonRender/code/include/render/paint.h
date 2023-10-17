@@ -43,9 +43,9 @@ void DLLAPI_RENDER drawLayer(renderLayer *L);
 void DLLAPI_RENDER setColor(vec3 col);				
 void DLLAPI_RENDER setAlpha(float a);					
 void DLLAPI_RENDER setTexture(texture *t);			
-void DLLAPI_RENDER setFont(font *f);					
+//void DLLAPI_RENDER setFont(font *f);					
 void DLLAPI_RENDER setRenderMode(int mode);			
-void DLLAPI_RENDER setTextPos(vec2 textPos); 			
+//void DLLAPI_RENDER setTextPos(vec2 textPos); 			
 void DLLAPI_RENDER setScissor(rect S);				
 void DLLAPI_RENDER setPointSize(float size);			
 void DLLAPI_RENDER setLineWidth(float width);			
@@ -65,7 +65,7 @@ void DLLAPI_RENDER setTextureScale(vec2 scale);
 void DLLAPI_RENDER clearScreen();						
 void DLLAPI_RENDER drawRmodel(rmodel *rm);			
 void DLLAPI_RENDER drawRmodelStd(rmodel *rm);			
-void DLLAPI_RENDER printText(string text);		
+//void DLLAPI_RENDER printText(string text);		
 void DLLAPI_RENDER pushRenderOptions();                
 void DLLAPI_RENDER popRenderOptions();  
 void DLLAPI_RENDER resetRenderOptions();
@@ -105,6 +105,7 @@ void DLLAPI_RENDER initLayers();
 void DLLAPI_RENDER uploadFont(font* f);
 
 struct DLLAPI_RENDER gs_paintKind {
+	gs_paintKind();
 	renderLayer* g_loadLayer;		
 	renderLayer* g_layer3D;		
 	renderLayer* g_layerDebug;	
@@ -112,6 +113,9 @@ struct DLLAPI_RENDER gs_paintKind {
 	renderLayer* g_layerDebug2D;	
 	renderLayer* g_deleteLayer;	
 	renderLayer* g_currentLayer = 0;
+	rmodel* g_rm_unitpoint = 0;
+	rmodel* g_rm_unitline = 0;
+	rmodel* g_rm_unitrect = 0;
 	rmodel* g_rm_unitboxWF = 0;
 	rmodel* g_rm_unitcyllinderWF = 0;
 	rmodel* g_rm_unitconeWF = 0;

@@ -44,9 +44,9 @@ void GPUdriverSoft::parseCommand(const renderCommand3& rcmd) {
         case(SCISSORING):       command_scissoring(rcmd.b);     break;
         case(COLOR):            command_color(rcmd.v3);         break;
         case(ALPHA):            command_alpha(rcmd.f);          break;
-        case(FONT_SELECT):      command_font_select(rcmd.fnt);  break;
+        //case(FONT_SELECT):      command_font_select(rcmd.fnt);  break;
         case(MODE_SELECT):      command_mode_select(rcmd.i);    break;
-        case(TEXT_POS):         command_text_pos(rcmd.v2);      break;
+        //case(TEXT_POS):         command_text_pos(rcmd.v2);      break;
         case(SCISSOR):          command_scissor(rcmd.r);        break;
         case(POINTSIZE):        command_pointsize(rcmd.f);      break;
         case(LINEWIDTH):        command_linewidth(rcmd.f);      break;

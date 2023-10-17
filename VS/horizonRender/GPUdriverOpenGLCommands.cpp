@@ -120,7 +120,8 @@ void GPUdriverOpenGL::command_texture_select(texture* t) {
     //if(wasRecentlyDeleted(t)){error("accessing a deleted texture");}
     if (!t) {
         //error("attempt to select null texture\n");
-        throw runtime_error("attempt to select null texture");
+        //throw runtime_error("attempt to select null texture");
+        return;
     }
     GLuint handle = 0;
     //render_sys_data_texture rdata;
@@ -310,19 +311,19 @@ void GPUdriverOpenGL::command_alpha(float f) {
     float val2 = f / 255.0f;
     glUniform1fv(locations["globalAlpha"], 1, (const GLfloat*)&val2);
 }
-void GPUdriverOpenGL::command_font_select(font* fnt) {
-    //if (!fnt) {
-    //    //error("attempt to select null font\n");
-    //    throw runtime_error("attempt to select null font");
-    //}
-    rs.fnt = fnt;
-}
+//void GPUdriverOpenGL::command_font_select(font* fnt) {
+//    //if (!fnt) {
+//    //    //error("attempt to select null font\n");
+//    //    throw runtime_error("attempt to select null font");
+//    //}
+//    rs.fnt = fnt;
+//}
 void GPUdriverOpenGL::command_mode_select(int i) {
     rs.renderMode = i;
 }
-void GPUdriverOpenGL::command_text_pos(vec2 v) {
-    rs.textPos = v;
-}
+//void GPUdriverOpenGL::command_text_pos(vec2 v) {
+//    rs.textPos = v;
+//}
 void GPUdriverOpenGL::command_scissor(rect r) {
     rs.scissor = r;
     //if(debug){printf("set scissor to %dx%d\n",val.size.x,val.size.y);}
@@ -351,17 +352,17 @@ void GPUdriverOpenGL::command_linewidth(float f) {
     glLineWidth(f);
 }
 void GPUdriverOpenGL::command_print_text(string* S) {
-    if (!rs.fnt) {
-        //error("no font selected\n");
-        throw runtime_error("no font selected");
-    }
-    //for convenience, ignores
-    auto m = rs.renderMode;
-    rs.renderMode = 3;
-    printText2D(S->c_str(), rs.fnt, rs.textPos);
-    rs.renderMode = m;
-    //delete rcmd.s; owned by command now.
-    if (debug) { printf("done printing\n"); }
+    //if (!rs.fnt) {
+    //    //error("no font selected\n");
+    //    throw runtime_error("no font selected");
+    //}
+    ////for convenience, ignores
+    //auto m = rs.renderMode;
+    //rs.renderMode = 3;
+    //printText2D(S->c_str(), rs.fnt, rs.textPos);
+    //rs.renderMode = m;
+    ////delete rcmd.s; owned by command now.
+    //if (debug) { printf("done printing\n"); }
 }
 void GPUdriverOpenGL::command_depth_test(bool b) {
     rs.depth_test = b;

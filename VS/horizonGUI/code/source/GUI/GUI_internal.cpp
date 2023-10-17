@@ -13,8 +13,8 @@ void GUIsetFavoriteRenderOptions(){
     setTransparency(true);
 	setAlpha(255);
 	setScissoring(false);
-	setTextPos({0,0});
-	setFont(defaulttextfont);
+	//setTextPos({0,0});
+	//setFont(defaulttextfont);
     setPosition(vec3(0,0,0));
     setRotation(vec3(0,0,0));
     setScale(vec3(1,1,1));

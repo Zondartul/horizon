@@ -6,17 +6,18 @@ using namespace std;
 /// ----------- RenderState -------------------
 
 RenderState::RenderState() {
-	renderMode = 0; 
-	fnt = 0;
-	textPos = vec2(0, 0);
+	renderMode = 3; // 0;
+	//fnt = 0;
+	//textPos = vec2(0, 0);
 	pos = vec3(0, 0, 0);
 	rot = vec3(0, 0, 0);
 	scale = vec3(1, 1, 1);
-	VP;
+	//VP;
 	camPos = vec3(0, 0, 0);
 	height = 0;
 	width = 0;
 	/// 28.01.2023: dealing with [bug 13]
+	/// 11.02.2023: trying to change a bunch of stuff for [bug 16]
 	coloring = false;
 	uvcoloring = false;
 	normalcoloring = false;
@@ -44,8 +45,8 @@ RenderState::RenderState() {
 
 void RenderState::apply(GPUdriver& gpu) {
 	gpu.command_mode_select(renderMode);
-	gpu.command_font_select(fnt);
-	gpu.command_text_pos(textPos);
+	//gpu.command_font_select(fnt);
+	//gpu.command_text_pos(textPos);
 	gpu.command_position(pos);
 	gpu.command_rotation(rot);
 	gpu.command_scale(scale);
@@ -81,6 +82,7 @@ void RenderState::apply(GPUdriver& gpu) {
 	gpu.command_ambient_light_color(ambient_light_color);
 	gpu.command_viewport(viewport);
 	gpu.command_face_culling(face_culling);
+	gpu.command_texture_select(cur_texture);
 }
 
 /// ------- RenderStateStack ---------------------
@@ -126,7 +128,8 @@ void RenderStateStack::print() {
 
 std::ostream& operator<<(std::ostream& stream, RenderState rs) {
 #define Pr(x) stream << #x << ": " << toString(rs.x) << endl;
-	Pr(renderMode); Pr(fnt); Pr(textPos); Pr(pos); Pr(rot);
+	Pr(renderMode); //Pr(fnt); Pr(textPos); 
+	Pr(pos); Pr(rot);
 	Pr(scale); Pr(VP); Pr(camPos); Pr(height); Pr(width);
 	Pr(coloring); Pr(uvcoloring); Pr(normalcoloring);
 	Pr(transparency); Pr(depthmask); Pr(texturing); Pr(debugging);
@@ -134,14 +137,15 @@ std::ostream& operator<<(std::ostream& stream, RenderState rs) {
 	Pr(color); Pr(alpha); Pr(pointsize); Pr(linewidth);
 	Pr(depth_test); Pr(lighting); Pr(sun_pos);
 	Pr(sun_light_color); Pr(ambient_light_color);
-	Pr(viewport); Pr(face_culling);
+	Pr(viewport); Pr(face_culling); Pr(cur_texture);
 #undef Pr;
 	return stream;
 }
 
 std::ostream& operator<<(std::ostream& stream, RenderStateDiff diff) {
 #define Pr(x) if(!(diff.rs1.x == diff.rs2.x)){stream << #x << ": " << toString(diff.rs1.x) << " -> " << toString(diff.rs2.x) << endl;}
-	Pr(renderMode); Pr(fnt); Pr(textPos); Pr(pos); Pr(rot);
+	Pr(renderMode); //Pr(fnt); Pr(textPos); 
+	Pr(pos); Pr(rot);
 	Pr(scale); Pr(VP); Pr(camPos); Pr(height); Pr(width);
 	Pr(coloring); Pr(uvcoloring); Pr(normalcoloring);
 	Pr(transparency); Pr(depthmask); Pr(texturing); Pr(debugging);
@@ -149,7 +153,7 @@ std::ostream& operator<<(std::ostream& stream, RenderStateDiff diff) {
 	Pr(color); Pr(alpha); Pr(pointsize); Pr(linewidth);
 	Pr(depth_test); Pr(lighting); Pr(sun_pos);
 	Pr(sun_light_color); Pr(ambient_light_color);
-	Pr(viewport); Pr(face_culling);
+	Pr(viewport); Pr(face_culling); Pr(cur_texture);
 #undef Pr;
 	return stream;
 }

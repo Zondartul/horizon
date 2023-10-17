@@ -22,9 +22,9 @@ string toString(RC3T type){
         case(RC3T::COLOR):                 return "color";
         case(RC3T::ALPHA):                 return "alpha";
         case(RC3T::TEXTURE_SELECT):        return "texture_select";
-        case(RC3T::FONT_SELECT):           return "font_select";
+        //case(RC3T::FONT_SELECT):           return "font_select";
         case(RC3T::MODE_SELECT):           return "mode_select";
-        case(RC3T::TEXT_POS):              return "text_pos";
+        //case(RC3T::TEXT_POS):              return "text_pos";
         case(RC3T::SCISSOR):               return "scissor";
         case(RC3T::POINTSIZE):             return "point_size";
         case(RC3T::LINEWIDTH):             return "line_width";
@@ -74,9 +74,9 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::COLOR):                  v3 = va_arg(args,vec3); break;
         case(RC3T::ALPHA):                  f = (float)va_arg(args,double); break;
         case(RC3T::TEXTURE_SELECT):         t = va_arg(args,texture*); break;
-        case(RC3T::FONT_SELECT):            fnt = va_arg(args,font*); break;
+        //case(RC3T::FONT_SELECT):            fnt = va_arg(args,font*); break;
         case(RC3T::MODE_SELECT):            i = va_arg(args,int); break;
-        case(RC3T::TEXT_POS):               v2 = va_arg(args,vec2); break;
+        //case(RC3T::TEXT_POS):               v2 = va_arg(args,vec2); break;
         case(RC3T::SCISSOR):                r = va_arg(args,rect); break;
         case(RC3T::POINTSIZE):              f = (float)va_arg(args,double); break;
         case(RC3T::LINEWIDTH):              f = (float)va_arg(args,double); break;
@@ -134,9 +134,9 @@ renderCommand3 *renderCommand3::clone(){
         case(RC3T::LINEWIDTH):
                                             rcmd->f = f; break;
         case(RC3T::TEXTURE_SELECT):         rcmd->t = t; break;
-        case(RC3T::FONT_SELECT):            rcmd->fnt = fnt; break;
+        //case(RC3T::FONT_SELECT):            rcmd->fnt = fnt; break;
         case(RC3T::MODE_SELECT):            rcmd->i = i; break;
-        case(RC3T::TEXT_POS):               rcmd->v2 = v2; break;
+        //case(RC3T::TEXT_POS):               rcmd->v2 = v2; break;
         case(RC3T::SCISSOR):                rcmd->r = r; break;
         case(RC3T::SUN_POS):
         case(RC3T::SUN_LIGHT_COLOR):
@@ -192,9 +192,9 @@ string toString(renderCommand3 *rcmd){
         case(RC3T::COLOR):                  S +=  toString(rcmd->v3); break;
         case(RC3T::ALPHA):                  S +=  toString(rcmd->f); break;
         case(RC3T::TEXTURE_SELECT):         S +=  toString(rcmd->t); break;
-        case(RC3T::FONT_SELECT):            S +=  isValid(rcmd->fnt)? toString(rcmd->fnt) : fstring("<deleted %p>",rcmd->fnt); break;
+        //case(RC3T::FONT_SELECT):            S +=  isValid(rcmd->fnt)? toString(rcmd->fnt) : fstring("<deleted %p>",rcmd->fnt); break;
         case(RC3T::MODE_SELECT):            S +=  toString(rcmd->i); break;
-        case(RC3T::TEXT_POS):               S +=  toString(rcmd->v2); break;
+        //case(RC3T::TEXT_POS):               S +=  toString(rcmd->v2); break;
         case(RC3T::SCISSOR):                S +=  toString(rcmd->r); break;
         case(RC3T::POINTSIZE):              S +=  toString(rcmd->f); break;
         case(RC3T::LINEWIDTH):              S +=  toString(rcmd->f); break;

@@ -223,7 +223,7 @@ void openTestWindow4(){
 		printf("wut\n");
 	};
 	btn_clear->F = [=](){
-		clearLayer(data.test4layer);
+		if (data.test4layer) { clearLayer(data.test4layer); }
 	};
 }
 std::function<void(void)> checkbox_func(GUIbutton* button, std::function<void(int)> func) {

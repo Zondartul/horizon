@@ -48,9 +48,11 @@
 /// - [IDEA 21] horizonRender: RenderState: replace VP, camPos with camprojection
 /// - [IDEA 22] horizonRender: separate the state-changing part of a command from the "do stuff" part.
 ///		-- also deduplicate renderState and renderOptions
+/// - [IDEA 23] horizonRender: paint: make all rmodels pre-generated and reused
+/// - [IDEA 24] horizonRender: remove direct text drawing (later we can add it as a debug-only thing)
+/// - [IDEA 25] horizonRender: renderMode should be an immediate param, not an option.
 /// 
-/// 
-/// Bugs:
+/// fixed bugs:
 ///	v [fixed bug 1] crash in horizonApp when clicking frame button in guieditor
 ///		-- thrown from horizonRender:GPUdriverKind::parseCommand (select texture but tex not uploaded)
 ///		-- only after mouse goes into the working area of the editor
@@ -70,25 +72,43 @@
 /// v [fixed bug 4] horizonApp: guieditor: when a file is loaded, text doesn't display.
 ///		-- this is due to fromString<font*> impl parsing font name but not size.
 ///			(related: bug 3)
-/// - [BUG 5] Crash in horizonApp due to memory leak (2.1 GB) probably due to text?
-///		-- idea: make text only as renderable; forbid direct text drawing (printw)
-/// - [BUG 6] horizonApp: guieditor: can't add a tab widget
 /// v [fixed bug 7] horizonApp: opengui 2 and 3: crash
 ///		-- was because getTextCentering doesn't handle all enum values
-/// - [fixed bug 9] horizonApp: opengui4: crash
+/// v [fixed bug 9] horizonApp: opengui4: crash
 ///		-- renderText tried to render a glypth with no texture
 ///		--- glypth is not in charmap. Font has no newline '\n' character.
 ///		--- fix: don't print missing characters	(see idea 15)
-/// - [BUG 10] horizonApp: opengui4: crash when clicking the close button
-///		-- also see [bug 20]
 /// v [fixed bug 11] horizonGUI: textures and text are glitched out and incomprehensible
 ///		-- when implementing (idea 16)
 ///		-- looks like merely enabling textures messes things up, also discovered (bug 13)
 /// v [fixed bug 12] horizonGUI: crash when using PUSH_OPTIONS.
 ///		-- the option was simply not handled
-/// - [BUG 13] horizonRender: PUSH/POP options doesn't restore all the options.
+/// v [fixed bug 15] horizonRender: crash if using resetOptions right after init
+///		-- probably was about an unhandled render command?
+///		-- also happens if selecting a null texture. now permitted as part of renderState application.
+/// v [fixed bug 19] all text bork depending on whether the console is shown.
+///		-- seen on opengui 8 once opengui 4 was shown
+///			--- removing renderlayer commands from opengui4 isolates the fuckery
+///		-- seen on opengui 3 regardless of 4
+///		-- seems to be caused by the "grid" element
+///		-- fix: in the "drawRectOutline" change renderMode back from wireframe.
+/// - [fixed bug 5] Crash in horizonApp due to memory leak (2.1 GB) probably due to text?
+///		-- idea: make text only as renderable; forbid direct text drawing (printw)
+///		-- another problem: every drawRect creates and uploads a new model, should reuse instead.
+///		-- fix: made deleteRmodel actually work.
+/// - [fixed bug 13] horizonRender: PUSH/POP options doesn't restore all the options.
 ///		-- reopened: current texture and rmodel are not checked
-/// - [BUG 14] horizonGUI: labels with renderableText have tiiiny text
+///		-- ok, texture is checked. rmodel is an immediate cmd so no need.
+/// - [closed bug 10] horizonApp: opengui4: crash when clicking the close button
+///		-- also see [bug 20]
+///		-- cant reproduce
+/// - [fixed bug 20] horizonApp: opengui 4 button 'clear' crash.
+///		-- also see [bug 10]
+/// 
+/// Bugs:
+/// - [BUG 6] horizonApp: guieditor: can't add a tab widget
+/// - [BUG 14] horizonRender: some fonts look broken
+///		-- was: horizonGUI: labels with renderableText have tiiiny text
 ///		-- BUT console still looks good, and it also uses renderableText
 ///			maybe something in GUI leaves an incompatible setting?
 ///		-- try turning on GUI push options
@@ -96,22 +116,16 @@
 ///     -- turns out this happens when font is "calibri 16", it works
 ///			fine with "cour 14". check if other fonts are crappy
 ///		-- calibri 12 and 16 fails, 14 and 18 are ok.
-/// v [fixed bug 15] horizonRender: crash if using resetOptions right after init
-///		-- probably was about an unhandled render command?
 ///	- [BUG 16] horizonRender: resetOptions at init causes buttons and pictures to not display.
+///		-- also text is visible in console but not on labels.
 /// - [BUG 17] horizonRender: text is wrong color
 ///		-- console was green and labels blue.
 ///		-- now console white and labels black.
-/// - [BUG 18] horizonApp: opengui 0 crashes if window was closed (dangling pointer)
+/// - [BUG 18] horizonApp: opengui 0 crashes if any window is already closed (dangling pointer)
 ///		-- needs smart pointers?
-/// - [fixed bug 19] all text bork depending on whether the console is shown.
-///		-- seen on opengui 8 once opengui 4 was shown
-///			--- removing renderlayer commands from opengui4 isolates the fuckery
-///		-- seen on opengui 3 regardless of 4
-///		-- seems to be caused by the "grid" element
-///		-- fix: in the "drawRectOutline" change renderMode back from wireframe.
-/// - [BUG 20] horizonApp: opengui 4 button 'clear' crash.
-///		-- also see [bug 10]
+/// - [BUG 21] horizonApp: opengui 6 (memreport) crashes on close
+///		-- cause a timer event still references it
+/// last bug = 21
 /// -----------------------------------------------
 ///  LOST AND FOUND: if other 'todo' lines are found, move them here
 /// -----------------------------------------------

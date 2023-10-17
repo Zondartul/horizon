@@ -158,17 +158,17 @@ void renderLow_SDL::parseCommand(const renderCommand3 &rcmd){
                 options.alpha = rcmd.f;
             break;
 
-            case(FONT_SELECT):
-                options.fnt = rcmd.fnt;
-            break;
+            //case(FONT_SELECT):
+            //    options.fnt = rcmd.fnt;
+            //break;
 
             case(MODE_SELECT):
                 options.renderMode = rcmd.i;
             break;
 
-            case(TEXT_POS):
-                options.textPos = rcmd.v2;
-            break;
+            //case(TEXT_POS):
+            //    options.textPos = rcmd.v2;
+            //break;
 
             case(SCISSOR):
                 options.scissor = rcmd.r;

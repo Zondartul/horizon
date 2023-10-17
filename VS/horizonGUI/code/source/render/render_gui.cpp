@@ -46,8 +46,8 @@ void apply(renderOptions O, renderLayer* L) {
 	setRotation(O.rot);
 	setScale(O.scale);
 	if (O.t) { setTexture(O.t); }
-	if (O.fnt) { setFont(O.fnt); }
-	setTextPos(O.textPos);
+	//if (O.fnt) { setFont(O.fnt); }
+	//setTextPos(O.textPos);
 	setPointSize(O.pointSize);
 	setLineWidth(O.lineWidth);
 	setSunPos(O.sunPos);
@@ -279,10 +279,10 @@ void renderableText::render(renderOptions* options) {
 	vec3 pos3 = pos;
 	pos3.y += yoffset;
 
-	//if (!text.empty()) {
+	if (!text.empty()) {
 		// /// figure out the state before printing
-		//printRenderOptions();
-	//}
+		printRenderOptions();
+	}
 
 	setTexturing(true); /// [bug 11]: this is sufficient to mess up textures.
 	setColor(color);

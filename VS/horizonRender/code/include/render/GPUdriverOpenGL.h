@@ -53,9 +53,9 @@ class DLLAPI_RENDER GPUdriverOpenGL : public GPUdriver {
 	void command_scissoring(bool b);
 	void command_color(vec3 v);
 	void command_alpha(float f);
-	void command_font_select(font* fnt);
+	//void command_font_select(font* fnt);
 	void command_mode_select(int i);
-	void command_text_pos(vec2 v);
+	//void command_text_pos(vec2 v);
 	void command_scissor(rect r);
 	void command_pointsize(float f);
 	void command_rmodel_render(rmodel* rm);

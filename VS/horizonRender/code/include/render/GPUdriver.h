@@ -41,9 +41,9 @@ public:
 	virtual void command_scissoring(bool b) = 0;
 	virtual void command_color(vec3 v) = 0;
 	virtual void command_alpha(float f) = 0;
-	virtual void command_font_select(font* fnt) = 0;
+	//virtual void command_font_select(font* fnt) = 0;
 	virtual void command_mode_select(int i) = 0;
-	virtual void command_text_pos(vec2 v) = 0;
+	//virtual void command_text_pos(vec2 v) = 0;
 	virtual void command_scissor(rect r) = 0;
 	virtual void command_pointsize(float f) = 0;
 	virtual void command_rmodel_render(rmodel* rm) = 0;

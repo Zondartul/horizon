@@ -97,19 +97,19 @@ void GPUdriverSoft::command_color(vec3 v) {
 void GPUdriverSoft::command_alpha(float f) {
     rs.alpha = f;
 }
-void GPUdriverSoft::command_font_select(font* fnt) {
+//void GPUdriverSoft::command_font_select(font* fnt) {
     //if (!fnt) {
     //    //error("attempt to select null font\n");
     //    throw runtime_error("attempt to select null font");
     //}
-    rs.fnt = fnt;
-}
+//    rs.fnt = fnt;
+//}
 void GPUdriverSoft::command_mode_select(int i) {
     rs.renderMode = i;
 }
-void GPUdriverSoft::command_text_pos(vec2 v) {
-    rs.textPos = v;
-}
+//void GPUdriverSoft::command_text_pos(vec2 v) {
+//    rs.textPos = v;
+//}
 void GPUdriverSoft::command_scissor(rect r) {
     rs.scissor = r;
 }

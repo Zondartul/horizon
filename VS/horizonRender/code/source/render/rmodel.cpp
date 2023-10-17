@@ -41,8 +41,16 @@ rmodel::rmodel(model *m){
 	}
 }
 rmodel::~rmodel(){
-	//assume we are being deleted by renderLow, who already unloaded us.
+	// /// assume we are being deleted by renderLow, who already unloaded us.
+	/// actually no, GPUdriver thinks the command delets us,
+	/// and command assumes we delete our stuff.
+
+	delete vertices;
+	delete colors;
+	delete normals;
+	delete uvs;
 }
+
 //make sure they're all the same size 
 model *modelFromPoints(vector<vec3> *vertices,
 					vector<vec3> *normals,

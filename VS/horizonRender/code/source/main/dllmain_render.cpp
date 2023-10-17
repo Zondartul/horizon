@@ -62,7 +62,7 @@ void renderInit() {
     cout << "--- render init put renderLow_Soft here ---" << endl;
     g_renderLow->renderLowInit();
     g_renderLow->setViewportSize(width, height);
-    //g_renderLow->resetOptions();
+    //g_renderLow->resetOptions(); /// causes [bug 16]
     initLayers();
     //printf("-------- render init done -----\n");
     cout << "-------- render init done -----" << endl;

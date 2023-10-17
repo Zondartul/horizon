@@ -150,13 +150,14 @@ rect preprintText2D(const char *text, font *F){
 //needed num characters when supplied with 0 buffer.
 //2021: we really should get rid of all printf-style output and switch to streams
 //they can be customized too
-void printw(const char *format, ...){
-	va_list ap;
-	va_start(ap, format);
 
-	char buff[1000];
-	vsnprintf(buff,1000,format,ap);
-	printText(buff);
+void printw(const char *format, ...){
+//	va_list ap;
+//	va_start(ap, format);
+//
+//	char buff[1000];
+//	vsnprintf(buff,1000,format,ap);
+//	printText(buff);
 }
 rect preprintw(font *F, const char *format, ...){
 	va_list ap;
