@@ -40,6 +40,7 @@ bitmap *getBitmap(string name){
 	return bmp;
 }
 texture *getTexture(string name){
+	if (name.empty()) {return nullptr;}
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}

@@ -432,5 +432,5 @@ void GPUdriverOpenGL::command_reset_options() {
 
 
 void GPUdriverOpenGL::command_print_options() {
-    stateStack.print();
+    //stateStack.print();
 }

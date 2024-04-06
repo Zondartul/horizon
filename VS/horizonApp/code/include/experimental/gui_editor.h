@@ -16,6 +16,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	public:
 	elastic_ptr<GUIbase> elMainWindow = 0;
 	elastic_ptr<GUIbase> elWorkWindow = 0;
+	elastic_ptr<GUIbase> elNodegraph = 0;
 	renderLayer *ge_layer_back = 0;
 	renderLayer *ge_layer_front = 0;
 	gui_editor_tool *lastTool = 0;
@@ -44,7 +45,29 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void paste(string filepath); 
 	bool isFrontEvent = false;
 	gui_editor_event_helper helper;
+
+	void on_btn_File_pressed();
+	void on_btn_Save_pressed();
+	void on_btn_Paste_pressed();
+	void on_btn_Frame_pressed();
+	void on_btn_Window_pressed();
+	void on_btn_Btn_pressed();
+	void on_btn_Label_pressed();
+	void on_btn_TextEntry_pressed();
+	void on_btn_Image_pressed();
+	void on_btn_ScrollBar_pressed();
+	void on_btn_Tabs_pressed();
+	void on_btn_Cursor_pressed();
+	void on_btn_SelectionGroup_pressed();
+	void on_btn_Selectable_pressed();
+	void on_btn_Grid_pressed();
+
+	void setup_layers();
+	void add_tool_buttons();
+	void add_windows();
+	void setup_channels();
 };
+
 struct gs_gui_editorKind {
 	elastic_ptr<gui_editor_kind> g_gui_editor;
 };

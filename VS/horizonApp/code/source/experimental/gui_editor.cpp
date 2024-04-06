@@ -19,198 +19,133 @@ using namespace tinyxml2;
 using namespace std;
 
 gui_editor_kind::gui_editor_kind(){
+	add_windows();
+	setup_layers();
+	helper.editor = this;
+	setup_channels();
+	tool_default();
+}
+
+GUIbase* add_window(std::string title, vec2 size, vec2 pos) {
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
-	auto& layer2D = Gr->gs_paint->g_layer2D;
+	GUIwindow* win = new GUIwindow();
+	win->setTitle(title);
+	win->setSize(size);
+	win->moveTo(pos);
+	GUI->addChild(win);
+	return win;
+}
+
+void gui_editor_kind::add_windows() {
+	elMainWindow = add_window("GUI editor", vec2(100, 400), vec2(0, 0));
+	add_tool_buttons();
+	elWorkWindow = add_window("GUI workspace", vec2(500, 500), vec2(300, 100));
+	elNodegraph = add_window("GUI graph", vec2(150, 400), vec2(150, 100));
+}
+
+void gui_editor_kind::setup_channels() {
 	auto& inputChannel = Gp->sysInput->inputChannel;
 	auto& globalChannel = Gu->sysEvent->globalChannel;
-	GUIwindow *mainWindow = new GUIwindow();
-	elMainWindow = mainWindow;
-	mainWindow->setTitle("GUI editor");
-	mainWindow->setSize(vec2(100,400));
-	GUIbutton *btn1 = new GUIbutton();
-	btn1->setText("File");
-	btn1->setSize(vec2(40,20));
-	btn1->setFunction([=]() {
-		GUIfileDialog* dialog = new GUIfileDialog();
-		dialog->setDirectory(getDataDirectory());
-		dialog->setMode(GUIf::Open);
-		dialog->setFunction([=](string filepath) {
-			paste(filepath);
-			});
-		GUI->addChild(dialog);
-		}
-	);
-	mainWindow->addChild(btn1);
-	GUIbutton *btnFrame = new GUIbutton();
-	btnFrame->setText("");
-	btnFrame->setSize(vec2(32,32));
-	btnFrame->setImage(getTexture("gui/iconframe"));
-	btnFrame->moveTo(vec2(0,32*1));
-	btnFrame->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_FRAME));
-	});
-	mainWindow->addChild(btnFrame);
-	GUIbutton *btnWindow = new GUIbutton();
-	btnWindow->setText("");
-	btnWindow->setSize(vec2(32,32));
-	btnWindow->setImage(getTexture("gui/iconwindow"));
-	btnWindow->moveTo(vec2(0,32*2));
-	btnWindow->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_WINDOW));
-	});
-	mainWindow->addChild(btnWindow);
-	GUIbutton *btnBtn = new GUIbutton();
-	btnBtn->setText("");
-	btnBtn->setSize(vec2(32,32));
-	btnBtn->setImage(getTexture("gui/iconbutton"));
-	btnBtn->moveTo(vec2(0,32*3));
-	btnBtn->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_BUTTON));
-	});
-	mainWindow->addChild(btnBtn);
-	GUIbutton *btnCheckbox = new GUIbutton();
-	btnCheckbox->setText("");
-	btnCheckbox->setSize(vec2(32,32));
-	btnCheckbox->setImage(getTexture("gui/iconcheckbox"));
-	btnCheckbox->moveTo(vec2(0,32*4));
-	btnCheckbox->setFunction([=](){
-	});
-	mainWindow->addChild(btnCheckbox);
-	GUIbutton *btnLabel = new GUIbutton();
-	btnLabel->setText("");
-	btnLabel->setSize(vec2(32,32));
-	btnLabel->setImage(getTexture("gui/iconlabel"));
-	btnLabel->moveTo(vec2(0,32*5));
-	btnLabel->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_LABEL));
-	});
-	mainWindow->addChild(btnLabel);
-	GUIbutton *btnTextEntry = new GUIbutton();
-	btnTextEntry->setText("");
-	btnTextEntry->setSize(vec2(32,32));
-	btnTextEntry->setImage(getTexture("gui/icontextentry"));
-	btnTextEntry->moveTo(vec2(0,32*6));
-	btnTextEntry->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TEXTENTRY));
-	});
-	mainWindow->addChild(btnTextEntry);
-	GUIbutton *btnImage = new GUIbutton();
-	btnImage->setText("");
-	btnImage->setSize(vec2(32,32));
-	btnImage->setImage(getTexture("gui/iconimage"));
-	btnImage->moveTo(vec2(0,32*7));
-	btnImage->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_IMAGE));
-	});
-	mainWindow->addChild(btnImage);
-	GUIbutton *btnScrollbar = new GUIbutton();
-	btnScrollbar->setText("");
-	btnScrollbar->setSize(vec2(32,32));
-	btnScrollbar->setImage(getTexture("gui/iconscrollbar"));
-	btnScrollbar->moveTo(vec2(0,32*8));
-	btnScrollbar->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SCROLLBAR));
-	});
-	mainWindow->addChild(btnScrollbar);
-	GUIbutton *btnTabs = new GUIbutton();
-	btnTabs->setText("");
-	btnTabs->setSize(vec2(32,32));
-	btnTabs->setImage(getTexture("gui/icontabs"));
-	btnTabs->moveTo(vec2(0,32*9));
-	btnTabs->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TABS));
-	});
-	mainWindow->addChild(btnTabs);
-	GUIbutton *btnCursor = new GUIbutton();
-	btnCursor->setText("");
-	btnCursor->setSize(vec2(32,32));
-	btnCursor->setImage(getTexture("gui/cursor"));
-	btnCursor->moveTo(vec2(32,32*1));
-	btnCursor->setFunction([=](){
-		tool_none();
-	});
-	mainWindow->addChild(btnCursor);
-	GUI->addChild(mainWindow);
-	GUIbutton *btnSave = new GUIbutton();
-	btnSave->setText("");
-	btnSave->setSize(vec2(32,32));
-	btnSave->setImage(getTexture("gui/iconsave"));
-	btnSave->moveTo(vec2(32,32*2));
-	btnSave->setFunction([=](){
-		GUIfileDialog *dialog = new GUIfileDialog();
-		dialog->setDirectory(getDataDirectory());
-		dialog->setMode(GUIf::Save);
-		dialog->setFunction([=](string filepath){
-			save(filepath);
-		});
-		GUI->addChild(dialog);
-	});
-	mainWindow->addChild(btnSave);
-	GUIbutton *btnPaste = new GUIbutton();
-	btnPaste->setText("");
-	btnPaste->setSize(vec2(32,32));
-	btnPaste->setImage(getTexture("gui/iconvertex"));
-	btnPaste->moveTo(vec2(32,32*3));
-	btnPaste->setFunction([=](){
-		GUIfileDialog *dialog = new GUIfileDialog();
-		dialog->setDirectory(getDataDirectory());
-		dialog->setMode(GUIf::Open);
-		dialog->setFunction([=](string filepath){
-			paste(filepath);
-		});
-		GUI->addChild(dialog);	
-	});
-	mainWindow->addChild(btnPaste);
-	GUIbutton *btnSG = new GUIbutton();
-	btnSG->setText("");
-	btnSG->setSize(vec2(32,32));
-	btnSG->setImage(getTexture("gui/iconselectiongroup"));
-	btnSG->moveTo(vec2(32,32*4));
-	btnSG->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTIONGROUP));
-	});
-	mainWindow->addChild(btnSG);
-	GUIbutton *btnSel = new GUIbutton();
-	btnSel->setText("");
-	btnSel->setSize(vec2(32,32));
-	btnSel->setImage(getTexture("gui/iconselectable2"));
-	btnSel->moveTo(vec2(32,32*5));
-	btnSel->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTABLE));
-	});
-	mainWindow->addChild(btnSel);
-	GUIbutton *btnGrid = new GUIbutton();
-	btnGrid->setText("");
-	btnGrid->setSize(vec2(32,32));
-	btnGrid->setImage(getTexture("gui/icongrid"));
-	btnGrid->moveTo(vec2(32,32*6));
-	btnGrid->setFunction([=](){
-		tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_GRID));
-	});
-	mainWindow->addChild(btnGrid);
-	GUIwindow *workWindow = new GUIwindow();
-	elWorkWindow = workWindow;
-	workWindow->setTitle("GUI workspace");
-	workWindow->setSize(vec2(500,500));
-	workWindow->moveTo(vec2(150,100));
-	GUI->addChild(workWindow);
-	setLayer(layer2D);
-	ge_layer_back = addNewLayer("gui_editor_layer_back",false);
-	setLayer(layerGUI);
-	ge_layer_front = addNewLayer("gui_editor_layer_front",false);
-	ge_layer_front->resetLayer = addNewLayer("gui_editor_layer_front.reset",true,true);
-	setLayer(ge_layer_front->resetLayer);
-	setScissor(rect(vec2(0,0),vec2(1024,1024)));
-	setScissoring(false);
-	setAlpha(255.0f);
-	setColor(vec3(0,0,0));
-	helper.editor = this;
 	inputChannel.addListener(this);
 	inputChannel.addListenerFront(&helper);
 	globalChannel.addListener(this);
-	tool_default();
 }
+
+void gui_editor_kind::setup_layers() {
+	auto& layerGUI = Gg->gs_GUI->g_layerGUI;
+	auto& layer2D = Gr->gs_paint->g_layer2D;
+	setLayer(layer2D);
+	ge_layer_back = addNewLayer("gui_editor_layer_back", false);
+	setLayer(layerGUI);
+	ge_layer_front = addNewLayer("gui_editor_layer_front", false);
+	ge_layer_front->resetLayer = addNewLayer("gui_editor_layer_front.reset", true, true);
+	setLayer(ge_layer_front->resetLayer);
+	setScissor(rect(vec2(0, 0), vec2(1024, 1024)));
+	setScissoring(false);
+	setAlpha(255.0f);
+	setColor(vec3(0, 0, 0));
+}
+
+
+void add_button(GUIbase& parent, std::string text, std::string texname, vec2 size, vec2 pos, std::function<void()> func) {
+	GUIbutton* btn = new GUIbutton();
+	btn->setText(text);
+	btn->setImage(getTexture(texname));
+	btn->setSize(size);
+	btn->setFunction(func);
+	btn->moveTo(pos);
+	parent.addChild(btn);
+}
+
+void not_implemented() { std::cout << "- not implemented -" << std::endl; }
+
+void gui_editor_kind::add_tool_buttons() {
+	add_button(*elMainWindow, "File", "", vec2(40, 20), vec2(0, 0), std::bind(&gui_editor_kind::on_btn_File_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconframe", vec2(32, 32), vec2(0, 32 * 1), std::bind(&gui_editor_kind::on_btn_Frame_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconwindow", vec2(32, 32), vec2(0, 32 * 2), std::bind(&gui_editor_kind::on_btn_Window_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconbutton", vec2(32, 32), vec2(0, 32 * 3), std::bind(&gui_editor_kind::on_btn_Btn_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconcheckbox", vec2(32, 32), vec2(0, 32 * 4), not_implemented);
+	add_button(*elMainWindow, "", "gui/iconlabel", vec2(32, 32), vec2(0, 32 * 5), std::bind(&gui_editor_kind::on_btn_Label_pressed, this));
+	add_button(*elMainWindow, "", "gui/icontextentry", vec2(32, 32), vec2(0, 32 * 6), std::bind(&gui_editor_kind::on_btn_TextEntry_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconimage", vec2(32, 32), vec2(0, 32 * 7), std::bind(&gui_editor_kind::on_btn_Image_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconscrollbar", vec2(32, 32), vec2(0, 32 * 8), std::bind(&gui_editor_kind::on_btn_ScrollBar_pressed, this));
+	add_button(*elMainWindow, "", "gui/icontabs", vec2(32, 32), vec2(0, 32 * 9), std::bind(&gui_editor_kind::on_btn_Tabs_pressed, this));
+	add_button(*elMainWindow, "", "gui/cursor", vec2(32, 32), vec2(32, 32 * 1), std::bind(&gui_editor_kind::on_btn_Cursor_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconsave", vec2(32, 32), vec2(32, 32 * 2), std::bind(&gui_editor_kind::on_btn_Save_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconvertex", vec2(32, 32), vec2(32, 32 * 3), std::bind(&gui_editor_kind::on_btn_Paste_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconselectiongroup", vec2(32, 32), vec2(32, 32 * 4), std::bind(&gui_editor_kind::on_btn_SelectionGroup_pressed, this));
+	add_button(*elMainWindow, "", "gui/iconselectable2", vec2(32, 32), vec2(32, 32 * 5), std::bind(&gui_editor_kind::on_btn_Selectable_pressed, this));
+	add_button(*elMainWindow, "", "gui/icongrid", vec2(32, 32), vec2(32, 32 * 6), std::bind(&gui_editor_kind::on_btn_Grid_pressed, this));
+}
+
+
+void gui_editor_kind::on_btn_File_pressed() {
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	GUIfileDialog* dialog = new GUIfileDialog();
+	dialog->setDirectory(getDataDirectory());
+	dialog->setMode(GUIf::Open);
+	dialog->setFunction([=](string filepath) {
+		paste(filepath);
+		});
+	GUI->addChild(dialog);
+}
+void gui_editor_kind::on_btn_Save_pressed() {
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	GUIfileDialog* dialog = new GUIfileDialog();
+	dialog->setDirectory(getDataDirectory());
+	dialog->setMode(GUIf::Save);
+	dialog->setFunction([=](string filepath) {
+		save(filepath);
+		});
+	GUI->addChild(dialog);
+}
+void gui_editor_kind::on_btn_Paste_pressed() {
+	auto& GUI = Gg->gs_GUI->g_GUI;
+	GUIfileDialog* dialog = new GUIfileDialog();
+	dialog->setDirectory(getDataDirectory());
+	dialog->setMode(GUIf::Open);
+	dialog->setFunction([=](string filepath) {
+		paste(filepath);
+		});
+	GUI->addChild(dialog);
+}
+
+void gui_editor_kind::on_btn_Frame_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_FRAME)); }
+void gui_editor_kind::on_btn_Window_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_WINDOW)); }
+void gui_editor_kind::on_btn_Btn_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_BUTTON)); }
+void gui_editor_kind::on_btn_Label_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_LABEL)); }
+void gui_editor_kind::on_btn_TextEntry_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TEXTENTRY)); }
+void gui_editor_kind::on_btn_Image_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_IMAGE)); }
+void gui_editor_kind::on_btn_ScrollBar_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SCROLLBAR)); }
+void gui_editor_kind::on_btn_Tabs_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TABS)); }
+void gui_editor_kind::on_btn_Cursor_pressed() { tool_none(); }
+void gui_editor_kind::on_btn_SelectionGroup_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTIONGROUP)); }
+void gui_editor_kind::on_btn_Selectable_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTABLE)); }
+void gui_editor_kind::on_btn_Grid_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_GRID)); }
+
+
+
+
 void gui_editor_kind::close(){
 	printf("closing gui editor\n");
 	if(elWorkWindow){
