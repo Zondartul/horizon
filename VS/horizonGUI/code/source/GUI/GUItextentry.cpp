@@ -25,7 +25,7 @@ GUItextEntry::GUItextEntry(){
 	uploadTexture(tcaret);
 }
 
-GUItextEntry *GUItextEntry::setText(string newtext){text = newtext; return this;}
+GUItextEntry* GUItextEntry::setText(string newtext) { text = newtext; this->rT->text = newtext; return this; }
 GUItextEntry *GUItextEntry::setFunction(function<void()> f){F = f; return this;}
 double GUItextEntry::getNumber(){
 	float N = 0; 
@@ -90,6 +90,7 @@ void GUItextEntry::onEvent(eventKind event){
 				edit = true;
 				cursorPos++;
 			}
+			this->rT->text = text;
 		}
 	}
 	if(callOnEdit && edit){call = true;}

@@ -131,5 +131,12 @@
 /// -----------------------------------------------
 /// 
 /// 
-/// 
-///  
+/// 21 sep 2024: I want an admin window of created objects and their relationship
+/// --- this needs object arenas; admin UI
+///  --- first - make admin ui?
+///    --- first first - make sure all UI is loaded from file?
+/// [bug 22] guieditor - 'File->save' doesn't save
+/// [fixed bug 23] gui2 - TextEdit doesn't display current text
+/// [bug 24] Resource / guieditor - missing texture results in a crash
+/// [todo 25] guieditor - make sure property editor can open a texbrowser or filedialog to select texture
+/// [todo 26] textedit - add shift-select of text
