@@ -136,7 +136,9 @@
 ///  --- first - make admin ui?
 ///    --- first first - make sure all UI is loaded from file?
 /// [bug 22] guieditor - 'File->save' doesn't save
-/// [fixed bug 23] gui2 - TextEdit doesn't display current text
+/// v [fixed bug 23] gui2 - TextEdit doesn't display current text
 /// [bug 24] Resource / guieditor - missing texture results in a crash
 /// [todo 25] guieditor - make sure property editor can open a texbrowser or filedialog to select texture
-/// [todo 26] textedit - add shift-select of text
+/// v [done todo 26] textedit - add shift-select of text (fixed)
+/// [bug 27] textEditor text is vertically cutoff (and changes position randomly)
+/// 

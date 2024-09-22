@@ -4,21 +4,42 @@
 
 class DLLAPI_GUI GUItextEntry:public virtual GUIbutton{
 	public:
-	vec3 focusedColor;
+	//signals
 	bool callOnEdit;
 	bool callOnEnter;
 	bool callOnUnfocus;
+	GUItextEntry* setFunction(function<void()> f);
+	// behavior
 	bool unfocusOnEnter;
 	bool clearOnEnter;
 	bool multiline;
 	bool numeric;
+	//style
+	vec3 focusedColor;
 	texture *tcaret;
+	//state --------------
 	bool hasfocus;
 	unsigned int cursorPos;
-	GUItextEntry();
-	GUItextEntry *setText(string newtext);
-	GUItextEntry *setFunction(function<void()> f);
+	void caret_left(bool selecting); // moves caret by one character
+	void caret_right(bool selecting);
+	//----- end state ----
+	//selection ----------
+	unsigned int select_begin;
+	unsigned int select_end;
+	bool selecting;
+
+	string get_selection();
+	void replace_selection(string rep); // edits the text under selection
+	void clear_selection(); // unselects text
+	void begin_selection();
+	void select_left();  // adds left symbol to selection
+	void select_right(); // adds right symbol to selection
+	//----- end selection -------
+	//data
+	GUItextEntry* setText(string newtext);
 	double getNumber();
+	//base methods
+	GUItextEntry();
 	virtual void onEvent(eventKind event);
 	virtual GUIpropertyTable getDefaultPropertyTable();
 	virtual string getProperty(string key);

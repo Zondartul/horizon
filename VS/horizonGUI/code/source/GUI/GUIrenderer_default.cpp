@@ -1,6 +1,10 @@
 #include "GUI/GUI_internal.h"
 #include "render/paint.h"
 
+#include <iostream>
+
+//template<typename T> void exchange(T& A, T& B) {T C = A; A = B; B = C;}
+
 GUIrenderer_default::
 GUIrenderer_default(){name = "default";}
 GUIrenderer_default::
@@ -122,6 +126,7 @@ render(GUIbase *el, string type){
 		if(elTE->hasfocus){elTE->hoverColor = elTE->bgColor = elTE->focusedColor;}
 		render(el, "GUIbutton");
 		if(elTE->hasfocus){
+			/// draw caret
 			rect TR;
 			rect AR = elTE->worldArea();
 			if(elTE->cursorPos){
@@ -147,6 +152,31 @@ render(GUIbase *el, string type){
 			setColor(vec3(255,255,255));
 			drawImage(elTE->tcaret,IR);
 			setTexturing(false);
+			/// draw selection rect
+			rect SR;
+			if (elTE->select_begin != elTE->select_end) {
+				vec2 textpos = [&]()->vec2 {
+					GUIlabel* elLbl = dynamic_cast<GUIlabel*>(el); assert(elLbl);
+					rect tRect = elLbl->getTextRect();
+					vec2 tp = getTextCentering(el->worldArea(), tRect, elLbl->alignment_vertical, elLbl->alignment_horizontal, elLbl->const_height, elLbl->textfont);
+					return tp;
+					}();
+				rect TR1 = elTE->getTextRect(elTE->text.substr(0, elTE->select_begin));
+				rect TRs = elTE->getTextRect(elTE->text.substr(elTE->select_begin, elTE->select_end - elTE->select_begin));
+				SR = TRs.moveBy(vec2(TR1.end.x, 0) + textpos);
+				//rect TR2 = elTE->getTextRect(elTE->text.substr(0, elTE->select_end));
+				//std::cout << std::endl;
+				//std::cout << "TR1 " << toString(TR1) << ", TR2 " << toString(TR2) << std::endl;
+				
+				//vec2 SR_start = TRs.start; SR_start.x = TR1.end.x;
+				//vec2 SR_end = TRs.moveBy(vec2(TR1.end.x, 0)).end;
+				//std::cout << "SR_start " << toString(SR_start) << ", SR_end " << toString(SR_end) << std::endl;
+				//SR = rect(SR_start, SR_end).moveBy(textpos);
+				std::cout << "Selection ["<<elTE->select_begin<<","<<elTE->select_end<<"] rect: " << toString(SR) << std::endl;
+				setAlpha(255*0.3);
+				setColor(vec3(255,0,0));
+				drawRect(SR);
+			}
 		}else{
 			elTE->textOffset = vec2(0,0);
 		}

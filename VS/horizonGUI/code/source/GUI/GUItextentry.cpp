@@ -23,6 +23,10 @@ GUItextEntry::GUItextEntry(){
 	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	setLayer(loadLayer);
 	uploadTexture(tcaret);
+	/// 21.09.2024: add text selection
+	select_begin = 0;
+	select_end = 0;
+	selecting = false;
 }
 
 GUItextEntry* GUItextEntry::setText(string newtext) { text = newtext; this->rT->text = newtext; return this; }
@@ -34,6 +38,78 @@ double GUItextEntry::getNumber(){
 	//sscanf(text.c_str(),"%f",&N); 
 	return N;
 }
+
+string GUItextEntry::get_selection() {
+	return text.substr(select_begin, select_end - select_begin);
+}
+
+void GUItextEntry::replace_selection(string rep) {
+	if (select_begin == select_end) {return;}
+	text = text.substr(0, select_begin) + rep + text.substr(select_end);//text.replace(select_begin, select_end, rep);
+	select_end = select_begin;
+	cursorPos = select_begin + rep.length();
+	
+	clear_selection();
+}
+
+void GUItextEntry::begin_selection() {
+	if (!selecting) {
+		select_begin = cursorPos;
+		select_end = cursorPos;
+		selecting = true;
+	}
+}
+
+void GUItextEntry::clear_selection() {
+	select_begin = 0;
+	select_end = 0;
+	selecting = false;
+}
+
+void GUItextEntry::select_left() {
+	if (cursorPos < select_begin) {
+		select_begin = cursorPos; // add a selected letter
+	}else {
+		select_end = cursorPos; // remove a selected letter
+	}
+}
+void GUItextEntry::select_right() {
+	if (cursorPos > select_end) {
+		select_end = cursorPos; // add a selected letter
+	}
+	else {
+		select_begin = cursorPos; // remove a selected letter
+	}
+}
+
+void GUItextEntry::caret_left(bool select) {
+	if (cursorPos) {
+		if (select) {
+			begin_selection();
+			cursorPos--;
+			select_left();
+		}
+		else{
+			cursorPos--;
+			clear_selection();
+		}
+	}
+}
+
+void GUItextEntry::caret_right(bool select) {
+	if (cursorPos < text.length()) {
+		if (select) {
+			begin_selection();
+			cursorPos++;
+			select_right();
+		}
+		else {
+			clear_selection();
+			cursorPos++;
+		}
+	}
+}
+
 void GUItextEntry::onEvent(eventKind event){
 	GUIbase::onEvent(event);
 	bool unfocus = 0;
@@ -50,6 +126,7 @@ void GUItextEntry::onEvent(eventKind event){
 	if(hasfocus){
 		if(event.type == EVENT_KEY_DOWN){
 			const char *K = event.keyboard.key;
+			bool shift_down = (event.keyboard.mod & MOD_SHIFT);
 			//int C = event.keyboard.keycode;
 			//char pc = event.keyboard.printchar;
 			//int mods = event.keyboard.mod;
@@ -60,31 +137,38 @@ void GUItextEntry::onEvent(eventKind event){
 						text.erase(cursorPos-1,1);
 					}
 				}
-				if(cursorPos){cursorPos--;}
+				replace_selection("");
+				caret_left(false);
 				edit = true;
 			}
 			if(string("Return") == K){	
 				event.maskEvent();
 				enter = true;
+
 				if(multiline){
-					text += '\n';
+					//text += '\n';
+					replace_selection("");
+					text.insert(text.begin() + cursorPos, '\n');
 					edit = true;
+					cursorPos++;
 				}
 				if(clearOnEnter){
 					text = "";
 					edit = true;
 				}
+				clear_selection();
 			}
 			if(string("Left") == K){ 
-				if(cursorPos){cursorPos--;}
+				caret_left(shift_down);
 				event.maskEvent();
 			}
 			if(string("Right") == K){ 
-				if(cursorPos < text.length()){cursorPos++;}
+				caret_right(shift_down);
 				event.maskEvent();
 			}
 			if(event.keyboard.printchar){
 				event.maskEvent();
+				replace_selection("");
 				char C = event.keyboard.printchar;
 				text.insert(text.begin()+cursorPos,C);
 				edit = true;
