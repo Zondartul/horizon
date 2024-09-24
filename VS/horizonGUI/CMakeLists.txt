@@ -8,12 +8,23 @@ add_subdirectory(../horizonRender buildRender)
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 #SUBDIRLIST(HEADER_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/code/include/")
 #include_directories(HEADER_DIRS)
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/code/include/")
+
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-
+target_include_directories(
+    ${PROJECT_NAME} PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"
+    #"${CMAKE_CURRENT_SOURCE_DIR}/../horizonGUI/code/include/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../horizonRender/code/include/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../horizonResource/code/include/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../horizonProgram/code/include/"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../horizonUtil/code/include/"
+    )
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     horizonRender
+    horizonProgram
+    horizonResource
+    horizonUtil
     )
 
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+#install(TARGETS ${PROJECT_NAME} DESTINATION "${CMAKE_SOURCE_DIR}/bin")

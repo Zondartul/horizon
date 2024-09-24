@@ -1,5 +1,7 @@
 #include "program/pipe.h"
-#include <windows.h>
+#ifdef WIN32
+	#include <windows.h>
+#endif
 #include <sstream>
 #include <exception>
 using std::stringstream;

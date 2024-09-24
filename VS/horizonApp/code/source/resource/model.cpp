@@ -2,6 +2,8 @@
 #include "generators/editmodel.h"
 #include "math/simplemath.h"
 
+// 24.09.2024 - these functions are already defined in horizonResource::modelLoader, why are they duplicated?
+/* 
 void model::add(model B){
 	for(unsigned int I = 0; I < B.tris.size(); I++){
 		tris.push_back(B.tris[I]);
@@ -33,6 +35,7 @@ AABB model::getAABB(){
 	}
 	return aabb;
 }
+*/
 
 e_model *model::toEmodel(){
 	e_model *EM = new e_model();

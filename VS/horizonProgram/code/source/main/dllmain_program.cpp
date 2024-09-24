@@ -5,6 +5,7 @@
 #include "util/global_vars_program.h"
 #include "program/window.h"
 
+#ifdef WIN32
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -20,6 +21,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     }
     return TRUE;
 }
+#endif
 
 void initHorizonProgram() {
     static bool initialized = false;

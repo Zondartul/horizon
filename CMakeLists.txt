@@ -20,4 +20,11 @@ project(horizon)
 # Cmake file logic:
 # we make an "app" that uses the "engine"
 # and set engine modules as its dependencies.
+if(WIN32)
+    add_compile_definitions(WIN32) 
+endif(WIN32)
+if(UNIX)
+    add_compile_definitions(LINUX) 
+endif(UNIX)
+
 add_subdirectory(VS/horizonApp buildApp)

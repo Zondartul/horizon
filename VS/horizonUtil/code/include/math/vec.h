@@ -54,7 +54,7 @@ quat DLLAPI_UTIL slerpAngle(quat Q1, quat Q2, float angle); //moves at most <ang
 //for that reason, overriding normalize to normalizeSafe
 //though conflict with non-vec3 normalize functions is possible
 #ifndef oldNormalize
-#define normalize(x) normalizeSafe(x)
+	#define normalize(x) normalizeSafe(x)
 #endif
 
 vec3 DLLAPI_UTIL rotate(vec3 V, vec3 Angle);

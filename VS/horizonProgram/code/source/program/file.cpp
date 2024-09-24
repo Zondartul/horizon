@@ -1,7 +1,12 @@
 //#include "stdio.h"
 //#include "stdlib.h"
 #ifdef USE_DIRENT
-	#include "Ext/dirent/dirent.h"
+	#ifdef WIN32
+		#include "Ext/dirent/dirent.h"
+	#endif
+	#ifdef LINUX
+		#include <dirent.h>
+	#endif
 #endif
 #ifdef USE_SDL
 	#include "Ext/SDL2/SDL.h"
