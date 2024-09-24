@@ -74,6 +74,7 @@ render(GUIbase *el, string type){
 		
 		/// we can now move text centering, from render, to update.
 		rect tRect = elLbl->getTextRect();
+		//std::cout << "const height = " << elLbl->const_height << ", g_printFromTop = " << Gr->gs_printw->g_printFromTop << std::endl;
 		vec2 tp = getTextCentering(el->worldArea(),tRect,elLbl->alignment_vertical,elLbl->alignment_horizontal,elLbl->const_height,elLbl->textfont);
 		vec2 newPos = vec2(tp.x, tp.y) + elLbl->textOffset;
 		//setTextPos(vec2(tp.x,tp.y)+elLbl->textOffset);
@@ -84,6 +85,22 @@ render(GUIbase *el, string type){
 		elLbl->rT->render(nullptr);
 		
 		if(GUIoptions.push){popRenderOptions();}
+
+		if (GUIoptions.debug) {
+			if (GUIoptions.push) { pushRenderOptions(); }
+			// draw an anchor line that the text rests on
+			rect lblRect = elLbl->worldArea();
+			rect MR = elLbl->textfont->maxrect;
+			//std::cout << "max rect = " << toString(MR) << std::endl;
+			vec2 anch_start = vec2(0, MR.end.y);
+			vec2 anch_end = anch_start + vec2(lblRect.size.x, 0);
+			anch_start += lblRect.start;
+			anch_end += lblRect.start;
+			setColor(vec3(0, 255, 0));
+			drawLine(toVec3(anch_start), toVec3(anch_end));
+			setColor(vec3(0, 0, 0));
+			if (GUIoptions.push) { popRenderOptions(); }
+		}
 	}
 	else if(type == "GUIscrollbarBar"){
 		if(GUIoptions.push){pushRenderOptions();}
@@ -124,13 +141,18 @@ render(GUIbase *el, string type){
 		vec3 oldColor1 = elTE->bgColor;
 		vec3 oldColor2 = elTE->hoverColor;
 		if(elTE->hasfocus){elTE->hoverColor = elTE->bgColor = elTE->focusedColor;}
+		// make the text (textEntry:button:label.renderableText) render in debug mode
+		// so we can see the anchrors
+		GUIoptions.debug = true;
 		render(el, "GUIbutton");
+		GUIoptions.debug = false;
 		if(elTE->hasfocus){
 			/// draw caret
 			rect TR;
 			rect AR = elTE->worldArea();
 			if(elTE->cursorPos){
 				TR = elTE->getTextRect(elTE->text.substr(0,elTE->cursorPos));
+				std::cout << "TR(cursor) = " << toString(TR) << std::endl;
 			}else{
 				TR = elTE->getTextRect("l");
 				TR = TR.setSize(vec2(0,TR.size.y));
