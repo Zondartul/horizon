@@ -97,7 +97,7 @@ renderCommand3::renderCommand3(RC3T type, ...):type(type){
         case(RC3T::PRINT_TEXT):             s = va_arg(args,string*); break;
         case(RC3T::COMMENT):                s = va_arg(args,string*); break;
         case(RC3T::VIEWPORT):               r = va_arg(args, rect); break;
-        case(RC3T::FACE_CULLING):           b = va_arg(args, bool); break;
+        case(RC3T::FACE_CULLING):           b = va_arg(args, int/*bool*/); break; // integer promotion of varargs
         case(RC3T::FACE_CULL_CCW):          break;
         case(RC3T::PUSH_OPTIONS):           break;
         case(RC3T::POP_OPTIONS):            break;
