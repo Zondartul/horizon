@@ -6,13 +6,15 @@
 //#endif
 
 #include "util/globals_program.h"
+#include "util/res_or_err.hpp"
+#include "util/zerror.hpp"
 #include <vector>
 #include <string>
 using std::string;
 using std::vector;
 
 string DLLAPI_PROGRAM fileToString(const char *filepath);
-string DLLAPI_PROGRAM locateResource(const char *type, const char *name);
+Result<string,zError> DLLAPI_PROGRAM locateResource(const char *type, const char *name);
 bool DLLAPI_PROGRAM fileReadable(string filename);
 string DLLAPI_PROGRAM getProgramDirectory();
 string DLLAPI_PROGRAM getConfigDirectory();

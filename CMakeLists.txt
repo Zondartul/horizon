@@ -27,4 +27,6 @@ if(UNIX)
     add_compile_definitions(LINUX) 
 endif(UNIX)
 
+add_compile_definitions(GCC)
+
 add_subdirectory(VS/horizonApp buildApp)

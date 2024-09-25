@@ -23,12 +23,15 @@ vector<font*> fonts;
 
 
 
-bitmap *getBitmap(string name){
+Result<bitmap*,zError> getBitmap(string name){
 	for(unsigned int I = 0; I < bitmaps.size(); I++){
 		if(bitmaps[I]->name == name){return bitmaps[I];}
 	}
-	string filepath = locateResource("bitmap", name.c_str());
-	bitmap *bmp = loadImage(filepath.c_str());
+	//string filepath = locateResource("bitmap", name.c_str());
+	auto filepath = locateResource("bitmap", name.c_str());
+	if(!filepath.ok()){return *filepath.err;}
+	
+	bitmap *bmp = loadImage(filepath.val().c_str());
 	if(!bmp){
 		//error("can't load bitmap %s\n",name.c_str());
 		stringstream ss;
@@ -39,13 +42,15 @@ bitmap *getBitmap(string name){
 	bitmaps.push_back(bmp);
 	return bmp;
 }
-texture *getTexture(string name){
+
+Result<texture*,zError> getTexture(string name){
 	if (name.empty()) {return nullptr;}
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}
-	string filepath = locateResource("texture", name.c_str());
-	texture *t = loadTexture(filepath.c_str());
+	auto filepath = locateResource("texture", name.c_str());
+	if(!filepath.ok()){return *filepath.err;}
+	texture *t = loadTexture(filepath.val().c_str());
 	if(!t){
 		//error("can't load texture %s\n",name.c_str());
 		stringstream ss;
@@ -60,10 +65,12 @@ texture *getTexture(string name){
 	textures.push_back(t);
 	return t;
 }
-texture *getModelTexture(string name){
+
+Result<texture*, zError> getModelTexture(string name){
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}
+	#error gotta keep rewriting these
 	string filepath = locateResource("model_texture", name.c_str());
 	texture *t = loadTexture(filepath.c_str());
 	if(!t){

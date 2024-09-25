@@ -5,8 +5,12 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <sstream>
 using std::string;
 using std::vector;
+
+/// stringstream formatter for strings
+#define SS(x) [&]()->std::string{std::stringstream ss; ss << x; return ss.str();}()
 
 string DLLAPI_UTIL itoa(int N);
 string DLLAPI_UTIL ftoa(double N);

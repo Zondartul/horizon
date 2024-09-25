@@ -14,6 +14,9 @@
 #include "program/file.h"
 #include "util/globals_program.h"
 //#include "resource/resource.h"
+#include "util/res_or_err.hpp"
+#include "util/zerror.hpp"
+#include "util/stringUtils.h" //for SS()
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
@@ -41,7 +44,7 @@ string fileToString(const char *filepath){
 	return S;
 }
 
-string locateResource(const char *type, const char *name){
+Result<string,zError> locateResource(const char *type, const char *name){
 #ifdef USE_SDL
 	SDL_ClearError();
 	const char *basepath = SDL_GetBasePath();
@@ -52,10 +55,11 @@ string locateResource(const char *type, const char *name){
 #ifdef USE_SDL
 		const char *err = SDL_GetError();
 		if(err){
+			push(zError(SS("locateResource: SDL error: [" << err << "]\n"), zError::ERROR, zError::INTERNAL));
 			//error("locateResource: SDL error: [%s]\n",err);
-			stringstream ss;
-			ss << "locateResource: SDL error: [" << err << "]\n";
-			throw std::runtime_error(ss.str());
+			//stringstream ss;
+			//ss << "locateResource: SDL error: [" << err << "]\n";
+			//throw std::runtime_error(ss.str());
 		}
 #endif
 		basepath = "./";
@@ -78,10 +82,7 @@ string locateResource(const char *type, const char *name){
 	if(f){
 		printf("%s \"%s\" found\n",type,name);
 	}else{
-		//error("locateResource [%s] failed!\n",abspath.c_str());
-		stringstream ss;
-		ss << "locateResource [" << abspath << "] failed!";
-		throw runtime_error(ss.str());
+		return zError(SS("locateResource [" << abspath << "] failed!\n"));
 	}
 	fclose(f);
 	return abspath;
@@ -130,7 +131,7 @@ string getOSdirInitiator(){
 string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
-	string S;
+	string S = getOSdirInitiator(); 
 	for(unsigned int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){
