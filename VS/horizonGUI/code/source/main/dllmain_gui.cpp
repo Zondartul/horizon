@@ -60,7 +60,7 @@ void initHorizonGUI() {
 	initialized = true;
 
 	initHorizonRender();
-	struct font *f = getFont("cour 14");
+	struct font *f = getFont("cour 14").val();
 	uploadFont(f);
 	uploadFont(defaulttextfont);
 	//printf("Hello World!\n");

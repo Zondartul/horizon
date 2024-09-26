@@ -34,33 +34,39 @@ string toString(vec3 V){
 	snprintf(buff,79,"(%.3f,%.3f,%.3f)",V.x,V.y,V.z);
 	return string(buff);
 }
-template<> vec3 fromString<vec3>(const string S){
+template<> Result<vec3,zError> fromString<vec3>(const string S){
 	vec3 v;
 	//std::ignore = sscanf(S.c_str(),"(%f,%f,%f)",&v.x,&v.y,&v.z);
 	char c;
 	stringstream ss(S);
-	ss >> c >> v.x >> c >> v.y >> c >> v.z >> c;
-	return v;
+	if(ss >> c >> v.x >> c >> v.y >> c >> v.z >> c){
+		return v;
+	}else{
+		return zError("can't parse vec3 from string");
+	}
 }
 string toString(vec2 V){
 	char buff[80];
 	snprintf(buff,79,"(%.3f,%.3f)",V.x,V.y);
 	return string(buff);
 }
-template<> vec2 fromString<vec2>(const string S){
+template<> Result<vec2,zError> fromString<vec2>(const string S){
 	vec2 v;
 	//std::ignore = sscanf(S.c_str(),"(%f,%f)",&v.x,&v.y);
 	char c;
 	stringstream ss(S);
-	ss >> c >> v.x >> c >> v.y >> c;
-	return v;
+	if(ss >> c >> v.x >> c >> v.y >> c){
+		return v;
+	}else{
+		return zError("can't parse vec2 from string");
+	}
 }
 string toString(rect R){
 	char buff[80];
 	snprintf(buff,79,"(%.3f,%.3f + %.3f,%.3f)",R.start.x,R.start.y,R.size.x,R.size.y);
 	return string(buff);
 }
-template<> rect fromString<rect>(const string S){
+template<> Result<rect,zError> fromString<rect>(const string S){
 	vec2 start;
 	vec2 size;
 	//std::ignore = sscanf(S.c_str(),"(%f,%f + %f,%f)",&start.x,&start.y,&size.x,&size.y);
@@ -69,30 +75,38 @@ template<> rect fromString<rect>(const string S){
 	/// so something funny about this... seems to eat the first two characters of the size.x
 	/// maybe it's because stream extraction operator ignores spaces by default.
 	//ss >> c >> start.x >> c >> start.y >> c >> c >> c >> size.x >> c >> size.y >> c;
-	ss >> c >> start.x >> c >> start.y >> c >> size.x >> c >> size.y >> c;
-	vec2 end = start+size;
-	return rect(start,end);
+	if(ss >> c >> start.x >> c >> start.y >> c >> size.x >> c >> size.y >> c){
+		vec2 end = start+size;
+		return rect(start,end);
+	}else{
+		return zError("can't parse rect from string");
+	}
 }
 string toString(AABB aabb){
 	return fstring("(%.3f,%.3f,%.3f + %.3f,%.3f,%.3f)",aabb.start.x,aabb.start.y,aabb.start.y,aabb.size.x,aabb.size.y,aabb.size.z);
 }
-template<>  AABB fromString<AABB>(const string S){
+template<>  Result<AABB,zError> fromString<AABB>(const string S){
 	vec3 start;
 	vec3 size;
 	//std::ignore = sscanf(S.c_str(),"(%f,%f,%f + %f,%f,%f)",&start.x,&start.y,&start.z,&size.x,&size.y,&size.z);
 	char c;
 	stringstream ss(S);
+	if(
 	ss >> c >> start.x >> c >> start.y >> c >> start.z
 		>> c >> c >> c
-		>> size.x >> c >> size.y >> c >> size.z >> c;
-	vec3 end = start+size;
-	return AABB(start,end);
+		>> size.x >> c >> size.y >> c >> size.z >> c
+	){
+		vec3 end = start+size;
+		return AABB(start,end);
+	}else{
+		return zError("can't parse AABB from string");
+	}
 }
 string toString(mat4 M){
 	return "<mat4>";
 }
-template<> mat4 fromString<mat4>(const string S){
-	return mat4();
+template<> Result<mat4,zError> fromString<mat4>(const string S){
+	return zError("unimplemented");
 }
 
 
@@ -102,43 +116,52 @@ string toString(void *p){
 	snprintf(buff,79,"0x%p",p);
 	return string(buff);
 }
-template<> void *fromString<void*>(const string S){
+template<> Result<void*,zError> fromString<void*>(const string S){
 	void *p;
 	//std::ignore = sscanf(S.c_str(),"0x%p",&p);
 	stringstream ss(S);
-	ss >> p;
-	return p;
+	if(ss >> p){
+		return p;
+	}else{
+		zError("can't parse void* from string");
+	}
 }
 string toString(bool B){
 	return itoa(B);
 }
-template<> bool fromString<bool>(const string S){
+template<> Result<bool,zError> fromString<bool>(const string S){
 	return (bool)atoi(S.c_str());
 }
 string toString(int I){
 	return itoa(I);
 }
-template<> int fromString<int>(const string S){
+template<> Result<int,zError> fromString<int>(const string S){
 	int n;
 	//std::ignore = sscanf(S.c_str(),"%d",&n);
 	stringstream ss(S);
-	ss >> n;
-	return n;
+	if(ss >> n){
+		return n;
+	}else{
+		return zError("can't parse int from string");
+	}
 }
 string toString(float f){
 	return ftoa(f);
 }
-template<> float fromString<float>(const string S){
+template<> Result<float,zError> fromString<float>(const string S){
 	float f;
 	//std::ignore = sscanf(S.c_str(),"%f",&f);
 	stringstream ss(S);
-	ss >> f;
-	return f;
+	if(ss >> f){
+		return f;
+	}else{
+		return zError("can't parse float from string");
+	}
 }
 string toString(string S){
 	return S;
 }
-template<> string fromString<string>(const string S){
+template<> Result<string,zError> fromString<string>(const string S){
 	return S;
 }
 

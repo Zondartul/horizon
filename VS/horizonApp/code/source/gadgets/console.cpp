@@ -38,7 +38,7 @@ dropDownTerminal::dropDownTerminal():terminalOn(false){
 		return rT;
 	};
 
-	auto* F = getFont("cour 14");
+	auto* F = getFont("cour 14").val();
 	float font_height = F->maxrect.size.y;
 
 	for (unsigned int i = 0; i < 11; i++) {

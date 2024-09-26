@@ -489,7 +489,10 @@ string GUIbase::getProperty(string key){
 	else if(key == "area")		{return toString(area);}
 	return "";
 }
+
 void GUIbase::setProperty(string key, string val){
+	/// NOTE: parse errors here are fatal
+	/// because we are probably constructing new GUI stuff
 		 if(key == "name")		{name		= val;}
 		 else if (key == "type") {
 			 if (getType() != val) {
@@ -497,9 +500,9 @@ void GUIbase::setProperty(string key, string val){
 				 throw std::runtime_error("attempt to change GUI widget type\n");
 			 }
 		 }
-	else if(key == "isClient")	{isClient 	= fromString<bool>(val);}
-	else if(key == "hidden")	{hidden 	= fromString<bool>(val);}
-	else if(key == "area")		{area		= fromString<rect>(val);}
+	else if(key == "isClient")	{isClient 	= fromString<bool>(val).val();}
+	else if(key == "hidden")	{hidden 	= fromString<bool>(val).val();}
+	else if(key == "area")		{area		= fromString<rect>(val).val();}
 }
 string GUIbase::getType(){return "GUIbase";}
 GUIcompoundProperty GUIbase::getCompoundProperty(){

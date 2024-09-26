@@ -361,13 +361,17 @@ void go2D(){
 //#include "render/camera.h"
 //from stringUtils
 string toString(camprojection cpj) { return toString(cpj.MVP) + ":" + toString(cpj.pos); }
-template<> camprojection fromString<camprojection>(const string S) {
+template<> Result<camprojection,zError> fromString<camprojection>(const string S) {
 	vector<string> VS = explode(S, ':');
 	mat4 MVP;
 	vec3 pos;
 	if (VS.size() == 2) {
-		MVP = fromString<mat4>(VS[0]);
-		pos = fromString<vec3>(VS[1]);
+		auto val0 = fromString<mat4>(VS[0]);
+		if(!val0.ok()){return *val0.err;}
+		auto val1 = fromString<vec3>(VS[1]);
+		if(!val1.ok()){return *val1.err;}
+		MVP = val0.val();
+		pos = val1.val();
 	}
 	camprojection proj;
 	proj.MVP = MVP;

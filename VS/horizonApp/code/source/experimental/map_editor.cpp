@@ -27,7 +27,7 @@ map_editor_kind::map_editor_kind(){
 	mainWindow = new GUIwindow();
 	mainWindow->setSize(vec2(150,500));
 	GUIbutton *btnCube = new GUIbutton();
-	btnCube->setImage(getTexture("gui/cube2"));
+	btnCube->setImage(getTexture("gui/cube2").val());
 	btnCube->setText("");
 	btnCube->setSize(vec2(32,32));
 	btnCube->moveTo(vec2(0,0));
@@ -44,7 +44,7 @@ map_editor_kind::map_editor_kind(){
 	lbl1->setSize(vec2(lbl1->area.size.x,32));
 	mainWindow->addChild(lbl1);
 	GUIbutton *btnTerrain = new GUIbutton();
-	btnTerrain->setImage(getTexture("gui/blanketDark"));
+	btnTerrain->setImage(getTexture("gui/blanketDark").val());
 	btnTerrain->setText("");
 	btnTerrain->setSize(vec2(32,32));
 	btnTerrain->moveTo(vec2(0,32));
@@ -61,7 +61,7 @@ map_editor_kind::map_editor_kind(){
 	lbl2->setSize(vec2(lbl2->area.size.x,32));
 	mainWindow->addChild(lbl2);
     GUIbutton *btnSelect = new GUIbutton();
-    btnSelect->setImage(getTexture("gui/cursor"));
+    btnSelect->setImage(getTexture("gui/cursor").val());
     btnSelect->setText("");
     btnSelect->setSize(vec2(32,32));
     btnSelect->moveTo(vec2(0,32*2));
@@ -78,7 +78,7 @@ map_editor_kind::map_editor_kind(){
     lbl3->setSize(vec2(lbl3->area.size.x,32));
     mainWindow->addChild(lbl3);
     GUIbutton *btnFlag = new GUIbutton();
-    btnFlag->setImage(getTexture("gui/iconflag"));
+    btnFlag->setImage(getTexture("gui/iconflag").val());
     btnFlag->setText("");
     btnFlag->setSize(vec2(32,32));
     btnFlag->moveTo(vec2(0,32*3));
@@ -95,7 +95,7 @@ map_editor_kind::map_editor_kind(){
     lbl4->setSize(vec2(lbl4->area.size.x,32));
     mainWindow->addChild(lbl4);
     GUIbutton *btnFoot = new GUIbutton();
-    btnFoot->setImage(getTexture("gui/footprint_both"));
+    btnFoot->setImage(getTexture("gui/footprint_both").val());
     btnFoot->setText("");
     btnFoot->setSize(vec2(32,32));
     btnFoot->moveTo(vec2(0,32*4));
@@ -111,7 +111,7 @@ map_editor_kind::map_editor_kind(){
     lbl5->setSize(vec2(lbl5->area.size.x,32));
     mainWindow->addChild(lbl5);
 	GUIbutton *btnProbe = new GUIbutton();
-	btnProbe->setImage(getTexture("gui/dial"));
+	btnProbe->setImage(getTexture("gui/dial").val());
 	btnProbe->setText("");
 	btnProbe->setSize(vec2(32,32));
 	btnProbe->moveTo(vec2(0,32*5));
@@ -128,7 +128,7 @@ map_editor_kind::map_editor_kind(){
     lbl6->setSize(vec2(lbl6->area.size.x,32));
     mainWindow->addChild(lbl6);
 	GUIbutton *btnPlane = new GUIbutton();
-	btnPlane->setImage(getTexture("gui/iconface"));
+	btnPlane->setImage(getTexture("gui/iconface").val());
 	btnPlane->setText("");
 	btnPlane->setSize(vec2(32,32));
 	btnPlane->moveTo(vec2(0,32*6));
@@ -146,7 +146,7 @@ map_editor_kind::map_editor_kind(){
 	lbl7->setSize(vec2(lbl7->area.size.x,32));
 	mainWindow->addChild(lbl7);
 	GUIbutton *btnTexture = new GUIbutton();
-	btnTexture->setImage(getTexture("materials/building3"));
+	btnTexture->setImage(getTexture("materials/building3").val());
 	btnTexture->setText("");
 	btnTexture->setSize(vec2(32,32));
 	btnTexture->moveTo(vec2(0,32*7));
@@ -379,7 +379,7 @@ void map_editor_kind::onEvent(eventKind event){
                 resetLayer(layerMap3D);
                 clearLayer(layerMap2D);
                 resetLayer(layerMap2D);
-                texture *t = getTexture("gui/arrow3");
+                texture *t = getTexture("gui/arrow3").val();
                 vec3 pt = vec3(0,0,0);
                 vec3 pt2D = camera.worldToScreen(pt); pt2D.z = 0;
                 vec2 iconSize = t->size();

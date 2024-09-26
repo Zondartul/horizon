@@ -27,9 +27,9 @@ string GUIframe::getProperty(string key){
 	else return GUIbase::getProperty(key);
 }
 void GUIframe::setProperty(string key, string val){
-	if(key == "bgColor"){setBgColor(fromString<vec3>(val));}
-	else if(key == "borderColor"){setBorderColor(fromString<vec3>(val));}
-	else if(key == "noframe"){noframe = fromString<bool>(val);}
+	if(key == "bgColor"){setBgColor(fromString<vec3>(val).val());}
+	else if(key == "borderColor"){setBorderColor(fromString<vec3>(val).val());}
+	else if(key == "noframe"){noframe = fromString<bool>(val).val();}
 	else GUIbase::setProperty(key,val);
 }
 string GUIframe::getType(){return "GUIframe";}

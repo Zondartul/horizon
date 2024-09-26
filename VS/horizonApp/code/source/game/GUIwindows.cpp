@@ -21,7 +21,7 @@ void openTestWindow1(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& testWindows = Ga->gs_commands->testWindows;
 
-	texture *img1 = getTexture("art/printer"); setLayer(loadLayer); uploadTexture(img1);
+	texture *img1 = getTexture("art/printer").val(); setLayer(loadLayer); uploadTexture(img1);
 	GUIbase *F = new GUIframe();
 		F->setSize({200,300})\
 		->moveTo({100,20})\
@@ -48,7 +48,7 @@ void openTestWindow2(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& testWindows = Ga->gs_commands->testWindows;
 
-	texture *img1 = getTexture("art/printer"); uploadTexture(img1);
+	texture *img1 = getTexture("art/printer").val(); uploadTexture(img1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({128,24})->moveTo({20,220});
 	auto* win = (new GUIwindow())\
@@ -71,7 +71,7 @@ void openTestWindow3(){
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	auto& testWindows = Ga->gs_commands->testWindows;
 
-	texture *tex1 = getTexture("art/printer"); uploadTexture(tex1);
+	texture *tex1 = getTexture("art/printer").val(); uploadTexture(tex1);
 	auto TE = new GUItextEntry();
 	TE->setFunction([=](){printf("Text:[%s]\n",TE->text.c_str());})->setSize({96,24})->moveTo({20,220});
 	GUIgrid *grid = new GUIgrid();
@@ -403,11 +403,18 @@ void openTestWindow8() {
 
 	unsigned int y = 0;
 	for (auto fname : fonts) {
-		font* F = getFont(fname);
-		assert(F);
 		GUIlabel* lbl = new GUIlabel();
 		lbl->setText(fname);
-		lbl->setTextFont(F);
+
+		auto f = getFont(fname);
+		if(f.ok()){
+			font* F = f.val();
+			assert(F);
+			lbl->setTextFont(F);
+		}else{
+			push(*f.err);
+		}
+		
 		lbl->sizeToContents();
 		win->addChild(lbl);
 		lbl->moveTo(vec2(0, y));

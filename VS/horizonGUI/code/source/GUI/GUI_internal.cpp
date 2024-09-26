@@ -49,13 +49,12 @@ string toString(GUIe_alignment al) {
 	default: printf("toString(GUI_alignment): unforseen switch-case\n"); return "ALIGN_NONE";
 	}
 }
-template<> GUIe_alignment fromString<GUIe_alignment>(const string S) {
+template<> Result<GUIe_alignment,zError> fromString<GUIe_alignment>(const string S) {
 	if (S == "ALIGN_NONE") { return GUIa::None; }
 	if (S == "ALIGN_LEFT") { return GUIa::Left; }
 	if (S == "ALIGN_RIGHT") { return GUIa::Right; }
 	if (S == "ALIGN_TOP") { return GUIa::Top; }
 	if (S == "ALIGN_BOTTOM") { return GUIa::Bottom; }
 	if (S == "ALIGN_CENTER") { return GUIa::Center; }
-	printf("fromString<alignmentKind>: unforseen case\n");
-	return GUIa::None;
+	return zError("can't parse GUIe_alignment from string");
 }

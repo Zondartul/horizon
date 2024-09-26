@@ -1,5 +1,7 @@
 #include "resource/resource.h"
 #include "resource/fonts.h"
+#include "util/res_or_err.hpp"
+#include "util/zerror.hpp"
 #include <sstream>
 using std::stringstream;
 
@@ -17,15 +19,13 @@ void skipText(std::istream& stream, string text) {
 	}
 }
 
-template<> font* fromString<font*>(const string S) {
-	if (S == "font:[null]") { return 0; }
-	//char buff[80];
-	//std::ignore = sscanf(S.c_str(),"font:[%[^]]]",buff);
+template<> Result<font*,zError> fromString<font*>(const string S) {
+	if (S == "font:[null]") { return zError("null value"); }
+	
 	string name;
 	char c;
 	stringstream ss(S);
-	/// this should read "f o n t : [ text number ]" but reads "f o n t : [ text ]"
-	//ss >> c >> c >> c >> c >> c >> c >> name >> c;
+	
 	skipText(ss, "font:[");
 	int size;
 	ss >> name >> size;
@@ -34,8 +34,7 @@ template<> font* fromString<font*>(const string S) {
 	name = ss2.str();
 
 	printf("fromString<font*>: S = [%s]\n", S.c_str());
-	printf("fromString<font*>: buff = [%s]\n", name.c_str());//buff);
-	//buff[79] = 0;
-	//string name(buff);
+	printf("fromString<font*>: buff = [%s]\n", name.c_str());
+	
 	return getFont(name);
 }

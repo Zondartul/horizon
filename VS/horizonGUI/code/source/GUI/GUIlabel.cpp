@@ -6,7 +6,6 @@ GUIlabel::GUIlabel(){
 	alignment_horizontal = GUIa::Center;
 	alignment_vertical = GUIa::Center;
 	text = defaulttext;
-	textfont = defaulttextfont;
 	const_height = false;
 	textOffset = vec2(0,0);
 
@@ -108,12 +107,12 @@ string GUIlabel::getProperty(string key){
 	else return GUIbase::getProperty(key);
 }
 void GUIlabel::setProperty(string key, string val){
-	if(key == "textColor"){setTextColor(fromString<vec3>(val));}
-	else if(key == "textfont"){setTextFont(fromString<font*>(val));}
-	else if(key == "text"){setText(val);}
-	else if(key == "alignment_horizontal"){alignment_horizontal = fromString<GUIe_alignment>(val);}
-	else if(key == "alignment_vertical"){alignment_vertical = fromString<GUIe_alignment>(val);}
-	else if(key == "const_height"){const_height = fromString<bool>(val);}
+		 if(key == "textColor")				{setTextColor(			fromString<vec3>(val).val()			);}
+	else if(key == "textfont")				{setTextFont(			fromString<font*>(val).val()		);}
+	else if(key == "text")					{setText(val);}
+	else if(key == "alignment_horizontal")	{alignment_horizontal = fromString<GUIe_alignment>(val).val();	}
+	else if(key == "alignment_vertical")	{alignment_vertical = 	fromString<GUIe_alignment>(val).val();	}
+	else if(key == "const_height")			{const_height = 		fromString<bool>(val).val();			}
 	else GUIbase::setProperty(key,val);
 }
 string GUIlabel::getType(){return "GUIlabel";}

@@ -37,7 +37,7 @@ class GUIbase;
 GUIbase DLLAPI_GUI *GUI_constructor_dispatch(string S);
 
 string DLLAPI_GUI toString(GUIe_alignment al); 
-template<> DLLAPI_GUI GUIe_alignment fromString<GUIe_alignment>(const string S);
+template<> DLLAPI_GUI Result<GUIe_alignment,zError> fromString<GUIe_alignment>(const string S);
 
 
 #define defaultarea rect(100,100)
@@ -45,7 +45,7 @@ template<> DLLAPI_GUI GUIe_alignment fromString<GUIe_alignment>(const string S);
 #define defaultbgcolor vec3{128,196,255}
 #define defaultborderColor vec3{100,128,196}
 #define defaulttextColor vec3{0,0,0}
-#define defaulttextfont getFont("calibri 18")
+#define defaulttextfont getFont("calibri 18").val()
 #define defaulttext "text"
 #define defaultimage 0
 

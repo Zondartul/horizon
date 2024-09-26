@@ -70,7 +70,9 @@ void gui_editor_kind::setup_layers() {
 void add_button(GUIbase& parent, std::string text, std::string texname, vec2 size, vec2 pos, std::function<void()> func) {
 	GUIbutton* btn = new GUIbutton();
 	btn->setText(text);
-	btn->setImage(getTexture(texname));
+	auto tex = getTexture(texname);
+	if(!tex.ok()){push(*tex.err);}
+	btn->setImage(tex.val());
 	btn->setSize(size);
 	btn->setFunction(func);
 	btn->moveTo(pos);

@@ -8,7 +8,7 @@ GUIfileDialog::GUIfileDialog(){
 	setSize(vec2(300,224));
 	setTitle("Open file");
 	btn_up = new GUIbutton();
-	btn_up->setImage(getTexture("gui/icontriangleup"));
+	btn_up->setImage(getTexture("gui/icontriangleup").val());
 	btn_up->setText("");
 	btn_up->setSize(vec2(24,24));
 	addChild(btn_up);
@@ -157,7 +157,7 @@ texture* getFileIcon(string filename) {
 	string ext = getFileExtension(filename);
 	texture* t = 0;
 	if (isFolder(filename)) {
-		t = getTexture("gui/iconfolder");
+		t = getTexture("gui/iconfolder").val();
 	}
 	else
 		if (
@@ -168,7 +168,7 @@ texture* getFileIcon(string filename) {
 			(ext == "hpp") ||
 			(ext == "cfg")
 			) {
-			t = getTexture("gui/iconfiletxt");
+			t = getTexture("gui/iconfiletxt").val();
 		}
 		else
 			if (
@@ -178,7 +178,7 @@ texture* getFileIcon(string filename) {
 				(ext == "jpeg") ||
 				(ext == "img")
 				) {
-				t = getTexture("gui/iconpicture");
+				t = getTexture("gui/iconpicture").val();
 			}
 			else
 				if (
@@ -187,34 +187,34 @@ texture* getFileIcon(string filename) {
 					(ext == "gz") ||
 					(ext == "7z")
 					) {
-					t = getTexture("gui/iconzipfile");
+					t = getTexture("gui/iconzipfile").val();
 				}
 				else
 					if (
 						(ext == "exe")
 						) {
-						t = getTexture("gui/iconfileexe");
+						t = getTexture("gui/iconfileexe").val();
 					}
 					else
 						if (
 							(ext == "bat")
 							) {
-							t = getTexture("gui/iconfilecmd");
+							t = getTexture("gui/iconfilecmd").val();
 						}
 						else
 							if (
 								(ext == "dll")
 								) {
-								t = getTexture("gui/icongear2");
+								t = getTexture("gui/icongear2").val();
 							}
 							else
 								if (
 									(ext == "a")
 									) {
-									t = getTexture("gui/iconfilegear");
+									t = getTexture("gui/iconfilegear").val();
 								}
 								else {
-									t = getTexture("gui/iconfile");
+									t = getTexture("gui/iconfile").val();
 								}
 	return t;
 }

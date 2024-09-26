@@ -75,7 +75,14 @@ void GUItextureBrowser::addTile(string imgpath, string label){
 	sel->moveTo(vec2(Sx*(numTiles%TPR),Sy*(numTiles/TPR)));
 	sel->moveable = false;
 	GUIimage *img = dynamic_cast<GUIimage*>(sel->getByName("SLimage"));
-	if(imgpath != ""){img->setImage(getTexture(imgpath));}
+	if(imgpath != ""){
+		auto tex = getTexture(imgpath);
+		if(tex.ok()){
+			img->setImage(tex.val());
+		}else{
+			push(*tex.err);
+		}
+	}
 	GUIlabel *lbl = dynamic_cast<GUIlabel*>(sel->getByName("SLtext"));
 	if(label != ""){lbl->setText(label);}
 	sg->addChild(sel);

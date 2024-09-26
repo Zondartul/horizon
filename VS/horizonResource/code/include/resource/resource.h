@@ -1,6 +1,8 @@
 #ifndef RESOURCE_GUARD
 #define RESOURCE_GUARD
 #include "util/globals_resource.h"
+#include "util/res_or_err.hpp"
+#include "util/zerror.hpp"
 #include <vector>
 #include <string>
 using std::string;
@@ -19,11 +21,11 @@ struct texture;
 class model;
 struct font;
 
-bitmap DLLAPI_RESOURCE *getBmage(string name);
-texture DLLAPI_RESOURCE *getTexture(string name);
-texture DLLAPI_RESOURCE *getModelTexture(string name);
-model DLLAPI_RESOURCE *getModel(string name);
-font DLLAPI_RESOURCE *getFont(string name);
+Result<bitmap*,zError> DLLAPI_RESOURCE getBmage(string name);
+Result<texture*,zError> DLLAPI_RESOURCE getTexture(string name);
+Result<texture*,zError> DLLAPI_RESOURCE getModelTexture(string name);
+Result<model*,zError> DLLAPI_RESOURCE getModel(string name);
+Result<font*,zError> DLLAPI_RESOURCE getFont(string name);
 
 vector<bitmap*> DLLAPI_RESOURCE listBitmaps();
 vector<texture*> DLLAPI_RESOURCE listTextures();

@@ -22,7 +22,7 @@ typedef map<string,param> ParamList;
 
 string toString(ParamList PL);
 
-template<> ParamList fromString<ParamList>(string S);
+template<> Result<ParamList,zError> fromString<ParamList>(string S);
 
 template<typename T> 
 bool readParam(ParamList &PL, string pname, T& val)

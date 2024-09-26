@@ -1,6 +1,8 @@
 #ifndef STRINGUTILS_GUARD
 #define STRINGUTILS_GUARD
 #include "util/globals_util.h"
+#include "util/res_or_err.hpp"
+#include "util/zerror.hpp"
 #include <cstdarg>
 #include <string>
 #include <vector>
@@ -29,9 +31,9 @@ string DLLAPI_UTIL operator+(const string S, const double N);
 DLLAPI_UTIL string fstring(const char *format, ...);
 
 void DLLAPI_UTIL stringUtils_error(string S);
-template<typename T> T fromString(const string S){
+template<typename T> Result<T,zError> fromString(const string S){
 	stringUtils_error("unimplemented variant of fromString<> called ");
-	return T();
+	return zError("unimplemented");
 }
 //#ifdef VEC_GUARD
 //#endif
@@ -39,15 +41,15 @@ template<typename T> T fromString(const string S){
 //camera.h:
 //#ifdef CAMERA_GUARD
 //#endif
-DLLAPI_UTIL string toString(void *p);		template<> DLLAPI_UTIL void*  fromString<void*>(const string S);
-DLLAPI_UTIL string toString(bool B);		template<> DLLAPI_UTIL bool   fromString<bool>(const string S);
-DLLAPI_UTIL string toString(int I);			template<> DLLAPI_UTIL int    fromString<int>(const string S);
-DLLAPI_UTIL string toString(float f);		template<> DLLAPI_UTIL float  fromString<float>(const string S);
-DLLAPI_UTIL string toString(string S);		template<> DLLAPI_UTIL string fromString<string>(const string S);
+DLLAPI_UTIL string toString(void *p);		template<> DLLAPI_UTIL Result<void*,zError>  fromString<void*>(const string S);
+DLLAPI_UTIL string toString(bool B);		template<> DLLAPI_UTIL Result<bool,zError>   fromString<bool>(const string S);
+DLLAPI_UTIL string toString(int I);			template<> DLLAPI_UTIL Result<int,zError>    fromString<int>(const string S);
+DLLAPI_UTIL string toString(float f);		template<> DLLAPI_UTIL Result<float,zError>  fromString<float>(const string S);
+DLLAPI_UTIL string toString(string S);		template<> DLLAPI_UTIL Result<string,zError> fromString<string>(const string S);
 struct texture;
-DLLAPI_UTIL string toString(texture *t);	template<> DLLAPI_UTIL texture* fromString<texture*>(const string S);
+DLLAPI_UTIL string toString(texture *t);	template<> DLLAPI_UTIL Result<texture*,zError> fromString<texture*>(const string S);
 struct font;
-DLLAPI_UTIL string toString(font *f);		template<> DLLAPI_UTIL font*  fromString<font*>(const string S);
+DLLAPI_UTIL string toString(font *f);		template<> DLLAPI_UTIL Result<font*,zError>  fromString<font*>(const string S);
 //#ifdef GUI_INTERNAL_GUARD
 //string toString(GUIe_alignment al); template<> GUIe_alignment fromString<GUIe_alignment>(const string S);
 //#endif

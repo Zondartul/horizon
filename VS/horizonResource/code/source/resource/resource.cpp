@@ -70,9 +70,9 @@ Result<texture*, zError> getModelTexture(string name){
 	for(unsigned int I = 0; I < textures.size(); I++){
 		if(textures[I]->name == name){return textures[I];}
 	}
-	#error gotta keep rewriting these
-	string filepath = locateResource("model_texture", name.c_str());
-	texture *t = loadTexture(filepath.c_str());
+	auto filepath = locateResource("model_texture", name.c_str());
+	if(!filepath.ok()){return *filepath.err;}
+	texture *t = loadTexture(filepath.val().c_str());
 	if(!t){
 		//error("can't load texture %s\n",name.c_str());
 		stringstream ss;
@@ -87,23 +87,30 @@ Result<texture*, zError> getModelTexture(string name){
 	textures.push_back(t);
 	return t;
 }
-model *getModel(string name){
+Result<model*, zError> getModel(string name){
 	for(unsigned int I = 0; I < models.size(); I++){
 		if(models[I]->name == name){return models[I];}
 	}
-	string filepath = locateResource("model", name.c_str());
-	model *m = loadModel(filepath.c_str());
+	auto filepath = locateResource("model", name.c_str());
+	if(!filepath.ok()){return *filepath.err;}
+	model *m = loadModel(filepath.val().c_str());
 	if(!m){
-		//error("can't load model %s\n",name.c_str());
-		stringstream ss;
-		ss << "can't load model " << name;
-		throw runtime_error(ss.str());
+		//stringstream ss;
+		//ss << "can't load model " << name;
+		//throw runtime_error(ss.str());
+		return zError(SS("can't load model" << name));
 	}
-	m->t = getModelTexture(name);//getTexture(string()+"models/"+name+"/model_"+name);
+	auto tex = getModelTexture(name);
+	if(tex.ok()){
+		m->t = tex.val();
+	}else{
+		tex.err->severity = zError::WARNING;
+		push(*tex.err);
+	}
 	models.push_back(m);
 	return m;
 }
-font *getFont(string name){
+Result<font*, zError> getFont(string name){
 	//printf("get font [%s]\n",name.c_str());
 	for(unsigned int I = 0; I < fonts.size(); I++){
 		//printf("trying [%s]\n",fonts[I]->name.c_str());
@@ -113,8 +120,9 @@ font *getFont(string name){
 	char fontname[80];
 	int size = 0;
 	sscanf(name.c_str(),"%s %d",fontname,&size);
-	string filepath = locateResource("font", fontname);
-	font *f = loadFont(filepath.c_str(),size);
+	auto filepath = locateResource("font", fontname);
+	if(!filepath.ok()){return *filepath.err;}
+	font *f = loadFont(filepath.val().c_str(),size);
 	f->name = name;
 	if(!f){
 		//error("can't load font %s, size %d\n",fontname, size);

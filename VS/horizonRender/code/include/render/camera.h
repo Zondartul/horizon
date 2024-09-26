@@ -56,6 +56,6 @@ struct DLLAPI_RENDER gs_cameraKind {
 };
 
 //---- stringUtils:
-DLLAPI_RENDER string toString(camprojection);	template<> camprojection fromString<camprojection>(const string S);
+DLLAPI_RENDER string toString(camprojection);	template<> Result<camprojection,zError> fromString<camprojection>(const string S);
 
 #endif

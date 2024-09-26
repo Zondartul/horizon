@@ -10,7 +10,7 @@ string toString(ParamList PL){
 	}
 	return S;
 }
-template<> ParamList fromString<ParamList>(string S){
+template<> Result<ParamList,zError> fromString<ParamList>(string S){
 	ParamList PL;
 	while(true){
 		char buff1[80];

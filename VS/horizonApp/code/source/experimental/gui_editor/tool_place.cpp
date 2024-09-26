@@ -10,7 +10,7 @@ gui_editor_tool_place::gui_editor_tool_place(gui_editor_kind *Ed, submodeKind mo
 	auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	
 	setLayer(loadLayer);
-	uploadTexture(getTexture("gui/iconvertexwhite"));
+	uploadTexture(getTexture("gui/iconvertexwhite").val());
 }
 
 void gui_editor_tool_place::scan(){
@@ -51,7 +51,7 @@ void gui_editor_tool_place::lup(){
 						case GEMS_FRAME:	nEl = new GUIframe();	break;
 						case GEMS_WINDOW:	nEl = new GUIwindow();	break;
 						case GEMS_BUTTON:	nEl = new GUIbutton();	break;
-						case GEMS_IMAGE:{auto img = new GUIimage(); img->setImage(getTexture("other/crate32"));	nEl = img;}	break;
+						case GEMS_IMAGE:{auto img = new GUIimage(); img->setImage(getTexture("other/crate32").val());	nEl = img;}	break;
 						case GEMS_LABEL:	nEl = new GUIlabel();	break;
 						case GEMS_TEXTENTRY:nEl = new GUItextEntry();break;
 						case GEMS_SCROLLBAR:nEl = new GUIscrollbar();break;
@@ -99,12 +99,12 @@ void gui_editor_tool_place::draw(){
 		if(drawVertCursor){
 			vec2 wpos = gridCorner + gposCursor;	
 			setColor(vec3(0,0,68));
-			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
+			drawImage(getTexture("gui/iconvertexwhite").val(),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
 		if(drawVert1){
 			vec2 wpos = gridCorner + gpos1;
 			setColor(vec3(0,0,68));
-			drawImage(getTexture("gui/iconvertexwhite"),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
+			drawImage(getTexture("gui/iconvertexwhite").val(),rect(wpos-vec2(16,16),wpos+vec2(16,16)));
 		}
 		if(stage == GEMT_END){
 			vec2 wpos1 = gridCorner + gpos1;

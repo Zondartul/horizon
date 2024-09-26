@@ -135,10 +135,10 @@ mat3 DLLAPI_UTIL zrotr(float ang);
 #define vec3_max(V1,V2) vec3(max((V1).x,(V2).x),max((V1).y,(V2).y),max((V1).z,(V2).z))
 
 //------ stringUtils:
-DLLAPI_UTIL string toString(vec3);	template<> DLLAPI_UTIL vec3	fromString<vec3>(const string S);
-DLLAPI_UTIL string toString(vec2);	template<> DLLAPI_UTIL vec2	fromString<vec2>(const string S);
-DLLAPI_UTIL string toString(rect);	template<> DLLAPI_UTIL rect	fromString<rect>(const string S);
-DLLAPI_UTIL string toString(AABB);	template<> DLLAPI_UTIL AABB	fromString<AABB>(const string S);
-DLLAPI_UTIL string toString(mat4);	template<> DLLAPI_UTIL mat4	fromString<mat4>(const string S);
+DLLAPI_UTIL string toString(vec3);	template<> DLLAPI_UTIL Result<vec3,zError>	fromString<vec3>(const string S);
+DLLAPI_UTIL string toString(vec2);	template<> DLLAPI_UTIL Result<vec2,zError>	fromString<vec2>(const string S);
+DLLAPI_UTIL string toString(rect);	template<> DLLAPI_UTIL Result<rect,zError>	fromString<rect>(const string S);
+DLLAPI_UTIL string toString(AABB);	template<> DLLAPI_UTIL Result<AABB,zError>	fromString<AABB>(const string S);
+DLLAPI_UTIL string toString(mat4);	template<> DLLAPI_UTIL Result<mat4,zError>	fromString<mat4>(const string S);
 
 #endif
