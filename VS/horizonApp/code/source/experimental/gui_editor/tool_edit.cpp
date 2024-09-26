@@ -4,8 +4,8 @@
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h"
 
-void drawBorders(GUIbase *B){
-	GUI_border_rects border = B->getBorders();
+void drawBorders(const GUIbase& B){
+	GUI_border_rects border = B.getBorders();
 	setColor(vec3(0,64,0));
 	drawRectOutline(border.Rtop);
 	drawRectOutline(border.Rbottom);
@@ -37,7 +37,7 @@ void gui_editor_tool_edit::draw(){
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	if(subject){
 		if(subject != workWindow){
-			drawBorders(subject);
+			drawBorders(*subject);
 		}
 	}
 	setPointSize(1.0f);
@@ -50,7 +50,7 @@ void gui_editor_tool_edit::ldown(){
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	if(mouseover_element){
 		printf("edit ldown 1\n");
-		if(mouseover_element && (mouseover_element != subject)){
+		if(mouseover_element && !(mouseover_element == subject)){
 			if(isValidSubject(mouseover_element)){
 				subject = mouseover_element;
 				stage = GEMT_SUBJECT;
@@ -87,7 +87,7 @@ void gui_editor_tool_edit::lup(){
 }
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
-	if(mouseover_element && (mouseover_element != subject)){
+	if(mouseover_element && !(mouseover_element == subject)){
 		if(isValidSubject(mouseover_element)){
 			subject = mouseover_element;
 			stage = GEMT_SUBJECT;
@@ -118,11 +118,10 @@ void gui_editor_tool_edit::rup(){
 			table->moveTo(mousePos);
 			table->setSize(vec2(350,200));
 			table->invalidate();
-			auto subj = subject;
-			table->setFunction([subj](string key,string val){
+			table->setFunction([&](string key,string val){
 				printf("GUItable on edit called with (%s,%s):\n",key.c_str(),val.c_str());
-				if(!subj){printf("no subject\n");}else{printf("has subject(%p)\n",subj);}
-				subj->setProperty(key,val);
+				if(!subject){printf("no subject\n");}else{printf("has subject(%p)\n",&*subject);}
+				subject->setProperty(key,val);
 			});
 			GUI->addChild(table);
 			ddm->close();

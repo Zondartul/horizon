@@ -67,7 +67,7 @@ void gui_editor_kind::setup_layers() {
 }
 
 
-void add_button(GUIbase& parent, std::string text, std::string texname, vec2 size, vec2 pos, std::function<void()> func) {
+GUIbutton* add_button(GUIbase& parent, std::string text, std::string texname, vec2 size, vec2 pos, std::function<void()> func) {
 	GUIbutton* btn = new GUIbutton();
 	btn->setText(text);
 	auto tex = getTexture(texname);
@@ -77,12 +77,13 @@ void add_button(GUIbase& parent, std::string text, std::string texname, vec2 siz
 	btn->setFunction(func);
 	btn->moveTo(pos);
 	parent.addChild(btn);
+	return btn;
 }
 
 void not_implemented() { std::cout << "- not implemented -" << std::endl; }
 
 void gui_editor_kind::add_tool_buttons() {
-	add_button(*elMainWindow, "File", "", vec2(40, 20), vec2(0, 0), std::bind(&gui_editor_kind::on_btn_File_pressed, this));
+	btnFile = add_button(*elMainWindow, "File", "", vec2(40, 20), vec2(0, 0), std::bind(&gui_editor_kind::on_btn_File_pressed, this));
 	add_button(*elMainWindow, "", "gui/iconframe", vec2(32, 32), vec2(0, 32 * 1), std::bind(&gui_editor_kind::on_btn_Frame_pressed, this));
 	add_button(*elMainWindow, "", "gui/iconwindow", vec2(32, 32), vec2(0, 32 * 2), std::bind(&gui_editor_kind::on_btn_Window_pressed, this));
 	add_button(*elMainWindow, "", "gui/iconbutton", vec2(32, 32), vec2(0, 32 * 3), std::bind(&gui_editor_kind::on_btn_Btn_pressed, this));
@@ -103,14 +104,25 @@ void gui_editor_kind::add_tool_buttons() {
 
 void gui_editor_kind::on_btn_File_pressed() {
 	auto& GUI = Gg->gs_GUI->g_GUI;
-	GUIfileDialog* dialog = new GUIfileDialog();
-	dialog->setDirectory(getDataDirectory());
-	dialog->setMode(GUIf::Open);
-	dialog->setFunction([=](string filepath) {
-		paste(filepath);
-		});
-	GUI->addChild(dialog);
+
+	auto *ddm = new GUIdropdownMenu();
+	ddm->addItem("New", std::bind(&gui_editor_kind::on_btn_New_pressed, this));
+	ddm->addItem("Open...", std::bind(&gui_editor_kind::on_btn_Paste_pressed, this));
+	ddm->addItem("Save...", std::bind(&gui_editor_kind::on_btn_Save_pressed,this));
+	ddm->btnMenu = btnFile;
+	elMainWindow->addChild(ddm);
 }
+
+void gui_editor_kind::on_btn_New_pressed(){
+	GUIwindow* workWindow;
+	EPCAST(elWorkWindow, workWindow) else return;
+	for(auto ch:workWindow->children){
+		if(ch->isClient){
+			ch->close();
+		}
+	}
+}
+
 void gui_editor_kind::on_btn_Save_pressed() {
 	auto& GUI = Gg->gs_GUI->g_GUI;
 	GUIfileDialog* dialog = new GUIfileDialog();

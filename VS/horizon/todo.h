@@ -137,8 +137,14 @@
 ///    --- first first - make sure all UI is loaded from file?
 /// [bug 22] guieditor - 'File->save' doesn't save
 /// v [fixed bug 23] gui2 - TextEdit doesn't display current text
-/// [bug 24] Resource / guieditor - missing texture results in a crash
+/// v [fixed bug 24] Resource / guieditor - missing texture results in a crash
 /// [todo 25] guieditor - make sure property editor can open a texbrowser or filedialog to select texture
 /// v [done todo 26] textedit - add shift-select of text (fixed)
 /// [bug 27] textEditor text is vertically cutoff (and changes position randomly)
+/// [todo 28] add a path textedit to the texture browser
+/// [bug 29] guieditor - clicking on the handles of the rect edit widget may unselect the element
+/// [todo 30] guieditor - make the rect edit widget change mouse cursor when it's moused over
+/// [todo 31] switch guieditor to xml gui
+/// [todo 32] guieditor - make the "node tree" actually work.
+/// v [fixed bug 33] guieditor - closing a frame that has a rect edit widget shown causes a crash.
 /// 

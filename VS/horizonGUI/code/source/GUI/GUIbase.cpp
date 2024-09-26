@@ -338,7 +338,7 @@ void GUIbase::checkCloseTree(){
 		else{el->checkCloseTree();}
 	}
 }
-vec2 GUIbase::thisToWorld(vec2 L){
+vec2 GUIbase::thisToWorld(vec2 L) const{
 	if(parent){
 		if(isClient){
 			return (parent->clientToWorld(L))+area.start;
@@ -349,10 +349,10 @@ vec2 GUIbase::thisToWorld(vec2 L){
 		return L+area.start;
 	}
 }
-rect GUIbase::thisToWorld(rect L){
+rect GUIbase::thisToWorld(rect L) const{
 	return L.setStart(thisToWorld(L.start)).setEnd(thisToWorld(L.end));
 }
-vec2 GUIbase::clientToWorld(vec2 L){
+vec2 GUIbase::clientToWorld(vec2 L) const{
 	if(parent){
 		if(isClient){
 			return (parent->clientToWorld(L))+area.start+clientArea.start;
@@ -363,10 +363,10 @@ vec2 GUIbase::clientToWorld(vec2 L){
 		return L+area.start+clientArea.start;
 	}
 }
-rect GUIbase::clientToWorld(rect L){
+rect GUIbase::clientToWorld(rect L) const{
 	return L.setStart(clientToWorld(L.start)).setEnd(clientToWorld(L.end));
 }
-rect GUIbase::worldArea(){
+rect GUIbase::worldArea() const{
 	if(parent){
 		return thisToWorld(rect(area.size));
 	}else{
@@ -374,7 +374,7 @@ rect GUIbase::worldArea(){
 		return rect(scr);
 	}
 }
-rect GUIbase::worldClientArea(){
+rect GUIbase::worldClientArea() const{
 	if(parent){
 		return thisToWorld(clientArea);
 	}else{
@@ -382,7 +382,7 @@ rect GUIbase::worldClientArea(){
 		return rect(scr);
 	}
 }
-rect GUIbase::visibleArea(){
+rect GUIbase::visibleArea() const{
 	if(hidden){return rect();}
 	if(parent){
 		if(isClient){
@@ -394,7 +394,7 @@ rect GUIbase::visibleArea(){
 		return worldArea();
 	}
 }
-rect GUIbase::visibleClientArea(){
+rect GUIbase::visibleClientArea() const{
 	if(hidden){return rect();}
 	if(parent){
 		if(isClient){
@@ -406,7 +406,7 @@ rect GUIbase::visibleClientArea(){
 		return worldClientArea();
 	}
 }
-GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
+GUI_border_rects GUIbase::getBorders(GUI_border_size bsize) const{
 	rect warea = worldArea();
 	vec2 AA = warea.start;
 	vec2 AB = AA + vec2(bsize.corner,0);
@@ -443,7 +443,7 @@ GUI_border_rects GUIbase::getBorders(GUI_border_size bsize){
 	border.Rcbr		= rect(DF,DA);
 	return border;
 }
-GUIe_border GUIbase::testBorders(vec2 pos, GUI_border_size borderSize){
+GUIe_border GUIbase::testBorders(vec2 pos, GUI_border_size borderSize) const{
 	GUI_border_rects border = getBorders(borderSize);
 	GUIe_border condition = GUIb::None;
 	if(border.Rctl.contains(pos))	{condition |= GUIb::Corner_TL;}

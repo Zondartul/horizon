@@ -115,6 +115,9 @@ template<typename T> class elastic_ptr{
 		if(debug){printf("toRaw(%s) = %p\n",toString().c_str(),result);}
 		return result;
 	}
+	bool operator==(const elastic_ptr<T>& other){
+		return proxy == other.proxy;
+	}
 	bool operator==(T *obj){
 		bool result = false;
 		if(!proxy || !proxy->anchor){result = (obj==0);}

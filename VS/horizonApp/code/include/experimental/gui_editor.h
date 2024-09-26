@@ -21,6 +21,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	renderLayer *ge_layer_front = 0;
 	gui_editor_tool *lastTool = 0;
 	gui_editor_tool *tool = 0;
+	GUIbutton *btnFile = 0;
 	gui_editor_kind();
 	void close();
 	void onEvent(eventKind event);
@@ -47,6 +48,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	gui_editor_event_helper helper;
 
 	void on_btn_File_pressed();
+	void on_btn_New_pressed();
 	void on_btn_Save_pressed();
 	void on_btn_Paste_pressed();
 	void on_btn_Frame_pressed();

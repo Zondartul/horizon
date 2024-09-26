@@ -10,6 +10,14 @@ GUIdropdownMenu::GUIdropdownMenu(){
 	constructed = true;
 	globalChannel.addListener(this); 
 }
+
+std::function<void()> ddm_make_wrapper(GUIdropdownMenu *self, std::function<void()> func){
+	return [=](){
+		func();
+		self->close();
+	};
+}
+
 GUIbutton *GUIdropdownMenu::addItem(string text){
 	GUIbutton *btn = new GUIbutton();
 	btn->setText(text);
@@ -22,7 +30,7 @@ GUIbutton *GUIdropdownMenu::addItem(string text){
 }
 GUIbutton *GUIdropdownMenu::addItem(string text, function<void()> func){
 	GUIbutton *btn = addItem(text);
-	btn->F = func;
+	btn->F = ddm_make_wrapper(this, func);
 	invalidate();
 	return btn;
 }
