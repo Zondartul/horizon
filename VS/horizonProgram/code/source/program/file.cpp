@@ -22,6 +22,7 @@
 #include <vector>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 using std::vector;
 using std::runtime_error;
 using std::stringstream;
@@ -44,7 +45,7 @@ string fileToString(const char *filepath){
 	return S;
 }
 
-Result<string,zError> locateResource(const char *type, const char *name){
+std::string getBasePath(){
 #ifdef USE_SDL
 	SDL_ClearError();
 	const char *basepath = SDL_GetBasePath();
@@ -54,38 +55,51 @@ Result<string,zError> locateResource(const char *type, const char *name){
 	if(!basepath){
 #ifdef USE_SDL
 		const char *err = SDL_GetError();
-		if(err){
-			push(zError(SS("locateResource: SDL error: [" << err << "]\n"), zError::ERROR, zError::INTERNAL));
-			//error("locateResource: SDL error: [%s]\n",err);
-			//stringstream ss;
-			//ss << "locateResource: SDL error: [" << err << "]\n";
-			//throw std::runtime_error(ss.str());
-		}
+		if(err){push(zError(SS("locateResource: SDL error: [" << err << "]\n"), zError::ERROR, zError::INTERNAL));}
 #endif
 		basepath = "./";
 	}
-	string sname = name;
-	string abspath = basepath;
-	string resourcepath = "../resource/";
-	string namedir = "";
-	int lastSlash = sname.find_last_of("/");
-	if(lastSlash != -1){namedir = sname.substr(0,lastSlash+1); sname = sname.substr(lastSlash+1,-1);}
-	string T = type;
-	if(T == "font"){abspath = basepath + string()+resourcepath+"fonts/" + name + ".ttf";}
-	if(T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".jpg";}
-	if(T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".jpg";}
-	if(T == "model"){abspath = basepath + string()+resourcepath+"models/" /*+ name + "/" + name +*/ + namedir + sname + "/"+sname + ".obj";}
+	return string(basepath);
+}
 
-	FILE *f = fopen(abspath.c_str(),"rb");
-	if(!f && T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".png"; f = fopen(abspath.c_str(),"rb");}
-	if(!f && T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".png";  f = fopen(abspath.c_str(),"rb");}
-	if(f){
-		printf("%s \"%s\" found\n",type,name);
-	}else{
-		return zError(SS("locateResource [" << abspath << "] failed!\n"));
+std::string getResPath(std::string type){
+	string resourcepath = "../resource/";
+	std::string res = getBasePath() + resourcepath;
+	if(type == "font"){res += "fonts/";}// + name + ".ttf";}
+	if(type == "texture"){res += "textures/";}// + name + ".jpg";}
+	if(type == "model_texture"){res += "textures/models/";}// + namedir + sname + "/"+"model_" + sname + ".jpg";}
+	if(type == "model"){res += "models/";}// /*+ name + "/" + name +*/ + namedir + sname + "/"+sname + ".obj";}
+	return res;
+}
+
+std::vector<std::string> get_resource_extensions(std::string type){
+	if(type == "font"){return {".ttf"};}
+	if(type == "texture"){return {".jpg", ".png"};}
+	if(type == "model_texture"){return {".jpg", ".png"};}
+	if(type == "model"){return {".obj"};}
+	assert(!"false");
+	return {};
+}
+
+Result<string,zError> locateResource(const char *type, const char *name){
+	SplitPath split = split_path(name);
+
+	//printf("locateResource: namedir [%s], sname [%s], ext [%s], type [%s]", namedir, sname, type);
+	//if(T == "font"){abspath = basepath + string()+resourcepath+"fonts/" + name + ".ttf";}
+	//if(T == "texture"){abspath = basepath + string()+resourcepath+"textures/" + name + ".jpg";}
+	//if(T == "model_texture"){abspath = basepath + string() + resourcepath + "textures/" + "models/" + namedir + sname + "/"+"model_" + sname + ".jpg";}
+	//if(T == "model"){abspath = basepath + string()+resourcepath+"models/" /*+ name + "/" + name +*/ + namedir + sname + "/"+sname + ".obj";}
+
+	std::string respath = getResPath(type);
+	auto extensions = get_resource_extensions(type);
+	for(auto ext:extensions){
+		std::string path = respath + split.dir + split.basename + ext;
+		std::cout << "locateResource: try [" << path << "]" << std::endl;
+		if(fileExists(path)){
+			return path;
+		} 
 	}
-	fclose(f);
-	return abspath;
+	return zError(SS("Can't locate resource: " << type << " " << name));
 }
 
 bool fileReadable(string S){
@@ -215,4 +229,26 @@ bool fileExists(string filename){
 	else{fclose(f); return true;}
 }
 
+SplitPath split_path(string path){
+	//std::string canon = toCanonicalPath(path);
 
+	int lastSlash = path.find_last_of("/");
+
+	SplitPath res;
+	res.fullpath = path;
+	if(lastSlash != -1){
+		res.dir = path.substr(0,lastSlash+1);
+		res.name = path.substr(lastSlash+1,-1);	
+	}else{
+		res.name = path;
+	}
+	int lastDot = res.name.find_last_of(".");
+	if(lastDot != 0){
+		res.basename = res.name.substr(0, lastDot);
+		res.ext = res.name.substr(lastDot+1,-1);
+	}else{
+		res.basename = res.name;
+	}
+
+	return res;
+}

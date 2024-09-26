@@ -21,11 +21,15 @@ string toString(texture* t) {
 template<> Result<texture*,zError> fromString<texture*>(const string S) {
 	if (S == "tex:[null]") { return 0; }
 	char buff[80];
-	std::ignore = sscanf(S.c_str(),"tex:[%[^]]]",buff);
-
-	string name(buff);
-	printf("fromString<texture*>: S = [%s]\n", S.c_str());
-	printf("fromString<texture*>: buff = [%s]\n", name.c_str());//buff);
-
+	buff[0] = 0;
+	int count = sscanf(S.c_str(),"tex:[%[^]]]",buff);
+	string name;
+	if(count){
+		name = string(buff);
+		printf("fromString<texture*>: S = [%s]\n", S.c_str());
+		printf("fromString<texture*>: buff = [%s]\n", name.c_str());//buff);
+	}else{
+		name = S;
+	}
 	return getTexture(name);
 }

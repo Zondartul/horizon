@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "Debug(Linux)",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/horizonApp",
@@ -27,7 +27,8 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Cmake build + install",
+            //"preLaunchTask": "Cmake build + install",
+            "preLaunchTask": "CMake: install",
         }
 
     ]

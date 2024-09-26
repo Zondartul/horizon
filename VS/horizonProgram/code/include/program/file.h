@@ -32,5 +32,14 @@ bool DLLAPI_PROGRAM isFolder(string filename);
 //texture DLLAPI_PROGRAM *getFileIcon(string filename);
 bool DLLAPI_PROGRAM fileExists(string filename);
 
+struct SplitPath{
+    std::string fullpath;   // "C:/foo/bar.txt"
+    std::string dir;        // "C:/foo/"
+    std::string basename;   // "bar"
+    std::string name;       // "bar.txt"
+    std::string ext;        // "txt"
+};
+
+SplitPath split_path(string path);
 
 #endif

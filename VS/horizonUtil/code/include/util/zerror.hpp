@@ -33,3 +33,4 @@ void push(zError new_error);
 /// ENGINE - engine logic error
 /// APP - app code or logic error
 /// USER - user input error
+

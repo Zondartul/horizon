@@ -66,8 +66,8 @@ string GUIbutton::getProperty(string key){
 	}
 }
 void GUIbutton::setProperty(string key, string val){
-	if(key == "hoverColor"){hoverColor = fromString<vec3>(val).val();}
-	else if(key == "pressedColor"){pressedColor = fromString<vec3>(val).val();}
+	if(key == "hoverColor")			{hoverColor = 	require(fromString<vec3>(val));}
+	else if(key == "pressedColor")	{pressedColor = require(fromString<vec3>(val));}
 	else{
 		GUIlabel::setProperty(key,val);
 		GUIimage::setProperty(key,val);

@@ -500,9 +500,9 @@ void GUIbase::setProperty(string key, string val){
 				 throw std::runtime_error("attempt to change GUI widget type\n");
 			 }
 		 }
-	else if(key == "isClient")	{isClient 	= fromString<bool>(val).val();}
-	else if(key == "hidden")	{hidden 	= fromString<bool>(val).val();}
-	else if(key == "area")		{area		= fromString<rect>(val).val();}
+	else if(key == "isClient")	{isClient 	= require(fromString<bool>(val));}
+	else if(key == "hidden")	{hidden 	= require(fromString<bool>(val));}
+	else if(key == "area")		{area		= require(fromString<rect>(val));}
 }
 string GUIbase::getType(){return "GUIbase";}
 GUIcompoundProperty GUIbase::getCompoundProperty(){

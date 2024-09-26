@@ -207,13 +207,13 @@ string GUItextEntry::getProperty(string key){
 	else return GUIbutton::getProperty(key);
 }
 void GUItextEntry::setProperty(string key, string val){
-		 if(key == "focusedColor")	{focusedColor = fromString<vec3>(val).val();	}
-	else if(key == "callOnEdit")	{callOnEdit = 	fromString<bool>(val).val();	}
-	else if(key == "callOnEnter")	{callOnEnter = 	fromString<bool>(val).val();	}
-	else if(key == "callOnUnfocus")	{callOnUnfocus= fromString<bool>(val).val();	}
-	else if(key == "clearOnEnter")	{callOnEnter = 	fromString<bool>(val).val();	}
-	else if(key == "multiline")		{multiline = 	fromString<bool>(val).val();	}
-	else if(key == "numeric")		{numeric = 		fromString<bool>(val).val();	}
+		 if(key == "focusedColor")	{focusedColor = require(fromString<vec3>(val));	}
+	else if(key == "callOnEdit")	{callOnEdit = 	require(fromString<bool>(val));	}
+	else if(key == "callOnEnter")	{callOnEnter = 	require(fromString<bool>(val));	}
+	else if(key == "callOnUnfocus")	{callOnUnfocus= require(fromString<bool>(val));	}
+	else if(key == "clearOnEnter")	{callOnEnter = 	require(fromString<bool>(val));	}
+	else if(key == "multiline")		{multiline = 	require(fromString<bool>(val));	}
+	else if(key == "numeric")		{numeric = 		require(fromString<bool>(val));	}
 	else GUIbutton::setProperty(key,val);
 }
 string GUItextEntry::getType(){return "GUItextEntry";}

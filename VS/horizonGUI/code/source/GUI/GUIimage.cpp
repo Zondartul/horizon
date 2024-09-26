@@ -35,7 +35,7 @@ string GUIimage::getProperty(string key){
 	else{return GUIframe::getProperty(key);}
 }
 void GUIimage::setProperty(string key, string val){
-	if(key == "image"){setImage(	fromString<texture*>(val).val()		);}
+	if(key == "image"){setImage(	maybe(fromString<texture*>(val))	);}
 	else{GUIframe::setProperty(key,val);}
 }
 string GUIimage::getType(){return "GUIimage";}

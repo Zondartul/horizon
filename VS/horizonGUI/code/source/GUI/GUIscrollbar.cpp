@@ -287,12 +287,12 @@ string GUIscrollbar::getProperty(string key){
 	else return GUIframe::getProperty(key);
 }
 void GUIscrollbar::setProperty(string key, string val){
-		 if(key == "innerSize")		{setInnerSize(		fromString<vec2>(val).val()		);}
-	else if(key == "bSizeToParent")	{bSizeToParent = 	fromString<bool>(val).val();	}
-	else if(key == "vertical")		{setVertical(		fromString<bool>(val).val()		);}
-	else if(key == "horizontal")	{setHorizontal(		fromString<bool>(val).val()		);}
+		 if(key == "innerSize")		{setInnerSize(		require(fromString<vec2>(val))		);}
+	else if(key == "bSizeToParent")	{bSizeToParent = 	require(fromString<bool>(val))		;}
+	else if(key == "vertical")		{setVertical(		require(fromString<bool>(val))		);}
+	else if(key == "horizontal")	{setHorizontal(		require(fromString<bool>(val))		);}
 	else if(key == "scrollingEnabled"){
-			bool b = 									fromString<bool>(val).val();
+			bool b = 									require(fromString<bool>(val));
 			if(b){
 				enableScrolling();
 			}else{

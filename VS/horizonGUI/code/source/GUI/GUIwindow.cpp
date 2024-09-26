@@ -85,8 +85,8 @@ string GUIwindow::getProperty(string key){
 	else return GUIframe::getProperty(key);
 }
 void GUIwindow::setProperty(string key, string val){
-		 if(key == "hasCloseButton"){setCloseButton(	fromString<bool>(val).val()		);}
-	else if(key == "moveable")		{moveable = 		fromString<bool>(val).val();	}
+		 if(key == "hasCloseButton"){setCloseButton(	require(fromString<bool>(val))		);}
+	else if(key == "moveable")		{moveable = 		require(fromString<bool>(val))		;}
 	else if(key == "title")			{setTitle(val);}
 	else GUIframe::setProperty(key,val);
 }

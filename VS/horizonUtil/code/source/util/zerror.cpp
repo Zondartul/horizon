@@ -18,8 +18,11 @@ void push(zError err){
             std::cout << err.what();
             return;
         break;
-        case zError::NONE:
         case zError::ERROR:
+            std::cerr << err.what();
+            return;
+        break;
+        case zError::NONE:
         case zError::FATAL:
         default:
             std::cerr << err.what();
