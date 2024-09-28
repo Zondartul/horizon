@@ -87,10 +87,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,10 +124,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DLL_GUI;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonGUI\code\include;$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,8 +159,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="code\source\Ext\tinyXML2\tinyxml2.cpp" />
-    <ClCompile Include="code\source\GUI\GUIbase.cpp" />
-    <ClCompile Include="code\source\GUI\GUIbutton.cpp" />
+    <ClCompile Include="code\source\GUI\GUIbase.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreprocessToFile>
+    </ClCompile>
+    <ClCompile Include="code\source\GUI\GUIbutton.cpp">
+      <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
+    </ClCompile>
     <ClCompile Include="code\source\GUI\GUIdropdownMenu.cpp" />
     <ClCompile Include="code\source\GUI\GUIframe.cpp" />
     <ClCompile Include="code\source\GUI\GUIgrid.cpp" />
@@ -174,6 +181,7 @@
     <ClCompile Include="code\source\GUI\GUI_property.cpp" />
     <ClCompile Include="code\source\GUI\GUI_types.cpp" />
     <ClCompile Include="code\source\main\dllmain_gui.cpp" />
+    <ClCompile Include="code\source\main\main.cpp" />
     <ClCompile Include="code\source\render\paintHelper.cpp" />
     <ClCompile Include="code\source\render\render_gui.cpp" />
     <ClCompile Include="code\source\util\global_vars_gui.cpp" />
@@ -200,7 +208,6 @@
     <ClInclude Include="code\include\GUI\GUI_types.h" />
     <ClInclude Include="code\include\GUI\readme_GUI.h" />
     <ClInclude Include="code\include\input\keybinds.h" />
-    <ClInclude Include="code\include\main\framework_gui.h" />
     <ClInclude Include="code\include\main\main_gui.h" />
     <ClInclude Include="code\include\render\paintHelper.h" />
     <ClInclude Include="code\include\render\render_gui.h" />

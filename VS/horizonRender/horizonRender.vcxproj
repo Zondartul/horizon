@@ -90,14 +90,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_RENDER;_CRT_SECURE_NO_WARNINGS;USE_GLEW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_RENDER;_CRT_SECURE_NO_WARNINGS;USE_GLEW;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,13 +136,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_RENDER;_CRT_SECURE_NO_WARNINGS;USE_GLEW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_RENDER;_CRT_SECURE_NO_WARNINGS;USE_GLEW;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/wd4244 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonRender\code\include;$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -179,6 +181,7 @@
     <ClCompile Include="code\include\render\RenderState.cpp" />
     <ClCompile Include="code\source\generators\editmodel.cpp" />
     <ClCompile Include="code\source\main\dllmain_render.cpp" />
+    <ClCompile Include="code\source\main\main.cpp" />
     <ClCompile Include="code\source\render\camera.cpp" />
     <ClCompile Include="code\source\render\GPUdriverOpenGL.cpp" />
     <ClCompile Include="code\source\render\GPUdriverSoft.cpp" />
@@ -194,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\generators\editmodel.h" />
-    <ClInclude Include="code\include\main\framework_render.h" />
     <ClInclude Include="code\include\main\main_render.h" />
     <ClInclude Include="code\include\render\camera.h" />
     <ClInclude Include="code\include\render\GPUdriver.h" />

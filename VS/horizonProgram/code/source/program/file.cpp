@@ -27,12 +27,16 @@ using std::vector;
 using std::runtime_error;
 using std::stringstream;
 
+std::string getBasePath();
+
 string fileToString(const char *filepath){
 	FILE *fp;
 	fp = fopen(filepath,"r");
 	if(!fp){
+		std::string basePath = getBasePath();
 		//printf("can't open file '%s'\n",filepath);exit(1);
 		stringstream ss;
+		ss << "from [" << basePath << "]: ";
 		ss << "can't open file " << filepath;
 		throw runtime_error(ss.str());
 	}

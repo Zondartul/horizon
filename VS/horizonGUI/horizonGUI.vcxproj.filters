@@ -117,6 +117,9 @@
     <ClCompile Include="code\source\Ext\tinyXML2\tinyxml2.cpp">
       <Filter>Source Files\Ext\tinyXML2</Filter>
     </ClCompile>
+    <ClCompile Include="code\source\main\main.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\include\Ext\tinyXML2\tinyxml2.h">
@@ -178,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="code\include\GUI\readme_GUI.h">
       <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="code\include\main\framework_gui.h">
-      <Filter>Header Files\main</Filter>
     </ClInclude>
     <ClInclude Include="code\include\util\global_vars_gui.h">
       <Filter>Header Files\util</Filter>

@@ -47,7 +47,7 @@ GUIbase::ChI GUIbase::addChild(GUIbase *child, ChI iter){
 }
 void GUIbase_debugChildren(GUIbase *b){
 	if (!b) { throw std::runtime_error("'this' is null"); }//{ error("'this' is null"); }
-	printf("printing %p's %d children:\n",b,b->children.size());
+	printf("printing %p's %d children:\n",b,(int)b->children.size());
 	if(!b->children.size()){printf("%p has no children\n", b);return;}
 	int i = 0;
 	for(auto I = b->children.begin(); I != b->children.end(); I++){

@@ -254,7 +254,7 @@ void renderableText::upload() {
 	//auto& loadLayer = Gr->gs_paint->g_loadLayer;
 	//setLayer(loadLayer);
 	//uploadTexture(F->t);
-	rm = make_rm_rect(rect(1.0,1.0));
+	rm = make_rm_rect(rect(1,1));
 	uploadRmodel(rm);
 	uploaded = true;
 }
@@ -291,8 +291,8 @@ void renderableText::render(renderOptions* options) {
 		if (!F->charmap.count(c)) { continue; } /// missing character handling
 		auto &c_glyph = F->charmap.at(c);
 		auto& t = c_glyph.t;
-		float height = t->h();
-		float width = t->w();
+		float height = (float)t->h();
+		float width = (float)t->w();
 		setTexture(t);
 		auto scale = vec3(width, height, 1.0);
 		vec3 pos_adjust = vec3(c_glyph.bearingX, -c_glyph.bearingY, 0);

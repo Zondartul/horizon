@@ -164,12 +164,12 @@ void gui_editor_kind::close(){
 	printf("closing gui editor\n");
 	if(elWorkWindow){
 		printf("deleting workWindow\n");
-		GUIbase *B = elWorkWindow;
+		GUIbase *B = &*elWorkWindow;
 		delete B;
 	}
 	if(elMainWindow){
 		printf("deleting mainWindow\n");
-		GUIbase *B = elMainWindow;
+		GUIbase *B = &*elMainWindow;
 		delete B;
 	}
 }
@@ -179,7 +179,7 @@ void openGuiEditor(){
 		printf("closing gui editor\n");
 		gui_editor->close();
 		printf("deleting gui editor\n");
-		delete gui_editor;
+		delete &*gui_editor; /// PS: this is probably already done by close() on next frame
 	}
 	gui_editor = new gui_editor_kind();
 	printf("opened gui editor\n");

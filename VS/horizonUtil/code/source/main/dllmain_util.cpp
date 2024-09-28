@@ -1,9 +1,7 @@
-// dllmain.cpp : Defines the entry point for the DLL application.
-//#include "pch.h"
-#include "main/main_util.h"
-#include "util/global_vars_util.h"
 #ifdef WIN32
-#include "main/framework_util.h"
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+// Windows Header Files
+#include <windows.h>
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -24,10 +22,3 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     /// Linux doesn't need a special entry point
 #endif
 
-void initHorizonUtil() {
-    static bool initialized = false;
-    if (initialized) { return; }
-    initialized = true;
-
-    Gu = new GlobalsUtil();
-}

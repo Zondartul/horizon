@@ -2,6 +2,7 @@
 #include "util/zerror.hpp"
 #include <cassert>
 #include <optional>
+#include <stdexcept>
 /// a Result type that either contains a value, or an error message.
 
 template<typename T, typename E> class Result{
@@ -31,5 +32,6 @@ template<typename T, typename E> T require(Result<T,E> res){
     }else{
         res.err->severity = zError::FATAL;
         push(*res.err);
+		throw std::runtime_error("unreachable");
     }
 }

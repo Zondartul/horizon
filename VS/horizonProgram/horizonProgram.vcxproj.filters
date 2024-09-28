@@ -69,11 +69,11 @@
     <ClCompile Include="code\source\util\global_vars_program.cpp">
       <Filter>Source Files\util</Filter>
     </ClCompile>
+    <ClCompile Include="code\source\main\main.cpp">
+      <Filter>Source Files\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\include\main\framework_program.h">
-      <Filter>Header Files\main</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\util\globals_program.h">
       <Filter>Header Files\util</Filter>
     </ClInclude>

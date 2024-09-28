@@ -19,7 +19,7 @@ int bitmap::numBytes(){
 	return numPixels()*bytesPerPixel(format);
 }
 int bitmap::coordToIndex(vec2 pos){
-	return width*pos.y+pos.x;
+	return (int)(width*pos.y+pos.x);
 }
 vec2 bitmap::indexToCoord(int I){
 	return {I/width,I%width};
@@ -146,14 +146,14 @@ bitmap bitmap::flipHorizontal(){
 	return BMP;
 }
 void bitmap::insert(bitmap BMP, vec2 pos){
-	int minx = clamp(pos.x,0,width);
-	int maxx = min(pos.x+BMP.width,width);
-	int miny = clamp(pos.y,0,height);
-	int maxy = min(pos.y+BMP.height,height);
+	int minx = clamp_i((int)pos.x,0,width);
+	int maxx = min_i((int)pos.x+BMP.width,width);
+	int miny = clamp_i((int)pos.y,0,height);
+	int maxy = min_i((int)pos.y+BMP.height,height);
 	for(int y = miny; y < maxy; y++){
 		for(int x = minx; x < maxx; x++){
-			int readx = x-pos.x;
-			int ready = y-pos.y;
+			int readx = x- (int)pos.x;
+			int ready = y- (int)pos.y;
 			write_pixel({x,y},BMP.read_pixel({readx,ready}));
 		}
 	}

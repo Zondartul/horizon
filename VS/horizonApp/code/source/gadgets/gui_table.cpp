@@ -48,7 +48,8 @@ GUItable &GUItable::setTable(GUIpropertyTable tab){
 }
 void GUItable::invalidate(){
 	GUIwindow::invalidate();
-	bar->setSize(clientArea.size);
+	vec2 v = clientArea.size;
+	bar->setSize(v.x, v.y);
 }
 GUItable &GUItable::setFunction(function<void(string, string)> f){
 	f_entryChanged = f;

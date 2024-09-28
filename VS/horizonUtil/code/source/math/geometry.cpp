@@ -14,7 +14,7 @@ bool ray_plane_intersection(vec3 start, vec3 dir, vec3 A, vec3 B, vec3 C, vec3 *
 	inv_det = 1.0f / det;
 	T = start-A;
 	Q = cross(T,e1);
-	t = dot(e2,Q)*inv_det;
+	t = (float)(dot(e2,Q)*inv_det);
 	if(t > 0){
 		if(result){*result = start+dir*t;}
 		return 1;

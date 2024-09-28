@@ -123,7 +123,7 @@ template<> Result<void*,zError> fromString<void*>(const string S){
 	if(ss >> p){
 		return p;
 	}else{
-		zError("can't parse void* from string");
+		return zError("can't parse void* from string");
 	}
 }
 string toString(bool B){

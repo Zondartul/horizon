@@ -95,7 +95,7 @@ void GUItextureBrowser::populate(){
 	string dir1 = "resource/textures";
 	string dir2 = "materials";
 	vector<string> ls = getDirectoryList(dir1+"/"+dir2);
-	printf("dir (%s) has %d entries\n",(dir1+"/"+dir2).c_str(), ls.size());
+	printf("dir (%s) has %d entries\n",(dir1+"/"+dir2).c_str(), (int)ls.size());
 	for(auto I = ls.begin(); I != ls.end(); I++){
 		string filename = *I;
 		string nameNoExt = getFileNameNoExt(filename);

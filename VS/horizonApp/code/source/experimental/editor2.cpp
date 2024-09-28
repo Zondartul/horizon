@@ -58,7 +58,7 @@ void editor2Kind::resetLayer(renderLayer *L){
 	}
 }
 void editor2Kind::printselection(){
-	printf("selected %d verts, %d edges, %d tris\n",sel.verts.size(),sel.edges.size(),sel.tris.size());
+	printf("selected %d verts, %d edges, %d tris\n",(int)sel.verts.size(),(int)sel.edges.size(),(int)sel.tris.size());
 }
 void editor2Kind::constructTestModel(){
 	printf("editor.constructTestModel()\n");
@@ -126,7 +126,7 @@ void editor2Kind::redraw(){
 	sel.colorTris	= {0,0.5f,1.f};
 	sel.rainbowTris = false;
 	selAll.rainbowTris = false;
-	printf("selAll.verts = %d\nsel.verts = %d\n",selAll.verts.size(),sel.verts.size());
+	printf("selAll.verts = %d\nsel.verts = %d\n",(int)selAll.verts.size(),(int)sel.verts.size());
 	sel.rebuildRmodel();
 	selAll.rebuildRmodel();
 	resetLayer(layers.l3D);
@@ -285,7 +285,7 @@ void editor2Kind::onEvent(eventKind event){
 				event.maskEvent();
 				const char *bork = EM.checkDegenerate(false);
 				printf("bork = [%s]\n",bork);
-				printf("EM: %d verts, %d edges, %d tris\n",EM.verts.size(),EM.edges.size(),EM.tris.size());
+				printf("EM: %d verts, %d edges, %d tris\n",(int)EM.verts.size(),(int)EM.edges.size(),(int)EM.tris.size());
 				printf("\nprinted selection properties\n");
 			}
 			if(K == "6"){

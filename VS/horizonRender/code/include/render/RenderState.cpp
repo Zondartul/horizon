@@ -138,7 +138,7 @@ std::ostream& operator<<(std::ostream& stream, RenderState rs) {
 	Pr(depth_test); Pr(lighting); Pr(sun_pos);
 	Pr(sun_light_color); Pr(ambient_light_color);
 	Pr(viewport); Pr(face_culling); Pr(cur_texture);
-#undef Pr;
+#undef Pr
 	return stream;
 }
 
@@ -154,6 +154,6 @@ std::ostream& operator<<(std::ostream& stream, RenderStateDiff diff) {
 	Pr(depth_test); Pr(lighting); Pr(sun_pos);
 	Pr(sun_light_color); Pr(ambient_light_color);
 	Pr(viewport); Pr(face_culling); Pr(cur_texture);
-#undef Pr;
+#undef Pr
 	return stream;
 }

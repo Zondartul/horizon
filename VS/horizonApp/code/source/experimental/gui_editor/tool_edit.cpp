@@ -50,8 +50,8 @@ void gui_editor_tool_edit::ldown(){
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	if(mouseover_element){
 		printf("edit ldown 1\n");
-		if(mouseover_element && !(mouseover_element == subject)){
-			if(isValidSubject(mouseover_element)){
+		if(mouseover_element && !(&*mouseover_element == *&subject)){
+			if(isValidSubject(&*mouseover_element)){
 				subject = mouseover_element;
 				stage = GEMT_SUBJECT;
 			}else{
@@ -87,8 +87,8 @@ void gui_editor_tool_edit::lup(){
 }
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
-	if(mouseover_element && !(mouseover_element == subject)){
-		if(isValidSubject(mouseover_element)){
+	if(mouseover_element && !(&*mouseover_element == &*subject)){
+		if(isValidSubject(&*mouseover_element)){
 			subject = mouseover_element;
 			stage = GEMT_SUBJECT;
 		}else{
@@ -130,15 +130,15 @@ void gui_editor_tool_edit::rup(){
 		  ddm_edit->addItem("cut", [=](){
 			if(subject && subject->parent){
 				if(copyBuffer){copyBuffer->close(); copyBuffer = 0;}
-				copyBuffer = subject;
-				subject->parent->removeChild(subject);
+				copyBuffer = &*subject;
+				subject->parent->removeChild(&*subject);
 				subject->parent = 0;
 				ddm->close();
 				subject = 0;
 			}
 		  });
 		  ddm_edit->addItem("copy",[=](){
-			if(subject){this->copyBuffer = subject;}
+			if(subject){this->copyBuffer = &*subject;}
 			ddm->close();
 		  });
 		  ddm_edit->addItem("paste",[=](){

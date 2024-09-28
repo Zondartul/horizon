@@ -26,9 +26,9 @@ void pack2D(vector<vec2> sizes, vec2 binsize, bool sort, vector<vec2> *results, 
 	pack2D_oneLine:
 pack2D_oneRect:
 			if (sorted.size() == 0) { goto pack2D_done; }
-			lineHeight = (int)max(lineHeight,sizes[sorted[0]].y);
+			lineHeight = max_i(lineHeight,(int)sizes[sorted[0]].y);
 			if(*heightNeeded+lineHeight > binsize.y){overflow = 1;}
-			widthleft = binsize.x-x;
+			widthleft = (int)binsize.x-x;
 			if(widthleft < sizes[sorted[0]].x){
 				if(!sort){goto pack2D_nextLine;}
 				for(I = 0; I < sorted.size(); I++){
@@ -59,7 +59,7 @@ pack2D_oneRect:
 		*heightNeeded = *heightNeeded + lineHeight;
 		printf("2D packing complete: %d/%d items packed\n"
 			"width = %d, height = %d / %d needed\n",
-			packed->size(),sizes.size(),
+			(int)packed->size(),(int)sizes.size(),
 			(int)binsize.x,	(int)binsize.y,*heightNeeded);
 		return;
 }
@@ -68,7 +68,7 @@ vec2 pack2DfindClosestPOT(vector<vec2> sizes, bool sort){
 	for(unsigned int I = 0; I < sizes.size(); I++){
 		area += int(sizes[I].x*float(int(sizes[I].y)));
 	}
-	int side = ceil(sqrt(area));
+	int side = (int)ceil(sqrt(area));
 	int n = log2ceil(side);
 	vector<vec2> results;
 	vector<int> packed;

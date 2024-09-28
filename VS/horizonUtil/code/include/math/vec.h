@@ -1,12 +1,12 @@
 #ifndef VEC_GUARD
 #define VEC_GUARD
-#pragma warning(push, 0) //do not warn me about errors in external code
+//#pragma warning(push, 0) //do not warn me about errors in external code
 #include "Ext/glm/glm.hpp"
 #include "Ext/glm/gtc/matrix_transform.hpp"
 #include "Ext/glm/gtx/rotate_vector.hpp"
 #include "Ext/glm/gtx/vector_angle.hpp"
 #include "Ext/glm/gtc/quaternion.hpp"
-#pragma warning(pop) //that's their problem, not mine
+//#pragma warning(pop) //that's their problem, not mine
 #include "util/globals_util.h"
 #include "util/stringUtils.h"
 #include <string>

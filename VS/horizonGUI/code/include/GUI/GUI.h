@@ -1,5 +1,6 @@
 #ifndef GUI_GUARD
 #define GUI_GUARD
+#include "math/vec.h"
 #include "util/util.h"  
 #include "util/elastic_ptr.h"
 #include "util/event.h" 

@@ -34,7 +34,9 @@ class DLLAPI_GUI GUIscrollbar:public virtual GUIframe{
 	GUIbutton *btnRight;	
 	GUIscrollbarBar *hbar;	
 	GUIframe *inner;		
-	GUIscrollbar *setSize(vec2 newSize);
+	// for some bizzare reason, having vec2 argument here causes VisualStudio to report false errors
+	// "unknown identifier __A0"
+	GUIscrollbar *setSize(float x, float y/*vec2 newSize*/); 
 	GUIscrollbar *setInnerSize(vec2 newInnerSize);
 	GUIscrollbar *sizeToContents();
 	GUIscrollbar *setScrollOffset(vec2 newScrollOffset);

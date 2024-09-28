@@ -61,7 +61,7 @@ void GUIwindow::onEvent(eventKind event){
 	}
 	if(event.type == EVENT_MOUSE_MOVE){
 		vec2 pos = getMousePos();
-		mouseovertitle = visibleArea().clamp(thisToWorld(rect(area.size.x-23,23))).contains(pos);
+		mouseovertitle = visibleArea().clamp(thisToWorld(rect((int)area.size.x-23,23))).contains(pos);
 		if(pressed && moveable){moveTo(pos+offset);} 
 	}
 }

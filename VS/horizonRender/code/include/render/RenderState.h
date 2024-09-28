@@ -2,7 +2,7 @@
 #include "util/globals_render.h" /// for DLLAPI_RENDER
 #include "resource/fonts.h"
 
-struct DLLAPI_RENDER GPUdriver;
+class DLLAPI_RENDER GPUdriver;
 
 struct DLLAPI_RENDER RenderState {
 	RenderState();

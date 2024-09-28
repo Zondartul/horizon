@@ -102,12 +102,13 @@ void GUIscrollbar::onEvent(eventKind event){
 	}
 }
 void GUIscrollbar::clampInnerSizeToOuter(){
-	int max_x = max(area.size.x, inner->area.size.x);
-	int max_y = max(area.size.y, inner->area.size.y);
+	int max_x = max_i((int)area.size.x, (int)inner->area.size.x);
+	int max_y = max_i((int)area.size.y, (int)inner->area.size.y);
 	inner->setSize(vec2(max_x,max_y));
 	innerSize = inner->area.size;
 }
-GUIscrollbar *GUIscrollbar::setSize(vec2 newSize){
+GUIscrollbar *GUIscrollbar::setSize(float x, float y/*vec2 newSize*/){
+	vec2 newSize = vec2(x, y);
 	GUIframe::setSize(newSize);
 	clampInnerSizeToOuter();
 	invalidate();
@@ -240,11 +241,11 @@ void GUIscrollbar::invalidate(){
 	offset = scrollOffset();
 }
 rect GUIscrollbar::vtrackRect(){
-	int height = trackDimensions().y;
+	int height = (int)trackDimensions().y;
 	return rect().setStart({area.size.x-21,22}).setSize({20,height});
 }
 rect GUIscrollbar::htrackRect(){
-	int width = trackDimensions().x;
+	int width = (int)trackDimensions().x;
 	return rect().setStart({22,area.size.y-21}).setSize({width,20});
 }
 vec2 GUIscrollbar::trackDimensions(){
@@ -265,8 +266,8 @@ vec2 GUIscrollbar::scrollRatio(){
 	return {x,y};
 }
 vec2 GUIscrollbar::scrollOffset(){
-	int x = (innerSize.x-clientArea.size.x) * scrollRatio().x;
-	int y = (innerSize.y-clientArea.size.y) * scrollRatio().y;
+	int x = (int)((innerSize.x-clientArea.size.x) * scrollRatio().x);
+	int y = (int)((innerSize.y-clientArea.size.y) * scrollRatio().y);
 	return clamp({x,y},{0,0},innerSize-clientArea.size);
 }
 GUIpropertyTable GUIscrollbar::getDefaultPropertyTable(){
@@ -287,7 +288,7 @@ string GUIscrollbar::getProperty(string key){
 	else return GUIframe::getProperty(key);
 }
 void GUIscrollbar::setProperty(string key, string val){
-		 if(key == "innerSize")		{setInnerSize(		require(fromString<vec2>(val))		);}
+	if (key == "innerSize") {}// { setInnerSize(require(fromString<vec2>(val))); }
 	else if(key == "bSizeToParent")	{bSizeToParent = 	require(fromString<bool>(val))		;}
 	else if(key == "vertical")		{setVertical(		require(fromString<bool>(val))		);}
 	else if(key == "horizontal")	{setHorizontal(		require(fromString<bool>(val))		);}

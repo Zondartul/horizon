@@ -108,7 +108,7 @@ template<typename T> class elastic_ptr{
 		if(debug){printf("toBool(%s) = %d\n",toString().c_str(),result);}
 		return result;
 	}
-	operator T*(){
+	explicit operator T*(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
 		result = static_cast<T*>(proxy->anchor);
@@ -118,13 +118,13 @@ template<typename T> class elastic_ptr{
 	bool operator==(const elastic_ptr<T>& other){
 		return proxy == other.proxy;
 	}
-	bool operator==(T *obj){
+	/*bool operator==(T *obj){
 		bool result = false;
 		if(!proxy || !proxy->anchor){result = (obj==0);}
 		else{result = (obj==static_cast<T*>(proxy->anchor));}
 		if(debug){printf("(%s == %p) == %d\n",toString().c_str(),result);}
 		return result;
-	}
+	}*/
 	elastic_ptr &operator=(const elastic_ptr &other){
 		if(debug){printf("assign %s = %s\n",toString().c_str(), other.toString().c_str());}
 		retarget(other.proxy);

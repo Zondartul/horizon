@@ -11,7 +11,7 @@
 /// renderLow, opengl 3.x version
 
 
-struct GPUdriver;
+class GPUdriver;
 
 class DLLAPI_RENDER renderLowKind: public eventListener {
 public:

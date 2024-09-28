@@ -185,7 +185,7 @@ void GPUdriverOpenGL::command_rmodel_upload(rmodel* rm) {
         throw runtime_error("trying to upload incomplete rmodel");
     }
     num_rmodels++;
-    bytes_rmodels += rm->vertices->size() * 4 * 11;
+    bytes_rmodels += (long)(rm->vertices->size() * 4 * 11);
     while (glGetError() != GL_NO_ERROR) {}
     GLuint handles[4];
     glGenBuffers(4, handles); //fills handle[0,1,2,3].
@@ -284,7 +284,7 @@ void GPUdriverOpenGL::command_rmodel_delete(rmodel* rm) {
     }
     //if(debug){printf("deleting rmodel %p\n",rm);}
     num_rmodels--;
-    bytes_rmodels -= rm->vertices->size() * 4 * 11;
+    bytes_rmodels -= (long)(rm->vertices->size() * 4 * 11);
     GLuint handles[4];
     for (int i = 0; i < 4; i++) { handles[i] = rmodel_GPU_handles[rm][i]; }
     glDeleteBuffers(4, handles);

@@ -1,36 +1,24 @@
-// dllmain.cpp : Defines the entry point for the DLL application.
-#include "main/framework_program.h"
-#include "main/main_program.h"
-#include "main/main_util.h"
-#include "util/global_vars_program.h"
-#include "program/window.h"
-
 #ifdef WIN32
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+// Windows Header Files
+#include <windows.h>
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
 {
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
-    }
-    return TRUE;
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	return TRUE;
 }
 #endif
-
-void initHorizonProgram() {
-    static bool initialized = false;
-    if (initialized) { return; }
-    initialized = true;
-
-    initHorizonUtil();
-
-    Gp = new GlobalsProgram();
-    window_init(512, 512);
-}
+#ifdef LINUX
+/// Linux doesn't need a special entry point
+#endif
 

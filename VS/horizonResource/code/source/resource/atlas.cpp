@@ -34,7 +34,7 @@ atlas makeAtlasPOT(vector<bitmap> BMPs, bool sort){
 		sizes.push_back(size);
 	}
 	binsize = pack2DfindClosestPOT(sizes, sort);	
-	bitmap background = blankBitmap(binsize.y,binsize.x,TL_RGBA);
+	bitmap background = blankBitmap((int)binsize.y,(int)binsize.x,TL_RGBA);
 	pack2D(sizes,binsize,sort,&results,&packed,&heightNeeded);
 	for(unsigned int I = 0; I < results.size(); I++){
 		background.insert(BMPs[I],results[I]);

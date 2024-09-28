@@ -48,9 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\include\main\framework_resource.h">
-      <Filter>Header Files\main</Filter>
-    </ClInclude>
     <ClInclude Include="code\include\Ext\freetype\freetype.h">
       <Filter>Header Files\Ext\freetype</Filter>
     </ClInclude>
@@ -130,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="code\source\resource\font.cpp">
       <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="code\source\main\main.cpp">
+      <Filter>Source Files\main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -123,7 +123,7 @@ struct vec3orderer{
 	}
 };
 void e_selection::removeDuplicates(){
-	printf("remove duplicates. Before: %d verts\n", EM->verts.size());
+	printf("remove duplicates. Before: %d verts\n", (int)EM->verts.size());
 	map<vec3,e_vertex*,vec3orderer> vertmap;
 	set<e_vertex*> dupes;
 	for_all(tris,T,{
@@ -158,7 +158,7 @@ void e_selection::removeDuplicates(){
 	for(auto I = verts.begin(); I != verts.end();){
 		if(dupes.count(*I)){I = verts.erase(I);}else{I++;}
 	}
-	printf("After: %d verts\n", EM->verts.size());
+	printf("After: %d verts\n", (int)EM->verts.size());
 }
 #define rrm_helper0(rm, v, color, UV, normal)  {	\
 		vec3 pos = (v)->pos;				\

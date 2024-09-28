@@ -1,5 +1,6 @@
 #pragma once
 #include "globals_render.h"
+
 //struct gs_paintKind;
 //struct gs_renderLayerKind;
 //struct gs_windowKind;

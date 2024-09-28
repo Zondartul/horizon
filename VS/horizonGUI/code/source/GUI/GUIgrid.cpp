@@ -3,17 +3,17 @@
 GUIgrid::GUIgrid(){}
 void GUIgrid::grid(GUIbase *child, int row, int col, int spanx, int spany){
 	printf("grid(%p, row %d, col %d, spanx %d, spany %d)\n",child,row,col,spanx,spany);
-	spanx = (int)max(spanx,1);
-	spany = (int)max(spany,1);
+	spanx = max_i(spanx,1);
+	spany = max_i(spany,1);
 	int extra_cells_x = spanx-1;
 	int extra_cells_y = spany-1;
 	//bool nextRow = (row == -1);
 	if(row == -1){row = getNumRows();}
-	int min_size_y = max(row + extra_cells_y + 1, 1);
-	int min_size_x = max(col + extra_cells_x + 1, 1);
+	int min_size_y = max_i(row + extra_cells_y + 1, 1);
+	int min_size_x = max_i(col + extra_cells_x + 1, 1);
 	printf("min_size_y 1 = %d, min_size_x 1 = %d\n",min_size_y, min_size_x);
-	min_size_y = (int)max(min_size_y, getNumRows());
-	min_size_x = (int)max(min_size_x, getNumCols());
+	min_size_y = max_i(min_size_y, getNumRows());
+	min_size_x = max_i(min_size_x, getNumCols());
 	printf("min_size_y 2 = %d, min_size_x 2 = %d\n",min_size_y, min_size_x);
 	printf("numRows = %d, numCols = %d\n",getNumRows(),getNumCols());
 	if((getNumRows() < min_size_y) || (getNumCols() < min_size_x)){resize(min_size_y, min_size_x);}
@@ -269,8 +269,8 @@ void GUIgrid::sizeToGrid(){
 		sizex += C->cur;
 	}
 	printf("sizeToGrid: x = %f (%d cols), y = %f (%d rows)\n",
-		sizex, colsettings.size(),
-		sizey, rowsettings.size());
+		sizex, (int)colsettings.size(),
+		sizey, (int)rowsettings.size());
 	setSize(vec2(sizex,sizey));
 	printf("size after invalidate: x = %f, y = %f\n",area.size.x, area.size.y);
 }

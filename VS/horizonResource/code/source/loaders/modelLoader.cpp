@@ -20,13 +20,13 @@ vector<tinyobj::shape_t> shapes;
 vector<tinyobj::material_t> materials;
 
 void model::add(model B){
-	for(int I = 0; I < B.tris.size(); I++){
+	for(unsigned int I = 0; I < B.tris.size(); I++){
 		tris.push_back(B.tris[I]);
 	}
 }
 
 void model::recalculateNormals(){
-	for(int I = 0; I < tris.size(); I++){
+	for(unsigned int I = 0; I < tris.size(); I++){
 		auto &A = tris[I].v[0];
 		auto &B = tris[I].v[1];
 		auto &C = tris[I].v[2];
@@ -43,8 +43,8 @@ AABB model::getAABB(){
 	AABB aabb;
 	aabb = aabb.setStart(tris[0].v[0].pos);
 	aabb = aabb.setEnd(tris[0].v[0].pos);
-	for(int I = 0; I < tris.size(); I++){
-		for(int J = 0; J < 3; J++){
+	for(unsigned int I = 0; I < tris.size(); I++){
+		for(unsigned int J = 0; J < 3; J++){
 			//vec3f p = tris[I].v[J].pos;
 			vec3 p = tris[I].v[J].pos;
 			aabb = aabb.setStart({min(aabb.start.x,p.x),min(aabb.start.y,p.y),min(aabb.start.z,p.z)});
@@ -118,18 +118,18 @@ model *loadModel(const char *filepath){
 
 void printCurrentModel(){
 	for (size_t i = 0; i < shapes.size(); i++) {
-	  printf("shape[%ld].name = %s\n", i, shapes[i].name.c_str());
-	  printf("Size of shape[%ld].indices: %ld\n", i, shapes[i].mesh.indices.size());
-	  printf("Size of shape[%ld].material_ids: %ld\n", i, shapes[i].mesh.material_ids.size());
+	  printf("shape[%ld].name = %s\n", (long)i, shapes[i].name.c_str());
+	  printf("Size of shape[%ld].indices: %ld\n", (long)i, (long)shapes[i].mesh.indices.size());
+	  printf("Size of shape[%ld].material_ids: %ld\n", (long)i, (long)shapes[i].mesh.material_ids.size());
 	  assert((shapes[i].mesh.indices.size() % 3) == 0);
 	  for (size_t f = 0; f < shapes[i].mesh.indices.size() / 3; f++) {
-		printf("  idx[%ld] = %d, %d, %d. mat_id = %d\n", f, shapes[i].mesh.indices[3*f+0], shapes[i].mesh.indices[3*f+1], shapes[i].mesh.indices[3*f+2], shapes[i].mesh.material_ids[f]);
+		printf("  idx[%ld] = %d, %d, %d. mat_id = %d\n", (long)f, shapes[i].mesh.indices[3*f+0], shapes[i].mesh.indices[3*f+1], shapes[i].mesh.indices[3*f+2], shapes[i].mesh.material_ids[f]);
 	  }
 
-	  printf("shape[%ld].vertices: %ld\n", i, shapes[i].mesh.positions.size());
+	  printf("shape[%ld].vertices: %ld\n", (long)i, (long)shapes[i].mesh.positions.size());
 	  assert((shapes[i].mesh.positions.size() % 3) == 0);
 	  for (size_t v = 0; v < shapes[i].mesh.positions.size() / 3; v++) {
-		printf("  v[%ld] = (%f, %f, %f)\n", v,
+		printf("  v[%ld] = (%f, %f, %f)\n", (long)v,
 		  shapes[i].mesh.positions[3*v+0],
 		  shapes[i].mesh.positions[3*v+1],
 		  shapes[i].mesh.positions[3*v+2]);
@@ -137,7 +137,7 @@ void printCurrentModel(){
 	}
 
 	for (size_t i = 0; i < materials.size(); i++) {
-	  printf("material[%ld].name = %s\n", i, materials[i].name.c_str());
+	  printf("material[%ld].name = %s\n", (long)i, materials[i].name.c_str());
 	  printf("  material.Ka = (%f, %f ,%f)\n", materials[i].ambient[0], materials[i].ambient[1], materials[i].ambient[2]);
 	  printf("  material.Kd = (%f, %f ,%f)\n", materials[i].diffuse[0], materials[i].diffuse[1], materials[i].diffuse[2]);
 	  printf("  material.Ks = (%f, %f ,%f)\n", materials[i].specular[0], materials[i].specular[1], materials[i].specular[2]);

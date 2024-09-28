@@ -23,7 +23,7 @@ template<> Result<font*,zError> fromString<font*>(const string S) {
 	if (S == "font:[null]") { return zError("null value"); }
 	
 	string name;
-	char c;
+	//char c;
 	stringstream ss(S);
 	
 	skipText(ss, "font:[");

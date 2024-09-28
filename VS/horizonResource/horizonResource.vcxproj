@@ -27,7 +27,6 @@
     <ClInclude Include="code\include\loaders\imageLoader.h" />
     <ClInclude Include="code\include\loaders\modelLoader.h" />
     <ClInclude Include="code\include\loaders\textureLoader.h" />
-    <ClInclude Include="code\include\main\framework_resource.h" />
     <ClInclude Include="code\include\main\main_resource.h" />
     <ClInclude Include="code\include\resource\atlas.h" />
     <ClInclude Include="code\include\resource\bitmap.h" />
@@ -43,6 +42,7 @@
     <ClCompile Include="code\source\loaders\modelLoader.cpp" />
     <ClCompile Include="code\source\loaders\textureLoader.cpp" />
     <ClCompile Include="code\source\main\dllmain_resource.cpp" />
+    <ClCompile Include="code\source\main\main.cpp" />
     <ClCompile Include="code\source\resource\atlas.cpp" />
     <ClCompile Include="code\source\resource\bitmap.cpp" />
     <ClCompile Include="code\source\resource\font.cpp" />
@@ -121,12 +121,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_RESOURCE;_CRT_SECURE_NO_WARNINGS;USE_FREETYPE;USE_STB_IMAGE;USE_TINY_OBJ_LOADER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_RESOURCE;_CRT_SECURE_NO_WARNINGS;USE_FREETYPE;USE_STB_IMAGE;USE_TINY_OBJ_LOADER;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,12 +163,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_RESOURCE;_CRT_SECURE_NO_WARNINGS;USE_FREETYPE;USE_STB_IMAGE;USE_TINY_OBJ_LOADER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_RESOURCE;_CRT_SECURE_NO_WARNINGS;USE_FREETYPE;USE_STB_IMAGE;USE_TINY_OBJ_LOADER;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonResource\code\include;$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

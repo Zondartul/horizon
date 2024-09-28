@@ -24,7 +24,8 @@ GUIfileDialog::GUIfileDialog(){
 		});
 	scroll = new GUIscrollbar();
 	scroll->moveTo(vec2(0,24));
-	scroll->setSize(vec2(300-0,200-24-24));
+	vec2 v(300-0, 200 - 24 - 24);
+	scroll->setSize(v.x,v.y);
 	scroll->setHorizontal(false);
 	scroll->setVertical(true);
 	addChild(scroll);

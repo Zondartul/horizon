@@ -211,7 +211,7 @@ render(GUIbase *el, string type){
 		if(GUIoptions.push){pushRenderOptions();}
 		vec2 pos = getMousePos();
 		setColor(elWin->borderColor);
-		drawRect(elWin->thisToWorld(rect(el->area.size.x,23)));
+		drawRect(elWin->thisToWorld(rect((int)el->area.size.x,23)));
 		render(el, "GUIframe");
 		if(GUIoptions.push){popRenderOptions();}
 	}

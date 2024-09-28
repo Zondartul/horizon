@@ -22,6 +22,7 @@
     <ClCompile Include="code\source\input\input.cpp" />
     <ClCompile Include="code\source\input\mouse.cpp" />
     <ClCompile Include="code\source\main\dllmain_program.cpp" />
+    <ClCompile Include="code\source\main\main.cpp" />
     <ClCompile Include="code\source\program\file.cpp" />
     <ClCompile Include="code\source\program\pipe.cpp" />
     <ClCompile Include="code\source\program\window.cpp" />
@@ -32,7 +33,6 @@
     <ClInclude Include="code\include\Ext\SDL2\SDL.h" />
     <ClInclude Include="code\include\input\input.h" />
     <ClInclude Include="code\include\input\mouse.h" />
-    <ClInclude Include="code\include\main\framework_program.h" />
     <ClInclude Include="code\include\main\main_program.h" />
     <ClInclude Include="code\include\program\file.h" />
     <ClInclude Include="code\include\program\pipe.h" />
@@ -112,12 +112,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_PROGRAM;_CRT_SECURE_NO_WARNINGS;USE_SDL;USE_DIRENT;USE_GLEW</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_PROGRAM;_CRT_SECURE_NO_WARNINGS;USE_SDL;USE_DIRENT;USE_GLEW;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,12 +154,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DLL_PROGRAM;_CRT_SECURE_NO_WARNINGS;USE_SDL;USE_DIRENT;USE_GLEW</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_PROGRAM;_CRT_SECURE_NO_WARNINGS;USE_SDL;USE_DIRENT;USE_GLEW;WIN32</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\horizonProgram\code\include;$(SolutionDir)..\horizonUtil\code\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>4251;4267;4099;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

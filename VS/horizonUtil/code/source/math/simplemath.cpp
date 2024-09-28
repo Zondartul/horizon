@@ -23,23 +23,29 @@ float clamp(float A, float B, float C){
 	if(A > C){return C;}
 	return A;
 }
-int clampi(int A, int B, int C){
+int clamp_i(int A, int B, int C){
 	if(A < B){return B;}
 	if(A > C){return C;}
 	return A;
 }
-int roundi(float A){
+int round_i(float A){
 	if(A > 0){return (int)(A+0.5f);}
 	else{return (int)(A-0.5f);}
 }
-int floori(float A){
+int floor_i(float A){
 	if(A > 0){return (int)A;}
 	else{return ((int)A - 1);}
 }
 float min(float A, float B){return A < B? A : B;}
+int min_i(int A, int B) { return A < B ? A : B; }
+
 float max(float A, float B){return A > B? A : B;}
+int max_i(int A, int B) { return A > B ? A : B; }
+
 float mix(float A, float B, float R){return A+(B-A)*R;}
-float round2(float A, float n){if(n>0){return round2(10*A,n-1)/10;}else{return (int)A;}}
+
+
+float round2(float A, float n){if(n>0){return round2(10*A,n-1)/10;}else{return (float)(int)A;}}
 
 
 float random(float A, float B){
