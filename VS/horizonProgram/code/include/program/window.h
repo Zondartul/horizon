@@ -1,7 +1,7 @@
 #ifndef WINDOW_GUARD
 #define WINDOW_GUARD
 #ifdef USE_SDL
-	#include "Ext/SDL2/SDL.h"
+	#include "SDL.h"
 #endif
 #include "math/vec.h"
 #include "util/globals_program.h"

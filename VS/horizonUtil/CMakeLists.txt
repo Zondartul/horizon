@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-include(../horizon/CMake_utils.txt)
+cmake_minimum_required(VERSION 3.20)
+#include(../horizon/CMake_utils.txt)
 project(horizonUtil)
 
 # no SDL for UTIL

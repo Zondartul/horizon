@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.10)
-include(../horizon/CMake_utils.txt)
+cmake_minimum_required(VERSION 3.20)
+#include(../horizon/CMake_utils.txt)
 project(horizonResource)
 
 find_package(Freetype REQUIRED)
 # depend only on the previous layer of the engine
-add_subdirectory(../horizonProgram buildProgram)
+#add_subdirectory(../horizonProgram buildProgram)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 #SUBDIRLIST(HEADER_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/code/include/")

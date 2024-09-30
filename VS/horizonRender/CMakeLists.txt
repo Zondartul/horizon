@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
-include(../horizon/CMake_utils.txt)
+cmake_minimum_required(VERSION 3.20)
+#include(../horizon/CMake_utils.txt)
 project(horizonRender)
 
 set(OpenGL_GL_PREFERENCE LEGACY)
@@ -17,7 +17,7 @@ if(NOT DEFINED GLEW_LIBRARIES)
 endif()
 
 # depend only on the previous layer of the engine
-add_subdirectory(../horizonResource buildResource)
+#add_subdirectory(../horizonResource buildResource)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 #SUBDIRLIST(HEADER_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/code/include/")

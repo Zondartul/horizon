@@ -9,7 +9,7 @@
 	#endif
 #endif
 #ifdef USE_SDL
-	#include "Ext/SDL2/SDL.h"
+	#include "SDL.h"
 #endif
 #include "program/file.h"
 #include "util/globals_program.h"

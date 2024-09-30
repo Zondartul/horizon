@@ -3,7 +3,7 @@
 # OR cmake notepad + cmake + make + gcc
 # on either Linux or Windows
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 project(horizon)
 # Horizon consists of several modules, such that
 # later modules depend on earlier modules:
@@ -29,4 +29,10 @@ endif(UNIX)
 
 add_compile_definitions(GCC)
 
+add_subdirectory(VS/SDL2 buildSDL2)
+add_subdirectory(VS/horizonUtil buildUtil)
+add_subdirectory(VS/horizonProgram buildProgram)
+add_subdirectory(VS/horizonResource buildResource)
+add_subdirectory(VS/horizonRender buildRender)
+add_subdirectory(VS/horizonGUI buildGUI)
 add_subdirectory(VS/horizonApp buildApp)

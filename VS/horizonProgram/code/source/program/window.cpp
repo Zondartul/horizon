@@ -1,6 +1,6 @@
 //external includes
 #ifdef USE_SDL
-	#include "Ext/SDL2/SDL.h"
+	#include "SDL.h"
 #endif
 #ifdef USE_GLEW
 	#include "Ext/GL/glew.h"

@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.10)
-include(../horizon/CMake_utils.txt)
+cmake_minimum_required(VERSION 3.20)
+#include(../horizon/CMake_utils.txt)
 project(horizonGUI)
 
 # depend only on previous layer of the engine
-add_subdirectory(../horizonRender buildRender)
+#add_subdirectory(../horizonRender buildRender)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 #SUBDIRLIST(HEADER_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/code/include/")
@@ -20,6 +20,7 @@ target_include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/../horizonProgram/code/include/"
     "${CMAKE_CURRENT_SOURCE_DIR}/../horizonUtil/code/include/"
     )
+
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     horizonRender
     horizonProgram

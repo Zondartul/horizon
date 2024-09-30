@@ -28,7 +28,7 @@
                 }
             ],
             //"preLaunchTask": "Cmake build + install",
-            "preLaunchTask": "CMake: install",
+            "preLaunchTask": "CMake: build",
         }
 
     ]
