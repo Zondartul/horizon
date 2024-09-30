@@ -121,6 +121,7 @@ void gui_editor_kind::on_btn_New_pressed(){
 			ch->close();
 		}
 	}
+	update_nodegraph();
 }
 
 void gui_editor_kind::on_btn_Save_pressed() {
@@ -163,14 +164,20 @@ void gui_editor_kind::on_btn_Grid_pressed() { tool_start(new gui_editor_tool_pla
 void gui_editor_kind::close(){
 	printf("closing gui editor\n");
 	if(elWorkWindow){
-		printf("deleting workWindow\n");
-		GUIbase *B = elWorkWindow;
-		delete B;
+		printf("closing workWindow\n");
+		//GUIbase *B = elWorkWindow;
+		//delete B;
+		elWorkWindow->close();
 	}
 	if(elMainWindow){
-		printf("deleting mainWindow\n");
-		GUIbase *B = elMainWindow;
-		delete B;
+		printf("closing mainWindow\n");
+		//GUIbase *B = elMainWindow;
+		//delete B;
+		elMainWindow->close();
+	}
+	if(elNodegraph){
+		printf("closing nodeGraph\n");
+		elNodegraph->close();
 	}
 }
 void openGuiEditor(){
@@ -178,8 +185,8 @@ void openGuiEditor(){
 	if(gui_editor){
 		printf("closing gui editor\n");
 		gui_editor->close();
-		printf("deleting gui editor\n");
-		delete gui_editor;
+		//printf("deleting gui editor\n");
+		//delete gui_editor;
 	}
 	gui_editor = new gui_editor_kind();
 	printf("opened gui editor\n");
@@ -219,6 +226,7 @@ void gui_editor_kind::paste(string filepath){
 			}
 		}
 		delete P;
+		update_nodegraph();
 	}
 	catch (...) { 
 		cout << "gui_editor: could not paste" << endl;
@@ -252,7 +260,7 @@ void gui_editor_kind::tool_none(){
 	elWorkWindow->blockChildInput =  false;
 }
 void gui_editor_kind::onEvent(eventKind event){
-	if((!elWorkWindow) || (!elMainWindow)){
+	if((!elWorkWindow) || (!elMainWindow) || (!elNodegraph)){
 		close();
 		delete this;
 		return;
@@ -323,4 +331,24 @@ vec2 snapToGridToWorld(GUIbase *element, vec2 pos, float gridStep){
 rect snapToGridToWorld(GUIbase *element, rect R, float gridStep){
 	return rect(snapToGridToWorld(element, R.start, gridStep),
 				snapToGridToWorld(element, R.end, gridStep));
+}
+
+void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node){
+	for(auto ch:node->getChildren()){
+		std::cout << "nodegraph: add node [" << ch->getType() << "][" << ch->name << "]" << std::endl;
+		GUIbutton *node = new GUIbutton();
+		node->setText(ch->getType());
+		elNodegraph->addChild(node);
+
+		nodegraph_add_children_rec(ch);
+	}
+}
+
+void gui_editor_kind::update_nodegraph(){
+	std::cout << "update_nodegraph(): hi" << std::endl;
+	for(auto ch:elNodegraph->getChildren()){
+		ch->close();
+	}
+
+	nodegraph_add_children_rec((GUIbase*)elWorkWindow);
 }

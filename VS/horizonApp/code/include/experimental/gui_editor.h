@@ -64,6 +64,9 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void on_btn_Selectable_pressed();
 	void on_btn_Grid_pressed();
 
+	void update_nodegraph();
+	void nodegraph_add_children_rec(GUIbase *node);
+
 	void setup_layers();
 	void add_tool_buttons();
 	void add_windows();

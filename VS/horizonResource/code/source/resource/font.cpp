@@ -33,8 +33,8 @@ template<> Result<font*,zError> fromString<font*>(const string S) {
 	ss2 << name << " " << size;
 	name = ss2.str();
 
-	printf("fromString<font*>: S = [%s]\n", S.c_str());
-	printf("fromString<font*>: buff = [%s]\n", name.c_str());
+	//printf("fromString<font*>: S = [%s]\n", S.c_str());
+	//printf("fromString<font*>: buff = [%s]\n", name.c_str());
 	
 	return getFont(name);
 }

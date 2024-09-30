@@ -147,4 +147,4 @@
 /// [todo 31] switch guieditor to xml gui
 /// [todo 32] guieditor - make the "node tree" actually work.
 /// v [fixed bug 33] guieditor - closing a frame that has a rect edit widget shown causes a crash.
-/// 
+/// [style 34] GUIlabel text should be private or users will forget to use setText()

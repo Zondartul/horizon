@@ -21,7 +21,7 @@ GUIbase::GUIbase(){
 	mouseover = false;
 }
 GUIbase::~GUIbase(){
-	if (!deletePending) { cout << "GUI widget deleted without close()" << endl; } //{ throw std::runtime_error("GUI widget deleted without close()\n"); }//{error("GUI widget deleted without close()\n");}
+	if (!deletePending){ cout << "GUI widget deleted without close()" << endl; } //{ throw std::runtime_error("GUI widget deleted without close()\n"); }//{error("GUI widget deleted without close()\n");}
 	if(parent){parent->removeChild(this);}
 	{
 		//stackSentinel SS;
@@ -539,4 +539,19 @@ void GUIbase::setCompoundProperty(const GUIcompoundProperty prop){
 		if(C2){Ic = addChild(C2,Ic);}
 		Ip++;
 	}
+}
+
+vector<GUIbase*> GUIbase::getChildren(bool own){
+	vector<GUIbase*> res;
+	for(auto ch:children){
+		if(ch->isClient != own){res.push_back(ch);}
+	}
+	return res;
+}
+vector<const GUIbase*> GUIbase::getChildren(bool own) const{
+	vector<const GUIbase*> res;
+	for(auto ch:children){
+		if(ch->isClient != own){res.push_back(ch);}
+	}
+	return res;
 }
