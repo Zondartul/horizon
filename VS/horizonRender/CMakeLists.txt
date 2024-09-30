@@ -4,7 +4,13 @@ project(horizonRender)
 
 set(OpenGL_GL_PREFERENCE LEGACY)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
+#set(CMAKE_PREFIX_PATH "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\VS")
+#set(CMAKE_LIBRARY_PATH "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\VS\\lib\\x86")
+if(UNIX)
+    find_package(GLEW REQUIRED)
+elseif(WIN32)
+    set(GLEW_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}\\libs\\glew32.lib")
+endif()
 #these checks aren't necessary
 #see https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#manual:cmake-modules(7)
 #for a list of variables generated when find_package
@@ -26,7 +32,7 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 #include_directories( ${OPENGL_INCLUDE_DIRS} ${GLUT_INCLUDE_DIRS})
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE USE_GLEW)
+target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_RENDER USE_GLEW)
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"

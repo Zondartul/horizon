@@ -2,8 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 include(../horizon/CMake_utils.txt)
 project(horizonProgram)
 
-find_package(SDL2 REQUIRED)
-
+if(UNIX)
+    find_package(SDL2 REQUIRED)
+elseif(WIN32)
+    set(SDL2_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2.lib" "${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2main.lib")
+endif()
 # depend only on the previous layer of the engine
 add_subdirectory(../horizonUtil buildUtil)
 
@@ -13,7 +16,7 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SDL USE_DIRENT)
+target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_PROGRAM USE_SDL USE_DIRENT)
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"

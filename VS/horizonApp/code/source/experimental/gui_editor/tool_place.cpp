@@ -90,7 +90,7 @@ void gui_editor_tool_place::draw(){
 		rect R = subject->thisToWorld(subject->clientArea);
 		vec2 gridCorner = R.start;
 		drawGrid(&*subject, (float)gridStep);
-		if(subject && (subject != workWindow)){
+		if(subject && (&*subject != workWindow)){
 			setColor(vec3(255,0,0));
 			setLineWidth(3.f);
 			drawRectOutline(R);

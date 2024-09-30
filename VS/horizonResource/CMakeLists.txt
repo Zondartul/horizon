@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 include(../horizon/CMake_utils.txt)
 project(horizonResource)
 
-find_package(Freetype REQUIRED)
-# depend only on the previous layer of the engine
+if(UNIX)
+    find_package(Freetype REQUIRED)
+elseif(WIN32)
+    set(FREETYPE_LIBRARIES "${CMAKE_CURRENT_SOURCE_DIR}/libs/freetype.lib")
+endif()
+    # depend only on the previous layer of the engine
 add_subdirectory(../horizonProgram buildProgram)
 
 file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
@@ -12,7 +16,7 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE USE_FREETYPE USE_STB_IMAGE USE_TINY_OBJ_LOADER)
+target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_RESOURCE USE_FREETYPE USE_STB_IMAGE USE_TINY_OBJ_LOADER)
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"

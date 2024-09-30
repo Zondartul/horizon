@@ -281,8 +281,11 @@ const char* StrPair::GetStr()
     TIXMLASSERT( _start );
     return _start;
 }
+#ifndef TINYXML2_IMPORT
 const char* XMLUtil::writeBoolTrue  = "true";
 const char* XMLUtil::writeBoolFalse = "false";
+#endif
+
 void XMLUtil::SetBoolSerialization(const char* writeTrue, const char* writeFalse)
 {
 	static const char* defTrue  = "true";
@@ -1628,6 +1631,9 @@ bool XMLElement::Accept( XMLVisitor* visitor ) const
     }
     return visitor->VisitExit( *this );
 }
+
+// mine
+#ifndef TINYXML2_IMPORT
 const char* XMLDocument::_errorNames[XML_ERROR_COUNT] = {
     "XML_SUCCESS",
     "XML_NO_ATTRIBUTE",
@@ -1649,6 +1655,7 @@ const char* XMLDocument::_errorNames[XML_ERROR_COUNT] = {
     "XML_NO_TEXT_NODE",
 	"XML_ELEMENT_DEPTH_EXCEEDED"
 };
+#endif
 XMLDocument::XMLDocument( bool processEntities, Whitespace whitespaceMode ) :
     XMLNode( 0 ),
     _writeBOM( false ),

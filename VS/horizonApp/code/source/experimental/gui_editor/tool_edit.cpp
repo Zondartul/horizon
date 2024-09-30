@@ -36,7 +36,7 @@ void gui_editor_tool_edit::draw(){
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	if(subject){
-		if(subject != workWindow){
+		if(!(&*subject == workWindow)){
 			drawBorders(*subject);
 		}
 	}
@@ -50,7 +50,7 @@ void gui_editor_tool_edit::ldown(){
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	if(mouseover_element){
 		printf("edit ldown 1\n");
-		if(mouseover_element && !(&*mouseover_element == *&subject)){
+		if(mouseover_element && !(mouseover_element == subject)){
 			if(isValidSubject(&*mouseover_element)){
 				subject = mouseover_element;
 				stage = GEMT_SUBJECT;
@@ -105,7 +105,7 @@ void gui_editor_tool_edit::rup(){
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	printf("edit rclick\n");
-	if(subject && (subject != workWindow)){
+	if(subject && !(&*subject == workWindow)){
 		vec2 mousePos = getMousePos();
 		if(elDDM){elDDM->close(); elDDM = 0;}
 		GUIdropdownMenu *ddm = new GUIdropdownMenu();
