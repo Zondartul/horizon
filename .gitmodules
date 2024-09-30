@@ -4,3 +4,6 @@
 [submodule "VS/GLEW"]
 	path = VS/GLEW
 	url = https://github.com/nigels-com/glew
+[submodule "VS/FreeType"]
+	path = VS/FreeType
+	url = https://github.com/freetype/freetype

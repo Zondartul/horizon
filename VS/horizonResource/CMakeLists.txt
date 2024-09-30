@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 #include(../horizon/CMake_utils.txt)
 project(horizonResource)
 
-find_package(Freetype REQUIRED)
+#find_package(Freetype REQUIRED)
 # depend only on the previous layer of the engine
 #add_subdirectory(../horizonProgram buildProgram)
 
@@ -25,7 +25,8 @@ target_include_directories(
     )
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     horizonProgram
-    ${FREETYPE_LIBRARIES}
+    #${FREETYPE_LIBRARIES}
+    FreeType
     )
 
 #install(TARGETS ${PROJECT_NAME} DESTINATION "${CMAKE_SOURCE_DIR}/bin")
