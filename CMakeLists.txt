@@ -30,6 +30,7 @@ endif(UNIX)
 add_compile_definitions(GCC)
 
 add_subdirectory(VS/SDL2 buildSDL2)
+add_subdirectory(VS/GLEW/build/cmake buildGLEW)
 add_subdirectory(VS/horizonUtil buildUtil)
 add_subdirectory(VS/horizonProgram buildProgram)
 add_subdirectory(VS/horizonResource buildResource)

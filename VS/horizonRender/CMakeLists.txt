@@ -4,7 +4,7 @@ project(horizonRender)
 
 set(OpenGL_GL_PREFERENCE LEGACY)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
+#find_package(GLEW REQUIRED)
 #these checks aren't necessary
 #see https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#manual:cmake-modules(7)
 #for a list of variables generated when find_package
@@ -12,9 +12,9 @@ find_package(GLEW REQUIRED)
 if(NOT DEFINED OPENGL_LIBRARIES)
     message( SEND_ERROR "OpenGL not found")
 endif()
-if(NOT DEFINED GLEW_LIBRARIES)
-    message( SEND_ERROR "GLEW not found")
-endif()
+#if(NOT DEFINED GLEW_LIBRARIES)
+#    message( SEND_ERROR "GLEW not found")
+#endif()
 
 # depend only on the previous layer of the engine
 #add_subdirectory(../horizonResource buildResource)
@@ -50,7 +50,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     horizonResource
     horizonUtil
 #    ${LIB_GLEW}
-    ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}
+    #${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}
+    GLEW
+    ${OPENGL_LIBRARIES}
     )
 
 #install(TARGETS ${PROJECT_NAME} DESTINATION "${CMAKE_SOURCE_DIR}/bin")
