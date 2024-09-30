@@ -15,7 +15,7 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SDL USE_DIRENT)
+target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_PROGRAM USE_SDL USE_DIRENT)
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"

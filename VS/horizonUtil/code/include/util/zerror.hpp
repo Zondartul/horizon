@@ -1,9 +1,12 @@
 #pragma once
 #include <string>
 #include "util/stackInfo.hpp"
+#include "util/globals_util.h"
 /// zError is a deferred error that includes the stack trace
+#undef WARNING
+#undef ERROR
 
-class zError{
+class DLLAPI_UTIL zError{
 public:
     enum eSeverity{NONE, INFO, WARNING, ERROR, FATAL} severity;
     enum eBlame{NOBODY, INTERNAL, ENGINE, APP, USER} blame;
@@ -18,7 +21,7 @@ private:
 /// - throw for errors
 /// - print for infos and warnings
 /// - interface with IDE [problem] items if available
-void push(zError new_error); 
+void DLLAPI_UTIL push(zError new_error); 
 
 /// Severity:
 /// NONE - enum not initialized

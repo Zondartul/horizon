@@ -12,7 +12,7 @@ file(GLOB_RECURSE SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/code/source/" *.cpp)
 
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE USE_FREETYPE USE_STB_IMAGE USE_TINY_OBJ_LOADER)
+target_compile_definitions(${PROJECT_NAME} PRIVATE DLL_RESOURCE USE_FREETYPE USE_STB_IMAGE USE_TINY_OBJ_LOADER)
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code/include/"
@@ -26,7 +26,7 @@ target_include_directories(
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     horizonProgram
     #${FREETYPE_LIBRARIES}
-    FreeType
+    freetype2
     )
 
 #install(TARGETS ${PROJECT_NAME} DESTINATION "${CMAKE_SOURCE_DIR}/bin")

@@ -22,13 +22,24 @@ project(horizon)
 # and set engine modules as its dependencies.
 if(WIN32)
     add_compile_definitions(WIN32) 
-    option(DIRECTX "on Win, use OpenGL instead of DirectX" OFF)
+    option(DIRECTX "For SDL2, disable DirectX, use OpenGL" OFF)
+    option(FT_DISABLE_PNG "For FreeType, disable PNG" ON)
+    option(FT_DISABLE_HARFBUZZ "For FreeType, disable HarfBuzz" ON)
+    #option(FT_REQUIRE_PNG "For FreeType, disable PNG" OFF)
+    set(MY_MAKE_CMD "C:/ProgramData/chocolatey/bin/make.exe")
 endif(WIN32)
 if(UNIX)
-    add_compile_definitions(LINUX) 
+    add_compile_definitions(LINUX)
+    set(MY_MAKE_CMD "make") 
 endif(UNIX)
 
 add_compile_definitions(GCC)
+
+# download the dependencies of GLEW
+execute_process(COMMAND ${MY_MAKE_CMD} WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/VS/GLEW/auto" COMMAND_ECHO STDOUT COMMAND_ERROR_IS_FATAL ANY)
+#message("rv='${rv}'") #RESULT_VARIABLE rv
+
+#add_custom_target("MyGLEWSetup" COMMAND make WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/VS/GLEW/auto")
 
 add_subdirectory(VS/SDL2 buildSDL2)
 add_subdirectory(VS/GLEW/build/cmake buildGLEW)
