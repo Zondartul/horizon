@@ -1,0 +1,3 @@
+[submodule "VS/horizonProgram/ext/SDL2"]
+	path = VS/horizonProgram/ext/SDL2
+	url = https://github.com/davidsiaw/SDL2
