@@ -31,6 +31,7 @@ endif(WIN32)
 if(UNIX)
     add_compile_definitions(LINUX)
     set(MY_MAKE_CMD "make") 
+    option(FT_DISABLE_BZIP2 "For FreeType, disable bzip2" ON)
 endif(UNIX)
 
 add_compile_definitions(GCC)

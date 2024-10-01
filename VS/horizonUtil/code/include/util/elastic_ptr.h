@@ -18,7 +18,7 @@ class DLLAPI_UTIL elastic_ptr_anchor{
 	public:
 	elastic_ptr_anchor();
 	elastic_ptr_anchor(const elastic_ptr_anchor &) = delete;
-	~elastic_ptr_anchor();
+	virtual ~elastic_ptr_anchor();
 };
 
 class DLLAPI_UTIL elastic_ptr_anchor_proxy{
@@ -28,6 +28,7 @@ class DLLAPI_UTIL elastic_ptr_anchor_proxy{
 	elastic_ptr_anchor *anchor;
 	int refcount = 0;
 	elastic_ptr_anchor_proxy(elastic_ptr_anchor *newanchor);
+	virtual ~elastic_ptr_anchor_proxy();
 	void decrement();
 	void increment();
 };
@@ -90,14 +91,18 @@ template<typename T> class elastic_ptr{
 	T& operator*(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		result = static_cast<T*>(proxy->anchor);
+		//result = static_cast<T*>(proxy->anchor);
+		result = dynamic_cast<T*>(proxy->anchor);
+		assert(result);
 		if(debug){printf("*%s = %p\n",toString().c_str(),result);}
 		return *result;
 	}
 	T *operator->(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		result = static_cast<T*>(proxy->anchor);
+		//result = static_cast<T*>(proxy->anchor);
+		result = dynamic_cast<T*>(proxy->anchor);
+		assert(result);
 		if(debug){printf("->%s = %p\n",toString().c_str(),result);}
 		return result;
 	}
@@ -111,7 +116,9 @@ template<typename T> class elastic_ptr{
 	operator T*(){
 		T* result = 0;
 		if(!proxy || !proxy->anchor){badDerefError();}
-		result = static_cast<T*>(proxy->anchor);
+		//result = static_cast<T*>(proxy->anchor);
+		result = dynamic_cast<T*>(proxy->anchor);
+		assert(result);
 		if(debug){printf("toRaw(%s) = %p\n",toString().c_str(),result);}
 		return result;
 	}
@@ -121,7 +128,8 @@ template<typename T> class elastic_ptr{
 	bool operator==(T *obj){
 		bool result = false;
 		if(!proxy || !proxy->anchor){result = (obj==0);}
-		else{result = (obj==static_cast<T*>(proxy->anchor));}
+		//else{result = (obj==static_cast<T*>(proxy->anchor));}
+		else{result = (obj==dynamic_cast<T*>(proxy->anchor));}
 		if(debug){printf("(%s == %p) == %d\n",toString().c_str(),result);}
 		return result;
 	}

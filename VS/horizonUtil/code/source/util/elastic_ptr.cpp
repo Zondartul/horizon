@@ -12,6 +12,8 @@ elastic_ptr_anchor::~elastic_ptr_anchor(){
 elastic_ptr_anchor_proxy::elastic_ptr_anchor_proxy(elastic_ptr_anchor *newanchor){
 	anchor = newanchor;
 }
+elastic_ptr_anchor_proxy::~elastic_ptr_anchor_proxy(){}
+
 void elastic_ptr_anchor_proxy::decrement(){
 	refcount--;
 	if(!refcount){

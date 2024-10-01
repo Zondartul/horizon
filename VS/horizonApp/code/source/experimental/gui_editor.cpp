@@ -40,7 +40,7 @@ void gui_editor_kind::add_windows() {
 	elMainWindow = add_window("GUI editor", vec2(100, 400), vec2(0, 0));
 	add_tool_buttons();
 	elWorkWindow = add_window("GUI workspace", vec2(500, 500), vec2(300, 100));
-	elNodegraph = add_window("GUI graph", vec2(150, 400), vec2(150, 100));
+	elNodegraph = configure_nodegraph();
 }
 
 void gui_editor_kind::setup_channels() {
@@ -333,12 +333,30 @@ rect snapToGridToWorld(GUIbase *element, rect R, float gridStep){
 				snapToGridToWorld(element, R.end, gridStep));
 }
 
+///---------------- nodegraph ------------
+
+GUIbase *gui_editor_kind::configure_nodegraph(){
+
+	auto nodegraph = add_window("GUI graph", vec2(150, 400), vec2(150, 100));
+	/// nodegraph stuff
+	GUIgrid *grid = new GUIgrid();
+	nodegraph->addChild(grid);
+	grid->bSizeToParent = true;
+	ng_grid = grid;
+	grid->resize(1,1);
+	grid->configureColumn(0,32,128,1.0);
+	return nodegraph;
+}
+
 void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node){
 	for(auto ch:node->getChildren()){
 		std::cout << "nodegraph: add node [" << ch->getType() << "][" << ch->name << "]" << std::endl;
 		GUIbutton *node = new GUIbutton();
 		node->setText(ch->getType());
-		elNodegraph->addChild(node);
+
+		node->sizeToContents();
+		ng_grid->addChild(node);
+		ng_grid->grid(node);
 
 		nodegraph_add_children_rec(ch);
 	}
@@ -346,9 +364,12 @@ void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node){
 
 void gui_editor_kind::update_nodegraph(){
 	std::cout << "update_nodegraph(): hi" << std::endl;
-	for(auto ch:elNodegraph->getChildren()){
+	for(auto ch:ng_grid->getChildren()){
 		ch->close();
 	}
 
 	nodegraph_add_children_rec((GUIbase*)elWorkWindow);
+	
+	elNodegraph->invalidate();
+	ng_grid->invalidate();
 }

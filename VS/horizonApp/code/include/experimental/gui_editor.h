@@ -17,6 +17,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	elastic_ptr<GUIbase> elMainWindow = 0;
 	elastic_ptr<GUIbase> elWorkWindow = 0;
 	elastic_ptr<GUIbase> elNodegraph = 0;
+	elastic_ptr<GUIgrid> ng_grid = 0;
 	renderLayer *ge_layer_back = 0;
 	renderLayer *ge_layer_front = 0;
 	gui_editor_tool *lastTool = 0;
@@ -64,6 +65,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void on_btn_Selectable_pressed();
 	void on_btn_Grid_pressed();
 
+	GUIbase *configure_nodegraph();
 	void update_nodegraph();
 	void nodegraph_add_children_rec(GUIbase *node);
 
