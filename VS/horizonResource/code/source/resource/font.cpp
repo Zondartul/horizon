@@ -5,7 +5,7 @@
 #include <sstream>
 using std::stringstream;
 
-string toString(font* f) {
+string DLLAPI_RESOURCE toString(font* f) {
 	if (!f) { return fstring("font:[null]"); }
 	return fstring("font:[%s]", f->name.c_str());
 }
@@ -19,7 +19,7 @@ void skipText(std::istream& stream, string text) {
 	}
 }
 
-template<> Result<font*,zError> fromString<font*>(const string S) {
+template<> Result<font*,zError> DLLAPI_RESOURCE fromString<font*>(const string S) {
 	if (S == "font:[null]") { return zError("null value"); }
 	
 	string name;

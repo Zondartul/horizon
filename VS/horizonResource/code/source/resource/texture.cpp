@@ -14,11 +14,11 @@ vec2 texture::size(){return {w(),h()};}
 rect texture::getRect(){return rect(size());}
 
 
-string toString(texture* t) {
+string DLLAPI_RESOURCE toString(texture* t) {
 	if (!t) { return fstring("tex:[null]"); }
 	return fstring("tex:[%s]", t->name.c_str());
 }
-template<> Result<texture*,zError> fromString<texture*>(const string S) {
+template<> Result<texture*,zError> DLLAPI_RESOURCE fromString<texture*>(const string S) {
 	if (S == "tex:[null]") { return 0; }
 	char buff[80];
 	buff[0] = 0;

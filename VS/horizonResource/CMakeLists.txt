@@ -25,8 +25,9 @@ target_include_directories(
     )
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     horizonProgram
+    horizonUtil
     #${FREETYPE_LIBRARIES}
-    freetype2
+    freetype
     )
 
 #install(TARGETS ${PROJECT_NAME} DESTINATION "${CMAKE_SOURCE_DIR}/bin")

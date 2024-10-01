@@ -47,11 +47,12 @@ target_include_directories(
 link_directories(bin)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    horizonResource
     horizonUtil
+    horizonProgram
+    horizonResource
 #    ${LIB_GLEW}
     #${GLEW_LIBRARIES} ${OPENGL_LIBRARIES}
-    GLEW
+    glew
     ${OPENGL_LIBRARIES}
     )
 
