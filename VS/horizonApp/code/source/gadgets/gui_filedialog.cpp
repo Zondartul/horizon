@@ -139,13 +139,15 @@ GUIfileDialog &GUIfileDialog::setDirectory(string dir){
 }
 GUIfileDialog &GUIfileDialog::setMode(GUIe_fileop newmode){
 	mode = newmode;
-	string S;
+	string Sb;
+	string St;
 	switch(mode){
-		case GUIf::Open: S = "Open"; break;
-		case GUIf::Save: S = "Save"; break;
-		case GUIf::Folder: S = "Select"; break;
+		case GUIf::Open: Sb = "Open"; St = "Open file"; break;
+		case GUIf::Save: Sb = "Save"; St = "Save file"; break;
+		case GUIf::Folder: Sb = "Select"; St = "Select folder"; break;
 	}
-	btn_select->setText(S);
+	btn_select->setText(Sb);
+	setTitle(St);
 	return *this;
 }
 GUIfileDialog &GUIfileDialog::setFunction(function<void(string)> f){

@@ -15,6 +15,8 @@ class gui_editor_tool_edit:public gui_editor_tool{
 	virtual void ldown();
 	virtual void rup();
 	virtual void rdown();
+	void select(GUIbase *node);
+	void deselect();
 	gui_editor_tool_edit(gui_editor_kind *Ed);
 	GUIbase *copyBuffer = 0;
 	elastic_ptr<GUIbase> elDDM = 0;

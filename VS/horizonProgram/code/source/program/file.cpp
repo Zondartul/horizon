@@ -145,7 +145,7 @@ string getOSdirInitiator(){
 string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
-	string S = getOSdirInitiator(); 
+	string S;// = getOSdirInitiator(); /// do not add the initial slash, that breaks rel paths 
 	for(unsigned int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){

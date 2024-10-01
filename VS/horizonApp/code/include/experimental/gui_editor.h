@@ -68,6 +68,11 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	GUIbase *configure_nodegraph();
 	void update_nodegraph();
 	void nodegraph_add_children_rec(GUIbase *node);
+	void check_nodegraph_mouseover();
+	GUIbase *ng_highlight_item = 0;
+	map<GUIbase*,GUIbase*> ng_elems;
+	void ng_draw_highlight();
+	void ng_select_item(GUIbase *node);
 
 	void setup_layers();
 	void add_tool_buttons();

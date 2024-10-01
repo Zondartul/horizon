@@ -276,7 +276,10 @@ void gui_editor_kind::onEvent(eventKind event){
 		setLayer(ge_layer_front);
 	}
 	switch(event.type){
-		case EVENT_MOUSE_MOVE: if(tool){tool->scan();} break;
+		case EVENT_MOUSE_MOVE: 
+			if(tool){tool->scan();} 
+			check_nodegraph_mouseover();	
+		break;
 		case EVENT_MOUSE_BUTTON_DOWN:
 			if(!isFrontEvent){break;} 
 			if(event.mousebutton.button == MOUSE_LEFT) {if(tool){tool->ldown();}}
@@ -287,7 +290,10 @@ void gui_editor_kind::onEvent(eventKind event){
 			if(event.mousebutton.button == MOUSE_LEFT) {if(tool){tool->lup();}}
 			if(event.mousebutton.button == MOUSE_RIGHT){if(tool){tool->rup();}}
 		break;
-		case EVENT_FRAME: if(tool){tool->draw();} break;
+		case EVENT_FRAME: 
+			if(tool){tool->draw();} 
+			ng_draw_highlight();	
+		break;
 	}
 }
 void gui_editor_event_helper::onEvent(eventKind event){
@@ -353,11 +359,13 @@ void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node){
 		std::cout << "nodegraph: add node [" << ch->getType() << "][" << ch->name << "]" << std::endl;
 		GUIbutton *node = new GUIbutton();
 		node->setText(ch->getType());
-
 		node->sizeToContents();
+		node->setFunction(std::bind(&gui_editor_kind::ng_select_item, this, ch));
+
 		ng_grid->addChild(node);
 		ng_grid->grid(node);
 
+		ng_elems[node] = ch;
 		nodegraph_add_children_rec(ch);
 	}
 }
@@ -372,4 +380,31 @@ void gui_editor_kind::update_nodegraph(){
 	
 	elNodegraph->invalidate();
 	ng_grid->invalidate();
+}
+
+void gui_editor_kind::check_nodegraph_mouseover(){
+	ng_highlight_item = 0;
+	for(auto ch:ng_grid->getChildren()){
+		if(ch->mouseover){
+			auto node2 = ng_elems.at(ch);
+			ng_highlight_item = node2;
+		}
+	}
+}
+
+void gui_editor_kind::ng_draw_highlight(){
+	if(ng_highlight_item){
+		setLayer(ge_layer_front);
+		pushRenderOptions();
+		setColor(vec3(255,0,0));
+		drawRectOutline(ng_highlight_item->worldArea());
+		popRenderOptions();
+	}
+}
+
+void gui_editor_kind::ng_select_item(GUIbase *node){
+	std::cout << "ng selected node [" << node->getType() << "]" << std::endl;
+	auto tool_edit = new gui_editor_tool_edit(this);
+	tool_start(tool_edit);
+	tool_edit->select(node);
 }

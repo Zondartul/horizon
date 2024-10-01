@@ -119,6 +119,7 @@ void GUItextEntry::onEvent(eventKind event){
 	if(event.type == EVENT_MOUSE_BUTTON_DOWN){
 		if(mouseover){
 			hasfocus = true;
+			cursorPos = text.length();
 		}else{
 			if(hasfocus){unfocus = true;}
 		}

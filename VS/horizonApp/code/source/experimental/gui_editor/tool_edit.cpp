@@ -44,6 +44,17 @@ void gui_editor_tool_edit::draw(){
 	setColor(vec3(0,0,0));
 	drawPoint(toVec3(mousePos));
 }
+
+void gui_editor_tool_edit::select(GUIbase *node){
+	subject = node;
+	stage = GEMT_SUBJECT;
+}
+
+void gui_editor_tool_edit::deselect(){
+	subject = 0;
+	stage = GEMT_START;
+}
+
 void gui_editor_tool_edit::ldown(){
 	gui_editor_tool::ldown();
 	GUIwindow *workWindow = 0;
@@ -52,11 +63,13 @@ void gui_editor_tool_edit::ldown(){
 		printf("edit ldown 1\n");
 		if(mouseover_element && !(mouseover_element == subject)){
 			if(isValidSubject(mouseover_element)){
-				subject = mouseover_element;
-				stage = GEMT_SUBJECT;
+				select(mouseover_element);
+				//subject = mouseover_element;
+				//stage = GEMT_SUBJECT;
 			}else{
-				subject = 0;
-				stage = GEMT_START;
+				deselect();
+				//subject = 0;
+				//stage = GEMT_START;
 			}
 			return; 
 		}
