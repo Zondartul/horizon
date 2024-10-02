@@ -7,6 +7,12 @@
 #include "math/simplemath.h"
 #include "util/globals_resource.h"
 
+int bitsToBytes(int bits){
+	int bytes = bits/8;
+	if(bits%8){bytes++;}
+	return bytes;
+}
+
 bitmap::bitmap(){
 	height = 0;
 	width = 0;
@@ -16,7 +22,7 @@ int bitmap::numPixels(){
 	return height*width;
 }
 int bitmap::numBytes(){
-	return numPixels()*bytesPerPixel(format);
+	return bitsToBytes(numPixels()*bitsPerPixel(format));
 }
 int bitmap::coordToIndex(vec2 pos){
 	return width*pos.y+pos.x;
@@ -68,7 +74,8 @@ void bitmap::write_pixel(int I, pixel P){
 	int G = P.G;
 	int B = P.B;
 	int A = P.A;
-	int L;
+	int L = 0;
+	bool inverted = 0;
 	unsigned char *d = getBuffer();
 	switch(format){
 		case(TL_ALPHA):
@@ -93,6 +100,19 @@ void bitmap::write_pixel(int I, pixel P){
 			L = (int)(0.2126*R + 0.7152*G + 0.0722*B);
 			d[2*I] = L;
 			d[2*I+1] = A;
+		break;
+		case(TL_CURSOR_COL):
+			L = (R+G+B)/3;
+			L = inverted? (L > 128) : (L <= 128);
+			if(A == 0){L = 0;}
+			d[I/8] |= (L << (7-I%8));
+		break;
+		case(TL_CURSOR_ALPHA):
+			// A  !A !!A   expect:		real:
+			// 0   1   0   opaque		transparent
+			// 255 0   1   transparent	opaque
+			L = !!A;
+			d[I/8] |= (L << (7-I%8));
 		break;
 	}
 }
@@ -188,7 +208,7 @@ void bitmap::saveAs(const char *filename){
 	}
 	vector<unsigned char> *V = &*data;
 	unsigned char *buff = V->data();
-	stbi_write_png(filename,width,height,comp,buff, width*bytesPerPixel(format));
+	stbi_write_png(filename,width,height,comp,buff, bitsToBytes(width*bitsPerPixel(format)));
 }
 void bitmap::setBuffer(unsigned char *buff, int size){
 	vector<unsigned char> *V = new vector<unsigned char>();
@@ -199,13 +219,15 @@ void bitmap::setBuffer(unsigned char *buff, int size){
 unsigned char *bitmap::getBuffer(){
     return data->data();
 }
-int bytesPerPixel(pixelFormat F){
+int bitsPerPixel(pixelFormat F){
 	switch(F){
-		case(TL_ALPHA): return 1; break;
-		case(TL_RGB): return 3; break;
-		case(TL_RGBA): return 4; break;
-		case(TL_LUMINANCE): return 1; break;
-		case(TL_LUMINANCE_ALPHA): return 2; break;
+		case(TL_ALPHA): return 1*8; break;
+		case(TL_RGB): return 3*8; break;
+		case(TL_RGBA): return 4*8; break;
+		case(TL_LUMINANCE): return 1*8; break;
+		case(TL_LUMINANCE_ALPHA): return 2*8; break;
+		case(TL_CURSOR_ALPHA): return 1; break;
+		case(TL_CURSOR_COL): return 1; break;
 	}
 	return 0;
 }

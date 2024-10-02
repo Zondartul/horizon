@@ -174,16 +174,16 @@ void initFallbackCursors(){
 	fallback_cursor_kind cursors[] = {
 		{"windows7_arrow", 0,0},	/// CRS_ARROW
 		{"windows7_select", 0,0},	/// CRS_IBEAM
-		{"windows7_busy", 0,0},		/// CRS_WAIT
-		{"windows7_prec", 0,0},		/// CRS_CROSSHAIR
+		{"windows7_busy", 16,16},		/// CRS_WAIT
+		{"windows7_prec", 16,16},		/// CRS_CROSSHAIR
 		{"windows7_working", 0,0},	/// CRS_WAITARROW
-		{"windows7_nwse", 0,0},		/// CRS_SIZE_NWSE
-		{"windows7_nesw", 0,0},		/// CRS_SIZE_NESW
-		{"windows7_ew", 0,0},		/// CRS_SIZE_WE
-		{"windows7_ns", 0,0},		/// CRS_SIZE_NS
-		{"windows7_move", 0,0},		/// CRS_SIZE_ALL
-		{"windows7_unavail", 0,0},	/// CRS_NO
-		{"windows7_link", 0,0},		/// CRS_HAND
+		{"windows7_nwse", 16,16},		/// CRS_SIZE_NWSE
+		{"windows7_nesw", 16,16},		/// CRS_SIZE_NESW
+		{"windows7_ew", 16,16},		/// CRS_SIZE_WE
+		{"windows7_ns", 16,16},		/// CRS_SIZE_NS
+		{"windows7_move", 16,16},		/// CRS_SIZE_ALL
+		{"windows7_unavail", 16,16},	/// CRS_NO
+		{"windows7_link", 16,0},		/// CRS_HAND
 
 		{"windows7_pen", 0,0},
 		{"windows7_up", 0,0},
@@ -203,8 +203,8 @@ void initFallbackCursors(){
 		if(res.ok()){
 			auto &tex = res.val();
 			auto &bmp = tex->bmp;
-			bitmap *bmp_rgb = new bitmap(bmp->changeFormat(pixelFormat::TL_RGB));
-			bitmap *bmp_a   = new bitmap(bmp->changeFormat(pixelFormat::TL_ALPHA));
+			bitmap *bmp_rgb = new bitmap(bmp->changeFormat(pixelFormat::TL_CURSOR_COL));
+			bitmap *bmp_a   = new bitmap(bmp->changeFormat(pixelFormat::TL_CURSOR_ALPHA));
 
 			data = bmp_rgb->data.get()->data();
 			mask = bmp_a->data.get()->data();

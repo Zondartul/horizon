@@ -10,7 +10,7 @@ using std::shared_ptr;
 using std::string;
 //functions to manipulate bitmaps
 
-enum DLLAPI_RESOURCE pixelFormat{TL_ALPHA, TL_RGB, TL_RGBA, TL_LUMINANCE, TL_LUMINANCE_ALPHA};
+enum DLLAPI_RESOURCE pixelFormat{TL_ALPHA, TL_RGB, TL_RGBA, TL_LUMINANCE, TL_LUMINANCE_ALPHA, TL_CURSOR_COL, TL_CURSOR_ALPHA};
 
 struct DLLAPI_RESOURCE pixel{
 	int R;
@@ -70,7 +70,7 @@ struct DLLAPI_RESOURCE bitmap{
 };
 
 ///tells you how many bytes are needed to represent a pixel at a given format
-int DLLAPI_RESOURCE bytesPerPixel(pixelFormat F);
+int DLLAPI_RESOURCE bitsPerPixel(pixelFormat F);
 
 ///creates a bitmap and fills it with a color.
 bitmap DLLAPI_RESOURCE blankBitmap(int height, int width, pixelFormat format);
