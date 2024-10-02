@@ -15,17 +15,17 @@ void push(zError err){
     switch(err.severity){
         case zError::INFO:
         case zError::WARNING:
-            std::cout << err.what();
+            std::cout << err.what() << std::endl;
             return;
         break;
         case zError::ERROR:
-            std::cerr << err.what();
+            std::cerr << err.what() << std::endl;
             return;
         break;
         case zError::NONE:
         case zError::FATAL:
         default:
-            std::cerr << err.what();
+            std::cerr << err.what() << std::endl;
             throw err;
         break;
     }

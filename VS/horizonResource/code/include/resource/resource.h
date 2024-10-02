@@ -57,5 +57,5 @@ vector<font*> DLLAPI_RESOURCE listFonts();
 //
 //
 void DLLAPI_RESOURCE loadAssets();
-
+void DLLAPI_RESOURCE initFallbackCursors();
 #endif

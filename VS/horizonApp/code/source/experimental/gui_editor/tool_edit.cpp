@@ -3,6 +3,7 @@
 #include "render/paint.h"
 #include "util/global_vars_app.h"
 #include "util/global_vars_gui.h"
+#include <iostream>
 
 void drawBorders(const GUIbase& B){
 	GUI_border_rects border = B.getBorders();
@@ -55,40 +56,52 @@ void gui_editor_tool_edit::deselect(){
 	stage = GEMT_START;
 }
 
+void gui_editor_tool_edit::check_border(){
+	auto old_borderState = borderState;
+	if(subject){
+		vec2 mousePos = getMousePos();
+		borderState = subject->testBorders(mousePos);
+	}else{
+		borderState = GUIe_border::None;
+	}
+	if(borderState != old_borderState){
+		setCursor(toCursor(borderState));
+	}
+}
+
 void gui_editor_tool_edit::ldown(){
 	gui_editor_tool::ldown();
 	GUIwindow *workWindow = 0;
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
-	if(mouseover_element){
-		printf("edit ldown 1\n");
-		if(mouseover_element && !(mouseover_element == subject)){
-			if(isValidSubject(mouseover_element)){
-				select(mouseover_element);
-				//subject = mouseover_element;
-				//stage = GEMT_SUBJECT;
-			}else{
-				deselect();
-				//subject = 0;
-				//stage = GEMT_START;
-			}
-			return; 
-		}
-		if(stage == GEMT_SUBJECT){
-			vec2 mousePos = getMousePos();
-			GUIe_border borderState = subject->testBorders(mousePos);
+	printf("edit ldown 1\n");
+	if(stage == GEMT_SUBJECT){		
 			printf("edit ldown 2\n");			
 			oldArea = subject->area;
+			vec2 mousePos = getMousePos();
 			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);
 			grabPos = gpos;
 			grabState = borderState;
 			if(grabState != GUIb::None){
 				printf(" has borderState\n");
 				printf("state = [%s]\n",toCString(grabState));
+				stage = GEMT_END;
+			}else{
+				// not border
+				if(subject->mouseover){
+					std::cout << "has mouseover" << std::endl;
+					stage = GEMT_END;
+				}else{
+					std::cout << "no mouseover" << std::endl;
+					deselect();
+				}
 			}
-			stage = GEMT_END;
-		}
 	}else{
-		printf("edit ldown / no subj\n");
+		/// no subject
+		if(mouseover_element){
+			if(isValidSubject(mouseover_element)){
+				select(mouseover_element);
+			}
+		}
 	}
 }
 void gui_editor_tool_edit::lup(){
@@ -100,6 +113,7 @@ void gui_editor_tool_edit::lup(){
 }
 void gui_editor_tool_edit::rdown(){
 	gui_editor_tool::rdown();
+	/*
 	if(mouseover_element && !(mouseover_element == subject)){
 		if(isValidSubject(mouseover_element)){
 			subject = mouseover_element;
@@ -110,7 +124,9 @@ void gui_editor_tool_edit::rdown(){
 		}
 		return; 
 	}
+	*/
 }
+
 void gui_editor_tool_edit::rup(){
 	auto &numDDMs = Ga->gs_tool_edit->g_numDDMs;
 	auto& GUI = Gg->gs_GUI->g_GUI;
@@ -147,7 +163,8 @@ void gui_editor_tool_edit::rup(){
 				subject->parent->removeChild(subject);
 				subject->parent = 0;
 				ddm->close();
-				subject = 0;
+				//subject = 0;
+				deselect();
 			}
 		  });
 		  ddm_edit->addItem("copy",[=](){
@@ -173,7 +190,8 @@ void gui_editor_tool_edit::rup(){
 		  });
 		  ddm_edit->addItem("delete",[=](){
 			subject->close();
-			subject = 0;
+			//subject = 0;
+			deselect();
 			ddm->close();
 		  });
 		ddm->moveTo(mousePos);
@@ -182,8 +200,13 @@ void gui_editor_tool_edit::rup(){
 }
 void gui_editor_tool_edit::scan(){
 	gui_editor_tool::scan();
+
 	switch(stage){
-	case GEMT_START: break;//printf("stage=start\n");  break;
+		case GEMT_START: break;//printf("stage=start\n");  break;
+		case GEMT_SUBJECT:
+		// figure out the border state if any
+			check_border();
+		break;
 		case GEMT_END:{
 			//printf("stage=end\n");
 			vec2 mousePos = getMousePos();

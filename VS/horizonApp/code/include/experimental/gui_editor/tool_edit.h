@@ -17,12 +17,14 @@ class gui_editor_tool_edit:public gui_editor_tool{
 	virtual void rdown();
 	void select(GUIbase *node);
 	void deselect();
+	void check_border();
 	gui_editor_tool_edit(gui_editor_kind *Ed);
 	GUIbase *copyBuffer = 0;
 	elastic_ptr<GUIbase> elDDM = 0;
 	bool isValidSubject(GUIbase *el);
 	int gridStep = 8;
 	GUIe_border grabState;
+	GUIe_border borderState;
 	rect oldArea;
 	vec2 grabPos;
 };

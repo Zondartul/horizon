@@ -17,3 +17,22 @@ string toString(GUIe_border b){
 	S += "]";
 	return S;
 }
+
+eSysCursor toCursor(GUIe_border border){
+	switch(border){
+		case(GUIb::Top):
+		case(GUIb::Bottom):
+			return eSysCursor::CRS_SIZENS;
+		case(GUIb::Left):
+		case(GUIb::Right):
+			return eSysCursor::CRS_SIZEWE;
+		case(GUIb::Corner_BL):
+		case(GUIb::Corner_TR):
+			return eSysCursor::CRS_SIZENESW;
+		case(GUIb::Corner_BR):
+		case(GUIb::Corner_TL):
+			return eSysCursor::CRS_SIZENWSE;
+		default:
+			return eSysCursor::CRS_ARROW;
+	}
+}

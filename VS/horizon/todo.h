@@ -142,7 +142,7 @@
 /// v [done todo 26] textedit - add shift-select of text (fixed)
 /// [bug 27] textEditor text is vertically cutoff (and changes position randomly)
 /// [todo 28] add a path textedit to the texture browser
-/// [bug 29] guieditor - clicking on the handles of the rect edit widget may unselect the element
+/// v [fixed bug 29] guieditor - clicking on the handles of the rect edit widget may unselect the element
 /// [todo 30] guieditor - make the rect edit widget change mouse cursor when it's moused over
 /// [todo 31] switch guieditor to xml gui
 /// [todo 32] guieditor - make the "node tree" actually work.

@@ -8,6 +8,8 @@
 #include "resource/model.h"
 #include "resource/fonts.h"
 #include "util/globals_resource.h"
+#include "util/global_vars_program.h"
+#include "input/mouse.h"
 //#include "util/global_vars_resource.h"
 //#include "render/paint.h"
 #include <stdexcept>
@@ -159,4 +161,69 @@ void loadAssets(){
 	//m->rm->finalize();
 	//uploadTexture(m->t);
 	//uploadRmodel(m->rm);
+}
+
+struct fallback_cursor_kind{
+	std::string filename;
+	int hot_x;
+	int hot_y;
+};
+
+void initFallbackCursors(){
+	std::string basepath = "gui/win7cursor/";
+	fallback_cursor_kind cursors[] = {
+		{"windows7_arrow", 0,0},	/// CRS_ARROW
+		{"windows7_select", 0,0},	/// CRS_IBEAM
+		{"windows7_busy", 0,0},		/// CRS_WAIT
+		{"windows7_prec", 0,0},		/// CRS_CROSSHAIR
+		{"windows7_working", 0,0},	/// CRS_WAITARROW
+		{"windows7_nwse", 0,0},		/// CRS_SIZE_NWSE
+		{"windows7_nesw", 0,0},		/// CRS_SIZE_NESW
+		{"windows7_ew", 0,0},		/// CRS_SIZE_WE
+		{"windows7_ns", 0,0},		/// CRS_SIZE_NS
+		{"windows7_move", 0,0},		/// CRS_SIZE_ALL
+		{"windows7_unavail", 0,0},	/// CRS_NO
+		{"windows7_link", 0,0},		/// CRS_HAND
+
+		{"windows7_pen", 0,0},
+		{"windows7_up", 0,0},
+		{"windows7_helpsel", 0,0},	
+	};
+	for(unsigned int i = 0; i < (sizeof(cursors)/sizeof(cursors[0])); i++){
+		auto &crs = cursors[i];
+		
+		uint8_t *data = 0;
+		uint8_t *mask = 0;
+		int w = 0;
+		int h = 0;
+		int hot_x = crs.hot_x;
+		int hot_y = crs.hot_y;
+		
+		auto res= getTexture(basepath+crs.filename);
+		if(res.ok()){
+			auto &tex = res.val();
+			auto &bmp = tex->bmp;
+			bitmap *bmp_rgb = new bitmap(bmp->changeFormat(pixelFormat::TL_RGB));
+			bitmap *bmp_a   = new bitmap(bmp->changeFormat(pixelFormat::TL_ALPHA));
+
+			data = bmp_rgb->data.get()->data();
+			mask = bmp_a->data.get()->data();
+			/// we either need funky 1-bit format
+			/// or we need SDL_CreateColorCursor with SDL_Surface
+			w = tex->w();
+			h = tex->h();
+		}else{
+			push(*res.err);
+		}
+		
+		Cursor new_cursor{data, mask, w, h, hot_x, hot_y};
+
+		void *cursor = createCursor(new_cursor);
+		auto &cursors = Gp->gs_mouse->cursors;
+		if(i < cursors.size()){
+			cursors.at(i) = cursor;
+		}else{
+			cursors.push_back(cursor);
+		}
+	}
 }

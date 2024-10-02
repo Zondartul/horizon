@@ -3,6 +3,7 @@
 #include "util/util.h"
 #include "math/vec.h"
 #include "util/globals_gui.h"
+#include "input/mouse.h"
 
 struct font;
 struct texture;
@@ -35,6 +36,8 @@ enum class DLLAPI_GUI GUIe_border{None = 0,
 					Corner_TR = 16, Corner_TL = 32, Corner_BR = 64,
 					Corner_BL = 128};
 typedef GUIe_border GUIb;
+
+eSysCursor DLLAPI_GUI toCursor(GUIe_border border);
 
 DECLARE_enum_class_bitwise_operators(DLLAPI_GUI, GUIb);
 

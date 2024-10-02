@@ -3,7 +3,9 @@
 #include "main/main_program.h"
 #include "main/main_util.h"
 #include "util/global_vars_program.h"
+#include "input/mouse.h"
 #include "program/window.h"
+
 
 #ifdef WIN32
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -31,6 +33,7 @@ void initHorizonProgram() {
     initHorizonUtil();
 
     Gp = new GlobalsProgram();
+    initMouse();
     window_init(512, 512);
 }
 

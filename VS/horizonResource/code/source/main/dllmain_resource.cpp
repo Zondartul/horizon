@@ -33,5 +33,7 @@ void initHorizonResource() {
     initHorizonProgram();
     initFreeType();
     loadAssets();
+
+    initFallbackCursors();
 }
 
