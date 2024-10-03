@@ -555,3 +555,12 @@ vector<const GUIbase*> GUIbase::getChildren(bool own) const{
 	}
 	return res;
 }
+
+bool GUIbase::hasParent(GUIbase *node) const{
+	GUIbase *node2 = parent;
+	while(node2){
+		if(node2 == node){return true;}
+		node2 = node2->parent;
+	}
+	return false;
+}

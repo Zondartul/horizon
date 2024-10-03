@@ -91,8 +91,16 @@ void gui_editor_tool_edit::ldown(){
 					std::cout << "has mouseover" << std::endl;
 					stage = GEMT_END;
 				}else{
-					std::cout << "no mouseover" << std::endl;
-					deselect();
+					if(Ed->elWorkWindow->mouseover){ /// click in work area -> deselect
+						if(!mouseover_element 	 /// if clicked in empty space
+							|| (mouseover_element && !mouseover_element->hasParent((GUIbase*)(Ed->elWorkWindow))))
+												/// or click not actually in the work area
+							/// honestly we could use "clickIsInTree(node)"
+						{
+							std::cout << "no mouseover" << std::endl;
+							deselect();
+						}
+					}
 				}
 			}
 	}else{
@@ -141,7 +149,7 @@ void gui_editor_tool_edit::rup(){
 		elDDM = ddm;
 		ddm->name = string()+"menu"+toString(numDDMs++);
 		ddm->addItem("properties",[=](){
-			if(!subject){return;}
+			if(!subject){push(zError("tool_edit::ddm subject disappeared")); return;}
 			GUIpropertyTable tab = subject->getPropertyTable();
 			GUItable *table = new GUItable(tab);
 			table->moveTo(mousePos);

@@ -73,6 +73,7 @@ class DLLAPI_GUI GUIbase:public eventListener, public elastic_ptr_anchor{
 	virtual void setCompoundProperty(const GUIcompoundProperty prop);
 	vector<GUIbase*> getChildren(bool own=false);
 	vector<const GUIbase*> getChildren(bool own=false) const;
+	virtual bool hasParent(GUIbase *node) const;
 };
 
 #endif
