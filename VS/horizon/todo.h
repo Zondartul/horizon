@@ -155,5 +155,6 @@
 /// [todo 39] make nodegraph items draggable
 /// [todo 40] make guieditor workspace nodes draggable into other nodes
 /// [todo 41] SIGNALS
-///
+/// [todo 42] add GUItree
+/// [todo 43] add GUIcollapsible
 ///
