@@ -75,6 +75,7 @@ void gui_editor_tool_place::lup(){
 					printf("no subject\n");
 				}
 			Ed->tool_finished();
+			Ed->update_nodegraph();
 		}
 	}
 }

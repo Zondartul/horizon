@@ -148,3 +148,12 @@
 /// [todo 32] guieditor - make the "node tree" actually work.
 /// v [fixed bug 33] guieditor - closing a frame that has a rect edit widget shown causes a crash.
 /// [style 34] GUIlabel text should be private or users will forget to use setText()
+/// [todo 35] guieditor - make nodegraph a tree
+/// v [fixed bug 36] guieditor - mousing over nodegraph crashes
+/// [todo 37] guieditor - make node mouseover highlight the graph
+/// v [fixed bug 38] right-clicking on nodegraph to bring up menu doesn't select?
+/// [todo 39] make nodegraph items draggable
+/// [todo 40] make guieditor workspace nodes draggable into other nodes
+/// [todo 41] SIGNALS
+///
+///

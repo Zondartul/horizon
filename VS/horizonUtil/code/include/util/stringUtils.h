@@ -79,4 +79,11 @@ char DLLAPI_UTIL *stralloc(const char *str);
 //prints a very long string S
 void DLLAPI_UTIL printString(string S);
 
+//returns true if B is the initial substring of A
+bool DLLAPI_UTIL begins_with(string A, string B);
+
+//returns B minus A
+string DLLAPI_UTIL skip(string A, string B);
+
+
 #endif

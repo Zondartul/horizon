@@ -329,3 +329,10 @@ void printString(string S){
 		I += 80;
 	}
 }
+
+bool begins_with(string A, string B){
+	return A.substr(0,B.length()) == B;
+}
+string skip(string A, string B){
+	return A.substr(B.length());
+}

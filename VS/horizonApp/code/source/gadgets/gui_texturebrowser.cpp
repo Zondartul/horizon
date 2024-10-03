@@ -91,12 +91,7 @@ void GUItextureBrowser::addTile(string imgpath, string label){
 	numTiles++;
 }
 
-bool begins_with(string A, string B){
-	return A.substr(0,B.length()) == B;
-}
-string skip(string A, string B){
-	return A.substr(B.length());
-}
+
 
 void GUItextureBrowser::setDirectory(std::string path){
 	/// remove the base-path from the url

@@ -33,6 +33,8 @@ string DLLAPI_UTIL getCalendarTimeStr();
 int DLLAPI_UTIL getCalendarDate();
 string DLLAPI_UTIL getCalendarDateStr();
 
+#define ON_NEXT_FRAME(x) simpletimer([&](timer *T){x;}, 2);
+
 //void initTimers();
 
 //struct gs_timerKind {

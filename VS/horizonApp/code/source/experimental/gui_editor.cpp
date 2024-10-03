@@ -12,6 +12,7 @@
 #include "util/global_vars_render.h"
 #include "util/global_vars_program.h"
 #include "util/global_vars_util.h"
+#include "util/timer.h"
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
@@ -24,6 +25,7 @@ gui_editor_kind::gui_editor_kind(){
 	helper.editor = this;
 	setup_channels();
 	tool_default();
+	//update_nodegraph_loop();
 }
 
 GUIbase* add_window(std::string title, vec2 size, vec2 pos) {
@@ -141,7 +143,7 @@ void gui_editor_kind::on_btn_Paste_pressed() {
 	dialog->setMode(GUIf::Open);
 	dialog->setFunction([=](string filepath) {
 		paste(filepath);
-		});
+		}); 
 	GUI->addChild(dialog);
 }
 
@@ -153,7 +155,7 @@ void gui_editor_kind::on_btn_TextEntry_pressed() { tool_start(new gui_editor_too
 void gui_editor_kind::on_btn_Image_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_IMAGE)); }
 void gui_editor_kind::on_btn_ScrollBar_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SCROLLBAR)); }
 void gui_editor_kind::on_btn_Tabs_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_TABS)); }
-void gui_editor_kind::on_btn_Cursor_pressed() { tool_none(); }
+void gui_editor_kind::on_btn_Cursor_pressed() { tool_poke(); }
 void gui_editor_kind::on_btn_SelectionGroup_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTIONGROUP)); }
 void gui_editor_kind::on_btn_Selectable_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_SELECTABLE)); }
 void gui_editor_kind::on_btn_Grid_pressed() { tool_start(new gui_editor_tool_place(this, gui_editor_tool_place::GEMS_GRID)); }
@@ -254,6 +256,10 @@ void gui_editor_kind::tool_finished(){
 void gui_editor_kind::tool_default(){
 	tool_start(new gui_editor_tool_edit(this));
 }
+void gui_editor_kind::tool_poke(){
+	tool_start(new gui_editor_tool_poke(this));
+	elWorkWindow->blockChildInput = false;
+}
 void gui_editor_kind::tool_none(){
 	tool_cancel();
 	if(tool){delete tool; tool = 0;}
@@ -343,7 +349,7 @@ rect snapToGridToWorld(GUIbase *element, rect R, float gridStep){
 
 GUIbase *gui_editor_kind::configure_nodegraph(){
 
-	auto nodegraph = add_window("GUI graph", vec2(150, 400), vec2(150, 100));
+	auto nodegraph = add_window("GUI graph", vec2(200, 400), vec2(150, 100));
 	/// nodegraph stuff
 	GUIgrid *grid = new GUIgrid();
 	nodegraph->addChild(grid);
@@ -354,32 +360,85 @@ GUIbase *gui_editor_kind::configure_nodegraph(){
 	return nodegraph;
 }
 
-void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node){
+texture *get_node_icon(GUIbase* node){
+	std::string type = node->getType();
+	std::map<std::string, std::string> icons{
+		{"GUIbase","gui/iconframe"},
+		{"GUIframe","gui/iconframe"},
+		{"GUIlabel","gui/iconlabel"},
+		{"GUIimage","gui/iconimage"},
+		{"GUIbutton","gui/iconbutton"},
+		{"GUIcheckbox","gui/iconcheckbox"},
+		{"GUIscrollbar","gui/iconscrollbar"},
+		{"GUIselectiongroup","gui/iconselectiongroup"},
+		{"GUItabs","gui/icontabs"},
+		{"GUIwindow","gui/iconwindow"},
+		{"GUItextEntry","gui/icontextentry"},
+	};
+	return getTexture(icons.at(type)).val();
+}
+
+GUIbase *gui_editor_kind::new_node_widget(GUIbase *ch, int offset){
+	GUIbase *base = new GUIbase();
+
+	GUIbutton *node = new GUIbutton();
+	string text = ch->name.empty() ? ch->getType() : ch->name;
+	//node->alignment_horizontal = GUIe_alignment::Right;
+	node->alignment_horizontal = GUIe_alignment::Left;
+	text = string("        ") + text;
+	node->setText(text);
+	
+	GUIimage *icon = new GUIimage();
+	icon->setImage(get_node_icon(ch));
+	icon->sizeToContents();
+	node->addChild(icon);
+
+
+	node->setSize(vec2(150,32)); //node->sizeToContents();
+	node->setFunction(std::bind(&gui_editor_kind::ng_select_item, this, elastic_ptr<GUIbase>(ch)));
+	
+	base->addChild(node);
+	node->moveTo(vec2(offset,0));
+	base->sizeToContents();
+	//return node;
+	return base;
+}
+
+void gui_editor_kind::nodegraph_add_children_rec(GUIbase *node, int rec){
 	for(auto ch:node->getChildren()){
 		std::cout << "nodegraph: add node [" << ch->getType() << "][" << ch->name << "]" << std::endl;
-		GUIbutton *node = new GUIbutton();
-		node->setText(ch->getType());
-		node->sizeToContents();
-		node->setFunction(std::bind(&gui_editor_kind::ng_select_item, this, ch));
-
-		ng_grid->addChild(node);
-		ng_grid->grid(node);
-
-		ng_elems[node] = ch;
-		nodegraph_add_children_rec(ch);
+		int offset = rec*16; /// faux tree
+		auto *node2 = new_node_widget(ch, offset);
+		ng_grid->addChild(node2);
+		ng_grid->grid(node2);
+		ng_elems[node2] = ch;
+		nodegraph_add_children_rec(ch, rec+1);
 	}
 }
 
-void gui_editor_kind::update_nodegraph(){
-	std::cout << "update_nodegraph(): hi" << std::endl;
-	for(auto ch:ng_grid->getChildren()){
-		ch->close();
-	}
 
-	nodegraph_add_children_rec((GUIbase*)elWorkWindow);
+
+/// no loop - creating stuff in a loop breaks mouseover checks
+//void gui_editor_kind::update_nodegraph_loop(){
+//	update_nodegraph();
+//	simpletimer(std::bind(&gui_editor_kind::update_nodegraph_loop, this),10);
+//}
+
+void gui_editor_kind::update_nodegraph(){
+	//std::cout << "update_nodegraph(): hi" << std::endl;
+	//for(auto ch:ng_grid->getChildren()){
+	//	ch->close();
+	//}
+	ng_elems.clear();
+	ng_grid->clear();
+
+	//ON_NEXT_FRAME( /// wait for close() to take effect
+	nodegraph_add_children_rec((GUIbase*)elWorkWindow, 0);
 	
 	elNodegraph->invalidate();
 	ng_grid->invalidate();
+	//	std::cout << "\n\n HAIIIII \n\n" << std::endl;
+	//);
 }
 
 void gui_editor_kind::check_nodegraph_mouseover(){
@@ -402,7 +461,8 @@ void gui_editor_kind::ng_draw_highlight(){
 	}
 }
 
-void gui_editor_kind::ng_select_item(GUIbase *node){
+void gui_editor_kind::ng_select_item(elastic_ptr<GUIbase> node){
+	if(!node){return;}
 	std::cout << "ng selected node [" << node->getType() << "]" << std::endl;
 	auto tool_edit = new gui_editor_tool_edit(this);
 	tool_start(tool_edit);

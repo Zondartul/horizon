@@ -146,11 +146,14 @@ string toCanonicalPath(string dir){
 	printf("toCanonicalPath(%s) = ",dir.c_str());
 	vector<string> subdirs;
 	string S;// = getOSdirInitiator(); /// do not add the initial slash, that breaks rel paths 
+	if(begins_with(dir, getOSdirInitiator())){S = getOSdirInitiator();}
 	for(unsigned int I = 0; I < dir.length(); I++){
 		char C = dir[I];
 		if((C == '\\')||(C == '/')){
 			if(S == ".."){
-				subdirs.pop_back();
+				if(subdirs.size()){
+					subdirs.pop_back();
+				}
 			}else if(S == ""){
 				//do nothing
 			}else{

@@ -75,7 +75,8 @@ void gui_editor_tool_edit::ldown(){
 	EPCAST(Ed->elWorkWindow, workWindow) else return;
 	printf("edit ldown 1\n");
 	if(stage == GEMT_SUBJECT){		
-			printf("edit ldown 2\n");			
+			printf("edit ldown 2\n");
+			if(!subject){deselect(); return;}			
 			oldArea = subject->area;
 			vec2 mousePos = getMousePos();
 			vec2 gpos = snapToGridToWorld(subject->parent, mousePos, (float)gridStep);
@@ -155,7 +156,7 @@ void gui_editor_tool_edit::rup(){
 			table->moveTo(mousePos);
 			table->setSize(vec2(350,200));
 			table->invalidate();
-			table->setFunction([&](string key,string val){
+			table->setFunction([=](string key,string val){
 				printf("GUItable on edit called with (%s,%s):\n",key.c_str(),val.c_str());
 				if(!subject){printf("no subject\n");}else{printf("has subject(%p)\n",&*subject);}
 				subject->setProperty(key,val);

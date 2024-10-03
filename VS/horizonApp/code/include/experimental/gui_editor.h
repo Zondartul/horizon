@@ -5,6 +5,7 @@
 #include "gui_editor/tool.h"
 #include "gui_editor/tool_place.h"
 #include "gui_editor/tool_edit.h"
+#include "gui_editor/tool_poke.h"
 
 class gui_editor_kind;
 class gui_editor_event_helper:public eventListener{
@@ -32,6 +33,7 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 	void tool_restart();  
 	void tool_finished(); 
 	void tool_default();  
+	void tool_poke();
 	void tool_none();	  
 	bool isValidSubject(GUIbase *el);
 	void place_tool_scan(); 
@@ -67,12 +69,15 @@ class gui_editor_kind:public eventListener, public elastic_ptr_anchor{
 
 	GUIbase *configure_nodegraph();
 	void update_nodegraph();
-	void nodegraph_add_children_rec(GUIbase *node);
+	//void update_nodegraph_loop();
+	void nodegraph_add_children_rec(GUIbase *node, int rec);
 	void check_nodegraph_mouseover();
-	GUIbase *ng_highlight_item = 0;
-	map<GUIbase*,GUIbase*> ng_elems;
+	elastic_ptr<GUIbase> ng_highlight_item = 0;
+	map<GUIbase*,elastic_ptr<GUIbase>> ng_elems;
 	void ng_draw_highlight();
-	void ng_select_item(GUIbase *node);
+	void ng_select_item(elastic_ptr<GUIbase> node);
+	GUIbase *new_node_widget(GUIbase *ch, int offset);
+
 
 	void setup_layers();
 	void add_tool_buttons();

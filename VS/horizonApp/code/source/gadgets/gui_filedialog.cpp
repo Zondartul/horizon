@@ -15,6 +15,7 @@ GUIfileDialog::GUIfileDialog(){
 	address_field = new GUItextEntry();
 	address_field->moveTo(vec2(24,0));
 	address_field->setSize(vec2(300-24,24));
+	address_field->setFunction([=](){setDirectory(address_field->text);});
 	addChild(address_field);
 	btn_up->setFunction([=](){
 		string dir = this->address_field->text;
